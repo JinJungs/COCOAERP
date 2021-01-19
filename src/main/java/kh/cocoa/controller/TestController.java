@@ -10,4 +10,8 @@ public class TestController {
     public String test() {
         return "index";
     }
+    @RequestMapping("/bug")
+    public String bug() {
+        return "/bugReport/bugReport";
+    }
 }
