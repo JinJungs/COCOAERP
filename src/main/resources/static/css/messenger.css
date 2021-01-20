@@ -4,8 +4,8 @@
   --submain-color: hsl(0, 0%, 81%);
   --sendMsg-color: #c6b5ed;
   --getMsg-color: #f3d5ed;
-  --text-color-dark: var(--text-color-dark);
-  --text-color-light: rgba(255, 255, 255, 0.6);
+  --text-color-dark: #575757;
+  --text-color-light: #c9c9c9;
 }
 
 body,
@@ -149,11 +149,11 @@ background-color: #c23616;
 }
 .user_info span {
   font-size: 20px;
-  color: white;
+  color: var(--text-color-dark);
 }
 .user_info p {
   font-size: 12px;
-  color: var(--text-color-light);
+  color: var(--text-color-dark);
 }
 .video_cam {
   margin-left: 50px;
@@ -242,7 +242,7 @@ background-color: #c23616;
   }
 }
 
-/* 소 추가 */
+/* Sohyung */
 .min-w-450 {
   min-width: 450px !important;
   min-height: 660px !important;
@@ -259,4 +259,17 @@ background-color: #c23616;
 .b-radius-0 {
   border-radius: 0px !important;
 }
-/* 소 추가 */
+/* Sohyung */
+
+/* Sohyung modified / added */
+/* user-info span color */
+/* root text colors */
+.con-sidebar > a {
+  color: var(--text-color-dark);
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
