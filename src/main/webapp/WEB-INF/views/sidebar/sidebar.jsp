@@ -39,10 +39,10 @@
                 </ul>
             </li>
             <li>
-                <a href="#">About</a>
+                <a href="#">전자결재</a>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">근태관리</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
                         <a href="#">Page 1</a>

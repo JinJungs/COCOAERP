@@ -3,6 +3,7 @@ package kh.cocoa.controller;
 import java.util.List;
 
 import kh.cocoa.dto.TemplatesDTO;
+import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class DocumentController {
 
 	@Autowired
 	private TemplateService tservice;
+
+	@Autowired
+	private DepartmentsService deptservice;
 
 	//임시저장된 문서메인 이동
 	@RequestMapping("toTempMain.document")
@@ -82,8 +86,11 @@ public class DocumentController {
 	}
 
 	@GetMapping("toWriteDocument")
-	public String toWrtieDocument(int code,Model model){
-
+	public String toWrtieDocument(TemplatesDTO dto,Model model){
+		String deptName = deptservice.getDeptName();
+		model.addAttribute("deptName",deptName);
+		model.addAttribute("name","권용국");
+		model.addAttribute("dto",dto);
 		return "document/c_writeDocument";
 	}
 }
