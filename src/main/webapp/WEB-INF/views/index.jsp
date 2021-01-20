@@ -9,9 +9,9 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5">
+		  <div id="content" class="p-4 p-md-5 pt-5">
 
-      </div>
+		  </div>
 		
 	</div>
 </body>
