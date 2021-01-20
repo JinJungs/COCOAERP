@@ -21,8 +21,7 @@
         <div class="card-header msg_head bgMain">
             <div class="d-flex bd-highlight">
                 <div class="img_cont">
-                    <img src="https://static.turbosquid.com/Preview/001292/481 /WV/_D.jpg" class="rounded-circle user_img">
-
+                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
                 </div>
                 <div class="user_info">
                     <span>정의진</span>
@@ -76,7 +75,7 @@
                     <span class="msg_time_send">9:05 AM, Today</span>
                 </div>
                 <div class="img_cont_msg">
-                    <img src="cocoa.png" class="rounded-circle user_img_msg">								</div>
+                    <img src="/img/cocoa.png" class="rounded-circle user_img_msg">								</div>
             </div>
             <div class="d-flex justify-content-start mb-4">
                 <div class="img_cont_msg">
@@ -93,7 +92,7 @@
                     <span class="msg_time_send">9:10 AM, Today</span>
                 </div>
                 <div class="img_cont_msg">
-                    <img src="cocoa.png" class="rounded-circle user_img_msg">
+                    <img src="/img/cocoa.png" class="rounded-circle user_img_msg">
                 </div>
             </div>
             <div class="d-flex justify-content-start mb-4">
@@ -120,11 +119,55 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/resources/js/messenger.js"></script>
+<script src="/js/messenger.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
+<%------------------------------ 웹소켓 -------------------------------%>
 <script>
+    var ws;
 
+    function wsOpen(){
+        ws = new WebSocket("ws://" + location.host + "/chating");
+        wsEvt();
+    }
+
+    function wsEvt() {
+        ws.onopen = function(data){
+            //소켓이 열리면 초기화 세팅하기
+        }
+
+        ws.onmessage = function(data) {
+            var msg = data.data;
+            if(msg != null && msg.trim() != ''){
+                $("#chating").append("<p>" + msg + "</p>");
+            }
+        }
+
+        document.addEventListener("keypress", function(e){
+            if(e.keyCode == 13){ //enter press
+                send();
+            }
+        });
+    }
+
+    function chatName(){
+        var userName = $("#userName").val();
+        if(userName == null || userName.trim() == ""){
+            alert("사용자 이름을 입력해주세요.");
+            $("#userName").focus();
+        }else{
+            wsOpen();
+            $("#yourName").hide();
+            $("#yourMsg").show();
+        }
+    }
+
+    function send() {
+        var uN = $("#userName").val();
+        var msg = $("#chatting").val();
+        ws.send(uN+" : "+msg);
+        $('#chatting').val("");
+    }
 </script>
 </body>
 </html>
