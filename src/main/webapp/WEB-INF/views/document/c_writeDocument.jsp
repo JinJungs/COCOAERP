@@ -31,7 +31,7 @@
             </div>
             <div class="row w-100 pt-5" style="border-bottom: 1px solid pink;">
                 <div class="col-10 p-0 pt-2"><b>결재선</b></div>
-                <div class="col-2 p-0 text-right"><button type="button" class="btn btn-outline-dark p-1 mb-2" data-toggle="modal" data-target="#modal">결재선 설정</button>
+                <div class="col-2 p-0 text-right"><button type="button" class="btn btn-outline-dark p-1 mb-2" data-toggle="modal" data-target="#modal" onclick="fn_getorganlist()">결재선 설정</button>
 
                 </div>
             </div>
@@ -107,6 +107,7 @@
                                         <div class="col-8 pl-1">-정의진(별명?)</div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-1 p-0 d-flex justify-content-center" style="min-height:540px; align-items: center; flex:1;">
@@ -142,6 +143,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
     function fn_openconfirmdept(){
         var teamiconsrc = $("#teamopencloseicon").attr("src");
@@ -187,6 +189,16 @@
     }
     function fn_deleteinputfile(seq){
 
+    }
+    function fn_getorganlist(){
+        $.ajax({
+            type : "GET",
+            url : "/restdocument/getorganchart.document",
+            dataType :"json",
+            success : function(data) {
+                console.log("하나둘셋")
+            }
+        });
     }
 
 </script>

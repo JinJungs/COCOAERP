@@ -1,5 +1,6 @@
 package kh.cocoa.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,8 @@ import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.TemplateService;
+import kh.cocoa.service.TemplatesService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,7 @@ public class DocumentController {
 	private DocumentService dservice;
 
 	@Autowired
-	private TemplateService tservice;
+	private TemplatesService tservice;
 
 	@Autowired
 	private DepartmentsService deptservice;
@@ -40,11 +42,21 @@ public class DocumentController {
 	//임시저장된 문서메인 이동
 	@RequestMapping("toTempMain.document")
 	public String toTempMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
-		System.out.println("리스트 크기" + list.size());
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println(i + "  " + list.get(i).getStatus());
-		}
+		List<DocumentDTO> list = dservice.getTemporaryList();
+		model.addAttribute("list", list);
+		return "/document/d_temporaryMain";
+	}
+	@RequestMapping("d_searchTemporary.document")
+	public String searchTemporaryList(Date startDate, Date endDate, String template, Model model) {
+		
+		
+		
+		System.out.println("startDate : " + startDate);
+		System.out.println("endDate : " + endDate);
+		System.out.println("template : " + template);
+		
+		List<DocumentDTO> list = dservice.getSearchTemporaryList(startDate, endDate, template);
+		
 		model.addAttribute("list", list);
 		return "/document/d_temporaryMain";
 	}
@@ -52,7 +64,7 @@ public class DocumentController {
 	//상신한 문서메인 이동
 	@RequestMapping("toRaiseMain.document")
 	public String toRaiseMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getRaiseList();
 		model.addAttribute("list", list);
 		return "/document/d_raiseMain";
 	}
@@ -60,25 +72,25 @@ public class DocumentController {
 	//승인된 문서메인 이동
 	@RequestMapping("toApprovalMain.document")
 	public String toApprovalMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getApprovalList();
 		model.addAttribute("list", list);
-		return "/document/d_confirmMain";
+		return "/document/d_approvalMain";
 	}
 
 	//반려된 문서메인 이동
 	@RequestMapping("toRejectMain.document")
 	public String toRejectMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getRejectList();
 		model.addAttribute("list", list);
-		return "/document/d_temporaryMain";
+		return "/document/d_rejectMain";
 	}
 
 	//회수한 문서메인 이동
 	@RequestMapping("toReturnMain.document")
 	public String toReturnMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getReturnList();
 		model.addAttribute("list", list);
-		return "/document/d_temporaryMain";
+		return "/document/d_returnMain";
 	}
 
 	//용국
@@ -97,6 +109,7 @@ public class DocumentController {
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
 		List<EmployeeDTO> getOrganChart = new ArrayList<>();
+		getOrganChart= eservice.getOrganChart();
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
