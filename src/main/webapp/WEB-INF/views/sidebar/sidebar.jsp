@@ -8,20 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-<<<<<<< HEAD
-		
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/css/style.css">
-  </head>
-  <body>
-		
-			<nav id="sidebar">
-				<div class="custom-menu">
-					<button type="button" id="sidebarCollapse" class="btn btn-primary">
-	          <i class="fa fa-bars"></i>
-	          <span class="sr-only">Toggle Menu</span>
-	        </button>
-=======
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -85,7 +71,6 @@
                     <input type="text" class="form-control" placeholder="Enter Email Address">
                 </div>
             </form>
->>>>>>> a2c5e81139bec4d71a1078b22015318a1279e0b3
         </div>
 
         <div class="footer">
@@ -97,19 +82,9 @@
     </div>
 </nav>
 
-
-
-<<<<<<< HEAD
     <script src="/js/jquery.min.js"></script>
     <script src="/js/popper.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
   </body>
-=======
-<script src="/js/jquery.min.js"></script>
-<script src="/js/popper.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/main.js"></script>
-</body>
->>>>>>> a2c5e81139bec4d71a1078b22015318a1279e0b3
 </html>

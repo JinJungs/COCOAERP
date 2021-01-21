@@ -5,26 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<<<<<<< HEAD
-<title>Index</title>
-</head>
-<body>
-   <div class="wrapper d-flex align-items-stretch">
-      <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%></%@>
-      <div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4">버그리포팅</h2>
-			
-			<button type="button" onclick="fn_board()">게시판 바로가기</button>
-			
-      </div>
-   </div>
-   <script>
-   function fn_board() {
-		location.href = "/noBoard/notificationBoardList.no"
-	}
-   	
-   </script>
-=======
+
 <title>Insert title here</title>
 <style type="text/css">
         div{border: 1px solid gray}
@@ -38,12 +19,15 @@
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
 		  <div id="content" class="p-4 p-md-5 pt-5">
-
+				<button type="button" onclick="fn_board()">게시판 바로가기</button>
 		  </div>
 		
 	</div>
-
-
->>>>>>> a2c5e81139bec4d71a1078b22015318a1279e0b3
+	   <script>
+   function fn_board() {
+		location.href = "/noBoard/notificationBoardList.no"
+	}
+   	
+   </script>
 </body>
 </html>
