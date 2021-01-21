@@ -61,6 +61,4 @@ public class SocketHandler extends TextWebSocketHandler {
         }
         return obj;
     }
-
-
 }
