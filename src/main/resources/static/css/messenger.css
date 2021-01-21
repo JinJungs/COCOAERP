@@ -13,8 +13,6 @@ html {
   height: 100%;
   margin: 0;
   background-color: #e4e4e4;
-  background-color: #df3d3d;
-  background-color: #f0f0f0;
 }
 body {
   min-width: 400px;
@@ -187,14 +185,14 @@ background-color: #c23616;
   position: absolute;
   left: 0;
   bottom: -15px;
-  color: var(--text-color-light);
+  color: var(--text-color-dark);
   font-size: 10px;
 }
 .msg_time_send {
   position: absolute;
   right: 0;
   bottom: -15px;
-  color: var(--text-color-light);
+  color: var(--text-color-dark);
   font-size: 10px;
 }
 .msg_head {
@@ -257,6 +255,6 @@ background-color: #c23616;
   height: 85%;
 }
 .b-radius-0 {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 }
 /* 소 추가 */
