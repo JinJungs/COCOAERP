@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.EmployeeDAO">
-    <select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
+	<!--용국-->
+	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2
     </select>
+	<!--소형-->
+	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE
+	</select>
+	
+	<select id="getDeptMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE DEPT_CODE = #{dept_code} and WITHDRAW = 'N'
+	</select>
+	
+	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
+	</select>
 </mapper>

@@ -23,7 +23,6 @@ public class EmployeeDTO {
     private String teamname;
 
     @Builder
-
     public EmployeeDTO(int code, String name, String password, String office_phone, String address, String email, String b_email, String gender, Date hire_date, String withdraw, String deptname, String teamname) {
         this.code = code;
         this.name = name;
