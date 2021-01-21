@@ -75,17 +75,20 @@
 									</a>
                                 </li>
                                 <li class="con-list">
-									<a href="#">
+                                <!-- 사진 부분과 내용 부분 나눠서 a태그 걸기? -->
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="/img/profile-default.jpg" class="rounded-circle user_img">
+												<a href="#">
+													<img src="/img/profile-default.jpg" class="rounded-circle user_img">
+												</a>
 											</div>
-											<div class="user_info">
-												<span>정의진</span>
-												<p>개발부/앱개발팀</p>
-											</div>
+											<a href="#">	
+												<div class="user_info">
+													<span>정의진</span>
+													<p>개발부/앱개발팀</p>
+												</div>
+											</a>
 										</div>
-									</a>
                                 </li>
                                 <li class="con-list">
 									<a href="#">
