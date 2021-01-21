@@ -21,40 +21,42 @@ public class DocumentController {
 	//임시저장된 문서메인 이동
 	@RequestMapping("toTempMain.document")
 	public String toTempMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
-		System.out.println("리스트 크기" + list.size());
-		for(int i=0; i<list.size();i++) {
-			System.out.println(i + "  " + list.get(i).getStatus());
-		}
+		List<DocumentDTO> list = dservice.getTemporaryList();
+		model.addAttribute("list", list);
+		return "/document/d_temporaryMain";
+	}
+	@RequestMapping("d_searchTemporary.document")
+	public String searchTemporaryList(Model model) {
+		List<DocumentDTO> list = dservice.getSearchTemporaryList();
 		model.addAttribute("list", list);
 		return "/document/d_temporaryMain";
 	}
 	//상신한 문서메인 이동
 	@RequestMapping("toRaiseMain.document")
 	public String toRaiseMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getRaiseList();
 		model.addAttribute("list", list);
 		return "/document/d_raiseMain";
 	}
 	//승인된 문서메인 이동
 	@RequestMapping("toApprovalMain.document")
 	public String toApprovalMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getApprovalList();
 		model.addAttribute("list", list);
-		return "/document/d_confirmMain";
+		return "/document/d_approvalMain";
 	}
 	//반려된 문서메인 이동
 	@RequestMapping("toRejectMain.document")
 	public String toRejectMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getRejectList();
 		model.addAttribute("list", list);
-		return "/document/d_temporaryMain";
+		return "/document/d_rejectMain";
 	}
 	//회수한 문서메인 이동
 	@RequestMapping("toReturnMain.document")
 	public String toReturnMain(Model model) {
-		List<DocumentDTO> list = dservice.getTempList();
+		List<DocumentDTO> list = dservice.getReturnList();
 		model.addAttribute("list", list);
-		return "/document/d_temporaryMain";
+		return "/document/d_returnMain";
 	}
 }
