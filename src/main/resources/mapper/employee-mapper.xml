@@ -2,5 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.EmployeeDAO">
-    
+	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE
+	</select>
+	
+	<select id="getDeptMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE DEPT_CODE = #{dept_code} and WITHDRAW = 'N'
+	</select>
+	
+	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
+	</select>
 </mapper>
