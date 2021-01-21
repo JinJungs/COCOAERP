@@ -7,10 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-select{
+select {
 	width: 60%;
 	min-width: 80px;
 }
+
 .row {
 	margin-top: 8px;
 }
@@ -36,6 +37,7 @@ select{
 						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
 						<div class="col-9 col-sm-2  col-md-2">
 							<select class="selectTemplate ml-1 mb-2">
+								<option>전체</option>
 								<option>물품신청</option>
 								<option>업무보고</option>
 								<option>휴가신청</option>
@@ -61,31 +63,25 @@ select{
 			</form>
 			<hr>
 			<div class="documentList row text-center">
-				<div class="col-2 d-none d-sm-block">
-					<b>양식</b>
-				</div>
-				<div class="col-5 col-sm-3">
-					<b>제목</b>
-				</div>
-				<div class="col-3">
-					<b>상신일</b>
-				</div>
-				<div class="col-4">
-					<b>결재대기자</b>
-				</div>
+				<div class="col-2 d-none d-sm-block"><b>양식</b></div>
+				<div class="col-5 col-sm-3"><b>제목</b></div>
+				<div class="col-3"><b>상신일</b></div>
+				<div class="col-4"><b>결재대기자</b></div>
 			</div>
 
 			<!-- 리스트 출력 부분 -->
-			<div class="row text-center">
-				<div class="col-sm-2 d-none d-sm-block">휴가계획서</div>
-				<div class="col-5 col-sm-3">2021-03-08 휴가신청</div>
-				<div class="col-3">2021.01.15</div>
-				<div class="col-4">임효경|IT개발부</div>
-			</div>
+			<c:forEach var="list" items="${list}">
+				<div class="row text-center">
+					<div class="col-sm-2 d-none d-sm-block">${list.temp_name }</div>
+					<div class="col-5 col-sm-3">${list.title }</div>
+					<div class="col-3">${list.write_date }</div>
+					<div class="col-4">${list.emp_name } | ${list.department_name }</div>
+				</div>
+			</c:forEach>
 			<!-- 리스트 출력 부분 -->
-			
+
 			<div class="row">
-				<div class="navi col-12 text-center">${navi} 1 2 3 4 5 6 7 8 9</div>
+				<div class="navi col-12 text-center">${navi}1 2 3 4 5 6 7 8 9</div>
 			</div>
 		</div>
 	</div>

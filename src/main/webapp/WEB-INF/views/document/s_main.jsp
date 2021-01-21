@@ -24,7 +24,7 @@ select {
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">ㅇㅇ한 문서</h2>
 			<hr>
-			<form action="" method="post">
+			<form action="/document/search???.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-3 col-md-2">저장일</div>
@@ -37,6 +37,7 @@ select {
 						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
 						<div class="col-9 col-sm-2  col-md-2">
 							<select class="selectTemplate ml-1 mb-2">
+								<option>전체</option>
 								<option>물품신청</option>
 								<option>업무보고</option>
 								<option>휴가신청</option>
@@ -62,21 +63,11 @@ select {
 			</form>
 			<hr>
 			<div class="documentList row text-center">
-				<div class="col-2 d-none d-sm-block">
-					<b>문서번호</b>
-				</div>
-				<div class="col-2 d-none d-sm-block">
-					<b>양식</b>
-				</div>
-				<div class="col-4">
-					<b>제목</b>
-				</div>
-				<div class="col-2">
-					<b>상신일</b>
-				</div>
-				<div class="col-2">
-					<b>완료일</b>
-				</div>
+				<div class="col-2 d-none d-sm-block"><b>문서번호</b></div>
+				<div class="col-2 d-none d-sm-block"><b>양식</b></div>
+				<div class="col-4"><b>제목</b></div>
+				<div class="col-2"><b>상신일</b></div>
+				<div class="col-2"><b>완료일</b></div>
 			</div>
 
 			<!-- 리스트 출력 부분 -->

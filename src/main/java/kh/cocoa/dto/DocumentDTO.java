@@ -31,6 +31,12 @@ public class DocumentDTO {
 	private String report_issue;
 	
 	private String status;
+	
+	//추가부분
+	private String temp_name;
+	private String emp_name;
+	private String department_name;
+	
 
 	@Builder
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,

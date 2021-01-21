@@ -7,10 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-select{
+select {
 	width: 60%;
 	min-width: 80px;
 }
+
 .row {
 	margin-top: 10px;
 }
@@ -23,22 +24,23 @@ select{
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">임시저장된 문서</h2>
 			<hr>
-			<form action="" method="post">
+			<form action="/document/d_searchTemporary.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-3 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1"> ~ <input
-								type=date class="date ml-1 mr-1">
+							<input type=date class="date ml-1 mr-1" name=startDate value=2021-01-01 min=2000-01-01 max=2099-12-31> ~ <input
+								type=date class="date ml-1 mr-1" name=endDate value=2021-12-31 min=2000-01-01 max=2099-12-31>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
 						<div class="col-9 col-sm-2  col-md-2">
-							<select class="selectTemplate ml-1 mb-2">
-								<option>물품신청</option>
-								<option>업무보고</option>
-								<option>휴가신청</option>
+							<select class="selectTemplate ml-1 mb-2" name=template>
+								<option value=0>전체</option>
+								<option value=1>업무보고</option>
+								<option value=2>물품신청</option>
+								<option value=3>휴가신청</option>
 							</select>
 						</div>
 						<div class="selectSearch col-3 col-sm-2 col-md-2 mb-3">
@@ -61,27 +63,24 @@ select{
 			</form>
 			<hr>
 			<div class="documentList row text-center">
-				<div class="col-3">
-					<b>양식</b>
-				</div>
-				<div class="col-6">
-					<b>제목</b>
-				</div>
-				<div class="col-3">
-					<b>저장일</b>
-				</div>
+				<div class="col-3"><b>양식</b></div>
+				<div class="col-6"><b>제목</b></div>
+				<div class="col-3"><b>저장일</b></div>
 			</div>
 
 			<!-- 리스트 출력 부분 -->
-			<div class="row text-center">
-				<div class="col-3">휴가계획서</div>
-				<div class="col-6">2021-03-08 휴가신청</div>
-				<div class="col-3">2021.01.15</div>
-			</div>
+
+			<c:forEach var="list" items="${list}">
+				<div class="row text-center">
+					<div class="col-3">${list.temp_name }</div>
+					<div class="col-6">${list.title }</div>
+					<div class="col-3">${list.write_date }</div>
+				</div>
+			</c:forEach>
 			<!-- 리스트 출력 부분 -->
-			
+
 			<div class="row">
-				<div class="navi col-12 text-center">${navi} 1 2 3 4 5 6 7 8 9</div>
+				<div class="navi col-12 text-center">${navi}123 4 5 6 7 8 9</div>
 			</div>
 		</div>
 	</div>
