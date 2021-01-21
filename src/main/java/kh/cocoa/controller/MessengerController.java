@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,13 +24,16 @@ public class MessengerController {
     }
 
     @RequestMapping("contactList")
-    public String toContactList() {
-    	List<EmployeeDTO> list = eservice.getAllEmployee();
-    	List<EmployeeDTO> dept_list = eservice.getDeptMember(1);
-    	List<EmployeeDTO> team_list = eservice.getTeamMember(11);
-    	System.out.println(list.get(1));
-    	System.out.println("부서멤버"+dept_list);
-    	System.out.println("팀멤버"+team_list);
+    public String toContactList(Model model) {
+    	//임시! 사원번호 세션값===========================================
+    	EmployeeDTO loginDTO = EmployeeDTO.builder().code(1000).dept_code(1).team_code(11).deptname("개발부").teamname("개발1팀").build();
+    	//==========================================================
+    	List<EmployeeDTO> memberList = eservice.getAllEmployee();
+    	int a = memberList.get(0).getDept_code();
+//    	List<EmployeeDTO> dept_list = eservice.getDeptMember(1);
+//    	List<EmployeeDTO> team_list = eservice.getTeamMember(11);
+    	model.addAttribute("memberList", memberList);
+    	model.addAttribute("loginDTO",loginDTO);
         return "/messenger/contactList";
     }
 
