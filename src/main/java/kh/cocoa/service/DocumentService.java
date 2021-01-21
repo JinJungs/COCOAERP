@@ -1,5 +1,7 @@
 package kh.cocoa.service;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,10 @@ public class DocumentService implements DocumentDAO{
 		return ddao.getTemporaryList();
 	}
 	@Override
-	public List<DocumentDTO> getSearchTemporaryList() {
-		return ddao.getSearchTemporaryList();
+	public List<DocumentDTO> getSearchTemporaryList(Date startDate, Date endDate, String template) {
+		endDate = plusOneDate(endDate);
+		
+		return ddao.getSearchTemporaryList(startDate, endDate, template);
 	}
 	//상신한 문서
 	@Override
@@ -42,5 +46,14 @@ public class DocumentService implements DocumentDAO{
 	public List<DocumentDTO> getReturnList() {
 		return ddao.getReturnList();
 	}
-
+	
+	
+	//+@
+	//날짜 하루 더해주는 메서드(endDate에 이용)
+	public Date plusOneDate(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, 1);
+		return new Date(cal.getTimeInMillis());
+	}
 }

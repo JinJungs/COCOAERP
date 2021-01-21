@@ -11,9 +11,12 @@
 	</select>
 	<select id="getSearchTemporaryList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
-			WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS='TEMP'
-				AND D.WRITER_CODE='1004'
+		WHERE D.TEMP_CODE = T.CODE
+			AND D.STATUS='TEMP'
+            AND D.WRITER_CODE='1004'
+            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND D.TEMP_CODE IN (1,2,3)
+            AND TITLE LIKE '%t%'
 	</select>
 
 	<select id="getRaiseList" resultType="kh.cocoa.dto.DocumentDTO">

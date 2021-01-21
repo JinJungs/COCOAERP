@@ -29,18 +29,18 @@ select {
 					<div class="row">
 						<div class="col-3 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1"> ~ <input
-								type=date class="date ml-1 mr-1">
+							<input type=date class="date ml-1 mr-1" name=startDate value=2021-01-01 min=2000-01-01 max=2099-12-31> ~ <input
+								type=date class="date ml-1 mr-1" name=endDate value=2021-12-31 min=2000-01-01 max=2099-12-31>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
 						<div class="col-9 col-sm-2  col-md-2">
-							<select class="selectTemplate ml-1 mb-2">
-								<option>전체</option>
-								<option>물품신청</option>
-								<option>업무보고</option>
-								<option>휴가신청</option>
+							<select class="selectTemplate ml-1 mb-2" name=template>
+								<option value=0>전체</option>
+								<option value=1>업무보고</option>
+								<option value=2>물품신청</option>
+								<option value=3>휴가신청</option>
 							</select>
 						</div>
 						<div class="selectSearch col-3 col-sm-2 col-md-2 mb-3">

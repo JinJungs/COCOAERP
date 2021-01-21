@@ -19,3 +19,4 @@ public class TemplatesDTO {
 		this.status = status;
 	}
 }
+
