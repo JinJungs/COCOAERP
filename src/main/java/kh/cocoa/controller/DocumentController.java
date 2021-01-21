@@ -97,6 +97,7 @@ public class DocumentController {
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
 		List<EmployeeDTO> getOrganChart = new ArrayList<>();
+		getOrganChart= eservice.getOrganChart();
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
