@@ -6,26 +6,15 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-div {
-	border: 1px solid gray
-}
+div {border: 1px solid gray}
 
-#contents {
-	height: 100%;
-	width: 100%;
-}
+#contents {height: 100%;width: 100%;}
 
-.body {
-	height: 400px;
-}
+.body {height: 400px;}
 
-.footer {
-	text-align: right
-}
+.footer {text-align: right}
 
-input {
-	width: 100%
-}
+input {width: 100%}
 </style>
 </head>
 <body>

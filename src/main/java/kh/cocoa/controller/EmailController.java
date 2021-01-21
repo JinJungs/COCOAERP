@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/email")
 public class EmailController {
 	
-//	EmailServices eservice;  
 	@Autowired
 	JavaMailSender mailSender; 
 
@@ -25,7 +24,7 @@ public class EmailController {
 	private HttpServletRequest request;
 
 	@RequestMapping("emailSend.email")
-	public String emailSend(String receiver_email) {
+	public String emailSend(String receiver_email) throws Exception{
 		
 		String setfrom = request.getParameter("email"); //보내는 사람 (Employee에서 Email&B_Email)
 		String tomail = request.getParameter("receiver_email"); // 받는 사람 이메일
@@ -33,7 +32,7 @@ public class EmailController {
 		String contents = request.getParameter("contents");
 
 
-		try {
+	
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
@@ -43,9 +42,7 @@ public class EmailController {
 			messageHelper.setText(contents); // 메일 내용
 
 			mailSender.send(message);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+		
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
 	/*-----------------------예외처리-----------------------*/

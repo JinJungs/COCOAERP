@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
+<!-- 게시글 리스트 가져오기 -->
+	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
+		select * from board order by write_date desc
+	</select>
+<!-- 토탈 카운트 가져오기 -->
+	<select id="recordTotalCount" resultType="Integer">
+		select count(*) from board 
+	</select>
+<!-- 글작성 -->
+	<insert id="notificationBoardCreateDone" >
+		INSERT INTO BOARD VALUES(board_seq.nextval, #{title}, #{contents}, SYSDATE,0, 0,0)<!-- #{writer_code},#{menu_seq}) -->
+	</insert>
+<!-- 게시글 가져오기 -->
+	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
+		select * from board where seq=#{seq}
+	</select>
+</mapper>	
