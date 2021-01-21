@@ -42,7 +42,7 @@
                 </ul>
             </div>
         </div>
-        <div class="card-body msg_card_body">
+        <div class="card-body msg_card_body" id="msgBox">
             <div class="d-flex justify-content-start mb-4">
                 <div class="img_cont_msg">
                     <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
@@ -58,6 +58,7 @@
                     <span class="msg_time_send">8:55 AM, Today</span>
                 </div>
                 <div class="img_cont_msg">
+                    <img src="/img/cocoa.png" class="rounded-circle user_img_msg">
                 </div>
             </div>
             <div class="d-flex justify-content-start mb-4">
@@ -77,44 +78,22 @@
                 <div class="img_cont_msg">
                     <img src="/img/cocoa.png" class="rounded-circle user_img_msg">								</div>
             </div>
-            <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-                </div>
-                <div class="msg_cotainer">
-                    I am looking for your next templates
-                    <span class="msg_time">9:07 AM, Today</span>
-                </div>
-            </div>
-            <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                    Ok, thank you have a good day
-                    <span class="msg_time_send">9:10 AM, Today</span>
-                </div>
-                <div class="img_cont_msg">
-                    <img src="/img/cocoa.png" class="rounded-circle user_img_msg">
-                </div>
-            </div>
-            <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img_msg">
-                </div>
-                <div class="msg_cotainer">
-                    Bye, see you
-                    <span class="msg_time">9:12 AM, Today</span>
-                </div>
-            </div>
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90">
                 <div class="input-group-append">
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
-                <textarea name="" class="form-control type_msg" placeholder="Type your message..."></textarea>
-                <div class="input-group-append">
+                <textarea name="" class="form-control type_msg" id="yourMsg" placeholder="Type your message..."></textarea>
+                <div class="input-group-append" onclick="send()" id="sendBtn">
                     <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                 </div>
             </div>
+        </div>
+        <div id="yourName">
+            이름 : <input type="text" name="userName" id="userName" style="width: 330px;
+            height: 25px;">
+            <button onclick="chatName()" id="startBtn">이름 등록</button>
         </div>
     </div>
 </div>
@@ -124,8 +103,22 @@
 
 <%------------------------------ 웹소켓 -------------------------------%>
 <script>
-    var ws;
+    // 주요 변수 확인하기
 
+
+    // 사용자 이름 입력 후 이름 등록 버튼 클릭시
+    function chatName(){
+        var userName = $("#userName").val();
+        if(userName == null || userName.trim() == ""){
+            alert("사용자 이름을 입력해주세요.");
+            $("#userName").focus();
+        }else{
+            wsOpen();
+            $("#yourName").hide();
+        }
+    }
+
+    var ws;
     function wsOpen(){
         ws = new WebSocket("ws://" + location.host + "/chating");
         wsEvt();
@@ -136,10 +129,19 @@
             //소켓이 열리면 초기화 세팅하기
         }
 
+        // 채팅창에 메세지 띄우기
         ws.onmessage = function(data) {
             var msg = data.data;
+            var newMsg = "";
             if(msg != null && msg.trim() != ''){
-                $("#chating").append("<p>" + msg + "</p>");
+                newMsg += "<div class='d-flex justify-content-end mb-4'>";
+                newMsg += "<div class='msg_cotainer_send'>" + msg;
+                newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                newMsg += "</div>";
+                newMsg += "<div class='img_cont_msg'>";
+                newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
+                newMsg += "</div></div>";
+                $("#msgBox").append(newMsg);
             }
         }
 
@@ -150,23 +152,12 @@
         });
     }
 
-    function chatName(){
-        var userName = $("#userName").val();
-        if(userName == null || userName.trim() == ""){
-            alert("사용자 이름을 입력해주세요.");
-            $("#userName").focus();
-        }else{
-            wsOpen();
-            $("#yourName").hide();
-            $("#yourMsg").show();
-        }
-    }
-
+    // 웹소켓으로 메세지를 전송 (이름 : 메세지) 의 형태로
     function send() {
         var uN = $("#userName").val();
-        var msg = $("#chatting").val();
+        var msg = $("#yourMsg").val();
         ws.send(uN+" : "+msg);
-        $('#chatting').val("");
+        $('#yourMsg').val("");
     }
 </script>
 </body>
