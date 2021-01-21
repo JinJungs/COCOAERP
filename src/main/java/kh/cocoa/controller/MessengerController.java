@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.MessengerDTO;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.MessengerService;
 
 @Controller
 @RequestMapping("/messenger")
@@ -17,6 +19,9 @@ public class MessengerController {
 
 	@Autowired
 	EmployeeService eservice;
+	
+	@Autowired
+	MessengerService meservice;
 	
     @RequestMapping("/")
     public String toIndex() {
@@ -26,14 +31,16 @@ public class MessengerController {
     @RequestMapping("contactList")
     public String toContactList(Model model) {
     	//임시! 사원번호 세션값===========================================
-    	EmployeeDTO loginDTO = EmployeeDTO.builder().code(1000).dept_code(1).team_code(11).deptname("개발부").teamname("개발1팀").build();
+    	EmployeeDTO loginDTO = EmployeeDTO.builder().code(1000).name("권용국").dept_code(1).team_code(11).deptname("개발부").teamname("개발1팀").build();
     	//==========================================================
+    	//재직중인 전체 멤버 리스트
     	List<EmployeeDTO> memberList = eservice.getAllEmployee();
-    	int a = memberList.get(0).getDept_code();
-//    	List<EmployeeDTO> dept_list = eservice.getDeptMember(1);
-//    	List<EmployeeDTO> team_list = eservice.getTeamMember(11);
-    	model.addAttribute("memberList", memberList);
+    	//채팅방 불러오기
+    	List<MessengerDTO> chatList = meservice.myMessengerList(loginDTO.getCode());
+    	//임시로 보내는 개인 정보. 세션으로 대체될 예정
     	model.addAttribute("loginDTO",loginDTO);
+    	model.addAttribute("memberList", memberList);
+    	model.addAttribute("chatList", chatList);
         return "/messenger/contactList";
     }
 

@@ -101,7 +101,6 @@
 							items="${memberList}">
 							<c:if test="${i.team_code eq loginDTO.team_code}">
 								<li class="con-list">
-									<!-- 사진 부분과 내용 부분 나눠서 a태그 걸기? -->
 									<div class="d-flex bd-highlight">
 										<div class="img_cont">
 											<a href="#"> <img src="/img/profile-default.jpg"
@@ -120,21 +119,30 @@
 						</c:forEach> </ui>
 						<ui class="contacts" id="chatList">
 							<a href="#">채팅방 추가</a>
-							<li class="con-list">
-								<div class="d-flex bd-highlight">
-									<div class="img_cont">
-										<a href="#"> <img src="/img/profile-default.jpg"
-											class="rounded-circle user_img">
+							<c:forEach var="i" items="${chatList}">
+								<li class="con-list">
+									<div class="d-flex bd-highlight">
+										<div class="img_cont">
+											<a href="#"> <img src="/img/profile-default.jpg"
+												class="rounded-circle user_img">
+											</a>
+										</div>
+										<a href="#">
+											<div class="user_info">
+												<c:choose>
+													<c:when test="${i.emp_code == loginDTO.code}">
+														<span>${i.emp_code2}(사원이름 뜰 예정)</span>
+													</c:when>
+													<c:otherwise>
+														<span>${i.emp_code}(사원이름 뜰 예정)</span>
+														</c:otherwise>
+												</c:choose>
+												<p>채팅 메세지 조금 띄워주나요...</p>
+											</div>
 										</a>
 									</div>
-									<a href="#">
-										<div class="user_info">
-											<span>임시 채팅방 이름</span>
-											<p>참가자 이름 최대 몇 글자까지...</p>
-										</div>
-									</a>
-								</div>
-							</li>
+								</li>
+							</c:forEach>
 						</ui>
 					</div>
 				</div>
