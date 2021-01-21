@@ -42,3 +42,4 @@ public class EmployeeDTO {
 		this.pos_code = pos_code;
 	}	
 }
+
