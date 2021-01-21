@@ -1,9 +1,14 @@
 package kh.cocoa.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.service.DepartmentsService;
+import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +33,9 @@ public class DocumentController {
 
 	@Autowired
 	private DepartmentsService deptservice;
+
+	@Autowired
+	private EmployeeService eservice;
 
 	//임시저장된 문서메인 이동
 	@RequestMapping("toTempMain.document")
@@ -88,9 +96,11 @@ public class DocumentController {
 	@GetMapping("toWriteDocument")
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
+		List<EmployeeDTO> getOrganChart = new ArrayList<>();
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
+		model.addAttribute("chart",getOrganChart);
 		return "document/c_writeDocument";
 	}
 }

@@ -19,15 +19,15 @@
             </div>
             <div class="row w-100" style="border-top: 1px solid pink; border-bottom: 1px solid pink;">
                 <div class="col-2 p-3" style="border-right: 1px solid pink">기안 양식</div>
-                <div class="col-4 p-3" style="border-right: 1px solid pink">업무 기안</div>
+                <div class="col-4 p-3" style="border-right: 1px solid pink">${dto.name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid pink">문서 번호</div>
-                <div class="col-4 p-3">떙땡땡</div>
+                <div class="col-4 p-3">-</div>
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid pink;">
                 <div class="col-2 p-3" style="border-right: 1px solid pink">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid pink">권용국</div>
+                <div class="col-4 p-3" style="border-right: 1px solid pink">${name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid pink">기안 부서</div>
-                <div class="col-4 p-3">개발부</div>
+                <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
             </div>
             <div class="row w-100 pt-5" style="border-bottom: 1px solid pink;">
                 <div class="col-10 p-0 pt-2"><b>결재선</b></div>
@@ -45,10 +45,15 @@
                 <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
                 <div class="col-10 p-3" ><input type="text" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
             </div>
-            <div class="row w-100" style="border-bottom: 1px solid pink;">
+            <div class="row w-100">
                 <div class="col-2 p-3" style="border-right: 1px solid pink;">파일 첨부</div>
-                <div class="col-10 p-3"><input type="file" multiple="multiple"></div>
+                <div class="col-3 p-3"><input type="file" multiple="multiple" style="max-width:100%;" id="file" onchange="fn_filechange()"></div>
             </div>
+            <div class="row w-100" style="border-bottom: 1px solid pink;">
+                <div class="col-2 p-3"  style="border-right: 1px solid pink;"></div>
+                <div class="col-9 p-3" id="filecontainer"></div>
+            </div>
+
             <div class="row w-100 pt-3">
                 <div class="col-12"><textarea class="w-100" style="min-height: 350px"></textarea></div>
             </div>
@@ -79,26 +84,28 @@
                             <div class="row">
                                 <div class="col-12 ">-대표 회사명 넣을지?</div>
                             </div>
-                            <div class="row" style="cursor: pointer;" onclick="fn_openconfirmdept()" id="confirmdept">
-                                <div class="col-1 "><img src="/icon/plus-square.svg" id="deptopencloseicon"> </div>
-                                <div class="col-5  p-0 pl-1">부서이름</div>
-                            </div>
-                            <div class="row d-none" style=" cursor: pointer;" onclick="fn_openconfirmteam()" id="confirmteam" >
-                                <div class="col-1  p-0 ml-2 text-right"><img src="/icon/plus-square.svg" id="teamopencloseicon"></div>
-                                <div class="col-5  p-0 pl-1">팀이름</div>
-                            </div>
-                            <div class="team-container d-none" id="team-container">
-                                <div class="row">
-                                    <div class="col-1 "></div>
-                                    <div class="col-8  pl-1">-김지영(뭐하지?)</div>
+                            <div class="deptteamcontainer">
+                                <div class="row" style="cursor: pointer;" onclick="fn_openconfirmdept()" id="confirmdept">
+                                    <div class="col-1 "><img src="/icon/plus-square.svg" id="deptopencloseicon"> </div>
+                                    <div class="col-5  p-0 pl-1">부서이름</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-1"></div>
-                                    <div class="col-8 pl-1">-권용국(영어이름?)</div>
+                                <div class="row d-none" style=" cursor: pointer;" onclick="fn_openconfirmteam()" id="confirmteam" >
+                                    <div class="col-1  p-0 ml-2 text-right"><img src="/icon/plus-square.svg" id="teamopencloseicon"></div>
+                                    <div class="col-5  p-0 pl-1">팀이름</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-1"></div>
-                                    <div class="col-8 pl-1">-정의진(별명?)</div>
+                                <div class="team-container d-none" id="team-container">
+                                    <div class="row">
+                                        <div class="col-1 "></div>
+                                        <div class="col-8  pl-1">-김지영(뭐하지?)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1"></div>
+                                        <div class="col-8 pl-1">-권용국(영어이름?)</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-1"></div>
+                                        <div class="col-8 pl-1">-정의진(별명?)</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -162,6 +169,24 @@
         $("#team-container").attr("class","team-container d-none");
         $("#confirmteam").attr("onclick","fn_openconfirmteam()");
         $("#teamopencloseicon").attr("src","/icon/plus-square.svg");
+    }
+
+    /*파일 추가 부분*/
+    function fn_filechange(){
+        var inputFile= $("#file")[0].files;
+        if((inputFile).length>5){
+            alert("파일 첨부는 최대 5개까지 가능합니다.");
+            return;
+        }
+        var html="";
+        for(var i=0;i<inputFile.length;i++){
+            html+="<span class=p-2 id=inputfile"+i+">"+inputFile[i].name+"<img src=/icon/close-x.svg onclick=fn_deleteinputfile("+i+")></span>"
+        }
+        $("#filecontainer").html(html);
+
+    }
+    function fn_deleteinputfile(seq){
+
     }
 
 </script>
