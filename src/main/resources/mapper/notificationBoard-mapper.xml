@@ -12,9 +12,13 @@
 	<select id="recordTotalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD 
 	</select>
+<!-- 게시글 파일 업로드 - board & files seq값 동일하게 맞추기 -->
+	<select id="noBoardSelectSeq" resultType="Integer">
+		SELECT BOARD_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='BOARD_SEQ'
+	</select>
 <!-- 글작성 -->
 	<insert id="notificationBoardCreateDone" >
-		INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, #{TITLE},#{CONTENTS},SYSDATE,0, 0,0)<!-- #{writer_code},#{menu_seq}) -->
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 0,0)<!-- #{writer_code},#{menu_seq}) -->
 	</insert>
 <!-- 게시글 가져오기 -->
 	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
@@ -35,11 +39,27 @@
 	
 <!-- 검색한 게시글 가져오기 -->
 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-			SELECT * FROM (SELECT BOARD.*, ROW_NUMBER() OVER (ORDER BY WRITE_DATE DESC) 
-			RN FROM BOARD 
-			WHERE TITLE LIKE '%${value}%' OR CONTENTS LIKE '%${value}%') 
-			WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
+			select b.*, e.name from board b, employee e
+			  where b.writer_code = e.code
+           <choose>
+                 <when test='searchBy=="title"'>
+                    and b.title like '%${search}%'
+                 </when>
+                 <when test='searchBy=="tc"'>
+                    and b.title like '%${search}%'
+                       or b.contents like '%${search}%'
+                 </when>
+                 <when test='searchBy=="contents"'>
+                    and b.contents like '%${search}%'
+                 </when>
+                 <when test='searchBy=="name"'>
+                    and e.name like '%${search}%'
+                 </when>
+           </choose>
 	</select>
+	
+
+	
 <!-- 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
   		SELECT * FROM BOARD ORDER BY SEQ DESC
   	</select> -->

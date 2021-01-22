@@ -26,7 +26,7 @@ textarea{width:100%; height:100%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">회사공지(글작성)</h2>
 
-			<form action="/noBoard/notificationBoardCreateDone.no" method="post">
+			<form action="/noBoard/notificationBoardCreateDone.no" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-sm-3">제목</div>
 					<div class="col-sm-9">
