@@ -8,6 +8,7 @@ import kh.cocoa.dto.TeamDTO;
 import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TeamService;
+import kh.cocoa.statics.DocumentConfigurator;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +49,15 @@ public class RestDocumentController {
         getEmpList=eservice.getTeamMember(code);
         JSONArray json = new JSONArray(getEmpList);
 
+        return json.toString();
+    }
+
+
+
+    @RequestMapping("addconfirm.document")
+    public String addconfirm(int code){
+        List<EmployeeDTO> list =eservice.getConfirmEmp(code);
+        JSONArray json = new JSONArray(list);
         return json.toString();
     }
 }

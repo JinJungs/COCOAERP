@@ -7,6 +7,10 @@
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2
     </select>
 
+	<select id="getConfirmEmp" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,d.name deptname from employee e inner join departments d on e.dept_code = d.code where e.code=#{code}
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE

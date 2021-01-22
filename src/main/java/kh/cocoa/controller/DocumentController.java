@@ -111,6 +111,7 @@ public class DocumentController {
 		String deptName = deptservice.getDeptName();
 		List<DepartmentsDTO> deptList = new ArrayList<>();
 		deptList=deptservice.getDeptList();
+		model.addAttribute("size",deptList.size());
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
