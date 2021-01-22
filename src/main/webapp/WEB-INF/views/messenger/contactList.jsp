@@ -28,7 +28,7 @@
 					<div class="p-2">ㅁ</div>
 					<div class="p-2">X</div>
 				</div>
-				<div class="input-group float-right col-10 col-sm-8 col-md-5 p-2">
+				<div class="input-group float-right col-7 col-sm-6 col-md-5 p-2">
 					<input type="text" placeholder="Search..." name=""
 						class="form-control search">
 					<div class="input-group-prepend">
@@ -56,11 +56,28 @@
 			<div class="col-10 col-md-11 p-0">
 				<div class="card contacts_card h-100 b-radius-0">
 					<div class="card-body contacts_body h-75 style="
-						border-radius:0px;!important"="border-radius:0px;!important"">
+						border-radius:0px;!important">
+						<!-- 나의 프로필 상단 고정 -->
+						<ui class="contacts" id="myProfil">
+							<li class="con-list">
+								<div class="d-flex bd-highlight myprofil">
+									<div class="img_cont myprofilImg">
+										<a href="#"> <img src="/img/profile-default.jpg"
+											class="rounded-circle user_img">
+										</a>
+									</div>
+									<a href="#">
+										<div class="user_info">
+											<span>${loginDTO.name}</span>
+											<p>${loginDTO.deptname}/${loginDTO.teamname}</p>
+										</div>
+									</a>
+								</div>
+							</li>
+						</ui>
 						<ui class="contacts" id="memberAll"> <c:forEach var="i"
 							items="${memberList}">
 							<li class="con-list">
-								<!-- 사진 부분과 내용 부분 나눠서 a태그 걸기? -->
 								<div class="d-flex bd-highlight">
 									<div class="img_cont">
 										<a href="#"> <img src="/img/profile-default.jpg"
@@ -80,7 +97,6 @@
 							items="${memberList}">
 							<c:if test="${i.dept_code eq loginDTO.dept_code}">
 								<li class="con-list">
-									<!-- 사진 부분과 내용 부분 나눠서 a태그 걸기? -->
 									<div class="d-flex bd-highlight">
 										<div class="img_cont">
 											<a href="#"> <img src="/img/profile-default.jpg"
