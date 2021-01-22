@@ -32,23 +32,23 @@
         <script>
          let temporaryBtn = document.getElementById("temporaryBtn");
          temporaryBtn.onclick = function() {
-            location.href = "/document/toTempMain.document";
+            location.href = "/document/d_searchTemporary.document?";
          }
          let raiseBtn = document.getElementById("raiseBtn");
          raiseBtn.onclick = function() {
-            location.href = "/document/toRaiseMain.document";
+            location.href = "/document/d_searchRaise.document";
          }
          let approvalBtn = document.getElementById("approvalBtn");
          approvalBtn.onclick = function() {
-            location.href = "/document/toApprovalMain.document";
+            location.href = "/document/d_searchApproval.document";
          }
          let rejectBtn = document.getElementById("rejectBtn");
          rejectBtn.onclick = function() {
-            location.href = "/document/toRejectMain.document";
+            location.href = "/document/d_searchReject.document";
          }
          let returnBtn = document.getElementById("returnBtn");
          returnBtn.onclick = function() {
-            location.href = "/document/toReturnMain.document";
+            location.href = "/document/d_searchReturn.document";
          }
          /*지영 부분*/
 	   function fn_board() {
