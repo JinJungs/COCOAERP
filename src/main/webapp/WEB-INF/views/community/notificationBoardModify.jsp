@@ -72,13 +72,13 @@ textarea{width:100%; height:100%;}
 	/*제목부분 누르면 기존에 있던 내용 없애기*/
  	function title_box(){
  		if($('#title').val() != null){
-		    $('#title').val(" ");
+		    $('#title').val("");
 		}
  	}
  	/*내용부분 누르면 기존에 있던 내용 없애기*/
  	function contents_box(){
  		if($('#contents').val() != null){
-		    $('#contents').val(" ");
+		    $('#contents').val("");
 		}
  	}
  	/*홈으로*/

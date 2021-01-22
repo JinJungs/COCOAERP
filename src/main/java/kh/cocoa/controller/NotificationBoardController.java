@@ -72,17 +72,17 @@ public class NotificationBoardController {
 	@GetMapping("notificationBoardSearch.no")
 	public String notificationBoardSearch(String cpage, String search,String searchBy, Model model) {
 		System.out.println("searchBy 는?"+ searchBy);
+		System.out.println("search 는?" + search);	
+		
 		if(cpage==null) {cpage = "1";}
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
-		if(searchBy.contentEquals("tc")) {
-		list = nservice.notificationBoardListBySearch(Integer.parseInt(cpage), search);
+		list = nservice.notificationBoardListBySearch(Integer.parseInt(cpage), search,searchBy);
 		System.out.println("여기서 list는?"+list);
-		String navi= nservice.notificationBoardSearchNavi(Integer.parseInt(cpage), search);
+		String navi= nservice.notificationBoardSearchNavi(Integer.parseInt(cpage), search,searchBy);
 		model.addAttribute("list", list);
 		model.addAttribute("navi", navi);
 		model.addAttribute("cpage", cpage);
 		model.addAttribute("search", search);
-		}
 		return "/community/notificationBoardList";
 	}
 	

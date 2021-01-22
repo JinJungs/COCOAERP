@@ -16,7 +16,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	private NotificationBoardDAO ndao;
 	/*======Search List=================================================================*/
 	//게시글 검색 리스트
-	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search) {
+	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy) {
 		List<BoardDTO> list = notificationBoardListBySearch(); 
 		List<BoardDTO> searchList2 = new ArrayList<BoardDTO>();
 
@@ -63,14 +63,14 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		return list.size();
 	}
 	//검색 게시글 네비
-	public String notificationBoardSearchNavi(int cpage, String search) {
+	public String notificationBoardSearchNavi(int cpage, String search,String searchBy) {
 		int recordTotalCount = getSearchCount(search);
+		System.out.println("검색 recordTotalCount :"+ recordTotalCount);
 		int pageTotalCount = recordTotalCount/Configurator.recordCountPerPage;
-		if(recordTotalCount%Configurator.recordCountPerPage != 0) {
+		if(recordTotalCount/Configurator.recordCountPerPage != 0) {
 			pageTotalCount++;
 		}
-		//보안코드
-		if(cpage < 0) {
+		if(cpage < 1) {
 			cpage = 1;
 		}else if(cpage>pageTotalCount) {
 			cpage = pageTotalCount;
@@ -87,15 +87,20 @@ public class NotificationBoardService implements NotificationBoardDAO {
 
 		if(startNavi == 1) {needPrev = false;}
 		if(endNavi == pageTotalCount) {needNext = false;}
+		
+		System.out.println("검색 후 총 페이지 개수 : " + pageTotalCount);
+		System.out.println("검색 후 현재 위치 : " + cpage);
+		System.out.println("검색 후  시작 네비 : " + startNavi);
+		System.out.println("검색 후 끝 네비 : " + endNavi);
 
 		StringBuilder sb = new StringBuilder();
 		if(needPrev) {
-			sb.append("<li class=page-item disabled><a href=/noBoard/notificationBoardList.no?cpage="+(startNavi-1)+"&search="+search+">Previous</a></li>");
+			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(startNavi-1)+"&search="+search+">Previous</a></li>");
 		}
 		for(int i=startNavi; i<=endNavi; i++) {
-			sb.append("<li class=page-item><a href=/noBoard/notificationBoardList.no?cpage="+i+"&search="+search+"> "+i+"</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+i+"&search="+search+"> "+i+"</a></li>");
 		}if(needNext) {
-			sb.append("<li class=page-item><a href=/noBoard/notificationBoardList.no?cpage="+(endNavi+1)+"&search="+search+">Next</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(endNavi+1)+"&search="+search+">Next</a></li>");
 		}
 
 		return sb.toString();

@@ -35,10 +35,23 @@
 	
 <!-- 검색한 게시글 가져오기 -->
 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-			SELECT * FROM (SELECT BOARD.*, ROW_NUMBER() OVER (ORDER BY WRITE_DATE DESC) 
-			RN FROM BOARD 
-			WHERE TITLE LIKE '%${value}%' OR CONTENTS LIKE '%${value}%') 
-			WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
+			select b.*, e.name from board b, employee e
+			  where b.writer_code = e.code
+           <choose>
+                 <when test='searchBy=="title"'>
+                    and b.title like '%${search}%'
+                 </when>
+                 <when test='searchBy=="tc"'>
+                    and b.title like '%${search}%'
+                       or b.contents like '%${search}%'
+                 </when>
+                 <when test='searchBy=="contents"'>
+                    and b.contents like '%${search}%'
+                 </when>
+                 <when test='searchBy=="name"'>
+                    and e.name like '%${search}%'
+                 </when>
+           </choose>
 	</select>
 <!-- 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
   		SELECT * FROM BOARD ORDER BY SEQ DESC

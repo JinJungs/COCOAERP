@@ -42,8 +42,8 @@ input{width:50%;}
 				</form>
 
 			<div class="row">
-				<div class="col-md-2 d-none d-md-block">글 번호</div>
-				<div class="col-sm-12 col-md-6">제목</div>
+				<div class="col-md-1 d-none d-md-block">글 번호</div>
+				<div class="col-sm-12 col-md-7">제목</div>
 				<div class="col-md-1 d-none d-md-block">작성자</div>
 				<div class="col-md-2 d-none d-md-block">작성날짜</div>
 				<div class="col-md-1 d-none d-md-block">조회수</div>
@@ -51,8 +51,8 @@ input{width:50%;}
 
 			<c:forEach var="i" items="${list}">
 				<div class="row">
-						<div class="col-md-2 d-none d-md-block">${i.seq}</div>
-						<div class="title col-sm-12 col-md-6" onclick ="notificationBoardRead(${i.seq},${cpage})"><b>${i.title}</b></div>
+						<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+						<div class="title col-sm-12 col-md-7" onclick ="notificationBoardRead(${i.seq},${cpage})"><b>${i.title}</b></div>
 						<div class="col-md-1 d-none d-md-block">${i.writer_code}</div>
 						<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
 						<div class="col-md-1 d-none d-md-block">${i.view_count}</div>
@@ -61,7 +61,7 @@ input{width:50%;}
 
 			<div class="row">
 				<div class="col-md-2 d-none d-md-block">
-					<button>홈으로</button>
+					<button type="button" onclick="fn_home(${cpage})">홈으로</button>
 				</div>
 
 				<!--네비게이션  -->
@@ -78,7 +78,7 @@ input{width:50%;}
 		/*검색창 누르면 placeholder 없애기*/
 		function search_box(){
 	 		if($('#search').val() != null){
-			    $('#search').val(" ");
+			    $('#search').val("");
 			}
  		}
 		/*글 등록*/
@@ -89,7 +89,10 @@ input{width:50%;}
 		function notificationBoardRead(seq,cpage){
 			location.href="/noBoard/notificationBoardRead.no?seq="+seq+"&cpage="+cpage;
 		}
-		
+		/*홈으로*/
+		function fn_home(cpage) {
+			location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
+		}
 	</script>
 </body>
 </html>

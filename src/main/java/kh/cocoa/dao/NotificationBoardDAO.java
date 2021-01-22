@@ -13,8 +13,8 @@ public interface NotificationBoardDAO {
 	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum);
 
 	//게시글 검색 리스트
-	public List<BoardDTO> notificationBoardListBySearch();
-
+	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy);
+	List<BoardDTO> notificationBoardListBySearch();
 
 	//네비게이터 가져오기
 	String getNavi(int cpage);
@@ -36,6 +36,7 @@ public interface NotificationBoardDAO {
 
 	//게시글 삭제
 	public int notificationBoardContentsDel(int seq);
+
 
 
 
