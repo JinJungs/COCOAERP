@@ -5,4 +5,8 @@
    <select id="getDeptName" resultType="String">
         SELECT NAME FROM DEPARTMENTS WHERE CODE=1
    </select>
+
+    <select id="getDeptList" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS
+    </select>
 </mapper>

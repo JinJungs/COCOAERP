@@ -24,39 +24,41 @@ select {
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">상신한 문서</h2>
 			<hr>
-			<form action="" method="post">
+			<form action="/document/d_searchRaise.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-3 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1"> ~ <input
-								type=date class="date ml-1 mr-1">
+							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } min=2000-01-01 max=${today }> 
+							~ 
+							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } min=2000-01-01 max=${today }>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
 						<div class="col-9 col-sm-2  col-md-2">
-							<select class="selectTemplate ml-1 mb-2">
-								<option>전체</option>
-								<option>물품신청</option>
-								<option>업무보고</option>
-								<option>휴가신청</option>
+							<select class="selectTemplate ml-1 mb-2" name=template id="templateSelect">
+								<option value=0>전체</option>
+								<option value=1>업무보고</option>
+								<option value=2>물품신청</option>
+								<option value=3>휴가신청</option>
 							</select>
 						</div>
 						<div class="selectSearch col-3 col-sm-2 col-md-2 mb-3">
-							<select>
-								<option>제목</option>
-								<option>작성자</option>
-								<option>부서</option>
+							<select name=searchOption id="searchOption">
+								<option value=title selected>제목</option>
 							</select>
 						</div>
+						<script>
+							$('#templateSelect').val("${template}").prop("selected",true);
+						</script>
 						<div class="col-6 col-sm-2 mb-3 pl-3">
-							<input type=text>
+							<input type=text name=searchText value=${searchText }>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12 text-center">
-							<input type=submit value=조회>
+							<input type=submit value=조회 >
 						</div>
 					</div>
 				</div>
@@ -75,7 +77,7 @@ select {
 					<div class="col-sm-2 d-none d-sm-block">${list.temp_name }</div>
 					<div class="col-5 col-sm-3">${list.title }</div>
 					<div class="col-3">${list.write_date }</div>
-					<div class="col-4">${list.emp_name } | ${list.department_name }</div>
+					<div class="col-4">${list.emp_name } | ${list.departments_name }</div>
 				</div>
 			</c:forEach>
 			<!-- 리스트 출력 부분 -->
