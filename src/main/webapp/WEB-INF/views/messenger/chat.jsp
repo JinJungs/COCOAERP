@@ -66,6 +66,7 @@
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90">
+            <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
@@ -80,6 +81,10 @@
             이름 : <input type="text" name="userName" id="userName" style="width: 330px;
             height: 25px;">
             <button onclick="chatName()" id="startBtn">이름 등록</button>
+        </div>
+        <div class="fileTest">
+        	<input type="file" id="fileUpload">
+			<button onclick="fileSend()" id="sendFileBtn">파일올리기테스트</button>
         </div>
     </div>
 </div>
@@ -170,6 +175,28 @@
         ws.send(JSON.stringify(option))
         $('#yourMsg').val("");
     }
+    
+    // 웹소켓으로 파일 전송
+    function fileSend(){
+		var file = document.querySelector("#fileUpload").files[0];
+		console.log(file);
+		var fileReader = new FileReader();
+		fileReader.onload = function() {
+			var param = {
+				type: "fileUpload",
+				file: file,
+				roomNumber: $("#roomNumber").val(),
+				sessionId : $("#sessionId").val(),
+				msg : $("#yourMsg").val(),
+				userName : $("#userName").val()
+			}
+			ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
+
+		    arrayBuffer = this.result;
+			ws.send(arrayBuffer); //파일 소켓 전송
+		};
+		fileReader.readAsArrayBuffer(file);
+	}
 </script>
 </body>
 </html>
