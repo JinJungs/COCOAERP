@@ -38,8 +38,7 @@ textarea{width:100%; height:100%;}
 					<div class="col">내용</div>
 				</div>
 				<div class="row">
-					<textarea class="contents_box col-xs-12" id="contents"
-						name="contents"></textarea>
+					<textarea class="contents_box col-xs-12" id="contents" name="contents"></textarea>
 				</div>
 
 				<div class="row">
@@ -73,7 +72,7 @@ textarea{width:100%; height:100%;}
 			let fileCount = document.getElementsByClassName("addfile");
 	        console.log(fileCount.length);
 			$("#fileinsert").click(function() {
-				if(fileCount.length<10){
+				if(fileCount.length<11){
 					let fileBox = $("<input type=file name=file>");
 					fileBox.addClass("addfile");
 					fileBox.append("<br>");
