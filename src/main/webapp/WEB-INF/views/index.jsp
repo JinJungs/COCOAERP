@@ -16,18 +16,48 @@
 </style>
 </head>
 <body>
-	<div class="wrapper d-flex align-items-stretch">
-		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
-		  <div id="content" class="p-4 p-md-5 pt-5">
-				<button type="button" onclick="fn_board()">게시판 바로가기</button>
-		  </div>
-		
-	</div>
-	   <script>
-   function fn_board() {
-		location.href = "/noBoard/notificationBoardList.no"
-	}
+
+   <div class="wrapper d-flex align-items-stretch">
+      <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+      <!-- 지영 -->
+      <button type="button" onclick="fn_board()">게시판 바로가기</button>
+	
+      <!-- 효경: 이부분 살려놔주시면 감사하겠습니다..ㅎ -->
+      <input type=button value="저장된" id=temporaryBtn><br>
+        <input type=button value="상신한" id=raiseBtn><br>
+        <input type=button value="승인된" id=approvalBtn><br>
+        <input type=button value="반려된" id=rejectBtn><br>
+        <input type=button value="회수한" id=returnBtn><br>
+        <script>
+         let temporaryBtn = document.getElementById("temporaryBtn");
+         temporaryBtn.onclick = function() {
+            location.href = "/document/toTempMain.document";
+         }
+         let raiseBtn = document.getElementById("raiseBtn");
+         raiseBtn.onclick = function() {
+            location.href = "/document/toRaiseMain.document";
+         }
+         let approvalBtn = document.getElementById("approvalBtn");
+         approvalBtn.onclick = function() {
+            location.href = "/document/toApprovalMain.document";
+         }
+         let rejectBtn = document.getElementById("rejectBtn");
+         rejectBtn.onclick = function() {
+            location.href = "/document/toRejectMain.document";
+         }
+         let returnBtn = document.getElementById("returnBtn");
+         returnBtn.onclick = function() {
+            location.href = "/document/toReturnMain.document";
+         }
+         /*지영 부분*/
+	   function fn_board() {
+			location.href = "/noBoard/notificationBoardList.no"
+		}
    	
    </script>
+        
+      </div>
+   </div>
 </body>
 </html>

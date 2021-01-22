@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -6,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
 </head>
 <body>
 
@@ -84,30 +86,18 @@
                             <div class="row">
                                 <div class="col-12 ">-대표 회사명 넣을지?</div>
                             </div>
-                            <div class="deptteamcontainer">
-                                <div class="row" style="cursor: pointer;" onclick="fn_openconfirmdept()" id="confirmdept">
-                                    <div class="col-1 "><img src="/icon/plus-square.svg" id="deptopencloseicon"> </div>
-                                    <div class="col-5  p-0 pl-1">부서이름</div>
-                                </div>
-                                <div class="row d-none" style=" cursor: pointer;" onclick="fn_openconfirmteam()" id="confirmteam" >
-                                    <div class="col-1  p-0 ml-2 text-right"><img src="/icon/plus-square.svg" id="teamopencloseicon"></div>
-                                    <div class="col-5  p-0 pl-1">팀이름</div>
-                                </div>
-                                <div class="team-container d-none" id="team-container">
-                                    <div class="row">
-                                        <div class="col-1 "></div>
-                                        <div class="col-8  pl-1">-김지영(뭐하지?)</div>
+                            <c:forEach var="i" items="${deptList}">
+                                <div class="allcontainer">
+                                    <div class="deptteamcontainer" id="deptteamcontainer${i.code}">
+                                        <div class="row" style="cursor: pointer;" id="confirmdept${i.code}">
+                                            <div class="col-1 "><img src="/icon/plus-square.svg" id="deptopencloseicon${i.code}" onclick="fn_getteamlist(${i.code})"> </div>
+                                            <div class="col-5  p-0 pl-1">${i.name}</div>
+                                        </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-1"></div>
-                                        <div class="col-8 pl-1">-권용국(영어이름?)</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-1"></div>
-                                        <div class="col-8 pl-1">-정의진(별명?)</div>
-                                    </div>
+                                    <div id="childcontainer${i.code}"></div>
+
                                 </div>
-                            </div>
+                            </c:forEach>
                         </div>
                         <div class="col-1 p-0 d-flex justify-content-center" style="min-height:540px; align-items: center; flex:1;">
                             <div class="row ">
@@ -142,33 +132,37 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-    function fn_openconfirmdept(){
-        var teamiconsrc = $("#teamopencloseicon").attr("src");
-        $("#confirmteam").attr("class","row");
-        $("#confirmdept").attr("onclick","fn_closeconfirmdept()");
-        $("#deptopencloseicon").attr("src","/icon/dash-square.svg");
-        if(teamiconsrc=="/icon/dash-square.svg"){
-            $("#team-container").attr("class","team-container");
-        }
+
+
+
+    function fn_openconfirmdept(code){
+        var a= $("#deptteamcontainer"+code).nextAll();
+        a.css("display","block");
+        $("#deptopencloseicon"+code).attr("onclick","fn_closeconfirmdept("+code+")");
+        $("#deptopencloseicon"+code).attr("src","/icon/dash-square.svg");
     }
-    function fn_closeconfirmdept() {
-        $("#confirmteam").attr("class","row d-none");
-        $("#confirmdept").attr("onclick","fn_openconfirmdept()");
-        $("#deptopencloseicon").attr("src","/icon/plus-square.svg");
-        $("#team-container").attr("class","team-container d-none");
+    function fn_closeconfirmdept(code) {
+        var a= $("#deptteamcontainer"+code).nextAll();
+        a.css("display","none");
+        $("#deptopencloseicon"+code).attr("onclick","fn_openconfirmdept("+code+")");
+        $("#deptopencloseicon"+code).attr("src","/icon/plus-square.svg");
     }
 
-    function fn_openconfirmteam(){
-        $("#team-container").attr("class","team-container");
-        $("#confirmteam").attr("onclick","fn_closeconfirmteam()");
-        $("#teamopencloseicon").attr("src","/icon/dash-square.svg");
+    function fn_openconfirmteam(code,rootcode){
+        var a= $("#teamcontainer"+code).next();
+        a.css("display","block");
+        $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+")");
+        $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
     }
 
-    function fn_closeconfirmteam() {
-        $("#team-container").attr("class","team-container d-none");
-        $("#confirmteam").attr("onclick","fn_openconfirmteam()");
-        $("#teamopencloseicon").attr("src","/icon/plus-square.svg");
+    function fn_closeconfirmteam(code,rootcode) {
+        var a= $("#teamcontainer"+code).next();
+        a.css("display","none");
+        $("#teamopencloseicon"+code).attr("onclick","fn_openconfirmteam("+code+")");
+        $("#teamopencloseicon"+code).attr("src","/icon/plus-square.svg");
+
     }
 
     /*파일 추가 부분*/
@@ -187,6 +181,56 @@
     }
     function fn_deleteinputfile(seq){
 
+    }
+
+    function fn_getteamlist(code){
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/getteamlist.document",
+            data : {code },
+            dataType :"json",
+            success : function(data) {
+                console.log(code);
+                var html="";
+                for(var i=0;i<data.length;i++){
+                    html+="<div id=teamcontainer"+data[i].code+">";
+                    html+="<div class=row d-none style=cursor:pointer onclick=fn_closeconfirmteam() id=confirmteam"+data[i].code+">";
+                    html+="<div class=\"col-1 p-0 ml-2 text-right\"><img src=/icon/plus-square.svg id=teamopencloseicon"+data[i].code+" onclick=fn_getemplist("+data[i].code+","+code+")></div>";
+                    html+="<div class=\"col-5 p-0 pl-1\">"+data[i].name+"</div>";
+                    html+="</div>";
+                    html+="</div>";
+                }
+                $("#childcontainer"+code).append(html);
+                $("#deptopencloseicon"+code).attr("src","/icon/dash-square.svg");
+                $("#deptopencloseicon"+code).attr("onclick","fn_closeconfirmdept("+code+")");
+            }
+        });
+    }
+
+    function fn_getemplist(code,rootcode){
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/getemplist.document",
+            data : {code },
+            dataType :"json",
+            success : function(data) {
+                var html="";
+                console.log(rootcode);
+                html+="<div class=empcontainer2>";
+                for(var i=0;i<data.length;i++){
+                    html+="<div id=empcontainer"+data[i].code+">";
+                    html+="<div class=row>";
+                    html+="<div class=col-1></div>";
+                    html+="<div class=\"col-8 pl-1\">-"+data[i].name+"(미정)</div>";
+                    html+="</div>";
+                    html+="</div>";
+                }
+                html+="</div>";
+                $("#teamcontainer"+code).after(html);
+                $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
+                $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+","+rootcode+")");
+            }
+        });
     }
 
 </script>
