@@ -35,7 +35,7 @@ public class DocumentDTO {
 	//추가부분
 	private String temp_name;
 	private String emp_name;
-	private String department_name;
+	private String departments_name;
 	
 
 	@Builder

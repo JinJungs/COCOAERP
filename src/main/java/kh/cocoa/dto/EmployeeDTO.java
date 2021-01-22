@@ -23,6 +23,8 @@ public class EmployeeDTO {
     private int dept_code;
     private int pos_code;
     private int team_code;
+    
+    //추가부분
     private String deptname;
     private String teamname;
     
