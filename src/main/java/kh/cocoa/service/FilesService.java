@@ -11,8 +11,9 @@ public class FilesService {
 	@Autowired
 	private FilesDAO fdao;
 	
-	//파일
-	public int insertFile( FilesDTO dto) {
-		return fdao.insertFile( dto);
+	//파일 업로드
+	public int uploadFiles(int noBoard_seq, FilesDTO fdto) { 
+		return fdao.uploadFiles(noBoard_seq,fdto); 
 	}
+	 
 }

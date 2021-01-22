@@ -9,12 +9,16 @@ import kh.cocoa.dto.BoardDTO;
 @Mapper 
 public interface NotificationBoardDAO {
 
+
+	//게시글 파일 업로드 - board & files seq값 동일하게 맞추기
+	public int noBoardSelectSeq();
+
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum);
 
 	//게시글 검색 리스트
-	public List<BoardDTO> notificationBoardListBySearch();
-
+	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy);
+	List<BoardDTO> notificationBoardListBySearch();
 
 	//네비게이터 가져오기
 	String getNavi(int cpage);
@@ -23,7 +27,7 @@ public interface NotificationBoardDAO {
 	public int recordTotalCount();
 
 	//글작성
-	int notificationBoardCreateDone(BoardDTO bdto);
+	int notificationBoardCreateDone(int noBoard_seq,BoardDTO bdto);
 
 	//게시글 읽기
 	public BoardDTO notificationBoardContentsSelect(int seq);
@@ -36,17 +40,5 @@ public interface NotificationBoardDAO {
 
 	//게시글 삭제
 	public int notificationBoardContentsDel(int seq);
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

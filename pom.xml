@@ -19,6 +19,12 @@
     </properties>
 
     <dependencies>
+    <!-- File Upload Maven  -->
+    <dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
     <!-- Mail -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
