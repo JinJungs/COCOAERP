@@ -175,7 +175,7 @@
         // (1) 웹소켓에 send
         ws.send(JSON.stringify(option))
         // (2) db에 저장
-        $.ajax({
+/*        $.ajax({
             url: "/message/createMessage",
             type: "post",
             data: {
@@ -189,7 +189,7 @@
                     console.log("메세지 저장 성공!");
                 }
             }
-        })
+        })*/
 
 
         // (3) 채팅입력창 다시 지워주기

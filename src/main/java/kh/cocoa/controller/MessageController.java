@@ -1,5 +1,6 @@
 package kh.cocoa.controller;
 
+import kh.cocoa.dto.MessageDTO;
 import kh.cocoa.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class MessageController {
     // 메세지 테이블에 insert
     @RequestMapping("createMessage")
     @ResponseBody
-    public String createMessage() {
-
+    public String insertMessage(MessageDTO msgdto) {
+        int result = msgservice.insertMessage(msgdto);
         return "";
     }
 
