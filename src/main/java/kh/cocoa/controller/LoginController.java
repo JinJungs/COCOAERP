@@ -13,7 +13,7 @@ public class LoginController {
     public String login(@AuthenticationPrincipal User user){
         if(user != null) {
             if(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VIEW"))) {
-                return "redirect:/v";
+                return "index";
             }
         }
         return "redirect:/login";

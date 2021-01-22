@@ -10,6 +10,6 @@ public class VController {
 
     @GetMapping("")
     public String main() {
-        return "content/main";
+        return "WEB-INF/views/index.jsp";
     }
 }
