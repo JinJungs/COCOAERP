@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.service.DepartmentsService;
@@ -108,12 +109,12 @@ public class DocumentController {
 	@GetMapping("toWriteDocument")
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
-		List<EmployeeDTO> getOrganChart = new ArrayList<>();
-		getOrganChart= eservice.getOrganChart();
+		List<DepartmentsDTO> deptList = new ArrayList<>();
+		deptList=deptservice.getDeptList();
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
-		model.addAttribute("chart",getOrganChart);
+		model.addAttribute("deptList",deptList);
 		return "document/c_writeDocument";
 	}
 }
