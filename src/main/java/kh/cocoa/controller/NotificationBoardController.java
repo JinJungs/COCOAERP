@@ -25,24 +25,24 @@ import kh.cocoa.statics.Configurator;
 @Controller
 @RequestMapping("/noBoard")
 public class NotificationBoardController {
-	
+
 	@Autowired
 	NotificationBoardService nservice;
 	@Autowired
 	FilesService fservice;
 	@Autowired
 	private HttpSession session;
-	
+
 	//회사공지 게시판
 	@RequestMapping("notificationBoardList.no") 
 	public String notificationBoardList(String cpage,Model model) { 
-        if(cpage==null) {cpage="1";}     
+		if(cpage==null) {cpage="1";}     
 		//게시글 불러오기
 		List<BoardDTO> list = nservice.getNotificationBoardListCpage(cpage);
-        //System.out.println(list.get(0).getSeq());
+		//System.out.println(list.get(0).getSeq());
 		//시작 & 끝 페이지 불러오기
 		String navi = nservice.getNavi(Integer.parseInt(cpage));
-		
+
 		model.addAttribute("navi",navi);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("list",list);
@@ -56,14 +56,14 @@ public class NotificationBoardController {
 		//seq으로 게시글 내용 가져와서 내용 뿌려주기
 		BoardDTO dto = nservice.notificationBoardContentsSelect(seq);
 		System.out.println("게시글 내용은? "+dto);
-		
+
 		//조회수 올리기
 		System.out.println("seq 값은 ?"+seq);
 		nservice.notificationBoardViewCount(seq);
-		
+
 		model.addAttribute("dto",dto);
 		//작성자 뿌려주기(model만들어야함)
-		
+
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("seq",seq);		
 		return "community/notificationBoardRead";
@@ -73,7 +73,7 @@ public class NotificationBoardController {
 	public String notificationBoardSearch(String cpage, String search,String searchBy, Model model) {
 		System.out.println("searchBy 는?"+ searchBy);
 		System.out.println("search 는?" + search);	
-		
+
 		if(cpage==null) {cpage = "1";}
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		list = nservice.notificationBoardListBySearch(Integer.parseInt(cpage), search,searchBy);
@@ -85,7 +85,7 @@ public class NotificationBoardController {
 		model.addAttribute("search", search);
 		return "/community/notificationBoardList";
 	}
-	
+
 	//회사공지 작성 페이지 이동
 	@RequestMapping("notificationBoardCreate.no")
 	public String notificationBoardCreate(int cpage, Model model) {
@@ -97,36 +97,44 @@ public class NotificationBoardController {
 	@RequestMapping("notificationBoardCreateDone.no")
 	public String notificationBoardCreateDone(BoardDTO bdto,List<MultipartFile> file,Model model) throws Exception {
 		System.out.println("글작성 완료 컨트롤러");
-		//글 작성 
-		nservice.notificationBoardCreateDone(bdto);
-		if(file.isEmpty() == false) {
-			String realPath = Configurator.boardFileRoot;
-			File filesPath = new File(realPath);
-			//폴더 없으면 만들기
-			if(!filesPath.exists()) {filesPath.mkdir();}
-
-			List<MultipartFile> filelist = new ArrayList<MultipartFile>();
-			//빈 파일 넘어오면 거르기
-			for(int i=0; i<file.size(); i++) {
-				if(!file.get(i).getOriginalFilename().isEmpty()) {
-					filelist.add(file.get(i));
-				}
+		//파일 업로드 할 갯수 확인
+		int filesCount = 0;
+		for (MultipartFile mf : file) {
+			if (!mf.isEmpty()) {
+				filesCount += 1;
 			}
+		}
+		//board & files seq값 동일하게 맞추기
+		int noBoard_seq = nservice.noBoardSelectSeq();
+		//bdto.setSeq(noBoard_seq); //bdto에 생성된 seq담기
+		//글 작성 
+		nservice.notificationBoardCreateDone(noBoard_seq,bdto);
 
-			for(MultipartFile mf : filelist) {
-				String oriName = mf.getOriginalFilename();
-				String uid = UUID.randomUUID().toString().replaceAll("-", "");
+		//submit을 눌렀을 때, 업로드할 file이 있는 경우만 files에 업로드 (최대 10개)
+		if(filesCount<11){
+			if(!file.get(0).isEmpty()) {
+				String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+				File filesPath = new File(fileRoot);
+				//폴더 없으면 만들기
+				if(!filesPath.exists()) {filesPath.mkdir();}
 
-				String savedName = uid + "_" + oriName;
-
-				FilesDTO fdto = new FilesDTO(0, oriName, savedName,null, 0,0,0);
-				int insert = fservice.insertFile(fdto);
-				if(insert>0) {
-					File targetLoc = new File(filesPath.getAbsoluteFile()+ "/" +savedName);
-					FileCopyUtils.copy(mf.getBytes(), targetLoc);
+				int result = 0;
+				for (MultipartFile mf : file) {
+					String oriName = mf.getOriginalFilename();
+					String uid = UUID.randomUUID().toString().replaceAll("-", "");
+					String savedName = uid + "-" + oriName;
+					// dto에 값을 담아서 db에 전송
+					FilesDTO fdto = new FilesDTO(0, oriName, savedName,null, noBoard_seq,0,0);
+					System.out.println(fdto.getOriname() + fdto.getSavedname() + fdto.getBoard_seq());
+					result = fservice.uploadFiles(noBoard_seq,fdto);
+					if (result > 0) {
+						File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
+						FileCopyUtils.copy(mf.getBytes(), targetLoc);
+					}
 				}
 			}
 		}
+		model.addAttribute("cpage", 1);
 		return "redirect:/noBoard/notificationBoardList.no";
 	}
 	//회사공지 게시글 수정 (관리자 ONLY)
@@ -150,14 +158,14 @@ public class NotificationBoardController {
 		nservice.notificationBoardContentsModify(dto);
 		model.addAttribute("cpage",cpage);
 		return "redirect:/noBoard/notificationBoardList.no";
-		
+
 	}
 	//회사공지 게시글 삭제 (관리자 ONLY)
 	@RequestMapping("notificationBoardDelete.no")
 	public String notificationBoardDelete(int seq,int cpage,Model model) {
 		System.out.println("게시글 삭제 컨트롤러");
 		int result = nservice.notificationBoardContentsDel(seq);
-		
+
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("seq",seq);
 		return "redirect:/noBoard/notificationBoardList.no";

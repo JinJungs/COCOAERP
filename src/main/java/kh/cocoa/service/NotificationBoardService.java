@@ -14,7 +14,36 @@ import kh.cocoa.statics.Configurator;
 public class NotificationBoardService implements NotificationBoardDAO {
 	@Autowired
 	private NotificationBoardDAO ndao;
-	/*======Search List=================================================================*/
+	
+	//글작성
+	public int notificationBoardCreateDone(int noBoard_seq,BoardDTO bdto) {
+		return ndao.notificationBoardCreateDone(noBoard_seq,bdto);
+	}
+
+	//게시글 읽기
+	public BoardDTO notificationBoardContentsSelect(int seq) {
+		return ndao.notificationBoardContentsSelect(seq);
+	}
+	//게시글 조회수 올리기
+	public void notificationBoardViewCount(int seq) {
+		ndao.notificationBoardViewCount(seq);
+	}
+	//게시글 수정
+	public int notificationBoardContentsModify(BoardDTO dto) {
+		return ndao.notificationBoardContentsModify(dto);
+	}
+	//게시글 삭제
+	public int notificationBoardContentsDel(int seq) {
+		return ndao.notificationBoardContentsDel(seq);
+	}
+	//게시글 파일 업로드 - board & files seq값 동일하게 맞추기
+	@Override
+	public int noBoardSelectSeq() {
+		return ndao.noBoardSelectSeq();
+	}
+
+	
+/*======Search List=================================================================*/
 	//게시글 검색 리스트
 	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy) {
 		List<BoardDTO> list = notificationBoardListBySearch(); 
@@ -105,7 +134,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 
 		return sb.toString();
 	}
-	/*======List=================================================================*/
+/*======List=================================================================*/
 
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardListCpage(String cpage){
@@ -169,27 +198,4 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		return sb.toString();
 
 	}
-
-	//글작성
-	public int notificationBoardCreateDone(BoardDTO bdto) {
-		return ndao.notificationBoardCreateDone(bdto);
-	}
-
-	//게시글 읽기
-	public BoardDTO notificationBoardContentsSelect(int seq) {
-		return ndao.notificationBoardContentsSelect(seq);
-	}
-	//게시글 조회수 올리기
-	public void notificationBoardViewCount(int seq) {
-		ndao.notificationBoardViewCount(seq);
-	}
-	//게시글 수정
-	public int notificationBoardContentsModify(BoardDTO dto) {
-		return ndao.notificationBoardContentsModify(dto);
-	}
-	//게시글 삭제
-	public int notificationBoardContentsDel(int seq) {
-		return ndao.notificationBoardContentsDel(seq);
-	}
-
 }

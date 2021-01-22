@@ -8,5 +8,5 @@ import kh.cocoa.dto.FilesDTO;
 public interface FilesDAO {
 	
 	//파일
-	int insertFile( FilesDTO dto);
+	public int uploadFiles(int noBoard_seq,FilesDTO fdto);
 }
