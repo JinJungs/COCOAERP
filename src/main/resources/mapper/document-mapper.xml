@@ -2,8 +2,87 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.DocumentDAO">
-	<select id="getTempList" resultType="kh.cocoa.dto.DocumentDTO">
-		SELECT * FROM DOCUMENT WHERE WRITER_CODE='111' AND STATUS='TEMP'
+	<select id="getSearchTemporaryList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+			AND D.STATUS='TEMP'
+            AND D.WRITER_CODE=#{empCode}
+            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND D.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            <choose>
+            	<when test='searchOption=="title"'>
+            		 AND D.TITLE LIKE '%${searchText}%'
+            	</when>
+            	<when test='searchOption=="writer"'>
+            		 AND EMPLOYEE.NAME LIKE '%${searchText}%'
+            	</when>
+            	<when test='searchOption=="department"'>
+            		 AND DEPARTMENTS.NAME LIKE '%${searchText}%'
+            	</when> 
+            </choose>
+         ORDER BY D.WRITE_DATE DESC
 	</select>
-
+	<select id="getSearchRaiseList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name", EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "departments_name" FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		    WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
+		    AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		    AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
+		    AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		    AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
+		    AND DOCUMENT.SEQ = D2.DOC_SEQ
+		    AND DOCUMENT.SEQ IN    
+		        (SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
+		        JOIN 
+		        (SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" 
+		            FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		         ON D1.DOC_SEQ = D2.DOC_SEQ
+		         WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
+		    AND DOCUMENT.STATUS = 'RAISE'
+		    AND DOCUMENT.WRITER_CODE = #{empCode}
+		    AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND DOCUMENT.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            AND DOCUMENT.TITLE LIKE '%${searchText}%'
+	</select>
+	<select id="getSearchApprovalList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+			AND D.STATUS='CONFIRM'
+            AND D.WRITER_CODE=#{empCode}
+            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND D.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            AND D.TITLE LIKE '%${searchText}%'
+	</select>
+	<select id="getSearchRejectList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+			AND D.STATUS='REJECT'
+            AND D.WRITER_CODE=#{empCode}
+            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND D.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            AND D.TITLE LIKE '%${searchText}%'
+	</select>
+	<select id="getSearchReturnList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+			AND D.STATUS='RETURN'
+            AND D.WRITER_CODE=#{empCode}
+            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND D.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            AND D.TITLE LIKE '%${searchText}%'
+	</select>
 </mapper>

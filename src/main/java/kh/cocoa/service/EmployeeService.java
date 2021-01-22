@@ -1,5 +1,6 @@
 package kh.cocoa.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,18 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getTeamMember(int team_code) {
 		return edao.getTeamMember(team_code);
 	};
+
+	//용국 메서드
 	@Override
 	public List<EmployeeDTO> getOrganChart() {
 		return edao.getOrganChart();
+	}
+
+	//선택자 뽑아오는 서비스
+
+	@Override
+	public List<EmployeeDTO> getConfirmEmp(int code) {
+		return edao.getConfirmEmp(code);
 	}
 }
 
