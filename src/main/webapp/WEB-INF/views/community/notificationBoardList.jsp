@@ -8,11 +8,12 @@
 <title>CocoaWorks Notification Board</title>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
-div {
-	border: 1px solid gray
-}
-input{width:100%;height:90%;}
+div {border: 1px solid gray}
+input{width:50%;} 
+.select{text-align:right;}
 .navi_box{text-align:center;}
+.title{cursor:pointer;}
+.title:hover{color:#6749B9;}
 </style>
 </head>
 <body>
@@ -22,41 +23,39 @@ input{width:100%;height:90%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">회사 소식</h2>
 
+            <form action=/noBoard/notificationBoardSearch.no?cpage=1 method="get">
+			
 			<div class="row search_box">
-				<!--검색 select box  -->
-				<div class="col-2 ">
-					<select>
-						<option value="">검색</option>
-						<option value="">ㅇㅇ</option>
-					</select>
-				</div>
-
-				<!--검색어 입력  -->
-				<div class="col-7 ">
-					<input type="text">
-				</div>
-
-				<!--검색 버튼  -->
-				<div class="col-3">
-					<button>검색</button>
+				<!--검색어 & 버튼입력  -->
+				<div class="select col-12">
+					<select name="searchBy" id="searchBy">
+							<option value="title">제목</option>
+							<option value="contents">내용</option>
+							<option value="writer">작성자</option>
+							<option value="tc">제목과 내용</option>
+						</select> 
+					<input type="text"  name="search" id="search" 
+					placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
+					<button type=submit>검색</button>
 				</div>
 			</div>
+				</form>
 
 			<div class="row">
 				<div class="col-md-2 d-none d-md-block">글 번호</div>
-				<div class="col-sm-12 col-md-4">제목</div>
-				<div class="col-md-2 d-none d-md-block">작성자</div>
+				<div class="col-sm-12 col-md-6">제목</div>
+				<div class="col-md-1 d-none d-md-block">작성자</div>
 				<div class="col-md-2 d-none d-md-block">작성날짜</div>
-				<div class="col-md-2 d-none d-md-block">조회수</div>
+				<div class="col-md-1 d-none d-md-block">조회수</div>
 			</div>
 
 			<c:forEach var="i" items="${list}">
 				<div class="row">
 						<div class="col-md-2 d-none d-md-block">${i.seq}</div>
-						<div class="col-sm-12 col-md-4" onclick ="notificationBoardRead(${i.seq},${cpage})">${i.title}</div>
-						<div class="col-md-2 d-none d-md-block">${i.contents}</div>
+						<div class="title col-sm-12 col-md-6" onclick ="notificationBoardRead(${i.seq},${cpage})"><b>${i.title}</b></div>
+						<div class="col-md-1 d-none d-md-block">${i.writer_code}</div>
 						<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-						<div class="col-md-2 d-none d-md-block">${i.view_count}</div>
+						<div class="col-md-1 d-none d-md-block">${i.view_count}</div>
 				</div>
 			</c:forEach>
 
@@ -70,23 +69,18 @@ input{width:100%;height:90%;}
 
 				<!--버튼 //관리자만 보여야함-->
 				<div class="col-md-3 ">
-					<button type="button" onclick="fn_modify()">수정</button>
-					<button type="button" onclick="fn_delete()">삭제</button>
 					<button type="button" onclick="fn_create(${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<script>
-		/*글 수정*/
-		/* function fn_modify(){
-			location.href="/noBoard/notificationBoardModify.no"
-		}  */
-		/*글 삭제*/
-		function fn_delete() {
-			location.href = "/noBoard/notificationBoardDelete.no"
-		}
+		/*검색창 누르면 placeholder 없애기*/
+		function search_box(){
+	 		if($('#search').val() != null){
+			    $('#search').val(" ");
+			}
+ 		}
 		/*글 등록*/
 		function fn_create(cpage) {
 			location.href = "/noBoard/notificationBoardCreate.no?cpage="+cpage;
@@ -95,6 +89,7 @@ input{width:100%;height:90%;}
 		function notificationBoardRead(seq,cpage){
 			location.href="/noBoard/notificationBoardRead.no?seq="+seq+"&cpage="+cpage;
 		}
+		
 	</script>
 </body>
 </html>

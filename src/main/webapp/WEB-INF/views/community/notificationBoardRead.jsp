@@ -25,39 +25,35 @@ textarea{width:100%;}
 			    <div class="row">
 			        <div class="col-sm-3 d-none d-sm-block">작성자</div>
 			        <div class="col-sm-6"></div>
-			        <div class="col-sm-3 d-none d-sm-block">날짜</div>
+			        <div class="col-sm-3 d-none d-sm-block">${dto.write_date}</div>
 			    </div>
 			    
 			    <div class="row">
 			    	<div class="col-sm-3">제목</div>
-			    	<div class="col-sm-9"></div>
+			    	<div class="col-sm-9">${dto.title}</div>
 			    </div>
 			    
 			    <div class="row">
-			    	<div class="col">내용 </div>
+			    	<div class="col">내용</div>
 			    </div>
-			    <div class="row">
-			        <div class="contents_box col-xs-12">
-			        </div>
-			    </div>
+			    <div class="row contents_box">${dto.contents}</div>
 			    
 			    <div class="row">
 			        <div class="col-md-9">파일첨부</div>
-			        <div class="col-md-3"></div>
 			    </div>
 			    
 			    <div class="row">
 			    	<!--홈으로 이동  -->
 			        <div class="col-sm-2">
-						<button>HOME</button>
+						<button type="button" onclick="fn_home(${cpage})">HOME</button>
 			        </div>
 			        
 			        <div class="col-sm-7 d-none d-sm-block"></div>
 			     
 			        <!--관리자에게만 보이는 버튼  -->
 			        <div class="button_box col-sm-3">
-						<button>수정</button>
-						<button>삭제</button>
+						<button type="submit" onclick="fn_modify(${cpage},${dto.seq})">수정</button>
+						<button type="button" onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
 			        </div>
 			    </div>
 			    
@@ -79,5 +75,24 @@ textarea{width:100%;}
 				</div>
 		</div>
 	</div>
+	<script>
+		/*홈으로*/
+		function fn_home(cpage) {
+			location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
+		}
+		/*수정*/
+		function fn_modify(cpage,seq) {
+			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage;
+		}
+		/*삭제*/
+		function fn_delete(cpage,seq) {
+			doubleCheck = confirm("해당 게시글을 정말 삭제 하시겠습니까?");
+			if(doubleCheck==true){
+				location.href = "/noBoard/notificationBoardDelete.no?seq="+seq+"&cpage="+cpage;
+			}else{
+				return;
+			}
+		}
+	</script>
 </body>
 </html>

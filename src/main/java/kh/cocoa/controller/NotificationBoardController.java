@@ -1,7 +1,6 @@
 package kh.cocoa.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +57,10 @@ public class NotificationBoardController {
 		BoardDTO dto = nservice.notificationBoardContentsSelect(seq);
 		System.out.println("게시글 내용은? "+dto);
 		
+		//조회수 올리기
+		System.out.println("seq 값은 ?"+seq);
+		nservice.notificationBoardViewCount(seq);
+		
 		model.addAttribute("dto",dto);
 		//작성자 뿌려주기(model만들어야함)
 		
@@ -63,6 +68,24 @@ public class NotificationBoardController {
 		model.addAttribute("seq",seq);		
 		return "community/notificationBoardRead";
 	}
+	//회사공지 게시글 검색
+	@GetMapping("notificationBoardSearch.no")
+	public String notificationBoardSearch(String cpage, String search,String searchBy, Model model) {
+		System.out.println("searchBy 는?"+ searchBy);
+		if(cpage==null) {cpage = "1";}
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		if(searchBy.contentEquals("tc")) {
+		list = nservice.notificationBoardListBySearch(Integer.parseInt(cpage), search);
+		System.out.println("여기서 list는?"+list);
+		String navi= nservice.notificationBoardSearchNavi(Integer.parseInt(cpage), search);
+		model.addAttribute("list", list);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("search", search);
+		}
+		return "/community/notificationBoardList";
+	}
+	
 	//회사공지 작성 페이지 이동
 	@RequestMapping("notificationBoardCreate.no")
 	public String notificationBoardCreate(int cpage, Model model) {
@@ -108,12 +131,40 @@ public class NotificationBoardController {
 	}
 	//회사공지 게시글 수정 (관리자 ONLY)
 	@RequestMapping("notificationBoardModify.no")
-	public String notificationBoardModify() {
+	public String notificationBoardModify(BoardDTO dto,int seq,int cpage,Model model) {
+		System.out.println("게시글 수정 컨트롤러");
+		//seq으로 제목,작성자,날짜,내용 가져오기
+		BoardDTO bdto = nservice.notificationBoardContentsSelect(seq);
+
+		model.addAttribute("bdto",bdto);
+		model.addAttribute("cpage",cpage);
+		model.addAttribute("seq",seq);
 		return "community/notificationBoardModify";
+	}
+	//회사공지 게시글 수정 완료 (관리자 ONLY)
+	@RequestMapping("notificationBoardModifyDone.no")
+	public String notificationBoardModifyDone(BoardDTO dto,int seq,int cpage,Model model) {
+		System.out.println("게시글 수정 완료 컨트롤러");
+		System.out.println(seq);
+		//변경할 글 업뎃
+		nservice.notificationBoardContentsModify(dto);
+		model.addAttribute("cpage",cpage);
+		return "redirect:/noBoard/notificationBoardList.no";
+		
 	}
 	//회사공지 게시글 삭제 (관리자 ONLY)
 	@RequestMapping("notificationBoardDelete.no")
-	public String notificationBoardDelete() {
-		return "";
+	public String notificationBoardDelete(int seq,int cpage,Model model) {
+		System.out.println("게시글 삭제 컨트롤러");
+		int result = nservice.notificationBoardContentsDel(seq);
+		
+		model.addAttribute("cpage",cpage);
+		model.addAttribute("seq",seq);
+		return "redirect:/noBoard/notificationBoardList.no";
+	}
+	@ExceptionHandler
+	public String exceptionHandler(Exception e) {
+		e.printStackTrace();
+		return "error";
 	}
 }
