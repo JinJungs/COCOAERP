@@ -4,7 +4,5 @@
     <select id="selectMessage"  resultType="kh.cocoa.dto.MessageDTO">
         SELECT * FROM MESSAGE
     </select>
-    <insert id="insertMessage">
-        INSERT INTO MESSAGE VALUES(#{})
-    </insert>
+
 </mapper>
