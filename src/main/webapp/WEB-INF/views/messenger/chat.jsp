@@ -115,7 +115,7 @@
             //소켓이 열리면 초기화 세팅하기
         }
 
-        // 메세지를 받으면 동작 - 채팅창에 메세지 띄우기
+        // 소켓에 메세지를 받으면 동작
         ws.onmessage = function (data) {
             var msg = data.data;
             var newMsg = "";
@@ -167,7 +167,27 @@
             userName: $("#userName").val(),
             msg: $("#yourMsg").val()
         }
+        // (1) 웹소켓에 send
         ws.send(JSON.stringify(option))
+        // (2) db에 저장
+        $.ajax({
+            url: "/message/createMessage",
+            type: "post",
+            data: {
+                contents: $("#yourMsg").val(),
+                emp_code: 1001,
+                msg_seq: ${seq}
+            },
+            dataType: "json",
+            success: function (resp){
+                if(resp.result=1){
+                    console.log("메세지 저장 성공!");
+                }
+            }
+        })
+
+
+        // (3) 채팅입력창 다시 지워주기
         $('#yourMsg').val("");
     }
 </script>

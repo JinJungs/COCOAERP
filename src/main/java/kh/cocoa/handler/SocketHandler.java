@@ -39,7 +39,6 @@ public class SocketHandler extends TextWebSocketHandler {
                     break;
                 }
             }
-
             //해당 방의 세션들만 찾아서 메시지를 발송해준다.
             for(String k : temp.keySet()) {
                 if(k.equals("roomNumber")) { //다만 방번호일 경우에는 건너뛴다.
@@ -93,6 +92,8 @@ public class SocketHandler extends TextWebSocketHandler {
         }
 
         //세션등록이 끝나면 발급받은 세션ID값의 메시지를 발송한다.
+        // ******* 여기를 나중에 로그인 세션에서 가져와서 넣어줘야 할거같은... *******
+        // ******* 아니다 그냥 지금의 userName 대신에 채팅방 들어올 때 dto에서 id가져와서 넣으면 좋을듯 *******
         JSONObject obj = new JSONObject();
         obj.put("type", "getId");
         obj.put("sessionId", session.getId());
