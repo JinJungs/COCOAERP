@@ -1,17 +1,16 @@
 package kh.cocoa.controller;
 
-import java.util.List;
-
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.MessengerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.MessengerDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.MessengerService;
+import java.util.List;
 
 @Controller
 @RequestMapping("/messenger")
@@ -21,7 +20,7 @@ public class MessengerController {
 	EmployeeService eservice;
 	
 	@Autowired
-	MessengerService meservice;
+	MessengerService mservice;
 	
     @RequestMapping("/")
     public String toIndex() {
@@ -36,7 +35,7 @@ public class MessengerController {
     	//재직중인 전체 멤버 리스트
     	List<EmployeeDTO> memberList = eservice.getAllEmployee();
     	//채팅방 불러오기
-    	List<MessengerDTO> chatList = meservice.myMessengerList(loginDTO.getCode());
+    	List<MessengerDTO> chatList = mservice.myMessengerList(loginDTO.getCode());
     	//임시로 보내는 개인 정보. 세션으로 대체될 예정
     	model.addAttribute("loginDTO",loginDTO);
     	model.addAttribute("memberList", memberList);
@@ -45,7 +44,8 @@ public class MessengerController {
     }
 
     @RequestMapping("chat")
-    public String toChat() {
+    public String toChat(int seq, Model model) {
+        model.addAttribute("seq",seq);
         return "/messenger/chat";
     }
 
