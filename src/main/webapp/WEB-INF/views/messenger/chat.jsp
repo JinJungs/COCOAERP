@@ -43,7 +43,7 @@
         <div class="card-body msg_card_body" id="msgBox">
             <!--여기 부터가 채팅시작-->
             <input type="hidden" id="sessionId" value="">
-            <input type="hidden" id="roomNumber" value="${roomNumber}">
+            <input type="hidden" id="roomNumber" value="${seq}">
             <div class="d-flex justify-content-start mb-4">
                 <div class="img_cont_msg">
                     <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
@@ -105,7 +105,7 @@
     }
 
     function wsOpen() {
-        ws = new WebSocket("ws://" + location.host + "/chating"+$("#roomNumber").val());
+        ws = new WebSocket("ws://" + location.host + "/chatting/"+$("#roomNumber").val());
         wsEvt();
     }
 

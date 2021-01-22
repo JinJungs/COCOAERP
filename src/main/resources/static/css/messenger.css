@@ -262,6 +262,9 @@ background-color: #c23616;
 /* Sohyung modified / added */
 /* user-info span color */
 /* root text colors */
+/* .con-sidebar{
+	max-width: 90px;
+} */
 .con-sidebar > a {
   color: var(--text-color-dark);
 }
@@ -271,3 +274,22 @@ a {
 a:hover {
   text-decoration: none;
 }
+/* Default : we can see only memberAll list */
+#memberDept, #memberTeam, #chatList{
+	display: none;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    opacity: 0;
+}
+
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color:gray;
+}
+/* Sohyung modified / added */
