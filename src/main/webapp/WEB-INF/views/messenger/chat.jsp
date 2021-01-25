@@ -93,11 +93,38 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
-<%------------------------------ 웹소켓 -------------------------------%>
+<!------------------------------ 웹소켓 ------------------------------->
 <script>
     var ws;
 
-    // 사용자 이름 입력 후 이름 등록 버튼 클릭시
+    // 페이지 로딩시 리스트 불러오기
+    $(document).ready(function (){
+        $.ajax({
+            url: "/message/myMessageList",
+            type: "post",
+            data: {
+                msg_seq: ${seq}
+            },
+            dataType: "json",
+            success: function (data){
+                for (var i=0; i<data.length; i++){
+                    console.log("contents: " +data[i].contents);
+                    var existMsg ="";
+                    existMsg += "<div class='d-flex justify-content-end mb-4'>";
+                    existMsg += "<div class='msg_cotainer_send'>나 : " +data[i].contents;
+                    existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                    existMsg += "</div>";
+                    existMsg += "<div class='img_cont_msg'>";
+                    existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
+                    existMsg += "</div></div>";
+                    $("#msgBox").append(existMsg);
+                }
+            }
+        })
+    })
+
+
+    // 사용자 이름 입력 후 이름 등록 버튼 클릭시 - 웹소켓 OPEN
     function chatName() {
         var userName = $("#userName").val();
         if (userName == null || userName.trim() == "") {
@@ -175,8 +202,8 @@
         // (1) 웹소켓에 send
         ws.send(JSON.stringify(option))
         // (2) db에 저장
-/*        $.ajax({
-            url: "/message/createMessage",
+        $.ajax({
+            url: "/message/insertMessage",
             type: "post",
             data: {
                 contents: $("#yourMsg").val(),
@@ -189,8 +216,7 @@
                     console.log("메세지 저장 성공!");
                 }
             }
-        })*/
-
+        })
 
         // (3) 채팅입력창 다시 지워주기
         $('#yourMsg').val("");
