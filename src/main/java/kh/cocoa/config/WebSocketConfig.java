@@ -14,8 +14,14 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
     SocketHandler socketHandler;
 
+    /*@Autowired
+    BinaryWebSocketHandler binarySocketHandler;*/
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(socketHandler, "/chatting/{roomNumber}");
+        //registry.addHandler(binarySocketHandler, "/binary");
     }
+
+
 }

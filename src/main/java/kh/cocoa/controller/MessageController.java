@@ -30,19 +30,20 @@ public class MessageController {
     @RequestMapping("insertMessage")
     @ResponseBody
     public String insertMessage(MessageDTO msgdto) {
-        System.out.println("여기 도착?");
         int result = msgservice.insertMessage(msgdto);
         JsonObject obj = new JsonObject();
         obj.addProperty("result", result);
         return new Gson().toJson(obj);
     }
     // 메세지 목록 불러오기
-    @RequestMapping("myMessageList")
+    @RequestMapping("getMessageListByCpage")
     @ResponseBody
-    public String myMessageList(int msg_seq){
+    public String getMessageList(int msg_seq, int cpage){
+        System.out.println("msg_seq: " +msg_seq);
         JSONArray jArray = new JSONArray();
         HashMap<String,String> param = new HashMap<>();
-        List<MessageDTO> list = msgservice.myMessageList(msg_seq);
+        //List<MessageDTO> list = msgservice.getMessageList(msg_seq);
+        List<MessageDTO> list = msgservice.getMessageListByCpage(msg_seq,cpage);
 
         for(int i=0; i<list.size();i++){
             param.put("contents",list.get(i).getContents());
@@ -50,14 +51,6 @@ public class MessageController {
         }
         return jArray.toString();
     }
-
-    // 메세지 목록 10개씩 불러오기
-/*    @RequestMapping("myMessageListByCpage")
-    @ResponseBody
-    public String myMessageListByCpage(int cpage){
-        List<MessageDTO> list = msgservice.myMessageListByCpage(cpage);
-        return "";
-    }*/
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

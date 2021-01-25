@@ -93,22 +93,47 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
-<!------------------------------ 웹소켓 ------------------------------->
+    <!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
     var ws;
+    var cpage=1;
+
+    // 스크롤 아래로 내리기
+    function updateScroll(){
+        let msgBox = document.getElementById("msgBox");
+        msgBox.scrollTop = msgBox.scrollHeight - $(window).height();
+        console.log("scorllTop 동작중...scrollHeight: " + msgBox.scrollHeight);
+    }
 
     // 페이지 로딩시 리스트 불러오기
     $(document).ready(function (){
+        moreList(cpage);
+    })
+
+    // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
+    $('#msgBox').scroll(function(){
+        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
+        var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
+        if(scrollT == 0){
+            cpage+=1;
+            console.log("새로 리스트 불러오기!" + cpage);
+            moreList(cpage);
+        }
+    });
+
+    // 리스트 더 불러오기
+    function moreList(cpage){
         $.ajax({
-            url: "/message/myMessageList",
+            url: "/message/getMessageListByCpage",
             type: "post",
             data: {
-                msg_seq: ${seq}
+                msg_seq: ${seq},
+                cpage: cpage
             },
             dataType: "json",
             success: function (data){
+                let newMsgBox = $("<div>");
                 for (var i=0; i<data.length; i++){
-                    console.log("contents: " +data[i].contents);
                     var existMsg ="";
                     existMsg += "<div class='d-flex justify-content-end mb-4'>";
                     existMsg += "<div class='msg_cotainer_send'>나 : " +data[i].contents;
@@ -117,13 +142,17 @@
                     existMsg += "<div class='img_cont_msg'>";
                     existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
                     existMsg += "</div></div>";
-                    $("#msgBox").append(existMsg);
+                    newMsgBox.append(existMsg);
+                }
+                $("#msgBox").prepend(newMsgBox);
+                if(cpage==1){
+                    updateScroll();
                 }
             }
         })
-    })
+    }
 
-
+    //<------------------------------------- 웹소켓 --------------------------------------->
     // 사용자 이름 입력 후 이름 등록 버튼 클릭시 - 웹소켓 OPEN
     function chatName() {
         var userName = $("#userName").val();
@@ -186,6 +215,7 @@
         document.addEventListener("keypress", function (e) {
             if (e.keyCode == 13) { //enter press
                 send();
+                updateScroll();
             }
         });
     }
@@ -220,26 +250,32 @@
 
         // (3) 채팅입력창 다시 지워주기
         $('#yourMsg').val("");
+
     }
-    
+
     // 웹소켓으로 파일 전송
     function fileSend(){
 		var file = document.querySelector("#fileUpload").files[0];
 		console.log(file);
 		var fileReader = new FileReader();
-		fileReader.onload = function() {
-			var param = {
-				type: "fileUpload",
-				file: file,
-				roomNumber: $("#roomNumber").val(),
-				sessionId : $("#sessionId").val(),
-				msg : $("#yourMsg").val(),
-				userName : $("#userName").val()
-			}
-			ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
-
-		    arrayBuffer = this.result;
-			ws.send(arrayBuffer); //파일 소켓 전송
+        var rawData = new ArrayBuffer();
+        ws.binaryType="arraybuffer";
+		fileReader.onload = function(e) {
+			// var param = {
+			// 	type: "fileUpload",
+			// 	file: file,
+			// 	roomNumber: $("#roomNumber").val(),
+			// 	sessionId : $("#sessionId").val(),
+			// 	msg : $("#yourMsg").val(),
+			// 	userName : $("#userName").val()
+			// }
+			// ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
+            rawData = e.target.result;
+            console.log(rawData);
+            //var arrayBuffer = this.result;
+            //var newWS = new WebSocket("ws://" + location.host +"/binary");
+            ws.send(rawData); //파일 소켓 전송
+            alert("파일전송이 완료 되었습니다.");
 		};
 		fileReader.readAsArrayBuffer(file);
 	}
