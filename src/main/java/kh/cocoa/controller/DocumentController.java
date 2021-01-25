@@ -30,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/document")
 public class DocumentController {
-
 	@Autowired
 	private DocumentService dservice;
 
@@ -45,7 +44,7 @@ public class DocumentController {
 
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
-	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, Model model) {
+	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
 		//0. 사번
 		String empCode = "1004";
 		
@@ -73,10 +72,18 @@ public class DocumentController {
 		if(searchOption == null) {
 			searchOption = "title";
 		}
-		//4. 페이지네이션
-		/*String navi = bservice.getSearchNavi(searchText);
-		*/
-		List<DocumentDTO> list = dservice.getSearchTemporaryList(empCode, startDate, endDate, templateList, searchOption, searchText);
+		
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
+		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "TEMP");
+		System.out.println("nave : " + navi);
+		List<DocumentDTO> list = dservice.getSearchTemporaryList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
 		
 		Date today = new Date(System.currentTimeMillis());
 		
@@ -87,13 +94,15 @@ public class DocumentController {
 		model.addAttribute("template", template);
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchText", searchText);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/document/d_temporaryMain";
 	}
 
 	//상신한 문서메인 이동
 	@RequestMapping("d_searchRaise.document")
-	public String searchRaiseList(Date startDate, Date endDate, String template, String searchOption, String searchText, Model model) {
+	public String searchRaiseList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
 		String empCode = "1004";
 		
@@ -120,7 +129,16 @@ public class DocumentController {
 		if(searchOption == null) {
 			searchOption = "title";
 		}
-		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText);
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
+		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RAISE");
+		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
 		
 		Date today = new Date(System.currentTimeMillis());
 		
@@ -131,12 +149,14 @@ public class DocumentController {
 		model.addAttribute("template", template);
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchText", searchText);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/document/d_raiseMain";
 	}
 	//승인된 문서메인 이동
 	@RequestMapping("d_searchApproval.document")
-	public String searchApprovalList(Date startDate, Date endDate, String template, String searchOption, String searchText, Model model) {
+	public String searchApprovalList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
 		String empCode = "1004";
 				
@@ -163,8 +183,17 @@ public class DocumentController {
 		if(searchOption == null) {
 			searchOption = "title";
 		}
-		List<DocumentDTO> list = dservice.getSearchApprovalList(empCode, startDate, endDate, templateList, searchOption, searchText);
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
 		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "CONFIRM");
+		List<DocumentDTO> list = dservice.getSearchApprovalList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
+				
 		Date today = new Date(System.currentTimeMillis());
 		
 		model.addAttribute("list", list);
@@ -174,12 +203,14 @@ public class DocumentController {
 		model.addAttribute("template", template);
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchText", searchText);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/document/d_approvalMain";
 	}
 	//반려된 문서메인 이동
 	@RequestMapping("d_searchReject.document")
-	public String searchRejectList(Date startDate, Date endDate, String template, String searchOption, String searchText, Model model) {
+	public String searchRejectList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
 		String empCode = "1004";
 				
@@ -206,8 +237,18 @@ public class DocumentController {
 		if(searchOption == null) {
 			searchOption = "title";
 		}
-		List<DocumentDTO> list = dservice.getSearchRejectList(empCode, startDate, endDate, templateList, searchOption, searchText);
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
 		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "REJECT");
+		System.out.println("nave : " + navi);
+		List<DocumentDTO> list = dservice.getSearchRejectList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
+				
 		Date today = new Date(System.currentTimeMillis());
 		
 		model.addAttribute("list", list);
@@ -217,11 +258,13 @@ public class DocumentController {
 		model.addAttribute("template", template);
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchText", searchText);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/document/d_rejectMain";
 	}
 	@RequestMapping("d_searchReturn.document")
-	public String searchReturnList(Date startDate, Date endDate, String template, String searchOption, String searchText, Model model) {
+	public String searchReturnList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
 		String empCode = "1004";
 				
@@ -249,8 +292,18 @@ public class DocumentController {
 		if(searchOption == null) {
 			searchOption = "title";
 		}
-		List<DocumentDTO> list = dservice.getSearchReturnList(empCode, startDate, endDate, templateList, searchOption, searchText);
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
 		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RETURN");
+		System.out.println("nave : " + navi);
+		List<DocumentDTO> list = dservice.getSearchReturnList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
+				
 		Date today = new Date(System.currentTimeMillis());
 		
 		model.addAttribute("list", list);
@@ -260,6 +313,8 @@ public class DocumentController {
 		model.addAttribute("template", template);
 		model.addAttribute("searchOption", searchOption);
 		model.addAttribute("searchText", searchText);
+		model.addAttribute("navi", navi);
+		model.addAttribute("cpage", cpage);
 		
 		return "/document/d_returnMain";
 	}
