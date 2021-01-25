@@ -74,8 +74,8 @@ select {
 
 			<c:forEach var="list" items="${list}">
 				<div class="row text-center">
-					<div class="col-3">${list.temp_name }</div>
-					<div class="col-6">${list.title }</div>
+					<div class="col-3"><a href="/document/toReadPage.document">${list.temp_name }</a></div>
+					<div class="col-6"><a href="/document/toWriteDocument">${list.title }</a></div>
 					<div class="col-3">${list.write_date }</div>
 				</div>
 			</c:forEach>

@@ -316,6 +316,10 @@ public class DocumentController {
 		
 		return "/document/d_returnMain";
 	}
+	@RequestMapping("/document/toReadPage.document")
+	public String toReadPage() {
+		return "s_readPage";
+	}
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
