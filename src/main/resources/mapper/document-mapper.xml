@@ -107,4 +107,8 @@
 			</otherwise>
 		</choose>
 	</insert>
+
+	<select id="getDocCode" resultType="Integer">
+		select seq from document where writer_code=#{writer_code} order by write_date;
+	</select>
 </mapper>

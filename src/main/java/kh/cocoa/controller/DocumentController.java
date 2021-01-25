@@ -295,9 +295,10 @@ public class DocumentController {
 
 	@PostMapping("addconfirm.document")
 	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code){
-		System.out.println(docdto.getDept_code());
 		int result = dservice.addDocument(docdto);
-		System.out.println(result);
+		if(result >0){
+			int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
+		}
 
 		return "";
 	}

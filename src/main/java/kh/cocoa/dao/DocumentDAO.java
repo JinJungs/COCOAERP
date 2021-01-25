@@ -28,6 +28,9 @@ public interface DocumentDAO {
 	//문서 추가.
 	public int addDocument(DocumentDTO dto);
 
+	//방금 작성한 문서 doc_code 가져오기.
+	public int getDocCode(int writer_code);
+
 }
 
 

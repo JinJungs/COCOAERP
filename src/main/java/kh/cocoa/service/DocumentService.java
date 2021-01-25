@@ -82,4 +82,9 @@ public class DocumentService implements DocumentDAO{
 	public int addDocument(DocumentDTO dto) {
 		return ddao.addDocument(dto);
 	}
+
+	@Override
+	public int getDocCode(int writer_code) {
+		return ddao.getDocCode(writer_code);
+	}
 }
