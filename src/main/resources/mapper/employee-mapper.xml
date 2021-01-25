@@ -8,11 +8,15 @@
     </select>
 
 	<select id="getConfirmEmp" resultType="kh.cocoa.dto.EmployeeDTO">
-		select e.code,e.name,d.name deptname from employee e inner join departments d on e.dept_code = d.code where e.code=#{code}
+		select e.code,e.name,d.name deptname,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
 	</select>
 
 	<select id="getEmpPos" resultType="kh.cocoa.dto.EmployeeDTO">
 		select	e.code, e.name, p.name posname from employee e inner join position p on e.pos_code = p.code where team_code =#{code} and withdraw='N'
+	</select>
+
+    <select id="getEmpInfo" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,d.name deptname,d.code dept_code,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
 	</select>
 
 	<!--소형-->

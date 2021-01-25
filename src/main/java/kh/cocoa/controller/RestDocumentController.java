@@ -5,15 +5,14 @@ import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
 import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.TeamDTO;
+import kh.cocoa.service.ConfirmService;
 import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TeamService;
 import kh.cocoa.statics.DocumentConfigurator;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +31,9 @@ public class RestDocumentController {
 
     @Autowired
     private EmployeeService eservice;
+
+    @Autowired
+    private ConfirmService cservice;
 
 
     @RequestMapping("getteamlist.document")
@@ -54,10 +56,29 @@ public class RestDocumentController {
 
 
 
-    @RequestMapping("addconfirm.document")
-    public String addconfirm(int code){
+    @RequestMapping("addconfirmlist.document")
+    public String addConfirmList(int code){
         List<EmployeeDTO> list =eservice.getConfirmEmp(code);
         JSONArray json = new JSONArray(list);
+        return json.toString();
+    }
+
+    @RequestMapping("addmainconfirmlist.document")
+    public String addMainConfirmList(@RequestParam(value = "code",required = true)List<Integer> code){
+        System.out.println(code.size());
+        List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
+        ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
+        for(int i=0;i<code.size();i++){
+            getConfirmInfo=eservice.getConfirmEmp(code.get(i));
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("code",code.get(i));
+            map.put("emp_name",getConfirmInfo.get(0).getName());
+            map.put("dept_name",getConfirmInfo.get(0).getDeptname());
+            map.put("pos_name",getConfirmInfo.get(0).getPosname());
+            hmlist.add(map);
+        }
+
+        JSONArray json = new JSONArray(hmlist);
         return json.toString();
     }
 }

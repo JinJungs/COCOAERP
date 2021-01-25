@@ -1,28 +1,30 @@
 package kh.cocoa.controller;
 
+import java.io.File;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import kh.cocoa.dto.DepartmentsDTO;
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.TemplatesDTO;
+import javafx.util.Builder;
+import kh.cocoa.dto.*;
 import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TemplatesService;
+import kh.cocoa.statics.Configurator;
 import kh.cocoa.statics.DocumentConfigurator;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kh.cocoa.dto.DocumentDTO;
 import kh.cocoa.service.DocumentService;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -261,6 +263,7 @@ public class DocumentController {
 		
 		return "/document/d_returnMain";
 	}
+
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
@@ -277,13 +280,26 @@ public class DocumentController {
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
 		List<DepartmentsDTO> deptList = new ArrayList<>();
+		EmployeeDTO getEmpinfo = new EmployeeDTO();
+		getEmpinfo=eservice.getEmpInfo(1000);
 		deptList=deptservice.getDeptList();
+		model.addAttribute("temp_code",dto.getCode());
+		model.addAttribute("empInfo",getEmpinfo);
 		model.addAttribute("size",deptList.size());
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
 		model.addAttribute("deptList",deptList);
 		return "document/c_writeDocument";
+	}
+
+	@PostMapping("addconfirm.document")
+	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code){
+		System.out.println(docdto.getDept_code());
+		int result = dservice.addDocument(docdto);
+		System.out.println(result);
+
+		return "";
 	}
 }
 

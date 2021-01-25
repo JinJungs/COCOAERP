@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import kh.cocoa.dto.TemplatesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,5 +74,12 @@ public class DocumentService implements DocumentDAO{
 		list.add(endDate);
 		return list;
 	}
-	
+
+	//용국
+
+
+	@Override
+	public int addDocument(DocumentDTO dto) {
+		return ddao.addDocument(dto);
+	}
 }

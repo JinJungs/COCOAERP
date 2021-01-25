@@ -3,6 +3,7 @@ package kh.cocoa.dao;
 import java.sql.Date;
 import java.util.List;
 
+import kh.cocoa.dto.TemplatesDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import kh.cocoa.dto.DocumentDTO;
@@ -21,4 +22,14 @@ public interface DocumentDAO {
 	public List<DocumentDTO> getSearchRejectList(String empCode, Date startDate, Date endDate, List<String> templateList, String searchOption, String searchText);
 	//회수한 문서 리스트
 	public List<DocumentDTO> getSearchReturnList(String empCode, Date startDate, Date endDate, List<String> templateList, String searchOption, String searchText);
-	}
+
+
+	//용국
+	//문서 추가.
+	public int addDocument(DocumentDTO dto);
+
+}
+
+
+
+
