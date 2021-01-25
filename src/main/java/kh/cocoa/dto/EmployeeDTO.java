@@ -27,6 +27,7 @@ public class EmployeeDTO {
     //추가부분
     private String deptname;
     private String teamname;
+    private String posname;
     
     @Builder
     public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address,

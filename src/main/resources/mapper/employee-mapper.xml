@@ -11,6 +11,10 @@
 		select e.code,e.name,d.name deptname from employee e inner join departments d on e.dept_code = d.code where e.code=#{code}
 	</select>
 
+	<select id="getEmpPos" resultType="kh.cocoa.dto.EmployeeDTO">
+		select	e.code, e.name, p.name posname from employee e inner join position p on e.pos_code = p.code where team_code =#{code} and withdraw='N'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE
