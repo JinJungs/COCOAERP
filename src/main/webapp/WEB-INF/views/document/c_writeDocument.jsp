@@ -119,7 +119,7 @@
                                 <div class="col-7 p-2">결재자</div>
                             </div>
                             <%--ajax로 추가되는 부분.--%>
-                            <div class="confirmcontainer" id="confirmcontainer">
+                            <div class="confirmcontainer" id="sortable">
 
                             </div>
 
@@ -135,10 +135,12 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/jquery-ui.js"></script>
 <script>
+
     var getempcode=0;
-
-
+    var getaddedempcode = [];
+    var count =0;
 
     function fn_openconfirmdept(code){
         var a= $("#deptteamcontainer"+code).nextAll();
@@ -146,6 +148,7 @@
         $("#deptopencloseicon"+code).attr("onclick","fn_closeconfirmdept("+code+")");
         $("#deptopencloseicon"+code).attr("src","/icon/dash-square.svg");
     }
+
     function fn_closeconfirmdept(code) {
         var a= $("#deptteamcontainer"+code).nextAll();
         a.css("display","none");
@@ -224,7 +227,7 @@
                     html+="<div id=empcontainer"+data[i].code+">";
                     html+="<div class=row id=getemp"+code+" onclick=fn_getempname("+code+","+data[i].code+")>";
                     html+="<div class=col-1></div>";
-                    html+="<div class=\"col-8 pl-1\">-"+data[i].name+"(미정)</div>";
+                    html+="<div class=\"col-8 pl-1\">-"+data[i].name+"("+data[i].posname+")</div>";
                     html+="<input type=hidden value="+data[i].name+">";
                     html+="</div>";
                     html+="</div>";
@@ -261,6 +264,19 @@
     }
     function fn_addconfirm() {
         var code = getempcode;
+        console.log(getaddedempcode);
+        for(var i=0;i<count;i++){
+            if(getaddedempcode[i]==getempcode){
+                alert("이미 추가된 사용자입니다.");
+                return;
+            }
+        }
+        if(count>=5){
+            alert("최대 5명까지 가능합니다.");
+
+            return;
+        }
+
         $.ajax({
             type : "POST",
             url : "/restdocument/addconfirm.document",
@@ -271,15 +287,26 @@
                 for (var i = 0; i < data.length; i++) {
                     html += "<div class=\"row p-2 w-100 m-0\" style=\"border-bottom:1px solid pink\">";
                     html += "<div class=\"col-2 p-2\">결재</div>";
-                    html += "<div class=\"col-7 p-2\">" + data[i].name + "|" + data[i].deptname + "</div>";
-                    html += "<div class=\"col-1 p-2\">icon</div>";
-                    html += "<div class=\"col-1 p-2\">icon</div>";
+                    html += "<div class=\"col-6 p-2\">" + data[i].name + "|" + data[i].deptname + "</div>";
+                    html += "<div class=\"col-2 p-2 text-right\"><img src=/icon/close-x.svg></div>";
+                    html += "<div class=\"col-2 p-2 text-right\"><img class=ui-state-default src=/icon/item-list.svg></div>";
                     html += "</div>";
                 }
-                $("#confirmcontainer").append(html);
+
+                getaddedempcode[count]=getempcode;
+                count++;
+                $(".confirmcontainer").append(html);
             }
         });
     }
+    $( function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+    } );
+
+
+
+
 
 
 
