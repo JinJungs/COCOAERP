@@ -45,9 +45,9 @@ public class RestDocumentController {
 
     @RequestMapping("getemplist.document")
     public String getEmpList(int code){
-        List<EmployeeDTO> getEmpList = new ArrayList<>();
-        getEmpList=eservice.getTeamMember(code);
-        JSONArray json = new JSONArray(getEmpList);
+        List<EmployeeDTO> getEmpPosList = new ArrayList<>();
+        getEmpPosList=eservice.getEmpPos(code);
+        JSONArray json = new JSONArray(getEmpPosList);
 
         return json.toString();
     }

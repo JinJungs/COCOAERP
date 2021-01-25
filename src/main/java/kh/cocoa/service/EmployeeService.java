@@ -40,5 +40,9 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getConfirmEmp(int code) {
 		return edao.getConfirmEmp(code);
 	}
+
+	//팀코드로 직책꺼내오기
+	@Override
+	public List<EmployeeDTO> getEmpPos(int code) {return edao.getEmpPos(code); }
 }
 
