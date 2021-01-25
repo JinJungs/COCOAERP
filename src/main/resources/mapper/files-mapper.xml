@@ -3,7 +3,28 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kh.cocoa.dao.FilesDAO">
+<!-- 파일 업로드 -->
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0)
 	</insert>
+<!-- 게시글에 업로드된 파일 갯수 확인 -->
+	<select id="isExistUploadFile" resultType="Integer">
+  		SELECT COUNT(*) FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
+  	</select>
+<!-- 첨부파일 다운로드 목록 -->
+	<select id="downloadFileList" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
+	</select>
+<!-- 첨부파일 리스트 -->
+	<select id="getFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
+	</select>
+<!-- 파일 다운로드 -->	
+	<select id="downloadFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
+	</select>
+<!-- 파일 삭제 -->
+	<delete id="deleteNotificationBoardFiles">
+		DELETE FROM FILES WHERE SEQ=#{seq}
+	</delete>
 </mapper>

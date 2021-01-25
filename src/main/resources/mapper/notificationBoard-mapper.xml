@@ -5,9 +5,10 @@
 <mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
 <!-- 게시글 리스트 가져오기 -->
 	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD ORDER BY WRITE_DATE DESC) N)
+		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
+
 <!-- 토탈 카운트 가져오기 -->
 	<select id="recordTotalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD 
@@ -18,12 +19,16 @@
 	</select>
 <!-- 글작성 -->
 	<insert id="notificationBoardCreateDone" >
-		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 0,0)<!-- #{writer_code},#{menu_seq}) -->
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 1005,0)<!-- #{writer_code},#{menu_seq}) -->
 	</insert>
 <!-- 게시글 가져오기 -->
 	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT * FROM BOARD WHERE SEQ=#{seq}
+		SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE and SEQ=#{seq}
 	</select>
+	<!-- seq로 게시글 수 확인 -->
+	<select id="isExistReadPage" resultType="Integer">
+  		select count(*) from board where seq=#{seq}
+  	</select>
 <!-- 게시글 조회수 올리기 -->
 	<update id="notificationBoardViewCount" >
 		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq}
@@ -43,24 +48,18 @@
 			  where b.writer_code = e.code
            <choose>
                  <when test='searchBy=="title"'>
-                    and b.title like '%${search}%'
+                    and b.title like '%{search}%'
                  </when>
                  <when test='searchBy=="tc"'>
                     and b.title like '%${search}%'
-                       or b.contents like '%${search}%'
+                       or b.contents like '%${search}%'`
                  </when>
                  <when test='searchBy=="contents"'>
                     and b.contents like '%${search}%'
                  </when>
-                 <when test='searchBy=="name"'>
+                 <when test='searchBy=="writer"'>
                     and e.name like '%${search}%'
                  </when>
            </choose>
 	</select>
-	
-
-	
-<!-- 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-  		SELECT * FROM BOARD ORDER BY SEQ DESC
-  	</select> -->
 </mapper>	

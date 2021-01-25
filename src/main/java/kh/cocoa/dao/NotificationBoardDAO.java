@@ -18,7 +18,8 @@ public interface NotificationBoardDAO {
 
 	//게시글 검색 리스트
 	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy);
-	List<BoardDTO> notificationBoardListBySearch();
+	public List<BoardDTO> notificationBoardListBySearch();
+
 
 	//네비게이터 가져오기
 	String getNavi(int cpage);
@@ -31,6 +32,9 @@ public interface NotificationBoardDAO {
 
 	//게시글 읽기
 	public BoardDTO notificationBoardContentsSelect(int seq);
+	
+	//seq로 게시글 수 확인
+	public int isExistReadPage(int seq);
 
 	//조회수 올리기
 	public void notificationBoardViewCount(int seq);
@@ -40,5 +44,6 @@ public interface NotificationBoardDAO {
 
 	//게시글 삭제
 	public int notificationBoardContentsDel(int seq);
+
 
 }

@@ -4,17 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Bug Report</title>
 <style type="text/css">
-div {border: 1px solid gray}
-
+div {border-bottom: 1px solid pink}
+input{width:100%;height:90%;border:none;background-color:transparent;}
+input:focus{outline:1px solid pink;}
 #contents {height: 100%;width: 100%;}
-
+.title_text,.sender_text,.receiver_text{font-size:17px;color:#866EC7;}
 .body {height: 400px;}
-
 .footer {text-align: right}
-
-input {width: 100%}
+textarea{width:100%; border:1px solid pink;}
+textarea:focus{outline:none;}
+.home_btn{text-align:left;}
+button{height:90%;}
 </style>
 </head>
 <body>
@@ -22,19 +24,19 @@ input {width: 100%}
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4">버그리포팅</h2>
+			<h2 class="mb-4 ">버그리포팅</h2>
 			
 			<form action="/email/emailSend.email" method="post">
 				<div class="row mainContent">
-					<div class="col-4 title_text">제목</div>
+					<div class="col-4 title_text"><b>제목</b></div>
 					<div class="col-8 title_input">
 						<input type="text" id="title" name="title"
 							placeholder="제목을 입력하세요.">
 					</div>
-					<div class="col-4 sender_text">보내는 사람</div>
+					<div class="col-4 sender_text"><b>보내는 사람</b></div>
 					<div class="col-8 sender_input"><input type="text" id="email" name="email"
 							placeholder="이메일 주소를 입력하세요."></div>
-					<div class="col-4 receiver_text">받는 사람</div>
+					<div class="col-4 receiver_text"><b>받는 사람</b></div>
 					<div class="col-8 receiver_input">
 						<input type="text" id="receiver_email" name="receiver_email"
 							placeholder="이메일 주소를 입력하세요.">
@@ -58,9 +60,12 @@ input {width: 100%}
 					</div>
 
 				<div class="row footer">
-					<div class="col button">
-						<button>취소</button>
-						<button type="submit">전송</button>
+					<div class="col-2 home_btn">
+						<button type="button" class="btn btn-primary">HOME</button>
+					</div>
+					<div class="col-10 button">
+						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="submit" class="btn btn-primary">전송</button>
 					</div>
 				</div>
 				
