@@ -82,7 +82,7 @@ select {
 			<!-- 리스트 출력 부분 -->
 
 			<div class="row">
-				<div class="navi col-12 text-center">${navi}123 4 5 6 7 8 9</div>
+				<div class="navi col-12 text-center">${navi}</div>
 			</div>
 		</div>
 	</div>
