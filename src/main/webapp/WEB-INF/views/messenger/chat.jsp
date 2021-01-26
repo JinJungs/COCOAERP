@@ -199,9 +199,10 @@
     // 웹소켓으로 파일 전송
     function fileSend(){
 		var file = document.querySelector("#fileUpload").files[0];
-		console.log(file);
+		
 		var fileReader = new FileReader();
 		fileReader.onload = function() {
+			//ws.binaryData = "blob"; //추가 : 바이너라파일 인식하도록
 			var param = {
 				type: "fileUpload",
 				file: file,
@@ -210,10 +211,24 @@
 				msg : $("#yourMsg").val(),
 				userName : $("#userName").val()
 			}
-			ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
+			console.log(file);
+			console.log("param.file.name : ");
+			console.log(param.file.name); //JSON 상태
 
-		    arrayBuffer = this.result;
+			ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
+			
+			console.log("JSON stringify");
+			console.log(JSON.stringify(param));
+		    
+			arrayBuffer = this.result;
+			
+			console.log("arrayBuffer : ");
+			console.log(arrayBuffer);
+			console.log("Array contains", arrayBuffer.byteLength, "bytes.");
+			//arrayBuffer : 전송할 이미지임을 확인했음
+			
 			ws.send(arrayBuffer); //파일 소켓 전송
+			
 		};
 		fileReader.readAsArrayBuffer(file);
 	}
