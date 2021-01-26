@@ -6,26 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Notification Board Create</title>
+<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+   media="screen" />
 <style type="text/css">
 .row{border-bottom: 1px solid pink}
-input{width:100%; border:none;background-color:transparent;}
-input:focus{outline:1px solid pink;}
-#myFile{border: 1px solid black;width:50%;}
-.board_title{color:#866EC7;}
-.board_title:hover{color:blue;}
 #fileinsert{width:20%;}
-.head_box{font-size:17px;color:#866EC7;}
-.contents_box{height:400px;}
-.width{height:50px;}
-.button_box{text-align:right;}
-textarea{width:100%; height:80%; border:none;background-color:transparent;}
-textarea:focus{outline:1px solid pink;}
-.btn{margin-top:2px;}
-button{height:90%;}
 </style>
 
 <script
-   src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 </head>
 
 <body>
@@ -34,11 +23,13 @@ button{height:90%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">회사공지(글작성)</h2>
 
-			<form action="/noBoard/notificationBoardCreateDone.no" method="post" id="submitForm" enctype="multipart/form-data">
+			<form action="/noBoard/notificationBoardCreateDone.no" method="post"
+				id="submitForm" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-sm-3 head_box">제목</div>
 					<div class="col-sm-9">
-						<input type="text" id="title" name="title" value="제목을 입력하세요." onclick="title_box()">
+						<input type="text" id="title" name="title" value="제목을 입력하세요."
+							onclick="title_box()">
 					</div>
 				</div>
 
@@ -46,13 +37,19 @@ button{height:90%;}
 					<div class="col head_box">내용</div>
 				</div>
 				<div class="row">
-					<textarea class="contents_box col-xs-12" id="contents" name="contents" 
-					placeholder="내용을 입력하세요."></textarea>
+					<textarea class="contents_box col-xs-12" id="contents"
+						name="contents" placeholder="내용을 입력하세요."></textarea>
 				</div>
 
 				<div class="row">
-					<div class="col-12 head_box">
-						<input type="file" id="myFile" name="file"  multiple>
+					<div class="col-md-12 head_box">
+						<b><span class="files" id="files">첨부파일</span></b>
+					</div>
+					<div class="col-12 file_input">
+						<label>+ File Attach <input type="file" id="myFile"
+							name="file" multiple
+							onchange="javascript:document.getElementById('file_route').value=this.value">
+						</label> <input type="text" readonly="readonly" title="File Route">
 					</div>
 				</div>
 
@@ -100,6 +97,18 @@ button{height:90%;}
          }
          $('#submitForm').submit();
         })
+        /*파일 추가시 몇 개가 추가 되었는지 보여주는 것*/
+        $('.file_input input[type=file]').change(function() {
+		    var fileName = $(this).val();
+		    var fileCount = $(this).get(0).files.length;
+		    if($(this).get(0).files.length == 1){
+		        $('.file_input input[type=text]').val(fileName);
+		    }
+		    else {
+		        $('.file_input input[type=text]').val('파일 '+fileCount+'개');
+		    }
+		});
+
 	</script>
 </body>
 </html>

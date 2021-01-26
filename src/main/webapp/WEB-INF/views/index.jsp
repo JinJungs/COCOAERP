@@ -13,6 +13,7 @@
         .body{height: 50%;}
         .footer{text-align: right}
         input{width:100%}
+
 </style>
 </head>
 <body>

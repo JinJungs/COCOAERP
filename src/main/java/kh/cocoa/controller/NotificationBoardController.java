@@ -38,19 +38,19 @@ public class NotificationBoardController {
 	NotificationBoardService nservice;
 	@Autowired
 	FilesService fservice;
-	@Autowired
-	private HttpSession session;
 
 	//회사공지 게시판
 	@RequestMapping("notificationBoardList.no") 
 	public String notificationBoardList(String cpage,Model model) { 
 		if(cpage==null) {cpage="1";}     
 		//게시글 불러오기
-		List<BoardDTO> list = nservice.getNotificationBoardListCpage(cpage);
 
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		list = nservice.getNotificationBoardListCpage(cpage);
+		
 		//시작 & 끝 페이지 불러오기
 		String navi = nservice.getNavi(Integer.parseInt(cpage));
-
+		
 		model.addAttribute("navi",navi);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("list",list);

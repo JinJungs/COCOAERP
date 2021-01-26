@@ -6,64 +6,56 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Notification Board Read</title>
+<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+	media="screen" />
 <style type="text/css">
-.row{border-bottom: 1px solid pink} 
-input{width:100%;height:90%;}
-.board_title{color:#866EC7;}
-.board_title:hover{color:blue;}
-.head_box{font-size:17px;color:#866EC7;}
+#contents_box{margin:1px;height:400px;border:none;}
+.row{border-bottom: 1px solid pink;} 
+#only{border-top: 1px solid pink;}
 .fileLi{font-size:13px;}
-.contents_box{height:400px;}
-.width{height:50px;}
-.button_box{text-align:right;}
-textarea{width:100%; border:1px solid pink;}
-textarea:focus{outline:none;}
-.footer{margin-top:5px;}
-button{height:90%;}
 </style>
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<input type="hidden" name="cpage" value="${cpage}"> <input
-			type="hidden" name="seq" value="${dto.seq}" />
+			type="hidden" name="seq" value="${dto.seq}">
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">회사 소식(글읽기)</h2>
 			<!--제목  -->
 			<div class="row">
 				<div class="col-sm-12 head_box">${dto.title}</div>
 			</div>
-
-			<div class="row" style="">
-				<div class="col-sm-9 d-none d-sm-block head_box">${dto.name}</div>
-				<div class="col-sm-3 d-none d-sm-block head_box">${dto.write_date}</div>
+			<!--작성자 / 날짜  -->
+			<div class="row">
+				<div class="col-9  head_box">${dto.name}</div>
+				<div class="col-3  head_box">${dto.write_date}</div>
 			</div>
 
 			<!--내용  -->
 			<div class="row">
-				<div class="col head_box">
+				<div class="col-9  head_box head_box">
 					<b>내용</b>
 				</div>
+				<div class="col-3  head_box">
+					<b>조회수 : ${dto.view_count}</b>
+				</div>
 			</div>
-			<div class="row contents_box">${dto.contents}</div>
-				<input type="hidden" id="boardfileCount" value="${fileCount} " />
+			<div class="row" id="contents_box">${dto.contents}</div>
+			<input type="hidden" id="boardfileCount" value="${fileCount} " />
 
 			<!--첨부파일  -->
 			<div class="row">
 				<!-- 해당 게시글에 저장된 파일 갯수 확인 -->
-				<div class="col head_box" >
+				<div class="col-md-12 head_box" id="only">
 					<b><span class="files" id="files">첨부파일 : ${fileCount}개</span></b>
-					<div class="myModal" id="myModal">
-						<div class="fileList">
-							<ul>
-								<c:forEach var="i" items="${fileList}">
-									<li class="fileLi"><a
-										href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname}</a>
-									</li>
-								</c:forEach>
-							</ul>
-						</div>
-					</div>
+					<ul>
+						<c:forEach var="i" items="${fileList}">
+							<li class="fileLi"><a
+								href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname}</a>
+							</li>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 			<div class="row footer">
@@ -87,24 +79,113 @@ button{height:90%;}
 			<!--글읽기와 댓글 사이 공간-->
 			<div class="width row"></div>
 
-
 			<!-- 댓글 -->
 			<div class="row">
 				<div class="col head_box">
 					<b>댓글</b>
 				</div>
 			</div>
+
+			<!--게시판 댓글쓰기-->
 			<div class="row">
-				<div class="col-sm-9 footer">
-					<textarea></textarea>
+				<div class="col-md-10 head_box">
+					<input type="hidden" name="seq" value="${seq}">
+					<textarea id="comment_contents"></textarea>
 				</div>
-				<div class="col-sm-3 footer">
-					<button class="btn btn-primary">댓글달기</button>
+				<div class="col-md-2" >
+					<button class="btn btn-primary" id="writeComment">댓글등록</button>
 				</div>
+			</div>
+			<!--게시판 댓글 불러오기 -->
+			<div class="row" id="commentForm" >
 			</div>
 		</div>
 	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
+		/*댓글 - 페이지 불러올 때 댓글 불러오기*/
+		$(function() {
+	       getCommentList();
+	   });
+	   /*댓글 리스트 불러오기*/
+	   function getCommentList() {
+	       $.ajax({
+	           type : 'POST',
+	           url : "/comment/noBoardWriteCommentList.co",
+	           dataType : "json",
+	           data :  {seq : ${seq}}, 
+	           success : function(data) {
+	           console.log(data.length);
+	              	   var html = "";
+						if (data.length > 0) {
+	                   for (i = 0; i < data.length; i++) {	
+	                       html += "<div class='col-2'><b>"+data[i].name+"</b></div>"
+	                       html += "<div class='col-8'></div>";
+	                       html += "<div class='col-2'>"+data[i].write_date+"</div>"
+	                       html += "<div class='col-1'></div>";
+	                       html += "<div class='col-9'>"+data[i].contents+"</div>"
+	                       /*댓글 수정 삭제 - 작성자인 경우에만 보이도록 수정해야함*/
+	                       html += "<div class='col-sm-12 col-md-2'>";
+	                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
+	                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
+	                       html += "</div>";
+	                       $("#commentForm").html(html);			
+	                   }
+	               }else if(data.length==0){
+	                   $("#commentForm").html("");
+	               }
+	           }
+	       });
+	   }
+	   /*댓글 작성*/
+	 	$(document).ready(function(){
+			$("#writeComment").click(function(){
+			   var contents = $('#comment_contents').val();
+			   if(contents.length==0){return;}
+		       
+		       $.ajax({
+		           type: "post",
+		           url: "/comment/noBoardWriteComment.co",
+		           data: {contents : contents, seq : ${seq}},
+		           success: function(data){
+		           console.log(data);
+		           console.log("입력성공!");
+	          		$('#comment_contents').val("");
+		           getCommentList();
+		       		},
+		   		});
+		   	});
+	   	});
+	   	/*댓글 수정*/
+	   	function updateComment(seq){
+			$.ajax({
+	           data: 
+	           {seq : seq},
+	           type: "post",
+	           url: "/comment/noBoardUpdateComment.co",
+	           success: function(data){
+	           console.log(data);
+	           console.log("수정 성공!");
+	           getCommentList();
+	      	 }
+	  	 })
+ 		}
+	   	/*댓글 삭제*/
+	   	function deleteComment(seq){
+		   $.ajax({
+	           data: 
+	           {seq : seq},
+	           type: "post",
+	           url: "/comment/noBoardDeleteComment.co",
+	           success: function(data){
+	           console.log(data);
+	           console.log("삭제성공!");
+	           getCommentList();
+	      	 }
+	  	 })
+  		}
 		/*홈으로*/
 		function fn_home(cpage) {
 			location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
@@ -122,47 +203,7 @@ button{height:90%;}
 				return;
 			}
 		}
-		/*첨부파일 보기*/
-			// 모달창 만들어주기
-			function modal(id) {
-				let zIndex = 9999;
-				let modal = $('#' + id);
-
-				// 모달 div 뒤에 희끄무레한 레이어
-				let bg = $('<div>').css({
-					position : 'fixed',
-					zIndex : zIndex,
-					left : '0px',
-					top : '0px',
-					width : '100%',
-					height : '100%',
-					overflow : 'auto',
-					// 레이어 색갈은 여기서 바꾸면 됨
-					backgroundColor : 'rgba(0,0,0,0.4)'
-				}).appendTo('body');
-
-				modal
-					.css(
-						{
-						position : 'fixed',
-						boxShadow : '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
-
-						// 시꺼먼 레이어 보다 한칸 위에 보이기
-						zIndex : zIndex + 1,
-
-						// div center 정렬
-						top : '50%',
-						left : '50%',
-						transform : 'translate(-50%, -50%)',
-						msTransform : 'translate(-50%, -50%)',
-						webkitTransform : 'translate(-50%, -50%)'
-					}).show()
-				// 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-				.find('#btn_close_modal').on('click', function() {
-					bg.remove();
-					modal.hide();
-				});
-			}
+	
 	</script>
 </body>
 </html>

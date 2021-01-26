@@ -27,7 +27,7 @@
 	</select>
 	<!-- seq로 게시글 수 확인 -->
 	<select id="isExistReadPage" resultType="Integer">
-  		select count(*) from board where seq=#{seq}
+		SELECT COUNT(*) FROM BOARD WHERE SEQ=#{seq}
   	</select>
 <!-- 게시글 조회수 올리기 -->
 	<update id="notificationBoardViewCount" >

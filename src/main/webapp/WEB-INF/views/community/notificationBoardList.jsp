@@ -6,20 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Notification Board</title>
+<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+   media="screen" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
-input{width:50%;border:none;border-bottom:1px solid pink;background-color:transparent;}
-input:focus{outline:none;}
-.board_title{color:#866EC7;}
-.board_title:hover{color:blue;}
-select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
+input{width:50%;border-bottom:1px solid pink;}
+#search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
 .select{text-align:right;}
 .navi_box{text-align:center;margin-top:5px;}
-.head_box{font-size:17px;color:#866EC7;text-align:center;}
+.head_box{text-align:center;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
-.footer{margin-top:5px;}
-button{height:90%;}
 </style>
 </head>
 <body>

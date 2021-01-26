@@ -100,6 +100,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	//검색 게시글 네비
 	public String notificationBoardSearchNavi(int cpage, String search,String searchBy) {
 		int recordTotalCount = getSearchCount(search);
+		
 		int pageTotalCount = recordTotalCount/Configurator.recordCountPerPage;
 		if(recordTotalCount/Configurator.recordCountPerPage != 0) {
 			pageTotalCount++;
@@ -156,12 +157,14 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		int recordTotalCount = recordTotalCount();
 		int pageTotalCount;
 		if(recordTotalCount / Configurator.recordCountPerPage > 0) {
+			System.out.println("게시글 수" +recordTotalCount);
 			pageTotalCount = recordTotalCount / Configurator.recordCountPerPage +1;
+			System.out.println("총 페이지 수" +pageTotalCount);
 		}else {
 			pageTotalCount = recordTotalCount / Configurator.recordCountPerPage;
 		}
 
-		if(cpage < 1) {
+		if(cpage < 0) {
 			cpage=1;
 		}else if(cpage > pageTotalCount) {
 			cpage=pageTotalCount;
