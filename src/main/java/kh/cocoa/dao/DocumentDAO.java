@@ -29,13 +29,15 @@ public interface DocumentDAO {
 	public int getSearchBoardCount(String empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status);
 
 
-	public List<DocumentDTO> getSearchReturnList(String empCode, Date startDate, Date endDate, List<String> templateList, String searchOption, String searchText);
 	//용국
 	//문서 추가.
 	public int addDocument(DocumentDTO dto);
 
 	//방금 작성한 문서 doc_code 가져오기.
 	public int getDocCode(int writer_code);
+
+	//임시 저장
+	public int addSaveDocument(DocumentDTO dto);
 
 }
 

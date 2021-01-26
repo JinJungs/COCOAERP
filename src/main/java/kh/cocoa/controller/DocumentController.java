@@ -6,9 +6,7 @@ import java.util.*;
 
 import javafx.util.Builder;
 import kh.cocoa.dto.*;
-import kh.cocoa.service.DepartmentsService;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.TemplatesService;
+import kh.cocoa.service.*;
 import kh.cocoa.statics.Configurator;
 import kh.cocoa.statics.DocumentConfigurator;
 
@@ -18,11 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kh.cocoa.service.DocumentService;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +39,12 @@ public class DocumentController {
 
 	@Autowired
 	private EmployeeService eservice;
+
+	@Autowired
+	private ConfirmService cservice;
+
+	@Autowired
+	private FilesService fservice;
 
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
@@ -349,13 +353,30 @@ public class DocumentController {
 	}
 
 	@PostMapping("addconfirm.document")
-	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code){
+	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code) throws Exception{
 		int result = dservice.addDocument(docdto);
 		if(result >0){
 			int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
+			for(int i=0;i<code.size();i++){
+				int addConfirm = cservice.addConfirm(code.get(i),i+1,getDoc_code);
+			}
+			if(!file.get(0).getOriginalFilename().contentEquals("")) {
+				String fileRoot = Configurator.boardFileRootC;
+				File filesPath = new File(fileRoot);
+				if(!filesPath.exists()){filesPath.mkdir();}
+				for(MultipartFile mf : file){
+					String oriName = mf.getOriginalFilename();
+					String uid = UUID.randomUUID().toString().replaceAll("_","");
+					String savedName = uid+"_"+ oriName;
+					int insertFile = fservice.documentInsertFile(oriName,savedName,getDoc_code);
+					if(insertFile>0){
+						File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+savedName);
+						FileCopyUtils.copy(mf.getBytes(),targetLoc);
+					}
+				}
+			}
 		}
-
-		return "";
+		return "redirect:toTemplateList.document";
 	}
 }
 

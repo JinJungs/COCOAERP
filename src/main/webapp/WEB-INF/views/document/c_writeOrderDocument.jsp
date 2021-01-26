@@ -24,17 +24,18 @@
         }
 
         .confirmbox{
-            border: 1px solid #DCDCDC;
+            border: 1px solid #c9c9c9;
             min-width: 135px;
             min-height:120px;
         }
 
         .confirmheader{
             background-color:#F2F6FF;
+            border-bottom: 1px solid #c9c9c9;
         }
         .confirmheader2{
             background-color: #FFF0F5;
-
+            border-bottom: 1px solid #c9c9c9;
         }
 
         .clickstat:hover{
@@ -53,7 +54,7 @@
     <div id="content" class="p-4 p-5 pt-5" style="min-width: 1148px;">
         <div class="container w-80 p-0">
             <div class="row w-100">
-                <h5>${dto.name}</h5>
+                <h5>업무 기안서</h5>
             </div>
             <div class="row w-100" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 양식</div>
@@ -63,7 +64,7 @@
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}(${empInfo.posname})</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
                 <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
             </div>
@@ -94,20 +95,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid #c9c9c9;">
+                <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid pink;">
                     <h5>기안 내용</h5>
                 </div>
-                <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+                <div class="row w-100" style="border-bottom: 1px solid pink;">
                     <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
                     <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
                 </div>
                 <div class="row w-100">
-                    <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
+                    <div class="col-2 p-3 " style="border-right: 1px solid pink;">파일 첨부</div>
                     <div class="col-3 p-3"><input type="file" multiple="multiple" style="max-width:100%;" id="file" name=file></div>
                 </div>
 
-                <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-                    <div class="col-2 p-3"  style="border-right: 1px solid #c9c9c9;"></div>
+                <div class="row w-100" style="border-bottom: 1px solid pink;">
+                    <div class="col-2 p-3"  style="border-right: 1px solid pink;"></div>
                     <div class="col-9 p-3" id="filecontainer"></div>
                 </div>
 
@@ -120,7 +121,7 @@
 </div>
 <div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
     <div class="row">
-        <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
+        <div class="col-6 p-3 text-right"><button class="btn btn-secondary">임시저장</button></div>
         <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
     </div>
 </div>
@@ -445,37 +446,6 @@
 
             }
         });
-    }
-
-
-
-    function fn_addsave(){
-        var title = $("#title").val();
-        var contents = $("#contents").val();
-        var writer_code =$("#getcuruserempcode").val();
-        if(title==""){
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return;
-        }else if(contents==""){
-            alert("내용을 입력해주세요.");
-            $("#contents").focus();
-            return;
-        }
-        $.ajax({
-            url:"/restdocument/addsave.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result=="success"){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
-
     }
 </script>
 
