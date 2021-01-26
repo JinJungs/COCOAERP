@@ -49,6 +49,11 @@ public class MessengerController {
         return "/messenger/chat";
     }
 
+    @RequestMapping("chatStomp")
+    public String chatStomp() {
+        return "/messenger/chatStomp";
+    }
+
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());

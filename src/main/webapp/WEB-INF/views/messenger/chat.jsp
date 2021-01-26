@@ -285,6 +285,10 @@
         //ws.binaryType="arraybuffer";
         var fileName = file.name;
         console.log("파일이름 : " + fileName);
+        fileReader.readAsArrayBuffer(file);
+        fileReader.loadend = function() {
+
+        }
         fileReader.onload = function (e) {
             var param = {
                 type: "fileUpload",
@@ -295,7 +299,7 @@
                 userName: $("#userName").val()
             }
             ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
-            arrayBuffer = this.result;
+            arrayBuffer = e.target.result;
             //var dataURL = this.result;
             if(newWS.readyState ===1){
             console.log("readyState?")
@@ -303,7 +307,8 @@
             alert("파일전송이 완료 되었습니다.");
             }
         };
-        fileReader.readAsArrayBuffer(file);
+
+        //fileReader.readAsArrayBuffer(file);
         //fileReader.readAsDataURL(file);
     }
 
