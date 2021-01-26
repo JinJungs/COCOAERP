@@ -86,11 +86,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--스프링 부트의 MVC 패턴 사용-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!--웹 소켓 사용, stomp가 들어있습니다.-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

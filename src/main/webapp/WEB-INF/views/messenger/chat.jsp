@@ -50,7 +50,7 @@
                          class="rounded-circle user_img_msg">
                 </div>
                 <div class="msg_cotainer">
-                    Hi, how are you samim?
+                    Hi Euijin how are you?
                     <span class="msg_time">8:40 AM, Today</span>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90">
-            <!-- onclick="fileSend()" id="fileUpload" -->
+                <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
@@ -83,8 +83,9 @@
             <button onclick="chatName()" id="startBtn">이름 등록</button>
         </div>
         <div class="fileTest">
-        	<input type="file" id="fileUpload">
-			<button onclick="fileSend()" id="sendFileBtn">파일올리기테스트</button>
+            <input type="file" id="fileUpload">
+            <button type="button" onclick="newWSOpen()" id="testBtn">소켓오픈</button>
+            <button type="button" id="sendFileBtn">파일올리기테스트</button>
         </div>
     </div>
 </div>
@@ -93,36 +94,35 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
-    <!-------------------------------------- 리스트 불러오기 --------------------------------------->
+<!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
-    var ws;
-    var cpage=1;
+    var cpage = 1;
 
     // 스크롤 아래로 내리기
-    function updateScroll(){
+    function updateScroll() {
         let msgBox = document.getElementById("msgBox");
         msgBox.scrollTop = msgBox.scrollHeight - $(window).height();
         console.log("scorllTop 동작중...scrollHeight: " + msgBox.scrollHeight);
     }
 
     // 페이지 로딩시 리스트 불러오기
-    $(document).ready(function (){
+    $(document).ready(function () {
         moreList(cpage);
     })
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
-    $('#msgBox').scroll(function(){
+    $('#msgBox').scroll(function () {
         var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
         var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-        if(scrollT == 0){
-            cpage+=1;
+        if (scrollT == 0) {
+            cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
             moreList(cpage);
         }
     });
 
     // 리스트 더 불러오기
-    function moreList(cpage){
+    function moreList(cpage) {
         $.ajax({
             url: "/message/getMessageListByCpage",
             type: "post",
@@ -131,12 +131,12 @@
                 cpage: cpage
             },
             dataType: "json",
-            success: function (data){
+            success: function (data) {
                 let newMsgBox = $("<div>");
-                for (var i=0; i<data.length; i++){
-                    var existMsg ="";
+                for (var i = 0; i < data.length; i++) {
+                    var existMsg = "";
                     existMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    existMsg += "<div class='msg_cotainer_send'>나 : " +data[i].contents;
+                    existMsg += "<div class='msg_cotainer_send'>나 : " + data[i].contents;
                     existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
                     existMsg += "</div>";
                     existMsg += "<div class='img_cont_msg'>";
@@ -145,7 +145,7 @@
                     newMsgBox.append(existMsg);
                 }
                 $("#msgBox").prepend(newMsgBox);
-                if(cpage==1){
+                if (cpage == 1) {
                     updateScroll();
                 }
             }
@@ -153,6 +153,9 @@
     }
 
     //<------------------------------------- 웹소켓 --------------------------------------->
+    var ws;
+    var newWS;
+
     // 사용자 이름 입력 후 이름 등록 버튼 클릭시 - 웹소켓 OPEN
     function chatName() {
         var userName = $("#userName").val();
@@ -166,7 +169,7 @@
     }
 
     function wsOpen() {
-        ws = new WebSocket("ws://" + location.host + "/chatting/"+$("#roomNumber").val());
+        ws = new WebSocket("ws://" + location.host + "/chatting/" + $("#roomNumber").val());
         wsEvt();
     }
 
@@ -241,8 +244,8 @@
                 msg_seq: ${seq}
             },
             dataType: "json",
-            success: function (resp){
-                if(resp.result=1){
+            success: function (resp) {
+                if (resp.result = 1) {
                     console.log("메세지 저장 성공!");
                 }
             }
@@ -253,32 +256,109 @@
 
     }
 
+    //-------------------------------------- 파일 --------------------------------------
+    function newWSOpen() {
+        newWS = new WebSocket("ws://" + location.host + "/binary/" + $("#roomNumber").val());
+        newWSEvt();
+    }
+
+    // 소켓이 열리면 동작
+    function newWSEvt() {
+        newWS.onopen = function (data) {
+            //소켓이 열리면 초기화 세팅하기
+            fileSend();
+        }
+        newWS.onmessage = function (e) {
+            console.log(e.data);
+        };
+
+        $("#sendFileBtn").onclick = function () {
+            fileSend();
+        }
+    }
+
     // 웹소켓으로 파일 전송
-    function fileSend(){
-		var file = document.querySelector("#fileUpload").files[0];
-		console.log(file);
-		var fileReader = new FileReader();
-        var rawData = new ArrayBuffer();
-        ws.binaryType="arraybuffer";
-		fileReader.onload = function(e) {
-			// var param = {
-			// 	type: "fileUpload",
-			// 	file: file,
-			// 	roomNumber: $("#roomNumber").val(),
-			// 	sessionId : $("#sessionId").val(),
-			// 	msg : $("#yourMsg").val(),
-			// 	userName : $("#userName").val()
-			// }
-			// ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
-            rawData = e.target.result;
-            console.log(rawData);
-            //var arrayBuffer = this.result;
-            //var newWS = new WebSocket("ws://" + location.host +"/binary");
-            ws.send(rawData); //파일 소켓 전송
+    function fileSend() {
+        var file = document.querySelector("#fileUpload").files[0];
+        var fileReader = new FileReader();
+        //var rawData = new ArrayBuffer();
+        //ws.binaryType="arraybuffer";
+        var fileName = file.name;
+        console.log("파일이름 : " + fileName);
+        fileReader.onload = function (e) {
+            var param = {
+                type: "fileUpload",
+                file: file,
+                roomNumber: $("#roomNumber").val(),
+                sessionId: $("#sessionId").val(),
+                msg: $("#yourMsg").val(),
+                userName: $("#userName").val()
+            }
+            ws.send(JSON.stringify(param)); //파일 보내기전 메시지를 보내서 파일을 보냄을 명시한다.
+            arrayBuffer = this.result;
+            //var dataURL = this.result;
+            if(newWS.readyState ===1){
+            console.log("readyState?")
+            newWS.send(arrayBuffer); //파일 소켓 전송
             alert("파일전송이 완료 되었습니다.");
-		};
-		fileReader.readAsArrayBuffer(file);
-	}
+            }
+        };
+        fileReader.readAsArrayBuffer(file);
+        //fileReader.readAsDataURL(file);
+    }
+
+    /*// Blob 를 파일에 저장
+    function saveData(blob, fileName) {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+
+        url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+
+    // ArrayBuffer 를 파일에 저장
+    function saveData2(arrayBuffer, fileName) {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        var parts = [];
+        parts.push(arrayBuffer);
+        url = window.URL.createObjectURL(new Blob(parts));
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };*/
+
+    /*    //파일을 Blob를 서버로 전송함
+        function sendFileBlob() {
+            // Sending file as Blob
+            var file = document.querySelector('input[type="file"]').files[0];
+            var receiver = $('#receiver').val();
+            var msg = {sender:clientId, receiver:receiver};
+            msg.fname = file.name;
+            //파일 데이터에 앞서 송,수신자, 파일명을 텍스트로 전송한다
+            Chat.socket.send(JSON.stringify(msg));
+            //파일 데이터를 전송한다
+            Chat.socket.send(file);
+        }
+
+        //파일을 ArrayBuffer를 서버로 전송함
+        function sendFileArrayBuffer() {
+            var file = document.querySelector('input[type="file"]').files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                arrayBuffer = this.result;
+                Chat.socket.send(arrayBuffer);
+            };
+            fileReader.readAsArrayBuffer(file);
+        }*/
+
+
 </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package kh.cocoa.config;
 
+import kh.cocoa.handler.BinarySocketHandler;
 import kh.cocoa.handler.SocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +15,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
     SocketHandler socketHandler;
 
-    /*@Autowired
-    BinaryWebSocketHandler binarySocketHandler;*/
+    @Autowired
+    BinarySocketHandler binarySocketHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(socketHandler, "/chatting/{roomNumber}");
-        //registry.addHandler(binarySocketHandler, "/binary");
+        registry.addHandler(binarySocketHandler, "/binary/{roomNumber}");
     }
 
 
