@@ -46,7 +46,7 @@ public class MessengerController {
     @RequestMapping("chat")
     public String toChat(int seq, Model model) {
         model.addAttribute("seq",seq);
-        return "/messenger/chatProf";
+        return "/messenger/chat";
     }
 
     @RequestMapping("chatStomp")
@@ -63,23 +63,6 @@ public class MessengerController {
     public String chatProfTest() {
         return "/messenger/chatProfTest";
     }
-
-
-    @RequestMapping("chatStomp")
-    public String chatStomp() {
-        return "/messenger/chatStomp";
-    }
-
-    @RequestMapping("chatProf")
-    public String chatProf() {
-        return "/messenger/chatProf";
-    }
-
-    @RequestMapping("chatProfTest")
-    public String chatProfTest() {
-        return "/messenger/chatProfTest";
-    }
-
     
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

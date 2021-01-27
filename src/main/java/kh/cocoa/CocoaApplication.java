@@ -16,10 +16,5 @@ public class CocoaApplication {
     public static void main(String[] args) {
         SpringApplication.run(CocoaApplication.class, args);
     }
-    
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
 
 }

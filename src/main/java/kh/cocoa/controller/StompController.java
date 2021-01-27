@@ -1,13 +1,12 @@
 package kh.cocoa.controller;
 
-import java.nio.ByteBuffer;
-
+import kh.cocoa.dto.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
-import kh.cocoa.dto.MessageDTO;
+import java.nio.ByteBuffer;
 
 @Controller
 public class StompController {
@@ -15,7 +14,7 @@ public class StompController {
 	private SimpMessageSendingOperations messagingTemplate;
 	
 	@MessageMapping("/getChat/text/{seq}")
-//	@SendTo("/topic/message")
+	//@SendTo("/topic/message")
 	public MessageDTO getChatText(MessageDTO message) throws Exception {
 		//1.받아온 내용들로 MESSAGE 테이블에 인서트(??뇌피셜. 조사 필요)
 		//2.전송
