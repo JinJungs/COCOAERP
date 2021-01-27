@@ -88,8 +88,7 @@ public class RestDocumentController {
     }
 
     @RequestMapping("addsave.document")
-    public String addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
-        System.out.println(ddto.getContents());
+    public int addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         int result = docservice.addSaveDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         if (!code.get(0).equals("1")) {
@@ -117,11 +116,11 @@ public class RestDocumentController {
             }
 
         }
-        return "success";
+        return getDoc_code;
     }
 
     @RequestMapping("ajaxadddocument.document")
-    public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file,String contents) throws Exception {
+    public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         for (int i = 0; i < code.size(); i++) {
@@ -150,13 +149,10 @@ public class RestDocumentController {
 
     }
 
-
-
-
     @RequestMapping("addorder.document")
     public String addOrder(@RequestBody List<Map<String,String>> map) throws Exception{
-        System.out.println(map.size());
         List<OrderDTO> list = new ArrayList<>();
+
         for(int i=1;i<map.size();i=i+3){
             OrderDTO dto = new OrderDTO();
             dto.setDoc_seq(Integer.parseInt(map.get(0).get("value")));
@@ -165,6 +161,7 @@ public class RestDocumentController {
             dto.setOrder_etc(map.get(i+2).get("value"));
             list.add(dto);
         }
+
         for(int i=0;i<list.size();i++){
            int result= oservice.addOrder(list.get(i).getOrder_list(),list.get(i).getOrder_count(),list.get(i).getOrder_etc(),list.get(i).getDoc_seq());
         }
@@ -175,3 +172,4 @@ public class RestDocumentController {
 
 
 }
+
