@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
-import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.dto.MessageDTO;
 
 @Controller
@@ -16,20 +14,12 @@ public class StompController {
 	@Autowired
 	private SimpMessageSendingOperations messagingTemplate;
 	
-//	@MessageMapping("/getChat")
-//	@SendTo("/topic/message")
-//	public String tttx(String message) throws Exception {
-//		System.out.println("TTT>>" + message);
-//		return message;
-//	}
-	
 	@MessageMapping("/getChat/text/{seq}")
 //	@SendTo("/topic/message")
 	public MessageDTO getChatText(MessageDTO message) throws Exception {
-		//1.받아온 내용들로 MESSAGE 테이블에 인서트
+		//1.받아온 내용들로 MESSAGE 테이블에 인서트(??뇌피셜. 조사 필요)
 		//2.전송
 		System.out.println("getChat>>" + message);
-		System.out.println("TYPE="+message.getType()); //없어도 될 듯
 		System.out.println("SEQ=" + message.getSeq());
 		System.out.println("MSG=" + message.getContents());
 		System.out.println("WRITE_DATE="+message.getWrite_date());

@@ -7,7 +7,8 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
+//지금은 필요 없고 바이너리파일 받는 웹소켓 참고용으로 두는 중 / 
+//현재 endpoint/ChatEndpoint 로 가서 파일 받기 작업
 public class ReplyEchoHandler extends TextWebSocketHandler {
 	List<WebSocketSession> sessions = new ArrayList<>();
 	
