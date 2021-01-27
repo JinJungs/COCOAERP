@@ -6,6 +6,10 @@
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0)
 	</insert>
+	
+	<select id="getFilesListByDocSeq" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+	</select>
 
 	<!--용국 업로드-->
 	<insert id="documentInsertFile">

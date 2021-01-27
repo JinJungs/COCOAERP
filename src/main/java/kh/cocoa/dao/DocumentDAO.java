@@ -28,7 +28,9 @@ public interface DocumentDAO {
 	//페이지네이션
 	public int getSearchBoardCount(String empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status);
 
-
+	//결재서류 내용받아오기
+	public DocumentDTO getDocument(String seq);
+	
 	//용국
 	//문서 추가.
 	public int addDocument(DocumentDTO dto);
@@ -38,7 +40,6 @@ public interface DocumentDAO {
 
 	//임시 저장
 	public int addSaveDocument(DocumentDTO dto);
-
 }
 
 

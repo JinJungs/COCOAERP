@@ -108,6 +108,15 @@
 	            AND D.TITLE LIKE '%${searchText}%'
 	         ORDER BY D.WRITE_DATE DESC)
 	</select>
+	<select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", DOCUMENT.*
+		    FROM DOCUMENT, TEMPLATES, DEPARTMENTS, EMPLOYEE
+		    WHERE DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+		        AND DOCUMENT.DEPT_CODE = DEPARTMENTS.CODE
+		        AND DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+		        AND SEQ=#{seq}
+		    ORDER BY DOCUMENT.SEQ
+	</select>
 
 	<!--용국-->
 	<insert id="addDocument">
