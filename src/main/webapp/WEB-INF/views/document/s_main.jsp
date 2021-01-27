@@ -15,6 +15,11 @@ select {
 .row {
 	margin-top: 10px;
 }
+.textBox{
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 </style>
 </head>
 <body>
@@ -39,9 +44,9 @@ select {
 						<div class="col-9 col-sm-2  col-md-2">
 							<select class="selectTemplate ml-1 mb-2" name=template id="templateSelect">
 								<option value=0>전체</option>
-								<option value=1>업무보고</option>
-								<option value=2>물품신청</option>
-								<option value=3>휴가신청</option>
+								<option value=4>업무보고</option>
+								<option value=5>물품신청</option>
+								<option value=6>휴가신청</option>
 							</select>
 						</div>
 						<div class="selectSearch col-3 col-sm-2 col-md-2 mb-3">
@@ -77,10 +82,10 @@ select {
 
 			<!-- 리스트 출력 부분 -->
 			<div class="row text-center">
-				<div class="col-sm-2 d-none d-sm-block">휴가계획서</div>
-				<div class="col-5 col-sm-3">2021-03-08 휴가신청</div>
-				<div class="col-3">2021.01.15</div>
-				<div class="col-4">임효경|IT개발부</div>
+				<div class="col-sm-2 d-none d-sm-block textBox">휴가계획서</div>
+				<div class="col-5 col-sm-3 textBox">2021-03-08 휴가신청</div>
+				<div class="col-3 textBox">2021.01.15</div>
+				<div class="col-4 textBox">임효경|IT개발부</div>
 			</div>
 			<!-- 리스트 출력 부분 -->
 

@@ -28,20 +28,20 @@ public class DocumentDTO {
 	
 	private Date report_start;
 	private Date report_end;
-	private String report_issue;
+	private String report_contents;
 	
 	private String status;
 	
 	//추가부분
 	private String temp_name;
 	private String emp_name;
-	private String departments_name;
+	private String dept_name;
 	
 
 	@Builder
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,
 			int dept_code, int temp_code, String order_list, int order_count, String order_etc, Date leave_start,
-			Date leave_end, String leave_type, Date report_start, Date report_end, String report_issue, String status) {
+			Date leave_end, String leave_type, Date report_start, Date report_end, String report_contents, String status) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -59,7 +59,7 @@ public class DocumentDTO {
 		this.leave_type = leave_type;
 		this.report_start = report_start;
 		this.report_end = report_end;
-		this.report_issue = report_issue;
+		this.report_contents = report_contents;
 		this.status = status;
 	}
 }

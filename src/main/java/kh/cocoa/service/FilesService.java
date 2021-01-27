@@ -1,5 +1,7 @@
 package kh.cocoa.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,8 @@ public class FilesService {
 	public int uploadFiles(int noBoard_seq, FilesDTO fdto) { 
 		return fdao.uploadFiles(noBoard_seq,fdto); 
 	}
-	 
+	//DocumentSeq에 따른 파일리스트
+	public List<FilesDTO> getFilesListByDocSeq(String seq){
+		return fdao.getFilesListByDocSeq(seq);
+	}
 }

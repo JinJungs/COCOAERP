@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kh.cocoa.dao.DocumentDAO;
 import kh.cocoa.dto.DocumentDTO;
+import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.statics.DocumentConfigurator;
 
 @Service
@@ -137,9 +138,14 @@ public class DocumentService implements DocumentDAO{
 		}
 		return sb.toString();
 	}
+	
 	@Override
 	public int getSearchBoardCount(String empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status) {
 		return ddao.getSearchBoardCount(empCode, startDate, endDate, templateList, searchText, cpage, status);
+	}
+	@Override
+	public DocumentDTO getDocument(String seq) {
+		return ddao.getDocument(seq);
 	}
 	//+@
 	//날짜 하루 더해주는 메서드(endDate에 이용)
