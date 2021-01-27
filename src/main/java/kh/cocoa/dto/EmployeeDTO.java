@@ -3,12 +3,11 @@ package kh.cocoa.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.sql.Date;
 
 @Data
 @NoArgsConstructor
-public class EmployeeDTO {
+public class EmployeeDTO{
     private int code;
     private String name;
     private String password;

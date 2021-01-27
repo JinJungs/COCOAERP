@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderDAO {
 
-    public int addOrder(OrderDTO dto,int doc_seq);
+    public int addOrder(String order_list, int order_count, String order_etc, int doc_seq);
 }

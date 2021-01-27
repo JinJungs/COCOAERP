@@ -13,16 +13,15 @@ import java.util.List;
 public class OrderDTO {
 
         private String order_list;
-        private String order_count;
+        private int order_count;
         private String order_etc;
-        private List<OrderDTO> list;
-
+        private int doc_seq;
 
         @Builder
-        public OrderDTO( String order_list, String order_count, String order_etc) {
+        public OrderDTO(String order_list, int order_count, String order_etc, int doc_seq) {
                 this.order_list = order_list;
                 this.order_count = order_count;
                 this.order_etc = order_etc;
+                this.doc_seq = doc_seq;
         }
-
 }

@@ -9,9 +9,16 @@ import java.util.List;
 
 @Service
 public class EmployeeService implements EmployeeDAO {
-
 	@Autowired
-	EmployeeDAO edao;
+	private EmployeeDAO edao;
+
+	//----------------- 로그인 -----------------//
+	@Override
+	public String login(int code, String password) { return edao.login(code, password); }
+
+	@Override
+	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
+
 	//전체 멤버 호출
 	@Override
 	public List<EmployeeDTO> getAllEmployee(){
