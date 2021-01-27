@@ -1,6 +1,7 @@
 package kh.cocoa.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
@@ -62,4 +63,9 @@ public class DocumentDTO {
 		this.report_issue = report_issue;
 		this.status = status;
 	}
+	@Data
+	public class DocumentList{
+		List<DocumentDTO> documentDTOList;
+	}
+
 }

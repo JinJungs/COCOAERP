@@ -24,18 +24,17 @@
         }
 
         .confirmbox{
-            border: 1px solid #c9c9c9;
+            border: 1px solid #DCDCDC;
             min-width: 135px;
             min-height:120px;
         }
 
         .confirmheader{
             background-color:#F2F6FF;
-            border-bottom: 1px solid #c9c9c9;
         }
         .confirmheader2{
             background-color: #FFF0F5;
-            border-bottom: 1px solid #c9c9c9;
+
         }
 
         .clickstat:hover{
@@ -54,7 +53,7 @@
     <div id="content" class="p-4 p-5 pt-5" style="min-width: 1148px;">
         <div class="container w-80 p-0">
             <div class="row w-100">
-                <h5>업무 기안서</h5>
+                <h5>${dto.name}</h5>
             </div>
             <div class="row w-100" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 양식</div>
@@ -64,7 +63,7 @@
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}(${empInfo.posname})</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
                 <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
             </div>
@@ -74,7 +73,8 @@
 
                 </div>
             </div>
-            <form action="/document/addconfirm.document" id="mainform" method="post" enctype="multipart/form-data">
+            <form id="mainform" class="w-100">
+
                 <div class="row w-100 pt-4 pb-4 pl-3 pr-3" style="border-bottom: 1px solid #c9c9c9;">
 
                     <div class="col-md-12" >
@@ -90,26 +90,50 @@
                                     <input type="hidden" id="getcuruserempcode" name="writer_code" value="${empInfo.code}">
                                     <input type="hidden" name="temp_code" value="${temp_code}">
                                     <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
+                                    <input type="hidden" name="contents" id="tempcontents">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid pink;">
+                <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid #c9c9c9;">
                     <h5>기안 내용</h5>
                 </div>
-                <div class="row w-100" style="border-bottom: 1px solid pink;">
-                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
+                <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목 *</div>
                     <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
                 </div>
                 <div class="row w-100">
-                    <div class="col-2 p-3 " style="border-right: 1px solid pink;">파일 첨부</div>
+                    <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
                     <div class="col-3 p-3"><input type="file" multiple="multiple" style="max-width:100%;" id="file" name=file></div>
                 </div>
 
-                <div class="row w-100" style="border-bottom: 1px solid pink;">
-                    <div class="col-2 p-3"  style="border-right: 1px solid pink;"></div>
+                <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+                    <div class="col-2 p-3"  style="border-right: 1px solid #c9c9c9;"></div>
                     <div class="col-9 p-3" id="filecontainer"></div>
+                </div>
+            </form>
+                <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
+                    <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
+                        <b>머라쓰징..</b>
+                    </div>
+                    <div class="row w-100 m-0 text-center">
+                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
+                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
+                        <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
+                        <div class="col-1 p-2">추가</div>
+                    </div>
+                    <form id="orderform" class="w-100">
+                        <div class="ordercontainer w-100">
+                            <div class="row w-100 m-0 text-center orderwrap">
+                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요."></div>
+                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요."></div>
+                                <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
+                                <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
 
                 <div class="row w-100 pt-3">
@@ -121,12 +145,11 @@
 </div>
 <div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
     <div class="row">
-        <div class="col-6 p-3 text-right"><button class="btn btn-secondary">임시저장</button></div>
+        <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
         <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
     </div>
 </div>
 
-</form>
 <div class="modal" id="modal" tabindex="-1" >
     <div class="modal-dialog modal-xl modal-dialog-centered" style="min-width: 1138px;">
         <div class="modal-content">
@@ -144,6 +167,7 @@
                                 <div class="col-12 ">-대표 회사명 넣을지?</div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
+
 
                             <c:forEach var="i" items="${deptList}">
                                 <div class="allcontainer w-100">
@@ -203,6 +227,7 @@
     var getaddedempcode = [];
     var count =0;
     var clickstat = document.getElementsByClassName("clickstat");
+    var indexcount=0;
 
     $( function() {
         $(".empcontainer2").selectable();
@@ -214,6 +239,11 @@
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
+        if($(".orderwrap").length==1){
+            alert("목록을 추가 해주세요");
+            return;
+        }
+
         if(title==""){
             alert("제목을 입력해주세요.");
             $("#title").focus();
@@ -223,9 +253,44 @@
             $("#contents").focus();
             return;
         }
-        $("#mainform").submit();
 
+        ajaxadddoucment().then(ajaxaddorder);
 
+    }
+
+    function ajaxaddorder(result){
+        console.log(result);
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            dataType :"json",
+            success : function(data) {
+
+            }
+        });
+    }
+
+    function ajaxadddoucment(){
+        return new Promise(function(resolve, reject){
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url:"/restdocument/ajaxadddocument.document",
+                type:"post",
+                enctype: 'multipart/form-data',
+                data:new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    resolve(result);
+
+                }
+            });
+        });
     }
 
     function fn_openconfirmdept(code){
@@ -282,7 +347,6 @@
             data : {code },
             dataType :"json",
             success : function(data) {
-                console.log(code);
                 var html="";
                 for(var i=0;i<data.length;i++){
                     html+="<div id=teamcontainer"+data[i].code+">";
@@ -446,6 +510,95 @@
 
             }
         });
+    }
+
+
+
+    function fn_addsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var writer_code =$("#getcuruserempcode").val();
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+        $.ajax({
+            url:"/restdocument/addsave.document",
+            type:"post",
+            enctype: 'multipart/form-data',
+            data:new FormData($("#mainform")[0]),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+
+    }
+
+    function fn_addOrderList() {
+        var order_list = $("#order_list").val();
+        var order_count = $("#order_count").val();
+        var order_etc = $("#order_etc").val();
+
+        if(order_list==""){
+            alert("신청 상품을 입력해주세요.");
+            $("#order_list").focus();
+            return;
+        }else if(order_count==""){
+            alert("상품 수량을 입력해주세요.")
+            $("#order_count").focus();
+            return;
+        }
+        var html= "";
+        html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value="+order_list+"></div>";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value="+order_count+" oninput=fn_onlycount2(this)></div>";
+        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value="+order_etc+"></div>";
+        html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
+        $(".ordercontainer").append(html);
+        indexcount++;
+        $("#order_list").val("");
+        $("#order_count").val("");
+        $("#order_etc").val("");
+    }
+
+    function  fn_delOrderList(obj) {
+        var conf = confirm("행을 삭제 하시겠습니까?");
+        if(conf==true) {
+            $(obj).parent().parent().remove();
+        }
+
+    }
+
+    function fn_onlycount(obj) {
+
+        var a= $(obj).val();
+        $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        if(a.length>=6){
+            alert("최대 만자리까지 가능합니다.");
+            $(obj).val($(obj).val().substr(0,5));
+
+            return;
+        }
+
+    }
+
+    function  fn_onlycount2(obj) {
+        var a= $(obj).val();
+        $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        if(a.length>=6){
+            alert("최대 만자리까지 가능합니다.");
+            $(obj).val($(obj).val().substr(0,5));
+            return;
+        }
     }
 </script>
 

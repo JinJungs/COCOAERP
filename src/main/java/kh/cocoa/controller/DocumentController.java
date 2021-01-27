@@ -17,11 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -45,6 +42,9 @@ public class DocumentController {
 
 	@Autowired
 	private FilesService fservice;
+
+	@Autowired
+	private OrderService oservice;
 
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
@@ -349,14 +349,22 @@ public class DocumentController {
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
 		model.addAttribute("deptList",deptList);
-		return "document/c_writeDocument";
+		if(dto.getCode()==4) {
+            return "document/c_writeDocument";
+        }else{
+		    return "document/c_writeOrderDocument";
+        }
 	}
 
 	@PostMapping("addconfirm.document")
-	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code) throws Exception{
+	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code,
+							 OrderDTO odto) throws Exception{
+
 		int result = dservice.addDocument(docdto);
-		if(result >0){
-			int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
+		int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
+
+		/*if(result >0){
+
 			for(int i=0;i<code.size();i++){
 				int addConfirm = cservice.addConfirm(code.get(i),i+1,getDoc_code);
 			}
@@ -375,7 +383,7 @@ public class DocumentController {
 					}
 				}
 			}
-		}
+		}*/
 		return "redirect:toTemplateList.document";
 	}
 }

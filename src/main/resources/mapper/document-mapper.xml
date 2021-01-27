@@ -112,15 +112,15 @@
 	<!--용국-->
 	<insert id="addDocument">
 		<choose>
-			<when test="order_list!=null">
-				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,order_list,order_count,order_etc,status,dept_code,temp_code)
-				values(document_seq.nextval,#{title),#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},#{order_list},#{order_count},#{order_etc},'RAISE',#{dept_code},#{temp_code})
+			<when test="temp_code==5">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
 			</when>
-			<when test="leave_start!=null">
+			<when test="temp_code==6">
 				insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
 			</when>
-			<when test="report_start!=null">
+			<when test="temp_code==4">
 				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
 			</when>
