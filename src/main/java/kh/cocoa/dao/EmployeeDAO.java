@@ -10,6 +10,12 @@ import kh.cocoa.dto.EmployeeDTO;
 
 @Mapper
 public interface EmployeeDAO {
+
+	//----------------- 로그인 -----------------//
+	public String login(int code, String password);
+	public EmployeeDTO loginInfo(int code);
+
+
 	//전체 멤버 호출
 	public List<EmployeeDTO> getAllEmployee();
 	
@@ -32,6 +38,4 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
-
-
 }
