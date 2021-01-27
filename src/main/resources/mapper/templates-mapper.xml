@@ -8,4 +8,5 @@
     <select id="getSubTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE STATUS='N'
     </select>
+
 </mapper>

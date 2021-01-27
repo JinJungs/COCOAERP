@@ -7,6 +7,12 @@ import java.util.List;
 
 @Mapper
 public interface TemplatesDAO {
+	//용국
+	//기본 템플릿 리스트
 	public List<TemplatesDTO> getTemplateList();
+
+	//만든 템플릿 리스트
 	public List<TemplatesDTO> getSubTemplateList();
+
+
 }

@@ -15,11 +15,11 @@ public class FilesDTO {
 	private String savedname;
 	private Date uploadeddate;
 	private int board_seq;
-	private int template_seq;
+	private int document_seq;
 	private int msg_seq;
 	
 	@Builder // 생성자가 id,nmae등 부분적으로 필요한것도 알아서 생성. 단, controller에서 해주어야할께 있음
-	public FilesDTO(int seq, String oriname, String savedname, Date uploadeddate, int board_seq, int template_seq,
+	public FilesDTO(int seq, String oriname, String savedname, Date uploadeddate, int board_seq, int document_seq,
 			int msg_seq) {
 		super();
 		this.seq = seq;
@@ -27,7 +27,7 @@ public class FilesDTO {
 		this.savedname = savedname;
 		this.uploadeddate = uploadeddate;
 		this.board_seq = board_seq;
-		this.template_seq = template_seq;
+		this.document_seq = document_seq;
 		this.msg_seq = msg_seq;
 	}
 	

@@ -16,10 +16,10 @@ public class HomeController {
     public String test2() {
         return "document/c_templateList";
     }
-    @RequestMapping("/")
-    public String home() {
-        return "index";
 
+    @RequestMapping("/")
+    public String login() {
+        return "/login/login";
     }
     @GetMapping("/bug")
     public String bug() {
