@@ -6,4 +6,15 @@
     <insert id="addConfirm">
         insert into doc_confirm(seq,approver_code,approver_order,isconfirm,doc_seq) values(doc_confirm_seq.nextval,#{emp_code},#{order},default,#{doc_seq})
     </insert>
+    
+    <select id="getConfirmList" resultType="kh.cocoa.dto.ConfirmDTO">
+    	SELECT EMPLOYEE.NAME "emp_name", POSITION.NAME "pos_name", DEPARTMENTS.NAME "dept_name", DOC_CONFIRM.*
+		    FROM DOCUMENT, DOC_CONFIRM, EMPLOYEE, POSITION, DEPARTMENTS
+		    WHERE DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		        AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
+		        AND EMPLOYEE.POS_CODE = POSITION.CODE
+		        AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		        AND DOCUMENT.SEQ=#{seq}
+		    ORDER BY DOC_CONFIRM.APPROVER_ORDER
+    </select>
 </mapper>

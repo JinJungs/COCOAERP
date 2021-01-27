@@ -107,7 +107,7 @@ public class DocumentController {
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "TEMP");
 		List<DocumentDTO> list = dservice.getSearchTemporaryList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
-		//6. 결재선 받아오기
+
 		
 		model.addAttribute("list", list);
 		model.addAttribute("startDate", startDate);
@@ -337,10 +337,11 @@ public class DocumentController {
 	public String toReadPage(String seq, Model model) {
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
-
+		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
+		
 		model.addAttribute("dto", dto);
 		model.addAttribute("fileList",fileList);
-		System.out.println("fileList size " + fileList.size());
+		model.addAttribute("confirmList", confirmList);
 		
 		if(dto.getTemp_code()==4) {
 			return "/document/d_readReport";
@@ -406,6 +407,7 @@ public class DocumentController {
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
 		model.addAttribute("deptList",deptList);
+		dto.setCode(4);
 		if(dto.getCode()==4) {
             return "document/c_writeDocument";
         }else{

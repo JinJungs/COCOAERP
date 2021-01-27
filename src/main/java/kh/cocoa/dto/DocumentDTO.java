@@ -37,6 +37,7 @@ public class DocumentDTO {
 	private String temp_name;
 	private String emp_name;
 	private String dept_name;
+	private String pos_name;
 	
 
 	@Builder

@@ -15,6 +15,23 @@
 .etc{
 	margin-bottom: 40px;
 }
+.box{
+	width: 140px;
+	border: 1px solid lightgray;
+	margin-right: 20px;
+}
+.status_d{
+	background-color: #e3f6ff;
+	z-index: -1;
+	width: 100%;
+	left: 13.5px;
+}
+.status_a{
+	background-color: #ffe6e3;
+	z-index: -1;
+	width: 100%;
+	left: 13.5px;
+}
 </style>
 </head>
 <body>
@@ -48,7 +65,41 @@
 					<div class="col-2 p-0 text-right"></div>
 				</div>
 				<div class="row w-100 pt-4 pb-4 pl-3 pr-3"
-					style="border-bottom: 1px solid #c9c9c9;">결재선 들어갈 곳 나중에 ajax로</div>
+					style="border-bottom: 1px solid #c9c9c9;">
+
+					<div class="box">
+						<div class="row">
+							<div class="col-10 p-2 text-center status_d">기안자</div>
+						</div>
+						<div class="row p-2">
+							<div class="col-12 text-center">${dto.emp_name }</div>
+							<div class="col-12 text-center">(${dto.pos_name })</div>
+							<div class="col-12 text-center">${dto.dept_name }</div>
+						</div>
+					</div>
+
+					<c:forEach var="list" items="${confirmList}">
+						<div class="box">
+							<div class="row">
+								<div class="col-10 p-2 text-center status_a">
+									<c:choose>
+										<c:when test="${list.isConfirm eq 'N'}">
+										미결재
+									</c:when>
+										<c:when test="${list.isConfirm eq 'Y'}">
+										결재
+									</c:when>
+									</c:choose>
+								</div>
+							</div>
+							<div class="row p-2">
+								<div class="col-12 text-center">${list.emp_name }</div>
+								<div class="col-12 text-center">(${list.pos_name })</div>
+								<div class="col-12 text-center">${list.dept_name }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 				<div class="row w-100 pt-5 pb-2"
 					style="border-bottom: 1px solid #c9c9c9;">
 					<b>기안 내용</b>
