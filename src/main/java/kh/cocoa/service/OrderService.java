@@ -12,7 +12,7 @@ public class OrderService implements OrderDAO {
     private OrderDAO odao;
 
     @Override
-    public int addOrder(OrderDTO dto,int doc_seq) {
-        return odao.addOrder(dto,doc_seq);
+    public int addOrder(String order_list, int order_count, String order_etc, int doc_seq) {
+        return odao.addOrder(order_list,order_count,order_etc,doc_seq);
     }
 }

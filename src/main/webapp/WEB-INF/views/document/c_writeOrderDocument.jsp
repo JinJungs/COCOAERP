@@ -131,6 +131,7 @@
                                 <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
                                 <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
                             </div>
+                            <input type="hidden" id=doc_seq name="doc_seq">
                         </div>
                     </form>
 
@@ -258,8 +259,7 @@
 
     }
 
-    function ajaxaddorder(result){
-        console.log(result);
+    function ajaxaddorder(param){
         var data = $("#orderform").serializeArray();
         var json = JSON.stringify(data);
         $.ajax({
@@ -267,9 +267,10 @@
             url : "/restdocument/addorder.document",
             data :json,
             contentType:'application/json',
-            dataType :"json",
-            success : function(data) {
-
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
             }
         });
     }
@@ -287,7 +288,7 @@
                 processData: false,
                 success: function (result) {
                     resolve(result);
-
+                    $("#doc_seq").val(result);
                 }
             });
         });
