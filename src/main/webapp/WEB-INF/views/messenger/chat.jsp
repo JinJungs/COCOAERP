@@ -50,7 +50,7 @@
                          class="rounded-circle user_img_msg">
                 </div>
                 <div class="msg_cotainer">
-                    Hi Euijin how are you?
+                    Hi, how are you samim?
                     <span class="msg_time">8:40 AM, Today</span>
                 </div>
             </div>
@@ -66,13 +66,14 @@
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90">
-                <!-- onclick="fileSend()" id="fileUpload" -->
+            <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
                 <textarea name="" class="form-control type_msg" id="yourMsg"
                           placeholder="Type your message..."></textarea>
-                <div class="input-group-append" onclick="send()" id="sendBtn">
+                <div class="input-group-append" id="sendBtn">
+                <!-- <div class="input-group-append" onclick="sendMessage" id="sendBtn"> -->
                     <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                 </div>
             </div>
@@ -83,9 +84,8 @@
             <button onclick="chatName()" id="startBtn">이름 등록</button>
         </div>
         <div class="fileTest">
-            <input type="file" id="fileUpload">
-            <button type="button" onclick="newWSOpen()" id="testBtn">소켓오픈</button>
-            <button type="button" id="sendFileBtn">파일올리기테스트</button>
+        	<input type="file" id="fileUpload">
+			<button id="sendFileBtn">파일올리기테스트</button>
         </div>
     </div>
 </div>
@@ -94,6 +94,14 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
+<%------------------------------ 웹소켓 -------------------------------%>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<!-- sockjs, stomp CDN 폼에 넣었기 때문에 필요 없음 /근데 없애면 안됨... 폼 디펜던시 다시 받아봐야할 듯-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
     var cpage = 1;
@@ -311,58 +319,88 @@
         //fileReader.readAsArrayBuffer(file);
         //fileReader.readAsDataURL(file);
     }
+$(document).ready(  function() {
+	connectStomp();
+	/* 텍스트 전송 */
+	$('#sendBtn').on('click', function(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
 
-    /*// Blob 를 파일에 저장
-    function saveData(blob, fileName) {
-        var a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
+        let msg = $("#yourMsg").val();
+        console.log("mmmmmmmmmmmm>>", msg)
+        if (isStomp)
+        	socket.send('/getChat/text/'+${seq}, {}, JSON.stringify({
+        		seq: ''
+        		, contents: msg
+        		, write_date: new Date()
+        		, emp_code: 1000 //!수정필요!세션값 작성자 아이디
+        		, msg_seq: ${seq}}));
+        else
+            socket.send(msg);
+    });
 
-        url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    };
+	/* 파일 전송 sendFileBtn*/
+	//파일(링크)전송===================== 미완성/ FilesDTO 정보만 넘기기
+  	$('#sendFileBtn').on('click', function(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
 
-    // ArrayBuffer 를 파일에 저장
-    function saveData2(arrayBuffer, fileName) {
-        var a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        var parts = [];
-        parts.push(arrayBuffer);
-        url = window.URL.createObjectURL(new Blob(parts));
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    };*/
+        console.log("ffffffffffff>>", file)
 
-    /*    //파일을 Blob를 서버로 전송함
-        function sendFileBlob() {
-            // Sending file as Blob
-            var file = document.querySelector('input[type="file"]').files[0];
-            var receiver = $('#receiver').val();
-            var msg = {sender:clientId, receiver:receiver};
-            msg.fname = file.name;
-            //파일 데이터에 앞서 송,수신자, 파일명을 텍스트로 전송한다
-            Chat.socket.send(JSON.stringify(msg));
-            //파일 데이터를 전송한다
-            Chat.socket.send(file);
+        if (isStomp){
+        	var file = document.querySelector("#fileUpload").files[0];
+        	console.log(file);
+
         }
 
-        //파일을 ArrayBuffer를 서버로 전송함
-        function sendFileArrayBuffer() {
-            var file = document.querySelector('input[type="file"]').files[0];
-            var fileReader = new FileReader();
-            fileReader.onload = function() {
-                arrayBuffer = this.result;
-                Chat.socket.send(arrayBuffer);
-            };
-            fileReader.readAsArrayBuffer(file);
-        }*/
+        else
+            socket.send(file);
+    });
 
+    let ws = new WebSocket("ws://localhost/websocket");
+
+    //웹소켓으로 찐파일 전송 /jpg, png등 이미지 송수신 용도로 사용 / STOMP로 한 소켓으로 처리되면 좋은데 가능할지 미지수
+    $('#sendFileBtn').on('click', function(evt){
+    	var file = document.getElementById('fileUpload').files[0];
+        ws.send('filename:'+file.name);
+        alert('test');
+
+        var reader = new FileReader();
+        var rawData = new ArrayBuffer();
+
+        reader.loadend = function() {
+
+        }
+
+        reader.onload = function(e) {
+            rawData = e.target.result;
+            ws.send(rawData);
+            alert("파일 전송이 완료 되었습니다.")
+            ws.send('end');
+        }
+
+        reader.readAsArrayBuffer(file);
+    });
+});
+
+var socket = null;
+var isStomp = false;
+//스톰프 연결
+function connectStomp() {
+	var sock = new SockJS("/stompTest"); // endpoint
+    var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
+	isStomp = true;
+	socket = client;
+
+    client.connect({}, function () {
+        console.log("Connected stompTest!");
+        // 해당 토픽을 구독한다!
+        client.subscribe('/topic/'+${seq}, function (event) {
+            console.log("!!!!!!!!!!!!event>>", event)
+        });
+    });
+
+}
 
 </script>
 </body>

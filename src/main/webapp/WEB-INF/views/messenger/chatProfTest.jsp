@@ -95,6 +95,81 @@
 
 <script>
 
+	$(document).ready(  function() {
+		connectStomp();
+		/* 텍스트 전송 */
+		$('#sendBtn').on('click', function(evt) {
+	        evt.preventDefault();
+	        if (!isStomp && socket.readyState !== 1) return;
+	        
+	        let msg = $("#yourMsg").val();
+	        console.log("mmmmmmmmmmmm>>", msg)
+	        if (isStomp)
+	        	socket.send('/getChat/text/'+${seq}, {}, JSON.stringify({
+	        		type: 'message'
+	        		, seq: ''
+	        		, contents: msg
+	        		, write_date: new Date()
+	        		, emp_code: 1000
+	        		, msg_seq: ${seq}}));
+	        else
+	            socket.send(msg);
+	    });
+		
+		/* 파일 전송 sendFileBtn*/
+		//파일 전송===================== ArrayBuffer로 변형 후 전송?
+	 	$('#sendFileBtn').on('click', function(evt) {
+	        evt.preventDefault();
+	        if (!isStomp && socket.readyState !== 1) return;
+	        
+	        console.log("ffffffffffff>>", file)
+	        
+	        if (isStomp){
+	        	var file = document.querySelector("#fileUpload").files[0];
+	        	console.log(file);
+	            var fileReader = new FileReader();
+	            fileReader.onload = function() {
+	                arrayBuffer = this.result;
+	                console.log("Array contains", arrayBuffer.byteLength, "bytes.");
+	                socket.send('/getChat/file', {}, arrayBuffer);
+	            };
+	            fileReader.readAsArrayBuffer(file);
+	        }
+	        	
+	        else
+	            socket.send(file);
+	    }); 
+	});
+	
+	var socket = null;
+	var isStomp = false;
+	
+	function connectStomp() {
+		var sock = new SockJS("/stompTest"); // endpoint
+	    var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
+		isStomp = true;
+		socket = client;
+	    
+	    client.connect({}, function () {
+	        console.log("Connected stompTest!");
+	        // Controller's MessageMapping, header, message(자유형식)
+	/*         let msg = {
+	        			type: 'message'
+	            		, seq: ''
+	            		, contents: msg
+	            		, write_date: new Date()
+	            		, emp_code: 1000
+	            		, msg_seq: 1};
+	        client.send('/TTT', {}, JSON.stringify(msg)); */
+	
+	        // 해당 토픽을 구독한다!
+	        client.subscribe('/topic/'+${seq}, function (event) {
+	            console.log("!!!!!!!!!!!!event>>", event)
+	        });
+	    });
+	
+	}
+//================================================================================
     let ws = new WebSocket("ws://localhost/websocket");
 
     // 메세지를 받는  것을 콜백함수로 만들어준다.
