@@ -32,6 +32,12 @@ public class MessageController {
         int result = msgservice.insertMessage(msgdto);
         return "";
     }
+    
+    //STOMP 테스트용 메세지
+    @RequestMapping("chatTest")
+    public String chatTest() {
+    	return "/messenger/chatTest";
+    }
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

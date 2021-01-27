@@ -72,7 +72,8 @@
                 </div>
                 <textarea name="" class="form-control type_msg" id="yourMsg"
                           placeholder="Type your message..."></textarea>
-                <div class="input-group-append" onclick="send()" id="sendBtn">
+                <div class="input-group-append" id="sendBtn">
+                <!-- <div class="input-group-append" onclick="sendMessage" id="sendBtn"> -->
                     <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                 </div>
             </div>
@@ -84,7 +85,7 @@
         </div>
         <div class="fileTest">
         	<input type="file" id="fileUpload">
-			<button onclick="fileSend()" id="sendFileBtn">파일올리기테스트</button>
+			<button id="sendFileBtn">파일올리기테스트</button>
         </div>
     </div>
 </div>
@@ -94,8 +95,111 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 
 <%------------------------------ 웹소켓 -------------------------------%>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>	
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
-    var ws;
+$(document).ready(  function() {
+	connectStomp();
+	/* 텍스트 전송 */
+	$('#sendBtn').on('click', function(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
+        
+        let msg = $("#yourMsg").val();
+        console.log("mmmmmmmmmmmm>>", msg)
+        if (isStomp)
+        	socket.send('/getChat/text/'+${seq}, {}, JSON.stringify({
+        		type: 'message'
+        		, seq: ''
+        		, contents: msg
+        		, write_date: new Date()
+        		, emp_code: 1000
+        		, msg_seq: ${seq}}));
+        else
+            socket.send(msg);
+    });
+	
+	/* 파일 전송 sendFileBtn*/
+	//파일 전송===================== ArrayBuffer로 변형 후 전송?
+ 	$('#sendFileBtn').on('click', function(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
+        
+        console.log("ffffffffffff>>", file)
+        
+        if (isStomp){
+        	var file = document.querySelector("#fileUpload").files[0];
+        	console.log(file);
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                arrayBuffer = this.result;
+                console.log("Array contains", arrayBuffer.byteLength, "bytes.");
+                socket.send('/getChat/file', {}, arrayBuffer);
+            };
+            fileReader.readAsArrayBuffer(file);
+        }
+        	
+        else
+            socket.send(file);
+    }); 
+});
+
+var socket = null;
+var isStomp = false;
+
+function connectStomp() {
+	var sock = new SockJS("/stompTest"); // endpoint
+    var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
+	isStomp = true;
+	socket = client;
+    
+    client.connect({}, function () {
+        console.log("Connected stompTest!");
+        // Controller's MessageMapping, header, message(자유형식)
+/*         let msg = {
+        			type: 'message'
+            		, seq: ''
+            		, contents: msg
+            		, write_date: new Date()
+            		, emp_code: 1000
+            		, msg_seq: 1};
+        client.send('/TTT', {}, JSON.stringify(msg)); */
+
+        // 해당 토픽을 구독한다!
+        client.subscribe('/topic/'+${seq}, function (event) {
+            console.log("!!!!!!!!!!!!event>>", event)
+        });
+    });
+
+}
+	
+/* 	//연결해제 //1:1에서는 필요 없음
+	function disconnect(){
+		if(stompClient !== null){
+			stompClient.send("/app/out", {}, usersessionid.value + ' is out chatroom');
+			stompClient.disconnect();
+		}
+	} */
+		
+	//메세지 전송
+/* 	let text = $("#yourMsg").val();
+	function sendMessage(text){
+		stompClient.send("app/hello", {}, JSON.stringify({
+			type: "message",
+			//sessionId: $("#sessionId").val(),
+			contents: $("#yourMsg").val(),
+			write_date: new Date(), //.getMilliseconds() DTO형 바꿔야함
+            emp_code: $("#userName").val(),
+            msg_seq: $("#roomNumber").val()
+            }));
+	} */
+	
+/*     var ws;
 
     // 사용자 이름 입력 후 이름 등록 버튼 클릭시
     function chatName() {
@@ -175,7 +279,7 @@
         // (1) 웹소켓에 send
         ws.send(JSON.stringify(option))
         // (2) db에 저장
-/*        $.ajax({
+        $.ajax({
             url: "/message/createMessage",
             type: "post",
             data: {
@@ -189,7 +293,7 @@
                     console.log("메세지 저장 성공!");
                 }
             }
-        })*/
+        })
 
 
         // (3) 채팅입력창 다시 지워주기
@@ -231,7 +335,7 @@
 			
 		};
 		fileReader.readAsArrayBuffer(file);
-	}
+	} */
 </script>
 </body>
 </html>

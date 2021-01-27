@@ -15,4 +15,6 @@ public class MessageDTO {
     private Date write_date;
     private int emp_code;
     private int msg_seq;
+//  추가=================
+    private String type;
 }
