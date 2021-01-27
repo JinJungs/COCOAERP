@@ -23,7 +23,7 @@
       <!-- 지영 -->
       <button type="button" onclick="fn_board()">게시판 바로가기</button>
 	
-      <!-- 효경: 이부분 살려놔주시면 감사하겠습니다..ㅎ -->
+      <!-- 효경 -->
       <input type=button value="저장된" id=temporaryBtn><br>
         <input type=button value="상신한" id=raiseBtn><br>
         <input type=button value="승인된" id=approvalBtn><br>
@@ -32,23 +32,23 @@
         <script>
          let temporaryBtn = document.getElementById("temporaryBtn");
          temporaryBtn.onclick = function() {
-            location.href = "/document/d_searchTemporary.document?";
+            location.href = "/document/d_searchTemporary.document?&searchText=";
          }
          let raiseBtn = document.getElementById("raiseBtn");
          raiseBtn.onclick = function() {
-            location.href = "/document/d_searchRaise.document";
+            location.href = "/document/d_searchRaise.document?&searchText=";
          }
          let approvalBtn = document.getElementById("approvalBtn");
          approvalBtn.onclick = function() {
-            location.href = "/document/d_searchApproval.document";
+            location.href = "/document/d_searchApproval.document?&searchText=";
          }
          let rejectBtn = document.getElementById("rejectBtn");
          rejectBtn.onclick = function() {
-            location.href = "/document/d_searchReject.document";
+            location.href = "/document/d_searchReject.document?&searchText=";
          }
          let returnBtn = document.getElementById("returnBtn");
          returnBtn.onclick = function() {
-            location.href = "/document/d_searchReturn.document";
+            location.href = "/document/d_searchReturn.document?&searchText=";
          }
          /*지영 부분*/
 	   function fn_board() {
