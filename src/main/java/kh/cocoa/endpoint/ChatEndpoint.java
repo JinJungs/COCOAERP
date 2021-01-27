@@ -20,7 +20,7 @@ import java.util.Set;
 // HandShaking 하는 설정을 우리가 configurator로 지정해주는 것이다.
 @Log
 @Component
-@ServerEndpoint(value="/websocket", configurator= HttpSessionConfigurator.class)
+@ServerEndpoint(value = "/websocket", configurator = HttpSessionConfigurator.class)
 public class ChatEndpoint {
 
     BufferedOutputStream bos;
@@ -36,15 +36,15 @@ public class ChatEndpoint {
     public void onConnect(Session client, EndpointConfig con) {
         System.out.println(client.getId() + " 클라이언트가 접속했습니다.");
         clients.add(client);
-        HttpSession hsession = (HttpSession)con.getUserProperties().get("hsession");
-        String id = (String)hsession.getAttribute("loginInfo");
+        HttpSession hsession = (HttpSession) con.getUserProperties().get("hsession");
+        String id = (String) hsession.getAttribute("loginInfo");
         System.out.println(id);
     }
 
     // 메세지를 받았을 때
     @OnMessage
-    public void onMessage(String msg,Session session) {
-        System.out.println("도착여부 : "+msg);
+    public void onMessage(String msg, Session session) {
+        System.out.println("도착여부 : " + msg);
         // throws Exception처리를 하면 for문이 끝나게 되므로 try-catch
         // 받은 메세지를 접속한모든 client들에게 메세지를 뿌려줘야하므로 for문을 돌린다.
 
@@ -53,10 +53,10 @@ public class ChatEndpoint {
         //HttpSession hsession = (HttpSession)con.getUserProperties().get("hsession");
         //String id = (String)hsession.getAttribute("loginInfo");
 
-        synchronized(clients) {
-            for(Session client: clients) {
+        synchronized (clients) {
+            for (Session client : clients) {
                 try {
-                    if(session!=client) {
+                    if (session != client) {
                         client.getBasicRemote().sendText(msg);
                     }
                 } catch (IOException e) {
@@ -67,10 +67,10 @@ public class ChatEndpoint {
 
         // 클라이언트에서 파일이 끝났다는 신호로 "end" 문자열을 보낸다.
         // msg가 end가 아니라면 파일로 연결된 스트림을 연다.
-        if(!msg.equals("end")){
+        if (!msg.equals("end")) {
 
             // 클라이언트에서 파일을 전송하기전 파일이름을 "file name:aaa.aaa" 형식으로 보낸다.
-            String fileName = msg.substring(msg.indexOf(":")+1);
+            String fileName = msg.substring(msg.indexOf(":") + 1);
             System.out.println(fileName);
             File file = new File(path + fileName);
             try {
@@ -81,7 +81,7 @@ public class ChatEndpoint {
             }
 
             // msg 가 end가 왔다면 전송이 완료되었음을 알리는 신호이므로 outputstream 을 닫아준다.
-        }else{
+        } else {
             try {
                 bos.flush();
                 bos.close();
@@ -91,24 +91,38 @@ public class ChatEndpoint {
         }
     }
 
-    // 바이너리 데이터가 오게되면 호출된다.
-    @OnMessage
-    public void processUpload(ByteBuffer msg, boolean last, Session session) {
-        System.out.println("파일 onMessage 도착!");
-        while(msg.hasRemaining()){
-            try {
-                bos.write(msg.get());
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+/*    @OnMessage
+    public void onMessage(Session session, String msg) throws IOException {
+        // 클라이언트에서 fileName:파일명 형태로 파일 요청
+        String fileName = msg.substring(msg.indexOf(":") + 1);
+        System.out.println("request file : " + fileName); // 파일 객체 생성
+        File file = new File(path + fileName); // 파일을 담을 바이트 배열
+        byte[] fileBytes = new byte[(int) file.length()];
+        try ( // 파일로 연결된 스트림 생성
+              BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) { // 바이트 배열에 파일 저장
+            bis.read(fileBytes); } // ByteBuffer에 바이트 배열을 담는다
+        ByteBuffer buf = ByteBuffer.wrap(fileBytes); // ByteBuffer 를 클라이언트로 보낸다.
+        session.getBasicRemote().sendBinary(buf);
+        }*/
+
+        // 바이너리 데이터가 오게되면 호출된다.
+        @OnMessage
+        public void processUpload (ByteBuffer msg,boolean last, Session session){
+            System.out.println("파일 onMessage 도착!");
+            while (msg.hasRemaining()) {
+                try {
+                    bos.write(msg.get());
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
-    }
 
-    // 연결이 끊어졌을때
-    @OnClose
-    public void donDisconnect(Session session) {
-        clients.remove(session);
-    }
+        // 연결이 끊어졌을때
+        @OnClose
+        public void donDisconnect (Session session){
+            clients.remove(session);
+        }
 
-}
+    }
