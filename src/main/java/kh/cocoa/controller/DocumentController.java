@@ -3,10 +3,7 @@ package kh.cocoa.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -21,18 +18,28 @@ import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.TemplatesService;
+
+import kh.cocoa.dto.*;
+import kh.cocoa.service.*;
+import kh.cocoa.statics.Configurator;
+
 import kh.cocoa.statics.DocumentConfigurator;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kh.cocoa.dto.DocumentDTO;
-import kh.cocoa.service.DocumentService;
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -56,6 +63,12 @@ public class DocumentController {
 	@Autowired
 	private HttpSession session;
 	
+	@Autowired
+	private ConfirmService cservice;
+
+	@Autowired
+	private OrderService oservice;
+
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
@@ -383,13 +396,52 @@ public class DocumentController {
 	public String toWrtieDocument(TemplatesDTO dto,Model model){
 		String deptName = deptservice.getDeptName();
 		List<DepartmentsDTO> deptList = new ArrayList<>();
+		EmployeeDTO getEmpinfo = new EmployeeDTO();
+		getEmpinfo=eservice.getEmpInfo(1000);
 		deptList=deptservice.getDeptList();
+		model.addAttribute("temp_code",dto.getCode());
+		model.addAttribute("empInfo",getEmpinfo);
 		model.addAttribute("size",deptList.size());
 		model.addAttribute("deptName",deptName);
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
 		model.addAttribute("deptList",deptList);
-		return "document/c_writeDocument";
+		if(dto.getCode()==4) {
+            return "document/c_writeDocument";
+        }else{
+		    return "document/c_writeOrderDocument";
+        }
+	}
+
+	@PostMapping("addconfirm.document")
+	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code,
+							 OrderDTO odto) throws Exception{
+
+		int result = dservice.addDocument(docdto);
+		int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
+
+		/*if(result >0){
+
+			for(int i=0;i<code.size();i++){
+				int addConfirm = cservice.addConfirm(code.get(i),i+1,getDoc_code);
+			}
+			if(!file.get(0).getOriginalFilename().contentEquals("")) {
+				String fileRoot = Configurator.boardFileRootC;
+				File filesPath = new File(fileRoot);
+				if(!filesPath.exists()){filesPath.mkdir();}
+				for(MultipartFile mf : file){
+					String oriName = mf.getOriginalFilename();
+					String uid = UUID.randomUUID().toString().replaceAll("_","");
+					String savedName = uid+"_"+ oriName;
+					int insertFile = fservice.documentInsertFile(oriName,savedName,getDoc_code);
+					if(insertFile>0){
+						File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+savedName);
+						FileCopyUtils.copy(mf.getBytes(),targetLoc);
+					}
+				}
+			}
+		}*/
+		return "redirect:toTemplateList.document";
 	}
 }
 

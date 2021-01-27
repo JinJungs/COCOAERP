@@ -117,4 +117,51 @@
 		        AND SEQ=#{seq}
 		    ORDER BY DOCUMENT.SEQ
 	</select>
+
+	<!--용국-->
+	<insert id="addDocument">
+		<choose>
+			<when test="temp_code==5">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+			</when>
+			<when test="temp_code==6">
+				insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+			</when>
+			<when test="temp_code==4">
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="getDocCode" resultType="Integer">
+		select max(seq) from document where writer_code=#{writer_code}
+	</select>
+
+	<insert id="addSaveDocument">
+		<choose>
+			<when test="order_list!=null">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,order_list,order_count,order_etc,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title),#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},#{order_list},#{order_count},#{order_etc},'TEMP',#{dept_code},#{temp_code})
+			</when>
+			<when test="leave_start!=null">
+				insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+			</when>
+			<when test="report_start!=null">
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+			</otherwise>
+		</choose>
+	</insert>
 </mapper>

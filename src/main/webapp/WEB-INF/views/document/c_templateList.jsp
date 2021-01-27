@@ -20,11 +20,10 @@
             </div>
             <div class="row" id="defaultmain">
                 <div class="col-md-12" >
-
                     <div class="row" style="border-bottom: 1px solid pink;">
                     <c:forEach var="list" items="${list}">
-                        <div class="col-md-1 col-3 p-0 m-md-3 m-3" style="border: 1px solid pink; min-width: 135px; min-height:120px" id="templatelist"+{list.code} onclick="fn_toWriteDocument(${list.code},'${list.name}')">
-                            <div class="row m-0" style="border-bottom: 1px solid pink;">
+                        <div class="col-md-1 col-3 p-0 m-md-3 m-3" style="border: 1px solid #DCDCDC; min-width:135px; max-width: 135px; min-height:130px" id="templatelist"+{list.code} onclick="fn_toWriteDocument(${list.code},'${list.name}')">
+                            <div class="row m-0 pt-1 pb-1" style="background-color: #F2F6FF">
                                 <div class="col-md-12 text-center" >${list.name}</div>
                             </div>
                             <div class="row m-0">
@@ -36,16 +35,16 @@
                 </div>
             </div>
             <c:if test="${subsize!=0}">
-                <div class="row" id="subheader" style=" cursor: pointer; border-bottom: 1px solid pink; padding-bottom: 10px;" onclick="fn_subopenlist()">
+                <div class="row" id="subheader" style=" cursor: pointer; border-bottom: 1px solid  #c9c9c9; padding-bottom: 10px;" onclick="fn_subopenlist()">
                     <div class="col-md-11 col-sm-10 col-10 pt-md-3"><b>만든 양식 ${subSize}</b></div>
                     <div class="col-md-1 col-sm-2 col-2 text-right pt-md-3">▼</div>
                 </div>
                 <div class="row" id="submain" style="display: none; ">
                     <div class="col-md-12" >
-                        <div class="row" style="border-bottom: 1px solid pink;">
+                        <div class="row" style="border-bottom: 1px solid  #c9c9c9;">
                             <c:forEach var="sublist" items="${subList}">
-                                <div class="col-md-1 col-3 p-0 m-md-3 m-3" style="border: 1px solid pink; min-width: 135px; min-height:120px">
-                                    <div class="row m-0" style="border-bottom: 1px solid pink;">
+                                <div class="col-md-1 col-3 p-0 m-md-3 m-3" style="border: 1px solid  #c9c9c9; min-width: 135px; min-height:120px">
+                                    <div class="row m-0" style="border-bottom: 1px solid  #c9c9c9;">
                                         <div class="col-md-12 text-center" >${sublist.name}</div>
                                     </div>
                                     <div class="row m-0">
