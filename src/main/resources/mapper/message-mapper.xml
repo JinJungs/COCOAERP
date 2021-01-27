@@ -4,8 +4,4 @@
     <select id="selectMessage"  resultType="kh.cocoa.dto.MessageDTO">
         SELECT * FROM MESSAGE
     </select>
-<<<<<<< HEAD
-=======
-
->>>>>>> 57e0e18947b03a5d9c7bb5a6f75a09ab2787dbb6
 </mapper>

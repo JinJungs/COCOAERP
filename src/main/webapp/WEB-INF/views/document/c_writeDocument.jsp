@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -137,6 +139,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script>
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
 
     var getempcode=0;
     var getaddedempcode = [];
