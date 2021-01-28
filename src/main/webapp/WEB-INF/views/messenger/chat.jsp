@@ -92,7 +92,6 @@
 
         }
     });
-
     /*          $(".message").on("keydown", function (e) {
             if (e.keyCode == 13) {
                 let message = $(".message").html();
