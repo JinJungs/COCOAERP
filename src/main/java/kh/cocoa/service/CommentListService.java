@@ -22,9 +22,9 @@ public class CommentListService implements CommentListDAO{
 	}
 	//코멘트 리스트 불러오기
 	@Override
-	public List<CommentListDTO> noBoardWriteCommentList(CommentListDTO dto,int seq) {
+	public List<CommentListDTO> noBoardWriteCommentList(int seq) {
 		System.out.println("서비스 코멘트 리스트");
-		return cdao.noBoardWriteCommentList(dto,seq);
+		return cdao.noBoardWriteCommentList(seq);
 	}
 	//댓글 수 확인
 	public int noBoardCommentCount(int seq) {

@@ -16,22 +16,22 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	private NotificationBoardDAO ndao;
 
 	//글작성
-	public int notificationBoardCreateDone(int noBoard_seq,BoardDTO bdto) {
-		return ndao.notificationBoardCreateDone(noBoard_seq,bdto);
+	public int notificationBoardCreateDone(int noBoard_seq,BoardDTO bdto,int menu_seq) {
+		return ndao.notificationBoardCreateDone(noBoard_seq,bdto,menu_seq);
 	}
 
 	//게시글 읽기
-	public BoardDTO notificationBoardContentsSelect(int seq) {
-		return ndao.notificationBoardContentsSelect(seq);
+	public BoardDTO notificationBoardContentsSelect(BoardDTO dto) {
+		return ndao.notificationBoardContentsSelect(dto);
 	}
 	//seq로 게시글 수 확인
-	public int isExistReadPage(int seq) {
-		return ndao.isExistReadPage(seq);
+	public int isExistReadPage(int menu_seq) {
+		return ndao.getSearchCount(menu_seq);
 	}
 	
 	//게시글 조회수 올리기
-	public void notificationBoardViewCount(int seq) {
-		ndao.notificationBoardViewCount(seq);
+	public void notificationBoardViewCount(BoardDTO dto) {
+		ndao.notificationBoardViewCount(dto);
 	}
 	//게시글 수정
 	public int notificationBoardContentsModify(BoardDTO dto) {
@@ -49,57 +49,34 @@ public class NotificationBoardService implements NotificationBoardDAO {
 
 
 	/*======Search List=================================================================*/
+
+	@Override
+
 	//게시글 검색 리스트
-	public List<BoardDTO> notificationBoardListBySearch(int cpage, String search,String searchBy) {
-
-		List<BoardDTO> list = notificationBoardListBySearch(); 
-		List<BoardDTO> searchList2 = new ArrayList<BoardDTO>();
-
-		list = notificationBoardSearchList(list, search);
+	public List<BoardDTO> notificationBoardListBySearch(String search, String searchBy, int menu_seq, int cpage) {
+		System.out.println("서비스 검색 menu_seq"+menu_seq);
+		System.out.println("서비스 검색 search " +search);
+		System.out.println("서비스 검색 searchBy " +searchBy);
+		
 		int startRowNum = (cpage-1) * Configurator.recordCountPerPage;
 		int endRowNum = startRowNum + Configurator.recordCountPerPage - 1; 
 
 		//마지막 페이지 출력시 endRowNum 제한
-		int totalCount = getSearchCount(search); //검색된 게시글 수
+		int totalCount = getSearchCount(menu_seq); //검색된 게시글 수
+		System.out.println("검색된 게시글 수는? "+totalCount);
+		
 		if(endRowNum >= totalCount) {
 			endRowNum = totalCount-1; 
 		}
-		for(int i=startRowNum; i<=endRowNum; i++) {
-			searchList2.add(list.get(i));   
-		}
-
-		return searchList2;
+		return ndao.notificationBoardListBySearch(search,searchBy,menu_seq,cpage);
 	}
-
-	@Override 
-	public List<BoardDTO> notificationBoardListBySearch(){ 
-		return ndao.notificationBoardListBySearch(); 
-	}
-
-	//검색한 리스트 받기
-	public List<BoardDTO> notificationBoardSearchList(List<BoardDTO> list, String search){
-		//검색한 리스트 받기
-		List<BoardDTO> searchList = new ArrayList<BoardDTO>();
-		for(int i=0; i<list.size(); i++) {
-			String title = list.get(i).getTitle();
-			String contents = list.get(i).getContents();
-
-			// 글 내용이나 글제목이 검색창에 입력된 것과 같은 경우 리스트 가져오기
-			if(contents.contains(search) || title.contains(search)) {
-				searchList.add(list.get(i));
-			}
-		}
-		return searchList;
-	}
-	//검색된 게시글 수
-	public int getSearchCount(String search) {
-		List<BoardDTO> list = notificationBoardListBySearch();
-		list = notificationBoardSearchList(list, search);
-		return list.size();
+	@Override
+	public int getSearchCount(int menu_seq) {
+		return ndao.getSearchCount(menu_seq);
 	}
 	//검색 게시글 네비
-	public String notificationBoardSearchNavi(int cpage, String search,String searchBy) {
-		int recordTotalCount = getSearchCount(search);
+	public String notificationBoardSearchNavi(int menu_seq,int cpage, String search,String searchBy) {
+		int recordTotalCount = getSearchCount(menu_seq);
 		
 		int pageTotalCount = recordTotalCount/Configurator.recordCountPerPage;
 		if(recordTotalCount/Configurator.recordCountPerPage != 0) {
@@ -125,36 +102,37 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		if(needPrev) {
-			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(startNavi-1)+"&search="+search+">Previous</a></li>");
+			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(startNavi-1)+"&menu_seq="+menu_seq+"&search="+search+">Previous</a></li>");
 		}
 		for(int i=startNavi; i<=endNavi; i++) {
-			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+i+"&search="+search+"> "+i+"</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+i+"&menu_seq="+menu_seq+"&search="+search+"> "+i+"</a></li>");
 		}if(needNext) {
-			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(endNavi+1)+"&search="+search+">Next</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(endNavi+1)+"&menu_seq="+menu_seq+"&search="+search+">Next</a></li>");
 		}
 
 		return sb.toString();
 	}
-	/*======List=================================================================*/
 
+	/*======List=================================================================*/
 	//게시글 리스트 가져오기
-	public List<BoardDTO> getNotificationBoardListCpage(String cpage){
+	public List<BoardDTO> getNotificationBoardListCpage(String cpage,int menu_seq){
 		int startRowNum = (Integer.parseInt(cpage)-1)*Configurator.recordCountPerPage+1;
 		int endRowNum = Integer.parseInt(cpage) *Configurator.recordCountPerPage-1;
-		return getNotificationBoardList(startRowNum,endRowNum);
+		return getNotificationBoardList(startRowNum,endRowNum,menu_seq);
 	}
 	@Override
-	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum){
-		return ndao.getNotificationBoardList(startRowNum,endRowNum);
+	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum,int menu_seq){
+		return ndao.getNotificationBoardList(startRowNum,endRowNum,menu_seq);
 	}
 	@Override
-	public int recordTotalCount() { //getNavi에 들어가는 내용
-		return ndao.recordTotalCount();
+	public int recordTotalCount(int menu_seq) { //getNavi에 들어가는 내용
+		return ndao.recordTotalCount(menu_seq);
 	}
 	//네비게이터 가져오기
 	@Override
-	public String getNavi(int cpage) {
-		int recordTotalCount = recordTotalCount();
+	public String getNavi(int cpage,int menu_seq) {
+		System.out.println("navi에서 menu_seq값은?" +menu_seq);
+		int recordTotalCount = recordTotalCount(menu_seq);
 		int pageTotalCount;
 		if(recordTotalCount / Configurator.recordCountPerPage > 0) {
 			System.out.println("게시글 수" +recordTotalCount);
@@ -184,13 +162,13 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		if(needPrev) {
-			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(startNavi-1)+">Previous</a></li>");
+			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(startNavi-1)+"&menu_seq="+menu_seq+">Previous</a></li>");
 		}
 		for(int i = startNavi; i<=endNavi; i++){
-			sb.append("<li class=page-item><a class=page-link href =/noBoard/notificationBoardList.no?cpage="+i+"> "+i+"</a></li>");
+			sb.append("<li class=page-item><a class=page-link href =/noBoard/notificationBoardList.no?cpage="+i+"&menu_seq="+menu_seq+"> "+i+"</a></li>");
 		}
 		if(needNext) {
-			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(endNavi+1)+">Next</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(endNavi+1)+"&menu_seq="+menu_seq+">Next</a></li>");
 		}
 		return sb.toString();
 

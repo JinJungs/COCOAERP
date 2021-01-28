@@ -18,10 +18,14 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
-		<input type="hidden" name="cpage" value="${cpage}"> <input
-			type="hidden" name="seq" value="${dto.seq}">
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">회사 소식(글읽기)</h2>
+			
+			
+		<input type="hidden" name="cpage" value="${cpage}"> 
+		<input type="hidden" name="seq" value="${dto.seq}">
+		<input type="hidden" name="menu_seq" value="${dto.menu_seq}">
+			
 			<!--제목  -->
 			<div class="row">
 				<div class="col-sm-12 head_box">${dto.title}</div>
@@ -58,11 +62,11 @@
 					</ul>
 				</div>
 			</div>
-			<div class="row footer">
+			<div class="row">
 				<!--홈으로 이동  -->
 				<div class="col-sm-2">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_home(${cpage})">HOME</button>
+						onclick="fn_home()">HOME</button>
 				</div>
 
 				<div class="col-sm-7 d-none d-sm-block"></div>
@@ -131,6 +135,8 @@
 	                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
 	                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
 	                       html += "</div>";
+						   html += "<div id=main_ccontents"+data[i].seq+" class=main_ccontent>"+ data[i].contents + "</div>";
+											
 	                       $("#commentForm").html(html);			
 	                   }
 	               }else if(data.length==0){
@@ -139,6 +145,23 @@
 	           }
 	       });
 	   }
+	   /*댓글 수정*/
+	   	function updateComment(seq){
+			$.ajax({
+	           data: 
+	           {seq : seq},
+	           type: "post",
+	           url: "/comment/noBoardUpdateComment.co",
+	           success: function(data){
+	           if(data.length>0){
+	           $("#main_content").html("<textarea class=main_contentmod name=contents id=main_contentmod></textarea>");
+	           }
+	           console.log(data);
+	           console.log("수정 성공!");
+	           getCommentList();
+	      	 }
+	  	 })
+ 		}
 	   /*댓글 작성*/
 	 	$(document).ready(function(){
 			$("#writeComment").click(function(){
@@ -158,20 +181,7 @@
 		   		});
 		   	});
 	   	});
-	   	/*댓글 수정*/
-	   	function updateComment(seq){
-			$.ajax({
-	           data: 
-	           {seq : seq},
-	           type: "post",
-	           url: "/comment/noBoardUpdateComment.co",
-	           success: function(data){
-	           console.log(data);
-	           console.log("수정 성공!");
-	           getCommentList();
-	      	 }
-	  	 })
- 		}
+	   	
 	   	/*댓글 삭제*/
 	   	function deleteComment(seq){
 		   $.ajax({
@@ -187,18 +197,18 @@
 	  	 })
   		}
 		/*홈으로*/
-		function fn_home(cpage) {
-			location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
+		function fn_home() {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
 		}
 		/*수정*/
 		function fn_modify(cpage,seq) {
-			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage;
+			location.href = "/noBoard/notificationBoardModify.no?menu_seq=1&seq="+seq+"&cpage="+cpage;
 		}
 		/*삭제*/
 		function fn_delete(cpage,seq) {
 			doubleCheck = confirm("해당 게시글을 정말 삭제 하시겠습니까?");
 			if(doubleCheck==true){
-				location.href = "/noBoard/notificationBoardDelete.no?seq="+seq+"&cpage="+cpage;
+				location.href = "/noBoard/notificationBoardDelete.no?menu_seq=1&seq="+seq+"&cpage="+cpage;
 			}else{
 				return;
 			}

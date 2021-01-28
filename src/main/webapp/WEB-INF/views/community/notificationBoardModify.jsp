@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -25,12 +24,13 @@
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">회사공지(글수정)</h2>
 
-			<input type="hidden" name="cpage" value="${cpage}"> <input
-				type="hidden" name="seq" value="${dto.seq}" />
+			<input type="hidden" name="cpage" value="${cpage}"> 
+			<input type="hidden" name="seq" value="${dto.seq}">
 
 			<form
-				action="/noBoard/notificationBoardModifyDone.no?cpage=${cpage}&seq=${dto.seq}"
+				action="/noBoard/notificationBoardModifyDone.no?menu_seq=${menu_seq}&cpage=${cpage}&seq=${dto.seq}"
 				method="post" id="submitForm" enctype="multipart/form-data">
+				<input type="hidden" name="menu_seq" value="${menu_seq}">
 				<!--제목  -->
 				<div class="row ">
 					<div class="col-sm-12 head_box">
@@ -88,7 +88,7 @@
 					<!--홈으로 이동  -->
 					<div class="col-sm-2 button_box" id="btn_left">
 						<button type="button" class="btn btn-primary"
-							onclick="fn_home(${cpage})">HOME</button>
+							onclick="fn_home()">HOME</button>
 					</div>
 					<div class="col-sm-10 button_box">
 						<button type="button" class="btn btn-primary" id="btn_write">수정</button>
@@ -113,8 +113,8 @@
 		}
  	}
  	/*홈으로*/
-	function fn_home(cpage) {
-		location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
+	function fn_home() {
+		location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
 	}
 	/*파일 삭제*/
 	// 화면상에서만 리스트가 사라진 것처럼 보이게 gkrl &제거 전 제거될 파일의 seq값을 리스트에 추가
@@ -134,8 +134,8 @@
          //새로 추가할 파일 최대 갯수 지정
          var x = document.getElementById("myFile");
          var txt = "";
-         if ('file' in x) {
-            if (x.file.length > 11) {
+         if ('files' in x) {
+            if (x.files.length > 11) {
                alert("파일은 최대 10개까지 첨부 가능합니다.");
                document.getElementById("myFile").value = "";
                return;

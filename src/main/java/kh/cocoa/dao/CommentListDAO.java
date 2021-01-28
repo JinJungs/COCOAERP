@@ -11,7 +11,7 @@ public interface CommentListDAO {
 	//댓글 쓰기
 	public int noBoardWriteComment(CommentListDTO dto);
 	//댓글 리스트 불러오기
-	public List<CommentListDTO> noBoardWriteCommentList(CommentListDTO dto,int seq);
+	List<CommentListDTO> noBoardWriteCommentList(int seq);
 	//댓글 수 확인
 	public int noBoardCommentCount(int seq);
 	//댓글 삭제

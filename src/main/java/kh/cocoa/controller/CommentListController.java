@@ -23,6 +23,8 @@ public class CommentListController {
 	@Autowired
 	CommentListService cservice;
 
+	/*------------------*** 자유 게시판 ****------------------*/
+	
 	/*------------------*** 회사 공지 ****------------------*/
 	//댓글 작성
 	@RequestMapping("noBoardWriteComment.co") 
@@ -43,11 +45,11 @@ public class CommentListController {
 	}
 	//댓글 리스트 불러오기
 	@RequestMapping("noBoardWriteCommentList.co")
-	public String noBoardWriteCommentList(CommentListDTO dto,int seq,Model model) {
+	public String noBoardWriteCommentList(int seq,Model model) {
 		System.out.println("댓글 리스트 불러오기");
 		System.out.println("게시글 seq 은?"+seq);
 		JSONArray jArray = new JSONArray();
-		List<CommentListDTO> list = cservice.noBoardWriteCommentList(dto,seq);
+		List<CommentListDTO> list = cservice.noBoardWriteCommentList(seq);
 		System.out.println("댓글 list : "+list);
 		// list를 JsonArray로 바꾼다.
 		for (int i = 0; i < list.size(); i++) {

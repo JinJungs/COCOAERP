@@ -22,7 +22,9 @@
       <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
       <!-- 지영 -->
-      <button type="button" onclick="fn_board()">게시판 바로가기</button>
+      <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
+      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
+      <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
 	
       <!-- 효경: 이부분 살려놔주시면 감사하겠습니다..ㅎ -->
       <input type=button value="저장된" id=temporaryBtn><br>
@@ -52,10 +54,18 @@
             location.href = "/document/d_searchReturn.document";
          }
          /*지영 부분*/
+         //회사소식
 	   function fn_board() {
-			location.href = "/noBoard/notificationBoardList.no"
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
 		}
-   	
+		//자유게시판
+		function fn_cocoaBoard(){
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
+		}
+		//앨범게시판
+		function fn_albumBoard(){
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
+		}
    </script>
         
       </div>

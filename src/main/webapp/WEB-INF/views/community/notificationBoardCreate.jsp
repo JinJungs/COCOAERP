@@ -12,11 +12,9 @@
 .row{border-bottom: 1px solid pink}
 #fileinsert{width:20%;}
 </style>
-
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 </head>
-
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
@@ -25,6 +23,8 @@
 
 			<form action="/noBoard/notificationBoardCreateDone.no" method="post"
 				id="submitForm" enctype="multipart/form-data">
+				
+				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
 				<div class="row">
 					<div class="col-sm-3 head_box">제목</div>
 					<div class="col-sm-9">
@@ -36,6 +36,7 @@
 				<div class="row">
 					<div class="col head_box">내용</div>
 				</div>
+				
 				<div class="row">
 					<textarea class="contents_box col-xs-12" id="contents"
 						name="contents" placeholder="내용을 입력하세요."></textarea>
@@ -78,14 +79,14 @@
 	 	}
 		/*홈으로*/
 		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no"
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
 		}
 		/*파일첨부*/
 		 $('#btn_write').on("click", function() {
          var x = document.getElementById("myFile");
          var txt = "";
-         if ('file' in x) {
-            if (x.file.length > 11) {
+         if ('files' in x) {
+            if (x.files.length > 11) {
                alert("파일은 최대 10개까지 첨부 가능합니다.");
                document.getElementById("myFile").value = "";
                return;
@@ -108,7 +109,6 @@
 		        $('.file_input input[type=text]').val('파일 '+fileCount+'개');
 		    }
 		});
-
 	</script>
 </body>
 </html>
