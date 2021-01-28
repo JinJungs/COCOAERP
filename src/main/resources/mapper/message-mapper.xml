@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.MessageDAO">
-    <select id="selectMessage"  resultType="kh.cocoa.dto.MessageDTO">
-        SELECT * FROM MESSAGE
+    <!--시간에 초까지 필요 SYSDATE 가능?-->
+    <insert id="insertMessage">
+        INSERT INTO MESSAGE
+        VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{msg_seq})
+    </insert>
+    <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다.-->
+    <select id="getMessageList" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT MSG.CONTENTS
+        FROM MESSENGER M,
+             MESSAGE MSG
+        WHERE M.EMP_CODE = MSG.EMP_CODE
+          AND MSG_SEQ = #{msg_seq}
+        ORDER BY MSG.WRITE_DATE
+    </select>
+    <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다. & CPAGE에 해당하는 리스트를 SELECT-->
+    <select id="getMessageListByCpage" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT MSG.CONTENTS
+        FROM MESSENGER M,
+             (SELECT MESSAGE.*,ROW_NUMBER()OVER(ORDER BY SEQ DESC)RN FROM MESSAGE) MSG
+        WHERE M.EMP_CODE = MSG.EMP_CODE
+          AND MSG_SEQ = #{msg_seq}
+          AND RN BETWEEN #{startRowNum} AND #{endRowNum}
+    </select>
+    <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT COUNT(*)
+        FROM MESSAGE
+        WHERE EMP_CODE = #{emp_code}
     </select>
 </mapper>
