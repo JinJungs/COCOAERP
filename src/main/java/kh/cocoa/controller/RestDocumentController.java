@@ -91,7 +91,9 @@ public class RestDocumentController {
     public int addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         int result = docservice.addSaveDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
-        if (!code.get(0).equals("1")) {
+
+        if (code.get(0)!=1) {
+            System.out.println(code.get(0));
             for (int i = 0; i < code.size(); i++) {
                 int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
             }
@@ -121,6 +123,7 @@ public class RestDocumentController {
 
     @RequestMapping("ajaxadddocument.document")
     public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        System.out.println("도착했나요");
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         for (int i = 0; i < code.size(); i++) {
@@ -148,6 +151,7 @@ public class RestDocumentController {
         return getDoc_code;
 
     }
+
 
     @RequestMapping("addorder.document")
     public String addOrder(@RequestBody List<Map<String,String>> map) throws Exception{

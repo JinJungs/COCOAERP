@@ -4,109 +4,109 @@
 <mapper namespace="kh.cocoa.dao.DocumentDAO">
 	<select id="getSearchTemporaryList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
-			(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D, TEMPLATES T
-				WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS='TEMP'
-	            AND D.WRITER_CODE=#{empCode}
-	            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-	            AND D.TEMP_CODE IN 
-	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-	            	#{item}
-	            </foreach> 
-	            AND D.TITLE LIKE '%${searchText}%'
-	        ORDER BY D.WRITE_DATE DESC)
-        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='TEMP'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getSearchRaiseList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
 		(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name", EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "departments_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
-			FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
-		    WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
-		    AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
-		    AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
-		    AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
-		    AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
-		    AND DOCUMENT.SEQ = D2.DOC_SEQ
-		    AND DOCUMENT.SEQ IN    
-		        (SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
-		        JOIN 
-		        (SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" 
-		            FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
-		         ON D1.DOC_SEQ = D2.DOC_SEQ
-		         WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
-		    AND DOCUMENT.STATUS = 'RAISE'
-		    AND DOCUMENT.WRITER_CODE = #{empCode}
-		    AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-            AND DOCUMENT.TEMP_CODE IN 
-            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-            	#{item}
-            </foreach> 
-            AND DOCUMENT.TITLE LIKE '%${searchText}%'
-            ORDER BY DOCUMENT.WRITE_DATE DESC)
-        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
+		AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
+		AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
+		AND DOCUMENT.SEQ = D2.DOC_SEQ
+		AND DOCUMENT.SEQ IN
+		(SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
+		JOIN
+		(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT"
+		FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		ON D1.DOC_SEQ = D2.DOC_SEQ
+		WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
+		AND DOCUMENT.STATUS = 'RAISE'
+		AND DOCUMENT.WRITER_CODE = #{empCode}
+		AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND DOCUMENT.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND DOCUMENT.TITLE LIKE '%${searchText}%'
+		ORDER BY DOCUMENT.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getSearchApprovalList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
-			(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
-			FROM DOCUMENT D, TEMPLATES T
-			WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS='CONFIRM'
-	            AND D.WRITER_CODE=#{empCode}
-	            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-	            AND D.TEMP_CODE IN 
-	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-	            	#{item}
-	            </foreach> 
-	            AND D.TITLE LIKE '%${searchText}%'
-	        ORDER BY D.WRITE_DATE DESC)
-        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='CONFIRM'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getSearchRejectList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
-			(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
-			FROM DOCUMENT D, TEMPLATES T
-			WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS='REJECT'
-	            AND D.WRITER_CODE=#{empCode}
-	            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-	            AND D.TEMP_CODE IN 
-	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-	            	#{item}
-	            </foreach> 
-	            AND D.TITLE LIKE '%${searchText}%'
-	        ORDER BY D.WRITE_DATE DESC)
-        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='REJECT'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getSearchReturnList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
-			(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
-			FROM DOCUMENT D, TEMPLATES T
-			WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS='RETURN'
-	            AND D.WRITER_CODE=#{empCode}
-	            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-	            AND D.TEMP_CODE IN 
-	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-	            	#{item}
-	            </foreach> 
-	            AND D.TITLE LIKE '%${searchText}%'
-	        ORDER BY D.WRITE_DATE DESC)
-        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='RETURN'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<!-- 페이지네이션 -->
 	<select id="getSearchBoardCount" resultType="Integer">
 		SELECT COUNT(*) FROM
-			(SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
-			WHERE D.TEMP_CODE = T.CODE
-				AND D.STATUS=#{status}
-	            AND D.WRITER_CODE=#{empCode}
-	            AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-	            AND D.TEMP_CODE IN 
-	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
-	            	#{item}
-	            </foreach> 
-	            AND D.TITLE LIKE '%${searchText}%'
-	         ORDER BY D.WRITE_DATE DESC)
+		(SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS=#{status}
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
 	</select>
 	<select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", DOCUMENT.*
@@ -126,16 +126,24 @@
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
 			</when>
 			<when test="temp_code==6">
-				insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
-				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+				<choose>
+					<when test="leave_type=='반차'||leave_type=='조퇴'">
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+					</when>
+					<otherwise>
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+					</otherwise>
+				</choose>
 			</when>
 			<when test="temp_code==4">
-				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
-				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
-			</when>
-			<otherwise>
 				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
 			</otherwise>
 		</choose>
 	</insert>
@@ -151,16 +159,24 @@
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
 			</when>
 			<when test="temp_code==6">
-				insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
-				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+				<choose>
+					<when test="leave_type=='반차'||leave_type=='조퇴'">
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+					</when>
+					<otherwise>
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+					</otherwise>
+				</choose>
 			</when>
-			<when test="temp_code!=4">
-				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
-				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
-			</when>
-			<otherwise>
+			<when test="temp_code==4">
 				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
 				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
 			</otherwise>
 		</choose>
 	</insert>

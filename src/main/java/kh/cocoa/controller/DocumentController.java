@@ -417,6 +417,12 @@ public class DocumentController {
         }
 	}
 
+	@RequestMapping("toBeforeConfirmDocuemnt.document")
+	public String toBeforeConfirmDocuemnt(Model model){
+		List<ConfirmDTO> list = new ArrayList<>();
+		return "document/c_readBeforeConfirmDocument";
+	}
+
 }
 
 
