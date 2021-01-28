@@ -22,6 +22,7 @@
                          class="rounded-circle user_img_msg">
                 </div>
                 <div class="user_info">
+                    <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
                     <span>정의진</span>
                     <p>개발부 / 개발1팀</p>
                 </div>
@@ -42,30 +43,10 @@
         </div>
         <div class="card-body msg_card_body" id="msgBox">
             <!--여기 부터가 채팅시작-->
-            <input type="hidden" id="sessionId" value="">
             <input type="hidden" id="roomNumber" value="${seq}">
-            <div class="d-flex justify-content-start mb-4">
-                <div class="img_cont_msg">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                         class="rounded-circle user_img_msg">
-                </div>
-                <div class="msg_cotainer">
-                    Hi, how are you samim?
-                    <span class="msg_time">8:40 AM, Today</span>
-                </div>
-            </div>
-            <div class="d-flex justify-content-end mb-4">
-                <div class="msg_cotainer_send">
-                    Hi Khalid i am good tnx how about you?
-                    <span class="msg_time_send">8:55 AM, Today</span>
-                </div>
-                <div class="img_cont_msg">
-                    <img src="/img/cocoa.png" class="rounded-circle user_img_msg">
-                </div>
-            </div>
         </div>
         <div class="card-footer bgMain">
-            <div class="input-group m-h-90">
+            <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
                     <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
@@ -77,11 +58,6 @@
                     <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                 </div>
             </div>
-        </div>
-        <div id="yourName">
-            이름 : <input type="text" name="userName" id="userName" style="width: 330px;
-            height: 25px;">
-            <button onclick="chatName()" id="startBtn">이름 등록</button>
         </div>
         <div class="fileTest">
             <input type="file" id="fileUpload">
@@ -103,13 +79,45 @@
 <!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
     var cpage = 1;
+    var msgBox = $("#msgBox");
 
     // 스크롤 아래로 내리기
-    function updateScroll() {
-        let msgBox = document.getElementById("msgBox");
-        msgBox.scrollTop = msgBox.scrollHeight - $(window).height();
-        console.log("scorllTop 동작중...scrollHeight: " + msgBox.scrollHeight);
+    function scrollBottom() {
+        msgBox.scrollTop = msgBox.scrollHeight;
     }
+
+    // enter키 클릭시 메세지 전송
+    $("#sendToolBox").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+
+        }
+    });
+
+    /*          $(".message").on("keydown", function (e) {
+            if (e.keyCode == 13) {
+                let message = $(".message").html();
+                $('.message').html("");
+
+                let line = $("<div>");
+                line.append(message);
+                line.addClass("my");
+                let br = $("<br>");
+
+                $(".contents").append(line);
+                $(".contents").append(br);
+                scrollBottom();
+
+                // message에 있는 내용을 line이라는 div에 담아서 contents div에 append
+
+                // ---------------------------------------------
+                ws.send(message); // 서버에게 메세지를 전송하는 코드
+                return false;
+
+                // 기본동작을 차단하는 것
+                // -> enter를 쳤을 때 divd의 contenteditable이 div를 만드는 것을 차단
+            }
+
+        })*/
 
     // 페이지 로딩시 리스트 불러오기
     $(document).ready(function () {
@@ -117,7 +125,7 @@
     })
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
-    $('#msgBox').scroll(function () {
+    msgBox.scroll(function () {
         var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
         var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
         if (scrollT == 0) {
@@ -137,31 +145,45 @@
                 cpage: cpage
             },
             dataType: "json",
-            success: function (data) {
+            success: function (data) {  // 상대방과 나의 메세지를 구분해서 다르게 뿌려줘야한다.
+                // 지금 구분도 안되고 , 두개씩 나오는데다가, 순서도 거꾸로 나오고 있다.
                 let newMsgBox = $("<div>");
                 for (var i = 0; i < data.length; i++) {
                     var existMsg = "";
-                    existMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    existMsg += "<div class='msg_cotainer_send'>나 : " + data[i].contents;
-                    existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
-                    existMsg += "</div>";
-                    existMsg += "<div class='img_cont_msg'>";
-                    existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
-                    existMsg += "</div></div>";
-                    newMsgBox.append(existMsg);
+                    if(data[i].emp_code == ${loginDTO.code}){
+                        existMsg += "<div class='d-flex justify-content-end mb-4'>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
+                        existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                        existMsg += "</div>";
+                        existMsg += "<div class='img_cont_msg'>";
+                        existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
+                        existMsg += "</div></div>";
+                    }else{
+                        existMsg += "<div class='d-flex justify-content-start mb-4'>";
+                        existMsg += "<div class='img_cont_msg'>";
+                        existMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                        existMsg += "</div>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
+                        existMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                        existMsg += "</div></div>";
+                    }
+                    msgBox.prepend(existMsg);
                 }
-                $("#msgBox").prepend(newMsgBox);
+                //msgBox.prepend(newMsgBox);
                 if (cpage == 1) {
-                    updateScroll();
+                    scrollBottom();
                 }
             }
         })
     }
     //<------------------------------------- STOMP --------------------------------------->
+
     $(document).ready(function () {
         connectStomp();
         /* 텍스트 전송 */
-        $('#sendBtn').on('click', function (evt) {
+        document.getElementById("sendBtn").addEventListener('click', sendMsg);
+
+        function sendMsg(evt){
             evt.preventDefault();
             if (!isStomp && socket.readyState !== 1) return;
 
@@ -172,7 +194,7 @@
                     seq: ''
                     , contents: msg
                     , write_date: new Date()
-                    , emp_code: 1000 //!수정필요!세션값 작성자 아이디
+                    , emp_code: ${loginDTO.code} //!수정필요!세션값 작성자 아이디
                     , msg_seq: ${seq}
                 }));
             else
@@ -184,7 +206,7 @@
                 type: "post",
                 data: {
                     contents: $("#yourMsg").val(),
-                    emp_code: 1001,
+                    emp_code: ${loginDTO.code},
                     msg_seq: ${seq}
                 },
                 dataType: "json",
@@ -197,11 +219,8 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
-        });
+        };
 
-        socket.onmessage = function (e){
-            alert(e.msg);
-        }
 
         /* 파일 전송 sendFileBtn*/
         //파일(링크)전송===================== 미완성/ FilesDTO 정보만 넘기기
@@ -259,104 +278,33 @@
             console.log("Connected stompTest!");
             // 해당 토픽을 구독한다!
             client.subscribe('/topic/' +${seq}, function (e) {
-                console.log("!!!!!!!!!!!!e>>", e);
-                console.log("!!!!!!!!!!!!e.body>>", e.body);
-
-                var msg = e.body;
-
-                // 채팅창에 내용 추가하기
-                // 내 메세지인지 상대방 메세지인지 구분하고
                 var newMsg = "";
-                newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                newMsg += "<div class='msg_cotainer_send'>나 : " + msg;
-                newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
-                newMsg += "</div>";
-                newMsg += "<div class='img_cont_msg'>";
-                newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
-                newMsg += "</div></div>";
-                $("#msgBox").append(newMsg);
+                var msg = JSON.parse(e.body).contents;
+                var sender = JSON.parse(e.body).emp_code;
+                console.log("sender : " + sender);
+                // 내가 메세지를 보냈을 때
+                if(sender == ${loginDTO.code}){
+                    newMsg += "<div class='d-flex justify-content-end mb-4'>";
+                    newMsg += "<div class='msg_cotainer_send'>" + msg;
+                    newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                    newMsg += "</div>";
+                    newMsg += "<div class='img_cont_msg'>";
+                    newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
+                    newMsg += "</div></div>";
+                    msgBox.append(newMsg);
+                }else { // 상대방이 보낸 메세지 일 때
+                    newMsg += "<div class='d-flex justify-content-start mb-4'>";
+                    newMsg += "<div class='img_cont_msg'>";
+                    newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                    newMsg += "</div>";
+                    newMsg += "<div class='msg_cotainer_send'>" +msg;
+                    newMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                    newMsg += "</div></div>";
+                    msgBox.append(newMsg);
+                }
             });
         });
     }
-
-    //<------------------------------------- 이전 웹소켓 --------------------------------------->
-
-    /* // 소켓에 메세지를 받으면 동작
-     ws.onmessage = function (data) {
-         var msg = data.data;
-         var newMsg = "";
-         if (msg != null && msg.trim() != '') {
-             var d = JSON.parse(msg);
-             if (d.type == "getId") {  // 이름을 받았을 때
-                 // 삼항연산자 - data에 있는 sessionId가 있다면 si=d.sessionId 없다면 si = ""
-                 // sessionId가 있다면(당연히 있겠지) 그 값을 input type hidden에 저장한다.
-                 var si = d.sessionId != null ? d.sessionId : "";
-                 if (si != '') {
-                     $("#sessionId").val(si);
-                 }
-             } else if (d.type == "message") { // 메세지를 받았을 때
-                 if (d.sessionId == $("#sessionId").val()) { // 내가 보낸 메세지 일 때
-                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                     newMsg += "<div class='msg_cotainer_send'>나 : " + d.msg;
-                     newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
-                     newMsg += "</div>";
-                     newMsg += "<div class='img_cont_msg'>";
-                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
-                     newMsg += "</div></div>";
-                 } else { // 상대방이 보낸 메세지 일 때
-                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
-                     newMsg += "<div class='img_cont_msg'>";
-                     newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
-                     newMsg += "</div>";
-                     newMsg += "<div class='msg_cotainer_send'>" + d.userName + " : " + d.msg;
-                     newMsg += "<span class='msg_time'>9:00 AM, Today</span>";
-                     newMsg += "</div></div>";
-                 }
-                 $("#msgBox").append(newMsg);
-             }
-         }
-     }
-
-     document.addEventListener("keypress", function (e) {
-         if (e.keyCode == 13) { //enter press
-             send();
-             updateScroll();
-         }
-     });
- }
-
- // 웹소켓으로 메세지를 전송 (이름 : 메세지) 의 형태로
- function send() {
-     var option = {
-         type: "message",
-         roomNumber: $("#roomNumber").val(),
-         sessionId: $("#sessionId").val(),
-         userName: $("#userName").val(),
-         msg: $("#yourMsg").val()
-     }
-     // (1) 웹소켓에 send
-     ws.send(JSON.stringify(option))
-     // (2) db에 저장
-     $.ajax({
-         url: "/message/insertMessage",
-         type: "post",
-         data: {
-             contents: $("#yourMsg").val(),
-             emp_code: 1001,
-             msg_seq: ${seq}
-            },
-            dataType: "json",
-            success: function (resp) {
-                if (resp.result = 1) {
-                    console.log("메세지 저장 성공!");
-                }
-            }
-        })
-
-        // (3) 채팅입력창 다시 지워주기
-        $('#yourMsg').val("");
-
-    }*/
 
 </script>
 </body>

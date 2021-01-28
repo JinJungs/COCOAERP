@@ -15,7 +15,7 @@ public class StompController {
 	
 	@MessageMapping("/getChat/text/{seq}")
 	//@SendTo("/topic/message")
-	public MessageDTO getChatText(MessageDTO message) throws Exception {
+	public void getChatText(MessageDTO message) throws Exception {
 		//1.받아온 내용들로 MESSAGE 테이블에 인서트(??뇌피셜. 조사 필요)
 		//2.전송
 		System.out.println("getChat>>" + message);
@@ -25,10 +25,8 @@ public class StompController {
 		System.out.println("EMP_CODE="+message.getEmp_code());
 		System.out.println("MSG_SEQ(방seq)"+message.getMsg_seq());
 		
-		messagingTemplate.convertAndSend("/topic/" + message.getMsg_seq(), message.getContents());
+		messagingTemplate.convertAndSend("/topic/" + message.getMsg_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
-		 
-		return message;
 	}
 	
 	//ResponseEntity<byte[]>
