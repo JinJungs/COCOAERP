@@ -3,12 +3,11 @@ package kh.cocoa.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.sql.Date;
 
 @Data
 @NoArgsConstructor
-public class EmployeeDTO {
+public class EmployeeDTO{
     private int code;
     private String name;
     private String password;
@@ -27,12 +26,10 @@ public class EmployeeDTO {
     //추가부분
     private String deptname;
     private String teamname;
-    
+    private String posname;
+
     @Builder
-    public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address,
-                       String email, String b_email, String gender, Date hire_date, String withdraw, int dept_code, int pos_code,
-                       int team_code, String deptname, String teamname) {
-        super();
+    public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address, String email, String b_email, String gender, Date hire_date, String withdraw, int dept_code, int pos_code, int team_code, String deptname, String teamname, String posname) {
         this.code = code;
         this.name = name;
         this.password = password;
@@ -49,5 +46,6 @@ public class EmployeeDTO {
         this.team_code = team_code;
         this.deptname = deptname;
         this.teamname = teamname;
+        this.posname = posname;
     }
 }

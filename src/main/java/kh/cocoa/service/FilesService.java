@@ -10,7 +10,7 @@ import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.FilesDTO;
 
 @Service
-public class FilesService {
+public class FilesService implements FilesDAO {
 	@Autowired
 	private FilesDAO fdao;
 	/*-------------------**회사소식**--------------------------*/
@@ -39,12 +39,16 @@ public class FilesService {
 	public int deleteNotificationBoardFiles(int seq) {
 		return fdao.deleteNotificationBoardFiles(seq);
 	}
-	/*-------------------**자유게시판**--------------------------*/
-	//파일 업로드
-	public int ccaBoardUploadFiles(int noBoard_seq, FilesDTO fdto) {
-		return fdao.ccaBoardUploadFiles(noBoard_seq,fdto); 
+
+	/*용국 업로드*/
+
+	@Override
+	public int documentInsertFile(String oriName,String savedName,int doc_seq) {
+
+		return fdao.documentInsertFile(oriName,savedName,doc_seq);
 	}
-	/*-------------------**앨범게시판**--------------------------*/
-	
-	
+	//DocumentSeq에 따른 파일리스트
+	public List<FilesDTO> getFilesListByDocSeq(String seq){
+		return fdao.getFilesListByDocSeq(seq);
+	}
 }

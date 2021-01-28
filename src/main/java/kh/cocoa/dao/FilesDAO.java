@@ -27,10 +27,9 @@ public interface FilesDAO {
 
 	//파일 삭제
 	public int deleteNotificationBoardFiles(int seq);
-	
-	/*-------------------**자유게시판**--------------------------*/
-	//파일 업로드
-	public int ccaBoardUploadFiles(int noBoard_seq, FilesDTO fdto);
-	/*-------------------**앨범게시판**--------------------------*/
-	
+
+	/*용국 업로드*/
+	public int documentInsertFile(String oriName,String savedName,int doc_seq);
+
+	public List<FilesDTO> getFilesListByDocSeq(String seq);
 }

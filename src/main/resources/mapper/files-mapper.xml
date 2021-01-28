@@ -8,6 +8,7 @@
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0)
 	</insert>
+<<<<<<< HEAD
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">
   		SELECT COUNT(*) FROM FILES WHERE BOARD_SEQ=#{seq}
@@ -28,7 +29,13 @@
 	<delete id="deleteNotificationBoardFiles">
 		DELETE FROM FILES WHERE BOARD_SEQ=#{seq}
 	</delete>
-<!-- *************************자유게시판***************************** -->
-<!-- *************************앨범 게시판***************************** -->
 
+	<select id="getFilesListByDocSeq" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+	</select>
+
+	<!--용국 업로드-->
+	<insert id="documentInsertFile">
+		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
+	</insert>
 </mapper>

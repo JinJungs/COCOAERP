@@ -2,13 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.EmployeeDAO">
+	<!-- 멤버십 -->
+	<select id="login" resultType="String">
+		select #{password} from employee where code = #{code}
+	</select>
+	<select id="loginInfo" resultType="kh.cocoa.dto.EmployeeDTO">
+		select * from employee where code = #{code}
+	</select>
 	<!--용국-->
 	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2
     </select>
 
 	<select id="getConfirmEmp" resultType="kh.cocoa.dto.EmployeeDTO">
-		select e.code,e.name,d.name deptname from employee e inner join departments d on e.dept_code = d.code where e.code=#{code}
+		select e.code,e.name,d.name deptname,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
+	</select>
+
+	<select id="getEmpPos" resultType="kh.cocoa.dto.EmployeeDTO">
+		select	e.code, e.name, p.name posname from employee e inner join position p on e.pos_code = p.code where team_code =#{code} and withdraw='N'
+	</select>
+
+    <select id="getEmpInfo" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,d.name deptname,d.code dept_code,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
 	</select>
 
 	<!--소형-->
