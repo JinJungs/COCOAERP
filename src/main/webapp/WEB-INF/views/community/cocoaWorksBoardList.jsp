@@ -5,15 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CocoaWorks Notification Board</title>
+<title>CocoaWorks Board</title>
 <link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
 	media="screen" />
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 input{width:50%;border-bottom:1px solid pink;}
 #search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
 .select{text-align:right;}
-.navi_box{text-align:center;margin-top:5px;border:1px solid black;}
+.navi_box{text-align:center;margin-top:5px;}
 .head_box{text-align:center;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
@@ -23,10 +22,10 @@ input{width:50%;border-bottom:1px solid pink;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">회사 소식</h2>
+			<h2 class="mb-4 board_title">자유게시판</h2>
 
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
-				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+			<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -84,7 +83,7 @@ input{width:50%;border-bottom:1px solid pink;}
 					<ul class="pagination justify-content-center mb-0">${navi}</ul>
 				</div>
 
-				<!--버튼 //관리자만 보여야함-->
+				<!--버튼 -->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
 						onclick="fn_create()">글 등록</button>
@@ -101,15 +100,15 @@ input{width:50%;border-bottom:1px solid pink;}
  		}
 		/*글 등록*/
 		function fn_create(menu_seq) {
-			location.href = "/noBoard/notificationBoardCreate.no?menu_seq="+menu_seq;
+			location.href = "/noBoard/notificationBoardCreate.no?menu_seq=2;
 		}
 		/* 리스트에서 글 읽기*/
 		function notificationBoardRead(menu_seq,seq,cpage){
 			location.href="/noBoard/notificationBoardRead.no?menu_seq="+menu_seq+"&seq="+seq+"&cpage="+cpage;
 		}
 		/*홈으로*/
-		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
+		function fn_home(menu_seq) {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=2";
 		}
 	</script>
 </body>
