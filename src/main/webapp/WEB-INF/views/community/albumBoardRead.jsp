@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Album Board Read</title>
+<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+	media="screen" />
 <style type="text/css">
-div {border: 1px solid gray}
-input{width:100%;height:90%;}
-.contents_box{height:400px;}
-.width{height:50px;}
-.button_box{text-align:right;}
-textarea{width:100%;}
+#contents_box{margin:1px;height:400px;border:none;}
+.row{border-bottom: 1px solid pink;} 
+#only{border-top: 1px solid pink;}
+.fileLi{font-size:13px;}
 </style>
 </head>
 <body>
@@ -19,6 +20,10 @@ textarea{width:100%;}
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">앨범게시판(글읽기)</h2>
+			
+					<input type="hidden" name="cpage" value="${cpage}"> 
+		<input type="hidden" name="seq" value="${dto.seq}">
+		<input type="hidden" name="menu_seq" value="${dto.menu_seq}">
 					
 			    <div class="row">
 			        <div class="col-sm-3 d-none d-sm-block">작성자</div>

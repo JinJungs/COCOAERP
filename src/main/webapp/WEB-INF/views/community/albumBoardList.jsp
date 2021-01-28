@@ -1,19 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CocoaWorks Notification Board</title>
+<title>Album Board</title>
 <link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
 	media="screen" />
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 input{width:50%;border-bottom:1px solid pink;}
 #search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
 .select{text-align:right;}
-.navi_box{text-align:center;margin-top:5px;border:1px solid black;}
+.navi_box{text-align:center;margin-top:5px;}
 .head_box{text-align:center;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
@@ -23,10 +22,11 @@ input{width:50%;border-bottom:1px solid pink;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">회사 소식</h2>
+			<h2 class="mb-4 board_title">앨범 게시판</h2>
 
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
-				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				<input type="hidden" id="getmenu_seq" name="menu_seq"
+					value="${menu_seq}" />
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -42,36 +42,14 @@ input{width:50%;border-bottom:1px solid pink;}
 				</div>
 			</form>
 
-			<div class="row head_box" style="border-bottom: 1px solid pink;">
-				<div class="col-md-1 d-none d-md-block">
-					<b>#</b>
-				</div>
-				<div class="col-sm-12 col-md-5">
-					<b>제목</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>작성자</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>작성일</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>조회수</b>
+			<div class="row">
+				<div class="card" style="width: 18rem;">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="card-text">사진제목</p>
+					</div>
 				</div>
 			</div>
-
-			<c:forEach var="i" items="${list}">
-				<div class="row">
-					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
-					<div class="title col-sm-12 col-md-5"
-						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
-						<b>${i.title}</b>
-					</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.name}</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.write_date}</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
-				</div>
-			</c:forEach>
 
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">
@@ -84,15 +62,16 @@ input{width:50%;border-bottom:1px solid pink;}
 					<ul class="pagination justify-content-center mb-0">${navi}</ul>
 				</div>
 
-				<!--버튼 //관리자만 보여야함-->
+				<!--버튼 -->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_create()">글 등록</button>
+						onclick="fn_create(${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script>
+</body>
+<script>
 		/*검색창 누르면 placeholder 없애기*/
 		function search_box(){
 	 		if($('#search').val() != null){
@@ -101,7 +80,7 @@ input{width:50%;border-bottom:1px solid pink;}
  		}
 		/*글 등록*/
 		function fn_create(menu_seq) {
-			location.href = "/noBoard/notificationBoardCreate.no?menu_seq="+menu_seq;
+			location.href = "/noBoard/notificationBoardCreate.no?menu_seq=3";
 		}
 		/* 리스트에서 글 읽기*/
 		function notificationBoardRead(menu_seq,seq,cpage){
@@ -109,8 +88,7 @@ input{width:50%;border-bottom:1px solid pink;}
 		}
 		/*홈으로*/
 		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=3";
 		}
 	</script>
-</body>
 </html>
