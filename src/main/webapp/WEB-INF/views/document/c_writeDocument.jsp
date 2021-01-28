@@ -201,7 +201,11 @@
 <script>
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+    if(token && header) {
+        $(document).ajaxSend(function(event, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    }
 
     var getempcode=0;
     var getaddedempcode = [];
@@ -475,7 +479,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                if(result=="success"){
+                if(result>=1){
                     location.href="/document/toTemplateList.document";
                 }
             }

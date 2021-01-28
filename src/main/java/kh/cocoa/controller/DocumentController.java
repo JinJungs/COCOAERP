@@ -408,41 +408,21 @@ public class DocumentController {
 		model.addAttribute("deptList",deptList);
 		if(dto.getCode()==4) {
             return "document/c_writeDocument";
-        }else{
+        }else if(dto.getCode()==5){
 		    return "document/c_writeOrderDocument";
+        }else if(dto.getCode()==6){
+			return "document/c_writeLeaveDocument";
+		}else{
+            return "document/c_writeDocument";
         }
 	}
 
-	@PostMapping("addconfirm.document")
-	public String addConfirm(@RequestParam("file") List<MultipartFile> file, DocumentDTO docdto, @RequestParam(value = "approver_code",required = true)List<Integer> code,
-							 OrderDTO odto) throws Exception{
-
-		int result = dservice.addDocument(docdto);
-		int getDoc_code = dservice.getDocCode(docdto.getWriter_code());
-
-		/*if(result >0){
-
-			for(int i=0;i<code.size();i++){
-				int addConfirm = cservice.addConfirm(code.get(i),i+1,getDoc_code);
-			}
-			if(!file.get(0).getOriginalFilename().contentEquals("")) {
-				String fileRoot = Configurator.boardFileRootC;
-				File filesPath = new File(fileRoot);
-				if(!filesPath.exists()){filesPath.mkdir();}
-				for(MultipartFile mf : file){
-					String oriName = mf.getOriginalFilename();
-					String uid = UUID.randomUUID().toString().replaceAll("_","");
-					String savedName = uid+"_"+ oriName;
-					int insertFile = fservice.documentInsertFile(oriName,savedName,getDoc_code);
-					if(insertFile>0){
-						File targetLoc = new File(filesPath.getAbsoluteFile()+"/"+savedName);
-						FileCopyUtils.copy(mf.getBytes(),targetLoc);
-					}
-				}
-			}
-		}*/
-		return "redirect:toTemplateList.document";
+	@RequestMapping("toBeforeConfirmDocuemnt.document")
+	public String toBeforeConfirmDocuemnt(Model model){
+		List<ConfirmDTO> list = new ArrayList<>();
+		return "document/c_readBeforeConfirmDocument";
 	}
+
 }
 
 
