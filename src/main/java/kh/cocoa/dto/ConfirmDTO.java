@@ -13,15 +13,24 @@ public class ConfirmDTO {
     private int seq;
     private int approver_code;
     private int approver_order;
+    private String isConfirm;
     private Date confirm_date;
     private int doc_seq;
-
+    
+    //추가부분
+    private String emp_name;
+    private String pos_name;
+    private String dept_name;
+    
     @Builder
-    public ConfirmDTO(int seq, int approver_code, int approver_order, Date confirm_date, int doc_seq) {
-        this.seq = seq;
-        this.approver_code = approver_code;
-        this.approver_order = approver_order;
-        this.confirm_date = confirm_date;
-        this.doc_seq = doc_seq;
-    }
+	public ConfirmDTO(int seq, int approver_code, int approver_order, String isConfirm, Date confirm_date,
+			int doc_seq) {
+		super();
+		this.seq = seq;
+		this.approver_code = approver_code;
+		this.approver_order = approver_order;
+		this.isConfirm = isConfirm;
+		this.confirm_date = confirm_date;
+		this.doc_seq = doc_seq;
+	}
 }

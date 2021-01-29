@@ -19,31 +19,31 @@
 	</select>
 	<select id="getSearchRaiseList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
-		(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name", EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "departments_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
-		FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
-		WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
-		AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
-		AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
-		AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
-		AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
-		AND DOCUMENT.SEQ = D2.DOC_SEQ
-		AND DOCUMENT.SEQ IN
-		(SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
-		JOIN
-		(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT"
-		FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
-		ON D1.DOC_SEQ = D2.DOC_SEQ
-		WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
-		AND DOCUMENT.STATUS = 'RAISE'
-		AND DOCUMENT.WRITER_CODE = #{empCode}
-		AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-		AND DOCUMENT.TEMP_CODE IN
-		<foreach item="item" collection="templateList" separator="," open="(" close=")">
-			#{item}
-		</foreach>
-		AND DOCUMENT.TITLE LIKE '%${searchText}%'
-		ORDER BY DOCUMENT.WRITE_DATE DESC)
-		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+		(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name", EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "dept_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
+			FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		    WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
+		    AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		    AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
+		    AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		    AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
+		    AND DOCUMENT.SEQ = D2.DOC_SEQ
+		    AND DOCUMENT.SEQ IN    
+		        (SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
+		        JOIN 
+		        (SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" 
+		            FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		         ON D1.DOC_SEQ = D2.DOC_SEQ
+		         WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
+		    AND DOCUMENT.STATUS = 'RAISE'
+		    AND DOCUMENT.WRITER_CODE = #{empCode}
+		    AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+            AND DOCUMENT.TEMP_CODE IN 
+            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+            	#{item}
+            </foreach> 
+            AND DOCUMENT.TITLE LIKE '%${searchText}%'
+            ORDER BY DOCUMENT.WRITE_DATE DESC)
+        WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getSearchApprovalList" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM
@@ -109,15 +109,106 @@
 		ORDER BY D.WRITE_DATE DESC)
 	</select>
 	<select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
-		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", DOCUMENT.*
-		    FROM DOCUMENT, TEMPLATES, DEPARTMENTS, EMPLOYEE
+		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", POSITION.NAME "pos_name", DOCUMENT.*
+		    FROM DOCUMENT, TEMPLATES, DEPARTMENTS, EMPLOYEE, POSITION
 		    WHERE DOCUMENT.TEMP_CODE = TEMPLATES.CODE
 		        AND DOCUMENT.DEPT_CODE = DEPARTMENTS.CODE
 		        AND DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+                AND EMPLOYEE.POS_CODE = POSITION.CODE
 		        AND SEQ=#{seq}
 		    ORDER BY DOCUMENT.SEQ
 	</select>
-
+	
+	
+	<select id="getStatusBySeq" resultType="String">
+		SELECT STATUS FROM DOCUMENT WHERE SEQ=#{seq}
+	</select>
+	<select id="getTemp_codeBySeq" resultType="String">
+		SELECT TEMP_CODE FROM DOCUMENT WHERE SEQ=#{seq}
+	</select>
+	<update id="tempToUpdate">
+		UPDATE DOCUMENT
+		    SET TITLE=#{dto.title}, WRITE_DATE=SYSDATE, FINAL_DATE=''
+		    <choose>
+		    	<when test='temp_code=="6"'>
+		    		<choose>
+		    			<when test='submitType=="temp"'>
+		    				,LEAVE_START=#{dto.leave_start}, LEAVE_END=#{dto.leave_end}, LEAVE_TYPE=#{dto.leave_type},
+				    		CONTENTS=#{dto.contents},
+				       		STATUS='TEMP'
+		    			</when>
+		    			<when test='submitType=="raise"'>
+		    				,SEQ=DOCUMENT_SEQ.NEXTVAL,
+		    				LEAVE_START=#{dto.leave_start}, LEAVE_END=#{dto.leave_end}, LEAVE_TYPE=#{dto.leave_type},
+				    		CONTENTS=#{dto.contents},
+				       		STATUS='RAISE'
+		    			</when>
+		    		</choose>
+		    	</when>
+		    </choose>
+		    WHERE SEQ=#{dto.seq}
+	</update>
+	<select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM 
+			(SELECT DOCUMENT.*, EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "dept_name", TEMPLATES.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
+			    FROM DOCUMENT, EMPLOYEE, DEPARTMENTS, TEMPLATES
+			    WHERE DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+			        AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+	                AND DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+			        AND DOCUMENT.STATUS='CONFIRM'
+					AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+					AND DOCUMENT.TEMP_CODE IN
+					<foreach item="item" collection="templateList" separator="," open="(" close=")">
+						#{item}
+					</foreach>
+			        <choose>
+						<when test='searchOption=="title"'>
+							AND DOCUMENT.TITLE LIKE '%${searchText}%'
+						</when>
+						<when test='searchOption=="writer"'>
+							AND EMPLOYEE.NAME LIKE '%${searchText}%'
+						</when>
+						<when test='searchOption=="department"'>
+							AND DEPARTMENTS.NAME LIKE '%${searchText}%'
+						</when>
+					</choose>
+				ORDER BY DOCUMENT.WRITE_DATE DESC)
+			WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<select id="getAllDocCount" resultType="Integer">
+		SELECT COUNT(*) FROM
+			(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name" FROM DOCUMENT, TEMPLATES
+				WHERE DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+				AND DOCUMENT.STATUS='CONFIRM'
+	            AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+	            AND DOCUMENT.TEMP_CODE IN 
+	            <foreach item="item" collection="templateList" separator="," open="(" close=")">
+	            	#{item}
+	            </foreach> 
+	            <choose>
+					<when test='searchOption=="title"'>
+						AND DOCUMENT.TITLE LIKE '%${searchText}%'
+					</when>
+					<when test='searchOption=="writer"'>
+						AND EMPLOYEE.NAME LIKE '%${searchText}%'
+					</when>
+					<when test='searchOption=="department"'>
+						AND DEPARTMENTS.NAME LIKE '%${searchText}%'
+					</when>
+				</choose>
+	         ORDER BY DOCUMENT.WRITE_DATE DESC)
+	</select>
+	
+	<select id="getAllDraftDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT SEQ, TITLE, WRITE_DATE, STATUS 
+		    FROM DOCUMENT
+		    WHERE WRITER_CODE=#{empCode}
+		        AND STATUS NOT IN ('TEMP', 'RETURN')
+		    ORDER BY WRITE_DATE DESC
+	</select>
+	
+	
 	<!--용국-->
 	<insert id="addDocument">
 		<choose>

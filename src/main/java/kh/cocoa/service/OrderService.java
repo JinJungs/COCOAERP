@@ -2,6 +2,9 @@ package kh.cocoa.service;
 
 import kh.cocoa.dao.OrderDAO;
 import kh.cocoa.dto.OrderDTO;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +17,9 @@ public class OrderService implements OrderDAO {
     @Override
     public int addOrder(String order_list, int order_count, String order_etc, int doc_seq) {
         return odao.addOrder(order_list,order_count,order_etc,doc_seq);
+    }
+    @Override
+    public List<OrderDTO> getOrderListBySeq(String seq) {
+    	return odao.getOrderListBySeq(seq);
     }
 }
