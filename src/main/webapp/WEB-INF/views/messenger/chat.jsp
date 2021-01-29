@@ -223,22 +223,45 @@
 
 
         /* 파일 전송 sendFileBtn*/
-        //파일(링크)전송===================== 미완성/ FilesDTO 정보만 넘기기
+        //파일(링크)전송===================== 미완성/ 
+        //메세지 컨트롤러에 그대로 얹혀가도 될 듯 
+        //그러러면 테이블에 file_seq나 저장 이름을 넣어줘야 함 / 타입은 테이블에 넣을 진 모르겠음
         $('#sendFileBtn').on('click', function (evt) {
             evt.preventDefault();
             if (!isStomp && socket.readyState !== 1) return;
-
-            console.log("ffffffffffff>>", file)
-
-            if (isStomp) {
-                var file = document.querySelector("#fileUpload").files[0];
-                console.log(file);
-
-            } else
+            
+            if (isStomp){
+            	var file = document.querySelector("#fileUpload").files[0];
+            	console.log("ffffffffffff>>", file)
+            	//01. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
+                socket.send('/getChat/file/' +${seq}, {}, JSON.stringify({
+                    seq: ''
+                    , contents: file.name
+                    , write_date: new Date()
+                    , emp_code: ${loginDTO.code}
+                    , msg_seq: ${seq}
+                    , type: "file"
+                }));
+     
+            	/* socket.send('/getChat/file/' +${seq}, {}, JSON.stringify({
+                    seq: ''
+                   	, oriname: file.name
+                   	, savedname: 'sss'
+                   	, uploadeddate: new Date()
+                   	, msg_seq: '' //여기선 메세지의 시퀀스임. 메세지의 msg_seq(채팅방 시퀀스)와 햇갈리니 변경 필요
+                	, chatroom_seq: ${seq}
+            	})); */
+            }
+                
+            else//이건 왜하는거람
                 socket.send(file);
+            
+            //02.파일 업로드
+            
+            
         });
 
-        let ws = new WebSocket("ws://localhost/websocket");
+        /* let ws = new WebSocket("ws://localhost/websocket");
 
         //웹소켓으로 찐파일 전송 /jpg, png등 이미지 송수신 용도로 사용 / STOMP로 한 소켓으로 처리되면 좋은데 가능할지 미지수
         $('#sendFileBtn').on('click', function (evt) {
@@ -253,7 +276,7 @@
 
             }
 
-            reader.onload = function (e) {
+            reader.onload = fun.1ction (e) {
                 rawData = e.target.result;
                 ws.send(rawData);
                 alert("파일 전송이 완료 되었습니다.")
@@ -261,7 +284,7 @@
             }
 
             reader.readAsArrayBuffer(file);
-        });
+        }); */
     });
 
     var socket = null;
@@ -282,10 +305,25 @@
                 var msg = JSON.parse(e.body).contents;
                 var sender = JSON.parse(e.body).emp_code;
                 console.log("sender : " + sender);
+                
+                //파일 관련 메세지 구분 위해 타입추가*****
+                var type = JSON.parse(e.body).type;
+                console.log("type : " + type);
+                console.log("contents : "+ msg);
+                
+                //파일관련 메세지일 경우*****
+                //컨텐츠에 담아둔 파일 이름을 전송하고 a태그를 걸어준다.
+                //a태그는 왜 안먹는고죠.....
+                
                 // 내가 메세지를 보냈을 때
                 if(sender == ${loginDTO.code}){
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    newMsg += "<div class='msg_cotainer_send'>" + msg;
+                    if(type == "file"){
+                    	console.log("파일이다!");
+                    	newMsg += "<div class='msg_cotainer_send'><a href='#'>" + msg + "</a>";
+                    }else{
+                    	newMsg += "<div class='msg_cotainer_send'>" +msg;
+                    }
                     newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
@@ -297,14 +335,29 @@
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
-                    newMsg += "<div class='msg_cotainer_send'>" +msg;
+                    if(type == "file"){
+                    	console.log("파일이다!");
+                    	newMsg += "<div class='msg_cotainer_send'><a href='#'>" + msg + "</a>";
+                    }else{
+                    	newMsg += "<div class='msg_cotainer_send'>" +msg;
+                    }
                     newMsg += "<span class='msg_time'>9:00 AM, Today</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
                 }
             });
+            
+            /* client.subscribe('/topic/file/' +${seq}, function (e){
+            	var newMsg = "";
+                var msg = JSON.parse(e.body).contents;
+                var sender = JSON.parse(e.body).emp_code;
+                console.log("sender : " + sender);
+            }); */
         });
     }
+    
+    /* 파일 업로드 */
+    
 
 </script>
 </body>
