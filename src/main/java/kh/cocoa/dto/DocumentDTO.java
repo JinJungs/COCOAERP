@@ -37,6 +37,9 @@ public class DocumentDTO {
 	private String temp_name;
 	private String emp_name;
 	private String dept_name;
+	private String pos_name;
+	private String detailStatus;
+
 	private String con_empname;
 	private String con_deptname;
 
@@ -44,10 +47,8 @@ public class DocumentDTO {
 	private int startNavi;
 	private boolean needPrev;
 	private boolean needNext;
-	
 
 	@Builder
-
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code, int dept_code, int temp_code, String order_list, int order_count, String order_etc, Date leave_start, Date leave_end, String leave_type, Date report_start, Date report_end, String report_contents, String status, String temp_name, String emp_name, String dept_name, String con_empname, String con_deptname) {
 		this.seq = seq;
 		this.title = title;
