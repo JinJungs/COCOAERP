@@ -119,12 +119,8 @@
                     </div>
                 </div>
                 <div class="row w-100">
-                    <div class="col-1 p-0 pl-3 pt-4 pb-4">휴가 정보</div>
-                    <div class="col-9 p-0 pl-3 pt-4 pb-3">발생:*일 | 사용 : *일 | 잔여 : *일</div>
-                </div>
-                <div class="row w-100">
                     <div class="col-1 p-0  pl-3 pt-4 pb-4">유형</div>
-                    <div class="col-2 p-0 pl-3 pt-3"><select id="leavetype" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
+                    <div class="col-2 p-0 pl-3 pt-3"><select id="leavetype" name="leave_type" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
                         <option value="연차">연차</option>
                         <option value="정기">정기</option>
                         <option value="반차">반차</option>
@@ -137,23 +133,26 @@
                     </select>
                     </div>
                 </div>
-                <div class="row w-100" style="border-bottom: 1px solid #c9c9c9">
+                <div class="row w-100" >
                     <div class="col-1 p-3">기간</div>
                     <div class="col-3 p-3">
                         <div class="form-group">
                             <div class="input-group date" id="datePicker" data-target-input="nearest">
-                                <input type="text" id="leave_start" name="leave_start" class="form-control datetimepicker-input" data-target="#datePicker" >
+                                <input type="text" id="leave_start" name="leave_start" class="form-control datetimepicker-input" data-target="#datePicker" onchange="fn_insertleave()">
                                 <div class="input-group-append" data-target="#datePicker" data-toggle="datePicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row w-100 text-center">
+                            <div class="col-12 p-0" id="startinvalidmsg"></div>
+                        </div>
                     </div>
                     <div class="col-3 p-3">
                         <div class="form-group">
                             <div class="input-group date" id="datePicker2" data-target-input="nearest">
-                                <input type="text" id="leave_end" name="leave_end" class="form-control datetimepicker-input" data-target="#datePicker2" >
+                                <input type="text" id="leave_end" name="leave_end" class="form-control datetimepicker-input" data-target="#datePicker2" onchange="fn_insertleave()">
                                 <div class="input-group-append" data-target="#datePicker2" data-toggle="datePicker2">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -161,8 +160,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row w-100 pt-3">
-                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
+                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px" placeholder="휴가 사유를 적어주세요."></textarea></div>
                 </div>
         </div>
     </div>
@@ -249,7 +249,6 @@
 
 <script>
 
-
     var getempcode=0;
     var getaddedempcode = [];
     var count =0;
@@ -259,6 +258,7 @@
     var month =curdate.getMonth()+1;
     var date = curdate.getDate();
     var today =year+"-0"+month+"-"+date;
+
 
 
     $(function() {
@@ -336,6 +336,28 @@
         }
 
     }
+    function fn_insertleave(){
+        var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
+        var leave_start = $("#leave_start").val();
+        var leave_end = $("#leave_end").val();
+        console.log(leave_end);
+        console.log(leave_start);
+        if(dayRegExp.test(leave_start)==false) {
+            $("#startinvalidmsg").css("color", "red");
+            $("#startinvalidmsg").text("날짜 형식에 맞춰 작성해주세요. 예)"+today);
+            $("#leave_start").val("");
+            return;
+        }else if(dayRegExp.test(leave_end)==false){
+            $("#startinvalidmsg").css("color", "red");
+            $("#startinvalidmsg").text("날짜 형식에 맞춰 작성해주세요. 예)"+today);
+            $("#leave_end").val("");
+            return;
+        }else{
+            $("#startinvalidmsg").text("");
+            return;
+        }
+
+    }
 
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
@@ -343,6 +365,11 @@
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
+        var leave_start =$("#leave_start").val().replaceAll("-","");
+        var leave_end =$("#leave_end").val().replaceAll("-","");
+        var start = $("#leave_start").val();
+        var end = $("#leave_end").val();
+        var disable = $("#leave_end").attr("disabled");
         if(title==""){
             alert("제목을 입력해주세요.");
             $("#title").focus();
@@ -351,8 +378,32 @@
             alert("내용을 입력해주세요.");
             $("#contents").focus();
             return;
+        }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
+            alert("종료일이 시작일보다 빠릅니다.");
+            return;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#leave_start").focus();
+            return;
+        }else if(end==""&&disable==undefined){
+            alert("종료일을 입력해주세요..");
+            $("#leave_end").focus();
+            return;
         }
-        $("#mainform").submit();
+        $.ajax({
+            url:"/restdocument/ajaxadddocument.document",
+            type:"post",
+            enctype: 'multipart/form-data',
+            data:new FormData($("#mainform")[0]),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result>0){
+                    location.href="/document/toTemplateList.document";
+                }
+
+            }
+        });
 
 
     }
@@ -582,7 +633,11 @@
     function fn_addsave(){
         var title = $("#title").val();
         var contents = $("#contents").val();
-        var writer_code =$("#getcuruserempcode").val();
+        var leave_start =$("#leave_start").val().replaceAll("-","");
+        var leave_end =$("#leave_end").val().replaceAll("-","");
+        var start = $("#leave_start").val();
+        var end = $("#leave_end").val();
+        var disable = $("#leave_end").attr("disabled");
         if(title==""){
             alert("제목을 입력해주세요.");
             $("#title").focus();
@@ -591,7 +646,19 @@
             alert("내용을 입력해주세요.");
             $("#contents").focus();
             return;
+        }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
+            alert("종료일이 시작일보다 빠릅니다.");
+            return;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#leave_start").focus();
+            return;
+        }else if(end==""&&disable==undefined){
+            alert("종료일을 입력해주세요..");
+            $("#leave_end").focus();
+            return;
         }
+
         $.ajax({
             url:"/restdocument/addsave.document",
             type:"post",

@@ -329,7 +329,6 @@
                 $("#teamcontainer"+code).after(html);
                 $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
                 $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+","+rootcode+")");
-
             }
         });
     }

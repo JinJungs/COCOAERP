@@ -6,70 +6,88 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Notification Board</title>
+<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+	media="screen" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style type="text/css">
-div {border: 1px solid gray}
-input{width:50%;} 
+input{width:50%;border-bottom:1px solid pink;}
+#search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
 .select{text-align:right;}
-.navi_box{text-align:center;}
+.navi_box{text-align:center;margin-top:5px;border:1px solid black;}
+.head_box{text-align:center;}
 .title{cursor:pointer;}
-.title:hover{color:#6749B9;}
+.title:hover{color:#866EC7;}
 </style>
 </head>
 <body>
-	<input type="hidden" id="getcpage" value="${cpage}" />
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4">회사 소식</h2>
+			<h2 class="mb-4 board_title">회사 소식</h2>
 
-            <form action=/noBoard/notificationBoardSearch.no?cpage=1 method="get">
-			
-			<div class="row search_box">
-				<!--검색어 & 버튼입력  -->
-				<div class="select col-12">
-					<select name="searchBy" id="searchBy">
+			<form action="/noBoard/notificationBoardSearch.no" method="get">
+				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				<div class="row search_box">
+					<!--검색어 & 버튼입력  -->
+					<div class="select col-12">
+						<select name="searchBy" id="searchBy">
 							<option value="title">제목</option>
 							<option value="contents">내용</option>
 							<option value="writer">작성자</option>
 							<option value="tc">제목과 내용</option>
-						</select> 
-					<input type="text"  name="search" id="search" 
-					placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
-					<button type=submit>검색</button>
+						</select> <input type="text" name="search" id="search"
+							placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
+						<button type=submit class="btn btn-primary">검색</button>
+					</div>
 				</div>
-			</div>
-				</form>
+			</form>
 
-			<div class="row">
-				<div class="col-md-1 d-none d-md-block">글 번호</div>
-				<div class="col-sm-12 col-md-7">제목</div>
-				<div class="col-md-1 d-none d-md-block">작성자</div>
-				<div class="col-md-2 d-none d-md-block">작성날짜</div>
-				<div class="col-md-1 d-none d-md-block">조회수</div>
+			<div class="row head_box" style="border-bottom: 1px solid pink;">
+				<div class="col-md-1 d-none d-md-block">
+					<b>#</b>
+				</div>
+				<div class="col-sm-12 col-md-5">
+					<b>제목</b>
+				</div>
+				<div class="col-md-2 d-none d-md-block">
+					<b>작성자</b>
+				</div>
+				<div class="col-md-2 d-none d-md-block">
+					<b>작성일</b>
+				</div>
+				<div class="col-md-2 d-none d-md-block">
+					<b>조회수</b>
+				</div>
 			</div>
 
 			<c:forEach var="i" items="${list}">
 				<div class="row">
-						<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-						<div class="title col-sm-12 col-md-7" onclick ="notificationBoardRead(${i.seq},${cpage})"><b>${i.title}</b></div>
-						<div class="col-md-1 d-none d-md-block">${i.writer_code}</div>
-						<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-						<div class="col-md-1 d-none d-md-block">${i.view_count}</div>
+					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
+					<div class="title col-sm-12 col-md-5"
+						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+						<b>${i.title}</b>
+					</div>
+					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.name}</div>
+					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.write_date}</div>
+					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
 				</div>
 			</c:forEach>
 
-			<div class="row">
-				<div class="col-md-2 d-none d-md-block">
-					<button type="button" onclick="fn_home(${cpage})">홈으로</button>
+			<div class="row" style="border-top: 1px solid pink;">
+				<div class="col-md-2  footer">
+					<button type="button" class="btn btn-primary"
+						onclick="fn_home()">홈으로</button>
 				</div>
 
 				<!--네비게이션  -->
-				<div class="navi_box col-md-7"><ul class="pagination justify-content-center mb-0">${navi}</ul></div>
+				<div class="col-md-7 navi_box">
+					<ul class="pagination justify-content-center mb-0">${navi}</ul>
+				</div>
 
 				<!--버튼 //관리자만 보여야함-->
-				<div class="col-md-3 ">
-					<button type="button" onclick="fn_create(${cpage})">글 등록</button>
+				<div class="col-md-3  footer">
+					<button type="button" class="btn btn-primary"
+						onclick="fn_create()">글 등록</button>
 				</div>
 			</div>
 		</div>
@@ -82,16 +100,16 @@ input{width:50%;}
 			}
  		}
 		/*글 등록*/
-		function fn_create(cpage) {
-			location.href = "/noBoard/notificationBoardCreate.no?cpage="+cpage;
+		function fn_create(menu_seq) {
+			location.href = "/noBoard/notificationBoardCreate.no?menu_seq="+menu_seq;
 		}
 		/* 리스트에서 글 읽기*/
-		function notificationBoardRead(seq,cpage){
-			location.href="/noBoard/notificationBoardRead.no?seq="+seq+"&cpage="+cpage;
+		function notificationBoardRead(menu_seq,seq,cpage){
+			location.href="/noBoard/notificationBoardRead.no?menu_seq="+menu_seq+"&seq="+seq+"&cpage="+cpage;
 		}
 		/*홈으로*/
-		function fn_home(cpage) {
-			location.href = "/noBoard/notificationBoardList.no?cpage="+cpage;
+		function fn_home() {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
 		}
 	</script>
 </body>

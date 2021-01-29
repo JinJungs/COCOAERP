@@ -3,6 +3,7 @@ package kh.cocoa.dto;
 
 import java.util.Date;
 
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,7 @@ public class FilesDTO {
 	private int msg_seq;
 	
 	@Builder // 생성자가 id,nmae등 부분적으로 필요한것도 알아서 생성. 단, controller에서 해주어야할께 있음
-	public FilesDTO(int seq, String oriname, String savedname, Date uploadeddate, int board_seq, int document_seq,
-			int msg_seq) {
-		super();
+	public FilesDTO(int seq, String oriname, String savedname, Date uploadeddate, int board_seq, int document_seq, int msg_seq) {
 		this.seq = seq;
 		this.oriname = oriname;
 		this.savedname = savedname;
@@ -30,5 +29,4 @@ public class FilesDTO {
 		this.document_seq = document_seq;
 		this.msg_seq = msg_seq;
 	}
-	
 }

@@ -8,12 +8,12 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @SpringBootApplication
 public class CocoaApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(CocoaApplication.class, args);
-    }
-    
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(CocoaApplication.class, args);
     }
 }

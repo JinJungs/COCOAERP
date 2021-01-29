@@ -28,7 +28,7 @@ select {
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">승인된 문서</h2>
 			<hr>
-			<form action="/document/d_searchTemporary.document" method="post">
+			<form action="/document/d_searchApproval.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-2 col-md-2">저장일</div>
