@@ -108,13 +108,6 @@
 						제목</div>
 					<div class="col-10 p-3">${dto.title }</div>
 				</div>
-				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">시작일</div>
-					<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9;"
-						id="filecontainer">${dto.report_start }</div>
-					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">종료일</div>
-					<div class="col-4 p-3" id="filecontainer">${dto.report_end }</div>
-				</div>
 				<c:if test="${fileList != null}">
 					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
 						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">첨부
@@ -135,39 +128,46 @@
 			</div>
 		</div>
 	</div>
-	<c:choose>
-		<c:when test="${dto.status eq 'TEMP'}">
-			<div class="container-fluid p-0"
-				style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
-				<div class="row">
-					<div class="col-12 p-3 text-center">
-						<button class="btn btn-secondary">수정하기</button>
+	<c:if test="${dto.writer_code == empCode }">
+		<c:choose>
+			<c:when test="${dto.status eq 'TEMP'}">
+				<div class="container-fluid p-0"
+					style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+					<div class="row">
+						<div class="col-12 p-3 text-center">
+							<button class="btn btn-secondary" id="reviseBtn">수정/상신하기</button>
+							<script>
+							let reviseBtn = document.getElementById("reviseBtn");
+					        reviseBtn.onclick = function() {
+					            location.href = "/document/reWrite.document?seq=${dto.seq}";
+					         }
+							</script>
+						</div>
 					</div>
 				</div>
-			</div>
-		</c:when>
-		<c:when test="${dto.status eq 'RAISE'}">
-			<div class="container-fluid p-0"
-				style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
-				<div class="row">
-					<div class="col-12 p-3 text-center">
-						<button class="btn btn-secondary">회수하기</button>
+			</c:when>
+			<c:when test="${dto.status eq 'RAISE' && confirmStatus ne 'Y'}">
+				<div class="container-fluid p-0"
+					style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+					<div class="row">
+						<div class="col-12 p-3 text-center">
+							<button class="btn btn-secondary">회수하기</button>
+						</div>
 					</div>
 				</div>
-			</div>
-		</c:when>
-		<c:when test="${dto.status eq 'REJECT'|| dto.status eq 'RETURN'}">
-			<div class="container-fluid p-0"
-				style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
-				<div class="row">
-					<div class="col-12 p-3 text-center">
-						<button class="btn btn-secondary">재상신</button>
+			</c:when>
+			<c:when test="${dto.status eq 'REJECT'|| dto.status eq 'RETURN'}">
+				<div class="container-fluid p-0"
+					style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+					<div class="row">
+						<div class="col-12 p-3 text-center">
+							<button class="btn btn-secondary">재상신</button>
+						</div>
 					</div>
 				</div>
-			</div>
-		</c:when>
-	</c:choose>
-
+			</c:when>
+		</c:choose>
+	</c:if>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script src="/js/jquery-ui.js"></script>
 </body>

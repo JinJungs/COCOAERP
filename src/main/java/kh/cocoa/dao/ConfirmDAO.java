@@ -12,4 +12,7 @@ public interface ConfirmDAO {
     public int addConfirm(int emp_code,int order, int doc_seq);
     
     public List<ConfirmDTO> getConfirmList(String seq);
+    
+    public String isConfirmed(String seq);
+    
 }

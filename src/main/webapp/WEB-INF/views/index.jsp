@@ -29,6 +29,8 @@
         <input type=button value="승인된" id=approvalBtn><br>
         <input type=button value="반려된" id=rejectBtn><br>
         <input type=button value="회수한" id=returnBtn><br>
+        <input type=button value="전체보기" id=allDocBtn><br>
+        <input type=button value="문서대장" id=allConfirmDocBtn><br>
         <script>
          let temporaryBtn = document.getElementById("temporaryBtn");
          temporaryBtn.onclick = function() {
@@ -49,6 +51,14 @@
          let returnBtn = document.getElementById("returnBtn");
          returnBtn.onclick = function() {
             location.href = "/document/d_searchReturn.document?&searchText=";
+         }
+         let allDocBtn = document.getElementById("allDocBtn");
+         allDocBtn.onclick = function() {
+            location.href = "/document/allDocument.document";
+         }
+         let allConfirmDocBtn = document.getElementById("allConfirmDocBtn");
+         allConfirmDocBtn.onclick = function() {
+            location.href = "/document/allConfirmDoc.document";
          }
          /*지영 부분*/
 	   function fn_board() {

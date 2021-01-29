@@ -68,16 +68,19 @@ public class DocumentController {
 
 	@Autowired
 	private OrderService oservice;
-
+	
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
+		System.out.println("template = " + template);
+		
 		//0. 사번
-		String empCode = "1004";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		//1. 검색	-날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
-		if(startDate==null) {startDate = DocumentConfigurator.startDate;}
 		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
 		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
 		List<Date> dataList = dservice.reInputDates(startDate, endDate);
 		startDate = dataList.get(0);
@@ -95,6 +98,9 @@ public class DocumentController {
 		//3.검색-옵션 설정, 날짜설정, 양식리스트
 		if(searchOption == null) {
 			searchOption = "title";
+		}
+		if(searchText==null) {
+			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
@@ -127,11 +133,12 @@ public class DocumentController {
 	@RequestMapping("d_searchRaise.document")
 	public String searchRaiseList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
-		String empCode = "1004";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
-		if(startDate==null) {startDate = DocumentConfigurator.startDate;}
 		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
 		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
 		List<Date> dataList = dservice.reInputDates(startDate, endDate);
 		startDate = dataList.get(0);
@@ -149,6 +156,9 @@ public class DocumentController {
 		//3.검색-옵션 설정, 날짜설정, 양식리스트
 		if(searchOption == null) {
 			searchOption = "title";
+		}
+		if(searchText==null) {
+			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
@@ -180,11 +190,12 @@ public class DocumentController {
 	@RequestMapping("d_searchApproval.document")
 	public String searchApprovalList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
-		String empCode = "1004";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
-		if(startDate==null) {startDate = DocumentConfigurator.startDate;}
 		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
 		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
 		List<Date> dataList = dservice.reInputDates(startDate, endDate);
 		startDate = dataList.get(0);
@@ -202,6 +213,9 @@ public class DocumentController {
 		//3.검색-옵션 설정, 날짜설정, 양식리스트
 		if(searchOption == null) {
 			searchOption = "title";
+		}
+		if(searchText==null) {
+			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
@@ -232,11 +246,12 @@ public class DocumentController {
 	@RequestMapping("d_searchReject.document")
 	public String searchRejectList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
-		String empCode = "1004";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
-		if(startDate==null) {startDate = DocumentConfigurator.startDate;}
 		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
 		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
 		List<Date> dataList = dservice.reInputDates(startDate, endDate);
 		startDate = dataList.get(0);
@@ -254,6 +269,9 @@ public class DocumentController {
 		//3.검색-옵션 설정, 날짜설정, 양식리스트
 		if(searchOption == null) {
 			searchOption = "title";
+		}
+		if(searchText==null) {
+			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
@@ -280,14 +298,16 @@ public class DocumentController {
 		
 		return "/document/d_rejectMain";
 	}
+	//회수한 문서메인 이동
 	@RequestMapping("d_searchReturn.document")
 	public String searchReturnList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model) {
 		//0. 사번
-		String empCode = "1004";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
-		if(startDate==null) {startDate = DocumentConfigurator.startDate;}
 		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
 		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
 		List<Date> dataList = dservice.reInputDates(startDate, endDate);
 		startDate = dataList.get(0);
@@ -305,6 +325,9 @@ public class DocumentController {
 		//3.검색-옵션 설정, 날짜설정, 양식리스트
 		if(searchOption == null) {
 			searchOption = "title";
+		}
+		if(searchText==null) {
+			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
@@ -335,20 +358,33 @@ public class DocumentController {
 	//페이지 읽기
 	@RequestMapping("toReadPage.document")
 	public String toReadPage(String seq, Model model) {
+		//0. 사번 입력
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
 		
+		String confirmStatus = cservice.isConfirmed(seq);
+		
+		model.addAttribute("empCode", empCode);
 		model.addAttribute("dto", dto);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("confirmList", confirmList);
+		model.addAttribute("confirmStatus", confirmStatus);
 		
 		if(dto.getTemp_code()==4) {
 			return "/document/d_readReport";
 		}else if(dto.getTemp_code()==5) {
+			List<OrderDTO> orderList = oservice.getOrderListBySeq(seq);
+			model.addAttribute("orderList", orderList);
+			
 			return "/document/d_readOrder";
-		}else {
+		}else if(dto.getTemp_code()==6){
 			return "/document/d_readLeave";
+		}else {
+			return "/document/d_readReport";
 		}
 	}
 	//파일 다운로드
@@ -380,6 +416,142 @@ public class DocumentController {
 		}
 		//return "redirect:/document/toReadPage.document?seq="+docSeq;
 	}
+	//재상신, 수정 페이지 이동
+	@RequestMapping("reWrite.document")
+	public String toReWrite(String seq, Model model) {
+		Date startDate = DocumentConfigurator.startDate;
+		Date endDate = new Date(System.currentTimeMillis());
+		Date today = new Date(System.currentTimeMillis());
+		DocumentDTO dto = dservice.getDocument(seq);
+		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
+		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("fileList",fileList);
+		model.addAttribute("confirmList", confirmList);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("today", today);
+		
+		if(dto.getTemp_code()==4) {
+			return "/document/d_reWriteReport";
+		}else if(dto.getTemp_code()==5) {
+			return "/document/d_reWriteOrder";
+		}else {
+			return "/document/d_reWriteLeave";
+		}
+	}
+	//재상신 동작
+	@RequestMapping("submitToRewrite.document")
+	public String reWrite(String seq, DocumentDTO dto, String submitType, Model model) {
+		String status =  dservice.getStatusBySeq(seq);
+		String temp_code = dservice.getTemp_codeBySeq(seq);
+		
+		if(status.contentEquals("TEMP")) {
+			if(submitType.contentEquals("temp")) { //임시저장 -> 임시저장
+				dservice.tempToUpdate(dto, temp_code, submitType);
+			}else if(submitType.contentEquals("raise")) { //임시저장 -> 재상신
+				dservice.tempToUpdate(dto, temp_code, submitType);
+			}
+		}else if(status.contentEquals("RETURN") || status.contentEquals("REJECT")) {
+			
+		}
+		//dto 다시 받아오기
+		dto = dservice.getDocument(seq);
+		model.addAttribute("dto",dto);
+		
+		if(dto.getTemp_code()==4) {
+			return "/document/d_readReport";
+		}else if(dto.getTemp_code()==5) {
+			return "/document/d_readOrder";
+		}else {
+			return "/document/d_readLeave";
+		}
+	}
+	//문서대장
+	@GetMapping("allConfirmDoc.document")
+	public String allConfirmDoc(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model){
+		//1. 날짜
+		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
+		if(endDate==null) {endDate = new Date(System.currentTimeMillis());}
+		if(startDate==null) {startDate = dservice.minusOneMonth(endDate);}
+		//start날짜가 end날짜보다 후인경우 두 값을 바꿔주는 작업
+		List<Date> dataList = dservice.reInputDates(startDate, endDate);
+		startDate = dataList.get(0);
+		endDate = dataList.get(1);
+		//2. 문서 양식 
+		List<String> templateList = new ArrayList<>();
+		if(template==null || template.contentEquals("0")) {
+			template="0";
+			templateList.add("4");
+			templateList.add("5");
+			templateList.add("6");
+		}else {
+			templateList.add(template);
+		}
+		//3.검색-옵션 설정, 날짜설정, 양식리스트
+		List<String> searchOptionList = new ArrayList<>(); 
+		if(searchOption==null) {
+			searchOption = "title";
+			searchOptionList.add("title");
+			searchOptionList.add("dept_code");
+			searchOptionList.add("writer_code");
+		}else {
+			searchOptionList.add(searchOption);
+		}
+		if(searchText==null) {
+			searchText="";
+		}
+		Date today = new Date(System.currentTimeMillis());
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		//4. cpage 보안
+		if(cpage==null) {
+			cpage="1";
+		}
+		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
+		
+		//5. 페이지네이션, 리스트 불러오기
+		String navi = dservice.getAllDocNavi(startDate, endDate, templateList, searchOption, searchText, Integer.parseInt(cpage));
+		List<DocumentDTO> docList = dservice.getAllConfirmDoc(startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
+
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		model.addAttribute("today", today);
+		model.addAttribute("template", template);
+		model.addAttribute("searchOption", searchOption);
+		model.addAttribute("searchText", searchText);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("tempList", tempList);
+		model.addAttribute("navi", navi);
+		model.addAttribute("docList", docList);
+		
+		return "/document/allConfirmDoc";
+	}
+	//문서 전체보기
+	@GetMapping("allDocument.document")
+	public String toWritOrder(Model model){
+		//0. 사번
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		
+		List<DocumentDTO> docList = dservice.getAllDraftDocument(empCode);
+		
+		for(int i=0; i<docList.size(); i++) {
+			if(docList.get(i).getStatus().contentEquals("RAISE")) {
+				docList.get(i).setStatus("결재중");
+			}else if(docList.get(i).getStatus().contentEquals("REJECT")) {
+				docList.get(i).setStatus("반려됨");
+			}else if(docList.get(i).getStatus().contentEquals("CONFIRM")) {
+				docList.get(i).setStatus("결재완료");
+			}
+		}
+		
+		model.addAttribute("docList", docList);
+		
+		return "document/allDocument";
+	}
+	
 	
 	//용국
 	@GetMapping("toTemplateList.document")
@@ -407,7 +579,6 @@ public class DocumentController {
 		model.addAttribute("name","권용국");
 		model.addAttribute("dto",dto);
 		model.addAttribute("deptList",deptList);
-		dto.setCode(4);
 		if(dto.getCode()==4) {
             return "document/c_writeDocument";
         }else if(dto.getCode()==5){

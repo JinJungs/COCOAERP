@@ -10,7 +10,10 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <style>
 .contents {
-	min-height: 400px;
+	min-height: 600px;
+}
+.etc{
+	margin-bottom: 40px;
 }
 .box{
 	width: 140px;
@@ -38,94 +41,107 @@
 
 		<div id="content" class="p-4 p-5 pt-5">
 			<div class="container w-80 p-0" style="min-width: 900px;">
-				<form method=post action="/document/submitToRewrite.document?seq=${dto.seq }" id=mainform>
-					<div class="row w-100">
-						<h5>${dto.temp_name }</h5>
+				<div class="row w-100">
+					<h5>${dto.temp_name }</h5>
+				</div>
+				<div class="row w-100"
+					style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">문서번호</div>
+					<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.seq }</div>
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">작성 날짜</div>
+					<div class="col-4 p-3">${dto.write_date }</div>
+				</div>
+				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
+					<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.emp_name }</div>
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안
+						부서</div>
+					<div class="col-4 p-3">${dto.dept_name }</div>
+				</div>
+				<div class="row w-100 pt-5" style="border-bottom: 1px solid #c9c9c9;">
+					<div class="col-10 p-0 pb-2">
+						<b>결재선</b>
 					</div>
-					<div class="row w-100"
-						style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">문서번호</div>
-						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.seq }</div>
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">작성 날짜</div>
-						<div class="col-4 p-3">${dto.write_date }</div>
+					<div class="col-2 p-0 text-right"></div>
+				</div>
+				<div class="row w-100 pt-4 pb-4 pl-3 pr-3"
+					style="border-bottom: 1px solid #c9c9c9;">
+
+					<div class="box">
+						<div class="row">
+							<div class="col-10 p-2 text-center status_d">기안자</div>
+						</div>
+						<div class="row p-2">
+							<div class="col-12 text-center">${dto.emp_name }</div>
+							<div class="col-12 text-center">(${dto.pos_name })</div>
+							<div class="col-12 text-center">${dto.dept_name }</div>
+						</div>
 					</div>
-					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.emp_name }</div>
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안
-							부서</div>
-						<div class="col-4 p-3">${dto.dept_name }</div>
-					</div>
-					<div class="row w-100 pt-5" style="border-bottom: 1px solid #c9c9c9;">
-		                <div class="col-10 p-0 pt-2"><b>결재선</b></div>
-		                <div class="col-2 p-0 text-right"><button type="button" class="btn btn-outline-dark p-1 mb-2" data-toggle="modal" data-target="#modal">결재선 설정</button>
-		
-		                </div>
-		            </div>
-					<div class="row w-100 pt-5 pb-2"
-						style="border-bottom: 1px solid #c9c9c9;">
-						<b>기안 내용</b>
-					</div>
-					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안
-							제목</div>
-						<div class="col-10 p-3"><input type=text value="${dto.title }" name="title"></div>
-					</div>
-					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">시작일</div>
-						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9;" id="filecontainer"><input type=date class="date ml-1 mr-1" name=leave_start value=${dto.leave_start }></div>
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">종료일</div>
-						<div class="col-4 p-3" id="filecontainer"><input type=date class="date ml-1 mr-1" name=leave_end value=${dto.leave_end }></div>
-					</div>
-					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">휴가 종류</div>
-						<div class="col-2 p-3">
-							<select id="leavetype" class="ml-1" name=leave_type style="border: 1px solid #c9c9c9">
-		                        <option value="연차">연차</option>
-		                        <option value="정기">정기</option>
-		                        <option value="반차">반차</option>
-		                        <option value="병가">병가</option>
-		                        <option value="조퇴">조퇴</option>
-		                        <option value="보건">보건</option>
-		                        <option value="출산">출산</option>
-		                        <option value="경조사">경조사</option>
-		                        <option value="기타">기타</option>
-	                   	 	</select>
-	                   	</div>
-					</div>
-					<c:if test="${fileList != null}">
-						<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-							<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
-							<div class="col-3 p-3">
-								<c:forEach var="i" items="${fileList }">
-									${i.oriname }<br>
-								</c:forEach>
+
+					<c:forEach var="list" items="${confirmList}">
+						<div class="box">
+							<div class="row">
+								<div class="col-10 p-2 text-center status_a">
+									<c:choose>
+										<c:when test="${list.isConfirm eq 'N'}">
+										미결재
+									</c:when>
+										<c:when test="${list.isConfirm eq 'Y'}">
+										결재
+									</c:when>
+									</c:choose>
+								</div>
+							</div>
+							<div class="row p-2">
+								<div class="col-12 text-center">${list.emp_name }</div>
+								<div class="col-12 text-center">(${list.pos_name })</div>
+								<div class="col-12 text-center">${list.dept_name }</div>
 							</div>
 						</div>
-					</c:if>
-					<div class="row w-100 pt-3">
-						<div class="col-12 contents mb-6">
-							<textarea name=contents class="w-100" style="min-height: 350px">${dto.contents }</textarea>
+					</c:forEach>
+				</div>
+				<div class="row w-100 pt-5 pb-2"
+					style="border-bottom: 1px solid #c9c9c9;">
+					<b>기안 내용</b>
+				</div>
+				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안
+						제목</div>
+					<div class="col-10 p-3">${dto.title }</div>
+				</div>
+				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">제품명</div>
+					<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9;"
+						id="filecontainer">${dto.order_list }</div>
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">개수</div>
+					<div class="col-4 p-3" id="filecontainer">${dto.order_count }</div>
+				</div>
+				<c:if test="${fileList != null}">
+					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
+						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">첨부 파일</div>
+						<div class="col-3 p-3">
+							<c:forEach var="i" items="${fileList }">
+								${i.oriname }<br>
+							</c:forEach>
 						</div>
 					</div>
-					<div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
-					    <div class="row">
-					        <div class="col-6 p-3 text-right"><button value="temp" class="btn btn-dark" name=submitType onclick="fn_submitToTemp">임시저장</button></div>
-					        <div class="col-6 p-3 "><button value="raise" class="btn btn-dark" name=submitType onclick="fn_submitToRaise">상신하기</button></div>
-					    </div>
-					</div>
-				</form>
+				</c:if>
+				<div class="row w-100 pt-3">
+					<div class="col-12 contents mb-6">${dto.contents }</div>
+				</div>
+				<div class="row w-100 etc" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9">
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">비고</div>
+					<div class="col-3 p-3">${dto.order_etc }</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<script>
-		function fn_submitToTemp(){
-			$("formtag").submit();
-		}
-		function fn_sumbitToRaise(){
-			$("formtag").submit();
-		}
-	</script>
+	<div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
+	    <div class="row">
+	        <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
+	        <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
+	    </div>
+	</div>
 	<div class="modal" id="modal" tabindex="-1" >
     <div class="modal-dialog modal-xl modal-dialog-centered" style="min-width: 1138px;">
         <div class="modal-content">

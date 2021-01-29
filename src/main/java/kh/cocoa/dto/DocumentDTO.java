@@ -38,7 +38,7 @@ public class DocumentDTO {
 	private String emp_name;
 	private String dept_name;
 	private String pos_name;
-	
+	private String detailStatus;
 
 	@Builder
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,

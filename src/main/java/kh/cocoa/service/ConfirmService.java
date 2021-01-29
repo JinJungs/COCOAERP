@@ -23,4 +23,9 @@ public class ConfirmService implements ConfirmDAO {
     public List<ConfirmDTO> getConfirmList(String seq) {
     	return cdao.getConfirmList(seq);
     }
+    
+    @Override
+    public String isConfirmed(String seq) {
+    	return cdao.isConfirmed(seq);
+    }
 }

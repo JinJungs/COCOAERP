@@ -4,4 +4,8 @@
   <insert id="addOrder">
     insert into doc_order values(doc_seq.nextval,#{order_list},#{order_count},#{order_etc},#{doc_seq})
   </insert>
+  
+  <select id="getOrderListBySeq" resultType="kh.cocoa.dto.OrderDTO">
+  	SELECT * FROM DOC_ORDER WHERE DOC_SEQ=#{seq}
+  </select>
 </mapper>

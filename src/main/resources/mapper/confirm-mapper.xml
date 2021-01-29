@@ -17,4 +17,11 @@
 		        AND DOCUMENT.SEQ=#{seq}
 		    ORDER BY DOC_CONFIRM.APPROVER_ORDER
     </select>
+    
+    <select id="isConfirmed" resultType="String">
+    	SELECT DOC_CONFIRM.ISCONFIRM FROM DOCUMENT, DOC_CONFIRM
+		    WHERE DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		        AND APPROVER_ORDER=1
+		        AND DOCUMENT.SEQ=#{seq}
+    </select>
 </mapper>
