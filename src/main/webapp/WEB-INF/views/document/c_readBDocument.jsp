@@ -61,12 +61,14 @@
                     </div>
 
                     <div class="col-3 col-sm-2 mb-3 pl-3">
+                        <input hidden="hidden">
                         <input type=text name=searchText value=>
                     </div>
                     <input type="hidden" id="cpage" name="cpage" value="${cpage}">
                 </div>
                 <div class="row">
                     <div class="col-12 text-center">
+
                         <input type=button value=조회 onclick="fn_btnsearch()">
                     </div>
                 </div>
