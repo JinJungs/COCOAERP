@@ -19,21 +19,21 @@ public class MessageService implements MessageDAO {
     }
 
     @Override
-    public List<MessageDTO> getMessageList(int msg_seq) {
-        return msgdao.getMessageList(msg_seq);
+    public List<MessageDTO> getMessageList(int m_seq) {
+        return msgdao.getMessageList(m_seq);
     }
 
     // 일단 상속
     @Override
-    public List<MessageDTO> getMessageListByCpage(int msg_seq, int startRowNum, int endRowNum) {
-        return msgdao.getMessageListByCpage(msg_seq,startRowNum, endRowNum);
+    public List<MessageDTO> getMessageListByCpage(int m_seq,int startRowNum, int endRowNum) {
+        return msgdao.getMessageListByCpage(m_seq,startRowNum, endRowNum);
     }
 
-    // 오버라이딩으로 구현현
-    public List<MessageDTO> getMessageListByCpage(int msg_seq, int cpage) {
+    // 오버라이딩으로 구현
+    public List<MessageDTO> getMessageListByCpage(int m_seq,int cpage) {
         int startRowNum = (cpage - 1) * Configurator.recordCountPerPage + 1;
         int endRowNum = startRowNum + Configurator.recordCountPerPage - 1;
-        return msgdao.getMessageListByCpage(msg_seq,startRowNum, endRowNum);
+        return msgdao.getMessageListByCpage(m_seq,startRowNum, endRowNum);
     }
 
     @Override

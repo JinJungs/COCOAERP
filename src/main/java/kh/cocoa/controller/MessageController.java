@@ -38,15 +38,16 @@ public class MessageController {
     // 메세지 목록 불러오기
     @RequestMapping("getMessageListByCpage")
     @ResponseBody
-    public String getMessageList(int msg_seq, int cpage){
-        System.out.println("msg_seq: " +msg_seq);
+    public String getMessageList(int m_seq,int cpage){
+        System.out.println("m_seq: " +m_seq);
         JSONArray jArray = new JSONArray();
-        HashMap<String,String> param = new HashMap<>();
-        //List<MessageDTO> list = msgservice.getMessageList(msg_seq);
-        List<MessageDTO> list = msgservice.getMessageListByCpage(msg_seq,cpage);
-
+        HashMap<String,Object> param = new HashMap<>();
+        //List<MessageDTO> list = msgservice.getMessageList(m_seq);
+        List<MessageDTO> list = msgservice.getMessageListByCpage(m_seq,cpage);
         for(int i=0; i<list.size();i++){
             param.put("contents",list.get(i).getContents());
+            param.put("emp_code",list.get(i).getEmp_code());
+            param.put("write_date",list.get(i).getWrite_date());
             jArray.put(param);
         }
         return jArray.toString();

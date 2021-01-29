@@ -44,6 +44,7 @@
         <div class="card-body msg_card_body" id="msgBox">
             <!--여기 부터가 채팅시작-->
             <input type="hidden" id="roomNumber" value="${seq}">
+            <input type="hidden" id="loginID" value="${loginDTO.code}">
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90" id="sendToolBox">
@@ -76,62 +77,44 @@
 <!-- sockjs, stomp CDN 폼에 넣었기 때문에 필요 없음 /근데 없애면 안됨... 폼 디펜던시 다시 받아봐야할 듯-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- 날짜 변경 라이브러리-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
-    var cpage = 1;
-    var msgBox = $("#msgBox");
+    let cpage = 1;
+    let msgBox = $("#msgBox");
+    let loginID = $("#loginID");  //${loginDTO.code}
+    let current_date = new Date();
+    let lastScrollTop = 0;
 
-    // 스크롤 아래로 내리기
+    // 처음 채팅방 입장시 스크롤 아래로 내리기
     function scrollBottom() {
-        msgBox.scrollTop = msgBox.scrollHeight;
+        let element = document.getElementById("msgBox");
+        $(element).scrollTop(element.scrollHeight);
     }
 
-    // enter키 클릭시 메세지 전송
-    $("#sendToolBox").on("keydown", function (e) {
-        if (e.keyCode == 13) {
+    // 메세지 추가될 때 스크롤 아래로 내리기
+    function scrollUpdate(){
+        $('#msgBox')
+            .stop()
+            .animate({ scrollTop: $('#msgBox')[0].scrollHeight},500);
+    }
 
-        }
-    });
-    /*          $(".message").on("keydown", function (e) {
-            if (e.keyCode == 13) {
-                let message = $(".message").html();
-                $('.message').html("");
-
-                let line = $("<div>");
-                line.append(message);
-                line.addClass("my");
-                let br = $("<br>");
-
-                $(".contents").append(line);
-                $(".contents").append(br);
-                scrollBottom();
-
-                // message에 있는 내용을 line이라는 div에 담아서 contents div에 append
-
-                // ---------------------------------------------
-                ws.send(message); // 서버에게 메세지를 전송하는 코드
-                return false;
-
-                // 기본동작을 차단하는 것
-                // -> enter를 쳤을 때 divd의 contenteditable이 div를 만드는 것을 차단
-            }
-
-        })*/
-
-    // 페이지 로딩시 리스트 불러오기
-    $(document).ready(function () {
-        moreList(cpage);
-    })
+    // 리스트 더 불러올 때 스크롤 위치조절
+    function scrollfixed(addedHeight){
+        let element = document.getElementById("msgBox");
+        $(element).scrollTop(addedHeight);
+    }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
     msgBox.scroll(function () {
-        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-        var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-        if (scrollT == 0) {
+        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        if (currentScrollTop==0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
             moreList(cpage);
         }
+
     });
 
     // 리스트 더 불러오기
@@ -140,19 +123,21 @@
             url: "/message/getMessageListByCpage",
             type: "post",
             data: {
-                msg_seq: ${seq},
+                m_seq: ${seq},
                 cpage: cpage
             },
             dataType: "json",
-            success: function (data) {  // 상대방과 나의 메세지를 구분해서 다르게 뿌려줘야한다.
-                // 지금 구분도 안되고 , 두개씩 나오는데다가, 순서도 거꾸로 나오고 있다.
-                let newMsgBox = $("<div>");
+            success: function (data) {
+                // 추가 전 msgBox의 길이를 저장
+                let beforeMsgBoxHeight = msgBox.height();
+                console.log("추가되기 전 msgBox의 길이 : "+ beforeMsgBoxHeight);
                 for (var i = 0; i < data.length; i++) {
                     var existMsg = "";
+                    //console.log("시간 : " +moment(data[i].write_date).format('YYYY MM DD HH:mm:ss'))
                     if(data[i].emp_code == ${loginDTO.code}){
                         existMsg += "<div class='d-flex justify-content-end mb-4'>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
-                        existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<span class='msg_time_send'>"+data[i].write_date+"</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -162,31 +147,60 @@
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
-                        existMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
                         existMsg += "</div></div>";
                     }
                     msgBox.prepend(existMsg);
                 }
-                //msgBox.prepend(newMsgBox);
-                if (cpage == 1) {
+                // 추가 후 msgBox의 길이를 저장
+                let afterMsgBoxHeight = msgBox.height();
+                console.log("추가된 후  msgBox의 길이 : "+ afterMsgBoxHeight);
+                let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
+                if(cpage==1){
                     scrollBottom();
+                    console.log("제일처음 스크롤 이벤트 실행");
+                }else{
+                    scrollfixed(addedHeight);
+                    // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
+
             }
         })
     }
     //<------------------------------------- STOMP --------------------------------------->
 
     $(document).ready(function () {
+        // 리스트 불러오기
+        moreList(cpage);
         connectStomp();
         /* 텍스트 전송 */
+        // 전송 버튼 클릭시 메세지 전송
         document.getElementById("sendBtn").addEventListener('click', sendMsg);
 
+        // enter키 클릭시 메세지 전송
+        $("#sendToolBox").on("keydown", function (e) {
+            if (e.keyCode == 13) {
+                if(!e.shiftKey) {
+                    sendMsg();
+                }
+            }
+        });
+
+        // 메세지 보내기
         function sendMsg(evt){
-            evt.preventDefault();
+            // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
+            //evt.preventDefault();
+
+            // 내용이 없을 경우에 방어코드
+            let msg = $("#yourMsg").val();
+            if(msg ==''){
+                return;
+            }
+
             if (!isStomp && socket.readyState !== 1) return;
 
-            let msg = $("#yourMsg").val();
+            // (1) 메세지 소켓으로 전송
             console.log("mmmmmmmmmmmm>>", msg)
             if (isStomp)
                 socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
@@ -194,7 +208,7 @@
                     , contents: msg
                     , write_date: new Date()
                     , emp_code: ${loginDTO.code} //!수정필요!세션값 작성자 아이디
-                    , msg_seq: ${seq}
+                    , m_seq: ${seq}
                 }));
             else
                 socket.send(msg);
@@ -206,7 +220,8 @@
                 data: {
                     contents: $("#yourMsg").val(),
                     emp_code: ${loginDTO.code},
-                    msg_seq: ${seq}
+                    m_seq: ${seq},
+                    type: "M"
                 },
                 dataType: "json",
                 success: function (resp) {
@@ -218,6 +233,8 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
+
+            scrollUpdate();
         };
 
 
@@ -280,12 +297,11 @@
                 var newMsg = "";
                 var msg = JSON.parse(e.body).contents;
                 var sender = JSON.parse(e.body).emp_code;
-                console.log("sender : " + sender);
                 // 내가 메세지를 보냈을 때
                 if(sender == ${loginDTO.code}){
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    newMsg += "<div class='msg_cotainer_send'>" + msg;
-                    newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                    newMsg += "<div class='msg_cotainer_send'>"+sender+" : "+ msg;
+                    newMsg += "<span class='msg_time_send'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -296,8 +312,8 @@
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
-                    newMsg += "<div class='msg_cotainer_send'>" +msg;
-                    newMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                    newMsg += "<div class='msg_cotainer_send'>"+sender+" : "+ msg;
+                    newMsg += "<span class='msg_time'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
                 }

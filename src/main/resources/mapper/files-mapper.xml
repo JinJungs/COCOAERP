@@ -8,7 +8,6 @@
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0)
 	</insert>
-<<<<<<< HEAD
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">
   		SELECT COUNT(*) FROM FILES WHERE BOARD_SEQ=#{seq}

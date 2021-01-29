@@ -23,9 +23,9 @@ public class StompController {
 		System.out.println("MSG=" + message.getContents());
 		System.out.println("WRITE_DATE="+message.getWrite_date());
 		System.out.println("EMP_CODE="+message.getEmp_code());
-		System.out.println("MSG_SEQ(방seq)"+message.getMsg_seq());
+		System.out.println("MSG_SEQ(방seq)"+message.getM_seq());
 		
-		messagingTemplate.convertAndSend("/topic/" + message.getMsg_seq(), message);
+		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
 	}
 	

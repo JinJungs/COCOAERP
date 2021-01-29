@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MessengerDTO {
 	private int seq;
-	private int emp_code;
-	private int emp_code2;
+	private String type;
+	private String name;
 	@Builder
-	public MessengerDTO(int seq, int emp_code, int emp_code2) {
-		super();
+	public MessengerDTO(int seq, String type, String name) {
 		this.seq = seq;
-		this.emp_code = emp_code;
-		this.emp_code2 = emp_code2;
+		this.type = type;
+		this.name = name;
 	}
 }

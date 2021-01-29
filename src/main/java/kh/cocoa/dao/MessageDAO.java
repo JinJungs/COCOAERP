@@ -9,10 +9,10 @@ import java.util.List;
 public interface MessageDAO {
     public int insertMessage(MessageDTO msgdto);
 
-    public List<MessageDTO> getMessageList(int msg_seq);
+    public List<MessageDTO> getMessageList(int m_seq);
 
     // 10개씩 불러오기
-    public List<MessageDTO> getMessageListByCpage(int msg_seq, int startRowNum, int endRowNum);
+    public List<MessageDTO> getMessageListByCpage(int m_seq,int startRowNum, int endRowNum);
 
     public int getMessagePageCount(int emp_code);
 
