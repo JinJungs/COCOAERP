@@ -1,12 +1,11 @@
 package kh.cocoa.dao;
 
-import java.sql.Date;
-import java.util.List;
-
-import kh.cocoa.dto.TemplatesDTO;
+import kh.cocoa.dto.DocumentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import kh.cocoa.dto.DocumentDTO;
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DocumentDAO {
@@ -40,6 +39,43 @@ public interface DocumentDAO {
 
 	//임시 저장
 	public int addSaveDocument(DocumentDTO dto);
+
+	//결재전 리스트
+	public List<DocumentDTO> getBeforeConfirmList(int approver_code,int startRowNum,int endRowNum);
+
+	//검색
+	public List<DocumentDTO> searchConfirmDocument(Map map);
+
+	//결재진행중 리스트
+	public List<DocumentDTO> getNFConfirmList(int approver_code,int startRowNum,int endRowNum);
+
+	//진행중 문서 검색
+	public List<DocumentDTO> searchNFDocument(Map map);
+
+	//완료된 문서 리스트
+	public List<DocumentDTO> getFConfirmList(int approver_code,int startRowNum,int endRowNum);
+
+	//완료된 문서 검색
+	public List<DocumentDTO> searchFDocument(Map map);
+
+	//반려한 문서
+	public List<DocumentDTO> getRConfirmList(int approver_code,int startRowNum,int endRowNum);
+
+	//반려한 문서 검색
+	public List<DocumentDTO> searchRDocument(Map map);
+
+	//각 문서 카운트 받아오기
+	public int getBDCount(int approver_code);
+	public int searchBDCount(Map map);
+
+	public int getNFCount(int approver_code);
+	public int searchNFCount(Map map);
+
+	public int getFCount(int approver_code);
+	public int searchFCount(Map map);
+
+	public int getRCount(int approver_code);
+	public int searchRCount(Map map);
 }
 
 

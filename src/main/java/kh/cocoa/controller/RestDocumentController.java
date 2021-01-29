@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -172,6 +174,131 @@ public class RestDocumentController {
 
         return "success";
 
+    }
+
+    @RequestMapping("searchdocument.document")
+    public String searchDocument(@RequestBody List<Map<String,String>> map) throws ParseException {
+        int approver_code=Integer.parseInt(map.get(0).get("value"));
+        String startDate = map.get(1).get("value");
+        String endDate = map.get(2).get("value");
+        String temp_name =map.get(3).get("value");
+        String searchOption =map.get(4).get("value");
+        String searchText =map.get(5).get("value");
+        String cpage =map.get(6).get("value");
+        if(temp_name.contentEquals("사무용품")){
+            temp_name="사무용품 신청서";
+        }
+        int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+        int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+
+        Map<String,Object> hm = new HashMap<>();
+        hm.put("approver_code",approver_code);
+        hm.put("startDate",startDate);
+        hm.put("endDate",endDate);
+        hm.put("temp_name",temp_name);
+        hm.put("searchOption",searchOption);
+        hm.put("searchText",searchText);
+        hm.put("startRowNum",startRowNum);
+        hm.put("endRowNum",endRowNum);
+        DocumentDTO navi = docservice.getSearchNavi(hm,Integer.parseInt(cpage),"BD");
+        System.out.println(navi);
+        List<DocumentDTO> list = docservice.searchConfirmDocument(hm);
+        list.add(navi);
+        JSONArray json = new JSONArray(list);
+        return json.toString();
+    }
+
+    @RequestMapping("searchNFdocument.document")
+    public String searchNFDocument(@RequestBody List<Map<String,String>> map ){
+        int approver_code=Integer.parseInt(map.get(0).get("value"));
+        String startDate = map.get(1).get("value");
+        String endDate = map.get(2).get("value");
+        String temp_name =map.get(3).get("value");
+        String searchOption =map.get(4).get("value");
+        String searchText =map.get(5).get("value");
+        String cpage =map.get(6).get("value");
+        if(temp_name.contentEquals("사무용품")){
+            temp_name="사무용품 신청서";
+        }
+        int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+        int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+
+        Map<String,Object> hm = new HashMap<>();
+        hm.put("approver_code",approver_code);
+        hm.put("startDate",startDate);
+        hm.put("endDate",endDate);
+        hm.put("temp_name",temp_name);
+        hm.put("searchOption",searchOption);
+        hm.put("searchText",searchText);
+        hm.put("startRowNum",startRowNum);
+        hm.put("endRowNum",endRowNum);
+        DocumentDTO navi= docservice.getSearchNavi(hm,Integer.parseInt(cpage),"NFD");
+        List<DocumentDTO> list = docservice.searchNFDocument(hm);
+        list.add(navi);
+        JSONArray json = new JSONArray(list);
+        return json.toString();
+    }
+
+    @RequestMapping("searchFdocument.document")
+    public String searchFDocument(@RequestBody List<Map<String,String>> map ){
+        int approver_code=Integer.parseInt(map.get(0).get("value"));
+        String startDate = map.get(1).get("value");
+        String endDate = map.get(2).get("value");
+        String temp_name =map.get(3).get("value");
+        String searchOption =map.get(4).get("value");
+        String searchText =map.get(5).get("value");
+        String cpage =map.get(6).get("value");
+        if(temp_name.contentEquals("사무용품")){
+            temp_name="사무용품 신청서";
+        }
+        int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+        int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+
+        Map<String,Object> hm = new HashMap<>();
+        hm.put("approver_code",approver_code);
+        hm.put("startDate",startDate);
+        hm.put("endDate",endDate);
+        hm.put("temp_name",temp_name);
+        hm.put("searchOption",searchOption);
+        hm.put("searchText",searchText);
+        hm.put("startRowNum",startRowNum);
+        hm.put("endRowNum",endRowNum);
+        DocumentDTO navi= docservice.getSearchNavi(hm,Integer.parseInt(cpage),"FD");
+        List<DocumentDTO> list = docservice.searchFDocument(hm);
+        JSONArray json = new JSONArray(list);
+        return json.toString();
+    }
+
+    @RequestMapping("searchRdocument.document")
+    public String searchRDocument(@RequestBody List<Map<String,String>> map ){
+        int approver_code=Integer.parseInt(map.get(0).get("value"));
+        String startDate = map.get(1).get("value");
+        String endDate = map.get(2).get("value");
+        String temp_name =map.get(3).get("value");
+        String searchOption =map.get(4).get("value");
+        String searchText =map.get(5).get("value");
+        String cpage =map.get(6).get("value");
+        if(temp_name.contentEquals("사무용품")){
+            temp_name="사무용품 신청서";
+        }
+        int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+        int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+
+
+        Map<String,Object> hm = new HashMap<>();
+        hm.put("approver_code",approver_code);
+        hm.put("startDate",startDate);
+        hm.put("endDate",endDate);
+        hm.put("temp_name",temp_name);
+        hm.put("searchOption",searchOption);
+        hm.put("searchText",searchText);
+        hm.put("startRowNum",startRowNum);
+        hm.put("endRowNum",endRowNum);
+        DocumentDTO navi= docservice.getSearchNavi(hm,Integer.parseInt(cpage),"RD");
+        List<DocumentDTO> list = docservice.searchRDocument(hm);
+        list.add(navi);
+        JSONArray json = new JSONArray(list);
+        return json.toString();
     }
 
 

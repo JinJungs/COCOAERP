@@ -24,4 +24,8 @@ public class TemplatesService implements TemplatesDAO{
 		return tdao.getSubTemplateList();
 	}
 
+	@Override
+	public List<TemplatesDTO> getTemplateList2() {
+		return tdao.getTemplateList2();
+	}
 }
