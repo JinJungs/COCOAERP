@@ -109,12 +109,12 @@
 						제목</div>
 					<div class="col-10 p-3">${dto.title }</div>
 				</div>
-				<c:if test="${fileList != null}">
+				<c:if test="${!empty fileList}">
 					<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
 						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">첨부 파일</div>
 						<div class="col-3 p-3">
 							<c:forEach var="i" items="${fileList }">
-								${i.oriname }<br>
+								<a href="/document/fileDownload.document?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname }</a><br>
 							</c:forEach>
 						</div>
 					</div>
@@ -169,7 +169,13 @@
 					style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
 					<div class="row">
 						<div class="col-12 p-3 text-center">
-							<button class="btn btn-secondary">회수하기</button>
+							<button class="btn btn-secondary" id="returnBtn">회수하기</button>
+							<script>
+							let returnBtn = document.getElementById("returnBtn");
+					        returnBtn.onclick = function() {
+					            location.href = "/document/returnDocument.document?seq=${dto.seq}";
+					         }
+							</script>
 						</div>
 					</div>
 				</div>
