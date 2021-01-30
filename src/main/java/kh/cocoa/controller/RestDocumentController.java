@@ -93,9 +93,7 @@ public class RestDocumentController {
     public int addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         int result = docservice.addSaveDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
-
         if (code.get(0)!=1) {
-
             for (int i = 0; i < code.size(); i++) {
                 int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
             }
@@ -128,9 +126,11 @@ public class RestDocumentController {
 
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
+
         for (int i = 0; i < code.size(); i++) {
             int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
         }
+
         if (!file.get(0).getOriginalFilename().contentEquals("")) {
             String fileRoot = Configurator.boardFileRootC;
             File filesPath = new File(fileRoot);
@@ -298,6 +298,23 @@ public class RestDocumentController {
         List<DocumentDTO> list = docservice.searchRDocument(hm);
         list.add(navi);
         JSONArray json = new JSONArray(list);
+        return json.toString();
+    }
+
+    @RequestMapping("loadconfirmlist.document")
+    public String loadConfirmList( @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code){
+        List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
+        ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
+        for (int i = 0; i < code.size(); i++) {
+            getConfirmInfo = eservice.getConfirmEmp(code.get(i));
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("code", code.get(i));
+            map.put("emp_name", getConfirmInfo.get(0).getName());
+            map.put("dept_name", getConfirmInfo.get(0).getDeptname());
+            map.put("pos_name", getConfirmInfo.get(0).getPosname());
+            hmlist.add(map);
+        }
+        JSONArray json = new JSONArray(hmlist);
         return json.toString();
     }
 

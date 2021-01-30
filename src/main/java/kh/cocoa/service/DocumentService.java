@@ -530,6 +530,11 @@ public class DocumentService implements DocumentDAO {
 	public int searchRCount (Map map){
 		return ddao.searchRCount(map);
 	}
+
+	@Override
+	public DocumentDTO getModDocument(int seq) {
+		return ddao.getModDocument(seq);
+	}
 }
 
 

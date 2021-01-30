@@ -416,6 +416,7 @@ public class DocumentController {
 		}
 		//return "redirect:/document/toReadPage.document?seq="+docSeq;
 	}
+
 	
 	//회수하기
 	@GetMapping("returnDocument.document")
@@ -425,31 +426,7 @@ public class DocumentController {
 		//일단 읽는페이지로 연결을 해놓앗으나 다른 부분과 맞출 필요있음
 	}
 	
-	//재상신, 수정 페이지 이동
-	@RequestMapping("reWrite.document")
-	public String toReWrite(String seq, Model model) {
-		Date startDate = DocumentConfigurator.startDate;
-		Date endDate = new Date(System.currentTimeMillis());
-		Date today = new Date(System.currentTimeMillis());
-		DocumentDTO dto = dservice.getDocument(seq);
-		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
-		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("fileList",fileList);
-		model.addAttribute("confirmList", confirmList);
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate);
-		model.addAttribute("today", today);
-		
-		if(dto.getTemp_code()==4) {
-			return "/document/d_reWriteReport";
-		}else if(dto.getTemp_code()==5) {
-			return "/document/d_reWriteOrder";
-		}else {
-			return "/document/d_reWriteLeave";
-		}
-	}
+
 	//재상신 동작
 	@RequestMapping("submitToRewrite.document")
 	public String reWrite(String seq, DocumentDTO dto, String submitType, Model model) {
@@ -564,7 +541,7 @@ public class DocumentController {
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
-		List<TemplatesDTO> list = tservice.getTemplateList();
+		List<TemplatesDTO> list = tservice.getTemplateList2();
 		List<TemplatesDTO> subList = tservice.getSubTemplateList();
 		model.addAttribute("list", list);
 		model.addAttribute("size", list.size());
@@ -597,6 +574,38 @@ public class DocumentController {
 		} else {
 			return "document/c_writeDocument";
 		}
+	}
+
+	@RequestMapping("addconfirm.document")
+	public String addconfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
+
+		int result = dservice.addDocument(ddto);
+		int getDoc_code = dservice.getDocCode(ddto.getWriter_code());
+
+		for (int i = 0; i < code.size(); i++) {
+			int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
+		}
+
+		if (!file.get(0).getOriginalFilename().contentEquals("")) {
+			String fileRoot = Configurator.boardFileRootC;
+			File filesPath = new File(fileRoot);
+			if (!filesPath.exists()) {
+				filesPath.mkdir();
+			}
+			for (MultipartFile mf : file) {
+				if (!mf.getOriginalFilename().contentEquals("")) {
+					String oriName = mf.getOriginalFilename();
+					String uid = UUID.randomUUID().toString().replaceAll("_", "");
+					String savedName = uid + "_" + oriName;
+					int insertFile = fservice.documentInsertFile(oriName, savedName, getDoc_code);
+					if (insertFile > 0) {
+						File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+						FileCopyUtils.copy(mf.getBytes(), targetLoc);
+					}
+				}
+			}
+		}
+		return "redirect:toTemplateList.document";
 	}
 
 
@@ -666,6 +675,29 @@ public class DocumentController {
 		model.addAttribute("tempList", getTemplatesList);
 		model.addAttribute("list", list);
 		return "document/c_readRDocument";
+	}
+
+	//재상신, 수정 페이지 이동
+	@RequestMapping("reWrite.document")
+	public String toReWrite(String seq, Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		List<DepartmentsDTO> deptList = deptservice.getDeptList();
+
+		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
+
+		List<ConfirmDTO> getConfirmList =cservice.getConfirmList(seq);
+		System.out.println(getConfirmList);
+
+		model.addAttribute("ddto",getModDocument);
+		model.addAttribute("clist",getConfirmList);
+		model.addAttribute("user",empCode);
+		model.addAttribute("dlist",deptList);
+
+		if(getModDocument.getTemp_code()==4) {
+			return "/document/c_modSaveD";
+		}
+		return "redirect:/";
 	}
 
 }
