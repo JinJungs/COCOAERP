@@ -140,7 +140,7 @@
 					        reviseBtn.onclick = function() {
 					            location.href = "/document/reWrite.document?seq=${dto.seq}";
 					         }
-							</script>
+							</script> 
 						</div>
 					</div>
 				</div>
