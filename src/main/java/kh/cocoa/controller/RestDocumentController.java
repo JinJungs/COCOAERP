@@ -73,7 +73,7 @@ public class RestDocumentController {
 
     @RequestMapping("addmainconfirmlist.document")
     public String addMainConfirmList(@RequestParam(value = "code", required = true) List<Integer> code) {
-        System.out.println(code.size());
+
         List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
         ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
         for (int i = 0; i < code.size(); i++) {
@@ -95,7 +95,7 @@ public class RestDocumentController {
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
 
         if (code.get(0)!=1) {
-            System.out.println(code.get(0));
+
             for (int i = 0; i < code.size(); i++) {
                 int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
             }
@@ -125,7 +125,7 @@ public class RestDocumentController {
 
     @RequestMapping("ajaxadddocument.document")
     public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
-        System.out.println("도착했나요");
+
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         for (int i = 0; i < code.size(); i++) {
@@ -201,7 +201,6 @@ public class RestDocumentController {
         hm.put("startRowNum",startRowNum);
         hm.put("endRowNum",endRowNum);
         DocumentDTO navi = docservice.getSearchNavi(hm,Integer.parseInt(cpage),"BD");
-        System.out.println(navi);
         List<DocumentDTO> list = docservice.searchConfirmDocument(hm);
         list.add(navi);
         JSONArray json = new JSONArray(list);
@@ -265,6 +264,7 @@ public class RestDocumentController {
         hm.put("endRowNum",endRowNum);
         DocumentDTO navi= docservice.getSearchNavi(hm,Integer.parseInt(cpage),"FD");
         List<DocumentDTO> list = docservice.searchFDocument(hm);
+        list.add(navi);
         JSONArray json = new JSONArray(list);
         return json.toString();
     }

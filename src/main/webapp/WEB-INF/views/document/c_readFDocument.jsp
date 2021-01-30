@@ -64,12 +64,14 @@
                     </div>
 
                     <div class="col-3 col-sm-2 mb-3 pl-3">
+                        <input type="hidden">
                         <input type=text name=searchText value=>
                     </div>
                     <input type="hidden" name="cpage" id="cpage" value="${cpage}">
                 </div>
                 <div class="row">
                     <div class="col-12 text-center">
+
                         <input type=button value=조회 onclick="fn_btnsearch()">
                     </div>
                 </div>
@@ -196,6 +198,7 @@
             contentType:'application/json',
             dataType:"json",
             success: function (data) {
+                console.log(data);
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
