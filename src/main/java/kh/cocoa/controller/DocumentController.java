@@ -391,33 +391,41 @@ public class DocumentController {
 
 	//파일 다운로드
 	@RequestMapping("fileDownload.document")
-	public void download(FilesDTO dto, String docSeq, HttpServletResponse resp) throws Exception {
-		//파일경로받기
-		String filePath = session.getServletContext().getRealPath("files");
-		File targetFile = new File(filePath + "-" + dto.getSavedname());
+	public void download(FilesDTO dto, HttpServletResponse resp) throws Exception {
+		System.out.println("요청된 파일Seq: " + dto.getSeq());
+		System.out.println("요청된 파일 SavedName: " + dto.getSavedname());
 
-		//타겟파일이 없는 경우 처리
-		if (targetFile.exists() && targetFile.isFile()) { //isFile = (폴더가 아니라) 파일인가
-			System.out.println("파일이 없음");
-
-			//리퀘스트: 헤드-바디 구조. 헤드에 보낼 데이터의 타입, 길이, 처리정보 등이 담겨있음
+		String filePath = Configurator.boardFileRootC;
+		File targetFile = new File(filePath + "/" + dto.getSavedname());
+		// 다음 위치에 있는 파일을 파일 객체로 만든다 -> 정보를 뽑아낼 수 있게 하기 위해서
+		String oriName = dto.getOriname();
+		oriName = new String(oriName.getBytes("UTF-8"), "ISO-8859-1");
+		if (targetFile.exists() && targetFile.isFile()) {
 			resp.setContentType("application/octet-stream; charset=utf8");
-			// => 디폴트 text/html로 인식하고 html로 랜더링하려함
+			// 마치 우리가 html문서라고 명시하고 text문서를 웹브라우저에 전송하게 되면 알아서 해주는 것처럼
+			// 지금 text 보내는게 아니라 파일의 내용이니까 utf-8으로 렌더링하라고 전달
 			resp.setContentLength((int) targetFile.length());
-			resp.setHeader("Content-Disposition", "attachment; filename=\"" + dto.getOriname() + "\"");
-
-			//소켓통신시 사용했던 명령어(서버의 ssd에 통로를 열라는? 명령어)
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" +oriName+ "\"");
+			// 다운로드 받을 때 컴퓨터에 저장될 이름을 설정
 			FileInputStream fis = new FileInputStream(targetFile);
 			ServletOutputStream sos = resp.getOutputStream();
-			FileCopyUtils.copy(fis, sos);//(A,B) A에서 B로 보내라는 뜻_B가 원래 클라이언트의 ssd여야함
+			FileCopyUtils.copy(fis, sos);
 			fis.close();
-
 			sos.flush();
 			sos.close();
-			//직접 Response를 다뤘기때문에 디스패처는 얘를 처리할 수 없음}
 		}
 		//return "redirect:/document/toReadPage.document?seq="+docSeq;
 	}
+
+	
+	//회수하기
+	@GetMapping("returnDocument.document")
+	public String returnDocument(String seq) {
+		dservice.ReturnDoc(seq);
+		return "redirect:/document/toReadPage.document?seq="+seq;
+		//일단 읽는페이지로 연결을 해놓앗으나 다른 부분과 맞출 필요있음
+	}
+	
 
 	//재상신 동작
 	@RequestMapping("submitToRewrite.document")
@@ -446,6 +454,7 @@ public class DocumentController {
 			return "/document/d_readLeave";
 		}
 	}
+
 	//문서대장
 	@GetMapping("allConfirmDoc.document")
 	public String allConfirmDoc(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model){

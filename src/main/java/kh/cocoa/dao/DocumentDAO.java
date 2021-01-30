@@ -42,6 +42,9 @@ public interface DocumentDAO {
 	
 	//==================================================================
 	
+	//회수하기
+	public int ReturnDoc(String seq);
+	
 	//문서대장
 	public List<DocumentDTO> getAllConfirmDoc(Date startDate, Date endDate, List<String> templateList, String searchOption, String searchText, int startRowNum, int endRowNum);
 

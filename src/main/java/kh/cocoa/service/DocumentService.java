@@ -186,6 +186,11 @@ public class DocumentService implements DocumentDAO {
 	//================================================
 	
 	@Override
+	public int ReturnDoc(String seq) {
+		return ddao.ReturnDoc(seq);
+	}
+	
+	@Override
 	public List<DocumentDTO> getAllConfirmDoc(Date startDate, Date endDate, List<String> templateList, String searchOption, String searchText, int startRowNum, int endRowNum) {
 		return ddao.getAllConfirmDoc(startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
 	}

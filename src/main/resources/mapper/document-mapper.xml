@@ -148,6 +148,10 @@
 		    </choose>
 		    WHERE SEQ=#{dto.seq}
 	</update>
+	
+	<update id="ReturnDoc">
+		UPDATE DOCUMENT SET STATUS = 'RETURN' WHERE SEQ=#{seq}
+	</update>
 	<select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT * FROM 
 			(SELECT DOCUMENT.*, EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "dept_name", TEMPLATES.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
