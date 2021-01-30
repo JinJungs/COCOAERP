@@ -90,7 +90,7 @@
         <!-- 리스트 출력 부분 -->
         <div class="listcontainer" id="listcontainer">
             <c:forEach var="list" items="${list}">
-                <div class="row text-center">
+                <div class="row text-center" style="cursor: pointer" onclick="fn_toread(${list.seq})">
                     <div class="col-1 col-sm-2 textBox">${list.seq}</div>
                     <div class="col-3 col-sm-2 d-none d-sm-block textBox">${list.temp_name}</div>
                     <div class="col-1 col-sm-2 textBox">${list.title}</div>
@@ -135,6 +135,12 @@
     $(function() {
         $("#start_date").val(oma);
         $("#end_date").val(today);
+    });
+
+    $('input[type="text"]').keydown(function() {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
     });
 
     function fn_insertdate(){
@@ -202,7 +208,7 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\">";
+                    html+="<div class=\"row text-center\ style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].seq+"</div>";
                     html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox\">"+data[i].temp_name+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].title+"</div>";
@@ -275,7 +281,7 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\">";
+                    html+="<div class=\"row text-center\ style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].seq+"</div>";
                     html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox\">"+data[i].temp_name+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].title+"</div>";
@@ -303,6 +309,10 @@
                 $("#navicontainer").append(navi);
             }
         });
+    }
+
+    function fn_toread(seq){
+        location.href="/document/toReadPage.document?seq="+seq;
     }
 
 </script>

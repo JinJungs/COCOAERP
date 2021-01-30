@@ -99,6 +99,9 @@ public interface DocumentDAO {
 
 	public int getRCount(int approver_code);
 	public int searchRCount(Map map);
+
+	//수정 페이지 값 가져오기
+	public DocumentDTO getModDocument(int seq);
 }
 
 
