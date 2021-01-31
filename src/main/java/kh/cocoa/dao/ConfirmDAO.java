@@ -14,5 +14,7 @@ public interface ConfirmDAO {
     public List<ConfirmDTO> getConfirmList(String seq);
     
     public String isConfirmed(String seq);
+
+    public int deleteConfirm(int doc_seq);
     
 }

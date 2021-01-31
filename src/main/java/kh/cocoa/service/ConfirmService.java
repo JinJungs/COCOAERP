@@ -28,4 +28,9 @@ public class ConfirmService implements ConfirmDAO {
     public String isConfirmed(String seq) {
     	return cdao.isConfirmed(seq);
     }
+
+    @Override
+    public int deleteConfirm(int doc_seq) {
+        return cdao.deleteConfirm(doc_seq);
+    }
 }

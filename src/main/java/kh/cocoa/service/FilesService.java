@@ -51,4 +51,18 @@ public class FilesService implements FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq(String seq){
 		return fdao.getFilesListByDocSeq(seq);
 	}
+
+	@Override
+	public int deleteDocFile(int seq) {
+		return fdao.deleteDocFile(seq);
+	}
+
+	public List<FilesDTO> getFilesListByDocSeq2(int seq){
+		return fdao.getFilesListByDocSeq2(seq);
+	}
+
+	@Override
+	public int updateFile(int seq,int b_seq) {
+		return fdao.updateFile(seq,b_seq);
+	}
 }

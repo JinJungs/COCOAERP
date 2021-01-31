@@ -535,6 +535,16 @@ public class DocumentService implements DocumentDAO {
 	public DocumentDTO getModDocument(int seq) {
 		return ddao.getModDocument(seq);
 	}
+
+	@Override
+	public int modDocument(DocumentDTO dto) {
+		return ddao.modDocument(dto);
+	}
+
+	@Override
+	public int modAddDocument(DocumentDTO dto) {
+		return ddao.modAddDocument(dto);
+	}
 }
 
 

@@ -5,8 +5,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title>Insert title here</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
@@ -66,7 +64,7 @@
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 양식</div>
                 <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${ddto.temp_name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">문서 번호</div>
-                <div class="col-4 p-3">${ddto.seq}</div>
+                <div class="col-4 p-3" id="seq">${ddto.seq}</div>
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
@@ -80,7 +78,8 @@
 
                 </div>
             </div>
-            <form id="mainform" method="post" enctype="multipart/form-data">
+            <form id="mainform" class="w-100">
+
                 <div class="row w-100 pt-4 pb-4 pl-3 pr-3" style="border-bottom: 1px solid #c9c9c9;">
 
                     <div class="col-md-12" >
@@ -97,7 +96,8 @@
                                     <input type="hidden" name="temp_code" value="${ddto.temp_code}">
                                     <input type="hidden" name="dept_code" value="${ddto.dept_code}">
                                     <input type="hidden" name="seq" value="${ddto.seq}">
-                                    <input type="hidden" name="status" value="${ddto.status}">
+                                    <input type="hidden" name="contents" id="tempcontents">
+                                    <input type="hidden" name="status" id="status" value="${ddto.status}">
                                 </div>
                             </div>
                             <%--포이치 돌려서--%>
@@ -114,6 +114,7 @@
                                     </div>
                                 </div>
                             </c:forEach>
+
                         </div>
                     </div>
                 </div>
@@ -121,7 +122,7 @@
                     <h5>기안 내용</h5>
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
+                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목 *</div>
                     <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;" value="${ddto.title}"></div>
                 </div>
                 <div class="row w-100">
@@ -134,11 +135,36 @@
 
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3"  style="border-right: 1px solid #c9c9c9;"></div>
+                    <div class="col-9 p-3"></div>
                 </div>
+            </form>
+            <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
+                <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
+                    <b>물품 입력 칸</b>
+                </div>
+                <div class="row w-100 m-0 text-center">
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
+                    <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
+                    <div class="col-1 p-2">추가</div>
+                </div>
+                <form id="orderform" class="w-100">
+                    <div class="ordercontainer w-100">
+                        <div class="row w-100 m-0 text-center orderwrap">
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요."></div>
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요."></div>
+                            <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
+                            <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
+                        </div>
+                        <input type="hidden" id="doc_seq" name="doc_seq">
+                    </div>
+                </form>
 
-                <div class="row w-100 pt-3">
-                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px">${ddto.contents}</textarea></div>
-                </div>
+            </div>
+
+            <div class="row w-100 pt-3">
+                <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px">${ddto.contents}</textarea></div>
+            </div>
         </div>
     </div>
 
@@ -147,7 +173,7 @@
     <div class="row">
         <c:choose>
             <c:when test="${ddto.status=='TEMP'}">
-                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_modsaveconfirm()">임시저장</button></div>
+                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_modsave()">임시저장</button></div>
                 <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
             </c:when>
             <c:otherwise>
@@ -158,7 +184,6 @@
     </div>
 </div>
 
-</form>
 <div class="modal" id="modal" tabindex="-1" >
     <div class="modal-dialog modal-xl modal-dialog-centered" style="min-width: 1138px;">
         <div class="modal-content">
@@ -176,6 +201,7 @@
                                 <div class="col-12 ">-대표 회사명 넣을지?</div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
+
 
                             <c:forEach var="i" items="${dlist}">
                                 <div class="allcontainer w-100">
@@ -201,7 +227,7 @@
                         <div class="col-6 m-3" style="min-height:540px; border: 1px solid pink">
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">기안</div>
-                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${ddto.emp_name}|${ddto.dept_name}</div>
+                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${ddto.emp_name}(${ddto.pos_name})|${ddto.dept_name}</div>
                             </div>
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">결재자</div>
@@ -233,23 +259,13 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
-
 <script>
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
-    if(token && header) {
-        $(document).ajaxSend(function(event, xhr, options) {
-            xhr.setRequestHeader(header, token);
-        });
-    }
 
     var getempcode=0;
     var getaddedempcode = [];
     var count =0;
     var clickstat = document.getElementsByClassName("clickstat");
-
-
-
+    var indexcount=0;
 
     $( function() {
         $(".empcontainer2").selectable();
@@ -304,12 +320,38 @@
             });
         }
 
+        $.ajax({
+            type: "POST",
+            url: "/restdocument/getorderlist.document",
+            data: $("#mainform").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if(data.length!=0){
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        var etc =data[i].order_etc;
+                        if(etc==undefined){
+                            etc="";
+                        }
+                        html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
+                        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+data[i].order_list+"\"></div>";
+                        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value=\""+data[i].order_count+"\" oninput=fn_onlycount2(this)></div>";
+                        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+etc+"\"></div>";
+                        html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
+                        indexcount++;
+                    }
+                    $(".ordercontainer").append(html);
+                }
+            }
+        });
 
     });
 
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
     }
+
+
 
 
     function fn_openconfirmdept(code){
@@ -354,9 +396,7 @@
             toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
             toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
             toobig: "$file 은 크기가 매우 큽니다. (max $size)"
-        },
-        list:"#filecontainer"
-
+        }
     });
 
 
@@ -368,7 +408,6 @@
             data : {code },
             dataType :"json",
             success : function(data) {
-                console.log(code);
                 var html="";
                 for(var i=0;i<data.length;i++){
                     html+="<div id=teamcontainer"+data[i].code+">";
@@ -407,6 +446,7 @@
                 $("#teamcontainer"+code).after(html);
                 $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
                 $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+","+rootcode+")");
+
             }
         });
     }
@@ -533,49 +573,70 @@
         });
     }
 
-    function fn_addsave(){
-        var title = $("#title").val();
-        var contents = $("#contents").val();
-        var writer_code =$("#getcuruserempcode").val();
-        if(title==""){
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return;
-        }else if(contents==""){
-            alert("내용을 입력해주세요.");
-            $("#contents").focus();
+
+
+
+    function fn_addOrderList() {
+        var order_list = $("#order_list").val();
+        var order_count = $("#order_count").val();
+        var order_etc = $("#order_etc").val();
+        if(indexcount==5){
+            alert("물품 신청은 최대 5개까지 가능합니다.");
             return;
         }
 
-        $.ajax({
-            url:"/restdocument/addsave.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result>=1){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
+        if(order_list==""){
+            alert("신청 상품을 입력해주세요.");
+            $("#order_list").focus();
+            return;
+        }else if(order_count==""){
+            alert("상품 수량을 입력해주세요.")
+            $("#order_count").focus();
+            return;
+        }
+        var html= "";
+        html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+order_list+"\"></div>";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value=\""+order_count+"\" oninput=fn_onlycount2(this)></div>";
+        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+order_etc+"\"></div>";
+        html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
+        $(".ordercontainer").append(html);
+        indexcount++;
+        $("#order_list").val("");
+        $("#order_count").val("");
+        $("#order_etc").val("");
     }
 
-    function fn_modsaveconfirm(){
-        $.ajax({
-            url:"/restdocument/modsaveconfirm.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result>=1){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
+    function  fn_delOrderList(obj) {
+        var conf = confirm("행을 삭제 하시겠습니까?");
+        if(conf==true) {
+            indexcount--;
+            $(obj).parent().parent().remove();
+        }
+
+    }
+
+    function fn_onlycount(obj) {
+
+        var a= $(obj).val();
+        $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        if(a.length>=6){
+            alert("최대 만자리까지 가능합니다.");
+            $(obj).val($(obj).val().substr(0,5));
+
+            return;
+        }
+
+    }
+
+    function  fn_onlycount2(obj) {
+        var a= $(obj).val();
+        $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        if(a.length>=6){
+            alert("최대 만자리까지 가능합니다.");
+            $(obj).val($(obj).val().substr(0,5));
+            return;
+        }
     }
 
     function fn_delfile(obj,seq) {
@@ -590,9 +651,121 @@
         });
     }
 
+    function ajaxaddsave() {
+        return new Promise(function (resolve, reject) {
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url: "/restdocument/addsave.document",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#doc_seq").val(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    function ajaxaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+
+    function fn_addsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var writer_code =$("#getcuruserempcode").val();
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+        ajaxaddsave().then(ajaxaddorder);
+
+    }
+
+    function ajaxmodsave() {
+        return new Promise(function (resolve, reject) {
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url: "/restdocument/modsaveconfirm.document",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#doc_seq").val(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    function ajaxmodesaveorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/modsaveorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+
+    function fn_modsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var writer_code =$("#getcuruserempcode").val();
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+        ajaxmodsave().then(ajaxmodesaveorder);
+
+    }
+
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
+        var b_seq=$("#seq").text();
+        if($(".orderwrap").length==1){
+            alert("목록을 추가 해주세요");
+            return;
+        }
+
         if(title==""){
             alert("제목을 입력해주세요.");
             $("#title").focus();
@@ -603,24 +776,92 @@
             return;
         }
 
-        $.ajax({
-            url:"/restdocument/modaddconfirm.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result>=1){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
+        var status=$("#status").val();
+        if(status=="TEMP"){
+            var html ="<input type=hidden name=b_seq id=b_seq value=\""+b_seq+"\">";
+            $(".ordercontainer").append(html);
+            ajaxaddmoddoucment().then(ajaxmodaddorder);}
+        else{ajaxadddoucment().then(ajaxaddorder);}
 
 
 
     }
 
+    function ajaxaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+    function ajaxadddoucment(){
+        return new Promise(function(resolve, reject){
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url:"/restdocument/ajaxadddocument.document",
+                type:"post",
+                enctype: 'multipart/form-data',
+                data:new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    resolve(result);
+                    $("#doc_seq").val(result);
+                }
+            });
+        });
+    }
+
+
+
+    function ajaxmodaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+
+
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/modaddorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+    function ajaxaddmoddoucment(){
+        return new Promise(function(resolve, reject){
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url:"/restdocument/modaddconfirm.document",
+                type:"post",
+                enctype: 'multipart/form-data',
+                data:new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+
+                    resolve(result);
+                    $("#doc_seq").val(result);
+
+                }
+            });
+        });
+    }
 
 </script>
 

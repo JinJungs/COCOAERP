@@ -361,8 +361,10 @@ public class DocumentController {
 	@RequestMapping("toReadPage.document")
 	public String toReadPage(String seq, Model model) {
 		//0. 사번 입력
-		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		int empCode = (Integer)loginDTO.getCode();
+	/*	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();*/
+
+		int empCode =1000;
 		
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
@@ -375,7 +377,6 @@ public class DocumentController {
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("confirmList", confirmList);
 		model.addAttribute("confirmStatus", confirmStatus);
-		
 		if(dto.getTemp_code()==4) {
 			return "/document/d_readReport";
 		}else if(dto.getTemp_code()==5) {
@@ -680,15 +681,13 @@ public class DocumentController {
 	//재상신, 수정 페이지 이동
 	@RequestMapping("reWrite.document")
 	public String toReWrite(String seq, Model model) {
-		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		int empCode = (Integer)loginDTO.getCode();
+		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();*/
+		int empCode = 1000;
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
 
 		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
-
 		List<ConfirmDTO> getConfirmList =cservice.getConfirmList(seq);
-		System.out.println(getConfirmList);
-
 		model.addAttribute("ddto",getModDocument);
 		model.addAttribute("clist",getConfirmList);
 		model.addAttribute("user",empCode);
@@ -696,7 +695,11 @@ public class DocumentController {
 
 		if(getModDocument.getTemp_code()==4) {
 			return "/document/c_modSaveD";
-		}
+		}else if(getModDocument.getTemp_code()==5){
+			return "/document/c_modSaveO";
+		}else if(getModDocument.getTemp_code()==6){
+            return "/document/c_modSaveL";
+        }
 		return "redirect:/";
 	}
 

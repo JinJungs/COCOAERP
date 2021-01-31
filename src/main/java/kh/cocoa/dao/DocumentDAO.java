@@ -105,6 +105,12 @@ public interface DocumentDAO {
 
 	//수정 페이지 값 가져오기
 	public DocumentDTO getModDocument(int seq);
+
+	//임시저장 수정
+	public int modDocument(DocumentDTO dto);
+
+	//임시저장 상신
+	public int modAddDocument(DocumentDTO dto);
 }
 
 

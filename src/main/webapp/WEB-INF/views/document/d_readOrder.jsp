@@ -185,7 +185,7 @@
 					style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
 					<div class="row">
 						<div class="col-12 p-3 text-center">
-							<button class="btn btn-secondary">재상신</button>
+							<button class="btn btn-secondary" onclick="fn_reWrite(${dto.seq})">재상신</button>
 						</div>
 					</div>
 				</div>
@@ -194,5 +194,12 @@
 	</c:if>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script src="/js/jquery-ui.js"></script>
+	<script>
+		function fn_reWrite(seq){
+			location.href="/document/reWrite.document?seq="+seq;
+		}
+
+
+	</script>
 </body>
 </html>

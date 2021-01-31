@@ -116,8 +116,10 @@
     var month =curdate.getMonth()+1;
     var date = curdate.getDate();
     var today ="";
-    if(month==1) {
-        today = year + "-0" + month + "-" + date;
+    if(month.toString().length==1&&date.toString().length==1) {
+        today = year + "-0" + month + "-0" + date;
+    }else if(month.toString().length==1){
+        today =year + "-0" + month + "-" + date;
     }else{
         today =year + "-" + month + "-" + date;
     }
@@ -126,7 +128,9 @@
     var omamonth = oneMonthAgo.getMonth()+1;
     var omadate = oneMonthAgo.getDate();
     var oma = ""
-    if(omamonth==1){
+    if(omamonth.toString().length==1&&omadate.toString().length==1){
+        oma= omayear +"-0"+omamonth+"-0"+omadate;
+    }else if(omamonth.toString().length==1){
         oma= omayear +"-0"+omamonth+"-"+omadate;
     }else{
         oma= omayear +"-"+omamonth+"-"+omadate;
@@ -177,8 +181,10 @@
         var month = enddate.getMonth()+1;
         var date = enddate.getDate();
         var today ="";
-        if(month==1) {
-            today = year + "-0" + month + "-" + date;
+        if(month.toString().length==1&&date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
         }else{
             today =year + "-" + month + "-" + date;
         }
@@ -251,8 +257,10 @@
         var date = enddate.getDate();
         var today ="";
         $("#cpage").val(cpage)
-        if(month==1) {
-            today = year + "-0" + month + "-" + date;
+        if(month.toString().length==1&&date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
         }else{
             today =year + "-" + month + "-" + date;
         }
