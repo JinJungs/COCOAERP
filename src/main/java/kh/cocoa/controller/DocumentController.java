@@ -361,10 +361,10 @@ public class DocumentController {
 	@RequestMapping("toReadPage.document")
 	public String toReadPage(String seq, Model model) {
 		//0. 사번 입력
-	/*	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		int empCode = (Integer)loginDTO.getCode();*/
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 
-		int empCode =1000;
+
 		
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
