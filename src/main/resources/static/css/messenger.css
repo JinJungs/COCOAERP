@@ -26,6 +26,24 @@ body {
   margin: 0 auto;
 }
 
+/* ====== hide file input ===== */
+.file-input lable {
+	display:inline-block;background:#23a3a7;  color:#fff;
+  padding:0px 15px;line-height:35px;cursor:pointer;
+  }
+.file_input label input {
+	position:absolute;width:0;
+    height:0;overflow:hidden;
+    }
+.file_input input[type=text] {
+	vertical-align:middle;color:#866EC7;
+    display:inline-block;width:400px;height:28px;
+    line-height:28px;font-size:13px;padding:0;
+    border:0;
+    }
+/* ====== hide file input ====== */
+
+
 .bgMain {
   background-color: var(--main-color) !important;
 }

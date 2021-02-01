@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Board Create</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
-	media="screen" />
+
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
 .row{border-bottom: 1px solid pink}
 #fileinsert{width:20%;}

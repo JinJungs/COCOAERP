@@ -15,8 +15,8 @@ public interface NotificationBoardDAO {
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum,int menu_seq);
 
-	
-	public List<BoardDTO> notificationBoardListBySearch(String search, String searchBy, int menu_seq,int cpage);
+	//검색한 리스트 가져오기
+	public List<BoardDTO> getSearchList(String search, String searchBy, int menu_seq);
 
 	//네비게이터 가져오기
 	String getNavi(int cpage, int menu_seq);
@@ -41,17 +41,8 @@ public interface NotificationBoardDAO {
 
 	//게시글 삭제
 	public int notificationBoardContentsDel(int seq);
-
-
 	
-	
-
-
-
-
-
-
-	
-
+	//앨범 게시판 글 불러오기
+	public List<BoardDTO> getAlbumBoardListCpage(String cpage, int menu_seq);
 
 }

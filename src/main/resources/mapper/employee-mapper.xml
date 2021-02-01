@@ -48,4 +48,9 @@
 	<select id="searchEmployeeByDeptTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%'
 	</select>
+
+	<!-- 효경 -->
+	<select id="isEmailExist" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
+	</select>
 </mapper>

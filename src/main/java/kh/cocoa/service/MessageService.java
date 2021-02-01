@@ -42,4 +42,9 @@ public class MessageService implements MessageDAO {
         return msgdao.getMessagePageCount(emp_code);
     }
 
+    @Override
+	public int selectMessageSeq() {
+		return msgdao.selectMessageSeq();
+	}
+
 }

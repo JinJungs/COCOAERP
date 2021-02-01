@@ -16,4 +16,9 @@ public interface MessageDAO {
 
     public int getMessagePageCount(int emp_code);
 
+    //파일 업로드를 위한 메세지 시퀀스 미리 뽑기
+	public int selectMessageSeq();
+//	//파일 업로드용 메세지 인서트
+//	public int insertFileMessage(MessageDTO msgdto);
+
 }

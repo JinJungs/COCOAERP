@@ -1,10 +1,12 @@
 package kh.cocoa.dao;
 
-import kh.cocoa.dto.EmployeeDTO;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
 
 @Mapper
 public interface EmployeeDAO {
@@ -44,4 +46,8 @@ public interface EmployeeDAO {
 	public List<EmployeeDTO> searchEmployeeByDeptname(String contents);
 	// 팀이름으로 찾기
 	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents);
+
+
+	//email로 사번받아오기
+	public int isEmailExist(String email);
 }

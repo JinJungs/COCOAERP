@@ -6,9 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Album Board</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
-	media="screen" />
+
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
+div{border:1px solid gray;}
+.card{margin:10px;}
 input{width:50%;border-bottom:1px solid pink;}
 #search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
 .select{text-align:right;}
@@ -34,38 +36,43 @@ input{width:50%;border-bottom:1px solid pink;}
 							<option value="title">제목</option>
 							<option value="contents">내용</option>
 							<option value="writer">작성자</option>
-							<option value="tc">제목과 내용</option>
+							<!-- <option value="tc">제목과 내용</option> -->
 						</select> <input type="text" name="search" id="search"
 							placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
 						<button type=submit class="btn btn-primary">검색</button>
 					</div>
 				</div>
 			</form>
-
+			
 			<div class="row">
-				<div class="card" style="width: 18rem;">
-					<img src="..." class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">사진제목</p>
+			<c:forEach var="i" items="${albumList}">
+				<div class="card" style="width: 11rem;">
+					<img id="img" src="" class="card-img-top" alt="..." style="WIDTH: 150px; HEIGHT: 150px">
+					<!-- <img id="img" src="${imgurl}"
+										style="WIDTH: 150px; HEIGHT: 150px"> -->
+					<div class="col-12"
+						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+						<b>${i.title}</b><br><b>${i.name}</b> <b>${i.write_date}</b>
 					</div>
 				</div>
+			</c:forEach>
 			</div>
 
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_home()">홈으로</button>
+						onclick="fn_home(${cpage})">홈으로</button>
 				</div>
 
 				<!--네비게이션  -->
 				<div class="col-md-7 navi_box">
-					<ul class="pagination justify-content-center mb-0">${navi}</ul>
+					<ul class="pagination justify-content-center mb-0">${albumNavi}</ul>
 				</div>
 
 				<!--버튼 -->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_create(${cpage})">글 등록</button>
+						onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>
@@ -79,16 +86,16 @@ input{width:50%;border-bottom:1px solid pink;}
 			}
  		}
 		/*글 등록*/
-		function fn_create(menu_seq) {
-			location.href = "/noBoard/notificationBoardCreate.no?menu_seq=3";
+		function fn_create(menu_seq,cpage) {
+			location.href = "/noBoard/notificationBoardCreate.no?menu_seq="+menu_seq+"&cpage="+cpage;
 		}
 		/* 리스트에서 글 읽기*/
 		function notificationBoardRead(menu_seq,seq,cpage){
 			location.href="/noBoard/notificationBoardRead.no?menu_seq="+menu_seq+"&seq="+seq+"&cpage="+cpage;
 		}
 		/*홈으로*/
-		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=3";
+		function fn_home(cpage) {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"+"&cpage="+cpage;
 		}
 	</script>
 </html>

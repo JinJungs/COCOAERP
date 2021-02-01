@@ -6,15 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Album Board Create</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
-	media="screen" />
+
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
 .row{border-bottom: 1px solid pink}
 #fileinsert{width:20%;}
 </style>
-<script
-	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-</head>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
@@ -49,8 +47,7 @@
 					</div>
 					<div class="col-12 file_input">
 						<label>+ File Attach <input type="file" id="myFile"
-							name="file" multiple
-							onchange="javascript:document.getElementById('file_route').value=this.value">
+							name="file" multiple>
 						</label> <input type="text" readonly="readonly" title="File Route">
 					</div>
 				</div>
@@ -71,7 +68,9 @@
 			</form>
 		</div>
 	</div>
+	
 </body>
+
 <script>
 /*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){

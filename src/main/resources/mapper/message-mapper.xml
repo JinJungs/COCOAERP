@@ -31,4 +31,9 @@
         FROM MESSAGE
         WHERE EMP_CODE = #{emp_code}
     </select>
+    
+    <!-- 메세지 파일 업로드 - message & files seq값 동일하게 맞추기 -->
+	<select id="selectMessageSeq" resultType="Integer">
+		SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
+	</select>
 </mapper>
