@@ -106,11 +106,13 @@ public class EmailController {
 				
 				eservice.sendEmail(dto);
 			}
-			
-			
 			return "email/sendPage";
 		}
-	
+		//메일리스트 
+		@RequestMapping("receiveList.email")
+		public String receiveList() {
+			return "email/listReceive";
+		}
 		
 	
 		

@@ -37,7 +37,7 @@ textarea{
       <div id="content" class="p-4 p-md-5 pt-5" style="min-width: 400px;">
       	<h2 class="mb-4">메일 작성</h2>
       	<div class="emailContainer pt-4 pl-4 pr-4 pb-3">
-      		<form action="/email/sendEmail.email" method=post onsubmit="return submitCheck();">
+      		<form action="/email/sendEmail.email" method=post id=form>
 	      		<div class="row mb-3">
 	      			<div class="col-3 col-sm-2">
 	      				제목
@@ -52,7 +52,7 @@ textarea{
 	      				받는사람
 	      			</div>
 	      			<div class="col-9 col-sm-10 pr-5">
-	      				<input type=text name=receiver required>
+	      				<input type=text name=receiver id=receiver required>
 	      			</div>
 	      		</div>
 	      		
@@ -74,28 +74,29 @@ textarea{
 	      		<div class="row mt-1">
 	      			<div class="col-10"></div>
 	      			<div class="col-1">
-	      				<input type=submit>
+	      				<input type=submit id=submitBtn>
 	      			</div>
 	      		</div>
       		</form>
       	</div>
         <script>
-        	function submitCheck(){
-        		console.log("function 들어옴");
-        		var title = $("#title").val();
-        		console.log(title);
-        		console.log(title==null);
-        		
-        		if(title == null){
-        			var titleConfirm = confirm("제목이 비어있습니다.\n(제목 없음)으로 진행할까요?");
+        	$("#form").submit(function(){
+        		var receiver = $("#receiver").val();
+        		if(receiver.includes("@cocoa.com") == false){
+        			alert("이메일 형식이 잘못됐습니다.");
+        			$("#receiver").focus();
+        			return false;
+        		}
+        		var title =  $("#title").val();
+        		if(title == ""){
+        			var titleConfirm = confirm("(제목 없음)으로 진행할까요?");
         			if(titleConfirm==false){
-        				console.log("제목 없음 허용x");
+        				$("#title").focus();
         				return false;
-        			}else{
-        				return true;
         			}
         		}
-        	}
+        		return true;
+        	})
         </script>
       </div>
    </div>

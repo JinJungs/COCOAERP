@@ -42,6 +42,7 @@
         <input type=button value="문서대장" id=allConfirmDocBtn><br>
         <br>
         <input type=button value="메일쓰기" id=sendEmailBtn><br>
+        <input type=button value="받은 메일함" id=receiveBtn><br>
 
 
           <%--용국--%>
@@ -82,6 +83,10 @@
          let sendEmailBtn = document.getElementById("sendEmailBtn");
          sendEmailBtn.onclick = function() {
             location.href = "/email/sendPage.email";
+         }
+         let receiveBtn = document.getElementById("receiveBtn");
+         receiveBtn.onclick = function() {
+            location.href = "/email/receiveList.email";
          }
          
          /*지영 부분*/
