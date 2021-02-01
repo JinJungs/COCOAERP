@@ -35,15 +35,13 @@ import kh.cocoa.statics.Configurator;
 public class NotificationBoardController {
 
 	@Autowired
-	NotificationBoardService nservice;
+	private NotificationBoardService nservice;
 	@Autowired
-	FilesService fservice;
+	private FilesService fservice;
 
-	//회사공지 게시판
+	//게시판
 	@RequestMapping("notificationBoardList.no") 
-	public String notificationBoardList(int menu_seq, String cpage,Model model) { 
-		System.out.println("메뉴seq값은?"+menu_seq);
-
+	public String notificationBoardList(BoardDTO dto,FilesDTO fdto,int menu_seq, String cpage,Model model) { 
 		if(cpage==null) {cpage="1";} 
 
 		//게시글 불러오기
@@ -63,28 +61,40 @@ public class NotificationBoardController {
 		}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
 			return "community/cocoaWorksBoardList"; 
 		}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-			System.out.println("3번 앨범 게시판으로 이동");
+			if(cpage==null) {cpage="1";} 
+			//게시글 불러오기
+			List<BoardDTO> albumList = new ArrayList<BoardDTO>();
+			albumList = nservice.getAlbumBoardListCpage(cpage,menu_seq);
+			System.out.println("앨범게시판 게시글? "+albumList.size());
+			//시작 & 끝 페이지 불러오기
+			String albumNavi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
+			
+			//앨범게시판 이미지 불러오기
+			//FilesDTO fdtoImg = fservice.getImage(fdto.getBoard_seq());
+			
+			//String imgUrl = "/boardRepository/" + fdtoImg.getSavedname();
+			model.addAttribute("albumNavi",albumNavi);
+			model.addAttribute("albumList",albumList);
+			//model.addAttribute("imgUrl",imgUrl);
+			
 			return "community/albumBoardList";
 		}
 		return "index";
 	}
 
-	//회사공지 게시글 읽기
+	//게시글 읽기
 	@RequestMapping("notificationBoardRead.no")
 	public String notificationBoardRead(String cpage,BoardDTO dto,FilesDTO fdto, Model model) {
 
 		if(cpage==null) {cpage="1";}
 		//seq로 게시글 수 확인
 		int isExistReadPage = nservice.isExistReadPage(dto.getMenu_seq());
-		System.out.println("게시글 수 확인 : "+isExistReadPage);
 		if(isExistReadPage>0) {
 			//게시글에 업로드된 파일 갯수 확인
 			int isExistUploadFile = fservice.isExistUploadFile(fdto);
-			System.out.println("업로드된 파일 수 확인 : "+isExistReadPage);
 
 			//게시글에 업로드된 첨부파일 리스트 불러오기
 			List<FilesDTO> fileList = fservice.getFilesBySeq(fdto);
-			System.out.println("업로드된 첨부파일 리스트 확인 : "+fileList);
 
 			//조회수 올리기
 			nservice.notificationBoardViewCount(dto);
@@ -104,18 +114,15 @@ public class NotificationBoardController {
 		}else if(dto.getMenu_seq()==2) { //게시판 seq가 2인 경우 - 자유게시판
 			return "community/cocoaWorksBoardRead";
 		}else if(dto.getMenu_seq()==3) {//게시판 seq가 3인 경우 - 앨범게시판
-			System.out.println("3번 앨범 게시글 읽기 페이지로 이동");
 			return "community/albumBoardRead";
 		}
 		return "index";
 	}
 
-	//회사공지 게시글 검색
+	//게시글 검색
 		@GetMapping("notificationBoardSearch.no")
 		public String notificationBoardSearch(String cpage, String search,String searchBy,int menu_seq, Model model) {
-			System.out.println("게시글 검색 페이지 menu_seq?" +menu_seq);
 			if(cpage==null) {cpage = "1";}
-			//List<BoardDTO> list1 = new ArrayList<BoardDTO>();
 			List<BoardDTO> list = nservice.notificationBoardListBySearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
 			String navi= nservice.notificationBoardSearchNavi(menu_seq,Integer.parseInt(cpage), searchBy,search);
 			model.addAttribute("list", list);
@@ -127,20 +134,23 @@ public class NotificationBoardController {
 				return "community/notificationBoardList"; 
 
 			}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
-				System.out.println("메뉴seq값이 2?"+menu_seq);
 				return "community/cocoaWorksBoardList"; 
 			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-				System.out.println("3번 앨범 게시글 읽기 페이지로 이동");
+				List<BoardDTO> albumList = nservice.notificationBoardListBySearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
+				String albumNavi= nservice.notificationBoardSearchNavi(menu_seq,Integer.parseInt(cpage), searchBy,search);
+				model.addAttribute("albumList", albumList);
+				model.addAttribute("albumNavi", albumNavi);
+				model.addAttribute("cpage", cpage);
+				model.addAttribute("search", search);
 				return "community/albumBoardList";
 			}
 			return "index";
 		}
 	
-		//회사공지 작성 페이지 이동
+		//게시글 작성 페이지 이동
 		@RequestMapping("notificationBoardCreate.no")
 		public String notificationBoardCreate(String cpage,int menu_seq, Model model) {
 			if(cpage==null) {cpage="1";}
-			System.out.println("회사소식 작성 페이지"+menu_seq);
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("menu_seq",menu_seq);
 
@@ -148,27 +158,22 @@ public class NotificationBoardController {
 				return "community/notificationBoardCreate";
 
 			}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
-				System.out.println("메뉴seq값이 2?"+menu_seq);
 				return "community/cocoaWorksBoardCreate"; 
 			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-				System.out.println("3번 앨범 게시글 읽기 페이지로 이동");
 				return "community/albumBoardCreate";
 			}
 			return "index";
 		}
-		//회사공지 작성 완료
+		//게시글 작성 완료
 		@RequestMapping("notificationBoardCreateDone.no")
 		public String notificationBoardCreateDone(BoardDTO bdto, int menu_seq,List<MultipartFile> file,Model model) throws Exception {
-			System.out.println("회사소식 작성 완료 페이지"+menu_seq);
 			//board & files seq값 동일하게 맞추기
 			int noBoard_seq = nservice.noBoardSelectSeq();
 			//bdto.setSeq(noBoard_seq); //bdto에 생성된 seq담기
 	
 			//글 작성 
 			int done = nservice.notificationBoardCreateDone(noBoard_seq,bdto,menu_seq);
-			System.out.println("글작성 결과:"+done);
 			if(file!=null) { //파일이 있을 때
-				System.out.println(file);
 				//파일 업로드 할 갯수 확인
 				int filesCount = 0;
 				for (MultipartFile mf : file) {
@@ -206,11 +211,9 @@ public class NotificationBoardController {
 		}
 	
 	
-		//회사공지 게시글 수정 (관리자 ONLY)
+		//게시글 수정
 		@RequestMapping("notificationBoardModify.no")
 		public String notificationBoardModify(int menu_seq,BoardDTO dto,FilesDTO fdto,int cpage,Model model) {
-			System.out.println("수정페이지로 이동 성공");
-			System.out.println("여기서 menu_seq?"+menu_seq);
 			//seq으로 제목,작성자,날짜,내용 가져오기
 			BoardDTO bdto = nservice.notificationBoardContentsSelect(dto);
 			//게시글에 업로드된 첨부파일 리스트 불러오기
@@ -225,19 +228,17 @@ public class NotificationBoardController {
 				return "community/notificationBoardModify";
 
 			}else if(dto.getMenu_seq()==2) {//게시판 seq가 2인 경우 - 자유게시판
-				System.out.println("메뉴seq값이 2?"+dto.getMenu_seq());
 				return "community/cocoaWorksBoardModify"; 
 			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-				System.out.println("3번 앨범 게시글 읽기 페이지로 이동");
 				return "community/albumBoardModify";
 			}
 			return "index";
 		}
-		//회사공지 게시글 수정 완료 (관리자 ONLY)
+		//게시글 수정 완료
 		@RequestMapping("notificationBoardModifyDone.no")
-		public String notificationBoardModifyDone(int seq,int[] delArr,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
-			System.out.println("게시글 수정 완료 도착");
-			System.out.println("게시글 dto_menu_seq"+dto.getMenu_seq());
+		public String notificationBoardModifyDone(int[] delArr,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
+			int seq = fdto.getBoard_seq();
+			System.out.println("여기서 seq값은? "+seq);
 			//수정된 글 업로드
 			nservice.notificationBoardContentsModify(dto);
 	
@@ -253,10 +254,12 @@ public class NotificationBoardController {
 				/*------------------파일 수정--------------*/
 				//파일 삭제 - 파일의 seq로 삭제
 				if (delArr != null) {
+					System.out.println("선택된 갯수? "+delArr.length);
 					int fileDelResult = 0;
 					for (int i = 0; i < delArr.length; i++) {
 						fileDelResult += fservice.deleteNotificationBoardFiles(delArr[i]);
 					}
+					System.out.println("파일 삭제 :" +fileDelResult);
 				}
 				//파일 추가
 				if(file!=null) {
@@ -271,7 +274,7 @@ public class NotificationBoardController {
 							String uid = UUID.randomUUID().toString().replaceAll("-", "");
 							String savedName = uid + "-" + oriName;
 							// dto에 값을 담아서 db에 전송
-							FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null, seq,0,0);
+							FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null, seq,0,0,0);
 	
 							int result = fservice.uploadFiles(seq,fdto1);
 							if (result > 0) {
@@ -294,7 +297,6 @@ public class NotificationBoardController {
 		
 		//파일 삭제 - 파일의 seq로 삭제
 		int fileDelResult = fservice.deleteNotificationBoardFiles(seq);
-		System.out.println("파일삭제되었나?"+fileDelResult);
 		
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("seq",seq);

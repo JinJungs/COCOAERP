@@ -22,4 +22,14 @@ public class OrderService implements OrderDAO {
     public List<OrderDTO> getOrderListBySeq(String seq) {
     	return odao.getOrderListBySeq(seq);
     }
+
+    @Override
+    public List<OrderDTO> getOrderListBySeq2(int seq) {
+        return odao.getOrderListBySeq2(seq);
+    }
+
+    @Override
+    public int modDelOrderList(int doc_seq) {
+        return odao.modDelOrderList(doc_seq);
+    }
 }

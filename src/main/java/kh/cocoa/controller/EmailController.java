@@ -23,7 +23,7 @@ import kh.cocoa.service.EmployeeService;
 public class EmailController {
 	
 	@Autowired
-	JavaMailSender mailSender; 
+	private JavaMailSender mailSender; 
 
 	@Autowired
 	private HttpServletRequest request;

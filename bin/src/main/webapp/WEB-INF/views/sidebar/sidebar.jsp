@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,10 +38,10 @@
                 </ul>
             </li>
             <li>
-                <a href="#">About</a>
+                <a href="#">전자결재</a>
             </li>
             <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">근태관리</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
                         <a href="#">Page 1</a>
@@ -63,7 +62,7 @@
             </li>
         </ul>
 
-        <div class="mb-5">
+    <%--    <div class="mb-5">
             <h3 class="h6">Subscribe for newsletter</h3>
             <form action="#" class="colorlib-subscribe-form">
                 <div class="form-group d-flex">
@@ -72,17 +71,10 @@
                 </div>
             </form>
         </div>
-
-        <div class="footer">
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-        </div>
+        --%>
 
     </div>
 </nav>
-
-
 
 <script src="/js/jquery.min.js"></script>
 <script src="/js/popper.js"></script>

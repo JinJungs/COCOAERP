@@ -530,6 +530,57 @@ public class DocumentService implements DocumentDAO {
 	public int searchRCount (Map map){
 		return ddao.searchRCount(map);
 	}
+
+	@Override
+	public DocumentDTO getModDocument(int seq) {
+		return ddao.getModDocument(seq);
+	}
+
+	@Override
+	public int modDocument(DocumentDTO dto) {
+		return ddao.modDocument(dto);
+	}
+
+	@Override
+	public int modAddDocument(DocumentDTO dto) {
+		return ddao.modAddDocument(dto);
+	}
+
+	@Override
+	public int getAuthBD(int seq, int approver_code) {
+		return ddao.getAuthBD(seq,approver_code);
+	}
+
+	@Override
+	public int confirm(int seq,int approver_code) {
+		return ddao.confirm(seq,approver_code);
+	}
+
+	@Override
+	public int returnD(int seq,int approver_code) {
+		return ddao.returnD(seq,approver_code);
+	}
+
+	@Override
+	public int getIsLast(int seq) {
+		return ddao.getIsLast(seq);
+	}
+
+	@Override
+	public int addIsConfirm(int seq, int approver_code)
+	{
+		return ddao.addIsConfirm(seq,approver_code);
+	}
+
+	@Override
+	public int addRIsConfirm(int seq, int approver_code) {
+		return ddao.addRIsConfirm(seq,approver_code);
+	}
+
+	@Override
+	public int canRetrun(int seq) {
+		return ddao.canRetrun(seq);
+	}
 }
 
 

@@ -21,9 +21,7 @@ import kh.cocoa.service.CommentListService;
 @RequestMapping("/comment")
 public class CommentListController {
 	@Autowired
-	CommentListService cservice;
-
-	/*------------------*** 자유 게시판 ****------------------*/
+	private CommentListService cservice;
 	
 	/*------------------*** 회사 공지 ****------------------*/
 	//댓글 작성

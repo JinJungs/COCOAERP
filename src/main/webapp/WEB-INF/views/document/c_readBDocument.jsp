@@ -61,7 +61,6 @@
                     </div>
 
                     <div class="col-3 col-sm-2 mb-3 pl-3">
-                        <input hidden="hidden">
                         <input type=text name=searchText value=>
                     </div>
                     <input type="hidden" id="cpage" name="cpage" value="${cpage}">
@@ -86,7 +85,7 @@
         <!-- 리스트 출력 부분 -->
         <div class="listcontainer" id="listcontainer">
         <c:forEach var="list" items="${list}">
-            <div class="row text-center">
+            <div class="row text-center" style="cursor: pointer" onclick="fn_toread(${list.seq})">
                 <div class="col-2 textBox">${list.temp_name}</div>
                 <div class="col-2 d-none d-sm-block textBox">${list.title}</div>
                 <div class="col-4 textBox">${list.emp_name } | ${list.dept_name}</div>
@@ -110,8 +109,10 @@
     var month =curdate.getMonth()+1;
     var date = curdate.getDate();
     var today ="";
-    if(month==1) {
-        today = year + "-0" + month + "-" + date;
+    if(month.toString().length==1&&date.toString().length==1) {
+        today = year + "-0" + month + "-0" + date;
+    }else if(month.toString().length==1){
+        today =year + "-0" + month + "-" + date;
     }else{
         today =year + "-" + month + "-" + date;
     }
@@ -120,11 +121,20 @@
     var omamonth = oneMonthAgo.getMonth()+1;
     var omadate = oneMonthAgo.getDate();
     var oma = ""
-    if(omamonth==1){
+
+    if(omamonth.toString().length==1&&omadate.toString().length==1){
+        oma= omayear +"-0"+omamonth+"-0"+omadate;
+    }else if(omamonth.toString().length==1){
         oma= omayear +"-0"+omamonth+"-"+omadate;
     }else{
         oma= omayear +"-"+omamonth+"-"+omadate;
     }
+
+    $('input[type="text"]').keydown(function() {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        };
+    });
 
     $(function() {
         $("#start_date").val(oma);
@@ -165,8 +175,10 @@
         var month = enddate.getMonth()+1;
         var date = enddate.getDate();
         var today ="";
-        if(month==1) {
-            today = year + "-0" + month + "-" + date;
+        if(month.toString().length==1&&date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
         }else{
             today =year + "-" + month + "-" + date;
         }
@@ -195,7 +207,7 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\">";
+                    html+="<div class=\"row text-center\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-2 textbox\">"+data[i].temp_name+"</div>";
                     html+="<div class=\"col-2 d-none d-sm-block textBox\">"+data[i].title+"</div>";
                     html+="<div class=\"col-4 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
@@ -238,8 +250,10 @@
         var date = enddate.getDate();
         var today ="";
         $("#cpage").val(cpage);
-        if(month==1) {
-            today = year + "-0" + month + "-" + date;
+        if(month.toString().length==1&&date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
         }else{
             today =year + "-" + month + "-" + date;
         }
@@ -268,7 +282,7 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\">";
+                    html+="<div class=\"row text-center\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-2 textbox\">"+data[i].temp_name+"</div>";
                     html+="<div class=\"col-2 d-none d-sm-block textBox\">"+data[i].title+"</div>";
                     html+="<div class=\"col-4 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
@@ -298,6 +312,10 @@
 
             }
         });
+    }
+
+    function fn_toread(seq){
+        location.href="/document/toReadPage.document?seq="+seq;
     }
 
 </script>

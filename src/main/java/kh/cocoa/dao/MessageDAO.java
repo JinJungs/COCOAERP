@@ -9,11 +9,16 @@ import java.util.List;
 public interface MessageDAO {
     public int insertMessage(MessageDTO msgdto);
 
-    public List<MessageDTO> getMessageList(int msg_seq);
+    public List<MessageDTO> getMessageList(int m_seq);
 
     // 10개씩 불러오기
-    public List<MessageDTO> getMessageListByCpage(int msg_seq, int startRowNum, int endRowNum);
+    public List<MessageDTO> getMessageListByCpage(int m_seq,int startRowNum, int endRowNum);
 
     public int getMessagePageCount(int emp_code);
+
+    //파일 업로드를 위한 메세지 시퀀스 미리 뽑기
+	public int selectMessageSeq();
+//	//파일 업로드용 메세지 인서트
+//	public int insertFileMessage(MessageDTO msgdto);
 
 }

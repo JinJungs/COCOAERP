@@ -102,6 +102,33 @@ public interface DocumentDAO {
 
 	public int getRCount(int approver_code);
 	public int searchRCount(Map map);
+
+	//수정 페이지 값 가져오기
+	public DocumentDTO getModDocument(int seq);
+
+	//임시저장 수정
+	public int modDocument(DocumentDTO dto);
+
+	//임시저장 상신
+	public int modAddDocument(DocumentDTO dto);
+
+	//결재전 문서 권한.
+	public int getAuthBD(int seq,int approver_code);
+
+	//결재
+	public int confirm(int seq,int approver_code);
+
+	//반려
+	public int returnD(int seq,int approver_code);
+
+	//마지막 순서인지.
+	public int getIsLast(int seq);
+
+	public int addIsConfirm(int seq, int approver_code);
+
+	public int addRIsConfirm(int seq,int approver_code);
+
+	public int canRetrun(int seq);
 }
 
 

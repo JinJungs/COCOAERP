@@ -24,4 +24,8 @@
 		        AND APPROVER_ORDER=1
 		        AND DOCUMENT.SEQ=#{seq}
     </select>
+
+	<delete id="deleteConfirm">
+		delete from doc_confirm where doc_seq = #{doc_seq}
+	</delete>
 </mapper>
