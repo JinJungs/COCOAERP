@@ -20,11 +20,7 @@ import kh.cocoa.statics.Configurator;
 @RestController
 @RequestMapping("/files")
 public class FilesController {
-	@Autowired
-	HttpSession session;
-	
-	@Autowired
-	FilesService fservice;
+
 	
 	@RequestMapping("/downloadNotificationBoardFiles.files")
 	public void downloadHwFiles(FilesDTO dto, HttpServletResponse resp) throws IOException {

@@ -6,9 +6,8 @@
 <!-- *************************회사 소식***************************** -->
 <!-- 파일 업로드 -->
 	<insert id="uploadFiles">
-		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0)
+		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0)
 	</insert>
-<<<<<<< HEAD
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">
   		SELECT COUNT(*) FROM FILES WHERE BOARD_SEQ=#{seq}
@@ -21,13 +20,17 @@
 	<select id="getFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE BOARD_SEQ=#{seq}
 	</select>
+<!-- 앨범 게시판 첨부파일 사진 불러오기 -->
+	<select id="getImage" resultType="kh.cocoa.dto.FilesDTO">
+      select * from files where BOARD_SEQ=#{seq}
+   </select>
 <!-- 파일 다운로드 -->	
 	<select id="downloadFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
 	</select>
 <!-- 파일 삭제 -->
 	<delete id="deleteNotificationBoardFiles">
-		DELETE FROM FILES WHERE BOARD_SEQ=#{seq}
+		DELETE FROM FILES WHERE SEQ=#{seq}
 	</delete>
 
 	<select id="getFilesListByDocSeq" resultType="kh.cocoa.dto.FilesDTO">

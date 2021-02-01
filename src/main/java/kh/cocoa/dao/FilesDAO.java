@@ -15,6 +15,9 @@ public interface FilesDAO {
 
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto);
+	
+	//앨범게시판에서 게시글 사진 불러오기
+	public FilesDTO getImage(int board_seq);
 
 	//파일 다운로드
 	public List<FilesDTO> downloadFilesBySeq(int noBoard_seq);
@@ -32,4 +35,5 @@ public interface FilesDAO {
 	public int documentInsertFile(String oriName,String savedName,int doc_seq);
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
+	
 }

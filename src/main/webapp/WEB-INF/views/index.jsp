@@ -25,6 +25,7 @@
       <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
       <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
       <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
+      <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
 	
       <!-- 효경 -->
       <input type=button value="저장된" id=temporaryBtn><br>
@@ -65,6 +66,10 @@
 		//앨범게시판
 		function fn_albumBoard(){
 			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
+		}
+		//업무일지 작성
+		function fn_logCreate(){
+			location.href = "/log/logCreate.log"
 		}
    </script>
         

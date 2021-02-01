@@ -5,10 +5,17 @@
 <mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
 <!-- 게시글 리스트 가져오기 -->
 	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
+		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM 
+		(SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
-
+<!-- 앨범 게시판 리스트 가져오기 -->
+	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT B.*, E.NAME FROM BOARD B,EMPLOYEE E
+		WHERE  E.CODE=B.WRITER_CODE
+		AND B.MENU_SEQ=#{menu_seq}
+		ORDER BY WRITE_DATE DESC
+	</select>
 <!-- 토탈 카운트 가져오기 -->
 	<select id="recordTotalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
@@ -43,22 +50,22 @@
 	</delete>
 	
 <!-- 검색한 게시글 가져오기 -->
-	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-			select b.*, e.name from board b, employee e
-			  where b.writer_code = e.code and b.menu_seq = #{menu_seq}
-           <choose>
-                 <when test='searchBy.=="title"'>
-                    and b.title like '%{search}%'
-                 </when>
-                 <when test='searchBy=="tc"'>
-                    and b.title like '%${search}%'
-                       or b.contents like '%${search}%'`
-                 </when>
+	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
+			SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
+			WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
+            <choose>
+                 <when test='searchBy=="title"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                </when>
+                 <!-- <when test='searchBy=="tc"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                 	OR B.CONTENTS LIKE '%${search}%'
+                 </when> -->
                  <when test='searchBy=="contents"'>
-                    and b.contents like '%${search}%'
+                 	AND B.CONTENTS LIKE '%${search}%'
                  </when>
                  <when test='searchBy=="writer"'>
-                    and e.name like '%${search}%'
+                 	AND E.NAME LIKE '%${search}%'
                  </when>
            </choose>
 	</select>
