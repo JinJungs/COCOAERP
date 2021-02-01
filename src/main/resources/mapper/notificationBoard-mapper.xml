@@ -52,7 +52,7 @@
                  </when>
                  <when test='searchBy=="tc"'>
                     and b.title like '%${search}%'
-                       or b.contents like '%${search}%'`
+                       or b.contents like '%${search}%'
                  </when>
                  <when test='searchBy=="contents"'>
                     and b.contents like '%${search}%'

@@ -91,7 +91,6 @@ public class RestDocumentController {
 
     @RequestMapping("addsave.document")
     public int addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
-        System.out.println(ddto);
         int result = docservice.addSaveDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         if (code.get(0) != 1) {
