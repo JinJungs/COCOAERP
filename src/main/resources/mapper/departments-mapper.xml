@@ -7,6 +7,6 @@
    </select>
 
     <select id="getDeptList" resultType="kh.cocoa.dto.DepartmentsDTO">
-        SELECT * FROM DEPARTMENTS
+        SELECT * FROM DEPARTMENTS order by name
     </select>
 </mapper>

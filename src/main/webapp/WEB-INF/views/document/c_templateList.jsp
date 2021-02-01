@@ -7,7 +7,16 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
+    <style>
+        .conbox{
+            cursor: pointer;
+        }
+        .conbox:hover{
+            background-color: whitesmoke;
+        }
+    </style>
 </head>
+
 <body>
 <div class="wrapper d-flex align-items-stretch">
     <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
@@ -22,7 +31,7 @@
                 <div class="col-md-12" >
                     <div class="row" style="border-bottom: 1px solid pink;">
                     <c:forEach var="list" items="${list}">
-                        <div class="col-md-1 col-3 p-0 m-md-3 m-3" style="border: 1px solid #DCDCDC; min-width:135px; max-width: 135px; min-height:130px" id="templatelist"+{list.code} onclick="fn_toWriteDocument(${list.code},'${list.name}')">
+                        <div class="col-md-1 col-3 p-0 m-md-3 m-3 conbox" style="border: 1px solid #DCDCDC; min-width:135px; max-width: 135px; min-height:130px" id="templatelist"+{list.code} onclick="fn_toWriteDocument(${list.code},'${list.name}')">
                             <div class="row m-0 pt-1 pb-1" style="background-color: #F2F6FF">
                                 <div class="col-md-12 text-center" >${list.name}</div>
                             </div>

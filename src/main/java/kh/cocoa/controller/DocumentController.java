@@ -364,14 +364,17 @@ public class DocumentController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 
-
-		
+		//결재전 서류 권한 확인
+		int getAuth = dservice.getAuthBD(Integer.parseInt(seq),empCode);
+		int canreturn=dservice.canRetrun(Integer.parseInt(seq));
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
+		System.out.println("getauth?="+getAuth);
 		
 		String confirmStatus = cservice.isConfirmed(seq);
-		
+		model.addAttribute("canReturn",canreturn);
+		model.addAttribute("auth",getAuth);
 		model.addAttribute("empCode", empCode);
 		model.addAttribute("dto", dto);
 		model.addAttribute("fileList",fileList);
@@ -554,16 +557,20 @@ public class DocumentController {
 	@GetMapping("toWriteDocument")
 	public String toWrtieDocument(TemplatesDTO dto, Model model) {
 
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		String deptName = deptservice.getDeptName();
 		List<DepartmentsDTO> deptList = new ArrayList<>();
 		EmployeeDTO getEmpinfo = new EmployeeDTO();
-		getEmpinfo = eservice.getEmpInfo(1000);
+		getEmpinfo = eservice.getEmpInfo(empCode);
 		deptList = deptservice.getDeptList();
+		System.out.println(getEmpinfo);
+		System.out.println(deptList);
+		System.out.println(deptName);
 		model.addAttribute("temp_code", dto.getCode());
 		model.addAttribute("empInfo", getEmpinfo);
 		model.addAttribute("size", deptList.size());
 		model.addAttribute("deptName", deptName);
-		model.addAttribute("name", "권용국");
 		model.addAttribute("dto", dto);
 		model.addAttribute("deptList", deptList);
 		if (dto.getCode() == 4) {
@@ -612,15 +619,17 @@ public class DocumentController {
 
 	@RequestMapping("toBDocument.document")
 	public String toBDocument(Model model,int cpage) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
-		String getNavi = dservice.getNavi(1006,cpage,"BD");
+		String getNavi = dservice.getNavi(empCode,cpage,"BD");
 		int startRowNum = ((cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-		list = dservice.getBeforeConfirmList(1006,startRowNum,endRowNum);
+		list = dservice.getBeforeConfirmList(empCode,startRowNum,endRowNum);
 		model.addAttribute("navi",getNavi);
-		model.addAttribute("user", 1006);
+		model.addAttribute("user", empCode);
 		model.addAttribute("tempList", getTemplatesList);
 		model.addAttribute("list", list);
 		model.addAttribute("cpage",cpage);
@@ -629,15 +638,17 @@ public class DocumentController {
 
 	@RequestMapping("toNFDocument.document")
 	public String toNFDocument(Model model,int cpage) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
-		String getNavi = dservice.getNavi(1006,cpage,"NFD");
+		String getNavi = dservice.getNavi(empCode,cpage,"NFD");
 		int startRowNum = ((cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-		list = dservice.getNFConfirmList(1006,startRowNum,endRowNum);
+		list = dservice.getNFConfirmList(empCode,startRowNum,endRowNum);
 		model.addAttribute("navi",getNavi);
-		model.addAttribute("user", 1006);
+		model.addAttribute("user", empCode);
 		model.addAttribute("tempList", getTemplatesList);
 		model.addAttribute("list", list);
 		model.addAttribute("cpage",cpage);
@@ -646,16 +657,18 @@ public class DocumentController {
 
 	@RequestMapping("toFDocument.document")
 	public String toFDocument(Model model,int cpage) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
-		String getNavi = dservice.getNavi(1006,cpage,"FD");
+		String getNavi = dservice.getNavi(empCode,cpage,"FD");
 		int startRowNum = ((cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-		list = dservice.getFConfirmList(1006,startRowNum,endRowNum);
+		list = dservice.getFConfirmList(empCode,startRowNum,endRowNum);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("navi",getNavi);
-		model.addAttribute("user", 1006);
+		model.addAttribute("user", empCode);
 		model.addAttribute("tempList", getTemplatesList);
 		model.addAttribute("list", list);
 		return "document/c_readFDocument";
@@ -663,16 +676,18 @@ public class DocumentController {
 
 	@RequestMapping("toRDocument.document")
 	public String toRDocument(Model model,int cpage) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
-		String getNavi = dservice.getNavi(1006,cpage,"RD");
+		String getNavi = dservice.getNavi(empCode,cpage,"RD");
 		int startRowNum = ((cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-		list = dservice.getRConfirmList(1006,startRowNum,endRowNum);
+		list = dservice.getRConfirmList(empCode,startRowNum,endRowNum);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("navi",getNavi);
-		model.addAttribute("user", 1006);
+		model.addAttribute("user", empCode);
 		model.addAttribute("tempList", getTemplatesList);
 		model.addAttribute("list", list);
 		return "document/c_readRDocument";
@@ -681,9 +696,9 @@ public class DocumentController {
 	//재상신, 수정 페이지 이동
 	@RequestMapping("reWrite.document")
 	public String toReWrite(String seq, Model model) {
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		int empCode = (Integer)loginDTO.getCode();*/
-		int empCode = 1000;
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
 
 		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
@@ -700,6 +715,31 @@ public class DocumentController {
 		}else if(getModDocument.getTemp_code()==6){
             return "/document/c_modSaveL";
         }
+		return "redirect:/";
+	}
+
+	@RequestMapping("confirm.document")
+	public String confirm(int seq){
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		int getIsLast =dservice.getIsLast(seq);
+		System.out.println("islast?"+getIsLast);
+		if(getIsLast==1){
+			dservice.confirm(seq,empCode);
+			dservice.addIsConfirm(seq,empCode);
+		}else{
+			dservice.addIsConfirm(seq,empCode);
+		}
+
+		return "redirect:/";
+	}
+
+	@RequestMapping("return.document")
+	public String returnD(int seq){
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		dservice.returnD(seq,empCode);
+		dservice.addRIsConfirm(seq,empCode);
 		return "redirect:/";
 	}
 

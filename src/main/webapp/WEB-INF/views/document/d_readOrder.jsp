@@ -146,6 +146,19 @@
 			</div>
 		</div>
 	</div>
+	<c:if test="${auth==1}">
+		<div class="container-fluid p-0"
+			 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+			<div class="row">
+				<div class="col-12 p-3 text-center">
+					<c:if test="${canReturn==0}">
+						<button class="btn btn-secondary" onclick="fn_return(${dto.seq})">반려하기</button>
+					</c:if>
+					<button class="btn btn-dark" onclick="fn_confirm(${dto.seq})">결재하기</button>
+				</div>
+			</div>
+		</div>
+	</c:if>
 	<c:if test="${dto.writer_code == empCode }">
 		<c:choose>
 			<c:when test="${dto.status eq 'TEMP'}">
@@ -190,6 +203,7 @@
 					</div>
 				</div>
 			</c:when>
+
 		</c:choose>
 	</c:if>
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -198,6 +212,12 @@
 		function fn_reWrite(seq){
 			location.href="/document/reWrite.document?seq="+seq;
 		}
+        function fn_return(seq){
+            location.href="/document/return.document?seq="+seq;
+        }
+        function fn_confirm(seq){
+            location.href="/document/confirm.document?seq="+seq;
+        }
 
 
 	</script>
