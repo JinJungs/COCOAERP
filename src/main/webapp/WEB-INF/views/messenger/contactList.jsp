@@ -142,11 +142,11 @@
 								</div>
 									<div class="user_info">
 										<c:choose>
-											<c:when test="${i.emp_code == loginDTO.code}">
-												<span>${i.emp_code2}(사원이름 뜰 예정)</span>
+											<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
+												<span>${i.empname} / ${i.deptname}</span>
 											</c:when>
-											<c:otherwise>
-												<span>${i.emp_code}(사원이름 뜰 예정)</span>
+											<c:otherwise> <!--1:N채팅방-->
+												<span>${i.name}</span>
 											</c:otherwise>
 										</c:choose>
 										<p>채팅 메세지 조금 띄워주나요...</p>

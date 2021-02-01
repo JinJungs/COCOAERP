@@ -32,4 +32,7 @@ public interface FilesDAO {
 	public int documentInsertFile(String oriName,String savedName,int doc_seq);
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
+
+	/* 채팅 파일 업로드 */
+	public int uploadFilesMsg(FilesDTO fdto);
 }

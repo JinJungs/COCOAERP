@@ -37,4 +37,9 @@
 	<insert id="documentInsertFile">
 		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
 	</insert>
+	
+	<!-- 메세지 파일 업로드 -->
+	<insert id="uploadFilesMsg">
+		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE, 0, 0, #{msg_seq})
+	</insert>
 </mapper>

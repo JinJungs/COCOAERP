@@ -4,7 +4,7 @@
     <!--시간에 초까지 필요 SYSDATE 가능?-->
     <insert id="insertMessage">
         INSERT INTO MESSAGE
-        VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{msg_seq})
+        VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
     </insert>
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다.-->
     <select id="getMessageList" resultType="kh.cocoa.dto.MessageDTO">
@@ -12,21 +12,28 @@
         FROM MESSENGER M,
              MESSAGE MSG
         WHERE M.EMP_CODE = MSG.EMP_CODE
-          AND MSG_SEQ = #{msg_seq}
+          AND M_SEQ = #{m_seq}
         ORDER BY MSG.WRITE_DATE
     </select>
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다. & CPAGE에 해당하는 리스트를 SELECT-->
     <select id="getMessageListByCpage" resultType="kh.cocoa.dto.MessageDTO">
-        SELECT MSG.CONTENTS
-        FROM MESSENGER M,
-             (SELECT MESSAGE.*,ROW_NUMBER()OVER(ORDER BY SEQ DESC)RN FROM MESSAGE) MSG
-        WHERE M.EMP_CODE = MSG.EMP_CODE
-          AND MSG_SEQ = #{msg_seq}
-          AND RN BETWEEN #{startRowNum} AND #{endRowNum}
+        SELECT A.CONTENTS, A.WRITE_DATE, A.EMP_CODE
+        FROM (SELECT MSG_VIEW.*, ROW_NUMBER() OVER(ORDER BY MSG_VIEW.SEQ DESC)RN
+              FROM (SELECT MSG.*
+                    FROM MESSENGER M,
+                         MESSAGE MSG
+                    WHERE MSG.M_SEQ = M.SEQ
+                      AND M.SEQ = #{m_seq}) MSG_VIEW) A
+        WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
     </select>
     <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">
         SELECT COUNT(*)
         FROM MESSAGE
         WHERE EMP_CODE = #{emp_code}
     </select>
+    
+    <!-- 메세지 파일 업로드 - message & files seq값 동일하게 맞추기 -->
+	<select id="selectMessageSeq" resultType="Integer">
+		SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
+	</select>
 </mapper>

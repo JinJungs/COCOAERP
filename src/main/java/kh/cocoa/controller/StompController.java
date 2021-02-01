@@ -23,26 +23,24 @@ public class StompController {
 		System.out.println("MSG=" + message.getContents());
 		System.out.println("WRITE_DATE="+message.getWrite_date());
 		System.out.println("EMP_CODE="+message.getEmp_code());
-		System.out.println("MSG_SEQ(방seq)"+message.getMsg_seq());
+		System.out.println("MSG_SEQ(방seq)"+message.getM_seq());
 		
-		messagingTemplate.convertAndSend("/topic/" + message.getMsg_seq(), message);
+		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
 	}
 	
-	//ResponseEntity<byte[]>
-	
-	@MessageMapping("/getChat/file/{seq}")
+
+	//컨트롤러를 통해 저장하는 방법. 그렇지 않으면 위의 컨트롤러와 합쳐도 상관없음
+	@MessageMapping("/getChat/fileMessage/{seq}")
 	public void getChatFile(MessageDTO message) throws Exception {
-		//1.받아온 내용들로 file 저장 
-		//2.FilesDTO를 이용해 테이블에 인서트 (매개변수 추가하고 chqt.jsp에서도 추가)
-		//2.다운받을 수 있는 링크 전송(oriname)
-		System.out.println("파일전송 컨트롤러 도착!");
-		System.out.println(message);
-		System.out.println("파일 메세지 conntents : "+ message.getContents());
+		System.out.println("스톰프 파일전송 메제시 컨트롤러 도착!");
+		//01. FILE 혹은 IMAGE 타입의 메세지 저장
+		
+		
 		
 
 		//messagingTemplate.convertAndSend("/topic/" + dto.getMeg_seq(), dto.getOriname());
-		messagingTemplate.convertAndSend("/topic/"+message.getMsg_seq(), message);
+		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
 
 	}
 }

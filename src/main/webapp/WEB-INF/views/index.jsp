@@ -8,7 +8,6 @@
 
 <title>Insert title here</title>
 <style type="text/css">
-        div{border: 1px solid gray}
         #contents{height:100%;width:100%;}
         .body{height: 50%;}
         .footer{text-align: right}

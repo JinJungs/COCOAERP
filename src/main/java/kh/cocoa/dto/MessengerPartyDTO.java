@@ -1,7 +1,11 @@
 package kh.cocoa.dto;
 
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class MessengerPartyDTO {
     private int seq;
     private int m_seq;
