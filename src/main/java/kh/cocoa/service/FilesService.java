@@ -56,6 +56,7 @@ public class FilesService implements FilesDAO {
 	public int uploadFilesMsg(FilesDTO fdto) { 
 		return fdao.uploadFilesMsg(fdto); 
 	}
+	/* 채팅 파일 업로드 */
 
 	@Override
 	public int deleteDocFile(int seq) {
