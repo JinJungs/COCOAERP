@@ -76,29 +76,31 @@
 						<div class="col-12 text-center">${dto.dept_name }</div>
 					</div>
 				</div>
-
-				<c:forEach var="list" items="${confirmList}">
-					<div class="box">
-						<div class="row">
-							<div class="col-10 p-2 text-center status_a">
-								<c:choose>
-									<c:when test="${list.isConfirm eq 'N'}">
+					<c:forEach var="list" items="${confirmList}">
+						<div class="box">
+							<div class="row">
+								<div class="col-10 p-2 text-center status_a">
+									<c:choose>
+										<c:when test="${list.isConfirm eq 'N'}">
 										미결재
-									</c:when>
-									<c:when test="${list.isConfirm eq 'Y'}">
+										</c:when>
+										<c:when test="${list.isConfirm eq 'Y'}">
 										결재
-									</c:when>
-								</c:choose>
+										</c:when>
+										<c:when test="${list.isConfirm eq 'R'}">
+										반려
+										</c:when>
+									</c:choose>
+								</div>
+							</div>
+							<div class="row p-2">
+								<div class="col-12 text-center">${list.emp_name }</div>
+								<div class="col-12 text-center">(${list.pos_name })</div>
+								<div class="col-12 text-center">${list.dept_name }</div>
 							</div>
 						</div>
-						<div class="row p-2">
-							<div class="col-12 text-center">${list.emp_name }</div>
-							<div class="col-12 text-center">(${list.pos_name })</div>
-							<div class="col-12 text-center">${list.dept_name }</div>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+					</c:forEach>
+				</div>
 			<div class="row w-100 pt-5 pb-2"
 				 style="border-bottom: 1px solid #c9c9c9;">
 				<b>기안 내용</b>

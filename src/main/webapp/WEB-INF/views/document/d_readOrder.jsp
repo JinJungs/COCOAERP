@@ -85,10 +85,13 @@
 									<c:choose>
 										<c:when test="${list.isConfirm eq 'N'}">
 										미결재
-									</c:when>
+										</c:when>
 										<c:when test="${list.isConfirm eq 'Y'}">
 										결재
-									</c:when>
+										</c:when>
+										<c:when test="${list.isConfirm eq 'R'}">
+										반려
+										</c:when>
 									</c:choose>
 								</div>
 							</div>
