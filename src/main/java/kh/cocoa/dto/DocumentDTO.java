@@ -37,13 +37,19 @@ public class DocumentDTO {
 	private String temp_name;
 	private String emp_name;
 	private String dept_name;
-	
+	private String pos_name;
+	private String detailStatus;
+
+	private String con_empname;
+	private String con_deptname;
+
+	private int endNavi;
+	private int startNavi;
+	private boolean needPrev;
+	private boolean needNext;
 
 	@Builder
-	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,
-			int dept_code, int temp_code, String order_list, int order_count, String order_etc, Date leave_start,
-			Date leave_end, String leave_type, Date report_start, Date report_end, String report_contents, String status) {
-		super();
+	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code, int dept_code, int temp_code, String order_list, int order_count, String order_etc, Date leave_start, Date leave_end, String leave_type, Date report_start, Date report_end, String report_contents, String status, String temp_name, String emp_name, String dept_name, String con_empname, String con_deptname) {
 		this.seq = seq;
 		this.title = title;
 		this.contents = contents;
@@ -62,10 +68,10 @@ public class DocumentDTO {
 		this.report_end = report_end;
 		this.report_contents = report_contents;
 		this.status = status;
+		this.temp_name = temp_name;
+		this.emp_name = emp_name;
+		this.dept_name = dept_name;
+		this.con_empname = con_empname;
+		this.con_deptname = con_deptname;
 	}
-	@Data
-	public class DocumentList{
-		List<DocumentDTO> documentDTOList;
-	}
-
 }

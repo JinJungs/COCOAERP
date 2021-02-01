@@ -5,4 +5,7 @@ public class Configurator {
 	public static int naviCountPerPage = 10;
 	public static String boardFileRoot = "D:\\boardRepository\\";//경로설정 다시하기
 	public static String boardFileRootC = "C:\\boardRepository\\";
+	
+//	Messenger==================
+	public static String messengerFileRoute = "c:\\messengerRepository\\";
 }

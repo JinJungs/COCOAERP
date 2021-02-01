@@ -57,10 +57,11 @@
                  <when test='searchBy=="title"'>
                  	AND B.TITLE LIKE '%${search}%'
                 </when>
-                 <!-- <when test='searchBy=="tc"'>
+                 <when test='searchBy=="tc"'>
                  	AND B.TITLE LIKE '%${search}%'
                  	OR B.CONTENTS LIKE '%${search}%'
-                 </when> -->
+                 </when>
+
                  <when test='searchBy=="contents"'>
                  	AND B.CONTENTS LIKE '%${search}%'
                  </when>

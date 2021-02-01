@@ -17,5 +17,4 @@ public class CocoaApplication {
     public static void main(String[] args) {
         SpringApplication.run(CocoaApplication.class, args);
     }
-
 }

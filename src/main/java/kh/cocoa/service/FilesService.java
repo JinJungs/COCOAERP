@@ -56,6 +56,25 @@ public class FilesService implements FilesDAO {
 	//DocumentSeq에 따른 파일리스트
 	public List<FilesDTO> getFilesListByDocSeq(String seq){
 		return fdao.getFilesListByDocSeq(seq);
+	}	
+	/* 채팅 파일 업로드 */
+	//파일 업로드
+	public int uploadFilesMsg(FilesDTO fdto) { 
+		return fdao.uploadFilesMsg(fdto); 
+	}
+
+	@Override
+	public int deleteDocFile(int seq) {
+		return fdao.deleteDocFile(seq);
+	}
+
+	public List<FilesDTO> getFilesListByDocSeq2(int seq){
+		return fdao.getFilesListByDocSeq2(seq);
+	}
+
+	@Override
+	public int updateFile(int seq,int b_seq) {
+		return fdao.updateFile(seq,b_seq);
 	}
 	
 	
