@@ -212,6 +212,9 @@
 
     function search(){
 		let searchContents = $("#searchContents").val();
+		if(searchContents == ''){
+			return;
+		}
 		window.open('/messenger/messengerSearch?contents='+searchContents,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
 	}
 </script>
