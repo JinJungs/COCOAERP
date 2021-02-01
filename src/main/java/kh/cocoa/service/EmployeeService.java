@@ -3,6 +3,8 @@ package kh.cocoa.service;
 import kh.cocoa.dao.EmployeeDAO;
 import kh.cocoa.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +13,35 @@ import java.util.List;
 public class EmployeeService implements EmployeeDAO {
 	@Autowired
 	private EmployeeDAO edao;
+	@Autowired
+	private BCryptPasswordEncoder pwEncoder;
 
 	//----------------- 로그인 -----------------//
 	@Override
-	public String login(int code, String password) { return edao.login(code, password); }
+	public String login(int code, String password) {
+
+		//return edao.login(code, password);
+
+		String result =  edao.login(code, password);
+		System.out.println(result);
+		if(pwEncoder.matches(password, result)) {
+			return "T";
+		} else {
+			return "F";
+		}
+	}
 
 	@Override
 	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
+
+	@Override
+	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code){
+		if(password != null){
+			pwEncoder = new BCryptPasswordEncoder();
+			password = pwEncoder.encode(password);
+		}
+		return edao.myInfoModify(password, gender, phone, address, office_phone, code);
+	}
 
 	//전체 멤버 호출
 	@Override

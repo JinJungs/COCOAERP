@@ -19,7 +19,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String login() {
-        return "/login/login";
+        return "/membership/login";
     }
     @GetMapping("/bug")
     public String bug() {
