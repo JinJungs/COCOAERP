@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Board Modify</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
-	media="screen" />
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
 .row{border-bottom: 1px solid pink}
 #contents_box{margin:1px;height:400px;border:none;}
@@ -79,8 +78,7 @@
 					</div>
 					<div class="col-12 file_input">
 						<label>+ File Attach <input type="file" id="myFile"
-							name="file" multiple
-							onchange="javascript:document.getElementById('file_route').value=this.value">
+							name="file" multiple>
 						</label> <input type="text" readonly="readonly" title="File Route">
 					</div>
 				</div>

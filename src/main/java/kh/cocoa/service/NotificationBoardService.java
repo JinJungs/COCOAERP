@@ -28,7 +28,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	public int isExistReadPage(int menu_seq) {
 		return ndao.getSearchCount(menu_seq);
 	}
-	
+
 	//게시글 조회수 올리기
 	public void notificationBoardViewCount(BoardDTO dto) {
 		ndao.notificationBoardViewCount(dto);
@@ -46,29 +46,41 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	public int noBoardSelectSeq() {
 		return ndao.noBoardSelectSeq();
 	}
-
+	//앨범 게시판 게시글 불러오기
+	public List<BoardDTO> getAlbumBoardListCpage(String cpage, int menu_seq) {
+		return ndao.getAlbumBoardListCpage(cpage,menu_seq);
+	}
 
 	/*======Search List=================================================================*/
-
-	@Override
-
+	List<BoardDTO> searchList;
 	//게시글 검색 리스트
-	public List<BoardDTO> notificationBoardListBySearch(String search, String searchBy, int menu_seq, int cpage) {
+	public List<BoardDTO>notificationBoardListBySearch(String search, String searchBy, int menu_seq, int cpage) {
 		System.out.println("서비스 검색 menu_seq"+menu_seq);
 		System.out.println("서비스 검색 search " +search);
 		System.out.println("서비스 검색 searchBy " +searchBy);
+		System.out.println("서비스 검색 cpage " +cpage);
+		
+		//검색한 결과
+		searchList = getSearchList(search,searchBy,menu_seq);
+		
+		System.out.println("검색 결과는? "+searchList);
+		System.out.println("검색 결과는? "+searchList.size());
 		
 		int startRowNum = (cpage-1) * Configurator.recordCountPerPage;
-		int endRowNum = startRowNum + Configurator.recordCountPerPage - 1; 
+		int endRowNum = startRowNum + Configurator.recordCountPerPage-1; 
 
 		//마지막 페이지 출력시 endRowNum 제한
 		int totalCount = getSearchCount(menu_seq); //검색된 게시글 수
 		System.out.println("검색된 게시글 수는? "+totalCount);
-		
+
 		if(endRowNum >= totalCount) {
 			endRowNum = totalCount-1; 
 		}
-		return ndao.notificationBoardListBySearch(search,searchBy,menu_seq,cpage);
+		return ndao.getSearchList(search,searchBy,menu_seq);
+	}
+	@Override
+	public List<BoardDTO> getSearchList(String search, String searchBy, int menu_seq){
+		return ndao.getSearchList(search,searchBy,menu_seq);
 	}
 	@Override
 	public int getSearchCount(int menu_seq) {
@@ -76,10 +88,10 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	}
 	//검색 게시글 네비
 	public String notificationBoardSearchNavi(int menu_seq,int cpage, String search,String searchBy) {
-		int recordTotalCount = getSearchCount(menu_seq);
-		
+		int recordTotalCount = searchList.size();
+
 		int pageTotalCount = recordTotalCount/Configurator.recordCountPerPage;
-		if(recordTotalCount/Configurator.recordCountPerPage != 0) {
+		if(recordTotalCount%Configurator.recordCountPerPage != 0) {
 			pageTotalCount++;
 		}
 		if(cpage < 0) {
@@ -100,7 +112,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		if(startNavi == 1) {needPrev = false;}
 		if(endNavi == pageTotalCount) {needNext = false;}
 		StringBuilder sb = new StringBuilder();
-		
+
 		if(needPrev) {
 			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardSearch.no?cpage="+(startNavi-1)+"&menu_seq="+menu_seq+"&search="+search+">Previous</a></li>");
 		}
@@ -117,7 +129,9 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardListCpage(String cpage,int menu_seq){
 		int startRowNum = (Integer.parseInt(cpage)-1)*Configurator.recordCountPerPage+1;
-		int endRowNum = Integer.parseInt(cpage) *Configurator.recordCountPerPage-1;
+		System.out.println("시작 갯수는?"+startRowNum);
+		int endRowNum = Integer.parseInt(cpage) *Configurator.recordCountPerPage;
+		System.out.println("끝 갯수는?"+endRowNum);
 		return getNotificationBoardList(startRowNum,endRowNum,menu_seq);
 	}
 	@Override
@@ -132,15 +146,18 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	@Override
 	public String getNavi(int cpage,int menu_seq) {
 		System.out.println("navi에서 menu_seq값은?" +menu_seq);
+		System.out.println("navi에서 cpage값은?" +cpage);
+
 		int recordTotalCount = recordTotalCount(menu_seq);
-		int pageTotalCount;
-		if(recordTotalCount / Configurator.recordCountPerPage > 0) {
-			System.out.println("게시글 수" +recordTotalCount);
-			pageTotalCount = recordTotalCount / Configurator.recordCountPerPage +1;
-			System.out.println("총 페이지 수" +pageTotalCount);
-		}else {
-			pageTotalCount = recordTotalCount / Configurator.recordCountPerPage;
+		System.out.println("게시글 수" +recordTotalCount);
+		
+		int pageTotalCount = recordTotalCount/Configurator.recordCountPerPage;
+		System.out.println("페이지 갯수" +pageTotalCount);
+		
+		if(recordTotalCount%Configurator.recordCountPerPage != 0) {
+			pageTotalCount++;
 		}
+
 
 		if(cpage < 0) {
 			cpage=1;
@@ -173,5 +190,6 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		return sb.toString();
 
 	}
+
 
 }

@@ -29,11 +29,8 @@ import kh.cocoa.statics.Configurator;
 @RestController
 @RequestMapping("/files")
 public class FilesController {
-	@Autowired
-	HttpSession session;
-	
-	@Autowired
-	FilesService fservice;
+	@Autowired 
+	private FilesService fservice;
 	
 	@RequestMapping("/downloadNotificationBoardFiles.files")
 	public void downloadHwFiles(FilesDTO dto, HttpServletResponse resp) throws IOException {
@@ -132,7 +129,8 @@ public class FilesController {
 		}
 		System.out.println("파일컨트롤러 업로드 resultF : " +resultF);
 	}
-	
+
+	//=== Community =======================================================
 	@RequestMapping("/downloadMessengerFile.files")
 	public void downloadMsgFile(FilesDTO dto, HttpServletResponse resp) throws IOException {
 		System.out.println("요청된 파일Seq: " + dto.getSeq());
@@ -158,5 +156,4 @@ public class FilesController {
 			sos.close();
 		}
 	}
-	//=== Messenger =======================================================
 }

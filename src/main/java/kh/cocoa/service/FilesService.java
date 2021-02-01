@@ -26,7 +26,12 @@ public class FilesService implements FilesDAO {
 	public List<FilesDTO> downloadFileList(FilesDTO dto) {
 		return fdao.downloadFileList(dto);
 	}
-
+	
+	//앨범게시판에서 게시글 사진 불러오기
+		public FilesDTO getImage(int board_seq) {
+			System.out.println("사진불러오기 :"+board_seq);
+			return fdao.getImage(board_seq);
+		}
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto) {
 		return fdao.isExistUploadFile(fdto);
@@ -37,6 +42,7 @@ public class FilesService implements FilesDAO {
 	}
 	//파일 삭제하기
 	public int deleteNotificationBoardFiles(int seq) {
+		System.out.println("서비스 파일 삭제 seq? "+seq);
 		return fdao.deleteNotificationBoardFiles(seq);
 	}
 
@@ -70,4 +76,6 @@ public class FilesService implements FilesDAO {
 	public int updateFile(int seq,int b_seq) {
 		return fdao.updateFile(seq,b_seq);
 	}
+	
+	
 }

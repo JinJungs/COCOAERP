@@ -6,10 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Notification Board Read</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
-	media="screen" />
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-#contents_box{margin:1px;height:400px;border:none;}
 .row{border-bottom: 1px solid pink;} 
 #only{border-top: 1px solid pink;}
 .fileLi{font-size:13px;}
@@ -45,7 +43,7 @@
 					<b>조회수 : ${dto.view_count}</b>
 				</div>
 			</div>
-			<div class="row" id="contents_box">${dto.contents}</div>
+			<div class="row contents_box">${dto.contents}</div>
 			<input type="hidden" id="boardfileCount" value="${fileCount} " />
 
 			<!--첨부파일  -->
@@ -101,8 +99,7 @@
 				</div>
 			</div>
 			<!--게시판 댓글 불러오기 -->
-			<div class="row" id="commentForm" >
-			</div>
+			<div class="row" id="commentForm" ></div>
 		</div>
 	</div>
 
@@ -135,7 +132,6 @@
 	                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
 	                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
 	                       html += "</div>";
-						   html += "<div id=main_ccontents"+data[i].seq+" class=main_ccontent>"+ data[i].contents + "</div>";
 											
 	                       $("#commentForm").html(html);			
 	                   }

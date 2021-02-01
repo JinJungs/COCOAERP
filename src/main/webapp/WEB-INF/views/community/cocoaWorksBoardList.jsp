@@ -33,7 +33,7 @@ input{width:50%;border-bottom:1px solid pink;}
 							<option value="title">제목</option>
 							<option value="contents">내용</option>
 							<option value="writer">작성자</option>
-							<option value="tc">제목과 내용</option>
+							<!-- <option value="tc">제목과 내용</option> -->
 						</select> <input type="text" name="search" id="search"
 							placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
 						<button type=submit class="btn btn-primary">검색</button>
@@ -75,7 +75,7 @@ input{width:50%;border-bottom:1px solid pink;}
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_home()">홈으로</button>
+						onclick="fn_home(${cpage})">홈으로</button>
 				</div>
 
 				<!--네비게이션  -->
@@ -86,7 +86,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				<!--버튼 -->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_create()">글 등록</button>
+						onclick="fn_create(${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>
@@ -99,16 +99,16 @@ input{width:50%;border-bottom:1px solid pink;}
 			}
  		}
 		/*글 등록*/
-		function fn_create(menu_seq) {
-			location.href = "/noBoard/notificationBoardCreate.no?menu_seq=2;
+		function fn_create(menu_seq,cpage) {
+			location.href = "/noBoard/notificationBoardCreate.no?menu_seq="+menu_seq+"&cpage="+cpage;
 		}
 		/* 리스트에서 글 읽기*/
 		function notificationBoardRead(menu_seq,seq,cpage){
 			location.href="/noBoard/notificationBoardRead.no?menu_seq="+menu_seq+"&seq="+seq+"&cpage="+cpage;
 		}
 		/*홈으로*/
-		function fn_home(menu_seq) {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=2";
+		function fn_home(cpage) {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=2"+"&cpage="+cpage;
 		}
 	</script>
 </body>
