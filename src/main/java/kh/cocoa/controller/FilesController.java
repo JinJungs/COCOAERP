@@ -64,7 +64,6 @@ public class FilesController {
 //=== Messenger =======================================================
 	
 	@RequestMapping("insertMessengerFile.files")
-    @ResponseBody
     public String insertMessageFile(MessageDTO msgdto, MultipartFile file) throws IOException{
     	int resultF = 0;
     	String oriName = "";
@@ -106,7 +105,6 @@ public class FilesController {
     }
 	
 	@RequestMapping("/uploadMessengerFile.files")
-	@ResponseBody
 	public void upload( @RequestParam("fileUpload") MultipartFile file ) throws IOException {
 		System.out.println("파일컨트롤러 uploadMessengerFile 도착");
 		System.out.println("File : "+file);
