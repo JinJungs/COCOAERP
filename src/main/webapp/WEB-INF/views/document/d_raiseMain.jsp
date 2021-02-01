@@ -8,12 +8,16 @@
 <title>Insert title here</title>
 <style type="text/css">
 select {
-	width: 60%;
-	min-width: 80px;
+	min-width: 90px;
 }
 
 .row {
 	margin-top: 8px;
+}
+.textBox{
+	overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 </style>
 </head>
@@ -21,30 +25,30 @@ select {
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
-		<div id="content" class="p-4 p-md-5 pt-5">
+		<div id="content" class="p-4 p-md-5 pt-5" style="min-width: 800px;">
 			<h2 class="mb-4">상신한 문서</h2>
 			<hr>
 			<form action="/document/d_searchRaise.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
-						<div class="col-3 col-md-2">저장일</div>
+						<div class="col-2 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } min=2000-01-01 max=${today }> 
+							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } max=${today }> 
 							~ 
-							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } min=2000-01-01 max=${today }>
+							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } max=${today }>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-3 col-sm-3 col-md-2 mb-2">기안양식</div>
-						<div class="col-9 col-sm-2  col-md-2">
-							<select class="selectTemplate ml-1 mb-2" name=template id="templateSelect">
+						<div class="col-2 mb-2">기안양식</div>
+						<div class="col-3 pl-3">
+							<select class="selectTemplate" name=template id="templateSelect">
 								<option value=0>전체</option>
-								<option value=1>업무보고</option>
-								<option value=2>물품신청</option>
-								<option value=3>휴가신청</option>
+								<c:forEach var="list" items="${tempList}" begin="3">
+									<option value=${list.code }>${list.name }</option>
+								</c:forEach>
 							</select>
 						</div>
-						<div class="selectSearch col-3 col-sm-2 col-md-2 mb-3">
+						<div class="selectSearch col-2 mb-3">
 							<select name=searchOption id="searchOption">
 								<option value=title selected>제목</option>
 							</select>
@@ -52,7 +56,7 @@ select {
 						<script>
 							$('#templateSelect').val("${template}").prop("selected",true);
 						</script>
-						<div class="col-6 col-sm-2 mb-3 pl-3">
+						<div class="col-3 col-sm-2 mb-3 pl-3">
 							<input type=text name=searchText value=${searchText }>
 						</div>
 					</div>
@@ -65,8 +69,8 @@ select {
 			</form>
 			<hr>
 			<div class="documentList row text-center">
-				<div class="col-2 d-none d-sm-block"><b>양식</b></div>
-				<div class="col-5 col-sm-3"><b>제목</b></div>
+				<div class="col-2"><b>양식</b></div>
+				<div class="col-3"><b>제목</b></div>
 				<div class="col-3"><b>상신일</b></div>
 				<div class="col-4"><b>결재대기자</b></div>
 			</div>
@@ -74,10 +78,10 @@ select {
 			<!-- 리스트 출력 부분 -->
 			<c:forEach var="list" items="${list}">
 				<div class="row text-center">
-					<div class="col-sm-2 d-none d-sm-block">${list.temp_name }</div>
-					<div class="col-5 col-sm-3">${list.title }</div>
-					<div class="col-3">${list.write_date }</div>
-					<div class="col-4">${list.emp_name } | ${list.departments_name }</div>
+					<div class="col-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
+					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
+					<div class="col-4 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.emp_name } | ${list.dept_name }</a></div>
 				</div>
 			</c:forEach>
 			<!-- 리스트 출력 부분 -->

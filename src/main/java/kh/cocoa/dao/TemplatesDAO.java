@@ -14,5 +14,7 @@ public interface TemplatesDAO {
 	//만든 템플릿 리스트
 	public List<TemplatesDTO> getSubTemplateList();
 
+	//업무보고 제외.
+	public List<TemplatesDTO> getTemplateList2();
 
 }

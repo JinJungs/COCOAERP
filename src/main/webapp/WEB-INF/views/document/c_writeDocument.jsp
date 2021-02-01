@@ -65,7 +65,7 @@
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}(${empInfo.posname})</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${empInfo.name}(${empInfo.posname})</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
                 <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
             </div>
@@ -201,7 +201,11 @@
 <script>
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+    if(token && header) {
+        $(document).ajaxSend(function(event, xhr, options) {
+            xhr.setRequestHeader(header, token);
+        });
+    }
 
     var getempcode=0;
     var getaddedempcode = [];
@@ -325,7 +329,6 @@
                 $("#teamcontainer"+code).after(html);
                 $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
                 $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+","+rootcode+")");
-
             }
         });
     }
@@ -475,7 +478,7 @@
             contentType: false,
             processData: false,
             success: function (result) {
-                if(result=="success"){
+                if(result>=1){
                     location.href="/document/toTemplateList.document";
                 }
             }

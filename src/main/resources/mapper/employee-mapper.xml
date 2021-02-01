@@ -43,4 +43,9 @@
 	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
 	</select>
+	
+	<!-- 효경 -->
+	<select id="isEmailExist" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
+	</select>
 </mapper>

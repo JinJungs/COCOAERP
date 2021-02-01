@@ -5,12 +5,20 @@
 <mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
 <!-- 게시글 리스트 가져오기 -->
 	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM BOARD ORDER BY WRITE_DATE DESC) N)
+		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM 
+		(SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+<!-- 앨범 게시판 리스트 가져오기 -->
+	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT B.*, E.NAME FROM BOARD B,EMPLOYEE E
+		WHERE  E.CODE=B.WRITER_CODE
+		AND B.MENU_SEQ=#{menu_seq}
+		ORDER BY WRITE_DATE DESC
 	</select>
 <!-- 토탈 카운트 가져오기 -->
 	<select id="recordTotalCount" resultType="Integer">
-		SELECT COUNT(*) FROM BOARD 
+		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
 	</select>
 <!-- 게시글 파일 업로드 - board & files seq값 동일하게 맞추기 -->
 	<select id="noBoardSelectSeq" resultType="Integer">
@@ -18,49 +26,48 @@
 	</select>
 <!-- 글작성 -->
 	<insert id="notificationBoardCreateDone" >
-		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 0,0)<!-- #{writer_code},#{menu_seq}) -->
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 1005,#{menu_seq})<!-- #{writer_code},#{menu_seq}) -->
 	</insert>
 <!-- 게시글 가져오기 -->
 	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT * FROM BOARD WHERE SEQ=#{seq}
+		SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE and SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</select>
+	<!-- seq로 게시글 수 확인 -->
+	<select id="getSearchCount" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
+  	</select>
 <!-- 게시글 조회수 올리기 -->
 	<update id="notificationBoardViewCount" >
-		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq}
+		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</update>
 <!-- 게시글 수정  -->
 	<update id="notificationBoardContentsModify">
-		UPDATE BOARD SET TITLE=#{title}, CONTENTS=#{contents} WHERE SEQ=#{seq}
+		UPDATE BOARD SET TITLE=#{title}, CONTENTS=#{contents} WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</update>
 <!-- 게시글 삭제 -->
 	<delete id="notificationBoardContentsDel">
-		DELETE FROM BOARD WHERE  SEQ=#{seq}
+		DELETE FROM BOARD WHERE SEQ=#{seq}
 	</delete>
 	
 <!-- 검색한 게시글 가져오기 -->
-	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-			select b.*, e.name from board b, employee e
-			  where b.writer_code = e.code
-           <choose>
+	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
+			SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
+			WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
+            <choose>
                  <when test='searchBy=="title"'>
-                    and b.title like '%${search}%'
-                 </when>
+                 	AND B.TITLE LIKE '%${search}%'
+                </when>
                  <when test='searchBy=="tc"'>
-                    and b.title like '%${search}%'
-                       or b.contents like '%${search}%'
+                 	AND B.TITLE LIKE '%${search}%'
+                 	OR B.CONTENTS LIKE '%${search}%'
                  </when>
+
                  <when test='searchBy=="contents"'>
-                    and b.contents like '%${search}%'
+                 	AND B.CONTENTS LIKE '%${search}%'
                  </when>
-                 <when test='searchBy=="name"'>
-                    and e.name like '%${search}%'
+                 <when test='searchBy=="writer"'>
+                 	AND E.NAME LIKE '%${search}%'
                  </when>
            </choose>
 	</select>
-	
-
-	
-<!-- 	<select id="notificationBoardListBySearch" resultType="kh.cocoa.dto.BoardDTO">
-  		SELECT * FROM BOARD ORDER BY SEQ DESC
-  	</select> -->
 </mapper>	

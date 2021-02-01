@@ -63,7 +63,7 @@
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${name}(${empInfo.posname})</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${empInfo.name}(${empInfo.posname})</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
                 <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
             </div>
@@ -115,7 +115,7 @@
             </form>
                 <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
                     <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
-                        <b>머라쓰징..</b>
+                        <b>물품 입력 칸</b>
                     </div>
                     <div class="row w-100 m-0 text-center">
                         <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
@@ -131,6 +131,8 @@
                                 <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
                                 <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
                             </div>
+
+                            <input type="hidden" id=doc_seq name="doc_seq">
                         </div>
                     </form>
 
@@ -220,7 +222,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
-
 <script>
 
     var getempcode=0;
@@ -231,6 +232,7 @@
 
     $( function() {
         $(".empcontainer2").selectable();
+
     } );
 
     function fn_clickbtnadd() {
@@ -258,8 +260,7 @@
 
     }
 
-    function ajaxaddorder(result){
-        console.log(result);
+    function ajaxaddorder(param){
         var data = $("#orderform").serializeArray();
         var json = JSON.stringify(data);
         $.ajax({
@@ -267,9 +268,10 @@
             url : "/restdocument/addorder.document",
             data :json,
             contentType:'application/json',
-            dataType :"json",
-            success : function(data) {
-
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
             }
         });
     }
@@ -287,7 +289,7 @@
                 processData: false,
                 success: function (result) {
                     resolve(result);
-
+                    $("#doc_seq").val(result);
                 }
             });
         });
@@ -513,6 +515,25 @@
     }
 
 
+    function ajaxaddsave() {
+        return new Promise(function (resolve, reject) {
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url: "/restdocument/addsave.document",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#doc_seq").val(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
 
     function fn_addsave(){
         var title = $("#title").val();
@@ -527,19 +548,7 @@
             $("#contents").focus();
             return;
         }
-        $.ajax({
-            url:"/restdocument/addsave.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result=="success"){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
+        ajaxaddsave().then(ajaxaddorder);
 
     }
 
@@ -559,9 +568,9 @@
         }
         var html= "";
         html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
-        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value="+order_list+"></div>";
-        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value="+order_count+" oninput=fn_onlycount2(this)></div>";
-        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value="+order_etc+"></div>";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+order_list+"\"></div>";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value=\""+order_count+"\" oninput=fn_onlycount2(this)></div>";
+        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+order_etc+"\"></div>";
         html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
         $(".ordercontainer").append(html);
         indexcount++;
