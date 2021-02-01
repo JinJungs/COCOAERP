@@ -719,27 +719,27 @@ public class DocumentController {
 	}
 
 	@RequestMapping("confirm.document")
-	public String confirm(int seq){
+	public String confirm(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		int getIsLast =dservice.getIsLast(seq);
-		System.out.println("islast?"+getIsLast);
+
 		if(getIsLast==1){
 			dservice.confirm(seq,empCode);
-			dservice.addIsConfirm(seq,empCode);
+			dservice.addIsConfirm(seq,empCode,comments);
 		}else{
-			dservice.addIsConfirm(seq,empCode);
+			dservice.addIsConfirm(seq,empCode,comments);
 		}
 
 		return "redirect:/";
 	}
 
 	@RequestMapping("return.document")
-	public String returnD(int seq){
+	public String returnD(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		dservice.returnD(seq,empCode);
-		dservice.addRIsConfirm(seq,empCode);
+		dservice.addRIsConfirm(seq,empCode,comments);
 		return "redirect:/";
 	}
 
