@@ -4,11 +4,16 @@
 <mapper namespace="kh.cocoa.dao.EmployeeDAO">
 	<!-- 멤버십 -->
 	<select id="login" resultType="String">
-		select #{password} from employee where code = #{code}
+		select password from employee where code = #{code}
 	</select>
+
 	<select id="loginInfo" resultType="kh.cocoa.dto.EmployeeDTO">
-		select * from employee where code = #{code}
+		select * from employee_view where code = #{code}
 	</select>
+
+	<update id="myInfoModify">
+		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
+	</update>
 	<!--용국-->
 	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2

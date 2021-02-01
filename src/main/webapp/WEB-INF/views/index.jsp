@@ -27,7 +27,10 @@
       <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
       <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
       <button type="button" onclick="fn_board()">게시판 바로가기</button>
-	<!-- 의진: 메신저 연락처-->
+
+      <!-- 내정보 보기-->
+      <button type="button" onclick="fn_to_myInfo()">내 정보</button>
+          <!-- 의진: 메신저 연락처-->
         <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
           <%--용국 템플릿 리스트 바로가기--%>
           <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
@@ -101,6 +104,11 @@
 		function fn_logCreate(){
 			location.href = "/log/logCreate.log"
 		}
+
+		/*내정보보기*/
+       function fn_to_myInfo(){
+            location.href = "/membership/myInfo"
+       }
          
        /*의진 부분*/
        function fn_messenger() {
@@ -116,7 +124,7 @@
        function fn_toNFD(){location.href="/document/toNFDocument.document?cpage=1"}
        function fn_toFD(){location.href="/document/toFDocument.document?cpage=1"}
        function fn_toRD(){location.href="/document/toRDocument.document?cpage=1"}
-   	
+
    </script>
         
       </div>
