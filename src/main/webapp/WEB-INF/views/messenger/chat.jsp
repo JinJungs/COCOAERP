@@ -64,7 +64,7 @@
         <div class="fileTest">
 	        <form id="mainForm" method="post" enctype="multipart/form-data">
 	            <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
-		    	<input type="file" id="fileUpload" name="file">
+		    	<input type="file" id="fileUpload" name="fileUpload">
 		    	<button id="sendFileBtn" type="button">파일올리기테스트</button>
 	        </form>
         </div>
