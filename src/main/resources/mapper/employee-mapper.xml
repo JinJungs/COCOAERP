@@ -33,7 +33,7 @@
 
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE
+		SELECT * FROM EMPLOYEE_VIEW
 	</select>
 	
 	<select id="getDeptMember" resultType="kh.cocoa.dto.EmployeeDTO">
@@ -43,7 +43,17 @@
 	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
 	</select>
-	
+	<!--의진-->
+	<select id="searchEmployeeByName" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE NAME LIKE '%${contents}%'
+	</select>
+	<select id="searchEmployeeByDeptname" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%'
+	</select>
+	<select id="searchEmployeeByDeptTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%'
+	</select>
+
 	<!-- 효경 -->
 	<select id="isEmailExist" resultType="Integer">
 		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}

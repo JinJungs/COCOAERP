@@ -77,12 +77,25 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getEmpPos(int code) {return edao.getEmpPos(code); }
 
 	@Override
-	public EmployeeDTO getEmpInfo(int code) {
-		return edao.getEmpInfo(code);
+	public EmployeeDTO getEmpInfo(int code) {return edao.getEmpInfo(code); }
+
+	//----------------- 채팅 -----------------//
+	// 멤버이름으로 찾기
+	@Override
+	public List<EmployeeDTO> searchEmployeeByName(String contents){
+		return edao.searchEmployeeByName(contents);
 	}
-	
-	
-	
+	// 부서이름으로 찾기
+	@Override
+	public List<EmployeeDTO> searchEmployeeByDeptname(String contents){
+		return edao.searchEmployeeByDeptname(contents);
+	}
+	//팀이름으로 찾기
+	@Override
+	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents){
+		return edao.searchEmployeeByDeptname(contents);
+	}
+
 	@Override
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
