@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,6 +22,9 @@ public class MessengerController {
 	
 	@Autowired
 	MessengerService mservice;
+
+    @Autowired
+    HttpSession session;
 	
     @RequestMapping("/")
     public String toIndex() {
@@ -45,10 +49,13 @@ public class MessengerController {
 
     @RequestMapping("chat")
     public String toChat(int seq, Model model) {
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        System.out.println("로그인한 ID : " +loginDTO.getCode());
+        model.addAttribute("loginDTO",loginDTO);
         model.addAttribute("seq",seq);
         return "/messenger/chat";
     }
-
+    
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());
