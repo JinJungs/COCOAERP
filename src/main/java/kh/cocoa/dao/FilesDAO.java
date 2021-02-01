@@ -33,6 +33,9 @@ public interface FilesDAO {
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
 
+	/* 채팅 파일 업로드 */
+	public int uploadFilesMsg(FilesDTO fdto);
+
 	//용국 파일 삭제
 	public int deleteDocFile(int seq);
 

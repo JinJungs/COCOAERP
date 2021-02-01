@@ -44,6 +44,7 @@
         <div class="card-body msg_card_body" id="msgBox">
             <!--여기 부터가 채팅시작-->
             <input type="hidden" id="roomNumber" value="${seq}">
+            <input type="hidden" id="loginID" value="${loginDTO.code}">
         </div>
         <div class="card-footer bgMain">
             <div class="input-group m-h-90" id="sendToolBox">
@@ -59,9 +60,13 @@
                 </div>
             </div>
         </div>
+        
         <div class="fileTest">
-            <input type="file" id="fileUpload">
-            <button id="sendFileBtn">파일올리기테스트</button>
+	        <form id="mainForm" method="post" enctype="multipart/form-data">
+	            <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
+		    	<input type="file" id="fileUpload" name="fileUpload">
+		    	<button id="sendFileBtn" type="button">파일올리기테스트</button>
+	        </form>
         </div>
     </div>
 </div>
@@ -69,70 +74,52 @@
 <script src="/js/messenger.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
-<script
+<!-- <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- sockjs, stomp CDN 폼에 넣었기 때문에 필요 없음 /근데 없애면 안됨... 폼 디펜던시 다시 받아봐야할 듯-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- 날짜 변경 라이브러리-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!-------------------------------------- 리스트 불러오기 --------------------------------------->
 <script>
-    var cpage = 1;
-    var msgBox = $("#msgBox");
+    let cpage = 1;
+    let msgBox = $("#msgBox");
+    let loginID = $("#loginID");  //${loginDTO.code}
+    let current_date = new Date();
+    let lastScrollTop = 0;
 
-    // 스크롤 아래로 내리기
+    // 처음 채팅방 입장시 스크롤 아래로 내리기
     function scrollBottom() {
-        msgBox.scrollTop = msgBox.scrollHeight;
+        let element = document.getElementById("msgBox");
+        $(element).scrollTop(element.scrollHeight);
     }
 
-    // enter키 클릭시 메세지 전송
-    $("#sendToolBox").on("keydown", function (e) {
-        if (e.keyCode == 13) {
+    // 메세지 추가될 때 스크롤 아래로 내리기
+    function scrollUpdate(){
+        $('#msgBox')
+            .stop()
+            .animate({ scrollTop: $('#msgBox')[0].scrollHeight},500);
+    }
 
-        }
-    });
-
-    /*          $(".message").on("keydown", function (e) {
-            if (e.keyCode == 13) {
-                let message = $(".message").html();
-                $('.message').html("");
-
-                let line = $("<div>");
-                line.append(message);
-                line.addClass("my");
-                let br = $("<br>");
-
-                $(".contents").append(line);
-                $(".contents").append(br);
-                scrollBottom();
-
-                // message에 있는 내용을 line이라는 div에 담아서 contents div에 append
-
-                // ---------------------------------------------
-                ws.send(message); // 서버에게 메세지를 전송하는 코드
-                return false;
-
-                // 기본동작을 차단하는 것
-                // -> enter를 쳤을 때 divd의 contenteditable이 div를 만드는 것을 차단
-            }
-
-        })*/
-
-    // 페이지 로딩시 리스트 불러오기
-    $(document).ready(function () {
-        moreList(cpage);
-    })
+    // 리스트 더 불러올 때 스크롤 위치조절
+    function scrollfixed(addedHeight){
+        let element = document.getElementById("msgBox");
+        $(element).scrollTop(addedHeight);
+    }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
     msgBox.scroll(function () {
-        var scrollT = $(this).scrollTop(); //스크롤바의 상단위치
-        var scrollH = $(this).height(); //스크롤바를 갖는 div의 높이
-        if (scrollT == 0) {
+        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        if (currentScrollTop==0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
             moreList(cpage);
         }
+
     });
 
     // 리스트 더 불러오기
@@ -141,19 +128,21 @@
             url: "/message/getMessageListByCpage",
             type: "post",
             data: {
-                msg_seq: ${seq},
+                m_seq: ${seq},
                 cpage: cpage
             },
             dataType: "json",
-            success: function (data) {  // 상대방과 나의 메세지를 구분해서 다르게 뿌려줘야한다.
-                // 지금 구분도 안되고 , 두개씩 나오는데다가, 순서도 거꾸로 나오고 있다.
-                let newMsgBox = $("<div>");
+            success: function (data) {
+                // 추가 전 msgBox의 길이를 저장
+                let beforeMsgBoxHeight = msgBox.height();
+                console.log("추가되기 전 msgBox의 길이 : "+ beforeMsgBoxHeight);
                 for (var i = 0; i < data.length; i++) {
                     var existMsg = "";
+                    //console.log("시간 : " +moment(data[i].write_date).format('YYYY MM DD HH:mm:ss'))
                     if(data[i].emp_code == ${loginDTO.code}){
                         existMsg += "<div class='d-flex justify-content-end mb-4'>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
-                        existMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<span class='msg_time_send'>"+data[i].write_date+"</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -163,31 +152,60 @@
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].contents;
-                        existMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
                         existMsg += "</div></div>";
                     }
                     msgBox.prepend(existMsg);
                 }
-                //msgBox.prepend(newMsgBox);
-                if (cpage == 1) {
+                // 추가 후 msgBox의 길이를 저장
+                let afterMsgBoxHeight = msgBox.height();
+                console.log("추가된 후  msgBox의 길이 : "+ afterMsgBoxHeight);
+                let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
+                if(cpage==1){
                     scrollBottom();
+                    console.log("제일처음 스크롤 이벤트 실행");
+                }else{
+                    scrollfixed(addedHeight);
+                    // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
+
             }
         })
     }
     //<------------------------------------- STOMP --------------------------------------->
 
     $(document).ready(function () {
+        // 리스트 불러오기
+        moreList(cpage);
         connectStomp();
         /* 텍스트 전송 */
+        // 전송 버튼 클릭시 메세지 전송
         document.getElementById("sendBtn").addEventListener('click', sendMsg);
 
+        // enter키 클릭시 메세지 전송
+        $("#sendToolBox").on("keydown", function (e) {
+            if (e.keyCode == 13) {
+                if(!e.shiftKey) {
+                    sendMsg();
+                }
+            }
+        });
+
+        // 메세지 보내기
         function sendMsg(evt){
-            evt.preventDefault();
+            // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
+            //evt.preventDefault();
+
+            // 내용이 없을 경우에 방어코드
+            let msg = $("#yourMsg").val();
+            if(msg ==''){
+                return;
+            }
+
             if (!isStomp && socket.readyState !== 1) return;
 
-            let msg = $("#yourMsg").val();
+            // (1) 메세지 소켓으로 전송
             console.log("mmmmmmmmmmmm>>", msg)
             if (isStomp)
                 socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
@@ -195,7 +213,7 @@
                     , contents: msg
                     , write_date: new Date()
                     , emp_code: ${loginDTO.code} //!수정필요!세션값 작성자 아이디
-                    , msg_seq: ${seq}
+                    , m_seq: ${seq}
                 }));
             else
                 socket.send(msg);
@@ -207,7 +225,8 @@
                 data: {
                     contents: $("#yourMsg").val(),
                     emp_code: ${loginDTO.code},
-                    msg_seq: ${seq}
+                    m_seq: ${seq},
+                    type: "TEXT"
                 },
                 dataType: "json",
                 success: function (resp) {
@@ -219,51 +238,54 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
+
+            scrollUpdate();
         };
 
+        /* 파일 전송 ver.1 */
+        //f1. ajax로 파일 전송(File Controller)
+        //f2. 파일 저장(Files Controller)
+        //f2-1. 성공시 Stomp 컨트롤러로 이동(getChat/fileMessage/{seq})
+        //f2-2. 실패시 ajax로 실패 알림 문구 띄우기
+        //f3. 메세지 테이블 저장 (Stomp Controller)
+        //f3-1. 성공시 메세지 전송(topic/{seq})
+        //f3-1. 실패시 메세지 재전송 창 띄우기(ajax?) (재전송 / 취소)
+        //f3-1-1. 재전송 : 같은 값을 가지고 다시 Stomp Controller로
+        //f3-1-2. 취소 : 재전송창을 닫고 저장한 파일 삭제
+        //document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFile);
+        //파일 전송만 확인
+        document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFileFormData);
 
-        /* 파일 전송 sendFileBtn*/
-        //파일(링크)전송===================== 미완성/ FilesDTO 정보만 넘기기
-        $('#sendFileBtn').on('click', function (evt) {
-            evt.preventDefault();
-            if (!isStomp && socket.readyState !== 1) return;
-
-            console.log("ffffffffffff>>", file)
-
-            if (isStomp) {
-                var file = document.querySelector("#fileUpload").files[0];
-                console.log(file);
-
-            } else
-                socket.send(file);
-        });
-
-        let ws = new WebSocket("ws://localhost/websocket");
-
-        //웹소켓으로 찐파일 전송 /jpg, png등 이미지 송수신 용도로 사용 / STOMP로 한 소켓으로 처리되면 좋은데 가능할지 미지수
-        $('#sendFileBtn').on('click', function (evt) {
-            var file = document.getElementById('fileUpload').files[0];
-            ws.send('filename:' + file.name);
-            alert('test');
-
-            var reader = new FileReader();
-            var rawData = new ArrayBuffer();
-
-            reader.loadend = function () {
-
-            }
-
-            reader.onload = function (e) {
-                rawData = e.target.result;
-                ws.send(rawData);
-                alert("파일 전송이 완료 되었습니다.")
-                ws.send('end');
-            }
-
-            reader.readAsArrayBuffer(file);
-        });
     });
 
+    function uploadMsgFileFormData(){
+    	event.preventDefault();
+    	//f0. 파일 선택
+    	//f1. ajax로 파일 전송(File Controller)
+        $.ajax({
+            url: "/files/uploadMessengerFile.files",
+            type: "post",
+            enctype: 'multipart/form-data',
+            data: {'fileUpload':new FormData($("#mainForm")[0])},
+            contentType : false,
+            processData : false,
+            //cache : false,
+            dataType: "json",
+            success: function (resp) {
+                if (resp.resultF == 1){
+                	console.log("파일 저장 성공!");
+                	console.log("oriName : "+oriName);
+                	
+                	
+                }else{
+                	console.log("파일 저장 실패");
+                }
+            }
+        }) 
+    }
+    
+    //=============밑에는 안봐도되염 용국쓰=====================================================
+    
     var socket = null;
     var isStomp = false;
 
@@ -281,12 +303,24 @@
                 var newMsg = "";
                 var msg = JSON.parse(e.body).contents;
                 var sender = JSON.parse(e.body).emp_code;
-                console.log("sender : " + sender);
+              //파일 관련 메세지 구분 위해 타입추가*****
+                var type = JSON.parse(e.body).type;
+                console.log("type : " + type);
+                console.log("contents : "+ msg);
+                
+                //파일관련 메세지일 경우*****
+                //컨텐츠에 담아둔 파일 이름을 전송하고 a태그를 걸어준다.
+                
                 // 내가 메세지를 보냈을 때
                 if(sender == ${loginDTO.code}){
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    newMsg += "<div class='msg_cotainer_send'>" + msg;
-                    newMsg += "<span class='msg_time_send'>9:05 AM, Today</span>";
+                    if(type == "FILE"){
+                    	console.log("파일이다!");
+                    	newMsg += "<div class='msg_cotainer_send'><a href='#'>" + msg + "</a>";
+                    }else{
+                    	newMsg += "<div class='msg_cotainer_send'>" +msg;
+                    }
+                    newMsg += "<span class='msg_time_send'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -297,14 +331,121 @@
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
-                    newMsg += "<div class='msg_cotainer_send'>" +msg;
-                    newMsg += "<span class='msg_time'>9:00 AM, Today</span>";
+                    if(type == "FILE"){
+                    	console.log("파일이다!");
+                    	newMsg += "<div class='msg_cotainer_send'><a href='#'>" + msg + "</a>";
+                    }else{
+                    	newMsg += "<div class='msg_cotainer_send'>" +msg; 
+                    }
+                    newMsg += "<span class='msg_time'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
                 }
             });
+            
+            /* client.subscribe('/topic/file/' +${seq}, function (e){
+            	var newMsg = "";
+                var msg = JSON.parse(e.body).contents;
+                var sender = JSON.parse(e.body).emp_code;
+                console.log("sender : " + sender);
+            }); */
         });
     }
+    	
+  //***************************************************************************8
+  //[파일 받기용 함수] 타입구하기******
+    function fileType(filename){
+    	//01. 파일 확장자 구하고 소문자로 변환
+    	let type;
+    	var _fileLen = filename.length;
+		var _lastDot = filename.lastIndexOf('.');
+	    var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
+	    console.log("filename , 길이, 확장자명 : ")
+	    console.log(filename + _fileLen + _fileExt);
+	    if(_fileExt == "png"|| _fileExt=="jpg"){
+	    	type = "IMAGE";
+	    }else{
+	    	type = "FILE";
+	    }
+	    return type;
+    }  
+
+  /* 파일 전송 ver.1 */
+  		//f0. 파일 선택
+        //f1. ajax로 파일 전송(File Controller)
+        //f2. 파일 저장(Files Controller : insertMessengerFile)
+        //f2-1. 성공시 Stomp 컨트롤러로 이동(getChat/fileMessage/{seq})
+        //f2-2. 실패시 ajax로 실패 알림 문구 띄우기
+        //f3. 메세지 테이블 저장 (Stomp Controller)
+        //f3-1. 성공시 메세지 전송(topic/{seq})
+        //f3-1. 실패시 메세지 재전송 창 띄우기(ajax?) (재전송 / 취소)
+        //f3-1-1. 재전송 : 같은 값을 가지고 다시 Stomp Controller로
+        //f3-1-2. 취소 : 재전송창을 닫고 저장한 파일 삭제
+        
+    
+  
+  	function uploadMsgFile(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
+        
+        if (isStomp){
+        	//f0. 파일 선택
+        	var fileInfo = document.querySelector("#fileUpload").files[0];
+        	
+        	var formDataTest = new FormData($("#mainForm")[0]);
+        	console.log("formDataTest",formDataTest);
+        	
+        	var inputFile = $('input[name="fileUpload"]');
+        	var file = inputFile[0].files;
+        	//formData 형식 : IE 10 이상에서만 작동
+        	var formData = new FormData();
+        	formData.append('fileUpload', file[0]);
+        	console.log("formData : ", formData);
+        	console.log("ffffffffffff>>", file);
+        	console.log("fileInfo : ", fileInfo);
+        	if(file == null){
+                return;
+            }
+        	//f1. ajax로 파일 전송(File Controller)
+            $.ajax({
+                url: "/files/uploadMessengerFile.files",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: formDataTest,
+                contentType : false,
+                processData : false,
+                //cache : false,
+                dataType: "json",
+                success: function (resp) {
+                    if (resp.resultF == 1){
+                    	console.log("파일 저장 성공!");
+                    	console.log("oriName : "+oriName);
+                    	
+                    	
+                    }else{
+                    	console.log("파일 저장 실패");
+                    }
+                }
+            }) 
+//타입 구하기 (fileType 함수 이용)
+                    	var type = fileType(fileInfo.name);
+                    	console.log(type)
+                    	//02. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
+                        socket.send('/getChat/fileMessage/' +${seq}, {}, JSON.stringify({
+                            seq: ''
+                            , contents: file.name
+                            , write_date: new Date()
+                            , emp_code: ${loginDTO.code}
+                            , msg_seq: ${seq}
+                            , type: type
+                        }));	
+            scrollUpdate(); 
+        }
+            
+        else//이건 왜하는거람
+            socket.send(file);
+    };
+
 
 </script>
 </body>

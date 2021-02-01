@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.ConfirmDAO">
+
+    <insert id="addConfirm">
+        insert into doc_confirm(seq,approver_code,approver_order,isconfirm,doc_seq) values(doc_confirm_seq.nextval,#{emp_code},#{order},default,#{doc_seq})
+    </insert>
+</mapper>

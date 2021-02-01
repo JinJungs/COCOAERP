@@ -23,7 +23,7 @@
 	</delete>
 <!-- 댓글 수정  -->
 	<update id="noBoardUpdateComment">
-		UPDATE COMMETN SET CONTENTS = #{contents} WHERE SEQ=#{seq}
+		UPDATE COMMENT_LIST SET CONTENTS = #{contents} WHERE SEQ=#{seq}
 	</update>
 
 </mapper>
