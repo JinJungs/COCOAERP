@@ -22,17 +22,17 @@
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
 	<!-- top head -->
 	<div class="row w-100 m-0 h15">
-		<div class="card-header bgMain w-100 p-0" style="border-radius: 0%;">
+		<div class="card-header w-100 p-0" style="border-radius: 0%;">
 			<div class="window-control d-flex justify-content-end">
 				<div class="p-2">-</div>
 				<div class="p-2">ㅁ</div>
 				<div class="p-2">X</div>
 			</div>
 			<div class="input-group float-right col-7 col-sm-6 col-md-5 p-2">
-				<input type="text" placeholder="Search..." name=""
-					   class="form-control search">
+				<input type="text" placeholder="이름,부서,팀 검색" name=""
+					   class="form-control search" id="searchContents">
 				<div class="input-group-prepend">
-                  <span class="input-group-text search_btn"> <i
+                  <span class="input-group-text search_btn" id="searchBtn"> <i
 						  class="fas fa-search"></i>
                   </span>
 				</div>
@@ -160,6 +160,7 @@
 	</div>
 </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 	let memberAll = document.getElementById("memberAll");
 	let memberDept = document.getElementById("memberDept");
@@ -198,11 +199,22 @@
 	
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
     function toChatRoom(seq) {
-       var popup = window.open('/messenger/chat?seq='+seq,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+      window.open('/messenger/chat?seq='+seq,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
     }
+
+    //-------------------------------- 검색 -------------------------------------
+    document.getElementById("searchBtn").addEventListener("click",search);
+	$("#searchContents").on("keydown", function (e) {
+		if (e.keyCode == 13) {
+			search();
+		}
+	});
+
+    function search(){
+		let searchContents = $("#searchContents").val();
+		window.open('/messenger/messengerSearch?contents='+searchContents,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+	}
 </script>
-<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>

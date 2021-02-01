@@ -12,4 +12,6 @@ public interface MessengerDAO {
     //내 사원코드와 비교하여 나와 관련된 채팅방 셀렉트
     public List<MessengerViewDTO> myMessengerList(@Param("code") int code);
 
+    public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code);
+
 }

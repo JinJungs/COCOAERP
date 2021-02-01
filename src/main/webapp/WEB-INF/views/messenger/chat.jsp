@@ -15,16 +15,16 @@
 <body>
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
-        <div class="card-header msg_head bgMain">
+        <div class="card-header msg_head chatBgMain">
             <div class="d-flex bd-highlight">
                 <div class="img_cont">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                         class="rounded-circle user_img_msg">
+                    <img src="/img/run.png"
+                         class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
                     <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                    <span>정의진</span>
-                    <p>개발부 / 개발1팀</p>
+                    <span>${partyDTO.empname}</span>
+                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -46,7 +46,7 @@
             <input type="hidden" id="roomNumber" value="${seq}">
             <input type="hidden" id="loginID" value="${loginDTO.code}">
         </div>
-        <div class="card-footer bgMain">
+        <div class="card-footer">
             <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
@@ -114,7 +114,6 @@
             console.log("새로 리스트 불러오기!" + cpage);
             moreList(cpage);
         }
-
     });
 
     // 리스트 더 불러오기
@@ -145,9 +144,9 @@
                     }else{
                         existMsg += "<div class='d-flex justify-content-start mb-4'>";
                         existMsg += "<div class='img_cont_msg'>";
-                        existMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                        existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
                         existMsg += "</div></div>";
                     }
@@ -164,7 +163,6 @@
                     scrollfixed(addedHeight);
                     // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
-
             }
         })
     }
@@ -310,9 +308,9 @@
                 }else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
-                    newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                    newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
-                    newMsg += "<div class='msg_cotainer_send'>"+sender+" : "+ msg;
+                    newMsg += "<div class='msg_cotainer'>"+sender+" : "+ msg;
                     newMsg += "<span class='msg_time'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
