@@ -28,14 +28,14 @@ select {
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4">승인된 문서</h2>
 			<hr>
-			<form action="/document/d_searchTemporary.document" method="post">
+			<form action="/document/d_searchApproval.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-2 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } min=${startDate } max=${today }> 
+							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } max=${today }> 
 							~ 
-							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } min=${startDate } max=${today }>
+							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } max=${today }>
 						</div>
 					</div>
 					<div class="row">

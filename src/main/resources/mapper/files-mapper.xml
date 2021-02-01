@@ -37,9 +37,26 @@
 	<insert id="documentInsertFile">
 		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
 	</insert>
+<<<<<<< HEAD
 	
 	<!-- 메세지 파일 업로드 -->
 	<insert id="uploadFilesMsg">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE, 0, 0, #{msg_seq})
 	</insert>
+=======
+
+	<!--용국 파일 삭제-->
+	<delete id="deleteDocFile">
+		delete from files where seq = #{seq}
+	</delete>
+
+	<select id="getFilesListByDocSeq2" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+	</select>
+
+	<update id="updateFile">
+		update files set document_seq=#{seq} where document_seq=#{b_seq}
+	</update>
+
+>>>>>>> 1da3cb8c8db30aef91f54c357ff8876590f9c5ed
 </mapper>

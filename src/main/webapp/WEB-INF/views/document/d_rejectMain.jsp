@@ -25,17 +25,17 @@ select {
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
-		<div id="content" class="p-4 p-md-5 pt-5">
+		<div id="content" class="p-4 p-md-5 pt-5" style="min-width: 800px;">
 			<h2 class="mb-4">반려된 문서</h2>
 			<hr>
-			<form action="/document/d_searchTemporary.document" method="post">
+			<form action="/document/d_searchReject.document" method="post">
 				<div class="search pb-2">
 					<div class="row">
 						<div class="col-2 col-md-2">저장일</div>
 						<div class="col-9">
-							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } min=${startDate } max=${today }> 
+							<input type=date class="date ml-1 mr-1" name=startDate value=${startDate } max=${today }> 
 							~ 
-							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } min=${startDate } max=${today }>
+							<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } max=${today }>
 						</div>
 					</div>
 					<div class="row">
@@ -69,8 +69,8 @@ select {
 			</form>
 			<hr>
 			<div class="documentList row text-center">
-				<div class="col-3 d-none d-sm-block"><b>양식</b></div>
-				<div class="col-6 col-sm-3"><b>제목</b></div>
+				<div class="col-3"><b>양식</b></div>
+				<div class="col-3"><b>제목</b></div>
 				<div class="col-3"><b>상신일</b></div>
 				<div class="col-3"><b>반려일</b></div>
 			</div>
@@ -78,8 +78,8 @@ select {
 			<!-- 리스트 출력 부분 -->
 			<c:forEach var="list" items="${list}">
 				<div class="row text-center">
-					<div class="col-sm-3 d-none d-sm-block textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
-					<div class="col-6 col-sm-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
+					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
 					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.final_date }</a></div>
 				</div>

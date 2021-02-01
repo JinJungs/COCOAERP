@@ -32,6 +32,11 @@
             min-width: 135px;
             min-height:120px;
         }
+        .confirmbox2{
+            border: 1px solid #DCDCDC;
+            min-width: 135px;
+            min-height:120px;
+        }
 
         .confirmheader{
             background-color:#F2F6FF;
@@ -61,15 +66,15 @@
             </div>
             <div class="row w-100" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 양식</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.name}</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${ddto.temp_name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">문서 번호</div>
-                <div class="col-4 p-3">-</div>
+                <div class="col-4 p-3">${ddto.seq}</div>
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${empInfo.name}(${empInfo.posname})</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${ddto.emp_name}(${ddto.pos_name})</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
-                <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
+                <div class="col-4 p-3">${ddto.dept_name}</div> <%--로그인 받고 나중에 수정--%>
             </div>
             <div class="row w-100 pt-5" style="border-bottom: 1px solid #c9c9c9;">
                 <div class="col-10 p-0 pt-2"><h5>결재선</h5></div>
@@ -86,15 +91,30 @@
                                     <div class="col-md-12 pt-1 pb-1 text-center" >기안</div>
                                 </div>
                                 <div class="row m-0">
-                                    <div class="col-md-12 pt-2 text-center confirmname" >${empInfo.name}</div>
-                                    <div class="col-md-12 text-center confirmposname">(${empInfo.posname})</div>
-                                    <div class="col-md-12 text-center confirmdeptname" >${empInfo.deptname}</div>
-                                    <input type="hidden" id="getcuruserempcode" name="writer_code" value="${empInfo.code}">
-                                    <input type="hidden" name="temp_code" value="${temp_code}">
-                                    <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
+                                    <div class="col-md-12 pt-2 text-center confirmname" >${ddto.emp_name}</div>
+                                    <div class="col-md-12 text-center confirmposname">(${ddto.pos_name})</div>
+                                    <div class="col-md-12 text-center confirmdeptname" >${ddto.dept_name}</div>
+                                    <input type="hidden" id="getcuruserempcode" name="writer_code" value="${user}">
+                                    <input type="hidden" name="temp_code" value="${ddto.temp_code}">
+                                    <input type="hidden" name="dept_code" value="${ddto.dept_code}">
+                                    <input type="hidden" name="seq" value="${ddto.seq}">
+                                    <input type="hidden" name="status" value="${ddto.status}"
                                 </div>
                             </div>
                         </div>
+                        <c:forEach var="i" items="${clist}">
+                            <div class="col-md-1 col-3 p-0 m-md-3 m-3 confirmbox2">
+                                <div class="row m-0 confirmheader2">
+                                    <div class="col-md-12 pt-1 pb-1 text-center" >결재</div>
+                                </div>
+                                <div class="row m-0">
+                                    <input type="hidden" name="approver_code" value="${i.approver_code}">
+                                    <div class="col-md-12 pt-2 text-center confirmname">${i.emp_name}</div>
+                                    <div class="col-md-12 text-center confirmposname">${i.pos_name}</div>
+                                    <div class="col-md-12 text-center confirmdeptname" >${i.dept_name}</div>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
                 <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid #c9c9c9;">
@@ -102,7 +122,7 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;" value="${ddto.title}"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -120,6 +140,7 @@
                 </div>
                 <div class="row w-100">
                     <div class="col-1 p-0  pl-3 pt-4 pb-4">유형</div>
+                    <input type="hidden" id="getleave_type" value="${ddto.leave_type}">
                     <div class="col-2 p-0 pl-3 pt-3"><select id="leavetype" name="leave_type" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
                         <option value="연차">연차</option>
                         <option value="정기">정기</option>
@@ -138,7 +159,7 @@
                     <div class="col-3 p-3">
                         <div class="form-group">
                             <div class="input-group date" id="datePicker" data-target-input="nearest">
-                                <input type="text" id="leave_start" name="leave_start" class="form-control datetimepicker-input" data-target="#datePicker" onchange="fn_insertleave()">
+                                <input type="text" id="leave_start" name="leave_start" class="form-control datetimepicker-input" data-target="#datePicker" onchange="fn_insertleave()" value="${ddto.leave_start}">
                                 <div class="input-group-append" data-target="#datePicker" data-toggle="datePicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i>
                                     </div>
@@ -152,7 +173,7 @@
                     <div class="col-3 p-3">
                         <div class="form-group">
                             <div class="input-group date" id="datePicker2" data-target-input="nearest">
-                                <input type="text" id="leave_end" name="leave_end" class="form-control datetimepicker-input" data-target="#datePicker2" onchange="fn_insertleave()">
+                                <input type="text" id="leave_end" name="leave_end" class="form-control datetimepicker-input" data-target="#datePicker2" onchange="fn_insertleave()" value="${ddto.leave_end}">
                                 <div class="input-group-append" data-target="#datePicker2" data-toggle="datePicker2">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -162,7 +183,7 @@
                 </div>
 
                 <div class="row w-100 pt-3">
-                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px" placeholder="휴가 사유를 적어주세요."></textarea></div>
+                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px" placeholder="휴가 사유를 적어주세요.">${ddto.contents}</textarea></div>
                 </div>
         </div>
     </div>
@@ -170,8 +191,16 @@
 </div>
 <div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
     <div class="row">
-        <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
-        <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
+        <c:choose>
+            <c:when test="${ddto.status=='TEMP'}">
+                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_modsave()">임시저장</button></div>
+                <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
+            </c:when>
+            <c:otherwise>
+                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
+                <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">재상신하기</button></div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 
@@ -194,7 +223,7 @@
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
 
-                            <c:forEach var="i" items="${deptList}">
+                            <c:forEach var="i" items="${dlist}">
                                 <div class="allcontainer w-100">
                                     <div class="deptteamcontainer" id="deptteamcontainer${i.code}">
                                         <div class="row" style="cursor: pointer;" id="confirmdept${i.code}">
@@ -218,7 +247,7 @@
                         <div class="col-6 m-3" style="min-height:540px; border: 1px solid pink">
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">기안</div>
-                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${empInfo.name}(${empInfo.posname})|${empInfo.deptname}</div>
+                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${ddto.emp_name}(${ddto.pos_name})|${ddto.dept_name}</div>
                             </div>
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">결재자</div>
@@ -241,6 +270,11 @@
         </div>
     </div>
 </div>
+<form class="tempconfirm" id="tempconfirm">
+    <c:forEach var="i" items="${clist}">
+        <input type="hidden" name="approver_code" value="${i.approver_code}">
+    </c:forEach>
+</form>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -269,11 +303,18 @@
                 xhr.setRequestHeader(header, token);
             });
         }
-        console.log(today);
-        $("#leave_start").val(today);
-        $("#leave_end").val(today);
-        $(".empcontainer2").selectable();
+        var leave_start =$("#leave_start").val().replaceAll("-","");
+        var leave_end =$("#leave_end").val().replaceAll("-","");
+        var temp_today =today.replaceAll("-","");
+        if(leave_start<today||leave_end<today){
+            if(leave_start<today){ $("#leave_start").val(today);}
+            else{ $("#leave_end").val(today);}
+            alert("이전 신청 기간이 지나 오늘 날짜로 초기화되었습니다.");
+        }
+        var getleave_type=$("#getleave_type").val();
+        $("#leavetype option[value="+getleave_type+"]").attr('selected',true);
 
+        $(".empcontainer2").selectable();
         $('#datePicker').datepicker({
             format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
             startDate: '0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
@@ -325,6 +366,58 @@
             weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
             language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
         });//datepicker end
+
+
+        $.ajax({
+            type: "POST",
+            url: "/restdocument/getfileList.document",
+            data: $("#mainform").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if(data.length!=0){
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        html+="<div class=MultiFile-label>";
+                        html+="<a class=MultiFile-remove href=#file>"
+                        html+="<img src=/icon/close-x.svg onclick=fn_delfile(this,"+data[i].seq+")>";
+                        html+="</a>";
+                        html+="<span>";
+                        html+="<span class=MultiFile-label title=\'File selected:"+data[i].oriname+"\'>";
+                        html+="<span class=MultiFile-title> "+data[i].oriname+"</span>";
+                        html+="</span>";
+                        html+="</span>";
+                        html+="</div>";
+                    }
+                    $("#filecontainer").append(html);
+                }
+            }
+        });
+
+        if($("#tempconfirm").serialize()!="") {
+            $.ajax({
+                type: "POST",
+                url: "/restdocument/loadconfirmlist.document",
+                data: $("#tempconfirm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<div class=\"row p-2 w-100 m-0\" id=closeconfirm" + data[i].code + " style=\"border-bottom:1px solid #c9c9c9\">";
+                        html += "<div class=\"col-2 p-2\">결재</div>";
+                        html += "<div class=\"col-6 p-2\">" + data[i].emp_name + "|" + data[i].pos_name + "</div>";
+                        html += "<input type=hidden value=" + data[i].code + " name=code>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img src=/icon/close-x.svg style=cursor:pointer onclick=fn_deleteconfirm(" + data[i].code + ")></div>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img class=ui-state-default src=/icon/item-list.svg></div>";
+                        html += "</div>";
+                        getaddedempcode[count++] = data[i].code;
+                    }
+                    $(".confirmcontainer").append(html);
+                    $("#btn_add").attr("onclick", "fn_isnull()");
+
+                }
+            });
+        }
     });//ready end*/
 
     function fn_changetype() {
@@ -361,51 +454,6 @@
 
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
-    }
-    function fn_isnull(){
-        var title = $("#title").val();
-        var contents = $("#contents").val();
-        var leave_start =$("#leave_start").val().replaceAll("-","");
-        var leave_end =$("#leave_end").val().replaceAll("-","");
-        var start = $("#leave_start").val();
-        var end = $("#leave_end").val();
-        var disable = $("#leave_end").attr("disabled");
-        if(title==""){
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return;
-        }else if(contents==""){
-            alert("내용을 입력해주세요.");
-            $("#contents").focus();
-            return;
-        }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
-            return;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#leave_start").focus();
-            return;
-        }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
-            $("#leave_end").focus();
-            return;
-        }
-        $.ajax({
-            url:"/restdocument/ajaxadddocument.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result>0){
-                    location.href="/document/toTemplateList.document";
-                }
-
-            }
-        });
-
-
     }
 
     function fn_openconfirmdept(code){
@@ -674,6 +722,100 @@
         });
 
     }
+
+    function fn_modsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var leave_start =$("#leave_start").val().replaceAll("-","");
+        var leave_end =$("#leave_end").val().replaceAll("-","");
+        var start = $("#leave_start").val();
+        var end = $("#leave_end").val();
+        var disable = $("#leave_end").attr("disabled");
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
+            alert("종료일이 시작일보다 빠릅니다.");
+            return;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#leave_start").focus();
+            return;
+        }else if(end==""&&disable==undefined){
+            alert("종료일을 입력해주세요..");
+            $("#leave_end").focus();
+            return;
+        }
+
+        $.ajax({
+            url:"/restdocument/modsaveconfirm.document",
+            type:"post",
+            enctype: 'multipart/form-data',
+            data:new FormData($("#mainform")[0]),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result>=1){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+
+    }
+
+
+    function fn_isnull(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var leave_start =$("#leave_start").val().replaceAll("-","");
+        var leave_end =$("#leave_end").val().replaceAll("-","");
+        var start = $("#leave_start").val();
+        var end = $("#leave_end").val();
+        var disable = $("#leave_end").attr("disabled");
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
+            alert("종료일이 시작일보다 빠릅니다.");
+            return;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#leave_start").focus();
+            return;
+        }else if(end==""&&disable==undefined){
+            alert("종료일을 입력해주세요..");
+            $("#leave_end").focus();
+            return;
+        }
+
+        $.ajax({
+            url:"/restdocument/modaddconfirm.document",
+            type:"post",
+            enctype: 'multipart/form-data',
+            data:new FormData($("#mainform")[0]),
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if(result>0){
+                    location.href="/document/toTemplateList.document";
+                }
+
+            }
+        });
+
+
+    }
+
 </script>
 
 </body>

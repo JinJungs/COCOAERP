@@ -28,6 +28,11 @@
             min-width: 135px;
             min-height:120px;
         }
+        .confirmbox2{
+            border: 1px solid #DCDCDC;
+            min-width: 135px;
+            min-height:120px;
+        }
 
         .confirmheader{
             background-color:#F2F6FF;
@@ -57,15 +62,15 @@
             </div>
             <div class="row w-100" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 양식</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${dto.name}</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${ddto.temp_name}</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">문서 번호</div>
-                <div class="col-4 p-3">-</div>
+                <div class="col-4 p-3" id="seq">${ddto.seq}</div>
             </div>
             <div class="row w-100" style= "border-bottom: 1px solid #c9c9c9;">
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안자</div>
-                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${empInfo.name}(${empInfo.posname})</div>
+                <div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${ddto.emp_name}(${ddto.pos_name})</div>
                 <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">기안 부서</div>
-                <div class="col-4 p-3">${deptName}</div> <%--로그인 받고 나중에 수정--%>
+                <div class="col-4 p-3">${ddto.dept_name}</div> <%--로그인 받고 나중에 수정--%>
             </div>
             <div class="row w-100 pt-5" style="border-bottom: 1px solid #c9c9c9;">
                 <div class="col-10 p-0 pt-2"><h5>결재선</h5></div>
@@ -84,15 +89,32 @@
                                     <div class="col-md-12 pt-1 pb-1 text-center" >기안</div>
                                 </div>
                                 <div class="row m-0">
-                                    <div class="col-md-12 pt-2 text-center confirmname" >${empInfo.name}</div>
-                                    <div class="col-md-12 text-center confirmposname">(${empInfo.posname})</div>
-                                    <div class="col-md-12 text-center confirmdeptname" >${empInfo.deptname}</div>
-                                    <input type="hidden" id="getcuruserempcode" name="writer_code" value="${empInfo.code}">
-                                    <input type="hidden" name="temp_code" value="${temp_code}">
-                                    <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
+                                    <div class="col-md-12 pt-2 text-center confirmname">${ddto.emp_name}</div>
+                                    <div class="col-md-12 text-center confirmposname">${ddto.pos_name}</div>
+                                    <div class="col-md-12 text-center confirmdeptname" >${ddto.dept_name}</div>
+                                    <input type="hidden" id="getcuruserempcode" name="writer_code" value="${ddto.writer_code}">
+                                    <input type="hidden" name="temp_code" value="${ddto.temp_code}">
+                                    <input type="hidden" name="dept_code" value="${ddto.dept_code}">
+                                    <input type="hidden" name="seq" value="${ddto.seq}">
                                     <input type="hidden" name="contents" id="tempcontents">
+                                    <input type="hidden" name="status" id="status" value="${ddto.status}">
                                 </div>
                             </div>
+                            <%--포이치 돌려서--%>
+                            <c:forEach var="i" items="${clist}">
+                                <div class="col-md-1 col-3 p-0 m-md-3 m-3 confirmbox2">
+                                    <div class="row m-0 confirmheader2">
+                                        <div class="col-md-12 pt-1 pb-1 text-center" >결재</div>
+                                    </div>
+                                    <div class="row m-0">
+                                        <input type="hidden" name="approver_code" value="${i.approver_code}">
+                                        <div class="col-md-12 pt-2 text-center confirmname">${i.emp_name}</div>
+                                        <div class="col-md-12 text-center confirmposname">${i.pos_name}</div>
+                                        <div class="col-md-12 text-center confirmdeptname" >${i.dept_name}</div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+
                         </div>
                     </div>
                 </div>
@@ -101,54 +123,64 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목 *</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;" value="${ddto.title}"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
-                    <div class="col-3 p-3"><input type="file" multiple="multiple" style="max-width:100%;" id="file" name=file></div>
+                    <div class="col-10 p-3">
+                        <input type="file" multiple="multiple" style="max-width:100%;" id="file" name=file>
+                        <div id="filecontainer"></div>
+                    </div>
                 </div>
 
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3"  style="border-right: 1px solid #c9c9c9;"></div>
-                    <div class="col-9 p-3" id="filecontainer"></div>
+                    <div class="col-9 p-3"></div>
                 </div>
             </form>
-                <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
-                    <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
-                        <b>물품 입력 칸</b>
-                    </div>
-                    <div class="row w-100 m-0 text-center">
-                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
-                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
-                        <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
-                        <div class="col-1 p-2">추가</div>
-                    </div>
-                    <form id="orderform" class="w-100">
-                        <div class="ordercontainer w-100">
-                            <div class="row w-100 m-0 text-center orderwrap">
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요."></div>
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요."></div>
-                                <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
-                                <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
-                            </div>
-
-                            <input type="hidden" id=doc_seq name="doc_seq">
+            <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
+                <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
+                    <b>물품 입력 칸</b>
+                </div>
+                <div class="row w-100 m-0 text-center">
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
+                    <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
+                    <div class="col-1 p-2">추가</div>
+                </div>
+                <form id="orderform" class="w-100">
+                    <div class="ordercontainer w-100">
+                        <div class="row w-100 m-0 text-center orderwrap">
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요."></div>
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요."></div>
+                            <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
+                            <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
                         </div>
-                    </form>
+                        <input type="hidden" id="doc_seq" name="doc_seq">
+                    </div>
+                </form>
 
-                </div>
+            </div>
 
-                <div class="row w-100 pt-3">
-                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
-                </div>
+            <div class="row w-100 pt-3">
+                <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px">${ddto.contents}</textarea></div>
+            </div>
         </div>
     </div>
 
 </div>
 <div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
     <div class="row">
-        <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
-        <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
+        <c:choose>
+            <c:when test="${ddto.status=='TEMP'}">
+                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_modsave()">임시저장</button></div>
+                <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
+            </c:when>
+            <c:otherwise>
+                <div class="col-6 p-3 text-right"><button type="button" class="btn btn-secondary" onclick="fn_addsave()">임시저장</button></div>
+                <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">재상신하기</button></div>
+            </c:otherwise>
+        </c:choose>
     </div>
 </div>
 
@@ -171,7 +203,7 @@
                             <input type="hidden" id="deptsize" value="${size}">
 
 
-                            <c:forEach var="i" items="${deptList}">
+                            <c:forEach var="i" items="${dlist}">
                                 <div class="allcontainer w-100">
                                     <div class="deptteamcontainer" id="deptteamcontainer${i.code}">
                                         <div class="row" style="cursor: pointer;" id="confirmdept${i.code}">
@@ -195,7 +227,7 @@
                         <div class="col-6 m-3" style="min-height:540px; border: 1px solid pink">
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">기안</div>
-                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${empInfo.name}(${empInfo.posname})|${empInfo.deptname}</div>
+                                <div class="col-5 p-2 text-right" style="font-size:13px; ">${ddto.emp_name}(${ddto.pos_name})|${ddto.dept_name}</div>
                             </div>
                             <div class="row" style="border-bottom: 1px solid pink;">
                                 <div class="col-7 p-2">결재자</div>
@@ -219,6 +251,11 @@
         </div>
     </div>
 </div>
+<form class="tempconfirm" id="tempconfirm">
+    <c:forEach var="i" items="${clist}">
+        <input type="hidden" name="approver_code" value="${i.approver_code}">
+    </c:forEach>
+</form>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -232,68 +269,90 @@
 
     $( function() {
         $(".empcontainer2").selectable();
+        $.ajax({
+            type: "POST",
+            url: "/restdocument/getfileList.document",
+            data: $("#mainform").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if(data.length!=0){
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        html+="<div class=MultiFile-label>";
+                        html+="<a class=MultiFile-remove href=#file>"
+                        html+="<img src=/icon/close-x.svg onclick=fn_delfile(this,"+data[i].seq+")>";
+                        html+="</a>";
+                        html+="<span>";
+                        html+="<span class=MultiFile-label title=\'File selected:"+data[i].oriname+"\'>";
+                        html+="<span class=MultiFile-title> "+data[i].oriname+"</span>";
+                        html+="</span>";
+                        html+="</span>";
+                        html+="</div>";
+                    }
+                    $("#filecontainer").append(html);
+                }
+            }
+        });
 
-    } );
+        if($("#tempconfirm").serialize()!="") {
+            $.ajax({
+                type: "POST",
+                url: "/restdocument/loadconfirmlist.document",
+                data: $("#tempconfirm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<div class=\"row p-2 w-100 m-0\" id=closeconfirm" + data[i].code + " style=\"border-bottom:1px solid #c9c9c9\">";
+                        html += "<div class=\"col-2 p-2\">결재</div>";
+                        html += "<div class=\"col-6 p-2\">" + data[i].emp_name + "|" + data[i].pos_name + "</div>";
+                        html += "<input type=hidden value=" + data[i].code + " name=code>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img src=/icon/close-x.svg style=cursor:pointer onclick=fn_deleteconfirm(" + data[i].code + ")></div>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img class=ui-state-default src=/icon/item-list.svg></div>";
+                        html += "</div>";
+                        getaddedempcode[count++] = data[i].code;
+                    }
+                    $(".confirmcontainer").append(html);
+                    $("#btn_add").attr("onclick", "fn_isnull()");
+
+                }
+            });
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/restdocument/getorderlist.document",
+            data: $("#mainform").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if(data.length!=0){
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        var etc =data[i].order_etc;
+                        if(etc==undefined){
+                            etc="";
+                        }
+                        html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
+                        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+data[i].order_list+"\"></div>";
+                        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value=\""+data[i].order_count+"\" oninput=fn_onlycount2(this)></div>";
+                        html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+etc+"\"></div>";
+                        html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
+                        indexcount++;
+                    }
+                    $(".ordercontainer").append(html);
+                }
+            }
+        });
+
+    });
 
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
     }
-    function fn_isnull(){
-        var title = $("#title").val();
-        var contents = $("#contents").val();
-        if($(".orderwrap").length==1){
-            alert("목록을 추가 해주세요");
-            return;
-        }
 
-        if(title==""){
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return;
-        }else if(contents==""){
-            alert("내용을 입력해주세요.");
-            $("#contents").focus();
-            return;
-        }
 
-        ajaxadddoucment().then(ajaxaddorder);
 
-    }
-
-    function ajaxaddorder(param){
-        var data = $("#orderform").serializeArray();
-        var json = JSON.stringify(data);
-        $.ajax({
-            type : "POST",
-            url : "/restdocument/addorder.document",
-            data :json,
-            contentType:'application/json',
-            success : function(result) {
-                if(result=="success"){
-                    location.href="/document/toTemplateList.document";
-                }
-            }
-        });
-    }
-
-    function ajaxadddoucment(){
-        return new Promise(function(resolve, reject){
-            var contents = $("#contents").val();
-            $("#tempcontents").val(contents);
-            $.ajax({
-                url:"/restdocument/ajaxadddocument.document",
-                type:"post",
-                enctype: 'multipart/form-data',
-                data:new FormData($("#mainform")[0]),
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    resolve(result);
-                    $("#doc_seq").val(result);
-                }
-            });
-        });
-    }
 
     function fn_openconfirmdept(code){
         var a= $("#deptteamcontainer"+code).nextAll();
@@ -515,47 +574,16 @@
     }
 
 
-    function ajaxaddsave() {
-        return new Promise(function (resolve, reject) {
-            var contents = $("#contents").val();
-            $("#tempcontents").val(contents);
-            $.ajax({
-                url: "/restdocument/addsave.document",
-                type: "post",
-                enctype: 'multipart/form-data',
-                data: new FormData($("#mainform")[0]),
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    $("#doc_seq").val(result);
-                    resolve(result);
-                }
-            });
-        });
-    }
 
-
-    function fn_addsave(){
-        var title = $("#title").val();
-        var contents = $("#contents").val();
-        var writer_code =$("#getcuruserempcode").val();
-        if(title==""){
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return;
-        }else if(contents==""){
-            alert("내용을 입력해주세요.");
-            $("#contents").focus();
-            return;
-        }
-        ajaxaddsave().then(ajaxaddorder);
-
-    }
 
     function fn_addOrderList() {
         var order_list = $("#order_list").val();
         var order_count = $("#order_count").val();
         var order_etc = $("#order_etc").val();
+        if(indexcount==5){
+            alert("물품 신청은 최대 5개까지 가능합니다.");
+            return;
+        }
 
         if(order_list==""){
             alert("신청 상품을 입력해주세요.");
@@ -582,6 +610,7 @@
     function  fn_delOrderList(obj) {
         var conf = confirm("행을 삭제 하시겠습니까?");
         if(conf==true) {
+            indexcount--;
             $(obj).parent().parent().remove();
         }
 
@@ -609,6 +638,231 @@
             return;
         }
     }
+
+    function fn_delfile(obj,seq) {
+        $(obj).parent().parent().remove();
+        $.ajax({
+            type: "POST",
+            url: "/restdocument/deldocfile.document",
+            data: {seq},
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function ajaxaddsave() {
+        return new Promise(function (resolve, reject) {
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url: "/restdocument/addsave.document",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#doc_seq").val(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    function ajaxaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+
+    function fn_addsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var writer_code =$("#getcuruserempcode").val();
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+        ajaxaddsave().then(ajaxaddorder);
+
+    }
+
+    function ajaxmodsave() {
+        return new Promise(function (resolve, reject) {
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url: "/restdocument/modsaveconfirm.document",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#doc_seq").val(result);
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    function ajaxmodesaveorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/modsaveorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+
+    function fn_modsave(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var writer_code =$("#getcuruserempcode").val();
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+        ajaxmodsave().then(ajaxmodesaveorder);
+
+    }
+
+    function fn_isnull(){
+        var title = $("#title").val();
+        var contents = $("#contents").val();
+        var b_seq=$("#seq").text();
+        if($(".orderwrap").length==1){
+            alert("목록을 추가 해주세요");
+            return;
+        }
+
+        if(title==""){
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return;
+        }else if(contents==""){
+            alert("내용을 입력해주세요.");
+            $("#contents").focus();
+            return;
+        }
+
+        var status=$("#status").val();
+        if(status=="TEMP"){
+            var html ="<input type=hidden name=b_seq id=b_seq value=\""+b_seq+"\">";
+            $(".ordercontainer").append(html);
+            ajaxaddmoddoucment().then(ajaxmodaddorder);}
+        else{ajaxadddoucment().then(ajaxaddorder);}
+
+
+
+    }
+
+    function ajaxaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+    function ajaxadddoucment(){
+        return new Promise(function(resolve, reject){
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url:"/restdocument/ajaxadddocument.document",
+                type:"post",
+                enctype: 'multipart/form-data',
+                data:new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    resolve(result);
+                    $("#doc_seq").val(result);
+                }
+            });
+        });
+    }
+
+
+
+    function ajaxmodaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+
+
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/modaddorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/toTemplateList.document";
+                }
+            }
+        });
+    }
+
+    function ajaxaddmoddoucment(){
+        return new Promise(function(resolve, reject){
+            var contents = $("#contents").val();
+            $("#tempcontents").val(contents);
+            $.ajax({
+                url:"/restdocument/modaddconfirm.document",
+                type:"post",
+                enctype: 'multipart/form-data',
+                data:new FormData($("#mainform")[0]),
+                contentType: false,
+                processData: false,
+                success: function (result) {
+
+                    resolve(result);
+                    $("#doc_seq").val(result);
+
+                }
+            });
+        });
+    }
+
 </script>
 
 </body>
