@@ -56,5 +56,14 @@ public class EmployeeService implements EmployeeDAO {
 	public EmployeeDTO getEmpInfo(int code) {
 		return edao.getEmpInfo(code);
 	}
+	
+	
+	
+	@Override
+	public int isEmailExist(String email) {
+		return edao.isEmailExist(email);
+	}
+	
+	
 }
 

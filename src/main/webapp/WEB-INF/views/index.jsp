@@ -40,6 +40,8 @@
         <input type=button value="회수한" id=returnBtn><br>
         <input type=button value="전체보기" id=allDocBtn><br>
         <input type=button value="문서대장" id=allConfirmDocBtn><br>
+        <br>
+        <input type=button value="메일쓰기" id=sendEmailBtn><br>
 
 
           <%--용국--%>
@@ -75,6 +77,11 @@
          let allConfirmDocBtn = document.getElementById("allConfirmDocBtn");
          allConfirmDocBtn.onclick = function() {
             location.href = "/document/allConfirmDoc.document";
+         }
+         
+         let sendEmailBtn = document.getElementById("sendEmailBtn");
+         sendEmailBtn.onclick = function() {
+            location.href = "/email/sendPage.email";
          }
          
          /*지영 부분*/

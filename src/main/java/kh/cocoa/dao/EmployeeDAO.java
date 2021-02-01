@@ -38,4 +38,8 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+	
+	
+	//email로 사번받아오기
+	public int isEmailExist(String email);
 }

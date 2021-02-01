@@ -190,7 +190,7 @@ public class NotificationBoardController {
 							String uid = UUID.randomUUID().toString().replaceAll("-", "");
 							String savedName = uid + "-" + oriName;
 							// dto에 값을 담아서 db에 전송
-							FilesDTO fdto = new FilesDTO(0, oriName, savedName,null, noBoard_seq,0,0);
+							FilesDTO fdto = new FilesDTO(0, oriName, savedName,null, noBoard_seq,0,0,0);
 	
 							int result = fservice.uploadFiles(noBoard_seq,fdto);
 							if (result > 0) {
