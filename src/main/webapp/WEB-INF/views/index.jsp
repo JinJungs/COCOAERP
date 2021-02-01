@@ -22,7 +22,10 @@
       <div id="content" class="p-4 p-md-5 pt-5">
       <!-- 지영 -->
       <button type="button" onclick="fn_board()">게시판 바로가기</button>
-	
+
+      <!-- 내정보 보기-->
+      <button type="button" onclick="fn_to_myInfo()">내 정보</button>
+
       <!-- 효경 -->
       <input type=button value="저장된" id=temporaryBtn><br>
         <input type=button value="상신한" id=raiseBtn><br>
@@ -54,7 +57,11 @@
 	   function fn_board() {
 			location.href = "/noBoard/notificationBoardList.no"
 		}
-   	
+
+		/*내정보보기*/
+       function fn_to_myInfo(){
+            location.href = "/membership/myInfo"
+       }
    </script>
         
       </div>
