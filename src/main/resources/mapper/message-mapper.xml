@@ -22,13 +22,13 @@
     </select>
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다. & CPAGE에 해당하는 리스트를 SELECT-->
     <select id="getMessageListByCpage" resultType="kh.cocoa.dto.MessageDTO">
-        SELECT A.CONTENTS, A.WRITE_DATE, A.EMP_CODE
+        SELECT A.SEQ, A.CONTENTS, A.WRITE_DATE, A.EMP_CODE, A.M_SEQ, A.TYPE, A.SAVEDNAME
         FROM (SELECT MSG_VIEW.*, ROW_NUMBER() OVER(ORDER BY MSG_VIEW.SEQ DESC)RN
-              FROM (SELECT MSG.*
-                    FROM MESSENGER M,
-                         MESSAGE MSG
-                    WHERE MSG.M_SEQ = M.SEQ
-                      AND M.SEQ = #{m_seq}) MSG_VIEW) A
+              FROM (SELECT M.*, F.SAVEDNAME
+                    FROM MESSAGE M,
+                         FILES F
+                    WHERE M.SEQ = F.MSG_SEQ(+)
+                      AND M_SEQ = #{m_seq}) MSG_VIEW) A
         WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
     </select>
     <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">

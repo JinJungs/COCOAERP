@@ -61,12 +61,11 @@
             </div>
         </div>
         
-        <div class="fileTest">
+        <div class="fileBox">
 	        <form id="mainForm" enctype="multipart/form-data">
 	            <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
-		    	<!-- <input type="file" id="fileUpload" name="fileUpload"> -->
-		    	<input type="file" style="max-width:100%;" id="file" name=file>
-		    	<button id="sendFileBtn" type="button">파일올리기테스트</button>
+	            <label for="file"><i class="fas fa-paperclip"></i></label>
+		    	<input type="file" id="file" name=file>
 	        </form>
         </div>
     </div>
@@ -75,10 +74,6 @@
 <script src="/js/messenger.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
-<!-- <script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script> -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <!-- sockjs, stomp CDN 폼에 넣었기 때문에 필요 없음 /근데 없애면 안됨... 폼 디펜던시 다시 받아봐야할 듯-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
@@ -134,15 +129,17 @@
             },
             dataType: "json",
             success: function (data) {
-                // 추가 전 msgBox의 길이를 저장
+            	// 추가 전 msgBox의 길이를 저장
                 let beforeMsgBoxHeight = msgBox.height();
                 console.log("추가되기 전 msgBox의 길이 : "+ beforeMsgBoxHeight);
                 for (var i = 0; i < data.length; i++) {
+                	console.log(data[i].type+" : "+data[i].contents +" : "+data[i].savedname);
                     var existMsg = "";
                     //console.log("시간 : " +moment(data[i].write_date).format('YYYY MM DD HH:mm:ss'))
                     if(data[i].emp_code == ${loginDTO.code}){
                         existMsg += "<div class='d-flex justify-content-end mb-4'>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += msgForm(data[i].type, "msg_cotainer_send", data[i].contents, data[i].savedname);
+                        //existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time_send'>"+data[i].write_date+"</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
@@ -153,7 +150,8 @@
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += msgForm(data[i].type, "msg_cotainer", data[i].contents, data[i].savedname);
+                        //existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
                         existMsg += "</div></div>";
                     }
@@ -243,9 +241,8 @@
             scrollUpdate();
         };
 
-        /* 파일 전송 ver.1 */
-        
-        document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFile);
+        /* 파일 전송 */
+        document.getElementById("file").addEventListener('change', uploadMsgFile);
     });
 
     var socket = null;
@@ -310,36 +307,8 @@
     }
     	
   //***************************************************************************
-  //[타입 FILE 용 태그]
-  function msgForm(type, classname, msg, savedname){
-	  let result;
-	  if(type=="FILE"){
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
-	  }else if(type=="IMAGE"){
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + "이미지띄울예정" + msg + "</a>";
-	  }else{
-		  result = "<div class='"+classname+"'>" +msg;
-	  }
-	  return result;
-  }
-  //[파일 받기용 함수] 타입구하기******
-    function fileType(filename){
-    	//01. 파일 확장자 구하고 소문자로 변환
-    	let type;
-    	var _fileLen = filename.length;
-		var _lastDot = filename.lastIndexOf('.');
-	    var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
-	    console.log("filename , 확장자명 : ");
-	    console.log(filename + " : " + _fileExt);
-	    if(_fileExt==".png"||_fileExt==".jpg"){
-	    	type = "IMAGE";
-	    }else{
-	    	type = "FILE";
-	    }
-	    return type;
-    }  
 
-  /* 파일 전송 ver.1 */ 
+  /* 파일 전송 */ 
   	function uploadMsgFile(evt) {
         evt.preventDefault();
         if (!isStomp && socket.readyState !== 1) return;
@@ -393,6 +362,36 @@
         else//이건 왜하는거람
             socket.send(file);
     };
+    
+    //=======모듈 함수들===============================================
+  //[타입별 내용부분 태그]
+  function msgForm(type, classname, msg, savedname){
+	  let result;
+	  if(type=="FILE"){
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
+	  }else if(type=="IMAGE"){
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'><img src='/messengerFile/"+savedname+"' width='150' height='150' style='object-fit:cover;'></a>";
+	  }else{
+		  result = "<div class='"+classname+"'>" +msg;
+	  }
+	  return result;
+  }
+  //[파일 받기용 함수] 타입구하기******
+    function fileType(filename){
+    	//01. 파일 확장자 구하고 소문자로 변환
+    	let type;
+    	var _fileLen = filename.length;
+		var _lastDot = filename.lastIndexOf('.');
+	    var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
+	    console.log("filename , 확장자명 : ");
+	    console.log(filename + " : " + _fileExt);
+	    if(_fileExt==".png"||_fileExt==".jpg"){
+	    	type = "IMAGE";
+	    }else{
+	    	type = "FILE";
+	    }
+	    return type;
+    } 
 
 </script>
 </body>
