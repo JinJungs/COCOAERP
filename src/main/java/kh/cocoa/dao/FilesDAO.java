@@ -37,8 +37,13 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
 
 
-	/* 채팅 파일 업로드 */
+	/*=====채팅 파일 업로드=====*/
 	public int uploadFilesMsg(FilesDTO fdto);
+	
+	public int updateMsgSeq(int msg_seq, String savedName);
+	
+	public String getSavedName(int msg_seq);
+	/*=====채팅 파일 업로드=====*/
 
 	//용국 파일 삭제
 	public int deleteDocFile(int seq);

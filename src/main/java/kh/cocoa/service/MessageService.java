@@ -43,8 +43,8 @@ public class MessageService implements MessageDAO {
     }
 
     @Override
-	public int selectMessageSeq() {
-		return msgdao.selectMessageSeq();
-	}
+	public int insertMessageGotSeq(MessageDTO msgdto) {
+    	return msgdao.insertMessageGotSeq(msgdto);
+    }
 
 }

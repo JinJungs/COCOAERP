@@ -59,8 +59,19 @@ public class FilesService implements FilesDAO {
 	}	
 	/* 채팅 파일 업로드 */
 	//파일 업로드
+	@Override
 	public int uploadFilesMsg(FilesDTO fdto) { 
 		return fdao.uploadFilesMsg(fdto); 
+	}
+	//파일 msg_seq수정
+	@Override
+	public int updateMsgSeq(int msg_seq, String savedName) {
+		return fdao.updateMsgSeq(msg_seq, savedName);
+	}
+	//msg_seq로 파일 oriname 찾기
+	@Override
+	public String getSavedName(int msg_seq) {
+		return fdao.getSavedName(msg_seq);
 	}
 	/* 채팅 파일 업로드 */
 
@@ -77,6 +88,4 @@ public class FilesService implements FilesDAO {
 	public int updateFile(int seq,int b_seq) {
 		return fdao.updateFile(seq,b_seq);
 	}
-	
-	
 }
