@@ -4,6 +4,7 @@ import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.MessengerViewDTO;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.MessengerService;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -63,7 +65,6 @@ public class MessengerController {
 
     @RequestMapping("messengerSearch")
     public String messengerSearch(String contents,Model model){
-        System.out.println("contents : "+ contents);
         //(1) 멤버이름으로 찾기
         List<EmployeeDTO> memberList = eservice.searchEmployeeByName(contents);
         //(2) 부서이름으로 찾기
@@ -85,7 +86,11 @@ public class MessengerController {
     @RequestMapping("messengerSearchAjax")
     @ResponseBody
     public String messengerSearchAjax(String contents){
-        System.out.println("contents : "+ contents);
+        JSONArray jArrayMember = new JSONArray();
+        JSONArray jArrayDept = new JSONArray();
+        JSONArray jArrayTeam = new JSONArray();
+        JSONArray jArrayAll = new JSONArray();
+        HashMap<String,Object> param = null;
         //(1) 멤버이름으로 찾기
         List<EmployeeDTO> memberList = eservice.searchEmployeeByName(contents);
         //(2) 부서이름으로 찾기
@@ -93,8 +98,43 @@ public class MessengerController {
         //(3) 팀이름으로 찾기
         List<EmployeeDTO> teamList = eservice.searchEmployeeByDeptTeamname(contents);
 
-
-        return "1";
+        // jArrayMember에 memberList 넣기
+        for (int i = 0; i < memberList.size(); i++) {
+            param = new HashMap<>();
+            param.put("code",memberList.get(i).getCode());
+            param.put("name",memberList.get(i).getName());
+            param.put("email",memberList.get(i).getEmail());
+            param.put("deptname",memberList.get(i).getDeptname());
+            param.put("teamname",memberList.get(i).getTeamname());
+            param.put("posname",memberList.get(i).getPosname());
+            jArrayMember.put(param);
+        }
+        // jArrayDept에 deptList 넣기
+        for (int i = 0; i < deptList.size(); i++) {
+            param = new HashMap<>();
+            param.put("code",deptList.get(i).getCode());
+            param.put("name",deptList.get(i).getName());
+            param.put("email",deptList.get(i).getEmail());
+            param.put("deptname",deptList.get(i).getDeptname());
+            param.put("teamname",deptList.get(i).getTeamname());
+            param.put("posname",deptList.get(i).getPosname());
+            jArrayDept.put(param);
+        }
+        // jArrayTeam에 teamList 넣기
+        for (int i = 0; i < teamList.size(); i++) {
+            param = new HashMap<>();
+            param.put("code",teamList.get(i).getCode());
+            param.put("name",teamList.get(i).getName());
+            param.put("email",teamList.get(i).getEmail());
+            param.put("deptname",teamList.get(i).getDeptname());
+            param.put("teamname",teamList.get(i).getTeamname());
+            param.put("posname",teamList.get(i).getPosname());
+            jArrayTeam.put(param);
+        }
+        jArrayAll.put(jArrayMember);
+        jArrayAll.put(jArrayDept);
+        jArrayAll.put(jArrayTeam);
+        return jArrayAll.toString();
     }
     
     @ExceptionHandler(NullPointerException.class)

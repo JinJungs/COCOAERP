@@ -1,9 +1,10 @@
 package kh.cocoa.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +12,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
-import kh.cocoa.dto.MessageDTO;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
 
 @Controller
 @RequestMapping("/message")
@@ -32,7 +31,7 @@ public class MessageController {
     public String toChatExam() {
         return "/messenger/chatExam";
     }
-    
+
     // 메세지 테이블에 insert
     @RequestMapping("insertMessage")
     @ResponseBody
@@ -65,9 +64,6 @@ public class MessageController {
             param.put("type",list.get(i).getType());
             param.put("savedname",list.get(i).getSavedname());
             jArray.put(param);
-            
-            System.out.println("type: "+list.get(i).getType());
-            System.out.println("savedname: "+list.get(i).getSavedname());
         }
         return jArray.toString();
     }

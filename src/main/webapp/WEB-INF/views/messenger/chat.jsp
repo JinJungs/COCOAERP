@@ -128,6 +128,7 @@
                 cpage: cpage
             },
             dataType: "json",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             success: function (data) {
             	// 추가 전 msgBox의 길이를 저장
                 let beforeMsgBoxHeight = msgBox.height();
@@ -139,7 +140,7 @@
                     if(data[i].emp_code == ${loginDTO.code}){
                         existMsg += "<div class='d-flex justify-content-end mb-4'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", data[i].contents, data[i].savedname);
-                        //existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        //existMsg += "<div class='msg_cotainer_send'>"+data[i] .emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time_send'>"+data[i].write_date+"</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
