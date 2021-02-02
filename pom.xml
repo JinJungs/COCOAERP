@@ -12,6 +12,7 @@
     <artifactId>cocoa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cocoa</name>
+    <packaging>jar</packaging>
     <description>COCOAERP</description>
 
 	<packaging>jar</packaging>
@@ -174,6 +175,12 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -191,6 +198,8 @@
                 </configuration>
             </plugin>
         </plugins>
+
+
     </build>
 
 </project>
