@@ -9,6 +9,7 @@
   --text-color-dark: #575757;
   --text-color-medium: #bfbfbf;
   --text-color-light: #c9c9c9;
+  --hover-color-light: #F2F2F2;
 }
 
 body,
@@ -320,7 +321,7 @@ a:hover {
   text-decoration: none;
 }
 /* Default : we can see only memberAll list */
-#memberDept, #memberTeam, #chatList{
+#memberDept, #memberTeam, #memberMember, #chatList{
 	display: none;
 }
 
@@ -358,4 +359,11 @@ a:hover {
 }
 .searchMenu div:hover{
   cursor: pointer;
+}
+.con-list:hover{
+  cursor: default;
+  background-color: var(--hover-color-light);
+}
+#searchContents{
+  background-image: url("/static/icon/x-circle-fill.svg");
 }

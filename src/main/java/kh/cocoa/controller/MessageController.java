@@ -1,28 +1,20 @@
 package kh.cocoa.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
-import org.json.JSONArray;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.dto.MessageDTO;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.MessageService;
-import kh.cocoa.statics.Configurator;
+import org.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/message")
@@ -118,6 +110,10 @@ public class MessageController {
             param.put("contents",list.get(i).getContents());
             param.put("emp_code",list.get(i).getEmp_code());
             param.put("write_date",list.get(i).getWrite_date());
+            param.put("type",list.get(i).getType());
+            param.put("savedname",list.get(i).getSavedname());
+            System.out.println("type: "+list.get(i).getType());
+            System.out.println("savedname: "+list.get(i).getSavedname());
             jArray.put(param);
         }
         return jArray.toString();

@@ -16,16 +16,16 @@ public class MessageDTO {
     private int m_seq;
     //====추가======
     private String type;
+    private String savedname;
 
     @Builder
-    public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type) {
-        super();
+    public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname) {
         this.seq = seq;
         this.contents = contents;
         this.write_date = write_date;
         this.emp_code = emp_code;
         this.m_seq = m_seq;
         this.type = type;
+        this.savedname = savedname;
     }
-
 }

@@ -211,7 +211,7 @@
 	});
 
     function search(){
-		let searchContents = $("#searchContents").val();
+		let searchContents = $("#searchContents").val().trim();
 		if(searchContents == ''){
 			return;
 		}
