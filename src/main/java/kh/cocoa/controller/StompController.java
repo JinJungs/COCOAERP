@@ -34,6 +34,12 @@ public class StompController {
 	@MessageMapping("/getChat/fileMessage/{seq}")
 	public void getChatFile(MessageDTO message) throws Exception {
 		System.out.println("스톰프 파일전송 메제시 컨트롤러 도착!");
+		System.out.println("getChat>>" + message);
+		System.out.println("SEQ=" + message.getSeq());
+		System.out.println("MSG=" + message.getContents());
+		System.out.println("WRITE_DATE="+message.getWrite_date());
+		System.out.println("EMP_CODE="+message.getEmp_code());
+		System.out.println("MSG_SEQ(방seq)"+message.getM_seq());
 		//01. FILE 혹은 IMAGE 타입의 메세지 저장
 		
 		

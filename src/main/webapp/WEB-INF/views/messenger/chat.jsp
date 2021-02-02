@@ -15,16 +15,16 @@
 <body>
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
-        <div class="card-header msg_head bgMain">
+        <div class="card-header msg_head chatBgMain">
             <div class="d-flex bd-highlight">
                 <div class="img_cont">
-                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                         class="rounded-circle user_img_msg">
+                    <img src="/img/run.png"
+                         class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
                     <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                    <span>정의진</span>
-                    <p>개발부 / 개발1팀</p>
+                    <span>${partyDTO.empname}</span>
+                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -46,7 +46,7 @@
             <input type="hidden" id="roomNumber" value="${seq}">
             <input type="hidden" id="loginID" value="${loginDTO.code}">
         </div>
-        <div class="card-footer bgMain">
+        <div class="card-footer">
             <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
@@ -62,9 +62,10 @@
         </div>
         
         <div class="fileTest">
-	        <form id="mainForm" method="post" enctype="multipart/form-data">
+	        <form id="mainForm" enctype="multipart/form-data">
 	            <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
-		    	<input type="file" id="fileUpload" name="fileUpload">
+		    	<!-- <input type="file" id="fileUpload" name="fileUpload"> -->
+		    	<input type="file" style="max-width:100%;" id="file" name=file>
 		    	<button id="sendFileBtn" type="button">파일올리기테스트</button>
 	        </form>
         </div>
@@ -150,9 +151,9 @@
                     }else{
                         existMsg += "<div class='d-flex justify-content-start mb-4'>";
                         existMsg += "<div class='img_cont_msg'>";
-                        existMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                        existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        existMsg += "<div class='msg_cotainer_send'>"+data[i].emp_code+" : "+data[i].contents;
+                        existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
                         existMsg += "</div></div>";
                     }
@@ -254,37 +255,41 @@
         //f3-1-2. 취소 : 재전송창을 닫고 저장한 파일 삭제
         //document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFile);
         //파일 전송만 확인
-        document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFileFormData);
-
+        document.getElementById("sendFileBtn").addEventListener('click', uploadMsgFile);
     });
 
-    function uploadMsgFileFormData(){
+
+/*     맨 아래 파일 저장 실행에서 빠질 예정..
+ 		function uploadMsgFileFormData(){
     	event.preventDefault();
+
+    	var fileInfo = document.querySelector("#file").files[0]; //form 안의 input type=file의 아이디
+    	console.log("fileInfo", fileInfo);
+    	var mainForm = $("#mainForm")[0]; //form의 아이디
+    	console.log("mainForm : ",mainForm);
+
+    	var formData = new FormData(mainForm);
+    	console.log("formData : ", formData)
+
     	//f0. 파일 선택
     	//f1. ajax로 파일 전송(File Controller)
-        $.ajax({
-            url: "/files/uploadMessengerFile.files",
-            type: "post",
-            enctype: 'multipart/form-data',
-            data: {'fileUpload':new FormData($("#mainForm")[0])},
-            contentType : false,
-            processData : false,
-            //cache : false,
-            dataType: "json",
-            success: function (resp) {
-                if (resp.resultF == 1){
-                	console.log("파일 저장 성공!");
-                	console.log("oriName : "+oriName);
-                	
-                	
-                }else{
-                	console.log("파일 저장 실패");
+    	$.ajax({
+                url: "/restMessenger/uploadFile",
+                type: "post",
+                enctype: 'multipart/form-data',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (resp) {
+                	if (resp.resultF == "1"){
+                    	console.log("파일 저장 성공!");
+                    	console.log("oriName : "+oriName);
+                    }else{
+                    	console.log("파일 저장 실패");
+                    }
                 }
-            }
-        }) 
-    }
-    
-    //=============밑에는 안봐도되염 용국쓰=====================================================
+         });
+    } */
     
     var socket = null;
     var isStomp = false;
@@ -329,13 +334,13 @@
                 }else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
-                    newMsg += "<img src='https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg' class='rounded-circle user_img_msg'>";
+                    newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
                     if(type == "FILE"){
                     	console.log("파일이다!");
-                    	newMsg += "<div class='msg_cotainer_send'><a href='#'>" + msg + "</a>";
+                    	newMsg += "<div class='msg_cotainer'><a href='#'>" + msg + "</a>";
                     }else{
-                    	newMsg += "<div class='msg_cotainer_send'>" +msg; 
+                    	newMsg += "<div class='msg_cotainer'>" +msg;
                     }
                     newMsg += "<span class='msg_time'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
                     newMsg += "</div></div>";
@@ -389,56 +394,46 @@
         if (!isStomp && socket.readyState !== 1) return;
         
         if (isStomp){
+        	event.preventDefault();
         	//f0. 파일 선택
-        	var fileInfo = document.querySelector("#fileUpload").files[0];
-        	
-        	var formDataTest = new FormData($("#mainForm")[0]);
-        	console.log("formDataTest",formDataTest);
-        	
-        	var inputFile = $('input[name="fileUpload"]');
-        	var file = inputFile[0].files;
-        	//formData 형식 : IE 10 이상에서만 작동
-        	var formData = new FormData();
-        	formData.append('fileUpload', file[0]);
-        	console.log("formData : ", formData);
-        	console.log("ffffffffffff>>", file);
-        	console.log("fileInfo : ", fileInfo);
-        	if(file == null){
-                return;
-            }
+        	var fileInfo = document.querySelector("#file").files[0]; //form 안의 input type=file의 아이디
+        	console.log("fileInfo", fileInfo);
+        	var mainForm = $("#mainForm")[0]; //form의 아이디
+        	console.log("mainForm : ",mainForm);
+
+        	var formData = new FormData(mainForm);
+        	console.log("formData : ", formData)
+
         	//f1. ajax로 파일 전송(File Controller)
-            $.ajax({
-                url: "/files/uploadMessengerFile.files",
-                type: "post",
-                enctype: 'multipart/form-data',
-                data: formDataTest,
-                contentType : false,
-                processData : false,
-                //cache : false,
-                dataType: "json",
-                success: function (resp) {
-                    if (resp.resultF == 1){
-                    	console.log("파일 저장 성공!");
-                    	console.log("oriName : "+oriName);
-                    	
-                    	
-                    }else{
-                    	console.log("파일 저장 실패");
+        	$.ajax({
+                    url: "/restMessenger/uploadFile",
+                    type: "post",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (resp) {
+                    	var result = JSON.parse(resp);
+                    	console.log(result);
+                    	console.log(result.resultF);
+                    	console.log(result.savedName);
                     }
-                }
-            }) 
-//타입 구하기 (fileType 함수 이용)
-                    	var type = fileType(fileInfo.name);
-                    	console.log(type)
-                    	//02. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
-                        socket.send('/getChat/fileMessage/' +${seq}, {}, JSON.stringify({
+             });
+
+			//타입 구하기 (fileType 함수 이용)
+            var type = fileType(fileInfo.name);
+            console.log(type)
+            //02. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
+            socket.send('/getChat/fileMessage/' +${seq}, {}, JSON.stringify({
                             seq: ''
                             , contents: file.name
                             , write_date: new Date()
                             , emp_code: ${loginDTO.code}
                             , msg_seq: ${seq}
                             , type: type
-                        }));	
+                            , savedName: savedName
+                        }));
+
             scrollUpdate(); 
         }
             

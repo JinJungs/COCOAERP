@@ -18,4 +18,7 @@ public class MessengerService implements MessengerDAO{
 		return mdao.myMessengerList(code);
 	}
 
+	@Override
+	public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code){return mdao.getMessengerPartyEmpInfo(seq, code);}
+
 }

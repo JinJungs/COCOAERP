@@ -39,8 +39,23 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
-	
-	
+
+	//팀별 맴버수 뽑아오기
+	public int getTeamCount(int team_code);
+
+	//팀별 멤버 정보 뽑아오기
+	public List<EmployeeDTO> getTeamEmpList(int team_code);
+
+
+	//----------------- 채팅 -----------------//
+	// 멤버이름으로 찾기
+	public List<EmployeeDTO> searchEmployeeByName(String contents);
+	// 부서이름으로 찾기
+	public List<EmployeeDTO> searchEmployeeByDeptname(String contents);
+	// 팀이름으로 찾기
+	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents);
+
+
 	//email로 사번받아오기
 	public int isEmailExist(String email);
 }
