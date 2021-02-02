@@ -6,6 +6,11 @@
         INSERT INTO MESSAGE
         VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
     </insert>
+    <insert id="insertMessageGotSeq">
+        INSERT INTO MESSAGE
+        VALUES (#{seq}, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
+    </insert>
+    
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다.-->
     <select id="getMessageList" resultType="kh.cocoa.dto.MessageDTO">
         SELECT MSG.CONTENTS
