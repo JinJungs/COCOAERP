@@ -398,6 +398,7 @@ a:hover {
   cursor: default;
   background-color: var(--hover-color-light);
 }
+/*
 #searchContents{
   background-image: url("/static/icon/x-circle-fill.svg");
-}
+}*/
