@@ -367,10 +367,12 @@
   //[타입별 내용부분 태그]
   function msgForm(type, classname, msg, savedname){
 	  let result;
+	  let msgOriname = encodeURIComponent(msg);
+	  savedname = encodeURIComponent(savedname);
 	  if(type=="FILE"){
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msgOriname+"'>" + msg + "</a>";
 	  }else if(type=="IMAGE"){
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'><img src='/messengerFile/"+savedname+"' width='150' height='150' style='object-fit:cover;'></a>";
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msgOriname+"'><img src='/messengerFile/"+savedname+"' width='150' height='150' style='object-fit:cover;'></a>";
 	  }else{
 		  result = "<div class='"+classname+"'>" +msg;
 	  }
