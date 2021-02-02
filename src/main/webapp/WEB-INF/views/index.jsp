@@ -37,27 +37,27 @@
 
       <!-- 효경 -->
       <input type=button value="저장된" id=temporaryBtn><br>
-        <input type=button value="상신한" id=raiseBtn><br>
-        <input type=button value="승인된" id=approvalBtn><br>
-        <input type=button value="반려된" id=rejectBtn><br>
-        <input type=button value="회수한" id=returnBtn><br>
-        <input type=button value="전체보기" id=allDocBtn><br>
-        <input type=button value="문서대장" id=allConfirmDocBtn><br>
-        <br>
-        <input type=button value="메일쓰기" id=sendEmailBtn><br>
+      <input type=button value="상신한" id=raiseBtn><br>
+      <input type=button value="승인된" id=approvalBtn><br>
+      <input type=button value="반려된" id=rejectBtn><br>
+      <input type=button value="회수한" id=returnBtn><br>
+      <input type=button value="전체보기" id=allDocBtn><br>
+      <input type=button value="문서대장" id=allConfirmDocBtn><br>
+      <br>
+      <input type=button value="메일쓰기" id=sendEmailBtn><br>
 
 
-          <%--용국--%>
-          <button type="button" onclick="fn_toBD()">결재전</button>
-          <button type="button" onclick="fn_toNFD()">진행중</button>
-          <button type="button" onclick="fn_toFD()">완료된</button>
-          <button type="button" onclick="fn_toRD()">반려한</button>
-        <script>
-         let temporaryBtn = document.getElementById("temporaryBtn");
-         temporaryBtn.onclick = function() {
-            location.href = "/document/d_searchTemporary.document?&searchText=";
-         }
-         let raiseBtn = document.getElementById("raiseBtn");
+      <%--용국--%>
+      <button type="button" onclick="fn_toBD()">결재전</button>
+      <button type="button" onclick="fn_toNFD()">진행중</button>
+      <button type="button" onclick="fn_toFD()">완료된</button>
+      <button type="button" onclick="fn_toRD()">반려한</button>
+      <script>
+        let temporaryBtn = document.getElementById("temporaryBtn");
+        temporaryBtn.onclick = function() {
+           location.href = "/document/d_searchTemporary.document?&searchText=";
+        }
+        let raiseBtn = document.getElementById("raiseBtn");
          raiseBtn.onclick = function() {
             location.href = "/document/d_searchRaise.document?&searchText=";
          }

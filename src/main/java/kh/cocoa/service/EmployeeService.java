@@ -43,6 +43,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.myInfoModify(password, gender, phone, address, office_phone, code);
 	}
 
+	@Override
+	public String findIdByEmail(String email) {
+		return edao.findIdByEmail(email);
+	}
+
 	//전체 멤버 호출
 	@Override
 	public List<EmployeeDTO> getAllEmployee(){
@@ -57,7 +62,7 @@ public class EmployeeService implements EmployeeDAO {
 	@Override
 	public List<EmployeeDTO> getTeamMember(int team_code) {
 		return edao.getTeamMember(team_code);
-	};
+	}
 
 	//용국 메서드
 	@Override

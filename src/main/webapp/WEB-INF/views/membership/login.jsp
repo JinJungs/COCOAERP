@@ -33,6 +33,9 @@
                        value="아이디 기억">
                 <label for="rememberId"> <b>아이디 기억하기</b> </label>
             </div>
+            <div class="find">
+                <a href="/membership/findId">아이디</a> / <a href="/membership/findPw">비밀번호 찾기</a>
+            </div>
         </div>
         </p>
         <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->

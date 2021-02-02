@@ -15,6 +15,7 @@ public interface EmployeeDAO {
 	public String login(int code, String password);
 	public EmployeeDTO loginInfo(int code);
 	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code);
+	public String findIdByEmail(String email);
 
 	//전체 멤버 호출
 	public List<EmployeeDTO> getAllEmployee();

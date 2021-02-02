@@ -61,4 +61,26 @@ public class EmployeeController {
         int result = eservice.myInfoModify(password, gender, phone, address, office_phone, dto.getCode());
         return "/membership/myInfo";
     }
+
+    @RequestMapping(value = "/findId")
+    public String findId() {
+        return "/membership/findId";
+    }
+
+    @RequestMapping(value = "/findPw")
+    public String findPw() {
+        return "/membership/findPw";
+    }
+
+    @RequestMapping(value = "/findIdByEmail")
+    public String findIdByEmail(Model model, String email){
+        String result = eservice.findIdByEmail(email);
+        if(result != null) {
+            int code = Integer.parseInt(result);
+            model.addAttribute("code", code);
+            return "/membership/findId";
+        } else {
+            return "/membership/login";
+        }
+    }
 }
