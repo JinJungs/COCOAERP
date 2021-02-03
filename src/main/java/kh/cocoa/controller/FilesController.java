@@ -66,9 +66,7 @@ public class FilesController {
 	//=== Message ========================================
 	@RequestMapping("/downloadMessengerFile.files")
 	public void downloadMsgFile(FilesDTO dto, HttpServletResponse resp) throws IOException {
-		System.out.println("요청된 파일Seq: " + dto.getSeq());
 		System.out.println("요청된 파일 SavedName: " + dto.getSavedname());
-
 		String filePath = Configurator.messengerFileRoute;
 		File targetFile = new File(filePath + "/" + dto.getSavedname());
 		// 다음 위치에 있는 파일을 파일 객체로 만든다 -> 정보를 뽑아낼 수 있게 하기 위해서

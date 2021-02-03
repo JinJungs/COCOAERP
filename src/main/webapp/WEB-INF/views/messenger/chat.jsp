@@ -28,7 +28,7 @@
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
-                    <span><i class="fas fa-inbox"></i></span>
+                    <span><i class="fas fa-inbox" id="showFiles"></i></span>
                 </div>
             </div>
             <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
@@ -243,6 +243,8 @@
 
         /* 파일 전송 */
         document.getElementById("file").addEventListener('change', uploadMsgFile);
+    	/* 파일 모아보기 창 띄우기 */
+        document.getElementById("showFiles").addEventListener("click",popShowFiles);
     });
 
     document.getElementById("testBtn").addEventListener("click",function (){
@@ -398,6 +400,11 @@
 	    }
 	    return type;
     } 
+	//[파일 모아보기 팝업]
+	let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
+    function popShowFiles(){
+		window.open('/messenger/showFiles?m_seq='+${seq},'',winFeature);
+	}
 
 </script>
 </body>

@@ -53,6 +53,15 @@
 		SELECT SAVEDNAME FROM FILES WHERE MSG_SEQ=#{msg_seq} 
 	</select>
 	<!-- ****메세지 파일 업로드**** -->
+	<!-- ****메세지 파일 모아보기**** -->
+	<select id="showFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
+		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, F.UPLOADEDDATE, M.TYPE
+		FROM FILES F, MESSAGE M
+		WHERE F.MSG_SEQ = M.SEQ AND
+		M.M_SEQ = #{m_seq}
+		ORDER BY UPLOADEDDATE DESC
+	</select>
+	<!-- ****메세지 파일 모아보기**** -->	
 
 	<!--용국 파일 삭제-->
 	<delete id="deleteDocFile">
