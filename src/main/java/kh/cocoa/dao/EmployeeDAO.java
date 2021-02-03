@@ -45,6 +45,12 @@ public interface EmployeeDAO {
 	//팀별 멤버 정보 뽑아오기
 	public List<EmployeeDTO> getTeamEmpList(int team_code);
 
+	//이름 직원명 검색기능
+	public List<EmployeeDTO> getEmpNameSearchList(String name);
+
+	//
+	public List<EmployeeDTO> getDeptNamesearchList(String name);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
