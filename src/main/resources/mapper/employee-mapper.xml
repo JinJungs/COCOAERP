@@ -61,7 +61,7 @@
 	<select id="searchEmployeeByDeptname" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%'
 	</select>
-	<select id="searchEmployeeByDeptTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
+	<select id="searchEmployeeByTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%'
 	</select>
 

@@ -43,7 +43,6 @@ public class MessageController {
     	if(msgdto.getType().contentEquals("TEXT")) {
     		result = msgservice.insertMessage(msgdto); //의진씨한테 확인받기 (원래 코드)
     	}
-        
         JsonObject obj = new JsonObject();
         obj.addProperty("result", result);
         return new Gson().toJson(obj);

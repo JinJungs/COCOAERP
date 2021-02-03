@@ -196,10 +196,11 @@
 		memberTeam.style.display="none";
 		chatList.style.display="block";
 	};
-	
+
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
+	let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
     function toChatRoom(seq) {
-      window.open('/messenger/chat?seq='+seq,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+      window.open('/messenger/chat?seq='+seq,'',winFeature);
     }
 
     //-------------------------------- 검색 -------------------------------------
@@ -215,7 +216,7 @@
 		if(searchContents == ''){
 			return;
 		}
-		window.open('/messenger/messengerSearch?contents='+searchContents,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
 	}
 </script>
 <script src="/resources/static/js/messenger.js"></script>

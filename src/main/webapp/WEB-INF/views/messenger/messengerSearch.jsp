@@ -302,17 +302,22 @@
     };
 
     //-------------------------------- 검색 -------------------------------------
-    document.getElementById("searchBtn").addEventListener("click", search);
+    document.getElementById("searchBtn").addEventListener("click", searchAjax);
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
-            search();
+            searchAjax();
         }
     });
 
+    // 입력중에 실시간으로 검색
+    $("#searchContents").on("propertychange change keyup paste input", function (e) {
+        searchAjax();
+    });
+
     //-------------------------------- 비동기 검색 -------------------------------------
-    function search() {
+    function searchAjax() {
         let searchContents = $("#searchContents").val();
-        console.log("검색내용: ?" +searchContents);
+        console.log("검색내용: ?" + searchContents);
         $.ajax({
             url: "/messenger/messengerSearchAjax",
             type: "post",
@@ -321,24 +326,139 @@
             },
             dataType: "json",
             success: function (resp) {
-                console.log("memberList: "+resp[0]); //jArrayMember
-                console.log("하나만: "+resp[0][0]); // 첫번째 행
-                console.log("길이?" + resp[0].length);
-                console.log("이름: "+resp[0][0].name);
+                let jArrayMember = resp[0];
+                let jArrayDept = resp[1];
+                let jArrayTeam = resp[2];
                 // 내용초기화
-                memberAll.innerHTML="";
-                memberMember.innerHTML="";
-                memberDept.innerHTML="";
-                memberTeam.innerHTML="";
-                // 여기서부터 다시 리스트를 쏴줘야한다.
-                // 멤버
-                //if()
-                for(let i=0; i<resp[0].length; i++){
-                    memberMember.innerHTML=resp[0][i].name;
+                memberAll.innerHTML = "";
+                // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
+                // 전체
+                if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0) {
+                    memberAll.innerHTML = "검색결과가 없습니다.";
+                }else{
+                    let html = "";
+                    if(jArrayMember.length != 0){
+                        html += "<div class='row mb-2 m-0'>멤버</div>";
+                        html += "<ui class='contacts m-0 p-0'>";
+                        for (let i = 0; i < jArrayMember.length; i++) {
+                            html += "<li class='con-list'>";
+                            html += "<div class='d-flex bd-highlight'>";
+                            html += "<div class='img_cont'>";
+                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "</div>";
+                            html += "<a href='#'>";
+                            html += "<div class='user_info'>";
+                            html += "<span>" + jArrayMember[i].name + "</span>";
+                            html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
+                            html += "</div></a></div>";
+                        }
+                        html += "</ui>";
+                    }
+                    if(jArrayDept.length != 0){
+                        html += "<div class='row mb-2 m-0'>부서</div>";
+                        html += "<ui class='contacts m-0 p-0'>";
+                        for (let i = 0; i < jArrayDept.length; i++) {
+                            html += "<li class='con-list'>";
+                            html += "<div class='d-flex bd-highlight'>";
+                            html += "<div class='img_cont'>";
+                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "</div>";
+                            html += "<a href='#'>";
+                            html += "<div class='user_info'>";
+                            html += "<span>" + jArrayDept[i].name + "</span>";
+                            html += "<p>" + jArrayDept[i].deptname + "/" + jArrayDept[i].teamname + "</p>";
+                            html += "</div></a></div>";
+                        }
+                        html += "</ui>";
+                    }
+                    if(jArrayTeam.length != 0){
+                        html += "<div class='row mb-2 m-0'>팀</div>";
+                        html += "<ui class='contacts m-0 p-0'>";
+                        for (let i = 0; i < jArrayTeam.length; i++) {
+                            html += "<li class='con-list'>";
+                            html += "<div class='d-flex bd-highlight'>";
+                            html += "<div class='img_cont'>";
+                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "</div>";
+                            html += "<a href='#'>";
+                            html += "<div class='user_info'>";
+                            html += "<span>" + jArrayTeam[i].name + "</span>";
+                            html += "<p>" + jArrayTeam[i].deptname + "/" + jArrayTeam[i].teamname + "</p>";
+                            html += "</div></a></div>";
+                        }
+                        html += "</ui>";
+                    }
+                    memberAll.innerHTML = html;
                 }
+
+                // 멤버
+                if (jArrayMember.length == 0) {
+                    memberMember.innerHTML = "검색결과가 없습니다.";
+                }else {
+                    let html = "";
+                    html += "<div class='row mb-2 m-0'>멤버-검색결과</div>";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayMember.length; i++) {
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont'>";
+                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info'>";
+                        html += "<span>" + jArrayMember[i].name + "</span>";
+                        html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
+                        html += "</div></a></div>";
+                    }
+                    html += "</ui>";
+                    memberMember.innerHTML = html;
+                }
+
                 // 부서
+                if (jArrayDept.length == 0) {
+                    memberDept.innerHTML = "검색결과가 없습니다.";
+                }else{
+                    let html = "";
+                    html += "<div class='row mb-2 m-0'>부서-검색결과</div>";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayDept.length; i++) {
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont'>";
+                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info'>";
+                        html += "<span>" + jArrayDept[i].name + "</span>";
+                        html += "<p>" + jArrayDept[i].deptname + "/" + jArrayDept[i].teamname + "</p>";
+                        html += "</div></a></div>";
+                    }
+                    html += "</ui>";
+                    memberDept.innerHTML = html;
+                }
 
                 // 팀
+                if (jArrayTeam.length == 0) {
+                    memberTeam.innerHTML = "검색결과가 없습니다.";
+                }else {
+                    let html = "";
+                    html += "<div class='row mb-2 m-0'>팀-검색결과</div>";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayTeam.length; i++) {
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont'>";
+                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info'>";
+                        html += "<span>" + jArrayTeam[i].name + "</span>";
+                        html += "<p>" + jArrayTeam[i].deptname + "/" + jArrayTeam[i].teamname + "</p>";
+                        html += "</div></a></div>";
+                    }
+                    html += "</ui>";
+                    memberTeam.innerHTML = html;
+                }
             }
         })
     }

@@ -70,7 +70,7 @@ public class MessengerController {
         //(2) 부서이름으로 찾기
         List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(contents);
         //(3) 팀이름으로 찾기
-        List<EmployeeDTO> teamList = eservice.searchEmployeeByDeptTeamname(contents);
+        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(contents);
 
         //(4) 사람이 속한 채팅방찾기
 
@@ -96,7 +96,7 @@ public class MessengerController {
         //(2) 부서이름으로 찾기
         List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(contents);
         //(3) 팀이름으로 찾기
-        List<EmployeeDTO> teamList = eservice.searchEmployeeByDeptTeamname(contents);
+        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(contents);
 
         // jArrayMember에 memberList 넣기
         for (int i = 0; i < memberList.size(); i++) {
