@@ -302,7 +302,7 @@
     };
 
     //-------------------------------- 검색 -------------------------------------
-    document.getElementById("searchBtn").addEventListener("click", search);
+    document.getElementById("searchBtn").addEventListener("click", searchAjax);
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
             searchAjax();
@@ -371,10 +371,10 @@
                         }
                         html += "</ui>";
                     }
-                    if(jArrayDept.length != 0){
-                        html += "<div class='row mb-2 m-0'>부서</div>";
+                    if(jArrayTeam.length != 0){
+                        html += "<div class='row mb-2 m-0'>팀</div>";
                         html += "<ui class='contacts m-0 p-0'>";
-                        for (let i = 0; i < jArrayDept.length; i++) {
+                        for (let i = 0; i < jArrayTeam.length; i++) {
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight'>";
                             html += "<div class='img_cont'>";
@@ -382,8 +382,8 @@
                             html += "</div>";
                             html += "<a href='#'>";
                             html += "<div class='user_info'>";
-                            html += "<span>" + jArrayDept[i].name + "</span>";
-                            html += "<p>" + jArrayDept[i].deptname + "/" + jArrayDept[i].teamname + "</p>";
+                            html += "<span>" + jArrayTeam[i].name + "</span>";
+                            html += "<p>" + jArrayTeam[i].deptname + "/" + jArrayTeam[i].teamname + "</p>";
                             html += "</div></a></div>";
                         }
                         html += "</ui>";
@@ -442,7 +442,7 @@
                     memberTeam.innerHTML = "검색결과가 없습니다.";
                 }else {
                     let html = "";
-                    html += "<div class='row mb-2 m-0'>부서-검색결과</div>";
+                    html += "<div class='row mb-2 m-0'>팀-검색결과</div>";
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayTeam.length; i++) {
                         html += "<li class='con-list'>";

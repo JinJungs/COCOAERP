@@ -41,10 +41,12 @@
                 </ul>
             </div>
         </div>
-        <div class="card-body msg_card_body" id="msgBox">
+        <div class="card-body msg_card_body" id="msg_card_body">
+            <div id="msgBox">
             <!--여기 부터가 채팅시작-->
-            <input type="hidden" id="roomNumber" value="${seq}">
-            <input type="hidden" id="loginID" value="${loginDTO.code}">
+                <input type="hidden" id="roomNumber" value="${seq}">
+                <input type="hidden" id="loginID" value="${loginDTO.code}">
+            </div>
         </div>
         <div class="card-footer">
             <div class="input-group m-h-90" id="sendToolBox">
@@ -60,12 +62,12 @@
                 </div>
             </div>
         </div>
-        
         <div class="fileBox">
 	        <form id="mainForm" enctype="multipart/form-data">
 	            <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
 	            <label for="file"><i class="fas fa-paperclip"></i></label>
 		    	<input type="file" id="file" name=file>
+                <button type="button" id="testBtn">fullsize</button>
 	        </form>
         </div>
     </div>
@@ -90,8 +92,13 @@
 
     // 처음 채팅방 입장시 스크롤 아래로 내리기
     function scrollBottom() {
-        let element = document.getElementById("msgBox");
+        let element = document.getElementById("msg_card_body");
         $(element).scrollTop(element.scrollHeight);
+    }
+
+    // 리스트 더 불러올 때 스크롤 위치조절
+    function scrollfixed(addedHeight){
+        $("#msg_card_body").scrollTop(addedHeight);
     }
 
     // 메세지 추가될 때 스크롤 아래로 내리기
@@ -101,21 +108,15 @@
             .animate({ scrollTop: $('#msgBox')[0].scrollHeight},500);
     }
 
-    // 리스트 더 불러올 때 스크롤 위치조절
-    function scrollfixed(addedHeight){
-        let element = document.getElementById("msgBox");
-        $(element).scrollTop(addedHeight);
-    }
-
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
-    msgBox.scroll(function () {
+    $("#msg_card_body").scroll(function () {
         var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
         if (currentScrollTop==0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
+            // 살짝 텀을 주기
             moreList(cpage);
         }
-
     });
 
     // 리스트 더 불러오기
@@ -160,7 +161,6 @@
                 }
                 // 추가 후 msgBox의 길이를 저장
                 let afterMsgBoxHeight = msgBox.height();
-                console.log("추가된 후  msgBox의 길이 : "+ afterMsgBoxHeight);
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
                 if(cpage==1){
                     scrollBottom();
@@ -169,7 +169,6 @@
                     scrollfixed(addedHeight);
                     // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
-
             }
         })
     }
@@ -245,6 +244,10 @@
         /* 파일 전송 */
         document.getElementById("file").addEventListener('change', uploadMsgFile);
     });
+
+    document.getElementById("testBtn").addEventListener("click",function (){
+        document.body.requestFullscreen();
+    }, false);
 
     var socket = null;
     var isStomp = false;
@@ -338,7 +341,7 @@
                     processData: false,
                     success: function (resp) {
                     	result = JSON.parse(resp);
-                    	resultF = parseInt(result.resultF);                    	
+                    	resultF = parseInt(result.resultF);
                     	//파일 저장에 성공했을 경우 
                     	//**(보완)따로 예쁘게 빼는 법 용국씨것 참고하기**
                     	if(parseInt(result.resultF)>0){
