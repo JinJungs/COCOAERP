@@ -28,7 +28,6 @@
       <button type="button" onclick="fn_myBoard()">내가 쓴글 </button>
       <button type="button" onclick="fn_bugReport()">버그리포트 </button><br>
       <button type="button" onclick="fn_logCreate()">업무일지 작성 </button>
-      <button type="button" onclick="fn_logRead()">업무일지 읽기 </button>
       <button type="button" onclick="fn_logReqRead()">요청받은 업무일지 읽기 </button>
       <button type="button" onclick="fn_logModify()">업무일지 수정 & 임시저장된 문서 수정 </button><br>
       <button type="button" onclick="fn_logTempBoard()">임시저장 업무일지 보관함 </button>
@@ -106,10 +105,6 @@
 			//업무일지 작성
 			function fn_logCreate(){
 				location.href = "/log/logCreate.log"
-			}
-			//업무일지 읽기
-			function fn_logRead(){
-				location.href = "/log/logRead.log"
 			}
 			//요청 받은 업무일지 읽기
 			function fn_logReqRead(){

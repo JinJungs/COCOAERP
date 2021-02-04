@@ -68,8 +68,13 @@ public class BusinessLogService implements BusinessLogDAO {
 		return bdao.sentLogMonthlyList();
 	}
 	/*---------------업무일지 읽기--------------*/
+	//글 가져오기
 	public List<BoardDTO> getLogBySeq(int seq) {
 		return bdao.getLogBySeq(seq);
+	}
+	//수정버튼 - 작성자인 경우만 보임
+	public int checkWriter(DocumentDTO ddto) {
+		return bdao.checkWriter(ddto);
 	}
 	/*--------------업무일지 수정 시 리스트 불러오기*/
 	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto) {

@@ -159,10 +159,17 @@ public class BusinessLogController {
 	}
 	//업무일지 읽기
 	@RequestMapping("logRead.log")
-	public String logRead(int seq,Model model,FilesDTO fdto) {
+	public String logRead(int seq,Model model, String status, DocumentDTO ddto, FilesDTO fdto) {
 		System.out.println("읽기 페이지 도착");
 		System.out.println("여기서 seq?"+seq);
+		
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 
+		int writer_code = (Integer)loginDTO.getCode();
+		System.out.println(writer_code);
+		//로그인한 정보의 code를 DocumentDTO writer_code에 넣어주기
+		ddto.setWriter_code(writer_code);
+		
 		//업무일지 자료 가져오기
 		List<BoardDTO> logRead = bservice.getLogBySeq(seq);
 		System.out.println("자료 가져오기 성공?" +logRead);
@@ -172,8 +179,13 @@ public class BusinessLogController {
 
 		//업로드된 파일 가져오기
 		List<FilesDTO> fileList = fservice.getLogFilesBySeq(seq,fdto);
-		System.out.println("파일가져오기 성공?"+fileList);
+		System.out.println("파일가져오기 성공?"+fileList.size());
+		
+		//수정버튼 - 작성자인 경우만 보임
+		//int checkWriter = bservice.checkWriter(ddto);
 
+		model.addAttribute("status",status);
+		//model.addAttribute("checkWriter",checkWriter);
 		model.addAttribute("lr",logRead);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("fileCount",getLogUploadFileCount);

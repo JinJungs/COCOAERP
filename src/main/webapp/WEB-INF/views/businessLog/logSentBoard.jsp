@@ -61,7 +61,7 @@
 						<c:forEach var="i" items="${logAllList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logModify.log?seq=${i.seq}">${i.title }</a>
+								 <a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
@@ -76,7 +76,9 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${dailyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-sm-12 col-md-3">
+								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
@@ -90,7 +92,9 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${weeklyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-sm-12 col-md-3">
+								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
@@ -104,7 +108,9 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${monthlyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-sm-12 col-md-3">
+								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>

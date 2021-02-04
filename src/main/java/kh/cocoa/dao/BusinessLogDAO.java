@@ -42,13 +42,11 @@ public interface BusinessLogDAO {
 	//월별
 	public List<BoardDTO> sentLogMonthlyList();
 	/*---------------업무일지 읽기--------------*/
+	//글 내용 가져오기
 	public List<BoardDTO> getLogBySeq(int seq);
+	//수정버튼 - 작성자인 경우만 보임
+	public int checkWriter(DocumentDTO ddto);
 
 	/*--------------업무일지 수정 시 리스트 불러오기*/
 	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto);
-
-
-
-
-
 }

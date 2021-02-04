@@ -23,6 +23,7 @@
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 읽기</h2>
+			<input type="hidden" id="status" name="status" value="${status }"> 
 			
 				<c:forEach var="l" items="${lr}">
 				<div class="row">
@@ -73,10 +74,20 @@
 
 				<!--작성자에게만 보이는 버튼  -->
 				<div class="button_box col-sm-3">
-					<button type="submit" class="btn btn-primary"
-						onclick="fn_modify(${cpage},${dto.seq})">수정</button>
-					<button type="button" class="btn btn-primary"
-						onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+				
+					<c:choose>
+						<c:when test="${checkWriter>0}">
+							<button type="submit" class="btn btn-primary"
+								onclick="fn_modify(${cpage},${dto.seq})">수정</button>
+						</c:when>
+					</c:choose>
+					<!-- 삭제버튼 - 임시보관함에서 온 글인 경우만 보임 -->
+					<c:choose>
+						<c:when test="${status eq 'TEMP'}">
+							<button type="button" class="btn btn-primary"
+								onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+						</c:when>
+					</c:choose>
 				</div>
 
 			</div>
@@ -90,8 +101,8 @@
 			}
 	 	}
 	 	/*홈으로*/
-		function fn_home(cpage) {
-			location.href = "";
+		function fn_home(status) {
+			location.href = "/log/logBoard.log?status=${status}";
 		}
 </script>
 </body>

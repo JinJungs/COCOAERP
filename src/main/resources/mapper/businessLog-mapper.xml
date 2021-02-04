@@ -112,9 +112,15 @@
 		ORDER BY WRITE_DATE DESC
 	</select>
 <!-- 업무일지 읽기 -->
+	<!-- 글 내용 가져오기 -->
 	<select id="getLogBySeq" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT D.*,E.NAME FROM DOCUMENT D,EMPLOYEE E 
 		WHERE D.WRITER_CODE=E.CODE AND SEQ=#{seq}
+	</select>
+	<!-- 수정버튼 - 작성자인 경우만 보이기 -->
+	<select id="checkWriter" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT COUNT(*) FROM DOCUMENT WHERE SEQ=#{seq} 
+		AND WRITER_CODE=#{writer_code}
 	</select>
 <!-- 업무일지 수정페이지에 내용 불러오기 -->
 	<select id="getLogBySeqMod" resultType="kh.cocoa.dto.DocumentDTO"> 
