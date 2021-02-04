@@ -5,8 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Request Log Read Page</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <style>
 
 div{border: 1px solid pink;}

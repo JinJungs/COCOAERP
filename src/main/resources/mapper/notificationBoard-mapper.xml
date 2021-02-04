@@ -11,7 +11,7 @@
 	</select>
 <!-- 앨범 게시판 리스트 가져오기 -->
 	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT B.*, E.NAME FROM BOARD B,EMPLOYEE E
+		SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
 		WHERE  E.CODE=B.WRITER_CODE
 		AND B.MENU_SEQ=#{menu_seq}
 		ORDER BY WRITE_DATE DESC
@@ -26,11 +26,15 @@
 	</select>
 <!-- 글작성 -->
 	<insert id="notificationBoardCreateDone" >
-		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0, 1005,#{menu_seq})<!-- #{writer_code},#{menu_seq}) -->
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0,#{bdto.writer_code},#{menu_seq})<!-- #{writer_code},#{menu_seq}) -->
 	</insert>
 <!-- 게시글 가져오기 -->
 	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE and SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
+	</select>
+	<!-- 게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 -->
+	<select id="checkWriter" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD WHERE SEQ=#{seq} AND WRITER_CODE=#{writer_code}
 	</select>
 	<!-- seq로 게시글 수 확인 -->
 	<select id="getSearchCount" resultType="Integer">
@@ -69,5 +73,10 @@
                  	AND E.NAME LIKE '%${search}%'
                  </when>
            </choose>
+	</select>
+<!-- **************내가쓴글*************************** -->
+<!-- 내가쓴글 가져오기 -->
+	<select id="getMyBoardList" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM BOARD WHERE WRITER_CODE=#{writer_code} ORDER BY WRITE_DATE DESC
 	</select>
 </mapper>	

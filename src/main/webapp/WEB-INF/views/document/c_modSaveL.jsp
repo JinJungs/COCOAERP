@@ -98,7 +98,7 @@
                                     <input type="hidden" name="temp_code" value="${ddto.temp_code}">
                                     <input type="hidden" name="dept_code" value="${ddto.dept_code}">
                                     <input type="hidden" name="seq" value="${ddto.seq}">
-                                    <input type="hidden" name="status" value="${ddto.status}"
+                                    <input type="hidden" name="status" value="${ddto.status}">
                                 </div>
                             </div>
                         </div>
