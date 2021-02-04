@@ -196,26 +196,35 @@
 		memberTeam.style.display="none";
 		chatList.style.display="block";
 	};
-	
+
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
+	let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
     function toChatRoom(seq) {
-      window.open('/messenger/chat?seq='+seq,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+      window.open('/messenger/chat?seq='+seq,'',winFeature);
     }
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click",search);
+	// enter키 클릭시 검색
 	$("#searchContents").on("keydown", function (e) {
 		if (e.keyCode == 13) {
 			search();
 		}
 	});
+	// esc 누르면 창닫기
+	$(document).keydown(function(e) {
+		if ( e.keyCode == 27 || e.which == 27 ) {
+			window.close();
+		}
+	});
 
+	//검색창 열기
     function search(){
-		let searchContents = $("#searchContents").val();
+		let searchContents = $("#searchContents").val().trim();
 		if(searchContents == ''){
 			return;
 		}
-		window.open('/messenger/messengerSearch?contents='+searchContents,'','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
 	}
 </script>
 <script src="/resources/static/js/messenger.js"></script>

@@ -4,7 +4,6 @@ import kh.cocoa.dao.EmployeeDAO;
 import kh.cocoa.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -127,8 +126,8 @@ public class EmployeeService implements EmployeeDAO {
 	}
 	//팀이름으로 찾기
 	@Override
-	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents){
-		return edao.searchEmployeeByDeptname(contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(String contents){
+		return edao.searchEmployeeByTeamname(contents);
 	}
 
 	@Override
