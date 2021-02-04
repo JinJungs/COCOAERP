@@ -23,7 +23,7 @@
 			<form action="/noBoard/notificationBoardCreateDone.no" method="post"
 				id="submitForm" enctype="multipart/form-data">
 				
-				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				<input type="hidden" id="menu_seq" name="menu_seq" value="${menu_seq}" />
 				<div class="row">
 					<div class="col-sm-3 head_box">제목</div>
 					<div class="col-sm-9">

@@ -87,7 +87,6 @@
     let cpage = 1;
     let msgBox = $("#msgBox");
     let loginID = $("#loginID");  //${loginDTO.code}
-    let current_date = new Date();
     let lastScrollTop = 0;
 
     // 처음 채팅방 입장시 스크롤 아래로 내리기
@@ -103,9 +102,9 @@
 
     // 메세지 추가될 때 스크롤 아래로 내리기
     function scrollUpdate(){
-        $('#msgBox')
+        $('#msg_card_body')
             .stop()
-            .animate({ scrollTop: $('#msgBox')[0].scrollHeight},500);
+            .animate({ scrollTop: $('#msg_card_body')[0].scrollHeight},500);
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
@@ -134,15 +133,22 @@
             	// 추가 전 msgBox의 길이를 저장
                 let beforeMsgBoxHeight = msgBox.height();
                 console.log("추가되기 전 msgBox의 길이 : "+ beforeMsgBoxHeight);
-                for (var i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i++) {
                 	console.log(data[i].type+" : "+data[i].contents +" : "+data[i].savedname);
-                    var existMsg = "";
-                    //console.log("시간 : " +moment(data[i].write_date).format('YYYY MM DD HH:mm:ss'))
+                	// 날짜 형식 변경하기
+                    let formed_write_date = moment(data[i].write_date).format('HH:mm');
+                    let write_date = new Date(data[i].write_date);
+                    let current_date = new Date();
+                    current_date.setHours(0,0,0,0);
+                    console.log(current_date > write_date);
+                    // 날짜가 바뀔 때마다 표시를 해주고 싶은데...
+
+                    let existMsg = "";
                     if(data[i].emp_code == ${loginDTO.code}){
                         existMsg += "<div class='d-flex justify-content-end mb-4'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", data[i].contents, data[i].savedname);
                         //existMsg += "<div class='msg_cotainer_send'>"+data[i] .emp_code+" : "+data[i].contents;
-                        existMsg += "<span class='msg_time_send'>"+data[i].write_date+"</span>";
+                        existMsg += "<span class='msg_time_send'>"+formed_write_date+"</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -154,7 +160,7 @@
                         existMsg += "</div>";
                         existMsg += msgForm(data[i].type, "msg_cotainer", data[i].contents, data[i].savedname);
                         //existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
-                        existMsg += "<span class='msg_time'>"+data[i].write_date+"</span>";
+                        existMsg += "<span class='msg_time'>"+formed_write_date+"</span>";
                         existMsg += "</div></div>";
                     }
                     msgBox.prepend(existMsg);
@@ -188,6 +194,13 @@
                 if(!e.shiftKey) {
                     sendMsg();
                 }
+            }
+        });
+
+        // esc 누르면 창닫기
+        $(document).keydown(function(e) {
+            if ( e.keyCode == 27 || e.which == 27 ) {
+                window.close();
             }
         });
 
@@ -274,7 +287,11 @@
                 
                 //파일관련 메세지일 경우*****
                 //컨텐츠에 담아둔 파일 이름을 전송하고 a태그를 걸어준다.
-                
+
+                // 날짜 형식 변경하기
+                let current_date = new Date();
+                let formed_write_date = moment(current_date).format('HH:mm');
+
                 // 내가 메세지를 보냈을 때
                 if(sender == ${loginDTO.code}){
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
@@ -287,7 +304,7 @@
                     }else{
                     	newMsg += "<div class='msg_cotainer_send'>" +msg;
                     } */
-                    newMsg += "<span class='msg_time_send'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
+                    newMsg += "<span class='msg_time_send'>"+formed_write_date+"</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
@@ -304,7 +321,7 @@
                     }else{
                     	newMsg += "<div class='msg_cotainer'>" +msg;
                     } */
-                    newMsg += "<span class='msg_time'>"+moment(current_date).format('MM-DD HH:mm')+"</span>";
+                    newMsg += "<span class='msg_time'>"+formed_write_date+"</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
                 }
@@ -399,12 +416,27 @@
 	    	type = "FILE";
 	    }
 	    return type;
-    } 
+    }
 	//[파일 모아보기 팝업]
 	let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
     function popShowFiles(){
 		window.open('/messenger/showFiles?m_seq='+${seq},'',winFeature);
 	}
+
+    //***************************************************************************
+    /* 메세지 검색 */
+    /* 0. search 아이콘 클릭시 input 창 생성*/
+    $(".fa-search").on("click",showSearchInput);
+    function showSearchInput(){
+        let html = "";
+        html += "<div>내용</div>";
+        $(".msg_head").append(html);
+    }
+
+    /* 1. 비동기로 메세지 검색*/
+
+
+
 
 </script>
 </body>

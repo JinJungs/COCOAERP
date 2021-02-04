@@ -88,6 +88,31 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getTeamEmpList(team_code);
 	}
 
+	@Override
+	public List<EmployeeDTO> getEmpNameSearchList(String name) {
+		return edao.getEmpNameSearchList(name);
+	}
+
+	@Override
+	public List<EmployeeDTO> getDeptNameSearchList(String name) {
+		return edao.getDeptNameSearchList(name);
+	}
+
+	@Override
+	public List<EmployeeDTO> getDeptEmpList(int dept_code) {
+		return edao.getDeptEmpList(dept_code);
+	}
+
+	@Override
+	public List<EmployeeDTO> getAllEmpListOrderByPos() {
+		return edao.getAllEmpListOrderByPos();
+	}
+
+	@Override
+	public int getAllEmpCount() {
+		return edao.getAllEmpCount();
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
@@ -109,7 +134,10 @@ public class EmployeeService implements EmployeeDAO {
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
 	}
-	
-	
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code) {
+		System.out.println("서비스에서 wc는?" +writer_code);
+		return edao.getSenderEmail(writer_code);
+	}
 }
 

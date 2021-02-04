@@ -211,17 +211,23 @@ border: 1.5px solid white;
 background-color: #c23616;
 } */
 .user_info {
-  margin-top: auto;
+  margin-top: 8px;
   margin-bottom: auto;
   margin-left: 15px;
 }
 .user_info span {
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-color-dark);
 }
 .user_info p {
   font-size: 12px;
   color: var(--text-color-dark);
+  padding-top: 2px;
+}
+.user_info p > span{
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
 }
 .video_cam {
   margin-left: 150px;
@@ -340,8 +346,8 @@ background-color: #c23616;
 /* user-info span color */
 /* root text colors */
 /* .con-sidebar{
-	max-width: 90px;
-} */
+	position: fixed;
+}*/
 .con-sidebar > a {
   color: var(--text-color-dark);
 }
@@ -355,7 +361,7 @@ a:hover {
   text-decoration: none;
 }
 /* Default : we can see only memberAll list */
-#memberDept, #memberTeam, #memberMember, #chatList{
+#memberDept, #memberTeam, #memberMember, #memberMessage, #chatList{
 	display: none;
 }
 

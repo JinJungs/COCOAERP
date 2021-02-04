@@ -5,18 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Bug Report</title>
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-div {border-bottom: 1px solid pink}
-input{width:100%;height:90%;border:none;background-color:transparent;}
-input:focus{outline:1px solid pink;}
-#contents {height: 100%;width: 100%;}
+.row,.title_text,.title_input{border-bottom:1px solid pink;}
 .title_text,.sender_text,.receiver_text{font-size:17px;color:#866EC7;}
-.body {height: 400px;}
 .footer {text-align: right}
-textarea{width:100%; border:1px solid pink;}
-textarea:focus{outline:none;}
 .home_btn{text-align:left;}
-button{height:90%;}
 </style>
 </head>
 <body>
@@ -33,9 +27,7 @@ button{height:90%;}
 						<input type="text" id="title" name="title"
 							placeholder="제목을 입력하세요.">
 					</div>
-					<div class="col-4 sender_text"><b>보내는 사람</b></div>
-					<div class="col-8 sender_input"><input type="text" id="email" name="email"
-							placeholder="이메일 주소를 입력하세요."></div>
+						<input type="hidden" id="sender_email" name="sender_email" value="${sender_email.b_email}" >
 					<div class="col-4 receiver_text"><b>받는 사람</b></div>
 					<div class="col-8 receiver_input">
 						<input type="text" id="receiver_email" name="receiver_email"
@@ -43,8 +35,8 @@ button{height:90%;}
 					</div>
 				</div>
 
-				<div class="row body">
-						<textarea class="col contents_box" id="contents" name="contents">
+				<div class="row contents_box">
+						<textarea class="col " id="contents" name="contents">
 안녕하세요 개발자님,
 코코아 웍스 00팀 000입니다.
 프로그램 이용시 하기와 같은 에러 및 버그가 발생되어 확인 부탁드리고자 이메일 드립니다.

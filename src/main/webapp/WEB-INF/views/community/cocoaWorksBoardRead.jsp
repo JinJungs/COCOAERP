@@ -73,10 +73,14 @@
 
 				<!--작성자에게만 보이는 버튼  -->
 				<div class="button_box col-sm-3">
-					<button type="submit" class="btn btn-primary"
-						onclick="fn_modify(${cpage},${dto.seq})">수정</button>
-					<button type="button" class="btn btn-primary"
-						onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+					<c:choose>
+						<c:when test="${checkWriter>0}">
+							<button type="submit" class="btn btn-primary"
+								onclick="fn_modify(${cpage},${dto.seq})">수정</button>
+							<button type="button" class="btn btn-primary"
+								onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 			    

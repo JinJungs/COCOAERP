@@ -36,12 +36,30 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+	
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code);
 
 	//팀별 맴버수 뽑아오기
 	public int getTeamCount(int team_code);
 
 	//팀별 멤버 정보 뽑아오기
 	public List<EmployeeDTO> getTeamEmpList(int team_code);
+
+	//이름 직원명 검색기능
+	public List<EmployeeDTO> getEmpNameSearchList(String name);
+
+	//
+	public List<EmployeeDTO> getDeptNameSearchList(String name);
+
+	//부서 코드에 속한 모든 emp 정보
+	public List<EmployeeDTO> getDeptEmpList(int dept_code);
+
+	//pos_code 순서로 리스트 겟
+	public List<EmployeeDTO> getAllEmpListOrderByPos();
+
+	//모든 멤버 카운트 겟
+	public int getAllEmpCount();
 
 
 	//----------------- 채팅 -----------------//
