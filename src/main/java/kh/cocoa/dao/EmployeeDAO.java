@@ -57,6 +57,9 @@ public interface EmployeeDAO {
 	//pos_code 순서로 리스트 겟
 	public List<EmployeeDTO> getAllEmpListOrderByPos();
 
+	//모든 멤버 카운트 겟
+	public int getAllEmpCount();
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기

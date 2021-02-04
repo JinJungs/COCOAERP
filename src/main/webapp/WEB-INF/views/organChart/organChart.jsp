@@ -237,6 +237,7 @@
             dataType :"json",
             success : function(data) {
                 var emp="";
+                fn_getSearchTopDept();
                 for(var i=1;i<data.length;i=i+2)
                     for(var j=0;j<data[i].length;j++){
                         emp+="<div class='col-12 searchchild p-2' onclick=fn_clickDeptSearch("+data[i][j].code+")>";
@@ -274,7 +275,7 @@
 
             }
         });
-    }, 400);
+    }, 300);
 
     $("#search").bindWithDelay("blur", function (e) {
         $(".search").empty();
@@ -289,6 +290,9 @@
         fn_getEmpInfo(code);
 
     }
+    function fn_clickTopDeptSearch(code){
+        fn_getAllEmpList();
+    }
 
     function fn_clickDeptSearch(code) {
         $("#deptcontainer"+beforeSearchCode).css("color","black");
@@ -297,7 +301,32 @@
         beforeSearchCode=code;
     }
 
-
+    function fn_getSearchTopDept() {
+        $.ajax({
+            type : "POST",
+            url : "/restorganchart/getSearchTopDept.organ",
+            data : {name: $("#search").val()},
+            dataType :"json",
+            success : function(data) {
+                var emp = "";
+                if (data.length != 0) {
+                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTopDeptSearch(" + data.code + ")>";
+                    emp += "<div class=row>";
+                    emp += "<div class=col-12 style='font-size:16px; font-weight: bold'>";
+                    emp += "" + data.name + "(" + data.count + ")";
+                    emp += "</div>";
+                    emp += "</div>";
+                    emp += "<div class=row>";
+                    emp += "<div class=col-12>";
+                    emp += "　";
+                    emp += "</div>";
+                    emp += "</div>";
+                    emp += "</div>";
+                    $(".search").append(emp);
+                }
+            }
+        });
+    }
 
 
 

@@ -109,6 +109,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getAllEmpListOrderByPos();
 	}
 
+	@Override
+	public int getAllEmpCount() {
+		return edao.getAllEmpCount();
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override

@@ -48,7 +48,7 @@
 
 	<select	id="getDeptNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
 		select count(dept_code) count,d.code,d.name from employee
-		right join departments d on d.code=dept_code where d.name like '%${name}%' group by d.code,d.name
+		right join departments d on d.code=dept_code where d.name like '%${name}%' and d.code not in (0) group by d.code,d.name
 	</select>
 
 	<select id="getDeptEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
@@ -57,6 +57,10 @@
 
 	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW2 order by pos_code
+	</select>
+
+	<select id="getAllEmpCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE
 	</select>
 
 	<!--소형-->
