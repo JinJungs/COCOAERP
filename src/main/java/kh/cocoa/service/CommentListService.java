@@ -38,4 +38,9 @@ public class CommentListService implements CommentListDAO{
 	public int noBoardUpdateComment(CommentListDTO dto) {
 		return cdao.noBoardUpdateComment(dto);
 	}
+	//댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
+	public String checkWriter(int seq,int writer_code) {
+		System.out.println("여기서 id는?" + writer_code);
+		return cdao.checkWriter(seq,writer_code);
+	}
 }

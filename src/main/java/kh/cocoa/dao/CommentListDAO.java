@@ -18,5 +18,7 @@ public interface CommentListDAO {
 	public int noBoardDeleteComment(int seq);
 	//댓글 수정
 	public int noBoardUpdateComment(CommentListDTO dto);
+	//댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
+	public String checkWriter(int seq,int writer_code);
 
 }

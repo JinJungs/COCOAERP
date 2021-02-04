@@ -44,5 +44,11 @@ public interface NotificationBoardDAO {
 	
 	//앨범 게시판 글 불러오기
 	public List<BoardDTO> getAlbumBoardListCpage(String cpage, int menu_seq);
+	
+	//게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
+	public int checkWriter(BoardDTO dto);
+	
+	//내가쓴글 리스트 가져오기
+	public List<BoardDTO> getMyBoardList(int writer_code);
 
 }

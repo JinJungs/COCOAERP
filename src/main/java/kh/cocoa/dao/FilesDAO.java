@@ -9,15 +9,17 @@ import kh.cocoa.dto.FilesDTO;
 
 @Mapper 
 public interface FilesDAO {
-	/*-------------------**회사소식**--------------------------*/
 	//파일 업로드
 	public int uploadFiles(int noBoard_seq,FilesDTO fdto);
+
+	//업무일지용 파일 업로드
+	public int uploadFilesBusinessLog(int logDoc_seq, FilesDTO fdto);
 
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto);
 	
 	//앨범게시판에서 게시글 사진 불러오기
-	public FilesDTO getImage(int board_seq);
+	public FilesDTO getImage(FilesDTO fdto);
 
 	//파일 다운로드
 	public List<FilesDTO> downloadFilesBySeq(int noBoard_seq);
@@ -46,4 +48,11 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq2(int seq);
 
 	public int updateFile(int seq,int b_seq);
+
+	//임시저장 업무일지 파일 불러오기
+	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto);
+	
+	//게시글에 업로드된 파일 갯수 확인
+	public int getLogUploadFileCount(FilesDTO fdto);
+	
 }
