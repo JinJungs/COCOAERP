@@ -1,14 +1,11 @@
 package kh.cocoa.controller;
 
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 import kh.cocoa.dto.MessageViewDTO;
 import kh.cocoa.dto.MessengerViewDTO;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
 import kh.cocoa.service.MessageService;
 import kh.cocoa.service.MessengerService;
 import org.json.JSONArray;
@@ -19,12 +16,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.FilesMsgDTO;
-import kh.cocoa.dto.MessengerViewDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessengerService;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/messenger")
