@@ -1,6 +1,7 @@
 package kh.cocoa.dao;
 
 import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.dto.MessageViewDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,9 +17,8 @@ public interface MessageDAO {
 
     public int getMessagePageCount(int emp_code);
 
-    //파일 업로드를 위한 메세지 시퀀스 미리 뽑기
-	public int selectMessageSeq();
-//	//파일 업로드용 메세지 인서트
-//	public int insertFileMessage(MessageDTO msgdto);
+    public int insertMessageGotSeq(MessageDTO msgdto);
 
+    // 내용으로 메세지 찾기
+    public List<MessageViewDTO> searchMsgByContents(int code, String contents);
 }

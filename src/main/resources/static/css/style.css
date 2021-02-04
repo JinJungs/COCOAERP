@@ -8334,3 +8334,31 @@ a[data-toggle="collapse"] {
   .form-control:-moz-placeholder {
     /* Firefox 18- */
     color: rgba(0, 0, 0, 0.3); }
+    
+/*파일 확장자별로 아이콘 띄우기*/
+/* a 태그 href속성 마지막 글자(.pdf)로 비교 후 / fileIcon 디브의 배경에 확장자 이미지 불러오기*/
+a[href$=".pdf"] .fileIcon {
+  background-image: url("/icon/file_format/pdf-file-format-symbol.png");
+  background-size: cover;
+}
+a[href$=".ppt"] .fileIcon {
+  background-image: url("/icon/file_format/ppt-file-format.png");
+  background-size: cover;
+}
+a[href$=".rar"] .fileIcon {
+  background-image: url("/icon/file_format/rar-file-format.png");
+  background-size: cover;
+}
+a[href$=".txt"] .fileIcon {
+  background-image: url("/icon/file_format/txt-text-file-extension-symbol.png");
+  background-size: cover;
+}
+a[href$=".zip"] .fileIcon {
+  background-image: url("/icon/file_format/zip-compressed-files-extension.png");
+  background-size: cover;
+}
+
+/* a태그 기본색*/
+a{
+	color: var(--dark);
+}

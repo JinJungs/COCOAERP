@@ -12,6 +12,7 @@
     <artifactId>cocoa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cocoa</name>
+    <packaging>jar</packaging>
     <description>COCOAERP</description>
 
     <properties>
@@ -152,6 +153,32 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- 스프링 시큐리티적용 구간 -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -169,6 +196,8 @@
                 </configuration>
             </plugin>
         </plugins>
+
+
     </build>
 
 </project>

@@ -17,4 +17,9 @@ public class TeamService implements TeamDAO {
     public List<TeamDTO> getTeamList(int code){
         return tdao.getTeamList(code);
     }
+
+    @Override
+    public TeamDTO getTeamName(int code) {
+        return tdao.getTeamName(code);
+    }
 }

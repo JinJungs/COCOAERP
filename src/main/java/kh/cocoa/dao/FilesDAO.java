@@ -4,20 +4,22 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 
 @Mapper 
 public interface FilesDAO {
-	/*-------------------**회사소식**--------------------------*/
 	//파일 업로드
 	public int uploadFiles(int noBoard_seq,FilesDTO fdto);
+
+	//업무일지용 파일 업로드
+	public int uploadFilesBusinessLog(int logDoc_seq, FilesDTO fdto);
 
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto);
 	
 	//앨범게시판에서 게시글 사진 불러오기
-	public FilesDTO getImage(int board_seq);
+	public FilesDTO getImage(FilesDTO fdto);
 
 	//파일 다운로드
 	public List<FilesDTO> downloadFilesBySeq(int noBoard_seq);
@@ -36,9 +38,16 @@ public interface FilesDAO {
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
 
-
-	/* 채팅 파일 업로드 */
+	/*======***채팅***=====*/
+	/*=====채팅 파일 업로드=====*/
 	public int uploadFilesMsg(FilesDTO fdto);
+	
+	public int updateMsgSeq(int msg_seq, String savedName);
+	
+	public String getSavedName(int msg_seq);
+	/*=====채팅 파일 모아보기=====*/
+	public List<FilesMsgDTO> showFileMsg(int m_seq);
+	/*======***채팅***=====*/
 
 	//용국 파일 삭제
 	public int deleteDocFile(int seq);
@@ -46,6 +55,12 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq2(int seq);
 
 	public int updateFile(int seq,int b_seq);
+	
+	//임시저장 업무일지 파일 불러오기
+	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto);
+	
+	//게시글에 업로드된 파일 갯수 확인
+	public int getLogUploadFileCount(FilesDTO fdto);
 	
 	//이메일 파일저장
 	public int insertFile(FilesDTO dto);

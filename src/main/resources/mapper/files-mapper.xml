@@ -3,10 +3,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kh.cocoa.dao.FilesDAO">
-<!-- *************************회사 소식***************************** -->
-<!-- 파일 업로드 -->
+<!-- 파일 업로드 / 게시판용 -->
 	<insert id="uploadFiles">
-		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0)
+		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
+		#{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0)
+	</insert>
+<!-- 파일 업로드 / 업무일지용 -->
+	<insert id="uploadFilesBusinessLog">
+		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
+		#{fdto.savedname}, SYSDATE,0,#{logDoc_seq},0,0)
 	</insert>
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">
@@ -22,9 +27,9 @@
 	</select>
 <!-- 앨범 게시판 첨부파일 사진 불러오기 -->
 	<select id="getImage" resultType="kh.cocoa.dto.FilesDTO">
-      select * from files where BOARD_SEQ=#{seq}
+      select * from files where BOARD_SEQ=#{board_seq}
    </select>
-<!-- 파일 다운로드 -->	
+<!-- 파일 다운로드 -->
 	<select id="downloadFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
 	</select>
@@ -36,17 +41,40 @@
 	<select id="getFilesListByDocSeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
 	</select>
-
+<!-- 업무일지 임시저장 파일 목록가져오기 -->
+	<select id="getLogFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+	</select>
+<!-- 업무일지 임시저장 파일 갯수 -->
+	<select id="getLogUploadFileCount" resultType="Integer">
+  		SELECT COUNT(*) FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+  	</select>
+	
 	<!--용국 업로드-->
 	<insert id="documentInsertFile">
 		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
 	</insert>
 
-	<!-- 메세지 파일 업로드 -->
+	<!-- ****메세지 파일 업로드**** -->
 	<insert id="uploadFilesMsg">
-		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE, 0, 0, #{msg_seq})
+		<selectKey keyProperty="msg_seq" resultType="int" order="BEFORE">
+		    SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
+		</selectKey>
+		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,MSG_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{msg_seq})
 	</insert>
-
+	<select id="getSavedName" resultType="String">
+		SELECT SAVEDNAME FROM FILES WHERE MSG_SEQ=#{msg_seq} 
+	</select>
+	<!-- ****메세지 파일 업로드**** -->
+	<!-- ****메세지 파일 모아보기**** -->
+	<select id="showFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
+		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, F.UPLOADEDDATE, M.TYPE
+		FROM FILES F, MESSAGE M
+		WHERE F.MSG_SEQ = M.SEQ AND
+		M.M_SEQ = #{m_seq}
+		ORDER BY UPLOADEDDATE DESC
+	</select>
+	<!-- ****메세지 파일 모아보기**** -->	
 
 	<!--용국 파일 삭제-->
 	<delete id="deleteDocFile">

@@ -4,4 +4,7 @@
     <select id="getTeamList"  resultType="kh.cocoa.dto.TeamDTO">
         SELECT * FROM Team where dept_code = #{code} order by name
     </select>
+    <select id="getTeamName" resultType="kh.cocoa.dto.TeamDTO">
+        select * from team where code=#{code} order by name
+    </select>
 </mapper>
