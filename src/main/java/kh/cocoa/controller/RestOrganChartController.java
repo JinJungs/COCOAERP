@@ -117,4 +117,9 @@ public class RestOrganChartController {
         JSONObject json = new JSONObject(map);
         return json.toString();
     }
+
+    @RequestMapping("getSearchTeamList.organ")
+    public String getSearchTeamList(@RequestParam("name") String name){
+
+    }
 }

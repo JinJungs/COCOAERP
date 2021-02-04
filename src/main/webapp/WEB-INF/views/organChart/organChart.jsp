@@ -254,6 +254,7 @@
                         emp+="</div>";
                         emp+="</div>";
                     }
+                fn_getSearchTeam();
                 for(var i=0;i<data.length;i=i+2){
                     for(var j=0;j<data[i].length;j++){
                         emp+="<div class='col-12 searchchild p-2' onclick=fn_clicksearch("+data[i][j].code+")>";
@@ -291,11 +292,21 @@
 
     }
     function fn_clickTopDeptSearch(code){
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
+        $(".topcontainer").css("color","blue");
         fn_getAllEmpList();
     }
 
     function fn_clickDeptSearch(code) {
+        var getClass = $("#deptcontainer"+code).attr("class");
+        if(getClass=="row mt-2 deptcontainer d-none"){
+            $(".teamWrapper").attr("class","row teamWrapper");
+            $(".deptcontainer").attr("class","row mt-2 deptcontainer");
+            $(".topcontainer").attr("onclick","fn_closeDeptList()");
+            $(".topcontainer").find("img").attr("src","/icon/dash-square.svg/");
+        }
         $("#deptcontainer"+beforeSearchCode).css("color","black");
+        $(".topcontainer").css("color","black");
         fn_getDeptEmpList(code);
         $("#deptcontainer"+code).css("color","blue");
         beforeSearchCode=code;
@@ -309,7 +320,33 @@
             dataType :"json",
             success : function(data) {
                 var emp = "";
-                if (data.length != 0) {
+                if (data.count!=undefined) {
+                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTopDeptSearch(" + data.code + ")>";
+                    emp += "<div class=row>";
+                    emp += "<div class=col-12 style='font-size:16px; font-weight: bold'>";
+                    emp += "" + data.name + "(" + data.count + ")";
+                    emp += "</div>";
+                    emp += "</div>";
+                    emp += "<div class=row>";
+                    emp += "<div class=col-12>";
+                    emp += "　";
+                    emp += "</div>";
+                    emp += "</div>";
+                    emp += "</div>";
+                    $(".search").append(emp);
+                }
+            }
+        });
+    }
+    function fn_getSearchTeam(){
+        $.ajax({
+            type : "POST",
+            url : "/restorganchart/getSearchTeamList.organ",
+            data : {name: $("#search").val()},
+            dataType :"json",
+            success : function(data) {
+                var emp = "";
+                if (data.count!=undefined) {
                     emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTopDeptSearch(" + data.code + ")>";
                     emp += "<div class=row>";
                     emp += "<div class=col-12 style='font-size:16px; font-weight: bold'>";

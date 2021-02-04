@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="getEmpNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
-		select * from searchview where name like '%${name}%'
+		select * from employee_view where name like '%${name}%'
 	</select>
 
 	<select	id="getDeptNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
