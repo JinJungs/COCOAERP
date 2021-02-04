@@ -408,3 +408,71 @@ a:hover {
 #searchContents{
   background-image: url("/static/icon/x-circle-fill.svg");
 }*/
+
+
+
+/* 파일 모아보기 ===========*/
+.date {
+  margin-left: 10px;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.flex-item {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(240, 240, 240);
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flex-item:hover{
+	background-color: lightgray;
+}
+.flex-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flex-item span {
+  align-self: flex-end;
+  margin: 5px;
+  height: 25px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-item > .fileIcon {
+  width: 70px;
+  height: 70px;
+  margin-top: 25px;
+}
+
+a[href$=".pdf"] > .flex-item > .fileIcon {
+  background-image: url("/icon/file_format/pdf-file-format-symbol.png");
+  background-size: cover;
+}
+a[href$=".ppt"] > .flex-item > .fileIcon {
+  background-image: url("/icon/file_format/ppt-file-format.png");
+  background-size: cover;
+}
+a[href$=".rar"] > .flex-item > .fileIcon {
+  background-image: url("/icon/file_format/rar-file-format.png");
+  background-size: cover;
+}
+a[href$=".txt"] > .flex-item > .fileIcon {
+  background-image: url("/icon/file_format/txt-text-file-extension-symbol.png");
+  background-size: cover;
+}
+a[href$=".zip"] > .flex-item > .fileIcon {
+  background-image: url("/icon/file_format/zip-compressed-files-extension.png");
+  background-size: cover;
+}
+/* 파일 모아보기 ===========*/

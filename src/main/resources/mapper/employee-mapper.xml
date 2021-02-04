@@ -31,6 +31,17 @@
 		select e.code,e.name,d.name deptname,d.code dept_code,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
 	</select>
 
+	<select id="getTeamCount" resultType="Integer">
+		select count(*) from employee where team_code=#{team_code}
+	</select>
+
+	<select id="getTeamEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,d.code dept_code,d.name deptname,p.code pos_code,p.name posname,t.name teamname from employee e
+		inner join team t on e.team_code = t.code
+		inner join departments d on e.dept_code = d.code
+		inner join position p on e.pos_code = p.code where t.code=#{team_code}
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW

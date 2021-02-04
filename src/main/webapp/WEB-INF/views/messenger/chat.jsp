@@ -28,7 +28,7 @@
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
-                    <span><i class="fas fa-inbox"></i></span>
+                    <span><i class="fas fa-inbox" id="showFiles"></i></span>
                 </div>
             </div>
             <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
@@ -86,7 +86,7 @@
 <script>
     let cpage = 1;
     let msgBox = $("#msgBox");
-    let loginID = $("#loginID");  //${loginDTO.code}를 가리킴
+    let loginID = $("#loginID");  //${loginDTO.code}
     let lastScrollTop = 0;
 
     // 처음 채팅방 입장시 스크롤 아래로 내리기
@@ -256,6 +256,8 @@
 
         /* 파일 전송 */
         document.getElementById("file").addEventListener('change', uploadMsgFile);
+    	/* 파일 모아보기 창 띄우기 */
+        document.getElementById("showFiles").addEventListener("click",popShowFiles);
     });
 
     document.getElementById("testBtn").addEventListener("click",function (){
@@ -388,11 +390,12 @@
   //[타입별 내용부분 태그]
   function msgForm(type, classname, msg, savedname){
 	  let result;
+	  let msgOriname = encodeURIComponent(msg);
+	  savedname = encodeURIComponent(savedname);
 	  if(type=="FILE"){
-	      console.log("스톰프보내기전 파일이름 : "+ savedname + " : "+msg);
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msgOriname+"'>" + msg + "</a>";
 	  }else if(type=="IMAGE"){
-		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'><img src='/messengerFile/"+savedname+"' width='150' height='150' style='object-fit:cover;'></a>";
+		  result = "<div class='"+classname+"'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msgOriname+"'><img src='/messengerFile/"+savedname+"' width='150' height='150' style='object-fit:cover;'></a>";
 	  }else{
 		  result = "<div class='"+classname+"'>" +msg;
 	  }
@@ -414,6 +417,11 @@
 	    }
 	    return type;
     }
+	//[파일 모아보기 팝업]
+	let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
+    function popShowFiles(){
+		window.open('/messenger/showFiles?m_seq='+${seq},'',winFeature);
+	}
 
     //***************************************************************************
     /* 메세지 검색 */

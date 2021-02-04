@@ -1,5 +1,10 @@
 package kh.cocoa.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.MessageViewDTO;
 import kh.cocoa.dto.MessengerViewDTO;
@@ -14,9 +19,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
+import kh.cocoa.dto.MessengerViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessengerService;
 
 @Controller
 @RequestMapping("/messenger")
@@ -33,7 +41,10 @@ public class MessengerController {
 
     @Autowired
     private HttpSession session;
-	
+
+    @Autowired
+    private FilesService fservice;
+
     @RequestMapping("/")
     public String toIndex() {
         return "/messenger/messengerIndex";
@@ -111,7 +122,7 @@ public class MessengerController {
         List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(contents);
         //(4) 메세지 찾기
         List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
-        
+
         // 나중에 이중for문으로 정리하기
         // jArrayMember에 memberList 넣기
         for (int i = 0; i < memberList.size(); i++) {
@@ -170,6 +181,20 @@ public class MessengerController {
         return jArrayAll.toString();
     }
     
+    //파일 모아보기 팝업
+    @RequestMapping("showFiles")
+    public String showFiles(Model model, int m_seq) throws Exception {
+    	//01.전체 이미지/파일 불러오기
+    	List<FilesMsgDTO> fileList = fservice.showFileMsg(m_seq);
+    	System.out.println(fileList);
+    	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(fileList);
+    	model.addAttribute("list", list);
+    	for(FilesMsgDTO i : list) {
+    		System.out.println(i.getOrinameEncoded());
+    	}
+    	return "/messenger/showFiles";
+    }
+
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());

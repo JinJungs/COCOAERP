@@ -1,13 +1,15 @@
 package kh.cocoa.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kh.cocoa.dao.FilesDAO;
-import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 
 @Service
 public class FilesService implements FilesDAO {
@@ -57,7 +59,7 @@ public class FilesService implements FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq(String seq){
 		return fdao.getFilesListByDocSeq(seq);
 	}	
-	/* 채팅 파일 업로드 */
+	/* =============채팅 파일=============== */
 	//파일 업로드
 	@Override
 	public int uploadFilesMsg(FilesDTO fdto) { 
@@ -73,7 +75,23 @@ public class FilesService implements FilesDAO {
 	public String getSavedName(int msg_seq) {
 		return fdao.getSavedName(msg_seq);
 	}
-	/* 채팅 파일 업로드 */
+	//파일 모아보기 리스트
+	@Override
+	public List<FilesMsgDTO> showFileMsg(int m_seq){
+		List<FilesMsgDTO> list = fdao.showFileMsg(m_seq);
+		return list;
+	}
+	//파일 모아보기 리스트를 url에 넣기 위해 인코딩
+	public List<FilesMsgDTO> encodedShowFileMsg(List<FilesMsgDTO> list) throws UnsupportedEncodingException{
+		for(FilesMsgDTO dto : list) {
+			String savedname = URLEncoder.encode(dto.getSavedname(), "UTF-8");
+			String orinameEncoded = URLEncoder.encode(dto.getOriname(), "UTF-8");
+			dto.setSavedname(savedname);
+			dto.setOrinameEncoded(orinameEncoded);
+		}
+		return list;
+	}
+	/* =============채팅 파일=============== */
 
 	@Override
 	public int deleteDocFile(int seq) {
