@@ -87,7 +87,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				<!--버튼 //관리자만 보여야함-->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_create(${cpage})">글 등록</button>
+						onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>

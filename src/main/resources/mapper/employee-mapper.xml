@@ -38,4 +38,10 @@
 	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
 	</select>
+	
+	<!-- 지영  -->
+	<!--  버그리포트 -->
+	<select id="getSenderEmail" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE CODE=#{writer_code}
+	</select>
 </mapper>

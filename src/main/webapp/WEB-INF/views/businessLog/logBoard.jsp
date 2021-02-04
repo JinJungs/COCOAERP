@@ -1,30 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Log Board</title>
-<link rel="stylesheet" href="/resources/css/noBoard.css" type="text/css"
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <style>
-.tab{border-radius: 0px 10px 0px 0px;cursor:pointer;border:1px solid pink;border-bottom:none;}
+.tab{width:80px;text-align:center;border-radius: 0px 10px 0px 0px;cursor:pointer;border:1px solid pink;border-bottom:none;}
 .tab:hover{background:#115acf;color:white;}
-</style>	
+</style>
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">업무일지 보관함</h2>
-			
-			<div class="row">
-				<div class="tab col-1"><b>전체</b></div>
-				<div class="tab col-1"><b>일일</b></div>
-				<div class="tab col-1"><b>주간</b></div>
-				<div class="tab col-1"><b>월별</b></div>
-			</div>
-			
+			<input type="hidden" value="${status }"> 
+			<c:choose>
+				<c:when test="${status eq 'TEMP'}">
+					<h2 class="mb-4 board_title">업무일지 임시보관함</h2>
+				</c:when>
+				<c:when test="${status eq 'CONFIRM'}">
+					<h2 class="mb-4 board_title">업무일지 보관함</h2>
+				</c:when>
+				<c:when test="${status eq 'RAISE'}">
+					<h2 class="mb-4 board_title">확인요청 업무일지 보관함</h2>
+				</c:when>
+			</c:choose>
+
+			<ul class="nav nav-tabs">
+				<li class="nav-item"><a class="nav-link active"
+					data-toggle="tab" href="#all">전체</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#daily">일일</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#weekly">주간</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#monthly">월별</a></li>
+			</ul>
+			<!-- 공용 head -->
 			<div class="row head_box" style="border-bottom: 1px solid pink;">
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
@@ -45,41 +63,68 @@
 					<b>작성일</b>
 				</div>
 			</div>
-			
-			<div class="row contents_box" style="border-bottom: 1px solid pink;">
-				<div class="col-md-1 d-none d-md-block"></div>
-				<div class="col-sm-12 col-md-3"></div>
-				<div class="col-md-2 d-none d-md-block"></div>
-				<div class="col-md-2 d-none d-md-block"></div>
-				<div class="col-md-2 d-none d-md-block"></div>
-				<div class="col-md-2 d-none d-md-block"></div>
-			</div>
-			<div class="row" style="border-top: 1px solid pink;">
-				<div class="col-md-2  footer">
-					<button type="button" class="btn btn-primary"
-						onclick="fn_home(${cpage})">홈으로</button>
+			<!-- 리스트 보이기 -->
+			<div class="tab-content">
+				<!-- 전체 -->
+				<div class="tab-pane fade show active" id="all">
+					<div class="row tab-content current" id="tab-1"
+						style="border-bottom: 1px solid pink;">
+						<c:forEach var="i" items="${logAllList}">
+							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+							<div class="col-sm-12 col-md-3">
+								 <a href="/log/logModify.log?seq=${i.seq}">${i.title }</a>
+							</div>
+							<div class="col-md-2 d-none d-md-block">${i.name}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+						</c:forEach>
+					</div>
 				</div>
-
-				<!--네비게이션  -->
-				<div class="col-md-8 navi_box">
-					<ul class="pagination justify-content-center mb-0">${navi}</ul>
+				<!-- 일일 -->
+				<div class="tab-pane fade" id="daily">
+					<div class="row tab-content" id="tab-2"
+						style="border-bottom: 1px solid pink;">
+						<c:forEach var="i" items="${dailyList}">
+							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-md-2 d-none d-md-block">${i.name}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+						</c:forEach>
+					</div>
 				</div>
-				<div class="col-md-2  footer"></div>
+				<!-- 주간 -->
+				<div class="tab-pane fade" id="weekly">
+					<div class="row tab-content" id="tab-2"
+						style="border-bottom: 1px solid pink;">
+						<c:forEach var="i" items="${weeklyList}">
+							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-md-2 d-none d-md-block">${i.name}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+						</c:forEach>
+					</div>
+				</div>
+				<!-- 월별 -->
+				<div class="tab-pane fade" id="monthly">
+					<div class="row tab-content" id="tab-2"
+						style="border-bottom: 1px solid pink;">
+						<c:forEach var="i" items="${monthlyList}">
+							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+							<div class="col-sm-12 col-md-3">${i.title}</div>
+							<div class="col-md-2 d-none d-md-block">${i.name}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+						</c:forEach>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<script>
-	/*-----***참고하기 : tap누르면 contents_box에 불러오는 내용이 다르게 되어야함****-----*/
-            let tabs = document.getElementsByClassName("tab");
-            let contents = document.getElementsByClassName("contents_box");
-
-            for(let i=0; i<tabs.length; i++){
-                tabs[i].addEventListener("click",function(){
-                    contents[0].style.backgroundColor=tabs[i].innerHTML;
-                    contents[0].innerHTML=tabs[i].innerHTML;
-                })
-            }
-
-    </script>
 </body>
 </html>

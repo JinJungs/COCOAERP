@@ -22,11 +22,20 @@
       <div id="content" class="p-4 p-md-5 pt-5">
       <!-- 지영 -->
 
-      <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
-      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
-      <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
-      <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
-      <button type="button" onclick="fn_board()">게시판 바로가기</button>
+      <button type="button" onclick="fn_board()">회사소식 게시판 </button>
+      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 </button>
+      <button type="button" onclick="fn_albumBoard()">앨범 게시판 </button>
+      <button type="button" onclick="fn_myBoard()">내가 쓴글 </button>
+      <button type="button" onclick="fn_bugReport()">버그리포트 </button><br>
+      <button type="button" onclick="fn_logCreate()">업무일지 작성 </button>
+      <button type="button" onclick="fn_logRead()">업무일지 읽기 </button>
+      <button type="button" onclick="fn_logReqRead()">요청받은 업무일지 읽기 </button>
+      <button type="button" onclick="fn_logModify()">업무일지 수정 & 임시저장된 문서 수정 </button><br>
+      <button type="button" onclick="fn_logTempBoard()">임시저장 업무일지 보관함 </button>
+      <button type="button" onclick="fn_logBoardBox()">업무일지 보관함 </button>
+      <button type="button" onclick="fn_logReqBoard()">확인요청 업무일지 보관함</button>
+      <button type="button" onclick="fn_logSentBoard()">보낸 업무일지 보관함 </button>
+      <br>
 	<!-- 의진: 메신저 연락처-->
         <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
           <%--용국 템플릿 리스트 바로가기--%>
@@ -78,22 +87,58 @@
          }
          
          /*지영 부분*/
-         //회사소식
-	   function fn_board() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
-		}
-		//자유게시판
-		function fn_cocoaBoard(){
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
-		}
-		//앨범게시판
-		function fn_albumBoard(){
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
-		}
-		//업무일지 작성
-		function fn_logCreate(){
-			location.href = "/log/logCreate.log"
-		}
+           //회사소식
+		   function fn_board() {
+				location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
+			}
+			//자유게시판
+			function fn_cocoaBoard(){
+				location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
+			}
+			//앨범게시판
+			function fn_albumBoard(){
+				location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
+			}
+			//내가쓴글
+			function fn_myBoard(){
+				location.href = "/myBoard/myBoard.mb"
+			}
+			//업무일지 작성
+			function fn_logCreate(){
+				location.href = "/log/logCreate.log"
+			}
+			//업무일지 읽기
+			function fn_logRead(){
+				location.href = "/log/logRead.log"
+			}
+			//요청 받은 업무일지 읽기
+			function fn_logReqRead(){
+				location.href = "/log/logReqRead.log"
+			}
+			//업무일지 수정 & 임시저장된 문서 수정
+			function fn_logModify(){
+				location.href = "/log/logModify.log"
+			}
+			//임시저장 업무일지 보관함
+			function fn_logTempBoard(){
+				location.href = "/log/logBoard.log?status=TEMP"
+			}
+			//업무일지 보관함
+			function fn_logBoardBox(){
+				location.href = "/log/logBoard.log?status=CONFIRM"
+			}
+			//보낸 업무일지 보관함
+			function fn_logSentBoard(){
+				location.href = "/log/logSentBoard.log"
+			}
+			//확인요청 업무일지 보관함
+			function fn_logReqBoard(){
+				location.href = "/log/logBoard.log?status=RAISE"
+			}
+			//버그리포트
+			function fn_bugReport(){
+				location.href= "/bug" //홈컨트롤러에 있음
+			}
          
        /*의진 부분*/
        function fn_messenger() {

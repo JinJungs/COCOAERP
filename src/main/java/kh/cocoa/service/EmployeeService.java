@@ -56,5 +56,10 @@ public class EmployeeService implements EmployeeDAO {
 	public EmployeeDTO getEmpInfo(int code) {
 		return edao.getEmpInfo(code);
 	}
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code) {
+		System.out.println("서비스에서 wc는?" +writer_code);
+		return edao.getSenderEmail(writer_code);
+	}
 }
 

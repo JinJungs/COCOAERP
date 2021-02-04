@@ -24,8 +24,10 @@ input{width:50%;border-bottom:1px solid pink;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">자유게시판</h2>
 
+			<input type="hidden" id="cpage" name="cpage" value="${cpage}" />
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
-			<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -63,7 +65,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				<div class="row">
 					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
 					<div class="title col-sm-12 col-md-5"
-						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+						onclick="notificationBoardRead(${menu_seq},${i.seq},${cpage})">
 						<b>${i.title}</b>
 					</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.name}</div>
@@ -86,7 +88,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				<!--버튼 -->
 				<div class="col-md-3  footer">
 					<button type="button" class="btn btn-primary"
-						onclick="fn_create(${cpage})">글 등록</button>
+						onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
 				</div>
 			</div>
 		</div>
