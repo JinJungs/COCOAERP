@@ -1,8 +1,10 @@
 package kh.cocoa.controller;
 
 
+import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.TeamDTO;
+import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TeamService;
 import org.json.JSONArray;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +29,8 @@ public class RestOrganChartController {
     private TeamService teamService;
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private DepartmentsService departmentsService;
 
     @RequestMapping("/getteamlist.organ")
     public String getTeamList(@RequestParam("code")List<Integer> code){
@@ -64,10 +69,38 @@ public class RestOrganChartController {
     @RequestMapping("getSearchList.organ")
     public String getSearchList(@RequestParam("name") String name){
         List<EmployeeDTO> s1 = employeeService.getEmpNameSearchList(name);
-        List<EmployeeDTO> s2 = employeeService.getDeptNamesearchList(name);
+        List<EmployeeDTO> s2 = employeeService.getDeptNameSearchList(name);
         JSONArray json = new JSONArray();
         json.put(s1);
         json.put(s2);
+        return json.toString();
+    }
+
+    @RequestMapping("getEmpInfo.organ")
+    public String getEmpInfo(@RequestParam("code") int code){
+        EmployeeDTO info = employeeService.getEmpInfo(code);
+        JSONObject json = new JSONObject(info);
+        return json.toString();
+    }
+
+    @RequestMapping("getDeptEmpList.organ")
+    public String getDeptEmpList(@RequestParam("code") int code){
+        List<EmployeeDTO> info = employeeService.getDeptEmpList(code);
+        JSONArray json = new JSONArray(info);
+        return json.toString();
+    }
+
+    @RequestMapping("getDeptEmptyInfo.organ")
+    public String getDeptEmptyInfo(@RequestParam("code") int code){
+        DepartmentsDTO getDeptName = departmentsService.getDeptNameByCode(code);
+        JSONObject json = new JSONObject(getDeptName);
+        return json.toString();
+    }
+
+    @RequestMapping("getAllEmpList.organ")
+    public String getAllEmpList(){
+        List<EmployeeDTO> all =employeeService.getAllEmpListOrderByPos();
+        JSONArray json = new JSONArray(all);
         return json.toString();
     }
 }

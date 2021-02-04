@@ -49,7 +49,13 @@ public interface EmployeeDAO {
 	public List<EmployeeDTO> getEmpNameSearchList(String name);
 
 	//
-	public List<EmployeeDTO> getDeptNamesearchList(String name);
+	public List<EmployeeDTO> getDeptNameSearchList(String name);
+
+	//부서 코드에 속한 모든 emp 정보
+	public List<EmployeeDTO> getDeptEmpList(int dept_code);
+
+	//pos_code 순서로 리스트 겟
+	public List<EmployeeDTO> getAllEmpListOrderByPos();
 
 
 	//----------------- 채팅 -----------------//

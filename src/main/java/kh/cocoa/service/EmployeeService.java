@@ -95,8 +95,18 @@ public class EmployeeService implements EmployeeDAO {
 	}
 
 	@Override
-	public List<EmployeeDTO> getDeptNamesearchList(String name) {
-		return edao.getDeptNamesearchList(name);
+	public List<EmployeeDTO> getDeptNameSearchList(String name) {
+		return edao.getDeptNameSearchList(name);
+	}
+
+	@Override
+	public List<EmployeeDTO> getDeptEmpList(int dept_code) {
+		return edao.getDeptEmpList(dept_code);
+	}
+
+	@Override
+	public List<EmployeeDTO> getAllEmpListOrderByPos() {
+		return edao.getAllEmpListOrderByPos();
 	}
 
 	//----------------- 채팅 -----------------//

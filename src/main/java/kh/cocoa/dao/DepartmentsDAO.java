@@ -10,5 +10,9 @@ public interface DepartmentsDAO {
 
     public String getDeptName();
 
+    public DepartmentsDTO getDeptNameByCode(int code);
+
     public List<DepartmentsDTO> getDeptList();
+
+    public DepartmentsDTO getDept();
 }
