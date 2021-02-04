@@ -13,10 +13,14 @@ import kh.cocoa.dto.FilesDTO;
 public class FilesService implements FilesDAO {
 	@Autowired
 	private FilesDAO fdao;
-	/*-------------------**회사소식**--------------------------*/
-	//파일 업로드
+	// 게시판용 파일 업로드
 	public int uploadFiles(int noBoard_seq, FilesDTO fdto) { 
 		return fdao.uploadFiles(noBoard_seq,fdto); 
+	}
+
+	// 업무일지용 파일 업로드
+	public int uploadFilesBusinessLog(int logDoc_seq, FilesDTO fdto) {
+		return fdao.uploadFilesBusinessLog(logDoc_seq,fdto);
 	}
 	//파일 불러오기
 	public List<FilesDTO> downloadFilesBySeq(int noBoard_seq){
@@ -28,9 +32,9 @@ public class FilesService implements FilesDAO {
 	}
 	
 	//앨범게시판에서 게시글 사진 불러오기
-		public FilesDTO getImage(int board_seq) {
-			System.out.println("사진불러오기 :"+board_seq);
-			return fdao.getImage(board_seq);
+		public FilesDTO getImage(FilesDTO fdto) {
+			System.out.println("사진불러오기 :"+fdto.getBoard_seq());
+			return fdao.getImage(fdto);
 		}
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto) {
@@ -42,7 +46,6 @@ public class FilesService implements FilesDAO {
 	}
 	//파일 삭제하기
 	public int deleteNotificationBoardFiles(int seq) {
-		System.out.println("서비스 파일 삭제 seq? "+seq);
 		return fdao.deleteNotificationBoardFiles(seq);
 	}
 
@@ -76,6 +79,16 @@ public class FilesService implements FilesDAO {
 	@Override
 	public int updateFile(int seq,int b_seq) {
 		return fdao.updateFile(seq,b_seq);
+	}
+	//임시저장 업무일지 파일 불러오기
+	@Override
+	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto) {
+		return fdao.getLogFilesBySeq(seq,fdto);
+	}
+	//게시글에 업로드된 파일 갯수 확인
+	@Override
+	public int getLogUploadFileCount(FilesDTO fdto) {
+		return fdao.getLogUploadFileCount(fdto);
 	}
 	
 	

@@ -71,10 +71,14 @@
 
 				<!--관리자에게만 보이는 버튼  -->
 				<div class="button_box col-sm-3">
-					<button type="submit" class="btn btn-primary"
-						onclick="fn_modify(${cpage},${dto.seq})">수정</button>
-					<button type="button" class="btn btn-primary"
-						onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+					<c:choose>
+						<c:when test="${checkWriter>0}">
+							<button type="submit" class="btn btn-primary"
+								onclick="fn_modify(${cpage},${dto.seq})">수정</button>
+							<button type="button" class="btn btn-primary"
+								onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+						</c:when>
+					</c:choose>
 				</div>
 			</div>
 
@@ -129,8 +133,10 @@
 	                       html += "<div class='col-9'>"+data[i].contents+"</div>"
 	                       /*댓글 수정 삭제 - 작성자인 경우에만 보이도록 수정해야함*/
 	                       html += "<div class='col-sm-12 col-md-2'>";
-	                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
-	                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
+	                       /*if(data[i].checkWriter==writer_code){*/
+		                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
+		                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
+	                       /*};*/
 	                       html += "</div>";
 											
 	                       $("#commentForm").html(html);			

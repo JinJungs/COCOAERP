@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.cocoa.dto.BoardDTO;
+import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.NotificationBoardService;
@@ -36,14 +37,23 @@ public class NotificationBoardController {
 
 	@Autowired
 	private NotificationBoardService nservice;
+	
 	@Autowired
 	private FilesService fservice;
-
+	
+	@Autowired
+	private HttpSession session;
 	//게시판
 	@RequestMapping("notificationBoardList.no") 
 	public String notificationBoardList(BoardDTO dto,FilesDTO fdto,int menu_seq, String cpage,Model model) { 
+		
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		System.out.println("로그인 아이디값 "+loginDTO);
+		
+		int writer_code = (Integer)loginDTO.getCode();
+		System.out.println("여기서 직원 코드는?" +writer_code);
+		
 		if(cpage==null) {cpage="1";} 
-
 		//게시글 불러오기
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		list = nservice.getNotificationBoardListCpage(cpage,menu_seq);
@@ -52,11 +62,12 @@ public class NotificationBoardController {
 		String navi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
 		
 		model.addAttribute("navi",navi);
-		model.addAttribute("cpage",cpage);
 		model.addAttribute("list",list);
+		model.addAttribute("cpage",cpage);
 		model.addAttribute("menu_seq",menu_seq);
 
 		if(menu_seq==1) { //게시판 seq가 1인 경우 - 회사소식
+			
 			return "community/notificationBoardList"; 
 		}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
 			return "community/cocoaWorksBoardList"; 
@@ -70,11 +81,12 @@ public class NotificationBoardController {
 			String albumNavi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
 			
 			//앨범게시판 이미지 불러오기
-			//FilesDTO fdtoImg = fservice.getImage(fdto.getBoard_seq());
+			//FilesDTO imgUrl = fservice.getImage(fdto);
 			
-			//String imgUrl = "/boardRepository/" + fdtoImg.getSavedname();
 			model.addAttribute("albumNavi",albumNavi);
 			model.addAttribute("albumList",albumList);
+			model.addAttribute("cpage",cpage);
+			model.addAttribute("menu_seq",menu_seq);
 			//model.addAttribute("imgUrl",imgUrl);
 			
 			return "community/albumBoardList";
@@ -85,7 +97,12 @@ public class NotificationBoardController {
 	//게시글 읽기
 	@RequestMapping("notificationBoardRead.no")
 	public String notificationBoardRead(String cpage,BoardDTO dto,FilesDTO fdto, Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 
+		int writer_code = (Integer)loginDTO.getCode();
+		//로그인한 정보의 code를 board DTO writer_code에 넣어주기
+		dto.setWriter_code(writer_code);
+		
 		if(cpage==null) {cpage="1";}
 		//seq로 게시글 수 확인
 		int isExistReadPage = nservice.isExistReadPage(dto.getMenu_seq());
@@ -101,8 +118,12 @@ public class NotificationBoardController {
 
 			//seq으로 게시글 내용 가져와서 내용 뿌려주기
 			BoardDTO bdto = nservice.notificationBoardContentsSelect(dto);
+			
+			//게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
+			int checkWriter = nservice.checkWriter(dto);
 
 			model.addAttribute("dto",bdto);
+			model.addAttribute("checkWriter",checkWriter);
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("seq",dto.getSeq());
 			model.addAttribute("fileList", fileList);
@@ -150,7 +171,12 @@ public class NotificationBoardController {
 		//게시글 작성 페이지 이동
 		@RequestMapping("notificationBoardCreate.no")
 		public String notificationBoardCreate(String cpage,int menu_seq, Model model) {
+			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+			System.out.println("로그인 아이디값 "+loginDTO);
+			
 			if(cpage==null) {cpage="1";}
+			//사번
+			
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("menu_seq",menu_seq);
 
@@ -167,9 +193,14 @@ public class NotificationBoardController {
 		//게시글 작성 완료
 		@RequestMapping("notificationBoardCreateDone.no")
 		public String notificationBoardCreateDone(BoardDTO bdto, int menu_seq,List<MultipartFile> file,Model model) throws Exception {
+			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+
+			int writer_code = (Integer)loginDTO.getCode();
+			//로그인한 정보의 code를 board DTO writer_code에 넣어주기
+			bdto.setWriter_code(writer_code);
+			
 			//board & files seq값 동일하게 맞추기
 			int noBoard_seq = nservice.noBoardSelectSeq();
-			//bdto.setSeq(noBoard_seq); //bdto에 생성된 seq담기
 	
 			//글 작성 
 			int done = nservice.notificationBoardCreateDone(noBoard_seq,bdto,menu_seq);
@@ -237,8 +268,7 @@ public class NotificationBoardController {
 		//게시글 수정 완료
 		@RequestMapping("notificationBoardModifyDone.no")
 		public String notificationBoardModifyDone(int[] delArr,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
-			int seq = fdto.getBoard_seq();
-			System.out.println("여기서 seq값은? "+seq);
+			System.out.println("게시글 번호는 ?"+dto.getSeq());
 			//수정된 글 업로드
 			nservice.notificationBoardContentsModify(dto);
 	
@@ -274,9 +304,10 @@ public class NotificationBoardController {
 							String uid = UUID.randomUUID().toString().replaceAll("-", "");
 							String savedName = uid + "-" + oriName;
 							// dto에 값을 담아서 db에 전송
-							FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null, seq,0,0,0);
+							FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null, dto.getSeq(),0,0,0);
 	
-							int result = fservice.uploadFiles(seq,fdto1);
+							int result = fservice.uploadFiles(dto.getSeq(),fdto1);
+							System.out.println("파일 추가 결과? " +result );
 							if (result > 0) {
 								File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
 								FileCopyUtils.copy(mf.getBytes(), targetLoc);

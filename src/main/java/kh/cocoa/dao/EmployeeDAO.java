@@ -38,6 +38,9 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+	
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code);
 
 	//팀별 맴버수 뽑아오기
 	public int getTeamCount(int team_code);
