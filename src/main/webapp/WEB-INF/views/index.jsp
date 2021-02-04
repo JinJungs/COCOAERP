@@ -22,7 +22,6 @@
       <div id="content" class="p-4 p-md-5 pt-5">
       <!-- 지영 -->
 
-<<<<<<< HEAD
       <button type="button" onclick="fn_board()">회사소식 게시판 </button>
       <button type="button" onclick="fn_cocoaBoard()">자유 게시판 </button>
       <button type="button" onclick="fn_albumBoard()">앨범 게시판 </button>
