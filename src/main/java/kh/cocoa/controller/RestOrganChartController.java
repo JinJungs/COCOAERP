@@ -120,6 +120,8 @@ public class RestOrganChartController {
 
     @RequestMapping("getSearchTeamList.organ")
     public String getSearchTeamList(@RequestParam("name") String name){
-
+        List<TeamDTO> getTeam = teamService.getSearchTeamList(name);
+        JSONArray json = new JSONArray(getTeam);
+        return json.toString();
     }
 }

@@ -230,31 +230,31 @@
         if($("#search").val()==""){
             return;
         }
+        fn_getSearchTeam();
         $.ajax({
             type : "POST",
             url : "/restorganchart/getSearchList.organ",
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
-                var emp="";
-                fn_getSearchTopDept();
+                var dept="";
                 for(var i=1;i<data.length;i=i+2)
                     for(var j=0;j<data[i].length;j++){
-                        emp+="<div class='col-12 searchchild p-2' onclick=fn_clickDeptSearch("+data[i][j].code+")>";
-                        emp+="<div class=row>";
-                        emp+="<div class=col-12 style='font-size:16px; font-weight: bold'>";
-                        emp+=""+data[i][j].name+"("+data[i][j].count+")";
-                        emp+="</div>";
-                        emp+="</div>";
-                        emp+="<div class=row>";
-                        emp+="<div class=col-12>";
+                        dept+="<div class='col-12 searchchild p-2' onclick=fn_clickDeptSearch("+data[i][j].code+")>";
+                        dept+="<div class=row>";
+                        dept+="<div class=col-12 style='font-size:16px; font-weight: bold'>";
+                        dept+=""+data[i][j].name+"("+data[i][j].count+")";
+                        dept+="</div>";
+                        dept+="</div>";
+                        dept+="<div class=row>";
+                        dept+="<div class=col-12>";
 
-                        emp+="　";
-                        emp+="</div>";
-                        emp+="</div>";
-                        emp+="</div>";
+                        dept+="　";
+                        dept+="</div>";
+                        dept+="</div>";
+                        dept+="</div>";
                     }
-                fn_getSearchTeam();
+                var emp="";
                 for(var i=0;i<data.length;i=i+2){
                     for(var j=0;j<data[i].length;j++){
                         emp+="<div class='col-12 searchchild p-2' onclick=fn_clicksearch("+data[i][j].code+")>";
@@ -271,17 +271,21 @@
                         emp+="</div>";
                     }
                 }
-                $(".search").attr("class","row search p-2 mt-1 position-absolute");
+                fn_getSearchTopDept();
+                $(".search").prepend(dept);
                 $(".search").append(emp);
+                $(".search").attr("class","row search p-2 mt-1 position-absolute");
+
+
 
             }
         });
     }, 300);
 
-    $("#search").bindWithDelay("blur", function (e) {
+  /*  $("#search").bindWithDelay("blur", function (e) {
         $(".search").empty();
 
-    }, 200);
+    }, 200);*/
 
     function fn_clickEmp(code){
         fn_getEmpInfo(code);
@@ -295,6 +299,9 @@
         $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".topcontainer").css("color","blue");
         fn_getAllEmpList();
+    }
+    function fn_clickTeamSearch(code){
+
     }
 
     function fn_clickDeptSearch(code) {
@@ -333,7 +340,7 @@
                     emp += "</div>";
                     emp += "</div>";
                     emp += "</div>";
-                    $(".search").append(emp);
+                    $(".search").prepend(emp);
                 }
             }
         });
@@ -345,12 +352,13 @@
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
+                console.log(data);
                 var emp = "";
-                if (data.count!=undefined) {
-                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTopDeptSearch(" + data.code + ")>";
+                for(var i=0;i<data.length;i++){
+                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTeamSearch(" + data[i].code + ")>";
                     emp += "<div class=row>";
                     emp += "<div class=col-12 style='font-size:16px; font-weight: bold'>";
-                    emp += "" + data.name + "(" + data.count + ")";
+                    emp += "" + data[i].name + "(" + data[i].count + ")";
                     emp += "</div>";
                     emp += "</div>";
                     emp += "<div class=row>";
@@ -359,8 +367,9 @@
                     emp += "</div>";
                     emp += "</div>";
                     emp += "</div>";
-                    $(".search").append(emp);
+
                 }
+                $(".search").append(emp);
             }
         });
     }
