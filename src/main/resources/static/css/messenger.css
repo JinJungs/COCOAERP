@@ -476,3 +476,7 @@ a[href$=".zip"] .fileIcon {
   background-size: cover;
 }
 /* 파일 모아보기 ===========*/
+
+a{
+	color: var(--text-color-dark);
+}

@@ -184,9 +184,6 @@ public class MessengerController {
     	System.out.println(fileList);
     	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(fileList);
     	model.addAttribute("list", list);
-    	for(FilesMsgDTO i : list) {
-    		System.out.println(i.getOrinameEncoded());
-    	}
     	return "/messenger/showFiles";
     }
 
