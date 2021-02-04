@@ -426,7 +426,18 @@
     //***************************************************************************
     /* 메세지 검색 */
     /* 0. search 아이콘 클릭시 input 창 생성*/
-    /* 1. 입비동기로 메세지 검색*/
+    $(".fa-search").on("click",showSearchInput);
+    function showSearchInput(){
+        let html = "";
+        html += "<div>내용</div>";
+        $(".msg_head").append(html);
+    }
+
+    /* 1. 비동기로 메세지 검색*/
+
+
+
+
 </script>
 </body>
 </html>
