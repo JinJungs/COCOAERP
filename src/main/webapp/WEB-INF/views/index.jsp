@@ -36,7 +36,6 @@
       <button type="button" onclick="fn_logSentBoard()">보낸 업무일지 보관함 </button>
       <br>
 	<!-- 의진: 메신저 연락처-->
-=======
       <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
       <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
       <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
@@ -46,7 +45,6 @@
       <!-- 내정보 보기-->
       <button type="button" onclick="fn_to_myInfo()">내 정보</button>
           <!-- 의진: 메신저 연락처-->
->>>>>>> 318d8c99bc3f44b6d5ec024a3abb775c819fb15c
         <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
           <%--용국 템플릿 리스트 바로가기--%>
           <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
