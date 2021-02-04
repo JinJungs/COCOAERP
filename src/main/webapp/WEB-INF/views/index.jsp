@@ -59,7 +59,9 @@
         <input type=button value="문서대장" id=allConfirmDocBtn><br>
         <br>
         <input type=button value="메일쓰기" id=sendEmailBtn><br>
-
+        <input type=button value="받은 메일함" id=receiveBtn><br>
+		<input type=button value="보낸 메일함" id=sendBtn><br>
+		<input type=button value="휴지통(메일)" id=deleteBtn><br>
 
           <%--용국--%>
           <button type="button" onclick="fn_toBD()">결재전</button>
@@ -96,9 +98,22 @@
             location.href = "/document/allConfirmDoc.document";
          }
          
+         
          let sendEmailBtn = document.getElementById("sendEmailBtn");
          sendEmailBtn.onclick = function() {
             location.href = "/email/sendPage.email";
+         }
+         let receiveBtn = document.getElementById("receiveBtn");
+         receiveBtn.onclick = function() {
+            location.href = "/email/receiveList.email?cpage=1";
+         }
+         let sendBtn = document.getElementById("sendBtn");
+         sendBtn.onclick = function() {
+            location.href = "/email/sendList.email";
+         }
+         let deleteBtn = document.getElementById("deleteBtn");
+         deleteBtn.onclick = function() {
+            location.href = "/email/deleteList.email";
          }
          
          /*지영 부분*/

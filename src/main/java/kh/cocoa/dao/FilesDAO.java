@@ -55,11 +55,15 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq2(int seq);
 
 	public int updateFile(int seq,int b_seq);
-
+	
 	//임시저장 업무일지 파일 불러오기
 	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto);
 	
 	//게시글에 업로드된 파일 갯수 확인
 	public int getLogUploadFileCount(FilesDTO fdto);
 	
+	//이메일 파일저장
+	public int insertFile(FilesDTO dto);
+	//이메일 파일 리스트
+	public List<FilesDTO> getEmailFiles(String seq);
 }

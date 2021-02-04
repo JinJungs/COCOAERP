@@ -57,7 +57,6 @@ public class DocumentService implements DocumentDAO {
 	public String getSearchNavi(int empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status) {
 		endDate = plusOneDate(endDate);
 		int recordTotalCount = getSearchBoardCount(empCode, startDate, endDate, templateList, searchText, cpage, status);
-
 		int pageTotalCount = recordTotalCount / DocumentConfigurator.recordCountPerPage;
 		if (recordTotalCount % DocumentConfigurator.recordCountPerPage != 0) {
 			pageTotalCount++;
