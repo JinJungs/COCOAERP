@@ -31,4 +31,10 @@ public class FilesDTO {
       this.msg_seq = msg_seq;
       this.email_seq = email_seq;
    }
+   
+   public FilesDTO(String oriname, String savedname,int email_seq) {
+	  this.oriname = oriname;
+      this.savedname = savedname;
+      this.email_seq = email_seq;
+   }
 }

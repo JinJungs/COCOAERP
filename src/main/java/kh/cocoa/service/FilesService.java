@@ -95,6 +95,17 @@ public class FilesService implements FilesDAO {
 		}
 		return list;
 	}
+	//임시저장 업무일지 파일 불러오기
+	@Override
+	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto) {
+		return fdao.getLogFilesBySeq(seq,fdto);
+	}
+	//게시글에 업로드된 파일 갯수 확인
+	@Override
+	public int getLogUploadFileCount(FilesDTO fdto) {
+		return fdao.getLogUploadFileCount(fdto);
+	}
+		
 	/* =============채팅 파일=============== */
 
 	@Override
@@ -110,16 +121,14 @@ public class FilesService implements FilesDAO {
 	public int updateFile(int seq,int b_seq) {
 		return fdao.updateFile(seq,b_seq);
 	}
-	//임시저장 업무일지 파일 불러오기
+	
 	@Override
-	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto) {
-		return fdao.getLogFilesBySeq(seq,fdto);
+	public int insertFile(FilesDTO dto) {
+		return fdao.insertFile(dto);
 	}
-	//게시글에 업로드된 파일 갯수 확인
 	@Override
-	public int getLogUploadFileCount(FilesDTO fdto) {
-		return fdao.getLogUploadFileCount(fdto);
+	public List<FilesDTO> getEmailFiles(String seq) {
+		return fdao.getEmailFiles(seq);
 	}
-
 	
 }
