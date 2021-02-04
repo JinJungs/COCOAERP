@@ -567,14 +567,14 @@ public class DocumentService implements DocumentDAO {
 	}
 
 	@Override
-	public int addIsConfirm(int seq, int approver_code)
+	public int addIsConfirm(int seq, int approver_code,String comments)
 	{
-		return ddao.addIsConfirm(seq,approver_code);
+		return ddao.addIsConfirm(seq,approver_code,comments);
 	}
 
 	@Override
-	public int addRIsConfirm(int seq, int approver_code) {
-		return ddao.addRIsConfirm(seq,approver_code);
+	public int addRIsConfirm(int seq, int approver_code,String comments) {
+		return ddao.addRIsConfirm(seq,approver_code,comments);
 	}
 
 	@Override

@@ -29,7 +29,7 @@
 	<select id="getImage" resultType="kh.cocoa.dto.FilesDTO">
       select * from files where BOARD_SEQ=#{board_seq}
    </select>
-<!-- 파일 다운로드 -->	
+<!-- 파일 다운로드 -->
 	<select id="downloadFilesBySeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE BOARD_SEQ=#{noBoard_seq}
 	</select>
@@ -57,7 +57,7 @@
 
 	<!-- 메세지 파일 업로드 -->
 	<insert id="uploadFilesMsg">
-		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, #{fdto.savedname}, SYSDATE, 0, 0, #{msg_seq})
+		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE)
 	</insert>
 
 

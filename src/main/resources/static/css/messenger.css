@@ -1,10 +1,13 @@
 :root {
-  --main-color: #9d86de;
-  --main-background-color: #fcf6f5;
+  --main-color: #e2e8eb; /*#9d86de*/
+  --main-background-color: #ffffff;
+  --chat-background-color: #e8eaed;
   --submain-color: hsl(0, 0%, 81%);
   --sendMsg-color: #c6b5ed;
-  --getMsg-color: #f3d5ed;
+  --getMsg-color: #ffffff;
+  --subMsg-color: #94bfe7;
   --text-color-dark: #575757;
+  --text-color-medium: #bfbfbf;
   --text-color-light: #c9c9c9;
 }
 
@@ -17,6 +20,10 @@ html {
 body {
   min-width: 400px;
   min-height: 660px;
+}
+.align-center{
+  float: none;
+  margin: 0 auto;
 }
 
 /* ====== hide file input ===== */
@@ -40,6 +47,12 @@ body {
 .bgMain {
   background-color: var(--main-color) !important;
 }
+.chatBgMain{
+  background-color: var(--chat-background-color) !important;
+}
+.whiteBg{
+  background-color: var(--main-background-color) !important;
+}
 
 .chat {
   margin-top: auto;
@@ -56,13 +69,15 @@ body {
 }
 .msg_card_body {
   overflow-y: auto;
+  background-color: var(--chat-background-color);
 }
 .card-header {
-  border-radius: 15px 15px 0 0;
+  border-radius: 0 0 0 0;
   border-bottom: 0;
+  background-color: white;
 }
 .card-footer {
-  border-radius: 0 0 15px 15px;
+  border-radius: 0 0 0 0;
   border-top: 0;
   background-color: white;
   height: 120px;
@@ -71,9 +86,9 @@ body {
   align-content: center;
 }
 .search {
-  border-radius: 15px 0 0 15px;
+  border-radius: 2px 2px 2px 2px;
   border: 0;
-  color: white;
+  background-color: var(--main-color);
 }
 .search:focus {
   box-shadow: none;
@@ -126,12 +141,14 @@ body {
 .user_img {
   height: 60px;
   width: 60px;
-  border: 1.5px solid #f5f6fa;
+  border: 1.5px solid var(--text-color-light);
+  background-color: var(--subMsg-color);
 }
 .user_img_msg {
   height: 40px;
   width: 40px;
-  border: 1.5px solid #f5f6fa;
+  border: 1.5px solid var(--text-color-light);
+  background-color: var(--subMsg-color);
 }
 .img_cont {
   position: relative;
@@ -172,14 +189,16 @@ background-color: #c23616;
   color: var(--text-color-dark);
 }
 .video_cam {
-  margin-left: 50px;
-  margin-top: 5px;
+  margin-left: 150px;
 }
 .video_cam span {
-  color: white;
+  color: var(--text-color-medium);
   font-size: 20px;
   cursor: pointer;
   margin-right: 20px;
+}
+.video_cam span:hover {
+  color: var(--text-color-dark);
 }
 .msg_cotainer {
   margin-top: auto;
@@ -187,6 +206,7 @@ background-color: #c23616;
   margin-left: 10px;
   border-radius: 2px;
   background-color: var(--getMsg-color);
+  font-size: 14px;
   padding: 10px;
   position: relative;
 }
@@ -196,6 +216,7 @@ background-color: #c23616;
   margin-right: 10px;
   border-radius: 2px;
   background-color: var(--sendMsg-color);
+  font-size: 14px;
   padding: 10px;
   position: relative;
 }
@@ -220,9 +241,12 @@ background-color: #c23616;
   position: absolute;
   right: 10px;
   top: 10px;
-  color: white;
+  color: var(--text-color-medium);
   cursor: pointer;
   font-size: 20px;
+}
+#action_menu_btn:hover {
+  color: var(--text-color-dark);
 }
 .action_menu {
   z-index: 1;
@@ -286,6 +310,9 @@ background-color: #c23616;
 .con-sidebar > a {
   color: var(--text-color-dark);
 }
+.con-sidebar > a >div:hover {
+  background-color: var(--text-color-light);
+}
 a {
   text-decoration: none;
 }
@@ -325,3 +352,10 @@ a:hover {
   width: 100%;
 }
 /* 20210122*/
+
+.border-top{
+  border-top: 1px solid var(--text-color-light);
+}
+.searchMenu div:hover{
+  cursor: pointer;
+}

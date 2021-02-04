@@ -22,6 +22,7 @@
       <div id="content" class="p-4 p-md-5 pt-5">
       <!-- 지영 -->
 
+<<<<<<< HEAD
       <button type="button" onclick="fn_board()">회사소식 게시판 </button>
       <button type="button" onclick="fn_cocoaBoard()">자유 게시판 </button>
       <button type="button" onclick="fn_albumBoard()">앨범 게시판 </button>
@@ -36,6 +37,17 @@
       <button type="button" onclick="fn_logSentBoard()">보낸 업무일지 보관함 </button>
       <br>
 	<!-- 의진: 메신저 연락처-->
+=======
+      <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
+      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
+      <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
+      <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
+      <button type="button" onclick="fn_board()">게시판 바로가기</button>
+
+      <!-- 내정보 보기-->
+      <button type="button" onclick="fn_to_myInfo()">내 정보</button>
+          <!-- 의진: 메신저 연락처-->
+>>>>>>> 318d8c99bc3f44b6d5ec024a3abb775c819fb15c
         <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
           <%--용국 템플릿 리스트 바로가기--%>
           <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
@@ -48,6 +60,8 @@
         <input type=button value="회수한" id=returnBtn><br>
         <input type=button value="전체보기" id=allDocBtn><br>
         <input type=button value="문서대장" id=allConfirmDocBtn><br>
+        <br>
+        <input type=button value="메일쓰기" id=sendEmailBtn><br>
 
 
           <%--용국--%>
@@ -83,6 +97,11 @@
          let allConfirmDocBtn = document.getElementById("allConfirmDocBtn");
          allConfirmDocBtn.onclick = function() {
             location.href = "/document/allConfirmDoc.document";
+         }
+         
+         let sendEmailBtn = document.getElementById("sendEmailBtn");
+         sendEmailBtn.onclick = function() {
+            location.href = "/email/sendPage.email";
          }
          
          /*지영 부분*/
@@ -134,6 +153,27 @@
 			function fn_bugReport(){
 				location.href= "/bug" //홈컨트롤러에 있음
 			}
+         //회사소식
+	   function fn_board() {
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
+		}
+		//자유게시판
+		function fn_cocoaBoard(){
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
+		}
+		//앨범게시판
+		function fn_albumBoard(){
+			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
+		}
+		//업무일지 작성
+		function fn_logCreate(){
+			location.href = "/log/logCreate.log"
+		}
+
+		/*내정보보기*/
+       function fn_to_myInfo(){
+            location.href = "/membership/myInfo"
+       }
          
        /*의진 부분*/
        function fn_messenger() {
@@ -149,7 +189,7 @@
        function fn_toNFD(){location.href="/document/toNFDocument.document?cpage=1"}
        function fn_toFD(){location.href="/document/toFDocument.document?cpage=1"}
        function fn_toRD(){location.href="/document/toRDocument.document?cpage=1"}
-   	
+
    </script>
         
       </div>

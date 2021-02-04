@@ -85,10 +85,13 @@
 									<c:choose>
 										<c:when test="${list.isConfirm eq 'N'}">
 										미결재
-									</c:when>
+										</c:when>
 										<c:when test="${list.isConfirm eq 'Y'}">
 										결재
-									</c:when>
+										</c:when>
+										<c:when test="${list.isConfirm eq 'R'}">
+										반려
+										</c:when>
 									</c:choose>
 								</div>
 							</div>
@@ -143,22 +146,50 @@
 				<div class="row w-100 pt-3 mt-3"  style="border-top: 1px solid #c9c9c9">
 					<div class="col-12 contents mb-6">${dto.contents }</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<c:if test="${auth==1}">
-		<div class="container-fluid p-0"
-			 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
-			<div class="row">
-				<div class="col-12 p-3 text-center">
-					<c:if test="${canReturn==0}">
-						<button class="btn btn-secondary" onclick="fn_return(${dto.seq})">반려하기</button>
+				<div class="row w-100 pt-3">
+					<c:if test="${auth==1}">
+						<div class="col-12 p-3 text-right">
+							<button class="btn btn-dark" data-toggle="modal" data-target="#myModal">반려/결재</button>
+						</div>
 					</c:if>
-					<button class="btn btn-dark" onclick="fn_confirm(${dto.seq})">결재하기</button>
 				</div>
 			</div>
 		</div>
-	</c:if>
+	</div>
+
+	<div class="modal" id="myModal" tabindex="-1" >
+		<div class="modal-dialog modal-dialog-centered" style="min-width: 600px;">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row w-100" style="border-bottom: 1px solid #c9c9c9">
+							<div class="col-12 p-2">
+								<h5>결재</h5>
+							</div>
+						</div>
+						<div class="row w-100">
+							<div class="col-3 p-2">결재 상태</div>
+							<div class="col-2 p-2" ><input type="radio" name="confirm" value="승인" checked><span class="p-1">승인</span></div>
+							<c:if test="${canReturn==0}">
+								<div class="col-2 p-2"><input type="radio" name="confirm" value="반려"><span class="p-1">반려</span></div>
+							</c:if>
+						</div>
+						<div class="row w-100">
+							<div class="col-3 p-2">결재 의견</div>
+							<div class="col-9 p-2"><textarea class="w-100" id="comments" style="min-height: 200px"></textarea></div>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer d-flex justify-content-center">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-dark" onclick="fn_confirm(${dto.seq})" data-dismiss="modal">적용</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 	<c:if test="${dto.writer_code == empCode }">
 		<c:choose>
 			<c:when test="${dto.status eq 'TEMP'}">
@@ -212,12 +243,15 @@
 		function fn_reWrite(seq){
 			location.href="/document/reWrite.document?seq="+seq;
 		}
-        function fn_return(seq){
-            location.href="/document/return.document?seq="+seq;
-        }
-        function fn_confirm(seq){
-            location.href="/document/confirm.document?seq="+seq;
-        }
+		function fn_confirm(seq){
+			var radioval = $("input:radio[name='confirm']:checked").val();
+			var comments = $("#comments").val();
+			if(radioval=="승인") {
+				location.href = "/document/confirm.document?seq="+seq+"&comments="+comments;
+			}else{
+				location.href = "/document/return.document?seq="+seq+"&comments="+comments;
+			}
+		}
 
 
 	</script>

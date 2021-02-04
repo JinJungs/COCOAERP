@@ -124,9 +124,9 @@ public interface DocumentDAO {
 	//마지막 순서인지.
 	public int getIsLast(int seq);
 
-	public int addIsConfirm(int seq, int approver_code);
+	public int addIsConfirm(int seq, int approver_code,String comments);
 
-	public int addRIsConfirm(int seq,int approver_code);
+	public int addRIsConfirm(int seq,int approver_code,String comments);
 
 	public int canRetrun(int seq);
 }

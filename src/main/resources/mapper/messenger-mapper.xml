@@ -9,4 +9,12 @@
           AND M.EMP_CODE !=#{code}
             AND M.EMP_CODE=E.CODE
     </select>
+    <select id="getMessengerPartyEmpInfo" resultType="kh.cocoa.dto.MessengerViewDTO">
+        SELECT E.CODE, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
+        FROM MESSENGER_VIEW M,
+             EMPLOYEE_VIEW E
+        WHERE SEQ=#{seq}
+          AND M.EMP_CODE !=#{code}
+          AND M.EMP_CODE=E.CODE
+    </select>
 </mapper>
