@@ -6,10 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>통합검색</title>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
           integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -55,7 +52,7 @@
             <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
             <div class="container" id="memberAll">
                 <c:choose>
-                    <c:when test="${(empty memberList) && (empty deptList) && (empty teamList)}">
+                    <c:when test="${(empty memberList) && (empty deptList) && (empty teamList) &&(empty messageList)}">
                         검색결과가 없습니다.
                     </c:when>
                     <c:otherwise>
@@ -120,6 +117,33 @@
                                                     <p>${i.deptname}/${i.teamname}</p>
                                                 </div>
                                             </a>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </ui>
+                        </c:if>
+                        <c:if test="${not empty messageList}">
+                            <div class="row mb-2 m-0">메세지</div>
+                            <ui class="contacts m-0 p-0">
+                                <c:forEach var="i" items="${messageList}">
+                                    <li class="con-list">
+                                        <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})">
+                                            <div class="img_cont">
+                                                <img src="/img/profile-default.jpg" class="rounded-circle user_img">
+                                            </div>
+                                            <div class="user_info">
+                                                <span style="font-size: 16px;">${i.contents}</span>
+                                                <p><span><i class="far fa-comment"></i>
+                                                <c:choose>
+                                                    <c:when test="${i.m_type=='S'}"> <!--1:1채팅방-->
+                                                        ${i.party_empname}
+                                                    </c:when>
+                                                    <c:otherwise> <!--1:N채팅방-->
+                                                        ${i.name}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                </span>&nbsp;${i.empname} | ${i.write_date}</p>
+                                            </div>
                                         </div>
                                     </li>
                                 </c:forEach>
@@ -218,6 +242,41 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <!-- 메세지 -->
+            <div class="container" id="memberMessage">
+                <c:choose>
+                    <c:when test="${not empty messageList}">
+                        <div class="row mb-2 m-0">메세지-검색결과</div>
+                        <ui class="contacts m-0 p-0">
+                            <c:forEach var="i" items="${messageList}">
+                                <li class="con-list">
+                                    <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})">
+                                        <div class="img_cont">
+                                            <img src="/img/profile-default.jpg" class="rounded-circle user_img">
+                                        </div>
+                                        <div class="user_info">
+                                            <span style="font-size: 16px;">${i.contents}</span>
+                                            <p><span><i class="far fa-comment"></i>
+                                                <c:choose>
+                                                    <c:when test="${i.m_type=='S'}"> <!--1:1채팅방-->
+                                                        ${i.party_empname}
+                                                    </c:when>
+                                                    <c:otherwise> <!--1:N채팅방-->
+                                                        ${i.name}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </span>&nbsp;${i.empname} | ${i.write_date}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </c:forEach>
+                        </ui>
+                    </c:when>
+                    <c:otherwise>
+                        검색결과가 없습니다.
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
     </div>
 </div>
@@ -228,14 +287,14 @@
     let memberMember = document.getElementById("memberMember");
     let memberDept = document.getElementById("memberDept");
     let memberTeam = document.getElementById("memberTeam");
-    //let memberMessage = document.getElementById("memberMessage");
+    let memberMessage = document.getElementById("memberMessage");
     let searchKeyword = $("#searchKeyword").val();
 
     document.getElementById("searchAll").addEventListener('click', showAll);
     document.getElementById("searchMember").addEventListener('click', showMember);
     document.getElementById("searchDept").addEventListener('click', showDept);
     document.getElementById("searchTeam").addEventListener('click', showTeam);
-    //let showMessage = document.getElementById("showMessage");
+    document.getElementById("searchMessage").addEventListener('click', showMessage);
 
     $(document).ready(function () {
         //전체라는 글자를 굵게하는 효과
@@ -258,11 +317,12 @@
         memberMember.style.display = "none";
         memberDept.style.display = "none";
         memberTeam.style.display = "none";
+        memberMessage.style.display = "none";
         $("#searchAll").css("font-weight", "Bold");
         $("#searchMember").css("font-weight", "normal");
         $("#searchDept").css("font-weight", "normal");
         $("#searchTeam").css("font-weight", "normal");
-        //memberMessage.style.display="none";
+        $("#searchMessage").css("font-weight", "normal");
     };
 
     function showMember() {
@@ -270,11 +330,12 @@
         memberMember.style.display = "block";
         memberDept.style.display = "none";
         memberTeam.style.display = "none";
+        memberMessage.style.display = "none";
         $("#searchAll").css("font-weight", "normal");
         $("#searchMember").css("font-weight", "Bold");
         $("#searchDept").css("font-weight", "normal");
         $("#searchTeam").css("font-weight", "normal");
-        //memberMessage.style.display="none";
+        $("#searchMessage").css("font-weight", "normal");
     };
 
     function showDept() {
@@ -282,11 +343,12 @@
         memberMember.style.display = "none";
         memberDept.style.display = "block";
         memberTeam.style.display = "none";
+        memberMessage.style.display = "none";
         $("#searchAll").css("font-weight", "normal");
         $("#searchMember").css("font-weight", "normal");
         $("#searchDept").css("font-weight", "Bold");
         $("#searchTeam").css("font-weight", "normal");
-        //memberMessage.style.display="none";
+        $("#searchMessage").css("font-weight", "normal");
     };
 
     function showTeam() {
@@ -294,12 +356,26 @@
         memberMember.style.display = "none";
         memberDept.style.display = "none";
         memberTeam.style.display = "block";
+        memberMessage.style.display = "none";
         $("#searchAll").css("font-weight", "normal");
         $("#searchMember").css("font-weight", "normal");
         $("#searchDept").css("font-weight", "normal");
         $("#searchTeam").css("font-weight", "Bold");
-        //memberMessage.style.display="none";
+        $("#searchMessage").css("font-weight", "normal");
     };
+
+    function showMessage() {
+        memberAll.style.display = "none";
+        memberMember.style.display = "none";
+        memberDept.style.display = "none";
+        memberTeam.style.display = "none";
+        memberMessage.style.display = "block";
+        $("#searchAll").css("font-weight", "normal");
+        $("#searchMember").css("font-weight", "normal");
+        $("#searchDept").css("font-weight", "normal");
+        $("#searchTeam").css("font-weight", "normal");
+        $("#searchMessage").css("font-weight", "Bold");
+    }
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click", searchAjax);
@@ -313,6 +389,13 @@
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
         searchAjax();
     });
+
+    // room의 seq를 받아 해당 채팅방으로 이동
+    let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
+
+    function toChatRoom(seq) {
+        window.open('/messenger/chat?seq=' + seq, '', winFeature);
+    }
 
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax() {
@@ -329,15 +412,14 @@
                 let jArrayMember = resp[0];
                 let jArrayDept = resp[1];
                 let jArrayTeam = resp[2];
-                // 내용초기화
-                memberAll.innerHTML = "";
+                let jArrayMessage = resp[3];
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                 // 전체
-                if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0) {
+                if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0 && jArrayMessage.length == 0) {
                     memberAll.innerHTML = "검색결과가 없습니다.";
-                }else{
+                } else {
                     let html = "";
-                    if(jArrayMember.length != 0){
+                    if (jArrayMember.length != 0) {
                         html += "<div class='row mb-2 m-0'>멤버</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMember.length; i++) {
@@ -354,7 +436,7 @@
                         }
                         html += "</ui>";
                     }
-                    if(jArrayDept.length != 0){
+                    if (jArrayDept.length != 0) {
                         html += "<div class='row mb-2 m-0'>부서</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayDept.length; i++) {
@@ -371,7 +453,7 @@
                         }
                         html += "</ui>";
                     }
-                    if(jArrayTeam.length != 0){
+                    if (jArrayTeam.length != 0) {
                         html += "<div class='row mb-2 m-0'>팀</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayTeam.length; i++) {
@@ -388,13 +470,35 @@
                         }
                         html += "</ui>";
                     }
+                    if (jArrayMessage.length != 0){
+                        html += "<div class='row mb-2 m-0'>메세지</div>";
+                        html += "<ui class='contacts m-0 p-0'>";
+                        for (let i = 0; i < jArrayMessage.length; i++) {
+                            html += "<li class='con-list'>";
+                            html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
+                            html += "<div class='img_cont'>";
+                            html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
+                            html += "</div>";
+                            html += "<div class='user_info'>";
+                            html += "<span style='font-size: 16px;'>"+jArrayMessage[i].contents+"</span>";
+                            html += "<p><span><i class='far fa-comment'></i>";
+                            if (jArrayMessage[i].m_type == 'S') {
+                                html += jArrayMessage[i].party_empname
+                            } else {
+                                html += jArrayMessage[i].name
+                            }
+                            html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+jArrayMessage[i].write_date+"</p>";
+                            html += "</div></div></li>";
+                        }
+                        html += "</ui>";
+                    }
                     memberAll.innerHTML = html;
                 }
 
                 // 멤버
                 if (jArrayMember.length == 0) {
                     memberMember.innerHTML = "검색결과가 없습니다.";
-                }else {
+                } else {
                     let html = "";
                     html += "<div class='row mb-2 m-0'>멤버-검색결과</div>";
                     html += "<ui class='contacts m-0 p-0'>";
@@ -417,7 +521,7 @@
                 // 부서
                 if (jArrayDept.length == 0) {
                     memberDept.innerHTML = "검색결과가 없습니다.";
-                }else{
+                } else {
                     let html = "";
                     html += "<div class='row mb-2 m-0'>부서-검색결과</div>";
                     html += "<ui class='contacts m-0 p-0'>";
@@ -440,7 +544,7 @@
                 // 팀
                 if (jArrayTeam.length == 0) {
                     memberTeam.innerHTML = "검색결과가 없습니다.";
-                }else {
+                } else {
                     let html = "";
                     html += "<div class='row mb-2 m-0'>팀-검색결과</div>";
                     html += "<ui class='contacts m-0 p-0'>";
@@ -458,6 +562,34 @@
                     }
                     html += "</ui>";
                     memberTeam.innerHTML = html;
+                }
+
+                // 메세지
+                if (jArrayMessage.length == 0) {
+                    memberMessage.innerHTML = "검색결과가 없습니다.";
+                } else {
+                    let html = "";
+                    html += "<div class='row mb-2 m-0'>메세지-검색결과</div>";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayMessage.length; i++) {
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
+                        html += "<div class='img_cont'>";
+                        html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
+                        html += "</div>";
+                        html += "<div class='user_info'>";
+                        html += "<span style='font-size: 16px;'>"+jArrayMessage[i].contents+"</span>";
+                        html += "<p><span><i class='far fa-comment'></i>";
+                        if (jArrayMessage[i].m_type == 'S') {
+                            html += jArrayMessage[i].party_empname
+                        } else {
+                            html += jArrayMessage[i].name
+                        }
+                        html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+jArrayMessage[i].write_date+"</p>";
+                        html += "</div></div></li>";
+                    }
+                    html += "</ui>";
+                    memberMessage.innerHTML = html;
                 }
             }
         })
