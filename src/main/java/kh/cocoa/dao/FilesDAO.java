@@ -46,4 +46,9 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq2(int seq);
 
 	public int updateFile(int seq,int b_seq);
+	
+	//이메일 파일저장
+	public int insertFile(FilesDTO dto);
+	//이메일 파일 리스트
+	public List<FilesDTO> getEmailFiles(String seq);
 }

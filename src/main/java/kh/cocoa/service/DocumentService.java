@@ -57,7 +57,6 @@ public class DocumentService implements DocumentDAO {
 	public String getSearchNavi(int empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status) {
 		endDate = plusOneDate(endDate);
 		int recordTotalCount = getSearchBoardCount(empCode, startDate, endDate, templateList, searchText, cpage, status);
-
 		int pageTotalCount = recordTotalCount / DocumentConfigurator.recordCountPerPage;
 		if (recordTotalCount % DocumentConfigurator.recordCountPerPage != 0) {
 			pageTotalCount++;
@@ -567,14 +566,14 @@ public class DocumentService implements DocumentDAO {
 	}
 
 	@Override
-	public int addIsConfirm(int seq, int approver_code)
+	public int addIsConfirm(int seq, int approver_code,String comments)
 	{
-		return ddao.addIsConfirm(seq,approver_code);
+		return ddao.addIsConfirm(seq,approver_code,comments);
 	}
 
 	@Override
-	public int addRIsConfirm(int seq, int approver_code) {
-		return ddao.addRIsConfirm(seq,approver_code);
+	public int addRIsConfirm(int seq, int approver_code,String comments) {
+		return ddao.addRIsConfirm(seq,approver_code,comments);
 	}
 
 	@Override

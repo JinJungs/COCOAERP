@@ -18,6 +18,10 @@ public class EmailDTO {
 	private String receiver;
 	private String status;
 	
+	//추가부분
+	private String rownumber;
+	private String write_dateString;
+	
 	@Builder
 	public EmailDTO(int seq, String title, String contents, Date write_date, int parent, String sender, String receiver,
 			String status) {

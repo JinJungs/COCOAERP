@@ -16,6 +16,7 @@ public class ConfirmDTO {
     private String isConfirm;
     private Date confirm_date;
     private int doc_seq;
+    private String comments;
     
     //추가부분
     private String emp_name;
@@ -24,7 +25,7 @@ public class ConfirmDTO {
     
     @Builder
 	public ConfirmDTO(int seq, int approver_code, int approver_order, String isConfirm, Date confirm_date,
-			int doc_seq) {
+			int doc_seq, String comments) {
 		super();
 		this.seq = seq;
 		this.approver_code = approver_code;
@@ -32,5 +33,6 @@ public class ConfirmDTO {
 		this.isConfirm = isConfirm;
 		this.confirm_date = confirm_date;
 		this.doc_seq = doc_seq;
+		this.comments = comments;
 	}
 }

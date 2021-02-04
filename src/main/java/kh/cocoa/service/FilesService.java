@@ -76,6 +76,13 @@ public class FilesService implements FilesDAO {
 	public int updateFile(int seq,int b_seq) {
 		return fdao.updateFile(seq,b_seq);
 	}
-	
+	@Override
+	public int insertFile(FilesDTO dto) {
+		return fdao.insertFile(dto);
+	}
+	@Override
+	public List<FilesDTO> getEmailFiles(String seq) {
+		return fdao.getEmailFiles(seq);
+	}
 	
 }

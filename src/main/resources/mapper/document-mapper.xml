@@ -810,7 +810,15 @@
 	</update>
 
 	<update id="addRIsConfirm">
-		update doc_confirm set isconfirm='R',confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+		<choose>
+			<when test="comments==null">
+				update doc_confirm set isconfirm='R', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</when>
+			<otherwise>
+				update doc_confirm set comments=#{comments}, isconfirm='R',confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</otherwise>
+		</choose>
+
 	</update>
 
 	<select id="getIsLast" resultType="int">
@@ -821,7 +829,17 @@
 		update document set final_date=sysdate,status='CONFIRM' where seq=#{seq}
 	</update>
 	<update id="addIsConfirm">
-		update doc_confirm set isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+		<choose>
+			<when test="comments==null">
+				update doc_confirm set isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</when>
+			<otherwise>
+				update doc_confirm set comments=#{comments}, isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</otherwise>
+		</choose>
+
+
+
 	</update>
 
 	<select id="canRetrun" resultType="Integer">

@@ -61,4 +61,10 @@
 		update files set document_seq=#{seq} where document_seq=#{b_seq}
 	</update>
 
+	<insert id="insertFile">
+		INSERT INTO FILES(SEQ, ORINAME, SAVEDNAME, UPLOADEDDATE, EMAIL_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{email_seq})
+	</insert>
+	<select id="getEmailFiles" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE EMAIL_SEQ=#{seq}
+	</select>
 </mapper>

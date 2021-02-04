@@ -105,21 +105,24 @@ public class FilesController {
 	public void upload( @RequestParam("fileUpload") MultipartFile file ) throws IOException {
 		System.out.println("파일컨트롤러 uploadMessengerFile 도착");
 		System.out.println("File : "+file);
+		System.out.println(file.getOriginalFilename());
+
+
     	int resultF = 0;
     	String fileRoot = Configurator.messengerFileRoute; //파일 저장할 경로
 		File filesPath = new File(fileRoot);
 		//폴더 없으면 만들기
 		if(!filesPath.exists()) {filesPath.mkdir();}
-		
+
 		if(file!=null) {
 	    	//01-1.파일에 대한 정보 Files 테이블에 저장
 			String oriName = file.getOriginalFilename();
 			String uid = UUID.randomUUID().toString().replaceAll("-", "");
 			String savedName = uid + "-" + oriName;
-			
+
 	    	//파일 dto 인서트
 			FilesDTO fdto = new FilesDTO().builder().oriname(oriName).savedname(savedName).build();
-			resultF = fservice.uploadFilesMsg(fdto); 
+			resultF = fservice.uploadFilesMsg(fdto);
 			System.out.println("resultF : "+resultF);
 			//03. 02가 성공하면 지정 경로에 파일 저장
 			if (resultF > 0) {

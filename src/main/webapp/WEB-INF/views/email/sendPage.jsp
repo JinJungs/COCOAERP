@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<script src="/js/jquery.MultiFile.min.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
 #contents{
@@ -27,23 +27,21 @@ textarea{
 	min-height: 300px;
 	max-height: 300px;
 }
-
 </style>
 </head>
 <body>
-
    <div class="wrapper d-flex align-items-stretch">
       <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5" style="min-width: 400px;">
       	<h2 class="mb-4">메일 작성</h2>
       	<div class="emailContainer pt-4 pl-4 pr-4 pb-3">
-      		<form action="/email/sendEmail.email" method=post id=form>
+      		<form action="/email/sendEmail.email" method=post id=form enctype="multipart/form-data">
 	      		<div class="row mb-3">
 	      			<div class="col-3 col-sm-2">
 	      				제목
 	      			</div>
 	      			<div class="col-9 col-sm-10 pr-5">
-	      				<input type=text name=title id=title>
+	      				<input type=text name=title id=title value="${dto.title }" maxlength=35>
 	      			</div>
 	      		</div>
 	      		
@@ -52,7 +50,7 @@ textarea{
 	      				받는사람
 	      			</div>
 	      			<div class="col-9 col-sm-10 pr-5">
-	      				<input type=text name=receiver id=receiver required>
+	      				<input type=text name=receiver id=receiver value="${dto.sender }" required>
 	      			</div>
 	      		</div>
 	      		
@@ -61,16 +59,14 @@ textarea{
 	      				파일첨부
 	      			</div>
 	      			<div class="col-5">
-	      				<input type=file>
+	      				<input type=file name=file multiple=multiple>
 	      			</div>
 	      		</div>
-	      		
 	      		<div class="row">
 	      			<div class="col-12">
-	      				<textarea name=contents id=contents></textarea>
+	      				<textarea name=contents id=contents autofocus>${dto.contents }</textarea>
 	      			</div>
 	      		</div>
-	      		
 	      		<div class="row mt-1">
 	      			<div class="col-10"></div>
 	      			<div class="col-1">

@@ -370,7 +370,6 @@ public class DocumentController {
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
-		System.out.println("getauth?="+getAuth);
 		
 		String confirmStatus = cservice.isConfirmed(seq);
 		model.addAttribute("canReturn",canreturn);
@@ -396,9 +395,6 @@ public class DocumentController {
 	//파일 다운로드
 	@RequestMapping("fileDownload.document")
 	public void download(FilesDTO dto, HttpServletResponse resp) throws Exception {
-		System.out.println("요청된 파일Seq: " + dto.getSeq());
-		System.out.println("요청된 파일 SavedName: " + dto.getSavedname());
-
 		String filePath = Configurator.boardFileRootC;
 		File targetFile = new File(filePath + "/" + dto.getSavedname());
 		// 다음 위치에 있는 파일을 파일 객체로 만든다 -> 정보를 뽑아낼 수 있게 하기 위해서
@@ -418,7 +414,6 @@ public class DocumentController {
 			sos.flush();
 			sos.close();
 		}
-		//return "redirect:/document/toReadPage.document?seq="+docSeq;
 	}
 
 	
@@ -719,27 +714,27 @@ public class DocumentController {
 	}
 
 	@RequestMapping("confirm.document")
-	public String confirm(int seq){
+	public String confirm(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		int getIsLast =dservice.getIsLast(seq);
-		System.out.println("islast?"+getIsLast);
+
 		if(getIsLast==1){
 			dservice.confirm(seq,empCode);
-			dservice.addIsConfirm(seq,empCode);
+			dservice.addIsConfirm(seq,empCode,comments);
 		}else{
-			dservice.addIsConfirm(seq,empCode);
+			dservice.addIsConfirm(seq,empCode,comments);
 		}
 
 		return "redirect:/";
 	}
 
 	@RequestMapping("return.document")
-	public String returnD(int seq){
+	public String returnD(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		dservice.returnD(seq,empCode);
-		dservice.addRIsConfirm(seq,empCode);
+		dservice.addRIsConfirm(seq,empCode,comments);
 		return "redirect:/";
 	}
 
