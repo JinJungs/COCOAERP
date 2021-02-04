@@ -68,6 +68,7 @@
           <button type="button" onclick="fn_toNFD()">진행중</button>
           <button type="button" onclick="fn_toFD()">완료된</button>
           <button type="button" onclick="fn_toRD()">반려한</button>
+          <button type="button" onclick="fn_toOrgan()">조직도</button>
         <script>
          let temporaryBtn = document.getElementById("temporaryBtn");
          temporaryBtn.onclick = function() {
@@ -201,6 +202,7 @@
        function fn_toNFD(){location.href="/document/toNFDocument.document?cpage=1"}
        function fn_toFD(){location.href="/document/toFDocument.document?cpage=1"}
        function fn_toRD(){location.href="/document/toRDocument.document?cpage=1"}
+       function fn_toOrgan(){location.href="/organ/toOrganChart.organ"}
 
    </script>
         
