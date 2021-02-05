@@ -526,7 +526,7 @@
                         highlightSearch(resp[index].seq, searchContents);
                         // (3) 띠용 - 왜 안되지..ㅠㅜㅜcss animation 공부...
                         // animateMessage(resp[index].seq);
-                    }, 1000);
+                    }, 300);
 
                     $("#searchContents").on("keydown", function (e) {
                         e.preventDefault();
