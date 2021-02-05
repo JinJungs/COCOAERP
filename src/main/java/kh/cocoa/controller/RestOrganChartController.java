@@ -10,16 +10,13 @@ import kh.cocoa.service.TeamService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/restorganchart")
@@ -118,8 +115,8 @@ public class RestOrganChartController {
         return json.toString();
     }
 
-    @RequestMapping("getSearchTeamList.organ")
+/*    @RequestMapping("getSearchTeamList.organ")
     public String getSearchTeamList(@RequestParam("name") String name){
 
-    }
+    }*/
 }

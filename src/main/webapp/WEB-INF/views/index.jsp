@@ -12,7 +12,6 @@
         .body{height: 50%;}
         .footer{text-align: right}
         input{width:100%}
-
 </style>
 </head>
 <body>
@@ -45,7 +44,7 @@
       <!-- 내정보 보기-->
       <button type="button" onclick="fn_to_myInfo()">내 정보</button>
           <!-- 의진: 메신저 연락처-->
-        <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
+          <button type="button" onclick="fn_messenger()"><b>메신저 바로가기</b></button>
           <%--용국 템플릿 리스트 바로가기--%>
           <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
 

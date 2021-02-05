@@ -21,4 +21,7 @@ public interface MessageDAO {
 
     // 내용으로 메세지 찾기
     public List<MessageViewDTO> searchMsgByContents(int code, String contents);
+
+    // 채팅창에서 검색한 메세지 찾기
+    public List<MessageDTO> searchMsgInChatRoom(int m_seq, String contents);
 }
