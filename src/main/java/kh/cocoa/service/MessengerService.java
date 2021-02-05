@@ -1,11 +1,16 @@
 package kh.cocoa.service;
 
-import kh.cocoa.dao.MessengerDAO;
-import kh.cocoa.dto.MessengerViewDTO;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import kh.cocoa.dao.MessengerDAO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
 
 @Service
 public class MessengerService implements MessengerDAO{
@@ -17,8 +22,28 @@ public class MessengerService implements MessengerDAO{
 	public List<MessengerViewDTO> myMessengerList(int code){
 		return mdao.myMessengerList(code);
 	}
-
+	//참가자 정보
 	@Override
 	public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code){return mdao.getMessengerPartyEmpInfo(seq, code);}
+	//다수의 참가자 정보 리스트
+	@Override
+	public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq, int code){return mdao.getListMessengerPartyEmpInfo(seq, code);}
+	
+	//1:1채팅 있는지 확인
+	@Override
+	public int isSingleMessengerRoomExist(int loginEmpCode, int partyEmpCode) {
+		return mdao.isSingleMessengerRoomExist(loginEmpCode, partyEmpCode);
+	}
+	//1:1채팅 시퀀스 받기
+	@Override
+	public int getSingleMessengerRoom(int loginEmpCode, int partyEmpCode) {
+		return mdao.getSingleMessengerRoom(loginEmpCode, partyEmpCode);
+	}
+	
+	//채팅방 생성 후 시퀀스 받기
+	@Override
+	public int insertMessengerRoomGetSeq(MessengerDTO messenger) {
+		return mdao.insertMessengerRoomGetSeq(messenger);
+	}
 
 }

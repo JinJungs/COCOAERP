@@ -83,12 +83,10 @@
 												  class="rounded-circle user_img">
 								</a>
 							</div>
-							<a href="#">
-								<div class="user_info">
-									<span>${i.name}</span>
-									<p>${i.deptname}/${i.teamname}</p>
-								</div>
-							</a>
+							<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+								<span>${i.name}</span>
+								<p>${i.deptname}/${i.teamname}</p>
+							</div>
 						</div>
 					</li>
 				</c:forEach> </ui>
@@ -102,12 +100,10 @@
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<a href="#">
-									<div class="user_info">
-										<span>${i.name}</span>
-										<p>${i.deptname}/${i.teamname}</p>
-									</div>
-								</a>
+								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+									<span>${i.name}</span>
+									<p>${i.deptname}/${i.teamname}</p>
+								</div>
 							</div>
 						</li>
 					</c:if>
@@ -122,12 +118,10 @@
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<a href="#">
-									<div class="user_info">
-										<span>${i.name}</span>
-										<p>${i.deptname}/${i.teamname}</p>
-									</div>
-								</a>
+								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+									<span>${i.name}</span>
+									<p>${i.deptname}/${i.teamname}</p>
+								</div>
 							</div>
 						</li>
 					</c:if>
@@ -202,6 +196,10 @@
     function toChatRoom(seq) {
       window.open('/messenger/chat?seq='+seq,'',winFeature);
     }
+    // 소형 추가 - 상대방 EMP_CODE를 받아 개인 채팅방 열기
+    function toSingleChatRoom(code) {
+      window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'',winFeature);
+    }
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click",search);
@@ -226,6 +224,8 @@
 		}
 		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
 	}
+	
+    //-------------------------------- 채팅방 열기 ---------------------------------
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"

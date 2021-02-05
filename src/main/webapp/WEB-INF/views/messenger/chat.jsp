@@ -25,6 +25,7 @@
                     <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
                     <span>${partyDTO.empname}</span>
                     <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+                    
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
