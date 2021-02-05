@@ -1,12 +1,10 @@
 package kh.cocoa.dao;
 
-import java.util.HashMap;
-import java.util.List;
-
+import kh.cocoa.dto.EmployeeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import kh.cocoa.dto.EmployeeDTO;
+import java.util.List;
 
 @Mapper
 public interface EmployeeDAO {
@@ -42,11 +40,31 @@ public interface EmployeeDAO {
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
 
+	public List<EmployeeDTO> getTeamEmp(int team_code);
+	
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code);
+
 	//팀별 맴버수 뽑아오기
 	public int getTeamCount(int team_code);
 
 	//팀별 멤버 정보 뽑아오기
 	public List<EmployeeDTO> getTeamEmpList(int team_code);
+
+	//이름 직원명 검색기능
+	public List<EmployeeDTO> getEmpNameSearchList(String name);
+
+	//
+	public List<EmployeeDTO> getDeptNameSearchList(String name);
+
+	//부서 코드에 속한 모든 emp 정보
+	public List<EmployeeDTO> getDeptEmpList(int dept_code);
+
+	//pos_code 순서로 리스트 겟
+	public List<EmployeeDTO> getAllEmpListOrderByPos();
+
+	//모든 멤버 카운트 겟
+	public int getAllEmpCount();
 
 
 	//----------------- 채팅 -----------------//
@@ -55,7 +73,7 @@ public interface EmployeeDAO {
 	// 부서이름으로 찾기
 	public List<EmployeeDTO> searchEmployeeByDeptname(String contents);
 	// 팀이름으로 찾기
-	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(String contents);
 
 
 	//email로 사번받아오기

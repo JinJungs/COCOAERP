@@ -26,6 +26,8 @@ public class OranChartController {
     public String toOrganChart(Model model){
         List<DepartmentsDTO> dlist =deptservice.getDeptList();
         EmployeeDTO userInfo=employeeService.loginInfo(1000);
+        DepartmentsDTO getDept=deptservice.getDept();
+        model.addAttribute("top",getDept);
         model.addAttribute("user",userInfo);
         model.addAttribute("dlist",dlist);
         return "/organChart/organChart";

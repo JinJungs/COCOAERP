@@ -4,4 +4,12 @@
     <select id="getTeamList"  resultType="kh.cocoa.dto.TeamDTO">
         SELECT * FROM Team where dept_code = #{code} order by name
     </select>
+    <select id="getTeamName" resultType="kh.cocoa.dto.TeamDTO">
+        select * from team where code=#{code} order by name
+    </select>
+    <select id="getSearchTeamList" resultType="kh.cocoa.dto.TeamDTO">
+        select count(e.team_code) count,t.name,t.code from team t
+        left join employee e on t.code = e.team_code
+        where t.name like '%${name}%' group by t.name,t.code order by name
+    </select>
 </mapper>

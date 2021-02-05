@@ -4,7 +4,6 @@ import kh.cocoa.dao.EmployeeDAO;
 import kh.cocoa.dto.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -121,6 +120,36 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getTeamEmpList(team_code);
 	}
 
+	@Override
+	public List<EmployeeDTO> getEmpNameSearchList(String name) {
+		return edao.getEmpNameSearchList(name);
+	}
+
+	@Override
+	public List<EmployeeDTO> getDeptNameSearchList(String name) {
+		return edao.getDeptNameSearchList(name);
+	}
+
+	@Override
+	public List<EmployeeDTO> getDeptEmpList(int dept_code) {
+		return edao.getDeptEmpList(dept_code);
+	}
+
+	@Override
+	public List<EmployeeDTO> getAllEmpListOrderByPos() {
+		return edao.getAllEmpListOrderByPos();
+	}
+
+	@Override
+	public int getAllEmpCount() {
+		return edao.getAllEmpCount();
+	}
+
+	@Override
+	public List<EmployeeDTO> getTeamEmp(int team_code) {
+		return edao.getTeamEmp(team_code);
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
@@ -134,15 +163,18 @@ public class EmployeeService implements EmployeeDAO {
 	}
 	//팀이름으로 찾기
 	@Override
-	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents){
-		return edao.searchEmployeeByDeptname(contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(String contents){
+		return edao.searchEmployeeByTeamname(contents);
 	}
 
 	@Override
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
 	}
-	
-	
+	/*-------------지영-BugReport-----------*/
+	public EmployeeDTO getSenderEmail(int writer_code) {
+		System.out.println("서비스에서 wc는?" +writer_code);
+		return edao.getSenderEmail(writer_code);
+	}
 }
 

@@ -124,8 +124,41 @@
 			</c:if>
 
 			<div class="row w-100 pt-3">
-				<div class="col-12 contents mb-6">${dto.report_contents }</div>
+				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.report_contents }</div>
 			</div>
+			<div class="row w-100 pt-5 pb-2">
+					<b>결재 의견</b>
+				</div>
+				<div class="confirm Table mb-5">
+					<div class="row w-100 text-center" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9">
+						<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9"><b>순서</b></div>
+						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>결재자</b></div>
+						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9"><b>결재의견</b></div>
+						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>상태</b></div>
+						<div class="col-3 p-3">결재일</div>
+					</div>
+					<c:forEach var="list" items="${confirmList}">
+						<div class="row w-100 text-center" style="border-bottom: 1px solid #c9c9c9">
+							<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9">${list.approver_order }</div>
+							<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">${list.emp_name } | ${list.dept_name }</div>
+							<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${list.comments }</div>
+							<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">
+								<c:choose>
+										<c:when test="${list.isConfirm eq 'N'}">
+										미결재
+										</c:when>
+										<c:when test="${list.isConfirm eq 'Y'}">
+										결재
+										</c:when>
+										<c:when test="${list.isConfirm eq 'R'}">
+										반려
+										</c:when>
+									</c:choose>
+							</div>
+							<div class="col-3 p-3">${list.confirm_date }</div>
+						</div>
+					</c:forEach>
+				</div>
 			<div class="row w-100 pt-3">
 				<c:if test="${auth==1}">
 					<div class="col-12 p-3 text-right">

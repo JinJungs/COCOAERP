@@ -47,7 +47,7 @@
 					</div>
 					<div class="col-12 file_input">
 						<label>+ File Attach <input type="file" id="myFile"
-							name="file" multiple>
+							name="file" accept="image/*" onchange="show_img(event);" multiple>
 						</label> <input type="text" readonly="readonly" title="File Route">
 					</div>
 				</div>

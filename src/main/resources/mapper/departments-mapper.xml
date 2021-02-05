@@ -7,6 +7,18 @@
    </select>
 
     <select id="getDeptList" resultType="kh.cocoa.dto.DepartmentsDTO">
-        SELECT * FROM DEPARTMENTS order by name
+        SELECT * FROM DEPARTMENTS where code not in (0) order by name
+    </select>
+
+    <select id="getDeptNameByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE CODE=#{code}
+    </select>
+
+    <select id="getDept" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE CODE=0
+    </select>
+
+    <select id="getSearchTopDept" resultType="kh.cocoa.dto.DepartmentsDTO">
+        select * from departments where name like '%${name}%' and code=0
     </select>
 </mapper>

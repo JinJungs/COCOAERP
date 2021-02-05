@@ -19,7 +19,22 @@ public class DepartmentsService implements DepartmentsDAO {
     }
 
     @Override
+    public DepartmentsDTO getDeptNameByCode(int code) {
+        return ddao.getDeptNameByCode(code);
+    }
+
+    @Override
     public List<DepartmentsDTO> getDeptList() {
         return ddao.getDeptList();
+    }
+
+    @Override
+    public DepartmentsDTO getDept() {
+        return ddao.getDept();
+    }
+
+    @Override
+    public DepartmentsDTO getSearchTopDept(String name) {
+        return ddao.getSearchTopDept(name);
     }
 }

@@ -237,7 +237,6 @@
             function fn_toNFD(){location.href="/document/toNFDocument.document?cpage=1"}
             function fn_toFD(){location.href="/document/toFDocument.document?cpage=1"}
             function fn_toRD(){location.href="/document/toRDocument.document?cpage=1"}
-
          </script>
       </c:otherwise>
    </c:choose>

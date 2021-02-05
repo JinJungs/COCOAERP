@@ -12,6 +12,9 @@ public class TeamDTO {
     private String name;
     private int dept_code;
 
+    //추가 사항
+    private int count;
+
     @Builder
     public TeamDTO(int code, String name, int dept_code) {
         this.code = code;

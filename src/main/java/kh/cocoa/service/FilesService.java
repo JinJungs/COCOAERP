@@ -1,5 +1,7 @@
 package kh.cocoa.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +10,20 @@ import org.springframework.stereotype.Service;
 import kh.cocoa.dao.FilesDAO;
 import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 
 @Service
 public class FilesService implements FilesDAO {
 	@Autowired
 	private FilesDAO fdao;
-	/*-------------------**회사소식**--------------------------*/
-	//파일 업로드
+	// 게시판용 파일 업로드
 	public int uploadFiles(int noBoard_seq, FilesDTO fdto) { 
 		return fdao.uploadFiles(noBoard_seq,fdto); 
+	}
+
+	// 업무일지용 파일 업로드
+	public int uploadFilesBusinessLog(int logDoc_seq, FilesDTO fdto) {
+		return fdao.uploadFilesBusinessLog(logDoc_seq,fdto);
 	}
 	//파일 불러오기
 	public List<FilesDTO> downloadFilesBySeq(int noBoard_seq){
@@ -28,9 +35,9 @@ public class FilesService implements FilesDAO {
 	}
 	
 	//앨범게시판에서 게시글 사진 불러오기
-		public FilesDTO getImage(int board_seq) {
-			System.out.println("사진불러오기 :"+board_seq);
-			return fdao.getImage(board_seq);
+		public FilesDTO getImage(FilesDTO fdto) {
+			System.out.println("사진불러오기 :"+fdto.getBoard_seq());
+			return fdao.getImage(fdto);
 		}
 	//게시글에 업로드된 파일 갯수 확인
 	public int isExistUploadFile(FilesDTO fdto) {
@@ -42,7 +49,6 @@ public class FilesService implements FilesDAO {
 	}
 	//파일 삭제하기
 	public int deleteNotificationBoardFiles(int seq) {
-		System.out.println("서비스 파일 삭제 seq? "+seq);
 		return fdao.deleteNotificationBoardFiles(seq);
 	}
 
@@ -57,12 +63,50 @@ public class FilesService implements FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq(String seq){
 		return fdao.getFilesListByDocSeq(seq);
 	}	
-	/* 채팅 파일 업로드 */
+	/* =============채팅 파일=============== */
 	//파일 업로드
-	public int uploadFilesMsg(FilesDTO fdto) { 
+	@Override
+	public int uploadFilesMsg(FilesDTO fdto) {
 		return fdao.uploadFilesMsg(fdto); 
 	}
-	/* 채팅 파일 업로드 */
+	//파일 msg_seq수정
+	@Override
+	public int updateMsgSeq(int msg_seq, String savedName) {
+		return fdao.updateMsgSeq(msg_seq, savedName);
+	}
+	//msg_seq로 파일 oriname 찾기
+	@Override
+	public String getSavedName(int msg_seq) {
+		return fdao.getSavedName(msg_seq);
+	}
+	//파일 모아보기 리스트
+	@Override
+	public List<FilesMsgDTO> showFileMsg(int m_seq){
+		List<FilesMsgDTO> list = fdao.showFileMsg(m_seq);
+		return list;
+	}
+	//파일 모아보기 리스트를 url에 넣기 위해 인코딩
+	public List<FilesMsgDTO> encodedShowFileMsg(List<FilesMsgDTO> list) throws UnsupportedEncodingException{
+		for(FilesMsgDTO dto : list) {
+			String savedname = URLEncoder.encode(dto.getSavedname(), "UTF-8");
+			String orinameEncoded = URLEncoder.encode(dto.getOriname(), "UTF-8");
+			dto.setSavedname(savedname);
+			dto.setOrinameEncoded(orinameEncoded);
+		}
+		return list;
+	}
+	//임시저장 업무일지 파일 불러오기
+	@Override
+	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto) {
+		return fdao.getLogFilesBySeq(seq,fdto);
+	}
+	//게시글에 업로드된 파일 갯수 확인
+	@Override
+	public int getLogUploadFileCount(FilesDTO fdto) {
+		return fdao.getLogUploadFileCount(fdto);
+	}
+		
+	/* =============채팅 파일=============== */
 
 	@Override
 	public int deleteDocFile(int seq) {
@@ -78,5 +122,13 @@ public class FilesService implements FilesDAO {
 		return fdao.updateFile(seq,b_seq);
 	}
 	
+	@Override
+	public int insertFile(FilesDTO dto) {
+		return fdao.insertFile(dto);
+	}
+	@Override
+	public List<FilesDTO> getEmailFiles(String seq) {
+		return fdao.getEmailFiles(seq);
+	}
 	
 }

@@ -6,10 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Album Board</title>
-
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-div{border:1px solid gray;}
 .card{margin:10px;}
 input{width:50%;border-bottom:1px solid pink;}
 #search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
@@ -47,9 +45,7 @@ input{width:50%;border-bottom:1px solid pink;}
 			<div class="row">
 			<c:forEach var="i" items="${albumList}">
 				<div class="card" style="width: 11rem;">
-					<img id="img" src="" class="card-img-top" alt="..." style="WIDTH: 150px; HEIGHT: 150px">
-					<!-- <img id="img" src="${imgurl}"
-										style="WIDTH: 150px; HEIGHT: 150px"> -->
+					<%-- <img id="img" src="/${path}/boardRepository/${i.savedname}" class="card-img-top" alt="..." style="WIDTH: 150px; HEIGHT: 150px"> --%>
 					<div class="col-12"
 						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
 						<b>${i.title}</b><br><b>${i.name}</b> <b>${i.write_date}</b>
