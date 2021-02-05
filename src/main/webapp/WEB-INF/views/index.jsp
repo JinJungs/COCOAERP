@@ -59,10 +59,13 @@
         <input type=button value="문서대장" id=allConfirmDocBtn><br>
         <br>
         <input type=button value="메일쓰기" id=sendEmailBtn><br>
+        <input type=button value="내게 쓴 메일" id=sendToMeBtn><br>
         <input type=button value="받은 메일함" id=receiveBtn><br>
 		<input type=button value="보낸 메일함" id=sendBtn><br>
 		<input type=button value="휴지통(메일)" id=deleteBtn><br>
-
+		<br>
+		<input type=button value="일정" id=scheduleBtn><br>
+		
           <%--용국--%>
           <button type="button" onclick="fn_toBD()">결재전</button>
           <button type="button" onclick="fn_toNFD()">진행중</button>
@@ -103,17 +106,26 @@
          sendEmailBtn.onclick = function() {
             location.href = "/email/sendPage.email";
          }
+         let sendToMeBtn = document.getElementById("sendToMeBtn");
+         sendToMeBtn.onclick = function() {
+            location.href = "/email/sendToMeList.email?cpage=1";
+         }
          let receiveBtn = document.getElementById("receiveBtn");
          receiveBtn.onclick = function() {
             location.href = "/email/receiveList.email?cpage=1";
          }
          let sendBtn = document.getElementById("sendBtn");
          sendBtn.onclick = function() {
-            location.href = "/email/sendList.email";
+            location.href = "/email/sendList.email?cpage=1";
          }
          let deleteBtn = document.getElementById("deleteBtn");
          deleteBtn.onclick = function() {
-            location.href = "/email/deleteList.email";
+            location.href = "/email/deleteList.email?cpage=1";
+         }
+         
+         let scheduleBtn = document.getElementById("scheduleBtn");
+         scheduleBtn.onclick = function() {
+            location.href = "/schedule/toScheduleMain.schedule";
          }
          
          /*지영 부분*/

@@ -77,13 +77,13 @@ ul.tabs li.current{
 
 		<div id="content" class="p-4 p-5 pt-5">
 			<div class="container w-80 p-0" style="min-width: 800px;">
-			<h2 class="mb-4">문서함</h2>
+				<h2 class="mb-4">문서함</h2>
 				<div class="notice-container">
 					<ul class="tabs">
 						<li class="tab-link current" data-tab="tab-1">기안함</li>
 						<li class="tab-link" data-tab="tab-2">결재함</li>
 					</ul>
-
+	
 					<div id="tab-1" class="tab-content current">
 						<div class="row p-3" style="border-bottom: 1px solid #c9c9c9">
 							<div class="col-2 p-1 text-center textBox"><b>문서번호</b></div>
@@ -116,23 +116,21 @@ ul.tabs li.current{
 						</div>
 					</div>
 					<script>
-            $(document).ready(function() {
-
-               $('ul.tabs li').click(function() {
-                  var tab_id = $(this).attr('data-tab');
-
-                  $('ul.tabs li').removeClass('current');
-                  $('.tab-content').removeClass('current');
-
-                  $(this).addClass('current');
-                  $("#" + tab_id).addClass('current');
-               })
-
-            })
-         </script>
+			            $(document).ready(function() {
+			
+			               $('ul.tabs li').click(function() {
+			                  var tab_id = $(this).attr('data-tab');
+			
+			                  $('ul.tabs li').removeClass('current');
+			                  $('.tab-content').removeClass('current');
+			
+			                  $(this).addClass('current');
+			                  $("#" + tab_id).addClass('current');
+			               })
+			
+			            })
+			         </script>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
