@@ -21,6 +21,7 @@
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">보낸 업무일지 보관함</h2>
 			
+			<input type="hidden" id="status" name="status" value="${status }"> 
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link active"
 					data-toggle="tab" href="#all">전체</a></li>
@@ -36,7 +37,7 @@
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
 				</div>
-				<div class="col-sm-12 col-md-3">
+				<div class="col-sm-12 col-md-2">
 					<b>제목</b>
 				</div>
 				<div class="col-md-2 d-none d-md-block">
@@ -51,6 +52,9 @@
 				<div class="col-md-2 d-none d-md-block">
 					<b>작성일</b>
 				</div>
+				<div class="col-md-1 d-none d-md-block">
+					<b>상태</b>
+				</div>
 			</div>
 			<!-- 리스트 보이기 -->
 			<div class="tab-content">
@@ -60,13 +64,14 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${logAllList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							<div class="col-sm-12 col-md-2">
+								 <a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<div class="col-md-1 d-none d-md-block">${i.status}</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -76,13 +81,14 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${dailyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							<div class="col-sm-12 col-md-2">
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<div class="col-md-1 d-none d-md-block">${i.status}</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -92,13 +98,14 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${weeklyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							<div class="col-sm-12 col-md-2">
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<div class="col-md-1 d-none d-md-block">${i.status}</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -108,13 +115,14 @@
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${monthlyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								<a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
+							<div class="col-sm-12 col-md-2">
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<div class="col-md-1 d-none d-md-block">${i.status}</div>
 						</c:forEach>
 					</div>
 				</div>

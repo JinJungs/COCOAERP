@@ -32,6 +32,9 @@ public interface FilesDAO {
 
 	//파일 삭제
 	public int deleteNotificationBoardFiles(int seq);
+	
+	//임시보관 문서에 첨부된 파일 삭제
+	public int logFileDel(int seq);
 
 	/*용국 업로드*/
 	public int documentInsertFile(String oriName,String savedName,int doc_seq);

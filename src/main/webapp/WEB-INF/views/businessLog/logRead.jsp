@@ -23,33 +23,35 @@
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 읽기</h2>
-			<input type="hidden" id="status" name="status" value="${status }"> 
-			
-				<c:forEach var="l" items="${lr}">
-				<div class="row">
-					<div class="col-sm-2 head_box">제목</div>
-					<div class="col-sm-10">${l.title}</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-2 head_box">업무기한</div>
-					<div class="col-2">${l.report_start}</div>
-					<div class="col-3">${l.report_end}</div>
-					<div class="col-2 head_box">작성일</div>
-					<div class="col-3">${l.write_date}</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-2 head_box">승인</div>
-					<div class="col-5">(영업부)김지영 부장 (0)</div>
-					<div class="col-2 head_box">작성자</div>
-					<div class="col-3">${l.name}</div>
-				</div>
-				<div class="row">
-					<div class="col head_box">내용</div>
-				</div>
-				<div class="row box">${l.contents}</div>
-				</c:forEach>
+			<input type="hidden" id="status" name="status" value="${status}">
+			<input type="hidden" id="seq" name="seq" value="${lr.seq}">
+				<input type="hidden" id="temp_code" name="temp_code"
+					value="${lr.temp_code}">
+
+
+			<div class="row">
+				<div class="col-sm-2 head_box">제목</div>
+				<div class="col-sm-10">${lr.title}</div>
+			</div>
+
+			<div class="row">
+				<div class="col-2 head_box">업무기한</div>
+				<div class="col-2">${lr.report_start}</div>
+				<div class="col-3">${lr.report_end}</div>
+				<div class="col-2 head_box">작성일</div>
+				<div class="col-3">${lr.write_date}</div>
+			</div>
+
+			<div class="row">
+				<div class="col-2 head_box">승인</div>
+				<div class="col-5">(영업부)김지영 부장 (0)</div>
+				<div class="col-2 head_box">작성자</div>
+				<div class="col-3">${lr.name}</div>
+			</div>
+			<div class="row">
+				<div class="col head_box">내용</div>
+			</div>
+			<div class="row box">${lr.contents}</div>
 			<!--첨부파일  -->
 			<div class="row">
 				<!-- 해당 게시글에 저장된 파일 갯수 확인 -->
@@ -57,9 +59,9 @@
 					<b><span class="files" id="files">첨부파일 : ${fileCount}개</span></b>
 					<ul>
 						<c:forEach var="i" items="${fileList}">
-						<li class="fileLi"><a
-							href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname}</a>
-						</li>
+							<li class="fileLi"><a
+								href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname}</a>
+							</li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -67,25 +69,29 @@
 			<div class="row">
 				<!--홈으로 이동  -->
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
+					<c:choose>
+						<c:when test="${status eq ''}">
+							<button type="button" class="btn btn-primary"
+								onclick="fn_return()">HOME</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
+						</c:otherwise>
+					</c:choose>
 				</div>
 
 				<div class="col-sm-7 d-none d-sm-block"></div>
 
 				<!--작성자에게만 보이는 버튼  -->
 				<div class="button_box col-sm-3">
-				
-					<c:choose>
-						<c:when test="${checkWriter>0}">
-							<button type="submit" class="btn btn-primary"
-								onclick="fn_modify(${cpage},${dto.seq})">수정</button>
-						</c:when>
-					</c:choose>
-					<!-- 삭제버튼 - 임시보관함에서 온 글인 경우만 보임 -->
 					<c:choose>
 						<c:when test="${status eq 'TEMP'}">
+							<!-- 수정 버튼 - 작성자와 로그인한 사람이 동일할 경우 보임 -->
 							<button type="button" class="btn btn-primary"
-								onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+								onclick="fn_modify(${lr.seq},${lr.temp_code})">수정</button>
+							<!-- 삭제버튼 - 임시보관함에서 온 글인 경우만 보임 -->
+							<button type="button" class="btn btn-primary"
+								onclick="fn_delete(${lr.seq})">삭제</button>
 						</c:when>
 					</c:choose>
 				</div>
@@ -100,9 +106,27 @@
 			    $('#title').val("");
 			}
 	 	}
-	 	/*홈으로*/
+	 	/*홈으로 */
 		function fn_home(status) {
 			location.href = "/log/logBoard.log?status=${status}";
+		}
+		/*홈으로 - 보낸 업무일지함으로 */
+		function fn_return(){
+			location.href = "/log/logSentBoard.log";
+		}
+		/*수정*/
+		function fn_modify(seq,temp_code) {
+			console.log(seq);
+			location.href = "/log/logModify.log?tempCode="+temp_code+"&status=${status}&seq="+seq;
+		}
+		/*삭제 - 임시저장일 경우 ONLY*/
+		function fn_delete(seq) {
+			doubleCheck = confirm("해당 게시글을 정말 삭제 하시겠습니까?");
+			if(doubleCheck==true){
+				location.href = "/log/logDel.log?status=${status}&seq="+seq;
+			}else{
+				return;
+			}
 		}
 </script>
 </body>

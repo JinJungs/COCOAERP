@@ -19,7 +19,8 @@
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<input type="hidden" value="${status }"> 
+			<input type="hidden" id="status" name="status" value="${status }">
+			
 			<c:choose>
 				<c:when test="${status eq 'TEMP'}">
 					<h2 class="mb-4 board_title">업무일지 임시보관함</h2>
@@ -44,24 +45,51 @@
 			</ul>
 			<!-- 공용 head -->
 			<div class="row head_box" style="border-bottom: 1px solid pink;">
-				<div class="col-md-1 d-none d-md-block">
-					<b>#</b>
-				</div>
-				<div class="col-sm-12 col-md-3">
-					<b>제목</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>작성자</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>업무 시작일</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>업무 마감일</b>
-				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>작성일</b>
-				</div>
+
+				<c:choose>
+					<c:when test="${status eq 'RAISE'}">
+						<div class="col-md-1 d-none d-md-block">
+							<b>#</b>
+						</div>
+						<div class="col-sm-12 col-md-2">
+							<b>제목</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>작성자</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>업무 시작일</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>업무 마감일</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>작성일</b>
+						</div>
+						<div class="col-md-1 d-none d-md-block">상태</div>
+					</c:when>
+					<c:otherwise>
+						<div class="col-md-1 d-none d-md-block">
+							<b>#</b>
+						</div>
+						<div class="col-sm-12 col-md-3">
+							<b>제목</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>작성자</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>업무 시작일</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>업무 마감일</b>
+						</div>
+						<div class="col-md-2 d-none d-md-block">
+							<b>작성일</b>
+						</div>
+					</c:otherwise>
+
+				</c:choose>
 			</div>
 			<!-- 리스트 보이기 -->
 			<div class="tab-content">
@@ -70,14 +98,29 @@
 					<div class="row tab-content current" id="tab-1"
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${logAllList}">
-							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
-							</div>
-							<div class="col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<c:choose>
+								<c:when test="${status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-2">
+										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-3">
+										<a href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
@@ -86,14 +129,29 @@
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${dailyList}">
-							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
-							</div>
-							<div class="col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<c:choose>
+								<c:when test="${status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-2">
+										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-3">
+										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
@@ -102,14 +160,29 @@
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${weeklyList}">
-							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
-							</div>
-							<div class="col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<c:choose>
+								<c:when test="${status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-2">
+										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-3">
+										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
@@ -118,14 +191,29 @@
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
 						<c:forEach var="i" items="${monthlyList}">
-							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="col-sm-12 col-md-3">
-								 <a href="/log/logRead.log?seq=${i.seq}">${i.title }</a>
-							</div>
-							<div class="col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+							<c:choose>
+								<c:when test="${status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-2">
+										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="col-sm-12 col-md-3">
+										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+									</div>
+									<div class="col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
