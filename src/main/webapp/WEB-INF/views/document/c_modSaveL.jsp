@@ -881,7 +881,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchTemporary.document";
                 }
             }
         });
@@ -926,7 +926,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchTemporary.document";
                 }
             }
         });
