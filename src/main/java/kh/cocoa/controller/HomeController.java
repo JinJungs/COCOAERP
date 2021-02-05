@@ -32,7 +32,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String login() {
-        return "/membership/login";
+        return "/index";
     }
     /*-----------지영 - 버그리포트--------*/
     @GetMapping("/bug")

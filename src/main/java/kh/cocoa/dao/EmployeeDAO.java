@@ -13,6 +13,9 @@ public interface EmployeeDAO {
 	public String login(int code, String password);
 	public EmployeeDTO loginInfo(int code);
 	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code);
+	public String findIdByEmail(String email);
+	public String findPwByEmail(String email, int code);
+	public int updateTempPw(String password, int code);
 
 	//전체 멤버 호출
 	public List<EmployeeDTO> getAllEmployee();
@@ -36,6 +39,8 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+
+	public List<EmployeeDTO> getTeamEmp(int team_code);
 	
 	/*-------------지영-BugReport-----------*/
 	public EmployeeDTO getSenderEmail(int writer_code);

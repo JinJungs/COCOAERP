@@ -10,4 +10,5 @@ public interface TeamDAO {
 
     public List<TeamDTO> getTeamList(int code);
     public TeamDTO getTeamName(int code);
+    public List<TeamDTO> getSearchTeamList(String name);
 }
