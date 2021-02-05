@@ -72,8 +72,6 @@ public class DocumentController {
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
-		System.out.println("template = " + template);
-		
 		//0. 사번
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
@@ -87,11 +85,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 검색-문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=0; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		} else {
 			templateList.add(template);
 		}
@@ -103,7 +102,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if (cpage == null) {
 			cpage = "1";
@@ -144,11 +142,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=0; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		} else {
 			templateList.add(template);
 		}
@@ -160,7 +159,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if (cpage == null) {
 			cpage = "1";
@@ -202,11 +200,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=0; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		} else {
 			templateList.add(template);
 		}
@@ -218,7 +217,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if (cpage == null) {
 			cpage = "1";
@@ -259,11 +257,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=0; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		} else {
 			templateList.add(template);
 		}
@@ -275,7 +274,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if (cpage == null) {
 			cpage = "1";
@@ -315,11 +313,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=0; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		} else {
 			templateList.add(template);
 		}
@@ -331,7 +330,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if (cpage == null) {
 			cpage = "1";

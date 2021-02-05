@@ -12,12 +12,14 @@ public interface EmailDAO {
 	public void sendEmail(EmailDTO dto);
 	public int getSeq();
 	
+	public List<EmailDTO> sendToMeList(String email, int startRowNum, int endRowNum);
 	public List<EmailDTO> receiveList(String email, int startRowNum, int endRowNum);
 	public List<EmailDTO> sendList(String email, int startRowNum, int endRowNum);
 	public List<EmailDTO> deleteList(String email, int startRowNum, int endRowNum);
 	
 	public EmailDTO getEmail(String seq);
 	
+	public int getToMeCount(String email);
 	public int getReceiveCount(String email);
 	public int getSendCount(String email);
 	public int getDeleteCount(String email);
