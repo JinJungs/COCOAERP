@@ -1,13 +1,11 @@
 package kh.cocoa.controller;
 
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.FilesMsgDTO;
-import kh.cocoa.dto.MessageViewDTO;
-import kh.cocoa.dto.MessengerViewDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
-import kh.cocoa.service.MessengerService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +14,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
+import kh.cocoa.dto.MessageViewDTO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
+import kh.cocoa.service.MessengerPartyService;
+import kh.cocoa.service.MessengerService;
 
 
 @Controller
@@ -39,6 +45,9 @@ public class MessengerController {
 
     @Autowired
     private FilesService fservice;
+    
+    @Autowired
+    private MessengerPartyService mpservice;
 
     @RequestMapping("/")
     public String toIndex() {
@@ -61,6 +70,7 @@ public class MessengerController {
         return "/messenger/contactList";
     }
 
+    //채팅방 열기
     @RequestMapping("chat")
     public String toChat(int seq, Model model) {
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -68,10 +78,88 @@ public class MessengerController {
         System.out.println("로그인한 ID : " +code);
         // 해당 채팅방에 있는 상대방 정보 불러오기 - 다중채팅시 오류나겠다...(지금은 한갠데 여러개 받아야해서)
         MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
+        // 참가자 여러명일 경우. 완성시 위의 것과 합치기? + chat.jsp 수정 필요
+        //List<MessengerViewDTO> listPartyDTO = mservice.getListMessengerPartyEmpInfo(seq, code);
+        
         model.addAttribute("loginDTO",loginDTO);
         model.addAttribute("seq",seq);
         model.addAttribute("partyDTO",partyDTO);
         return "/messenger/chat";
+    }
+    
+    //연락처에서 1:1채팅창 열기(혹은 생성)
+    @RequestMapping("openCreateSingleChat")
+    public String chatFromContact(int partyEmpCode, Model model) {
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+    	int code = loginDTO.getCode();
+    	System.out.println("code / partyEmpCode : "+code +" : "+partyEmpCode);
+    	int seq;
+    	//개인 채팅방 존재 유무 파악
+    	int checkSingleRoom = mservice.isSingleMessengerRoomExist(code, partyEmpCode);
+    	System.out.println("checkSingleRoom : "+checkSingleRoom);
+    	if(checkSingleRoom == 0) {
+    		//없을 경우 채팅방 생성 (S타입)
+    		MessengerDTO dto = new MessengerDTO();
+    		dto.setType("S");
+    		dto.setName("test");
+    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(dto);
+    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		//Messenger 테이블 seq = Messenger_Party의 m_seq
+    		seq = dto.getSeq();
+			
+    		//멤버추가하기
+    		List<MessengerPartyDTO> memberList = new ArrayList<>();
+    		MessengerPartyDTO mine = new MessengerPartyDTO().builder().m_seq(seq).emp_code(code).build();
+    		MessengerPartyDTO party = new MessengerPartyDTO().builder().m_seq(seq).emp_code(partyEmpCode).build();
+    		memberList.add(mine);
+    		memberList.add(party);
+    		int insertMemResult = mpservice.setMessengerMember(memberList);
+    		System.out.println("insertMemResult : "+insertMemResult);
+    	}else {
+    		seq = mservice.getSingleMessengerRoom(code, partyEmpCode);
+    	}
+    	System.out.println("채팅방 seq : "+seq);
+    	model.addAttribute("loginDTO",loginDTO);
+        //model.addAttribute("seq",seq);
+        //model.addAttribute("partyDTO",partyDTO);
+    	return "redirect:/messenger/chat?seq="+seq;
+    }
+
+    //채팅방 생성
+    @RequestMapping("addChatRoom")
+    public String addChatRoom(MessengerDTO messenger, List<MessengerPartyDTO> partyList, Model model) {
+    	//참가자 목록 : 3인 이상 = M타입 채팅방 생성 // 2인 이상 = chatFromContact
+    	//받아올 값 : Messenger name / 참가자 코드 리스트
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int code = loginDTO.getCode();
+        int seq;
+        
+    	if(partyList.size()==1) {
+    		//추가 인원이 1인이면 개인 채팅방 열기(혹은 생성)
+    		int partyEmpCode = partyList.get(0).getEmp_code();
+    		model.addAttribute("partyEmpCode", partyEmpCode);
+    		return "/messenger/openCreateSingleChat";
+    	}else if(partyList.size()>1) {
+    		//받아올 값 : Messenger name / 참가자 코드 리스트
+    		messenger.setType("M");
+    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(messenger);
+    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		//Messenger 테이블 seq = Messenger_Party의 m_seq
+    		seq = messenger.getSeq();
+			
+    		//멤버추가하기
+    		int insertMemResult = mpservice.setMessengerMember(partyList);
+    		System.out.println("insertMemResult : "+insertMemResult);
+    		
+    		model.addAttribute("loginDTO",loginDTO);
+    		model.addAttribute("partyList",partyList);
+    		model.addAttribute("seq",seq);
+    		return "messenger/chat";
+    	}else {
+    		//리턴 에이잭스? 에러?
+    		return null;
+    	}
+    	
     }
 
     @RequestMapping("messengerSearch")
@@ -190,6 +278,7 @@ public class MessengerController {
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());
+        e.printStackTrace();
         return "index";
     }
 
