@@ -47,7 +47,7 @@
                <a href="#Document1" data-toggle="collapse"
                aria-expanded="false" class="dropdown-toggle">전자결재</a>
                <ul class="collapse list-unstyled" id="Document1">
-                  <li><a href="#">결재문서 작성</a></li>
+                  <li><a href="/document/toTemplateList.document">결재문서 작성</a></li>
                </ul>
             </li>
             <!-- 전자결재 (기안함)-->
@@ -67,10 +67,10 @@
             <li><a href="#Document3" data-toggle="collapse"
                aria-expanded="false" class="dropdown-toggle">전자결재 (결재함)</a>
                <ul class="collapse list-unstyled" id="Document3">
-                  <li><a href="#">결재전 문서</a></li>
-                  <li><a href="#">진행중 문서</a></li>
-                  <li><a href="#">완료된 문서</a></li>
-                  <li><a href="#">반려한 문서</a></li>
+                  <li><a href="/document/toBDocument.document?cpage=1">결재전 문서</a></li>
+                  <li><a href="/document/toNFDocument.document?cpage=1">진행중 문서</a></li>
+                  <li><a href="/document/toFDocument.document?cpage=1">완료된 문서</a></li>
+                  <li><a href="/document/toRDocument.document?cpage=1">반려한 문서</a></li>
                </ul>
             </li>
             <!-- 일정관리 -->    
@@ -120,7 +120,7 @@
                </ul>
             </li>
             <!-- 조직도 -->
-            <li><a href="#">조직도</a></li>
+            <li><a href="/organ/toOrganChart.organ">조직도</a></li>
             <!-- 버그리포팅 -->
             <li><a href="/bug">버그리포팅</a></li>
          </ul>

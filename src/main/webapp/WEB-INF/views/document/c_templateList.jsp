@@ -97,7 +97,7 @@
 
     /*컨펌 이동*/
     function fn_toWriteDocument(code,name) {
-        location.href="/document/toWriteDocument?code="+code+"&name="+name;
+        location.href="/document/toWriteDocument.document?code="+code+"&name="+name;
 
     }
 </script>
