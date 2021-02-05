@@ -8,6 +8,11 @@
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
 		#{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0)
 	</insert>
+<!-- 파일 업로드 / 임시저장에서 다시 임시저장할 때 -->
+	<insert id="uploadFilesTempSave">
+		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
+		#{fdto.savedname}, SYSDATE,0,#{seq},0,0)
+	</insert>
 <!-- 파일 업로드 / 업무일지용 -->
 	<insert id="uploadFilesBusinessLog">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
@@ -37,7 +42,11 @@
 	<delete id="deleteNotificationBoardFiles">
 		DELETE FROM FILES WHERE SEQ=#{seq}
 	</delete>
-
+<!--임시저자 문서에 담긴 파일 삭제  -->
+	<delete id="logFileDel">
+		DELETE FROM FILES WHERE DOCUMENT_SEQ=#{seq}
+	</delete>
+<!--업무일지에 업로드 된 파일 리스트 불러오기 -->
 	<select id="getFilesListByDocSeq" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE DOCUMENT_SEQ=#{seq}
 	</select>

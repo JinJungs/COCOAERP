@@ -51,6 +51,10 @@ public class FilesService implements FilesDAO {
 	public int deleteNotificationBoardFiles(int seq) {
 		return fdao.deleteNotificationBoardFiles(seq);
 	}
+	//임시보관 문서에 첨부된 파일 삭제
+	public int logFileDel(int seq) {
+		return fdao.logFileDel(seq);
+	}
 
 	/*용국 업로드*/
 
@@ -130,5 +134,10 @@ public class FilesService implements FilesDAO {
 	public List<FilesDTO> getEmailFiles(String seq) {
 		return fdao.getEmailFiles(seq);
 	}
+	//임시저장 - 다시 임시저장 부분 파일 업로드
+	public int uploadFilesTempSave(int seq, FilesDTO fdto) {
+		return fdao.uploadFilesTempSave(seq,fdto);
+	}
+
 	
 }
