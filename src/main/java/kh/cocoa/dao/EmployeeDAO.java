@@ -66,6 +66,8 @@ public interface EmployeeDAO {
 	//모든 멤버 카운트 겟
 	public int getAllEmpCount();
 
+	public List<EmployeeDTO> getSearchEmpCode(String name);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기

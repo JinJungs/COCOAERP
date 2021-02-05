@@ -292,6 +292,22 @@
  				order by d.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 
+	<select id="getAllBeforeConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		    select d.*,e.name emp_name,de.name dept_name,t.name temp_name,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER" from document d inner join (select d1.doc_seq, d1.isconfirm, d1.approver_order, d2.ycount
+    		from doc_confirm d1 JOIN
+    		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+    		from doc_confirm
+   			group by doc_seq
+  			 ) d2
+   			 on d1.doc_seq = d2.doc_seq
+ 			where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+ 			and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+ 				inner join templates t on t.code = d.temp_code
+ 				inner join employee e on e.code = d.writer_code
+ 				inner join departments de on de.code = d.dept_code
+ 				order by d.WRITE_DATE DESC
+	</select>
+
 	<select id="getAuthBD" resultType="Integer">
 		   select count(*) from document d inner join (select d1.doc_seq, d1.approver_order,d1.isconfirm, d2.ycount
     		from doc_confirm d1 JOIN
@@ -422,6 +438,28 @@
 		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE' order by D.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 
 	</select>
+	<select id="getAllNFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+
+		select * from (SELECT D.SEQ, T.NAME TEMP_NAME,DE2.NAME DEPT_NAME,E2.NAME EMP_NAME,E.NAME CON_EMPNAME ,DE.NAME CON_DEPTNAME,D.TITLE,D.WRITE_DATE,T1.APPROVER_CODE,ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		 IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		 (select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <=  ]]>d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE' order by D.WRITE_DATE DESC)
+
+	</select>
+
 
 	<select id="getNFCount" resultType="Integer">
 
@@ -550,6 +588,19 @@
     	) and d.status ='CONFIRM'  order by D.WRITE_DATE DESC) where ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 
+	<select id="getAllFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		select d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('Y')
+    	) and d.status ='CONFIRM'  order by D.WRITE_DATE DESC
+	</select>
+
 	<select id="getFCount" resultType="Integer">
 		select COUNT(*)
 		from document d
@@ -663,6 +714,20 @@
     	and isconfirm in ('R')
     	) and d.status ='REJECT'
     	order by d.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+
+	<select id="getAllRConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		select  d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('R')
+    	) and d.status ='REJECT'
+    	order by d.WRITE_DATE DESC
 	</select>
 
 	<select id="getRCount" resultType="Integer">

@@ -580,7 +580,28 @@ public class DocumentService implements DocumentDAO {
 	public int canRetrun(int seq) {
 		return ddao.canRetrun(seq);
 	}
+
+	@Override
+	public List<DocumentDTO> getAllBeforeConfirmList(int approver_code) {
+		return ddao.getAllBeforeConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllNFConfirmList(int approver_code) {
+		return ddao.getAllNFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllFConfirmList(int approver_code) {
+		return ddao.getAllFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllRConfirmList(int approver_code) {
+		return ddao.getAllRConfirmList(approver_code);
+	}
 }
+
 
 
 

@@ -21,4 +21,8 @@
     <select id="getSearchTopDept" resultType="kh.cocoa.dto.DepartmentsDTO">
         select * from departments where name like '%${name}%' and code=0
     </select>
+
+    <select id="getSearchDeptCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE NAME LIKE '%${name}%'
+    </select>
 </mapper>

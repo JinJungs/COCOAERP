@@ -7,6 +7,7 @@ import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.TeamService;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,13 +77,13 @@ public class TestContoller {
 
     @RequestMapping("getSearchList")
     public String getSearchList(@RequestParam("name")String name){
-        List<EmployeeDTO> s1 = employeeService.getEmpNameSearchList(name);
-        List<TeamDTO> s2 = teamService.getSearchTeamList(name);
-        List<EmployeeDTO> s3 = employeeService.getDeptNameSearchList(name);
+        List<EmployeeDTO> getSearchEmpCode =employeeService.getSearchEmpCode(name);
+        List<DepartmentsDTO> getSearchDeptCode =departmentsService.getSearchDeptCode(name);
+        List<TeamDTO> getSearchTeamCode =teamService.getSearchTeamCode(name);
         JSONArray json = new JSONArray();
-        json.put(s1);
-        json.put(s2);
-        json.put(s3);
+        json.put(getSearchDeptCode);
+        json.put(getSearchTeamCode);
+        json.put(getSearchEmpCode);
         return json.toString();
     }
 
@@ -92,4 +93,32 @@ public class TestContoller {
         JSONArray json = new JSONArray(getDeptList);
         return json.toString();
     }
+
+    @RequestMapping("getSearchDeptList")
+    public String getSearchDeptList(@RequestParam("code") int code){
+        if(code==0){
+            return "";
+        }
+        DepartmentsDTO dept = departmentsService.getDeptNameByCode(code);
+        JSONObject json = new JSONObject(dept);
+        return json.toString();
+    }
+
+    @RequestMapping("getSearchTeamList")
+    public String getSearchTeamList(@RequestParam("code") int code){
+        if(code==0){
+            return "";
+        }
+        TeamDTO team = teamService.getTeamName(code);
+        JSONObject json = new JSONObject(team);
+        return json.toString();
+    }
+    @RequestMapping("getSearchEmpList")
+    public String getSearchEmpList(@RequestParam("code") int code){
+
+        EmployeeDTO emp = employeeService.getEmpInfo(code);
+        JSONObject json = new JSONObject(emp);
+        return json.toString();
+    }
+
 }
