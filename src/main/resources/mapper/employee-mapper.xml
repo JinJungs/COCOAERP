@@ -14,6 +14,18 @@
 	<update id="myInfoModify">
 		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
 	</update>
+
+	<select id="findIdByEmail" resultType="String">
+		select code from employee where email = #{email}
+	</select>
+
+	<select id="findPwByEmail" resultType="String">
+		select password from employee where email = #{email} and code = #{code}
+	</select>
+
+	<update id="updateTempPw">
+		update employee set password = #{password} where code = #{code}
+	</update>
 	<!--용국-->
 	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2

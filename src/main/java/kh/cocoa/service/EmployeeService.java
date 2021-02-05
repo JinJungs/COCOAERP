@@ -42,6 +42,38 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.myInfoModify(password, gender, phone, address, office_phone, code);
 	}
 
+	@Override
+	public String findIdByEmail(String email) { return edao.findIdByEmail(email); }
+
+	@Override
+	public String findPwByEmail(String email, int code) { return edao.findPwByEmail(email, code); }
+
+	@Override
+	public int updateTempPw(String password, int code) {
+		if(password != null){
+			pwEncoder = new BCryptPasswordEncoder();
+			password = pwEncoder.encode(password);
+		}
+		return edao.updateTempPw(password, code);
+	}
+
+	public static String getRandomStr(int size) {
+		if(size > 0) {
+			char[] temp = new char[size];
+			for(int i = 0; i < temp.length; i++) {
+				int div = (int)Math.floor(Math.random() * 2);
+
+				if(div == 0) {	// 0일때 숫자
+					temp[i] = (char)(Math.random() * 10 + '0');
+				}else {	// 1일때 알파벳
+					temp[i] = (char)(Math.random() * 26 + 'A');
+				}
+			}
+			return new String(temp);
+		}
+		return new String("Error");
+	}
+
 	//전체 멤버 호출
 	@Override
 	public List<EmployeeDTO> getAllEmployee(){
@@ -56,7 +88,7 @@ public class EmployeeService implements EmployeeDAO {
 	@Override
 	public List<EmployeeDTO> getTeamMember(int team_code) {
 		return edao.getTeamMember(team_code);
-	};
+	}
 
 	//용국 메서드
 	@Override
