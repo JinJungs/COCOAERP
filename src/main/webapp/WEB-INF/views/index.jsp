@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -8,62 +8,73 @@
 
 <title>Insert title here</title>
 <style type="text/css">
-        #contents{height:100%;width:100%;}
-        .body{height: 50%;}
-        .footer{text-align: right}
-        input{width:100%}
+#contents {
+	height: 100%;
+	width: 100%;
+}
 
+.body {
+	height: 50%;
+}
+
+.footer {
+	text-align: right
+}
+
+input {
+	width: 100%
+}
 </style>
 </head>
 <body>
 
-   <div class="wrapper d-flex align-items-stretch">
-      <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5">
-      <!-- 지영 -->
+	<div class="wrapper d-flex align-items-stretch">
+		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+		<!-- Page Content  -->
+		<div id="content" class="p-4 p-md-5 pt-5">
+			<!-- 지영 -->
 
-      <button type="button" onclick="fn_board()">회사소식 게시판 </button>
-      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 </button>
-      <button type="button" onclick="fn_albumBoard()">앨범 게시판 </button>
-      <button type="button" onclick="fn_myBoard()">내가 쓴글 </button>
-      <button type="button" onclick="fn_bugReport()">버그리포트 </button><br>
-      <button type="button" onclick="fn_logTempBoard()">임시저장 업무일지 보관함 </button>
-      <button type="button" onclick="fn_logBoardBox()">업무일지 보관함 </button>
-      <button type="button" onclick="fn_logReqBoard()">확인요청 업무일지 보관함</button>
-      <button type="button" onclick="fn_logSentBoard()">보낸 업무일지 보관함 </button>
-      <br>
-	<!-- 의진: 메신저 연락처-->
-      <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
-      <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
-      <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
-      <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
-      <button type="button" onclick="fn_board()">게시판 바로가기</button>
+			<button type="button" onclick="fn_board()">회사소식 게시판</button>
+			<button type="button" onclick="fn_cocoaBoard()">자유 게시판</button>
+			<button type="button" onclick="fn_albumBoard()">앨범 게시판</button>
+			<button type="button" onclick="fn_myBoard()">내가 쓴글</button>
+			<button type="button" onclick="fn_bugReport()">버그리포트</button>
+			<br>
 
-      <!-- 내정보 보기-->
-      <button type="button" onclick="fn_to_myInfo()">내 정보</button>
-          <!-- 의진: 메신저 연락처-->
-        <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
-          <%--용국 템플릿 리스트 바로가기--%>
-          <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
+			<button type="button" onclick="fn_logCreate()">엄무일지 작성</button>
+			<button type="button" onclick="fn_logTempBoard()">임시저장 업무일지
+				보관함</button>
+			<button type="button" onclick="fn_logBoardBox()">업무일지 보관함</button>
+			<button type="button" onclick="fn_logReqBoard()">확인요청 업무일지
+				보관함</button>
+			<button type="button" onclick="fn_logSentBoard()">보낸 업무일지
+				보관함</button>
+			<br>
 
-      <!-- 효경 -->
-      <input type=button value="저장된" id=temporaryBtn><br>
-        <input type=button value="상신한" id=raiseBtn><br>
-        <input type=button value="승인된" id=approvalBtn><br>
-        <input type=button value="반려된" id=rejectBtn><br>
-        <input type=button value="회수한" id=returnBtn><br>
-        <input type=button value="전체보기" id=allDocBtn><br>
-        <input type=button value="문서대장" id=allConfirmDocBtn><br>
-        <br>
-        <input type=button value="메일쓰기" id=sendEmailBtn><br>
+			<!-- 내정보 보기-->
+			<button type="button" onclick="fn_to_myInfo()">내 정보</button>
+			<!-- 의진: 메신저 연락처-->
+			<button type="button" onclick="fn_messenger()">메신저 바로가기</button>
+			<%--용국 템플릿 리스트 바로가기--%>
+			<button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
+
+			<!-- 효경 -->
+			<input type=button value="저장된" id=temporaryBtn><br> <input
+				type=button value="상신한" id=raiseBtn><br> <input
+				type=button value="승인된" id=approvalBtn><br> <input
+				type=button value="반려된" id=rejectBtn><br> <input
+				type=button value="회수한" id=returnBtn><br> <input
+				type=button value="전체보기" id=allDocBtn><br> <input
+				type=button value="문서대장" id=allConfirmDocBtn><br> <br>
+			<input type=button value="메일쓰기" id=sendEmailBtn><br>
 
 
-          <%--용국--%>
-          <button type="button" onclick="fn_toBD()">결재전</button>
-          <button type="button" onclick="fn_toNFD()">진행중</button>
-          <button type="button" onclick="fn_toFD()">완료된</button>
-          <button type="button" onclick="fn_toRD()">반려한</button>
-        <script>
+			<%--용국--%>
+			<button type="button" onclick="fn_toBD()">결재전</button>
+			<button type="button" onclick="fn_toNFD()">진행중</button>
+			<button type="button" onclick="fn_toFD()">완료된</button>
+			<button type="button" onclick="fn_toRD()">반려한</button>
+			<script>
          let temporaryBtn = document.getElementById("temporaryBtn");
          temporaryBtn.onclick = function() {
             location.href = "/document/d_searchTemporary.document?&searchText=";
@@ -119,14 +130,7 @@
 			function fn_logCreate(){
 				location.href = "/log/logCreate.log"
 			}
-			//요청 받은 업무일지 읽기
-			function fn_logReqRead(){
-				location.href = "/log/logReqRead.log"
-			}
-			//업무일지 수정 & 임시저장된 문서 수정
-			function fn_logModify(){
-				location.href = "/log/logModify.log"
-			}
+			
 			//임시저장 업무일지 보관함
 			function fn_logTempBoard(){
 				location.href = "/log/logBoard.log?status=TEMP"
@@ -185,8 +189,8 @@
        function fn_toRD(){location.href="/document/toRDocument.document?cpage=1"}
 
    </script>
-        
-      </div>
-   </div>
+
+		</div>
+	</div>
 </body>
 </html>

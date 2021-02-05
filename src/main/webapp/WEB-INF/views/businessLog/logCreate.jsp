@@ -12,6 +12,7 @@
 .date_box>input{width:58%;}
 #selectBy{border:none;background-color:transparent;}
 #selectBy:focus{outline:1px solid pink;}
+input{width:100%;}
 </style>
 </head>
 

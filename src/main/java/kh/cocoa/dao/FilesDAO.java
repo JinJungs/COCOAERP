@@ -57,5 +57,8 @@ public interface FilesDAO {
 	
 	//게시글에 업로드된 파일 갯수 확인
 	public int getLogUploadFileCount(FilesDTO fdto);
+
+	//임시저장 - 다시 임시저장 부분 파일 업로드
+	public int uploadFilesTempSave(int seq, FilesDTO fdto);
 	
 }

@@ -76,8 +76,23 @@ public interface BusinessLogDAO {
 
 	/*----------확인요청 문서 승인-------*/
 	public int updateStatusConfirm(int seq,String report_contents);
+
+	//수정페이지 - 임시저장
+	public int logModifyTempUpdateDaily(DocumentDTO ddto);
+	
 	//수정페이지 - 임시저장
 	public int logModifyTempUpdate(DocumentDTO ddto);
 
+	//수정 페이지 - 수정 후 상신 (일일)
+	public int logModifyDaily(DocumentDTO ddto);
+
+	//수정 페이지 - 수정 후 상신 (주간 & 월별)
+	public int logModify(DocumentDTO ddto);
+
+	//업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기
+	public int doc_seq();
+
+	//승인의 경우 doc_confirm 테이블에 업뎃
+	public int docConf(int doc_seq, DocumentDTO ddto);
 
 }

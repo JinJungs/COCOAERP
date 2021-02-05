@@ -37,11 +37,11 @@
 			<div class="row">
 				<div class="col-2 head_box">업무기한</div>
 				<div class="col-2">${lr.report_start}</div>
-				<div class="col-3">${lr.report_end}</div>
+				<div class="col-3" >${lr.report_end}</div>
 				<div class="col-2 head_box">작성일</div>
 				<div class="col-3">${lr.write_date}</div>
 			</div>
-
+			
 			<div class="row">
 				<div class="col-2 head_box">승인</div>
 				<div class="col-5">(영업부)김지영 부장 (0)</div>
@@ -69,15 +69,7 @@
 			<div class="row">
 				<!--홈으로 이동  -->
 				<div class="col-sm-2">
-					<c:choose>
-						<c:when test="${status eq ''}">
-							<button type="button" class="btn btn-primary"
-								onclick="fn_return()">HOME</button>
-						</c:when>
-						<c:otherwise>
 							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
-						</c:otherwise>
-					</c:choose>
 				</div>
 
 				<div class="col-sm-7 d-none d-sm-block"></div>
@@ -85,7 +77,7 @@
 				<!--작성자에게만 보이는 버튼  -->
 				<div class="button_box col-sm-3">
 					<c:choose>
-						<c:when test="${status eq 'TEMP'}">
+						<c:when test="${status eq 'TEMP' || status eq 'RAISE'}">
 							<!-- 수정 버튼 - 작성자와 로그인한 사람이 동일할 경우 보임 -->
 							<button type="button" class="btn btn-primary"
 								onclick="fn_modify(${lr.seq},${lr.temp_code})">수정</button>
@@ -107,12 +99,8 @@
 			}
 	 	}
 	 	/*홈으로 */
-		function fn_home(status) {
-			location.href = "/log/logBoard.log?status=${status}";
-		}
-		/*홈으로 - 보낸 업무일지함으로 */
-		function fn_return(){
-			location.href = "/log/logSentBoard.log";
+		function fn_home() {
+			location.href = "";
 		}
 		/*수정*/
 		function fn_modify(seq,temp_code) {

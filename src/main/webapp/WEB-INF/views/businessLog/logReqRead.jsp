@@ -58,8 +58,8 @@
 						<div class="col-8">${lr.name}</div>
 					</div>
 					<div class="row">
-						<div class="col-4 head_box">Con.By :</div>
-						<div class="col-8"></div>
+						<div class="col-4 head_box">확인자 :</div>
+						<div class="col-8">${writer_name}</div>
 					</div>
 					<div class="row">
 						<div class="col head_box">Comment</div>
@@ -73,9 +73,8 @@
 
 					<div class="row">
 						<div class="col btn">
-						<input type="submit" id="btn_confirm" class="btn btn-primary" value="임시저장" formaction="/log/logReqCheck2.log"> 
-						<input type="submit" id="btn_reject" class="btn btn-primary" value="수정" formaction="/log/logReqCheck.log">
-							<button type="reset" class="btn btn-primary">취소</button>
+						<input type="submit" id="btn_confirm" class="btn btn-primary" value="승인" formaction="/log/logReqCheck2.log"> 
+						<input type="submit" id="btn_reject" class="btn btn-primary" value="거절" formaction="/log/logReqCheck.log">
 						</div>
 					</div>
 				</div>

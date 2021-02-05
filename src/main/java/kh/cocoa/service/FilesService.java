@@ -94,6 +94,10 @@ public class FilesService implements FilesDAO {
 	public int getLogUploadFileCount(FilesDTO fdto) {
 		return fdao.getLogUploadFileCount(fdto);
 	}
+	//임시저장 - 다시 임시저장 부분 파일 업로드
+	public int uploadFilesTempSave(int seq, FilesDTO fdto) {
+		return fdao.uploadFilesTempSave(seq,fdto);
+	}
 
 	
 	

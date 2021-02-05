@@ -123,9 +123,31 @@ public class BusinessLogService implements BusinessLogDAO {
 		System.out.println("서비스에서 코멘트?"+report_contents);
 		return bdao.updateStatusConfirm(seq, report_contents);
 	}
+	//수정 페이지 - 임시저장 (일일)
+	public int logModifyTempUpdateDaily(DocumentDTO ddto) {
+		return bdao.logModifyTempUpdateDaily(ddto);
+	}
+	
 	//수정 페이지 - 임시저장 
 	public int logModifyTempUpdate(DocumentDTO ddto) {
 		return bdao.logModifyTempUpdate(ddto);
+	}
+	//수정 페이지 - 수정 후 상신 (일일)
+	public int logModifyDaily(DocumentDTO ddto) {
+		return bdao.logModifyDaily(ddto);
+	}
+	//수정 페이지 - 수정 후 상신 (주간 & 월별)
+	public int logModify(DocumentDTO ddto) {
+		return bdao.logModify(ddto);
+	}
+
+	//업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기
+	public int doc_seq() {
+		return bdao. doc_seq();
+	}
+	//승인의 경우 doc_confirm 테이블에 업뎃
+	public int docConf(int doc_seq, DocumentDTO ddto) {
+		return bdao.docConf(doc_seq,ddto);
 	}
 	
 }

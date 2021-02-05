@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -10,18 +10,14 @@
 	media="screen" />
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-<style>
-.tab{border-radius: 0px 10px 0px 0px;cursor:pointer;border:1px solid pink;border-bottom:none;}
-.tab:hover{background:#115acf;color:white;}
-</style>	
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">보낸 업무일지 보관함</h2>
-			
-			<input type="hidden" id="status" name="status" value="${status }"> 
+
+			<input type="hidden" id="status" name="status" value="${status }">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link active"
 					data-toggle="tab" href="#all">전체</a></li>
@@ -65,13 +61,33 @@
 						<c:forEach var="i" items="${logAllList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 							<div class="col-sm-12 col-md-2">
-								 <a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${i.status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-							<div class="col-md-1 d-none d-md-block">${i.status}</div>
+							<!-- 상태 이미지 -->
+							<c:choose>
+								<c:when test="${i.status eq 'CONFIRM'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/승인2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'REJECT'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/거절3.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
@@ -82,13 +98,34 @@
 						<c:forEach var="i" items="${dailyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 							<div class="col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${i.status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-							<div class="col-md-1 d-none d-md-block">${i.status}</div>
+							<!-- 상태 이미지 -->
+							<c:choose>
+								<c:when test="${i.status eq 'CONFIRM'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/승인2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'REJECT'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/거절3.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+							</c:choose>
+
 						</c:forEach>
 					</div>
 				</div>
@@ -99,13 +136,34 @@
 						<c:forEach var="i" items="${weeklyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 							<div class="col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${i.status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-							<div class="col-md-1 d-none d-md-block">${i.status}</div>
+
+							<!-- 상태 이미지 -->
+							<c:choose>
+								<c:when test="${i.status eq 'CONFIRM'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/승인2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'REJECT'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/거절3.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>
@@ -116,13 +174,33 @@
 						<c:forEach var="i" items="${monthlyList}">
 							<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 							<div class="col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+								<a href="/log/logRead.log?seq=${i.seq}+&status=${i.status}">${i.title }</a>
 							</div>
 							<div class="col-md-2 d-none d-md-block">${i.name}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 							<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 							<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-							<div class="col-md-1 d-none d-md-block">${i.status}</div>
+							<!-- 상태 이미지 -->
+							<c:choose>
+								<c:when test="${i.status eq 'CONFIRM'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/승인2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'RAISE'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+								<c:when test="${i.status eq 'REJECT'}">
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/거절3.png"
+											style="height: 25px; width: 25px;">
+									</div>
+								</c:when>
+							</c:choose>
 						</c:forEach>
 					</div>
 				</div>

@@ -11,8 +11,19 @@
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <style>
-.tab{width:80px;text-align:center;border-radius: 0px 10px 0px 0px;cursor:pointer;border:1px solid pink;border-bottom:none;}
-.tab:hover{background:#115acf;color:white;}
+.tab {
+	width: 80px;
+	text-align: center;
+	border-radius: 0px 10px 0px 0px;
+	cursor: pointer;
+	border: 1px solid pink;
+	border-bottom: none;
+}
+
+.tab:hover {
+	background: #115acf;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -20,7 +31,7 @@
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<input type="hidden" id="status" name="status" value="${status }">
-			
+
 			<c:choose>
 				<c:when test="${status eq 'TEMP'}">
 					<h2 class="mb-4 board_title">업무일지 임시보관함</h2>
@@ -108,7 +119,9 @@
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
@@ -139,7 +152,9 @@
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
@@ -170,7 +185,9 @@
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
@@ -201,7 +218,9 @@
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">${i.status}</div>
+									<div class="col-md-1 d-none d-md-block">
+										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>

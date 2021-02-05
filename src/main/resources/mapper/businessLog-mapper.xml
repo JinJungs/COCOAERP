@@ -311,9 +311,35 @@
 		UPDATE DOCUMENT SET REPORT_CONTENTS=#{report_contents}, STATUS='CONFIRM' 
 		WHERE SEQ=#{seq}
 	</update>
-<!-- 수정 - 임시저장 -->
+<!-- 수정 - 임시저장 / 일일-->
+	<update id="logModifyTempUpdateDaily">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=null,CONTENTS=#{contents}, WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 임시저장 / 주간 & 월별-->
 	<update id="logModifyTempUpdate">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		CONTENTS=#{contents}, WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		REPORT_END=#{report_end},CONTENTS=#{contents}, WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
 	</update>
+<!-- 수정 - 수정완료 / 일일-->
+	<update id="logModifyDaily">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=null,CONTENTS=#{contents}, 
+		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 수정완료 / 주간 & 월별 -->
+	<update id="logModify">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=#{report_end},CONTENTS=#{contents}, 
+		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+<!--  업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기 -->
+	<select id="doc_seq" resultType="Integer">
+		SELECT DOC_CONFIRM_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='DOC_SEQ'
+	</select>
+<!-- 승인의 경우 doc_confirm 테이블에 업뎃 -->
+	<insert id="docConf">
+		INSERT INTO DOC_CONFIRM VALUES 
+		(doc_confirm_seq.nextval,#{ddto.writer_code},'1','Y',sysdate,#{doc_seq},null)
+	</insert>
 </mapper>
