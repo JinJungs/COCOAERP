@@ -32,6 +32,9 @@ public interface FilesDAO {
 
 	//파일 삭제
 	public int deleteNotificationBoardFiles(int seq);
+	
+	//임시보관 문서에 첨부된 파일 삭제
+	public int logFileDel(int seq);
 
 	/*용국 업로드*/
 	public int documentInsertFile(String oriName,String savedName,int doc_seq);
@@ -61,6 +64,9 @@ public interface FilesDAO {
 	
 	//게시글에 업로드된 파일 갯수 확인
 	public int getLogUploadFileCount(FilesDTO fdto);
+
+	//임시저장 - 다시 임시저장 부분 파일 업로드
+	public int uploadFilesTempSave(int seq, FilesDTO fdto);
 	
 	//이메일 파일저장
 	public int insertFile(FilesDTO dto);

@@ -9,6 +9,7 @@
 
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
+input{width:100%;}
 .row{border-bottom: 1px solid pink}
 #fileinsert{width:20%;}
 </style>

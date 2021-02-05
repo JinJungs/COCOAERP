@@ -209,6 +209,7 @@
 <script>
     var beforeCode=0;
     var beforeSearchCode=0;
+    var beforeSearchTeamCode=0
 
  /*채팅 메일 담당자분 여기다가 작업하시면 됩니다.*/
     function  fn_clickemail(code) {
@@ -230,31 +231,31 @@
         if($("#search").val()==""){
             return;
         }
+        fn_getSearchTeam();
         $.ajax({
             type : "POST",
             url : "/restorganchart/getSearchList.organ",
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
-                var emp="";
-                fn_getSearchTopDept();
+                var dept="";
                 for(var i=1;i<data.length;i=i+2)
                     for(var j=0;j<data[i].length;j++){
-                        emp+="<div class='col-12 searchchild p-2' onclick=fn_clickDeptSearch("+data[i][j].code+")>";
-                        emp+="<div class=row>";
-                        emp+="<div class=col-12 style='font-size:16px; font-weight: bold'>";
-                        emp+=""+data[i][j].name+"("+data[i][j].count+")";
-                        emp+="</div>";
-                        emp+="</div>";
-                        emp+="<div class=row>";
-                        emp+="<div class=col-12>";
+                        dept+="<div class='col-12 searchchild p-2' onclick=fn_clickDeptSearch("+data[i][j].code+")>";
+                        dept+="<div class=row>";
+                        dept+="<div class=col-12 style='font-size:16px; font-weight: bold'>";
+                        dept+=""+data[i][j].name+"("+data[i][j].count+")";
+                        dept+="</div>";
+                        dept+="</div>";
+                        dept+="<div class=row>";
+                        dept+="<div class=col-12>";
 
-                        emp+="　";
-                        emp+="</div>";
-                        emp+="</div>";
-                        emp+="</div>";
+                        dept+="　";
+                        dept+="</div>";
+                        dept+="</div>";
+                        dept+="</div>";
                     }
-                fn_getSearchTeam();
+                var emp="";
                 for(var i=0;i<data.length;i=i+2){
                     for(var j=0;j<data[i].length;j++){
                         emp+="<div class='col-12 searchchild p-2' onclick=fn_clicksearch("+data[i][j].code+")>";
@@ -271,12 +272,16 @@
                         emp+="</div>";
                     }
                 }
-                $(".search").attr("class","row search p-2 mt-1 position-absolute");
+                fn_getSearchTopDept();
+                $(".search").prepend(dept);
                 $(".search").append(emp);
+                $(".search").attr("class","row search p-2 mt-1 position-absolute");
+
+
 
             }
         });
-    }, 300);
+    }, 400);
 
     $("#search").bindWithDelay("blur", function (e) {
         $(".search").empty();
@@ -292,6 +297,7 @@
 
     }
     function fn_clickTopDeptSearch(code){
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
         $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".topcontainer").css("color","blue");
         fn_getAllEmpList();
@@ -305,6 +311,7 @@
             $(".topcontainer").attr("onclick","fn_closeDeptList()");
             $(".topcontainer").find("img").attr("src","/icon/dash-square.svg/");
         }
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
         $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".topcontainer").css("color","black");
         fn_getDeptEmpList(code);
@@ -333,7 +340,7 @@
                     emp += "</div>";
                     emp += "</div>";
                     emp += "</div>";
-                    $(".search").append(emp);
+                    $(".search").prepend(emp);
                 }
             }
         });
@@ -346,11 +353,11 @@
             dataType :"json",
             success : function(data) {
                 var emp = "";
-                if (data.count!=undefined) {
-                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTopDeptSearch(" + data.code + ")>";
+                for(var i=0;i<data.length;i++){
+                    emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTeamSearch(" + data[i].code + ")>";
                     emp += "<div class=row>";
                     emp += "<div class=col-12 style='font-size:16px; font-weight: bold'>";
-                    emp += "" + data.name + "(" + data.count + ")";
+                    emp += "" + data[i].name + "(" + data[i].count + ")";
                     emp += "</div>";
                     emp += "</div>";
                     emp += "<div class=row>";
@@ -359,8 +366,9 @@
                     emp += "</div>";
                     emp += "</div>";
                     emp += "</div>";
-                    $(".search").append(emp);
+
                 }
+                $(".search").append(emp);
             }
         });
     }
@@ -400,12 +408,11 @@
             data: $("#leftform").serialize(),
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 var html = "";
                 for (var i = 0; i < data.length; i++) {
                     html += "<div class='row teamWrapper'>";
                     html += "<div class=col-12>";
-                    html += "<div class=\"row mt-2 teamst teamcontainer" + data[i].dept_code + " d-none\" id=teamcontainer onclick=fn_getteamemplist(" + data[i].team_code + ")>";
+                    html += "<div class=\"row mt-2 teamst teamcontainer" + data[i].dept_code + " d-none\" id=teamcontainer"+data[i].team_code+" onclick=fn_getteamemplist(" + data[i].team_code + ")>";
                     html += "<div class=col-1></div>"
                     html += "<div class=\"col-5 p-0\">";
                     html += "<span class='pr-2'>" + data[i].team_name + "<span><span class='pl-1'> (" + data[i].count + ")</span>";
@@ -423,19 +430,33 @@
 
 
     function fn_openteamlist(code) {
+        $(".topcontainer").css("color","black");
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".teamcontainer"+code).attr("class","row mt-2 teamst teamcontainer"+code+"");
         $("#deptcontainer"+code).attr("onclick","fn_closeteamlist("+code+")");
         $("#deptcontainer"+code).find("img").attr("src","/icon/dash-square.svg/");
+        $("#deptcontainer"+code).css("color","blue");
+        beforeSearchCode=code;
         fn_getDeptEmpList(code);
 
     }
     function fn_closeteamlist(code){
+        $(".topcontainer").css("color","black");
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".teamcontainer"+code).attr("class","row teamst d-none mt-2 teamcontainer"+code+" d-none");
         $("#deptcontainer"+code).attr("onclick","fn_openteamlist("+code+")");
         $("#deptcontainer"+code).find("img").attr("src","/icon/plus-square.svg/");
+        $("#deptcontainer"+code).css("color","blue");
+        beforeSearchCode=code;
         fn_getDeptEmpList(code);
     }
+
     function fn_openDeptList(code) {
+        $(".topcontainer").css("color","blue");
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".teamWrapper").attr("class","row teamWrapper");
         $(".deptcontainer").attr("class","row mt-2 deptcontainer");
         $(".topcontainer").attr("onclick","fn_closeDeptList()");
@@ -444,12 +465,57 @@
     }
 
     function fn_closeDeptList(code) {
+        $(".topcontainer").css("color","blue");
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
         $(".teamWrapper").attr("class","row teamWrapper d-none");
         $(".deptcontainer").attr("class","row mt-2 deptcontainer d-none");
         $(".topcontainer").attr("onclick","fn_openDeptList()");
         $(".topcontainer").find("img").attr("src","/icon/plus-square.svg/");
         fn_getAllEmpList(code);
     }
+
+    function fn_clickTeamSearch(code){
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
+
+        var teamContainer = $("#teamcontainer"+code).attr("class");
+        var isCloseRep = teamContainer.replaceAll("d-none","");
+        var getCode =isCloseRep.substr(16,15).replaceAll(" ","");
+        var getCodeNum =getCode.substr(13,1);
+        var teamWrapper =$(".teamWrapper").attr("class");
+        var compTeamWrapper ="row teamWrapper d-none";
+        var compTeamContainer ="row mt-2 teamst "+getCode+" d-none";
+
+        if(teamWrapper==compTeamWrapper){
+            $(".teamWrapper").attr("class","row teamWrapper");
+            $(".deptcontainer").attr("class","row mt-2 deptcontainer");
+            $(".teamcontainer"+getCodeNum).attr("class","row mt-2 teamst "+getCode);
+            $(".topcontainer").find("img").attr("src","/icon/dash-square.svg/");
+            $("#deptcontainer"+getCodeNum).find("img").attr("src","/icon/dash-square.svg/");
+            $("#deptcontainer"+getCodeNum).attr("onclick","fn_closeteamlist("+getCodeNum+")");
+            $(".topcontainer").attr("onclick","fn_closeDeptList()");
+        }else{
+            $(".deptcontainer").attr("class","row mt-2 deptcontainer");
+            $("."+getCode).attr("class","row mt-2 teamst "+getCode);
+            $(".teamcontainer"+getCodeNum).attr("class","row mt-2 teamst "+getCode);
+            $(".topcontainer").find("img").attr("src","/icon/dash-square.svg/");
+            $("#deptcontainer"+getCodeNum).find("img").attr("src","/icon/dash-square.svg/");
+            $("#deptcontainer"+getCodeNum).attr("onclick","fn_closeteamlist("+getCodeNum+")");
+            $(".topcontainer").attr("onclick","fn_closeDeptList()");
+        }
+        if(teamContainer==compTeamContainer){
+            $("#deptcontainer"+getCodeNum).find("img").attr("src","/icon/dash-square.svg/");
+            $("#deptcontainer"+getCodeNum).attr("onclick","fn_closeteamlist("+getCodeNum+")");
+            $("#teamcontaner"+code).attr("class","row mt-2 teamst "+getCode);
+        }
+        fn_getteamemplist(code);
+        $("#teamcontainer"+code).css("color","blue");
+        beforeSearchTeamCode=code;
+
+
+    }
+
 
     function fn_getAllEmpList(code){
         if(code==beforeCode){return;}
@@ -458,7 +524,6 @@
             url : "/restorganchart/getAllEmpList.organ",
             dataType :"json",
             success : function(data) {
-                console.log(data);
                 if(data.length!=0) {
                     var header = "";
                     $(".r-container").empty();
@@ -545,7 +610,11 @@
 
     function fn_getteamemplist(code){
         if(code==beforeCode){return;}
-
+        $(".topcontainer").css("color","black");
+        $("#teamcontainer"+beforeSearchTeamCode).css("color","black");
+        $("#deptcontainer"+beforeSearchCode).css("color","black");
+        $("#teamcontainer"+code).css("color","blue");
+        beforeSearchTeamCode=code;
         $.ajax({
             type : "POST",
             url : "/restorganchart/getteamemplist.organ",

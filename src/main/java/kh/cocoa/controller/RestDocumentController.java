@@ -7,6 +7,7 @@ import kh.cocoa.service.*;
 import kh.cocoa.statics.Configurator;
 import kh.cocoa.statics.DocumentConfigurator;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.util.FileCopyUtils;
@@ -44,6 +45,96 @@ public class RestDocumentController {
     @Autowired
     private OrderService oservice;
 
+
+    @RequestMapping("getTeamList")
+    public String getTeamList(@RequestParam("code")List<Integer> code){
+        List<TeamDTO> list = new ArrayList<>();
+        List<HashMap> hmlist = new ArrayList<>();
+        for(int i=0;i<code.size();i++){
+            list=tservice.getTeamList(code.get(i));
+            for(int j=list.size()-1;j>=0;j--){
+                HashMap map = new HashMap<>();
+                int getTemaCount=eservice.getTeamCount(list.get(j).getCode());
+                map.put("count",getTemaCount);
+                map.put("team_code",list.get(j).getCode());
+                map.put("team_name",list.get(j).getName());
+                map.put("dept_code",list.get(j).getDept_code());
+                hmlist.add(map);
+            }
+        }
+        JSONArray json = new JSONArray(hmlist);
+        return json.toString();
+    }
+
+    @RequestMapping("getemplist")
+    public String getemplist(@RequestParam("team_code")List<Integer> team_code){
+        List<EmployeeDTO> getTeamList = new ArrayList<>();
+
+        List<HashMap> hmlist = new ArrayList<>();
+        for(int i=0;i<team_code.size();i++) {
+            getTeamList=eservice.getTeamEmp(team_code.get(i));
+            for(int j=0;j<getTeamList.size();j++){
+                HashMap map = new HashMap<>();
+                map.put("code",getTeamList.get(j).getCode());
+                map.put("name",getTeamList.get(j).getName());
+                map.put("dept_code",getTeamList.get(j).getDept_code());
+                map.put("dept_name",getTeamList.get(j).getDeptname());
+                map.put("pos_code",getTeamList.get(j).getPos_code());
+                map.put("pos_name",getTeamList.get(j).getPosname());
+                map.put("team_code",getTeamList.get(j).getTeam_code());
+                map.put("team_name",getTeamList.get(j).getTeamname());
+                hmlist.add(map);
+            }
+        }
+        JSONArray json = new JSONArray(hmlist);
+        return json.toString();
+    }
+
+    @RequestMapping("getSearchList")
+    public String getSearchList(@RequestParam("name")String name){
+        List<EmployeeDTO> getSearchEmpCode =eservice.getSearchEmpCode(name);
+        List<DepartmentsDTO> getSearchDeptCode =dservice.getSearchDeptCode(name);
+        List<TeamDTO> getSearchTeamCode =tservice.getSearchTeamCode(name);
+        JSONArray json = new JSONArray();
+        json.put(getSearchDeptCode);
+        json.put(getSearchTeamCode);
+        json.put(getSearchEmpCode);
+        return json.toString();
+    }
+
+    @RequestMapping("getDeptList")
+    public String getDeptList(){
+        List<DepartmentsDTO> getDeptList = dservice.getDeptList();
+        JSONArray json = new JSONArray(getDeptList);
+        return json.toString();
+    }
+
+    @RequestMapping("getSearchDeptList")
+    public String getSearchDeptList(@RequestParam("code") int code){
+        if(code==0){
+            return "";
+        }
+        DepartmentsDTO dept = dservice.getDeptNameByCode(code);
+        JSONObject json = new JSONObject(dept);
+        return json.toString();
+    }
+
+    @RequestMapping("getSearchTeamList")
+    public String getSearchTeamList(@RequestParam("code") int code){
+        if(code==0){
+            return "";
+        }
+        TeamDTO team = tservice.getTeamName(code);
+        JSONObject json = new JSONObject(team);
+        return json.toString();
+    }
+    @RequestMapping("getSearchEmpList")
+    public String getSearchEmpList(@RequestParam("code") int code){
+
+        EmployeeDTO emp = eservice.getEmpInfo(code);
+        JSONObject json = new JSONObject(emp);
+        return json.toString();
+    }
 
     @RequestMapping("getteamlist.document")
     public String getTeamList(int code) {
