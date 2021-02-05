@@ -12,6 +12,7 @@
 .date_box>input{width:58%;}
 #selectBy{border:none;background-color:transparent;}
 #selectBy:focus{outline:1px solid pink;}
+input{width:100%;}
 </style>
 </head>
 
@@ -93,8 +94,6 @@
 					
 						<button type="button" class="btn btn-primary" id="btn_tempSaved" 
 					 onclick="fn_temp_Saved()">임시저장</button>
-						<!-- <button type="button" class="btn btn-primary" id="btn_write"
-						onclick="fn_submit(2)">작성</button> -->
 						<button type="button" class="btn btn-primary" id="btn_write"
 						onclick="fn_write()">작성</button>
 						<button type="reset" class="btn btn-primary">취소</button>

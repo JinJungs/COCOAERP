@@ -187,25 +187,15 @@
                     <div class="row w-100">
                         <div class="col-4 m-3" style=" border: 1px solid pink">
                             <div class="row" style="border-bottom: 1px solid pink;">
-                                <div class="col-12 p-2"><input type="text" class="w-100" id="search" placeholder="부서명, 이름 입력."></div>
+                                <div class="col-12 p-2"><input type="text" class="w-100" id="search" placeholder="부서명, 이름 입력." autocomplete="off"></div>
                             </div>
                             <div class="row">
                                 <div class="col-12 ">-대표 회사명 넣을지?</div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
+                            <form id="deptForm">
 
-                            <c:forEach var="i" items="${deptList}">
-                                <div class="allcontainer w-100">
-                                    <div class="deptteamcontainer" id="deptteamcontainer${i.code}">
-                                        <div class="row" style="cursor: pointer;" id="confirmdept${i.code}">
-                                            <div class="col-1 "><img src="/icon/plus-square.svg" id="deptopencloseicon${i.code}" onclick="fn_getteamlist(${i.code})"> </div>
-                                            <div class="col-5  p-0 pl-1" >${i.name}</div>
-                                            <input type="hidden" id="deptname${i.code}" value="${i.name}">
-                                        </div>
-                                    </div>
-                                    <div id="childcontainer${i.code}"></div>
-                                </div>
-                            </c:forEach>
+                            </form>
 
                         </div>
                         <div class="col-1 p-0 d-flex justify-content-center" style="min-height:540px; align-items: center; flex:1;">
@@ -246,20 +236,30 @@
 <script src="/js/jquery.MultiFile.min.js"></script>
 <script src="/js/bootstrap-datepicker.js"></script>
 <script src="/js/bootstrap-datepicker.ko.min.js"></script>
+<script src="/js/bindWithDelay.js"></script>
 
 <script>
 
-    var getempcode=0;
-    var getaddedempcode = [];
-    var count =0;
-    var clickstat = document.getElementsByClassName("clickstat");
     var curdate = new Date();
     var year =curdate.getFullYear();
     var month =curdate.getMonth()+1;
     var date = curdate.getDate();
-    var today =year+"-0"+month+"-"+date;
+    var today ="";
+    if(month.toString().length==1&&date.toString().length==1) {
+        today = year + "-0" + month + "-0" + date;
+    }else if(month.toString().length==1){
+        today =year + "-0" + month + "-" + date;
+    }else{
+        today =year + "-" + month + "-" + date;
+    }
 
-
+    var getempcode=0;
+    var getaddedempcode = [];
+    var count =0;
+    var beforeClickEmp =0;
+    var beforeTeamcode =-1;
+    var beforeDeptCode =-1;
+    var getSearchKeyCode=0;
 
     $(function() {
         var token = $("meta[name='_csrf']").attr("content");
@@ -269,7 +269,8 @@
                 xhr.setRequestHeader(header, token);
             });
         }
-        console.log(today);
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
         $("#leave_start").val(today);
         $("#leave_end").val(today);
         $(".empcontainer2").selectable();
@@ -326,6 +327,295 @@
             language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
         });//datepicker end
     });//ready end*/
+
+    function fn_getDeptList(){
+        return new Promise(function (resolve,reject) {
+            $.ajax({
+                type : "POST",
+                url : "/test/getDeptList",
+                dataType :"json",
+                success : function(data) {
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        html+="<div class='allcontainer w-100'>";
+                        html+="<div class=deptteamcontainer id=deptteamcontainer"+data[i].code+" onclick=fn_openTeamList("+data[i].code+")>";
+                        html+="<div class=row style='cursor:pointer;' id=confirmdept"+data[i].code+">";
+                        html+="<div class=col-1><img src='/icon/plus-square.svg' id=deptopencloseicon"+data[i].code+"></div>"
+                        html+="<div class=\"col-5  p-0 pl-1\" >"+data[i].name+"</div>";
+                        html+="<input type=hidden id=deptname"+data[i].code+" value="+data[i].name+">";
+                        html+="<input type=hidden name=code value="+data[i].code+">";
+                        html+="</div>";
+                        html+="</div>";
+                        html+="<div class=\"childcontainer d-none\" id=childcontainer"+data[i].code+"></div>";
+                        html+="</div>";
+                    }
+                    $("#deptForm").append(html);
+                    resolve(data);
+
+                }
+            });
+        })
+    }
+
+    function fn_getteamlist(){
+        return new Promise(function (resolve,reject) {
+            $.ajax({
+                type : "POST",
+                url : "/test/getTeamList",
+                data : $("#deptForm").serialize(),
+                dataType :"json",
+                success : function(data) {
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        html+="<div class=teamcontainer id=teamcontainer"+data[i].team_code+">";
+                        html+="<div class=row d-none style=cursor:pointer; id=closeOpenTeamDiv"+data[i].team_code+" onclick=fn_openEmpList("+data[i].team_code+")>";
+                        html+="<input type=hidden name=team_code value="+data[i].team_code+">";
+                        html+="<div class=\"col-1 p-0 ml-2 text-right\"><img src=/icon/plus-square.svg id=teamopencloseicon"+data[i].code+"></div>";
+                        html+="<div class=\"col-5 p-0 pl-1\">"+data[i].team_name+"</div>";
+                        html+="</div>";
+                        html+="</div>";
+                        html+="<div class='empWrapper d-none' id=empWrapper"+data[i].team_code+">";
+                        html+="</div>";
+                        $("#childcontainer"+data[i].dept_code).append(html);
+                        html="";
+                    }
+                    resolve(data);
+                }
+            });
+        })
+    }
+
+    function fn_getemplist(){
+        $.ajax({
+            type : "POST",
+            url : "/test/getemplist",
+            data :$("#deptForm").serialize(),
+            dataType :"json",
+            success : function(data) {
+                var html="";
+                for(var i=0;i<data.length;i++){
+                    html+="<div class=empcontainer id=empcontainer"+data[i].code+" onclick=fn_clickCurMember("+data[i].code+")>";
+                    html+="<div class=\"row clickstat\" id=clickStat"+data[i].code+">";
+                    html+="<div class=col-1></div>";
+                    html+="<div class=\"col-8 pl-1\">-"+data[i].name+"("+data[i].pos_name+")</div>";
+                    html+="<input type=hidden value="+data[i].name+">";
+                    html+="</div>";
+                    html+="</div>";
+                    $("#empWrapper"+data[i].team_code).append(html);
+                    html="";
+                }
+            }
+        });
+    }
+
+    function fn_getSearchDeptList(code){
+        return new Promise(function (resolve,reject) {
+
+            $.ajax({
+                type : "POST",
+                data : {code:code},
+                url : "/test/getSearchDeptList",
+                dataType :"json",
+                success : function(data) {
+                    if(code==beforeDeptCode){
+                        return;
+                    }
+                    var html="";
+                    html+="<div class='allcontainer w-100 d-none'>";
+                    html+="<div class=deptteamcontainer id=deptteamcontainer"+data.code+" onclick=fn_closeTeamList("+data.code+")>";
+                    html+="<div class=row style='cursor:pointer;' id=confirmdept"+data.code+">";
+                    html+="<div class=col-1><img src='/icon/plus-square.svg' id=deptopencloseicon"+data.code+"></div>"
+                    html+="<div class=\"col-5  p-0 pl-1\" >"+data.name+"</div>";
+                    html+="<input type=hidden id=deptname"+data.code+" value="+data.name+">";
+                    html+="<input type=hidden name=code value="+data.code+">";
+                    html+="</div>";
+                    html+="</div>";
+                    html+="<div class=\"childcontainer\" id=childcontainer"+data.code+"></div>";
+                    html+="</div>";
+                    $("#deptForm").append(html);
+                    beforeDeptCode=code;
+                    resolve(data);
+
+                }
+            });
+        })
+    }
+
+    function fn_getSearchTeamList(code){
+        return new Promise(function (resolve,reject) {
+            var tid=setTimeout(function () {
+                $.ajax({
+                    type : "POST",
+                    url : "/test/getSearchTeamList",
+                    data : {code:code},
+                    dataType :"json",
+                    success : function(data) {
+                        if(code==beforeTeamcode){
+                            return;
+                        }
+                        $("#deptopencloseicon"+data.dept_code).attr("src","/icon/dash-square.svg");
+                        var html="";
+                        html+="<div class=teamcontainer id=teamcontainer"+data.code+">";
+                        html+="<div class=row d-none style=cursor:pointer; id=closeOpenTeamDiv"+data.code+" onclick=fn_closeEmpList("+data.code+")>";
+                        html+="<input type=hidden name=team_code value="+data.code+">";
+                        html+="<div class=\"col-1 p-0 ml-2 text-right\"><img src=/icon/plus-square.svg id=teamopencloseicon"+data.code+"></div>";
+                        html+="<div class=\"col-5 p-0 pl-1\">"+data.name+"</div>";
+                        html+="</div>";
+                        html+="</div>";
+                        html+="<div class='empWrapper' id=empWrapper"+data.code+">";
+                        html+="</div>";
+                        $("#childcontainer"+data.dept_code).append(html);
+                        beforeTeamcode=code;
+                        resolve(data);
+                    }
+                });
+            },50)
+
+        })
+    }
+
+    function fn_getSearchEmpList(code){
+        return new Promise(function (resolve,reject) {
+            var tid= setTimeout(function () {
+                $.ajax({
+                    type : "POST",
+                    url : "/test/getSearchEmpList",
+                    data :{code:code},
+                    dataType :"json",
+                    success : function(data) {
+                        $("#teamopencloseicon"+data.team_code).attr("src","/icon/dash-square.svg");
+                        var html="";
+                        html+="<div class=empcontainer id=empcontainer"+data.code+" onclick=fn_clickCurMember("+data.code+")>";
+                        html+="<div class=\"row clickstat\" id=clickStat"+data.code+">";
+                        html+="<div class=col-1></div>";
+                        html+="<div class=\"col-8 pl-1\">-"+data.name+"("+data.posname+")</div>";
+                        html+="<input type=hidden value="+data.name+">";
+                        html+="</div>";
+                        html+="</div>";
+                        $("#empWrapper"+data.team_code).append(html);
+                        resolve(data);
+                        $(".allcontainer").attr("class","allcontainer w-100");
+                    }
+
+                });
+            },100)
+
+        });
+    }
+
+
+
+    $("#search").bindWithDelay("keyup", function (e) {
+        beforeTeamcode=-1;
+        beforeDeptCode=-1;
+        if($("#search").val()==""){
+            if(getSearchKeyCode==8){
+                return;
+            }
+            $("#deptForm").empty();
+            fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+            getSearchKeyCode=e.keyCode;
+            return;
+        }
+        $.ajax({
+            type : "POST",
+            url : "/test/getSearchList",
+            data : {name: $("#search").val()},
+            dataType :"json",
+            success : function(data) {
+                getSearchKeyCode=0;
+                var d1 = data[0].length; //부서검색
+                var d2 = data[1].length; //팀검색
+                var d3 = data[2].length; //이름검색
+                $("#deptForm").empty();
+                if(d3!=0&&d2==0||d1==0){
+                    for(var i=2;i<data.length;i=i+2){
+                        for(var j=0;j<data[i].length;j++){
+                            fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].team_code)).then(fn_getSearchEmpList(data[i][j].code));
+                        }
+                    }
+                }
+                if(d3==0&&d2==0&&d1!=0){
+                    for(var i=0;i<data.length;i=i+2){
+                        for(var j=0;j<data[i].length;j++){
+                            fn_getSearchDeptList(data[i][j].code);
+                        }
+                    }
+                    var tid=setTimeout(function () {
+                        $(".allcontainer").attr("class","allcontainer w-100");
+                    },20)
+                }
+                if(d3==0&&d2!=0&&d1==0){
+                    console.log("팀");
+                    for(var i=1;i<data.length;i=i+2){
+                        for(var j=0;j<data[i].length;j++){
+                            fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));
+                        }
+                    }
+                    var tid=setTimeout(function () {
+                        $(".allcontainer").attr("class","allcontainer w-100");
+                    },20)
+                }
+                if(d3==0&&d2!=0&&d1!=0){
+                    console.log("둘다");
+                    for(var i=1;i<data.length;i=i+2){
+                        for(var j=0;j<data[i].length;j++){
+                            fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));
+                        }
+                    }
+                    var tid=setTimeout(function () {
+                        $(".allcontainer").attr("class","allcontainer w-100");
+                    },20)
+                }
+                if(d3!=0&&d2!=0&&d1!=0){
+                    for(var i=2;i<data.length;i=i+2){
+                        for(var j=0;j<data[i].length;j++){
+                            fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].team_code)).then(fn_getSearchEmpList(data[i][j].code));
+                        }
+                    }
+                }
+
+
+            }
+        });
+
+    }, 300);
+
+    function fn_openTeamList(code) {
+        $("#childcontainer" + code).attr("class", "childcontainer");
+        $("#deptteamcontainer" + code).attr("onclick", "fn_closeTeamList(" + code + ")");
+        $("#deptteamcontainer" + code).find('img').attr("src", "/icon/dash-square.svg");
+    }
+
+    function fn_closeTeamList(code) {
+        $("#childcontainer" + code).attr("class", "childcontainer d-none");
+        $("#deptteamcontainer" + code).attr("onclick", "fn_openTeamList(" + code + ")");
+        $("#deptteamcontainer" + code).find('img').attr("src", "/icon/plus-square.svg");
+    }
+
+    function fn_openEmpList(code) {
+        $("#empWrapper"+code).attr("class","empWrapper");
+        $("#teamcontainer"+code).find('img').attr("src","/icon/dash-square.svg");
+        $("#closeOpenTeamDiv"+code).attr("onclick","fn_closeEmpList("+code+")");
+    }
+
+    function fn_closeEmpList(code) {
+        $("#empWrapper"+code).attr("class","empWrapper d-none");
+        $("#teamcontainer"+code).find('img').attr("src","/icon/plus-square.svg");
+        $("#closeOpenTeamDiv"+code).attr("onclick","fn_openEmpList("+code+")");
+    }
+
+    function fn_clickCurMember(code) {
+        $("#clickStat"+beforeClickEmp).css("color","black");
+        getempcode=code;
+        $("#btn_confirm").attr("disabled",false);
+        $("#clickStat"+code).css("color","blue");
+        beforeClickEmp=code;
+
+    }
+
+
+
 
     function fn_changetype() {
         var type = $("#leavetype").val();
@@ -408,34 +698,6 @@
 
     }
 
-    function fn_openconfirmdept(code){
-        var a= $("#deptteamcontainer"+code).nextAll();
-        a.css("display","block");
-        $("#deptopencloseicon"+code).attr("onclick","fn_closeconfirmdept("+code+")");
-        $("#deptopencloseicon"+code).attr("src","/icon/dash-square.svg");
-    }
-
-    function fn_closeconfirmdept(code) {
-        var a= $("#deptteamcontainer"+code).nextAll();
-        a.css("display","none");
-        $("#deptopencloseicon"+code).attr("onclick","fn_openconfirmdept("+code+")");
-        $("#deptopencloseicon"+code).attr("src","/icon/plus-square.svg");
-    }
-
-    function fn_openconfirmteam(code,rootcode){
-        var a= $("#teamcontainer"+code).next();
-        a.css("display","block");
-        $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+")");
-        $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
-    }
-
-    function fn_closeconfirmteam(code,rootcode) {
-        var a= $("#teamcontainer"+code).next();
-        a.css("display","none");
-        $("#teamopencloseicon"+code).attr("onclick","fn_openconfirmteam("+code+")");
-        $("#teamopencloseicon"+code).attr("src","/icon/plus-square.svg");
-
-    }
 
     $("#file").MultiFile({
         max: 5, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
@@ -453,94 +715,6 @@
         }
     });
 
-
-
-    function fn_getteamlist(code){
-        $.ajax({
-            type : "POST",
-            url : "/restdocument/getteamlist.document",
-            data : {code },
-            dataType :"json",
-            success : function(data) {
-                console.log(code);
-                var html="";
-                for(var i=0;i<data.length;i++){
-                    html+="<div id=teamcontainer"+data[i].code+">";
-                    html+="<div class=row d-none style=cursor:pointer onclick=fn_closeconfirmteam() id=confirmteam"+data[i].code+">";
-                    html+="<div class=\"col-1 p-0 ml-2 text-right\"><img src=/icon/plus-square.svg id=teamopencloseicon"+data[i].code+" onclick=fn_getemplist("+data[i].code+","+code+")></div>";
-                    html+="<div class=\"col-5 p-0 pl-1\">"+data[i].name+"</div>";
-                    html+="</div>";
-                    html+="</div>";
-                }
-                $("#childcontainer"+code).append(html);
-                $("#deptopencloseicon"+code).attr("src","/icon/dash-square.svg");
-                $("#deptopencloseicon"+code).attr("onclick","fn_closeconfirmdept("+code+")");
-            }
-        });
-    }
-
-    function fn_getemplist(code,rootcode){
-        $.ajax({
-            type : "POST",
-            url : "/restdocument/getemplist.document",
-            data : {code },
-            dataType :"json",
-            success : function(data) {
-                var html="";
-                html+="<div class=empcontainer2>";
-                for(var i=0;i<data.length;i++){
-                    html+="<div id=empcontainer"+data[i].code+">";
-                    html+="<div class=\"row clickstat\" id=getemp"+code+" onclick=fn_getempname(this,"+code+","+data[i].code+")>";
-                    html+="<div class=col-1></div>";
-                    html+="<div class=\"col-8 pl-1\">-"+data[i].name+"("+data[i].posname+")</div>";
-                    html+="<input type=hidden value="+data[i].name+">";
-                    html+="</div>";
-                    html+="</div>";
-                }
-                html+="</div>";
-                $("#teamcontainer"+code).after(html);
-                $("#teamopencloseicon"+code).attr("src","/icon/dash-square.svg");
-                $("#teamopencloseicon"+code).attr("onclick","fn_closeconfirmteam("+code+","+rootcode+")");
-
-            }
-        });
-    }
-
-
-    $("#search").keydown(function (key) {
-        var size = $("#deptsize").val();
-        var search = $("#search").val();
-        if(key.keyCode==13) {
-            for (var i = 1; i <= size; i++) {
-                var a = $("#deptname" + i).val();
-                if (a.includes(search)) {
-                    $(".allcontainer").eq(i - 1).css("display", "block");
-                } else {
-                    $(".allcontainer").eq(i - 1).css("display", "none");
-                }
-            }
-        }
-
-    })
-
-    function fn_getempname(obj,code,empcode){
-
-        var a = $("#getemp"+code).children('input').val();
-        $("#btn_confirm").attr("disabled",false);
-        getempcode=empcode;
-        var curIndex = $(".clickstat").index(obj);
-        for(var i=0;i<clickstat.length;i++){
-            if(i==curIndex){
-                clickstat[i].style.backgroundColor='#F2F6FF';
-                clickstat[i].style.color="blue";
-            }else{
-                clickstat[i].style.backgroundColor='white';
-                clickstat[i].style.fontWeight="normal";
-                clickstat[i].style.color="#333";
-            }
-        }
-
-    }
 
     function fn_addconfirmlist() {
         var code = getempcode;
@@ -668,7 +842,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchTemporary.document.document";
                 }
             }
         });

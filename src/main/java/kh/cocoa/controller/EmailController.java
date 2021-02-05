@@ -89,31 +89,31 @@ public class EmailController {
 	
 	//메일쓰기
 	@RequestMapping("sendEmail.email")
-	public String sendPage(EmailDTO dto, @RequestParam("file") List<MultipartFile> file) throws Exception{
-		//사번으로 이메일 셋팅
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		int empCode = (Integer)loginDTO.getCode();*/
-		dto.setSender("yhk@cocoa.com");//dto.setEmp_code(empCode);
+	public String sendPage(EmailDTO dto, List<MultipartFile> file) throws Exception{
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
+		dto.setSender(email);
 		
 		//제목없을 때 (제목없음) 입력
-		if(dto.getTitle().contentEquals("")) {
+		if(dto.getTitle()==null) {
 			dto.setTitle("(제목 없음)");
 		}
-		
-		//내용 없을 때
-		if(dto.getContents().contentEquals("")) {
+		//내용없을 때
+		if(dto.getContents()==null) {
 			dto.setContents(" ");
 		}
 		
-		//receiverEmail로 받는사람 사번구하기
+		//receiverEmail로 받는사람 있는지 확인
+		System.out.println("dto.getReceiver() : " + dto.getReceiver());
 		int isEmailExist = employeeService.isEmailExist(dto.getReceiver());
+		
 		
 		//seq받아와서 세팅
 		int seq = eservice.getSeq();
 		dto.setSeq(seq);
 		
 		 //수신자 있을 때
-		if(isEmailExist >0) {
+		if(isEmailExist > 0) {
 			eservice.sendEmail(dto);
 		} //이메일 잘못 쓸 경우 처리
 		else {
@@ -173,15 +173,34 @@ public class EmailController {
 			}
 		}
 
-		return "redirect:/email/sendList.email?cpage=1";
+		return "email/sendPage";
+	}
+	//내가 쓴 메일 리스트 
+	@RequestMapping("sendToMeList.email")
+	public String sendToMeList(String cpage, Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
+		
+		if (cpage == null) {
+			cpage = "1";
+		}
+		int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+		
+		List<EmailDTO> emailList = eservice.sendToMeList(email, startRowNum, endRowNum);
+		String navi = eservice.getNavi(email, "sendToMe", Integer.parseInt(cpage));
+		
+		model.addAttribute("emailList", emailList);
+		model.addAttribute("cpage", cpage);
+		model.addAttribute("navi", navi);
+		
+		return "email/listToMe";
 	}
 	//받은메일 리스트 
 	@RequestMapping("receiveList.email")
 	public String receiveList(String cpage, Model model) {
-		//이메일 받아오기
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getEmail();*/
-		String email = "yhk@cocoa.com";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 		
 		if (cpage == null) {
 			cpage = "1";
@@ -201,10 +220,8 @@ public class EmailController {
 	//내가 쓴 리스트 
 	@RequestMapping("sendList.email")
 	public String sendList(String cpage, Model model) {
-		//이메일 받아오기
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getEmail();*/
-		String email = "yhk@cocoa.com";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 
 		if (cpage == null) {
 			cpage = "1";
@@ -224,10 +241,8 @@ public class EmailController {
 	//휴지통 리스트 
 	@RequestMapping("deleteList.email")
 	public String deleteList(String cpage, Model model) {
-		//이메일 받아오기
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getEmail();*/
-		String email = "yhk@cocoa.com";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 		
 		if (cpage == null) {
 			cpage = "1";
@@ -247,10 +262,8 @@ public class EmailController {
 	}
 	@RequestMapping("readPage.email")
 	public String toReadPage(String seq,  Model model) throws Exception {
-		//이메일 받아오기
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getEmail();*/
-		String email = "yhk@cocoa.com";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 				
 		EmailDTO dto = eservice.getEmail(seq);
 		List<FilesDTO> fileList = fservice.getEmailFiles(seq);
@@ -301,8 +314,10 @@ public class EmailController {
 		}
 		if(status.contentEquals("receive")) {
 			return "redirect:/email/receiveList.email";
-		}else {
+		}else if(status.contentEquals("send")){
 			return "redirect:/email/sendList.email";
+		}else {
+			return "redirect:/email/sendToMeList.email";
 		}
 	}
 	@RequestMapping("deleteNChecked.email")
@@ -317,10 +332,8 @@ public class EmailController {
 	}
 	@RequestMapping("deleteEmail.email")
 	public String deleteEmail(String seq, String status) {
-		//이메일 받아오기
-		/*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getEmail();*/
-		String email = "yhk@cocoa.com";
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 		
 		EmailDTO dto = eservice.getEmail(seq);
 		eservice.deleteEmail(seq);

@@ -79,6 +79,10 @@
 		SELECT * FROM EMPLOYEE_VIEW WHERE TEAM_CODE =#{team_code} and WITHDRAW= 'N'
 	</select>
 
+	<select id="getSearchEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW

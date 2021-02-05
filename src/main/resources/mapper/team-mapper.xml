@@ -12,4 +12,8 @@
         left join employee e on t.code = e.team_code
         where t.name like '%${name}%' group by t.name,t.code order by name
     </select>
+
+    <select id="getSearchTeamCode" resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM WHERE NAME LIKE '%${name}%'
+    </select>
 </mapper>
