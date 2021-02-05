@@ -501,10 +501,6 @@
 
     }
 
-    $( function() {
-        $(".empcontainer2").selectable();
-    } );
-
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
     }
