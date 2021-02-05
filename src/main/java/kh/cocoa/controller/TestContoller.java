@@ -75,8 +75,15 @@ public class TestContoller {
     }
 
     @RequestMapping("getSearchList")
-    public void getSearchList(@RequestParam("name")String name){
-
+    public String getSearchList(@RequestParam("name")String name){
+        List<EmployeeDTO> s1 = employeeService.getEmpNameSearchList(name);
+        List<TeamDTO> s2 = teamService.getSearchTeamList(name);
+        List<EmployeeDTO> s3 = employeeService.getDeptNameSearchList(name);
+        JSONArray json = new JSONArray();
+        json.put(s1);
+        json.put(s2);
+        json.put(s3);
+        return json.toString();
     }
 
     @RequestMapping("getDeptList")

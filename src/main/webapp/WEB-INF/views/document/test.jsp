@@ -308,7 +308,7 @@
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
-
+                console.log(data);
             }
         });
     }, 500);
