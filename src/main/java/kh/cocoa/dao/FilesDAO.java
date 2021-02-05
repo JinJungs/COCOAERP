@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 
 @Mapper 
 public interface FilesDAO {
@@ -41,9 +41,16 @@ public interface FilesDAO {
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
 
-
-	/* 채팅 파일 업로드 */
+	/*======***채팅***=====*/
+	/*=====채팅 파일 업로드=====*/
 	public int uploadFilesMsg(FilesDTO fdto);
+	
+	public int updateMsgSeq(int msg_seq, String savedName);
+	
+	public String getSavedName(int msg_seq);
+	/*=====채팅 파일 모아보기=====*/
+	public List<FilesMsgDTO> showFileMsg(int m_seq);
+	/*======***채팅***=====*/
 
 	//용국 파일 삭제
 	public int deleteDocFile(int seq);
@@ -51,7 +58,7 @@ public interface FilesDAO {
 	public List<FilesDTO> getFilesListByDocSeq2(int seq);
 
 	public int updateFile(int seq,int b_seq);
-
+	
 	//임시저장 업무일지 파일 불러오기
 	public List<FilesDTO> getLogFilesBySeq(int seq, FilesDTO fdto);
 	
@@ -61,4 +68,8 @@ public interface FilesDAO {
 	//임시저장 - 다시 임시저장 부분 파일 업로드
 	public int uploadFilesTempSave(int seq, FilesDTO fdto);
 	
+	//이메일 파일저장
+	public int insertFile(FilesDTO dto);
+	//이메일 파일 리스트
+	public List<FilesDTO> getEmailFiles(String seq);
 }

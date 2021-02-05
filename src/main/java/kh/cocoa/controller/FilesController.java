@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,88 +58,15 @@ public class FilesController {
 			sos.close();
 		}
 	}
-	
-//=== Messenger =======================================================
-	
-	@RequestMapping("insertMessengerFile.files")
-    public String insertMessageFile(MessageDTO msgdto, MultipartFile file) throws IOException{
-    	int resultF = 0;
-    	String oriName = "";
-    	System.out.println("파일 컨트롤러 insertMessengerFile 도착");
-    	System.out.println("File"+file);
-    	System.out.println("MSG DTO : " + msgdto);
-    	if(msgdto.getType().contentEquals("FILE")||msgdto.getType().contentEquals("IMAGE")) {
-        	System.out.println("메세지 컨트롤러 메세지+파일인서트 파트 도착");
-    		//00. 파일 저장 관련 설정
-    		String fileRoot = Configurator.messengerFileRoute; //파일 저장할 경로
-    		File filesPath = new File(fileRoot);
-    		//폴더 없으면 만들기
-    		if(!filesPath.exists()) {filesPath.mkdir();}
-
-    		if(file!=null) {
-    	    	//01-1.파일에 대한 정보 Files 테이블에 저장
-    			oriName = file.getOriginalFilename();
-    			String uid = UUID.randomUUID().toString().replaceAll("-", "");
-    			String savedName = uid + "-" + oriName;
-    	    	//파일 dto 인서트
-    			FilesDTO fdto = new FilesDTO().builder().oriname(oriName).savedname(savedName).build();
-    			resultF = fservice.uploadFilesMsg(fdto); 
-    			System.out.println("resultF : "+resultF);
-    			//03. 02가 성공하면 지정 경로에 파일 저장
-    			if (resultF > 0) {
-    				File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
-    				FileCopyUtils.copy(file.getBytes(), targetLoc);
-    				System.out.println("FilesController insertMessageFile 파일 저장 성공");
-    			}
-    		}
-        }else {
-        	System.out.println("FilesController insertMessageFile 에러발생");
-        }
-    	
-    	JsonObject obj = new JsonObject();
-        obj.addProperty("resultF", resultF);
-        obj.addProperty("oriName", oriName);
-        return new Gson().toJson(obj);
-    }
-	
-	@RequestMapping("/uploadMessengerFile.files")
-	public void upload( @RequestParam("fileUpload") MultipartFile file ) throws IOException {
-		System.out.println("파일컨트롤러 uploadMessengerFile 도착");
-		System.out.println("File : "+file);
-		System.out.println(file.getOriginalFilename());
-
-
-    	int resultF = 0;
-    	String fileRoot = Configurator.messengerFileRoute; //파일 저장할 경로
-		File filesPath = new File(fileRoot);
-		//폴더 없으면 만들기
-		if(!filesPath.exists()) {filesPath.mkdir();}
-
-		if(file!=null) {
-	    	//01-1.파일에 대한 정보 Files 테이블에 저장
-			String oriName = file.getOriginalFilename();
-			String uid = UUID.randomUUID().toString().replaceAll("-", "");
-			String savedName = uid + "-" + oriName;
-
-	    	//파일 dto 인서트
-			FilesDTO fdto = new FilesDTO().builder().oriname(oriName).savedname(savedName).build();
-			resultF = fservice.uploadFilesMsg(fdto);
-			System.out.println("resultF : "+resultF);
-			//03. 02가 성공하면 지정 경로에 파일 저장
-			if (resultF > 0) {
-				File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
-				FileCopyUtils.copy(file.getBytes(), targetLoc);
-			}
-		}
-		System.out.println("파일컨트롤러 업로드 resultF : " +resultF);
-	}
-
+		
 	//=== Community =======================================================
+	
+	
+/* <a href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">${i.oriname}</a>*/
+	//=== Message ========================================
 	@RequestMapping("/downloadMessengerFile.files")
 	public void downloadMsgFile(FilesDTO dto, HttpServletResponse resp) throws IOException {
-		System.out.println("요청된 파일Seq: " + dto.getSeq());
 		System.out.println("요청된 파일 SavedName: " + dto.getSavedname());
-
 		String filePath = Configurator.messengerFileRoute;
 		File targetFile = new File(filePath + "/" + dto.getSavedname());
 		// 다음 위치에 있는 파일을 파일 객체로 만든다 -> 정보를 뽑아낼 수 있게 하기 위해서
@@ -159,4 +87,10 @@ public class FilesController {
 			sos.close();
 		}
 	}
+	
+    @ExceptionHandler(NullPointerException.class)
+    public Object nullex(Exception e) {
+        System.err.println(e.getClass());
+        return "index";
+    }
 }

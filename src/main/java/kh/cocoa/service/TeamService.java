@@ -22,4 +22,14 @@ public class TeamService implements TeamDAO {
     public TeamDTO getTeamName(int code) {
         return tdao.getTeamName(code);
     }
+
+    @Override
+    public List<TeamDTO> getSearchTeamList(String name) {
+        return tdao.getSearchTeamList(name);
+    }
+
+    @Override
+    public List<TeamDTO> getSearchTeamCode(String name) {
+        return tdao.getSearchTeamCode(name);
+    }
 }

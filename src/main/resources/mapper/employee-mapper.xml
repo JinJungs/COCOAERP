@@ -14,6 +14,18 @@
 	<update id="myInfoModify">
 		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
 	</update>
+
+	<select id="findIdByEmail" resultType="String">
+		select code from employee where email = #{email}
+	</select>
+
+	<select id="findPwByEmail" resultType="String">
+		select password from employee where email = #{email} and code = #{code}
+	</select>
+
+	<update id="updateTempPw">
+		update employee set password = #{password} where code = #{code}
+	</update>
 	<!--용국-->
 	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
         select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2
@@ -43,12 +55,12 @@
 	</select>
 
 	<select id="getEmpNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
-		select * from searchview where name like '%${name}%'
+		select * from employee_view where name like '%${name}%'
 	</select>
 
 	<select	id="getDeptNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
 		select count(dept_code) count,d.code,d.name from employee
-		right join departments d on d.code=dept_code where d.name like '%${name}%' group by d.code,d.name
+		right join departments d on d.code=dept_code where d.name like '%${name}%' and d.code not in (0) group by d.code,d.name
 	</select>
 
 	<select id="getDeptEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
@@ -57,6 +69,18 @@
 
 	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW2 order by pos_code
+	</select>
+
+	<select id="getAllEmpCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE
+	</select>
+
+	<select id="getTeamEmp" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAM_CODE =#{team_code} and WITHDRAW= 'N'
+	</select>
+
+	<select id="getSearchEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%'
 	</select>
 
 	<!--소형-->
@@ -83,7 +107,7 @@
 	<select id="searchEmployeeByDeptname" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%'
 	</select>
-	<select id="searchEmployeeByDeptTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
+	<select id="searchEmployeeByTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%'
 	</select>
 

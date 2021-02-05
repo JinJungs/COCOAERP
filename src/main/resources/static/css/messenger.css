@@ -9,6 +9,7 @@
   --text-color-dark: #575757;
   --text-color-medium: #bfbfbf;
   --text-color-light: #c9c9c9;
+  --hover-color-light: #F2F2F2;
 }
 
 body,
@@ -27,7 +28,7 @@ body {
 }
 
 /* ====== hide file input ===== */
-.file-input lable {
+/* .file-input lable {
 	display:inline-block;background:#23a3a7;  color:#fff;
   padding:0px 15px;line-height:35px;cursor:pointer;
   }
@@ -40,7 +41,41 @@ body {
     display:inline-block;width:400px;height:28px;
     line-height:28px;font-size:13px;padding:0;
     border:0;
-    }
+    } */
+    
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #5cb85c;
+  cursor: pointer;
+  border: 1px solid #4cae4c;
+  border-radius: .25em;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.filebox label:hover {
+  background-color: #6ed36e;
+}
+
+.filebox label:active {
+  background-color: #367c36;
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 /* ====== hide file input ====== */
 
 
@@ -176,17 +211,23 @@ border: 1.5px solid white;
 background-color: #c23616;
 } */
 .user_info {
-  margin-top: auto;
+  margin-top: 8px;
   margin-bottom: auto;
   margin-left: 15px;
 }
 .user_info span {
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-color-dark);
 }
 .user_info p {
   font-size: 12px;
   color: var(--text-color-dark);
+  padding-top: 2px;
+}
+.user_info p > span{
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
 }
 .video_cam {
   margin-left: 150px;
@@ -305,8 +346,8 @@ background-color: #c23616;
 /* user-info span color */
 /* root text colors */
 /* .con-sidebar{
-	max-width: 90px;
-} */
+	position: fixed;
+}*/
 .con-sidebar > a {
   color: var(--text-color-dark);
 }
@@ -320,7 +361,7 @@ a:hover {
   text-decoration: none;
 }
 /* Default : we can see only memberAll list */
-#memberDept, #memberTeam, #chatList{
+#memberDept, #memberTeam, #memberMember, #memberMessage, #chatList{
 	display: none;
 }
 
@@ -358,4 +399,84 @@ a:hover {
 }
 .searchMenu div:hover{
   cursor: pointer;
+}
+.con-list:hover{
+  cursor: default;
+  background-color: var(--hover-color-light);
+}
+/*
+#searchContents{
+  background-image: url("/static/icon/x-circle-fill.svg");
+}*/
+
+
+
+/* 파일 모아보기 ===========*/
+.date {
+  margin-left: 10px;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.flex-item {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(240, 240, 240);
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flex-item:hover{
+	background-color: lightgray;
+}
+.flex-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flex-item span {
+  align-self: flex-end;
+  margin: 5px;
+  height: 25px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-item > .fileIcon {
+  width: 70px;
+  height: 70px;
+  margin-top: 25px;
+}
+
+a[href$=".pdf"] .fileIcon {
+  background-image: url("/icon/file_format/pdf-file-format-symbol.png");
+  background-size: cover;
+}
+a[href$=".ppt"] .fileIcon {
+  background-image: url("/icon/file_format/ppt-file-format.png");
+  background-size: cover;
+}
+a[href$=".rar"] .fileIcon {
+  background-image: url("/icon/file_format/rar-file-format.png");
+  background-size: cover;
+}
+a[href$=".txt"] .fileIcon {
+  background-image: url("/icon/file_format/txt-text-file-extension-symbol.png");
+  background-size: cover;
+}
+a[href$=".zip"] .fileIcon {
+  background-image: url("/icon/file_format/zip-compressed-files-extension.png");
+  background-size: cover;
+}
+/* 파일 모아보기 ===========*/
+
+a{
+	color: var(--text-color-dark);
 }

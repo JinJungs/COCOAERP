@@ -64,11 +64,26 @@
 		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
 	</insert>
 
-	<!-- 메세지 파일 업로드 -->
+	<!-- ****메세지 파일 업로드**** -->
 	<insert id="uploadFilesMsg">
-		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE)
+		<selectKey keyProperty="msg_seq" resultType="int" order="BEFORE">
+		    SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
+		</selectKey>
+		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,MSG_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{msg_seq})
 	</insert>
-
+	<select id="getSavedName" resultType="String">
+		SELECT SAVEDNAME FROM FILES WHERE MSG_SEQ=#{msg_seq} 
+	</select>
+	<!-- ****메세지 파일 업로드**** -->
+	<!-- ****메세지 파일 모아보기**** -->
+	<select id="showFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
+		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, F.UPLOADEDDATE, M.TYPE
+		FROM FILES F, MESSAGE M
+		WHERE F.MSG_SEQ = M.SEQ AND
+		M.M_SEQ = #{m_seq}
+		ORDER BY UPLOADEDDATE DESC
+	</select>
+	<!-- ****메세지 파일 모아보기**** -->	
 
 	<!--용국 파일 삭제-->
 	<delete id="deleteDocFile">
@@ -83,4 +98,10 @@
 		update files set document_seq=#{seq} where document_seq=#{b_seq}
 	</update>
 
+	<insert id="insertFile">
+		INSERT INTO FILES(SEQ, ORINAME, SAVEDNAME, UPLOADEDDATE, EMAIL_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{email_seq})
+	</insert>
+	<select id="getEmailFiles" resultType="kh.cocoa.dto.FilesDTO">
+		SELECT * FROM FILES WHERE EMAIL_SEQ=#{seq}
+	</select>
 </mapper>

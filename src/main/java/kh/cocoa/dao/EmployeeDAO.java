@@ -1,12 +1,10 @@
 package kh.cocoa.dao;
 
-import java.util.HashMap;
-import java.util.List;
-
+import kh.cocoa.dto.EmployeeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import kh.cocoa.dto.EmployeeDTO;
+import java.util.List;
 
 @Mapper
 public interface EmployeeDAO {
@@ -15,6 +13,9 @@ public interface EmployeeDAO {
 	public String login(int code, String password);
 	public EmployeeDTO loginInfo(int code);
 	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code);
+	public String findIdByEmail(String email);
+	public String findPwByEmail(String email, int code);
+	public int updateTempPw(String password, int code);
 
 	//전체 멤버 호출
 	public List<EmployeeDTO> getAllEmployee();
@@ -38,6 +39,8 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+
+	public List<EmployeeDTO> getTeamEmp(int team_code);
 	
 	/*-------------지영-BugReport-----------*/
 	public EmployeeDTO getSenderEmail(int writer_code);
@@ -60,6 +63,11 @@ public interface EmployeeDAO {
 	//pos_code 순서로 리스트 겟
 	public List<EmployeeDTO> getAllEmpListOrderByPos();
 
+	//모든 멤버 카운트 겟
+	public int getAllEmpCount();
+
+	public List<EmployeeDTO> getSearchEmpCode(String name);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
@@ -67,7 +75,7 @@ public interface EmployeeDAO {
 	// 부서이름으로 찾기
 	public List<EmployeeDTO> searchEmployeeByDeptname(String contents);
 	// 팀이름으로 찾기
-	public List<EmployeeDTO> searchEmployeeByDeptTeamname(String contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(String contents);
 
 
 	//email로 사번받아오기

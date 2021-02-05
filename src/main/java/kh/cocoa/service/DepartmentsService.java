@@ -32,4 +32,14 @@ public class DepartmentsService implements DepartmentsDAO {
     public DepartmentsDTO getDept() {
         return ddao.getDept();
     }
+
+    @Override
+    public DepartmentsDTO getSearchTopDept(String name) {
+        return ddao.getSearchTopDept(name);
+    }
+
+    @Override
+    public List<DepartmentsDTO> getSearchDeptCode(String name) {
+        return ddao.getSearchDeptCode(name);
+    }
 }

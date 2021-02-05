@@ -103,4 +103,27 @@ public class RestOrganChartController {
         JSONArray json = new JSONArray(all);
         return json.toString();
     }
+
+    @RequestMapping("getSearchTopDept.organ")
+    public String getSearchTopDept(@RequestParam("name") String name){
+        DepartmentsDTO getTop = departmentsService.getSearchTopDept(name);
+        int count = employeeService.getAllEmpCount();
+        HashMap<String,Object> map = new HashMap<>();
+        if(getTop!=null) {
+            map.put("count",count);
+            map.put("name", getTop.getName());
+            map.put("code", getTop.getCode());
+        }
+        JSONObject json = new JSONObject(map);
+        return json.toString();
+    }
+
+    @RequestMapping("getSearchTeamList.organ")
+    public String getSearchTeamList(@RequestParam("name") String name){
+        List<TeamDTO> getTeam = teamService.getSearchTeamList(name);
+        JSONArray json = new JSONArray(getTeam);
+        return json.toString();
+    }
+
+
 }

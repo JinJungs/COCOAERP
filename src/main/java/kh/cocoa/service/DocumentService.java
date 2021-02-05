@@ -57,7 +57,6 @@ public class DocumentService implements DocumentDAO {
 	public String getSearchNavi(int empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status) {
 		endDate = plusOneDate(endDate);
 		int recordTotalCount = getSearchBoardCount(empCode, startDate, endDate, templateList, searchText, cpage, status);
-
 		int pageTotalCount = recordTotalCount / DocumentConfigurator.recordCountPerPage;
 		if (recordTotalCount % DocumentConfigurator.recordCountPerPage != 0) {
 			pageTotalCount++;
@@ -581,7 +580,28 @@ public class DocumentService implements DocumentDAO {
 	public int canRetrun(int seq) {
 		return ddao.canRetrun(seq);
 	}
+
+	@Override
+	public List<DocumentDTO> getAllBeforeConfirmList(int approver_code) {
+		return ddao.getAllBeforeConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllNFConfirmList(int approver_code) {
+		return ddao.getAllNFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllFConfirmList(int approver_code) {
+		return ddao.getAllFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllRConfirmList(int approver_code) {
+		return ddao.getAllRConfirmList(approver_code);
+	}
 }
+
 
 
 
