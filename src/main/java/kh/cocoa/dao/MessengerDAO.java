@@ -1,11 +1,16 @@
 package kh.cocoa.dao;
 
 
-import kh.cocoa.dto.MessengerViewDTO;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
 
 @Mapper
 public interface MessengerDAO {
@@ -13,5 +18,19 @@ public interface MessengerDAO {
     public List<MessengerViewDTO> myMessengerList(@Param("code") int code);
 
     public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code);
+    
+    public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq, int code);
+//=============================  
+    //1:1 채팅방 있는지 확인
+    public int isSingleMessengerRoomExist(int loginEmpCode, int partyEmpCode);
+    //1:1 채팅방 시퀀스 불러오기 
+    public int getSingleMessengerRoom(int loginEmpCode, int partyEmpCode);
+    
+    //채팅방 생성 후 시퀀스 받기
+    @Options(useGeneratedKeys=true, keyProperty = "id") 
+    int insertMessengerRoomGetSeq(MessengerDTO messenger);
+
+//==========================
+
 
 }

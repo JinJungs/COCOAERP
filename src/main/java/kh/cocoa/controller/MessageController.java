@@ -54,14 +54,30 @@ public class MessageController {
         System.out.println("m_seq: " +m_seq);
         JSONArray jArray = new JSONArray();
         HashMap<String,Object> param = new HashMap<>();
-        //List<MessageDTO> list = msgservice.getMessageList(m_seq);
         List<MessageDTO> list = msgservice.getMessageListByCpage(m_seq,cpage);
         for(int i=0; i<list.size();i++){
+            param.put("seq",list.get(i).getSeq());
             param.put("contents",list.get(i).getContents());
             param.put("emp_code",list.get(i).getEmp_code());
             param.put("write_date",list.get(i).getWrite_date());
             param.put("type",list.get(i).getType());
             param.put("savedname",list.get(i).getSavedname());
+            jArray.put(param);
+        }
+        return jArray.toString();
+    }
+
+    // 채팅창에서 검색한 메세지 찾기
+    @RequestMapping("searchMsgInChatRoom")
+    @ResponseBody
+    public String searchMsgInChatRoom(int m_seq, String contents){
+        JSONArray jArray = new JSONArray();
+        HashMap<String,Object> param = null;
+        List<MessageDTO> msgSearchList = msgservice.searchMsgInChatRoom(m_seq, contents);
+        for(int i=0; i<msgSearchList.size();i++){
+            param = new HashMap<>();
+            param.put("seq",msgSearchList.get(i).getSeq());
+            param.put("contents",msgSearchList.get(i).getContents());
             jArray.put(param);
         }
         return jArray.toString();
