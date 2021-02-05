@@ -36,6 +36,8 @@ public interface EmployeeDAO {
 
 	//dto로 받아오기
 	public EmployeeDTO getEmpInfo(int code);
+
+	public List<EmployeeDTO> getTeamEmp(int team_code);
 	
 	/*-------------지영-BugReport-----------*/
 	public EmployeeDTO getSenderEmail(int writer_code);

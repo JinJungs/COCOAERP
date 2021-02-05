@@ -579,6 +579,8 @@ public class DocumentController {
 		}
 	}
 
+
+
 	@RequestMapping("addconfirm.document")
 	public String addconfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
 
@@ -736,6 +738,26 @@ public class DocumentController {
 		dservice.returnD(seq,empCode);
 		dservice.addRIsConfirm(seq,empCode,comments);
 		return "redirect:/";
+	}
+
+
+
+	@GetMapping("toTest.document")
+	public String Test(TemplatesDTO dto, Model model) {
+
+		int empCode = 1000;
+		String deptName = deptservice.getDeptName();
+		List<DepartmentsDTO> deptList = new ArrayList<>();
+		EmployeeDTO getEmpinfo = new EmployeeDTO();
+		getEmpinfo = eservice.getEmpInfo(empCode);
+		deptList = deptservice.getDeptList();
+		model.addAttribute("temp_code", dto.getCode());
+		model.addAttribute("empInfo", getEmpinfo);
+		model.addAttribute("size", deptList.size());
+		model.addAttribute("deptName", deptName);
+		model.addAttribute("dto", dto);
+		model.addAttribute("deptList", deptList);
+		return "document/test";
 	}
 
 }

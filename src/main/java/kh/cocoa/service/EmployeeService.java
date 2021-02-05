@@ -113,6 +113,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getAllEmpCount();
 	}
 
+	@Override
+	public List<EmployeeDTO> getTeamEmp(int team_code) {
+		return edao.getTeamEmp(team_code);
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override

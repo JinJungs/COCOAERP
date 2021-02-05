@@ -63,6 +63,10 @@
 		SELECT COUNT(*) FROM EMPLOYEE
 	</select>
 
+	<select id="getTeamEmp" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAM_CODE =#{team_code} and WITHDRAW= 'N'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW
