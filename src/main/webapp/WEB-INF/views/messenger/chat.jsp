@@ -23,9 +23,9 @@
                 </div>
                 <div class="user_info">
                     <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                    <span>${partyDTO.empname}</span>
+                    <span id="partyname">${partyDTO.empname}</span>
                     <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-                    
+
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -44,7 +44,7 @@
         </div>
         <!-- 검색 창-->
         <div class="container">
-            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;;">
+            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;">
                 <input class="col-9" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
                 <div class="p-1" style="position: absolute; left: 280px; top:96px;"><i class="fas fa-chevron-up"></i>
                 </div>
@@ -61,6 +61,14 @@
                 <!--여기 부터가 채팅시작-->
                 <input type="hidden" id="roomNumber" value="${seq}">
                 <input type="hidden" id="loginID" value="${loginDTO.code}">
+            </div>
+        </div>
+        <!-- 새로운 메세지 도착시 알려줌 -->
+        <div class="container">
+            <div class="row w-100 m-0 p-0" id="alertMessageBox" style="border: 1px solid black; display: none;">
+                <div class="col-3" id="alertMessagePartyname">임소형</div>
+                <div class="col-8" id="alertMessageContents">내용</div>
+                <div class="col-1"><i class="fas fa-chevron-down"></i></div>
             </div>
         </div>
         <div class="card-footer">
@@ -103,44 +111,10 @@
     let msgBox = $("#msgBox");
     let loginID = $("#loginID").val();  //${loginDTO.code}
     let m_seq = $("#roomNumber").val();
+    let partyname = $("#partyname").html();
     let lastScrollTop = 0;
 
-    // 처음 채팅방 입장시 스크롤 아래로 내리기
-    function scrollBottom() {
-        let element = document.getElementById("msg_card_body");
-        $(element).scrollTop(element.scrollHeight);
-    }
-
-    // 리스트 더 불러올 때 스크롤 위치조절
-    function scrollfixed(addedHeight) {
-        $("#msg_card_body").scrollTop(addedHeight);
-    }
-
-    // 메세지 추가될 때 스크롤 아래로 내리기
-    function scrollUpdate() {
-        $('#msg_card_body')
-            .stop()
-            .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
-    }
-
-    // 원하는 Div의 위치로 이동할 수 있을까?
-    function scrollMoveToSearch(seq) {
-        let element = document.getElementById("msg_card_body");
-        let location = document.querySelector("#msgDiv" + seq).offsetTop;
-        console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
-    }
-
-    // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
-    $("#msg_card_body").scroll(function () {
-        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
-        if (currentScrollTop == 0) {
-            cpage += 1;
-            console.log("새로 리스트 불러오기!" + cpage);
-            // 살짝 텀을 주기
-            moreList(cpage);
-        }
-    });
+    // <--------------------------------- 스크롤 이벤트 --------------------------------->
 
     // 리스트 더 불러오기
     function moreList(cpage) {
@@ -275,8 +249,6 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
-
-            scrollUpdate();
         };
 
         /* 파일 전송 */
@@ -304,6 +276,7 @@
             // 해당 토픽을 구독한다!
             client.subscribe('/topic/' +${seq}, function (e) {
                 var newMsg = "";
+                let element = document.getElementById("msg_card_body");
                 var msg = JSON.parse(e.body).contents;
                 var sender = JSON.parse(e.body).emp_code;
                 //파일 관련 메세지 구분 위해 타입추가*****
@@ -319,6 +292,8 @@
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code}) {
+                    // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
+                    let amIAtBottom = (msgBox.height() <= $(element).height()+$(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
                     /* if(type == "FILE"){
@@ -335,6 +310,16 @@
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
+                    // 나의 스크롤이 제일 하단에 있을 때는 스크롤 바를 제일 하단으로 내림
+                    // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
+                    // 클릭시 사라지고 스크롤이 하단으로 이동
+                    // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
+                    if(amIAtBottom){
+                        scrollUpdate();
+                    }else{
+                        console.log(amIAtBottom);
+                        showAlertMessageOnBottom(partyname,msg);
+                    }
                 } else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
@@ -349,10 +334,68 @@
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
+                    scrollUpdate();
                 }
             });
         });
     }
+    // alertMessgaeBox를 클릭하면 스크롤 하단 이동 + 다시 display none
+    document.getElementById("alertMessageBox").addEventListener("click", scrollUpdate);
+    document.getElementById("alertMessageBox").addEventListener("click", hideAlertMessageBox);
+    // alertMessgaeBox를 toggle
+    function showAlertMessageBox(){
+        $("#alertMessageBox").delay(1000).show();
+    }
+    function hideAlertMessageBox(){
+        $("#alertMessageBox").delay(1000).hide();
+    }
+    // 스크롤이 상단에 있을 때 상대방의 메세지를 div로 띄워줌(alertMessgaeBox)
+    function showAlertMessageOnBottom(name, msg){
+        showAlertMessageBox();
+        $("#alertMessagePartyname").html(name);
+        $("#alertMessageContents").html(msg);
+    }
+
+    // <--------------------------------- 스크롤 이벤트 --------------------------------->
+    // 처음 채팅방 입장시 스크롤 아래로 내리기
+    function scrollBottom() {
+        let element = document.getElementById("msg_card_body");
+        $(element).scrollTop(element.scrollHeight);
+    }
+
+    // 리스트 더 불러올 때 스크롤 위치조절
+    function scrollfixed(addedHeight) {
+        let element = document.getElementById("msg_card_body");
+        console.log("항상보여지는 창의 크기 : "  +$(element).height());
+        $("#msg_card_body").scrollTop(addedHeight);
+    }
+
+    // 메세지 추가될 때 스크롤 아래로 내리기
+    function scrollUpdate() {
+        $('#msg_card_body')
+            .stop()
+            .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
+    }
+
+    // 원하는 Div의 위치로 이동할 수 있을까?
+    function scrollMoveToSearch(seq) {
+        let element = document.getElementById("msg_card_body");
+        let location = document.querySelector("#msgDiv" + seq).offsetTop;
+        console.log("위치 : " + location);
+        element.scrollTo({top: location - 300, behavior: 'smooth'});
+    }
+
+    // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
+    $("#msg_card_body").scroll(function () {
+        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        if (currentScrollTop == 0) {
+            cpage += 1;
+            console.log("새로 리스트 불러오기!" + cpage);
+            // 살짝 텀을 주기
+            moreList(cpage);
+            // 여기에 scrollfixed;
+        }
+    });
 
     //***************************************************************************
 
