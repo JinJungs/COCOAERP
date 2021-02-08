@@ -150,6 +150,7 @@ public class MessengerController {
     		//멤버추가하기
     		int insertMemResult = mpservice.setMessengerMember(partyList);
     		System.out.println("insertMemResult : "+insertMemResult);
+    		//!! 만드는 사람의 정보도 넣어야함
     		
     		model.addAttribute("loginDTO",loginDTO);
     		model.addAttribute("partyList",partyList);
