@@ -19,12 +19,12 @@
 </head>
 <body>
 
-<form name="addMember" action="/messenger/addChatRoom" methode="post">
+<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" methode="post">
 <!-- top head -->
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
     <div class="row w-100 m-0 h15">
         <div class="card-header w-100 p-0 align-center" style="border-radius: 0%;">
-        <div><button onclick="addChatRoom()">추가</button></div>
+        <div><button onclick="addChatRoom()" type="button">추가</button></div>
             <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
                 <input type="text" placeholder="이름,부서,팀 검색" name=""
                        class="form-control search" id="searchContents">
@@ -461,11 +461,10 @@
     //========================체크박스 값 받기===================================
     	
     function addChatRoom(){
-    	//var empCodeList = this.getCheckboxValue();
-    	//console.log(addCodeList);
-    	//document.addMember.action="/messenger/addChatRoom";
-    	
-    	window.open("about:blank","_self").close();
+    	$("#formAddMember").submit();
+    	setTimeout(function (){
+    		window.open("about:blank","_self").close();
+        },100);
     }
     
 /*      function addChatRoom(){
