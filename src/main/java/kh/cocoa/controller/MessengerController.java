@@ -1,11 +1,7 @@
 package kh.cocoa.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
+import kh.cocoa.dto.*;
+import kh.cocoa.service.*;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,17 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.FilesMsgDTO;
-import kh.cocoa.dto.MessageViewDTO;
-import kh.cocoa.dto.MessengerDTO;
-import kh.cocoa.dto.MessengerPartyDTO;
-import kh.cocoa.dto.MessengerViewDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
-import kh.cocoa.service.MessengerPartyService;
-import kh.cocoa.service.MessengerService;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -291,8 +280,6 @@ public class MessengerController {
     	model.addAttribute("memberList", memberList);
     	return "/messenger/addMemberList";
     }
-    
-    
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
