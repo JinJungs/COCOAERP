@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.cocoa.dto.EmployeeDTO;
@@ -128,12 +128,15 @@ public class MessengerController {
 
     //채팅방 생성
     @RequestMapping("addChatRoom")
-    @ResponseBody
-    public String addChatRoom( Model model, @RequestParam(value = "empCodeList[]") List<String> empCodeList) {
-//    	임시로 삭제 : MessengerDTO messenger, List<MessengerPartyDTO> partyList,
-    	
+    public String addChatRoom( Model model, HttpServletRequest request ) {
+//    	임시로 삭제 : MessengerDTO messenger, 
+    	//@RequestParam(value = "empCodeList[]") List<String> empCodeList
+    	String[] empCodeList = request.getParameterValues("emp_code");
     	System.out.println("addChatRoom 도착");
     	System.out.println(empCodeList);
+    	for(String i : empCodeList) {
+    		System.out.println(i);
+    	}
     	return "";
     	/*
     	//참가자 목록 : 3인 이상 = M타입 채팅방 생성 // 2인 이상 = chatFromContact

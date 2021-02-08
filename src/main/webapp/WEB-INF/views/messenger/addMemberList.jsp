@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<!-- <form name="addMember" methode="post"> -->
+<form name="addMember" action="/messenger/addChatRoom" methode="post">
 <!-- top head -->
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
     <div class="row w-100 m-0 h15">
@@ -220,7 +220,7 @@
         </div>
     </div>
 </div>
-
+</form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -460,15 +460,15 @@
     
     //========================체크박스 값 받기===================================
     	
-/*     function addChatRoom(){
-    	var empCodeList = this.getCheckboxValue();
-    	console.log(addCodeList);
-    	$.addMember()
+    function addChatRoom(){
+    	//var empCodeList = this.getCheckboxValue();
+    	//console.log(addCodeList);
+    	//document.addMember.action="/messenger/addChatRoom";
     	
     	window.open("about:blank","_self").close();
-    } */ 
+    }
     
-     function addChatRoom(){
+/*      function addChatRoom(){
     	var empCodeList = this.getCheckboxValue();
     	console.log(empCodeList);
      	$.ajax({
@@ -480,7 +480,7 @@
     	    	window.open("about:blank","_self").close();
     		}
     	}) 
-    }    
+    }  */   
     	
 	function getCheckboxValue()  {
 	  // 선택된 목록 가져와서 배열에 담기
