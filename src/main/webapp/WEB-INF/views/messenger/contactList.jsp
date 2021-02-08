@@ -127,7 +127,7 @@
 					</c:if>
 				</c:forEach> </ui>
 				<ui class="contacts" id="chatList">
-					<a href="#">채팅방 추가</a>
+					<div id="openMemberList" onclick="openMemberList()">채팅방 추가</div>
 					<c:forEach var="i" items="${chatList}">
 						<li class="con-list">
 							<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
@@ -225,7 +225,12 @@
 		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
 	}
 	
-    //-------------------------------- 채팅방 열기 ---------------------------------
+    //-------------------------------- 채팅방 추가 ---------------------------------
+	//document.getElementById("openMemberList").addEventListner("click", openMemberList);
+    function openMemberList(){
+		window.open('/messenger/openMemberList','',winFeature);
+    }
+    
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"

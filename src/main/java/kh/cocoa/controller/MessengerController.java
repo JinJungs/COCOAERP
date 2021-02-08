@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kh.cocoa.dto.EmployeeDTO;
@@ -127,7 +128,14 @@ public class MessengerController {
 
     //채팅방 생성
     @RequestMapping("addChatRoom")
-    public String addChatRoom(MessengerDTO messenger, List<MessengerPartyDTO> partyList, Model model) {
+    @ResponseBody
+    public String addChatRoom( Model model, @RequestParam(value = "empCodeList[]") List<String> empCodeList) {
+//    	임시로 삭제 : MessengerDTO messenger, List<MessengerPartyDTO> partyList,
+    	
+    	System.out.println("addChatRoom 도착");
+    	System.out.println(empCodeList);
+    	return "";
+    	/*
     	//참가자 목록 : 3인 이상 = M타입 채팅방 생성 // 2인 이상 = chatFromContact
     	//받아올 값 : Messenger name / 참가자 코드 리스트
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -155,12 +163,12 @@ public class MessengerController {
     		model.addAttribute("loginDTO",loginDTO);
     		model.addAttribute("partyList",partyList);
     		model.addAttribute("seq",seq);
-    		return "messenger/chat";
+    		return "/messenger/chat";
     	}else {
     		//리턴 에이잭스? 에러?
     		return null;
     	}
-    	
+    	*/
     }
 
     @RequestMapping("messengerSearch")
@@ -275,6 +283,16 @@ public class MessengerController {
     	model.addAttribute("list", list);
     	return "/messenger/showFiles";
     }
+    
+    //멤버 추가를 위한 리스트 열기
+    @RequestMapping("openMemberList")
+    public String openMemberList(Model model) {
+    	List<EmployeeDTO> memberList = eservice.getAllEmployee();
+    	model.addAttribute("memberList", memberList);
+    	return "/messenger/addMemberList";
+    }
+    
+    
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

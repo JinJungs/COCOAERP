@@ -85,7 +85,7 @@
 
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW
+		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME
 	</select>
 	
 	<select id="getDeptMember" resultType="kh.cocoa.dto.EmployeeDTO">
