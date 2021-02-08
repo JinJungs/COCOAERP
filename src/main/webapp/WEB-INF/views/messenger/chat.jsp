@@ -113,6 +113,7 @@
     let m_seq = $("#roomNumber").val();
     let partyname = $("#partyname").html();
     let lastScrollTop = 0;
+    let before_date = "";
 
     // <--------------------------------- 스크롤 이벤트 --------------------------------->
 
@@ -133,15 +134,15 @@
                 console.log("추가되기 전 msgBox의 길이 : " + beforeMsgBoxHeight);
                 for (let i = 0; i < data.length; i++) {
                     console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
+                    let existMsg = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let write_date = new Date(data[i].write_date);
-                    let current_date = new Date();
-                    current_date.setHours(0, 0, 0, 0);
-                    //console.log(current_date > write_date);
-                    // 날짜가 바뀔 때마다 표시를 해주고 싶은데...
-
-                    let existMsg = "";
+                    let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    if(before_date !== delete_hours_date) {
+                        existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
+                        existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                    }
+                    before_date = delete_hours_date;
                     if (data[i].emp_code == ${loginDTO.code}) {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
@@ -290,6 +291,12 @@
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
+                let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
+                if(before_date !== delete_hours_date) {
+                    newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
+                    newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                }
+                before_date = delete_hours_date;
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code}) {

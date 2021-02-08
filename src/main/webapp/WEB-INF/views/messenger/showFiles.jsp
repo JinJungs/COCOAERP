@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+출처:  [개발자의 끄적끄적]
 <!doctype html>
 <html lang="en">
 <head>
@@ -58,9 +61,15 @@
             	</c:when>
             	<c:otherwise>
             		<div class="containerPerDate mb-4">
-                    <div class="date">2020-00-00</div>
-                    <div class="flex-container">
-	                    <c:forEach var="i" items="${list}">
+                    <div class="flex-container p-0 m-0">
+	                    <c:forEach var="i" items="${list}" varStatus="status">
+                            <%--<fmt:formatDate value="${list[status.index].uploadeddate}" pattern="yyyy년 M월 d일" var="before_date" />
+                            <fmt:formatDate value="${list[status.index+1].uploadeddate}" pattern="yyyy년 M월 d일" var="after_date" />--%>
+                            <c:if test="true">
+                            <div class="row w-100" id="dateBox${i.seq}">
+                                <div class="col-12 date" id="date${i.seq}">${i.uploadeddate}</div>
+                            </div>
+                            </c:if>
 	                    	<c:choose>
 	                    		<c:when test="${i.type eq 'IMAGE'}">
 			                    	<a href="/files/downloadMessengerFile.files?savedname=${i.savedname}&oriname=${i.orinameEncoded}">
@@ -120,6 +129,8 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 날짜 변경 라이브러리-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
     let jointAll = document.getElementById("jointAll");
     let jointImage = document.getElementById("jointImage");
@@ -137,11 +148,14 @@
         showAllBoldText();
         // 검색창에 검색했던 키워드 띄우기
         $("#searchContents").val(searchKeyword);
-        //하이라이팅 효과
-        /*$(".search_body:contains('"+searchKeyword+"')").each(function () {
-            var regex = new RegExp(searchKeyword,'gi');
-            $(this).html( $(this).text().replace(regex, "<span class='highlighted'>"+searchKeyword+"</span>") );
-        });*/
+
+        /*// 날짜별로 구분하기
+        let uploadeddate = moment(${i.uploadeddate}).format('YYYY년 M월 D일');
+        if(before_date !== uploadeddate) {
+            existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
+            existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+            before_date = uploadeddate;
+        }*/
     });
 
     function showAllBoldText() {
