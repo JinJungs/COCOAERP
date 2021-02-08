@@ -166,12 +166,12 @@
                 // 추가 후 msgBox의 길이를 저장
                 let afterMsgBoxHeight = msgBox.height();
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
-                if (cpage == 1) {
+                // 상단에 닿았을 때만 맨밑으로 내려주고 / 근데 addedHeight라는 인자를 넘겨줘야한다.
+                // 다른 때(검색해서 리스트를 불러올 때)는 실행되지 않아야한다....
+                if(cpage==1){
                     scrollBottom();
-                    console.log("제일처음 스크롤 이벤트 실행");
-                } else {
+                }else{
                     scrollfixed(addedHeight);
-                    // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
             }
         })
@@ -182,6 +182,7 @@
     $(document).ready(function () {
         // 리스트 불러오기
         moreList(cpage);
+
         connectStomp();
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
@@ -365,8 +366,6 @@
 
     // 리스트 더 불러올 때 스크롤 위치조절
     function scrollfixed(addedHeight) {
-        let element = document.getElementById("msg_card_body");
-        console.log("항상보여지는 창의 크기 : "  +$(element).height());
         $("#msg_card_body").scrollTop(addedHeight);
     }
 
@@ -377,12 +376,12 @@
             .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
     }
 
-    // 원하는 Div의 위치로 이동할 수 있을까?
+    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
     function scrollMoveToSearch(seq) {
         let element = document.getElementById("msg_card_body");
         let location = document.querySelector("#msgDiv" + seq).offsetTop;
         console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
+        element.scrollTo({top: location-300, behavior: 'smooth'});
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
@@ -391,14 +390,13 @@
         if (currentScrollTop == 0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
-            // 살짝 텀을 주기
-            moreList(cpage);
-            // 여기에 scrollfixed;
+            let addedHeight = moreList(cpage);
+            console.log("added: " + addedHeight);
+            scrollfixed(addedHeight);
         }
     });
 
     //***************************************************************************
-
     /* 파일 전송 */
     function uploadMsgFile(evt) {
         evt.preventDefault();
@@ -501,11 +499,12 @@
 
     function showSearchInput() {
         $("#searchContainer").toggle(200);
+        $("#searchContents").focus();
     }
 
-    /* 1. 비동기로 메세지 검색*/
+    /* 1.1. 비동기로 메세지 검색*/
     $("#searchBtn").on("click", searchInChatRoom);
-    // enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
+    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
             searchInChatRoom();
@@ -513,15 +512,26 @@
     });
 
     // 하이라이트
-    // 문제1 - 한번 하이라이트하고 검색어가 바뀌면 지워줘야한다.
-    // 문제2 - 한번에 하나의 메세지만 하이라이트하지 못한다.
+    let highlightArr = [];
     function highlightSearch(seq, searched) {
         if (searched !== "") {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
             let re = new RegExp(searched, "g"); // search for all instances
-            let newText = beforeText.replace(searched, "<mark>" + searched + "</mark>");
+            let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
+            highlightArr.push([seq,searched,newText]);
+            console.log(highlightArr);
         }
+    }
+    // 검색어가 바뀌면 하이라이트된 내용을 원상복구
+    function deHighlightBeforeSearch(){
+        for(let i=0; i<highlightArr.length; i++){
+            let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
+            let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
+            document.getElementById("msg_container" + highlightArr[i][0]).innerHTML = gobackText;
+        }
+        // 초기화
+        highlightArr=[];
     }
 
     // 띠용
@@ -532,9 +542,9 @@
         }, 1000);
     }
 
+    // 문제 - 한번 검색하고 다시 input 창을 backspace로 지울 수가 없다.
     function searchInChatRoom() {
         let searchContents = $("#searchContents").val();
-        let chkEnter = false; // 엔터를 눌렀는지의 여부
         // input 창에 ∧ ∨ 표시가 있어야 한다.
         $.ajax({
             url: "/message/searchMsgInChatRoom",
@@ -546,34 +556,39 @@
             dataType: "json",
             success: function (resp) {
                 console.log("검색갯수 : " + resp.length);
+                deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
                 if (resp.length == 0) {
                     alert("검색결과가 없습니다.");
                     return;
                 } else {
                     let index = 0;
+                    let seq = resp[index].seq; // message의 seq
                     // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
-                    // 일단 비효율적이더라도 쭉 써보자!!
-                    // (0) resp.length가 0이 아닌데 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    // 이걸 어떻게 또 반복해주지....ㅠ
-                    if (!$("#msgDiv" + resp[index].seq).length) {
-                        //alert('msgDiv not exist');
-                        cpage += 1;
-                        setTimeout(function (){
+                    // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
+                    (isMsgExistInMsgBox = function(){
+                        if (!$("#msgDiv" + seq).length) {
+                            cpage += 1;
                             moreList(cpage);
-                        },200)
-                    }
+                            setTimeout(function (){ //딜레이를 약간 주고 재귀함수로 다시 호출한다.
+                                isMsgExistInMsgBox();
+                            },100);
+                        }else{
+                            return;
+                        }
+                    })();
+
                     setTimeout(function () {
                         // (1) 스크롤 이벤트 실행
-                        scrollMoveToSearch(resp[index].seq);
+                        scrollMoveToSearch(seq);
                         // (2) 하이라이팅
-                        highlightSearch(resp[index].seq, searchContents);
-                        // (3) 띠용 - 왜 안되지..ㅠㅜㅜcss animation 공부...
-                        // animateMessage(resp[index].seq);
-                    }, 300);
+                        highlightSearch(seq, searchContents);
+                        // (3) 띠용 - 왜 안되지..
+                        // animateMessage(seq);
+                    }, 200);
 
                     $("#searchContents").on("keydown", function (e) {
-                        e.preventDefault();
                         if (e.keyCode == 13) {
+                            e.preventDefault(); // 기존의 엔터키에 걸린 이벤트를 무효화
                             if (index >= resp.length) {
                                 return;
                             } else {
