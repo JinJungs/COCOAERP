@@ -1,20 +1,31 @@
 package kh.cocoa.controller;
 
-import kh.cocoa.dto.*;
-import kh.cocoa.service.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
+import kh.cocoa.dto.MessageViewDTO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
+import kh.cocoa.service.MessengerPartyService;
+import kh.cocoa.service.MessengerService;
 
 
 @Controller
@@ -117,12 +128,15 @@ public class MessengerController {
 
     //채팅방 생성
     @RequestMapping("addChatRoom")
-    @ResponseBody
-    public String addChatRoom( Model model, @RequestParam(value = "empCodeList[]") List<String> empCodeList) {
-//    	임시로 삭제 : MessengerDTO messenger, List<MessengerPartyDTO> partyList,
-    	
+    public String addChatRoom( Model model, HttpServletRequest request ) {
+//    	임시로 삭제 : MessengerDTO messenger, 
+    	//@RequestParam(value = "empCodeList[]") List<String> empCodeList
+    	String[] empCodeList = request.getParameterValues("emp_code");
     	System.out.println("addChatRoom 도착");
     	System.out.println(empCodeList);
+    	for(String i : empCodeList) {
+    		System.out.println(i);
+    	}
     	return "";
     	/*
     	//참가자 목록 : 3인 이상 = M타입 채팅방 생성 // 2인 이상 = chatFromContact
@@ -280,6 +294,8 @@ public class MessengerController {
     	model.addAttribute("memberList", memberList);
     	return "/messenger/addMemberList";
     }
+    
+    
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
