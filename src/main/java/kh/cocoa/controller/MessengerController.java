@@ -183,7 +183,7 @@ public class MessengerController {
     		return "error";
     	}
     }
-    
+    /*
     @RequestMapping("addMember")
     public String addMember(HttpServletRequest request, MessengerDTO messenger) {
     	
@@ -203,6 +203,41 @@ public class MessengerController {
     	}
 		int insertMemResult = mpservice.setMessengerMember(partyList);
     	//리턴 무엇으로??
+    	return "";
+    }
+    */
+    @RequestMapping("addMemberToChatRoom")
+    public String addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int code = loginDTO.getCode();
+        //참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
+    	List<MessengerPartyDTO> partyList = new ArrayList<>();
+    	String[] empCodeList = request.getParameterValues("emp_code");
+
+    	//form 의 empCodeList를 받은 String배열을 int형으로 바꿔 MessengerPartyDTO형 리스트에 넣는다.
+    	for(String i : empCodeList) {
+    		int emp_code = Integer.parseInt(i);
+    		MessengerPartyDTO dto = new MessengerPartyDTO().builder().m_seq(seq).emp_code(emp_code).build();
+    		partyList.add(dto);
+    	}
+
+    	//메신저 타입 보기
+    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
+    	System.out.println("추가할 메신저의 정보 : "+messenger);
+
+    	if(messenger.getType().contentEquals("S")) {
+    		System.out.println("1:1에서 추가할 때");
+    		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
+    		int resultType = mservice.updateTypeToM(seq);
+    		//String name = loginDTO.getName() + "님 외 " + (partyList.size()+1) + "명";
+    		String name = loginDTO.getName() + "님의 단체 채팅방";
+    		int resultName = mservice.updateName(seq, name);
+    		System.out.println(resultType +" : "+ resultName);
+    	}
+    	int insertMemResult = mpservice.setMessengerMember(partyList);
+    	System.out.println("인원 추가 결과 : "+insertMemResult);
+    	//!!return을 어디로 해줄지...
     	return "";
     }
 
@@ -322,8 +357,24 @@ public class MessengerController {
     
     //멤버 추가를 위한 리스트 열기
     @RequestMapping("openMemberList")
-    public String openMemberList(Model model) {
+    public String openMemberList(Model model, int seq) {
+    	System.out.println("openMemberList 도착 ㅣ seq : "+seq);
+    	if(seq > 0) {//둘다 같은 jsp에 넣고 jsp의 form action부분만 바꿔조도 됨. 일단은 분리
+    		model.addAttribute("seq",seq);
+    		return "/messenger/addMemberListToChat";
+    	}
     	return "/messenger/addMemberList";
+    }
+
+    //채팅방 설정 변경창 열기
+    @RequestMapping("openModifChat")
+    public String openModifChat(int seq, Model model) {
+    	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
+    	//채팅방에 참가 중인 사람들 코드 전달해야함
+    	//model.addAttribute("listPartyDTO",listPartyDTO);
+    	model.addAttribute("seq",seq);
+
+    	return "/mssenger/modifChat";
     }
 
     @ExceptionHandler(NullPointerException.class)

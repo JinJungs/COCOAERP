@@ -79,5 +79,13 @@
 	        ,#{name}
 	    )
 	  </insert>
+	  
+	  <update id="updateTypeToM">
+	  	UPDATE MESSENGER SET TYPE = 'M' WHERE SEQ=#{seq}
+	  </update>
+	  
+	  <update id="updateName">
+	  	UPDATE MESSENGER SET NAME = #{name} WHERE SEQ=#{seq}
+	  </update>
  
 </mapper>
