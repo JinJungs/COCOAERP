@@ -11,7 +11,7 @@
 <div class="container">
     <form class="findId" method="post" action="/membership/findIdByEmail">
         <div class="findId">
-            <input type="text" placeholder="이메일을 입력해주세요" id="email" name="email">
+            <input type="text" placeholder="이메일을 입력해주세요" id="email" name="email" autocomplete="off">
             <button type="button" onclick="findId()">조회</button>
             <p>조회한 결과 : <input type="text" placeholder="결과" id="result" name="result" disabled> </p>
             <button type="button" name="btnToLogin" id="btnToLogin" onclick="toLogin()">뒤로가기</button>
