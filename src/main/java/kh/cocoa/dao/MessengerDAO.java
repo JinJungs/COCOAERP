@@ -28,11 +28,15 @@ public interface MessengerDAO {
     
     //채팅방 생성 후 시퀀스 받기
     @Options(useGeneratedKeys=true, keyProperty = "id") 
-    int insertMessengerRoomGetSeq(MessengerDTO messenger);
+    public int insertMessengerRoomGetSeq(MessengerDTO messenger);
 
 	public MessengerDTO getMessengerInfo(int seq);
 
 //==========================
-
+	//메신저 타입 M으로 바꾸기
+	public int updateTypeToM(int seq);
+	
+	//채팅방 이름 바꾸기
+	public int updateName(int seq, String name);
 
 }

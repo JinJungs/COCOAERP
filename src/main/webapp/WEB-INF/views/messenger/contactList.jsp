@@ -228,7 +228,7 @@
     //-------------------------------- 채팅방 추가 ---------------------------------
 	//document.getElementById("openMemberList").addEventListner("click", openMemberList);
     function openMemberList(){
-		window.open('/messenger/openMemberList','',winFeature);
+		window.open('/messenger/openMemberList?seq=0','',winFeature);
     }
     
 </script>

@@ -42,10 +42,10 @@
             <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
             <div class="action_menu">
                 <ul>
-                    <li><i class="fas fa-user-circle"></i> View profile</li>
-                    <li><i class="fas fa-users"></i> Add to close friends</li>
-                    <li><i class="fas fa-plus"></i> Add to group</li>
-                    <li><i class="fas fa-ban"></i> Block</li>
+                    <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
+                    <li onclick="openModifChat(${seq})"><i class="fas fa-users"></i> 채팅방 설정</li>
+                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                    <li><i class="fas fa-ban"></i> 나가기</li>
                 </ul>
             </div>
         </div>
@@ -600,6 +600,16 @@
                 }
             }
         });
+    }
+    
+    //=========채팅방에 멤버 추가=============
+    function openMemberListToChat(seq){
+    	window.open('/messenger/openMemberList?seq='+seq,'',winFeature);
+    }
+    
+    //==========채팅방 정보 수정=============
+    function openModifChat(seq){
+    	window.open('/messenger/openModifChat?seq='+seq,'',winFeature);
     }
 
 </script>

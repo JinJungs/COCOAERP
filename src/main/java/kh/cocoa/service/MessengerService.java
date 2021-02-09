@@ -49,4 +49,13 @@ public class MessengerService implements MessengerDAO{
 		return mdao.getMessengerInfo(seq);
 	}
 
+	//메신저 타입 M으로 바꾸기
+	public int updateTypeToM(int seq) {
+		return mdao.updateTypeToM(seq);
+	};
+	
+	//채팅방 이름 바꾸기
+	public int updateName(int seq, String name) {
+		return mdao.updateName(seq, name);
+	};
 }
