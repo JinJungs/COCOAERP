@@ -144,9 +144,6 @@
     //========================체크박스 값 받기===================================
     function addChatRoom() {
         $("#formAddMember").submit();
-        setTimeout(function () {
-            window.open("about:blank", "_self").close();
-        }, 100);
     }
 
     // 체크박스가 체크되었을 때 체크박스에 담기

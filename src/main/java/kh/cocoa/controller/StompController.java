@@ -52,7 +52,7 @@ public class StompController {
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
 	}
 	
-	@MessageMapping("/addMember/chatAnnounce/{seq}")
+/*	@MessageMapping("/addMember/chatAnnounce/{seq}")
 	//@SendTo("/topic/message")
 	public void addMember(String savedname) throws Exception {
 		//1.멤버 추가시 멤버 이름(부서/직급), 메신저 방을 스톰프로 전달
@@ -60,7 +60,7 @@ public class StompController {
 		
 		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
-	}
+	}*/
 	
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
