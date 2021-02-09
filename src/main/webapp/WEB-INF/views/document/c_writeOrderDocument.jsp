@@ -716,8 +716,24 @@
             $("#contents").focus();
             return;
         }
-        ajaxaddsave().then(ajaxaddorder);
+        ajaxaddsave().then(ajaxmodaddorder);
 
+    }
+
+    function ajaxmodaddorder(param){
+        var data = $("#orderform").serializeArray();
+        var json = JSON.stringify(data);
+        $.ajax({
+            type : "POST",
+            url : "/restdocument/addorder.document",
+            data :json,
+            contentType:'application/json',
+            success : function(result) {
+                if(result=="success"){
+                    location.href="/document/ d_searchTemporary.document";
+                }
+            }
+        });
     }
 
     function fn_addOrderList() {

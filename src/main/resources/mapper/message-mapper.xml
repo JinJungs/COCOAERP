@@ -64,4 +64,13 @@
         WHERE A.PARTY_EMP_CODE = B.CODE
           AND CONTENTS LIKE '%${contents}%'
     </select>
+    <!-- 채팅방에서 메세지 검색-->
+    <select id="searchMsgInChatRoom" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT *
+        FROM MESSAGE
+        WHERE M_SEQ = #{m_seq}
+          AND CONTENTS LIKE '%${contents}%'
+          AND TYPE!='IMAGE'
+        ORDER BY SEQ DESC
+    </select>
 </mapper>

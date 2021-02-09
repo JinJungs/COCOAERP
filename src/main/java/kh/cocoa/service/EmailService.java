@@ -24,6 +24,10 @@ public class EmailService implements EmailDAO{
 		return edao.getSeq();
 	}
 	@Override
+	public List<EmailDTO> sendToMeList(String email, int startRowNum, int endRowNum) {
+		return edao.sendToMeList(email, startRowNum, endRowNum);
+	}
+	@Override
 	public List<EmailDTO> receiveList(String email, int startRowNum, int endRowNum) {
 		return edao.receiveList(email, startRowNum, endRowNum);
 	}
@@ -40,6 +44,10 @@ public class EmailService implements EmailDAO{
 		return edao.getEmail(seq);
 	}
 	
+	@Override
+	public int getToMeCount(String email) {
+		return edao.getToMeCount(email);
+	}
 	@Override
 	public int getReceiveCount(String email) {
 		return edao.getReceiveCount(email);
@@ -60,6 +68,8 @@ public class EmailService implements EmailDAO{
 			recordTotalCount = getSendCount(email);
 		}else if(status.contentEquals("delete")) {
 			recordTotalCount = getDeleteCount(email);
+		}else if(status.contentEquals("sendToMe")) {
+			recordTotalCount = getToMeCount(email);
 		}
 		
 		int pageTotalCount = recordTotalCount / DocumentConfigurator.recordCountPerPage;
@@ -90,16 +100,48 @@ public class EmailService implements EmailDAO{
 		
 		StringBuilder sb = new StringBuilder();
 		
-		if (needPrev) {
-			sb.append("<a href=/email/receiveList.email?cpage=" + (startNavi - 1) + "><    </a>");
-		}
-		for (int i = startNavi; i <= endNavi; i++) {
-			sb.append("<a href=/email/receiveList.email?cpage=" + i + "> " + i + " </a>");
-		}
-		if (needNext) {
-			sb.append("<a href=/email/receiveList.email?cpage=" + (endNavi + 1) + ">   > </a>");
-		}
 		
+		if(status.contentEquals("receive")) { 
+			if (needPrev) {
+				sb.append("<a href=/email/receiveList.email?cpage=" + (startNavi - 1) + "><    </a>");
+			}
+			for (int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href=/email/receiveList.email?cpage=" + i + "> " + i + " </a>");
+			}
+			if (needNext) {
+				sb.append("<a href=/email/receiveList.email?cpage=" + (endNavi + 1) + ">   > </a>");
+			}
+		}else if(status.contentEquals("send")) {
+			if (needPrev) {
+				sb.append("<a href=/email/sendList.email?cpage=" + (startNavi - 1) + "><    </a>");
+			}
+			for (int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href=/email/sendList.email?cpage=" + i + "> " + i + " </a>");
+			}
+			if (needNext) {
+				sb.append("<a href=/email/sendList.email?cpage=" + (endNavi + 1) + ">   > </a>");
+			}
+		}else if(status.contentEquals("delete")) {
+			if (needPrev) {
+				sb.append("<a href=/email/deleteList.email?cpage=" + (startNavi - 1) + "><    </a>");
+			}
+			for (int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href=/email/deleteList.email?cpage=" + i + "> " + i + " </a>");
+			}
+			if (needNext) {
+				sb.append("<a href=/email/deleteList.email?cpage=" + (endNavi + 1) + ">   > </a>");
+			}
+		}else if(status.contentEquals("sendToMe")) {
+			if (needPrev) {
+				sb.append("<a href=/email/sendToMeList.email?cpage=" + (startNavi - 1) + "><    </a>");
+			}
+			for (int i = startNavi; i <= endNavi; i++) {
+				sb.append("<a href=/email/sendToMeList.email?cpage=" + i + "> " + i + " </a>");
+			}
+			if (needNext) {
+				sb.append("<a href=/email/sendToMeList.email?cpage=" + (endNavi + 1) + ">   > </a>");
+			}
+		}
 		return sb.toString();
 	}
 	
