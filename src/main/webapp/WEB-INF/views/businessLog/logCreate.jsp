@@ -24,13 +24,13 @@ input{width:100%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 작성</h2>
 			
-			<form  method="post"
+			<form  method="post" name="submitForm"
 				id="submitForm" enctype="multipart/form-data">
 				
 			<div class="row search_box">
-				<div class="select col-12">
+				<div class="select col-12" id="select">
 						<select name="selectBy" id="selectBy">
-							<option>업무일지 종류를 설정해 주세요.</option>
+							<option value="" selected>업무일지 종류를 설정해 주세요.</option>
 							<option value="daily" id="daily">일일</option>
 							<option value="weekly" id="weekly">주간</option>
 							<option value="monthly" id="monthly">월별</option>
@@ -75,9 +75,10 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<label>+ File Attach <input type="file" id="myFile"
-							name="file" multiple>
-						</label> <input type="text" readonly="readonly" title="File Route">
+						<label>+ File Attach <input type="file" class="fileList"  id="file"
+							name="file" accept="image/*"  multiple>
+						</label>
+							<div id="listBox"></div><br>
 					</div>
 				</div>
 				
@@ -92,16 +93,17 @@ input{width:100%;}
 
 					<div class="button_box col-sm-5">
 					
-						<button type="button" class="btn btn-primary" id="btn_tempSaved" 
-					 onclick="fn_temp_Saved()">임시저장</button>
-						<button type="button" class="btn btn-primary" id="btn_write"
-						onclick="fn_write()">작성</button>
+						<button type="button" class="btn btn-primary" id="btn_tempSaved" onclick="fn_temp_Saved()">임시저장</button>
+						<button type="button" class="btn btn-primary" id="btn_write" onclick="fn_write()">작성</button>
 						<button type="reset" class="btn btn-primary">취소</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.MultiFile.min.js"></script>
 <script>
 /*-------------------------작성*/
 		function fn_write(){
@@ -142,32 +144,34 @@ input{width:100%;}
 		}
 		/*파일첨부 */
 		 $('#btn_write').on("click", function() {
-         var x = document.getElementById("myFile");
-         var txt = "";
-         if ('files' in x) {
-            if (x.files.length > 11) {
-               alert("파일은 최대 10개까지 첨부 가능합니다.");
-               document.getElementById("myFile").value = "";
-               return;
-            }
-         }
-         if (!$('#contents').val()){
-           alert('제목 및 내용을 입력해주세요');
-           return;
-         }
+         	if ( $("#selectBy").val()==""){
+	           alert('업무일지 종류를 선택해주세요');
+	           return;
+	         }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	         }else if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return;
+	         }else 
          $('#submitForm').submit();
         })
-        /*파일 추가시 몇 개가 추가 되었는지 보여주는 것*/
-        $('.file_input input[type=file]').change(function() {
-		    var fileName = $(this).val();
-		    var fileCount = $(this).get(0).files.length;
-		    if($(this).get(0).files.length == 1){
-		        $('.file_input input[type=text]').val(fileName);
-		    }
-		    else {
-		        $('.file_input input[type=text]').val('파일 '+fileCount+'개');
-		    }
-		});
+        $("input.fileList").MultiFile({
+        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        maxfile: 10240, //각 파일 최대 업로드 크기
+        maxsize: 20480,  //전체 파일 최대 업로드 크기
+        STRING: { //Multi-lingual support : 메시지 수정 가능
+            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
+            duplicate : "$file 은 이미 선택된 파일입니다.",
+            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
+	        },
+	        list:"#listBox"
+	    });
 		
 		
 
@@ -243,33 +247,34 @@ input{width:100%;}
 		}
 		/* 파일 첨부 - 임시저장 부분*/
 		 $('#btn_tempSaved').on("click", function() {
-         var x = document.getElementById("myFile");
-         var txt = "";
-         if ('files' in x) {
-            if (x.files.length > 11) {
-               alert("파일은 최대 10개까지 첨부 가능합니다.");
-               document.getElementById("myFile").value = "";
-               return;
-            }
-         }
-         if (!$('#contents').val()){
-           alert('제목 및 내용을 입력해주세요');
-           return;
-         }
+        if ( $("#selectBy").val()==""){
+	           alert('업무일지 종류를 선택해주세요');
+	           return;
+	         }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	         }else if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return;
+	         }else 
          $('#submitForm').submit();
         })
-        /*파일 추가시 몇 개가 추가 되었는지 보여주는 것*/
-        $('.file_input input[type=file]').change(function() {
-		    var fileName = $(this).val();
-		    var fileCount = $(this).get(0).files.length;
-		    if($(this).get(0).files.length == 1){
-		        $('.file_input input[type=text]').val(fileName);
-		    }
-		    else {
-		        $('.file_input input[type=text]').val('파일 '+fileCount+'개');
-		    }
-		});
-		
+       $("input.fileList").MultiFile({
+        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        maxfile: 10240, //각 파일 최대 업로드 크기
+        maxsize: 20480,  //전체 파일 최대 업로드 크기
+        STRING: { //Multi-lingual support : 메시지 수정 가능
+            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
+            duplicate : "$file 은 이미 선택된 파일입니다.",
+            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
+	        },
+	        list:"#listBox"
+	    });
 		
 	/*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){
@@ -279,7 +284,7 @@ input{width:100%;}
 	 	}
 	/*홈으로*/
 		function fn_home() {
-			location.href = ""
+			location.href = "/"
 		}
 	
 		

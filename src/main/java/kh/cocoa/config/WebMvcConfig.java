@@ -10,5 +10,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/messengerFile/**")
                 .addResourceLocations("file:///C:/messengerRepository/"); //리눅스 root에서 시작하는 폴더 경로
+        //지영
+        registry.addResourceHandler("/boardRepository/**")
+		.addResourceLocations("file:///D:/boardRepository/");
     }
+	
 }

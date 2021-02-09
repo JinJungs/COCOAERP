@@ -115,4 +115,7 @@
 	<select id="isEmailExist" resultType="Integer">
 		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
 	</select>
+	
+	<!-- 지영 -->
+
 </mapper>

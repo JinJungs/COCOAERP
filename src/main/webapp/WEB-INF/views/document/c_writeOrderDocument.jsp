@@ -633,7 +633,7 @@
                 getaddedempcode[count]=getempcode;
                 count++;
                 $(".confirmcontainer").append(html);
-                $("#btn_add").attr("onclick","fn_isnull()");
+                $("#btn_add").attr("onclick","()");
             }
         });
     }

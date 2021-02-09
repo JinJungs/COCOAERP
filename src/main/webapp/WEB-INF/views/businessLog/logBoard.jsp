@@ -113,14 +113,14 @@
 								<c:when test="${status eq 'RAISE'}">
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
 									<div class="col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
@@ -153,13 +153,13 @@
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
 									<div class="col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
@@ -179,20 +179,20 @@
 								<c:when test="${status eq 'RAISE'}">
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
 									<div class="col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
@@ -212,20 +212,20 @@
 								<c:when test="${status eq 'RAISE'}">
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
 									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
 									<div class="col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기2.png" style="height:30px;width:30px;">
+										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
 									<div class="col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
 									<div class="col-md-2 d-none d-md-block">${i.name}</div>
 									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
@@ -236,6 +236,7 @@
 						</c:forEach>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
