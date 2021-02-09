@@ -102,13 +102,13 @@
 	</select>
 	<!--의진-->
 	<select id="searchEmployeeByName" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW WHERE NAME LIKE '%${contents}%'
+		SELECT * FROM EMPLOYEE_VIEW WHERE NAME LIKE '%${contents}%' ORDER BY NAME
 	</select>
 	<select id="searchEmployeeByDeptname" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%'
+		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%' ORDER BY DEPTNAME,NAME
 	</select>
 	<select id="searchEmployeeByTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%'
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%' ORDER BY TEAMNAME,NAME
 	</select>
 
 	<!-- 효경 -->
