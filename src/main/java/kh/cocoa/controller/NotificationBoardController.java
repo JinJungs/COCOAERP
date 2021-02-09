@@ -134,7 +134,6 @@ public class NotificationBoardController {
 		}
 		return "index";
 	}
-
 	//게시글 검색
 		@GetMapping("notificationBoardSearch.no")
 		public String notificationBoardSearch(String cpage, String search,String searchBy,int menu_seq, Model model) {
