@@ -360,7 +360,10 @@ public class MessengerController {
     public String openMemberList(Model model, int seq) {
     	System.out.println("openMemberList 도착 ㅣ seq : "+seq);
     	if(seq > 0) {//둘다 같은 jsp에 넣고 jsp의 form action부분만 바꿔조도 됨. 일단은 분리
+    	    // 방의 seq로 참여자의 code의 list를 보내줌
+            //List<MessengerViewDTO> codeList = mservice.getListMessengerPartyEmpInfo(seq);
     		model.addAttribute("seq",seq);
+    		//model.addAttribute("codeList",codeList);
     		return "/messenger/addMemberListToChat";
     	}
     	return "/messenger/addMemberList";

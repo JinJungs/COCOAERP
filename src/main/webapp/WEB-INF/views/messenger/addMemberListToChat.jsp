@@ -21,15 +21,21 @@
 
 <form name="formAddMember" id="formAddMember" action="/messenger/addMemberToChatRoom" methode="post">
     <input type="hidden" name="seq" value="${seq}">
-    <!-- top head -->
     <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-        <div class="row w-100 m-0 h15">
-            <div class="card-header w-100 p-0 align-center" style="border-radius: 0%;">
-                <div>
-                    <button onclick="addChatRoom()" type="button">추가</button>
+        <div class="row w-100 m-0">
+            <!-- head -->
+            <div class="card-header w-100 p-0 align-center memberList-header" style="border-radius: 0%;">
+                <div class="row w-100 ml-4 pt-3">
+                    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
+                        <div class="row searchMenu">
+                            <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
+                        </div>
+                    </div>
                 </div>
+                <!-- 선택된 사람의 목록을 띄워주는 자리 -->
+                <div class="row w-100 ml-4 pt-3" id="addedPartyBox"></div>
                 <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
-                    <input type="text" placeholder="이름,부서,팀 검색" name=""
+                    <input type="text" placeholder="이름으로 검색" name=""
                            class="form-control search" id="searchContents">
                     <div class="input-group-prepend">
                   <span class="input-group-text search_btn" id="searchBtn"> <i
@@ -37,21 +43,20 @@
                   </span>
                     </div>
                 </div>
-                <div class="row w-100 ml-4 pt-3">
-                    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
-                        <div class="row searchMenu">
-                            <div class="col-2 p-0" id="searchAll">전체</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- main -->
-        <input type="hidden" id="searchKeyword" value="${searchKeyword}">
-        <div class="row w-100 h-85 m-0 p-4 border-top whiteBg">
+        <div class="row w-100 m-0 p-4 border-top whiteBg" style="min-height: 70%;">
             <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
                 <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                <div class="container" id="memberAll"></div>
+                <div class="container" id="memberAll" style="padding-top: 100px;"></div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div class="row w-100 m-0 p-0 whiteBg" style="height: 70px; border-top: 1px solid lightgray;">
+            <div class="w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
+                <button class="btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+                <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
             </div>
         </div>
     </div>
@@ -110,53 +115,106 @@
                         html += "<div class='row mb-2 m-0'></div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMember.length; i++) {
-                            html += "<li class='con-list'>";
+                            html += "<li class='con-list item'>";
                             html += "<div class='d-flex bd-highlight'>";
                             html += "<div class='img_cont'>";
                             html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
-                            html += "<div class='user_info'>";
+                            html += "<div class='user_info item'>";
                             html += "<span>" + jArrayMember[i].name + "</span>";
                             html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
-                            html += "</div></a></div>";
-                            html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist("+jArrayMember[i].code+")'>";
-                            html += "</li>";
+                            html += "</div></a>";
+                            html += "<div class='item ml-auto pb-4 align-self-center'>"
+                            html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                            html += "</div>"
+                            html += "</div></li>";
                         }
                         html += "</ui>";
                         memberAll.innerHTML = html;
                         // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                        setTimeout(function (){
+                        setTimeout(function () {
                             for (let i = 0; i < jArrayMember.length; i++) {
-                                console.log("checkArr : " + checkArr);
                                 let parsed = jArrayMember[i].code.toString();
                                 if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
                                     console.log("배열에 들어있나? : " + checkArr.includes(parsed));
                                     document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
                                 }
                             }
-                        },100);
+                        }, 100);
                     }
-                }, 200);
+                }, 100);
             }
         })
     }
 
     //========================체크박스 값 받기===================================
     function addChatRoom() {
+        // 체크된 사람이 0명이라면 넘겨주지 않기
+        if (checkArr.length == 0) {
+            alert("대화상대를 한 명 이상 선택해주세요.");
+            return;
+        }
         $("#formAddMember").submit();
-        //딜레이 주고 창 닫기
     }
 
-    // 체크박스가 체크되었을 때 체크박스에 담기
-    // 체크박스가 해제되었을 때 체크박스에서 빼기
-    function updateChecklist(code){
-        if($("#checkbox"+code).prop('checked')){
-            checkArr.push(code);
-        }else{
-            let idx = checkArr.indexOf(code);
-            checkArr.splice(idx, 1);
+    // 체크박스가 체크되었을 때 addParty
+    // 체크박스가 해제되었을 때 deleteParty
+    function updateChecklist(code, name) {
+        // 1. 체크했을 때
+        if ($("#checkbox" + code).prop('checked')) {
+            addParty(code, name);
+            // 2. 체크를 해지했을 때
+        } else {
+            deleteParty(code);
         }
+    }
+
+    // 1. 사람 목록에서 추가하기
+    function addParty(code, name) {
+        // 1.1. 배열에 추가
+        checkArr.push(code);
+        console.log("checkArr : " + checkArr);
+        // 1.2. 상단에 사람목록 추가
+        let html = "";
+        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<span>" + name + "</span>";
+        html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
+        html += "</div>";
+        $("#addedPartyBox").append(html);
+        // 1.3. 선택한 사람의 숫자 보여주기
+        updatePartyCount();
+    }
+
+    // 2. 사람 목록에서 삭제하기
+    function deleteParty(code) {
+        // 2.1. 배열에서 삭제
+        let idx = checkArr.indexOf(code);
+        checkArr.splice(idx, 1);
+        // 2.2. 상단에 사람목록 삭제
+        $("#addedParty" + code).remove();
+        // 2.3. 선택한 사람의 숫자 보여주기
+        updatePartyCount();
+    }
+
+    // x아이콘을 눌렀을 때 deleteParty & 체크박스해지
+    function deleteToplist(code) {
+        deleteParty(code);
+        document.getElementById("checkbox" + code).checked = false;
+    }
+
+    function updatePartyCount() {
+        if (checkArr.length == 0) {
+            $("#searchAll").html("대화상대 선택");
+            $('#confirm_btn').prop('disabled', true);
+        } else {
+            $("#searchAll").html("대화상대 선택 " + checkArr.length);
+            $('#confirm_btn').prop('disabled', false);
+        }
+    }
+
+    function closePopup() {
+        window.open("about:blank", "_self").close();
     }
 
 </script>

@@ -216,30 +216,6 @@
         window.open("about:blank", "_self").close();
     }
 
-
-    /*    function getCheckboxValue() {
-            // 선택된 목록 가져와서 배열에 담기
-            const query = "input[name=emp_code]:checked";
-            let checkBoxArr = new Array();
-            $(query).each(function (i) {
-                checkBoxArr.push($(this).val());
-            })
-            return checkBoxArr;
-        }*/
-
-    /*      function addChatRoom(){
-        var empCodeList = this.getCheckboxValue();
-        console.log(empCodeList);
-         $.ajax({
-            url : "/messenger/addChatRoom",
-            type : "post",
-            data : {empCodeList : empCodeList},
-            success : function(resp){
-                console.log(resp);
-                window.open("about:blank","_self").close();
-            }
-        })
-    }  */
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"
