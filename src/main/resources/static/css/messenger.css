@@ -497,8 +497,18 @@ a{
   line-height: 30px;
   color: lightgray;
 }
-/*.memberList-header{
+.memberList-header{
   position: fixed;
   z-index: 30;
-}*/
+}
+
+.memberList-footer{
+  position: fixed;
+}
+
+.memberList-footer div button{
+  position: fixed;
+  z-index: 50;
+}
+
 
