@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.EmployeeService;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/membership")
@@ -24,7 +27,7 @@ public class EmployeeController {
     private HttpSession session;
 
     @RequestMapping(value = "/login")
-    public String login(Model model, int code, String password){
+    public String login(Model model, int code, String password) {
         String result = eservice.login(code, password);
 //        if (!result.isEmpty()) {
 //            EmployeeDTO loginDTO = eservice.loginInfo(code);
@@ -34,12 +37,11 @@ public class EmployeeController {
 //        else {
 //            return "/membership/login";
 //        }
-        if(result.equals("T")){
+        if (result.equals("T")) {
             EmployeeDTO loginDTO = eservice.loginInfo(code);
             session.setAttribute("loginDTO", loginDTO);
             return "index";
-        }
-        else {
+        } else {
             model.addAttribute("result", result);
             //return "/membership/login";
             return "index";
@@ -47,12 +49,12 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/myInfo")
-    public String myInfo(){
+    public String myInfo() {
         return "/membership/myInfo";
     }
 
     @RequestMapping(value = "/myInfoModify")
-    public String myInfoModify(){
+    public String myInfoModify() {
         return "/membership/myInfoModify";
     }
 
@@ -63,7 +65,7 @@ public class EmployeeController {
         System.out.println(phone);
         System.out.println(address);
         System.out.println(office_phone);
-        EmployeeDTO dto = (EmployeeDTO)session.getAttribute("loginDTO");
+        EmployeeDTO dto = (EmployeeDTO) session.getAttribute("loginDTO");
         int result = eservice.myInfoModify(password, gender, phone, address, office_phone, dto.getCode());
         return "/membership/myInfo";
     }
@@ -74,34 +76,25 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/findPw")
-    public String findPw() {
+    public String findPw(String email,String code,Model model) {
+        model.addAttribute("email",email);
+        model.addAttribute("id",code);
         return "/membership/findPw";
     }
 
     @RequestMapping(value = "/findIdByEmail")
     @ResponseBody
     public String findIdByEmail(String email) throws IOException {
-        String result = eservice.findIdByEmail(email);
-        JsonObject obj = new JsonObject();
-        obj.addProperty("result", result);
-        return new Gson().toJson(obj);
+        List<EmployeeDTO> list = new ArrayList<>();
+        list= eservice.findIdByEmail(email);
+        JSONArray json = new JSONArray(list);
+        return json.toString();
     }
 
     @RequestMapping(value = "/findPwByEmail")
     @ResponseBody
-    public String findIdByEmail(String email, int code){
-        String result = eservice.findPwByEmail(email, code);
-        JsonObject obj = new JsonObject();
-        if(result == null){
-            obj.addProperty("result", result);
-        }else{
-            String tempPw = eservice.getRandomStr(10);
-            int updatePw = eservice.updateTempPw(tempPw, code);
-            System.out.println(tempPw);
-            System.out.println(updatePw);
-            obj.addProperty("result", tempPw);
-        }
-        return new Gson().toJson(obj);
+    public String findIdByEmail(String email, int code) {
+        return "";
     }
 
     @RequestMapping(value = "/logout")
@@ -113,6 +106,12 @@ public class EmployeeController {
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());
+        return "index";
+    }
+
+    @RequestMapping("/toLogin")
+    public String toLogin(String code,Model model){
+        model.addAttribute("id",code);
         return "index";
     }
 }
