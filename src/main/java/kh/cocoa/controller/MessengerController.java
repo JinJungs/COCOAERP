@@ -210,13 +210,13 @@ public class MessengerController {
     public String messengerSearch(String contents,Model model){
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
-
+        // 로그인한 사람의 이름은 제외해야함
         //(1) 멤버이름으로 찾기
-        List<EmployeeDTO> memberList = eservice.searchEmployeeByName(contents);
+        List<EmployeeDTO> memberList = eservice.searchEmployeeByName(code, contents);
         //(2) 부서이름으로 찾기
-        List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(contents);
+        List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(code, contents);
         //(3) 팀이름으로 찾기
-        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(contents);
+        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(code, contents);
         //(4) 사람이 속한 채팅방찾기
 
         //(5) 메세지 찾기
@@ -241,12 +241,13 @@ public class MessengerController {
         JSONArray jArrayMessage = new JSONArray();
         JSONArray jArrayAll = new JSONArray();
         HashMap<String,Object> param = null;
+        // 로그인한 사람의 이름은 제외해야함
         //(1) 멤버이름으로 찾기
-        List<EmployeeDTO> memberList = eservice.searchEmployeeByName(contents);
+        List<EmployeeDTO> memberList = eservice.searchEmployeeByName(code, contents);
         //(2) 부서이름으로 찾기
-        List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(contents);
+        List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(code, contents);
         //(3) 팀이름으로 찾기
-        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(contents);
+        List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(code, contents);
         //(4) 메세지 찾기
         List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
 
@@ -322,8 +323,6 @@ public class MessengerController {
     //멤버 추가를 위한 리스트 열기
     @RequestMapping("openMemberList")
     public String openMemberList(Model model) {
-    	List<EmployeeDTO> memberList = eservice.getAllEmployee();
-    	model.addAttribute("memberList", memberList);
     	return "/messenger/addMemberList";
     }
 

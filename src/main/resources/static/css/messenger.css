@@ -486,3 +486,19 @@ a{
   0% {margin-top: 0px;}
   100% {margin-top: 10px;}
 }
+
+/* addMemberList - 선택된 사람의 목록을 띄워줌*/
+.addedParty{
+  border: 1.5px solid gray;
+  border-radius: 30px;
+  font-size: 12px;
+}
+.addedParty i {
+  line-height: 30px;
+  color: lightgray;
+}
+/*.memberList-header{
+  position: fixed;
+  z-index: 30;
+}*/
+

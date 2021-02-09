@@ -71,11 +71,11 @@ public interface EmployeeDAO {
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
-	public List<EmployeeDTO> searchEmployeeByName(String contents);
+	public List<EmployeeDTO> searchEmployeeByName(int code, String contents);
 	// 부서이름으로 찾기
-	public List<EmployeeDTO> searchEmployeeByDeptname(String contents);
+	public List<EmployeeDTO> searchEmployeeByDeptname(int code, String contents);
 	// 팀이름으로 찾기
-	public List<EmployeeDTO> searchEmployeeByTeamname(String contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(int code, String contents);
 
 
 	//email로 사번받아오기
