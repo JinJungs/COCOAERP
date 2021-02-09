@@ -22,10 +22,16 @@
                          class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
-                    <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                    <span id="partyname">${partyDTO.empname}</span>
-                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-
+                <c:choose>
+	                <c:when test="${messenger.type eq 'M'}">
+	                	<span id="partyname">${messenger.name}</span>
+	                </c:when>
+	                <c:when test="${messenger.type eq 'S'}">
+	                	<!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+	                    <span id="partyname">${partyDTO.empname}</span>
+	                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+	                </c:when>
+                </c:choose>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -284,9 +290,6 @@
                 var type = JSON.parse(e.body).type;
                 var savedname = JSON.parse(e.body).savedname;
 
-                //파일관련 메세지일 경우*****
-                //컨텐츠에 담아둔 파일 이름을 전송하고 a태그를 걸어준다.
-
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
@@ -297,14 +300,6 @@
                     let amIAtBottom = (msgBox.height() <= $(element).height()+$(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
-                    /* if(type == "FILE"){
-                    	newMsg += fileTag("msg_cotainer_send",savedname, msg);
-                    	//newMsg += "<div class='msg_cotainer_send'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
-                    }else if(type == "IMAGE"){
-                    	newMsg += "<div class='msg_cotainer_send'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
-                    }else{
-                    	newMsg += "<div class='msg_cotainer_send'>" +msg;
-                    } */
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
@@ -327,11 +322,6 @@
                     newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
                     newMsg += msgForm(type, "msg_cotainer", null, msg, savedname);
-                    /* if(type == "FILE"){
-                    	newMsg += fileTag("msg_cotainer",savedname, msg);
-                    }else{
-                    	newMsg += "<div class='msg_cotainer'>" +msg;
-                    } */
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);

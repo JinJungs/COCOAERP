@@ -463,8 +463,12 @@
     function addChatRoom(){
     	$("#formAddMember").submit();
     	setTimeout(function (){
-    		window.open("about:blank","_self").close();
+    		//window.open("about:blank","_self").close();
         },100);
+    }
+    
+    function addMemberToStomp(){
+    	
     }
     
 /*      function addChatRoom(){
