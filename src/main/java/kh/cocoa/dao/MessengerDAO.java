@@ -19,7 +19,7 @@ public interface MessengerDAO {
 
     public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code);
     
-    public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq, int code);
+    public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq);
 //=============================  
     //1:1 채팅방 있는지 확인
     public int isSingleMessengerRoomExist(int loginEmpCode, int partyEmpCode);
@@ -29,6 +29,8 @@ public interface MessengerDAO {
     //채팅방 생성 후 시퀀스 받기
     @Options(useGeneratedKeys=true, keyProperty = "id") 
     int insertMessengerRoomGetSeq(MessengerDTO messenger);
+
+	public MessengerDTO getMessengerInfo(int seq);
 
 //==========================
 

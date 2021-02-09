@@ -17,6 +17,17 @@
           AND M.EMP_CODE !=#{code}
           AND M.EMP_CODE=E.CODE
     </select>
+    <!-- 참가자 전원 리스트 뽑기 -->
+    <select id="getListMessengerPartyEmpInfo" resultType="kh.cocoa.dto.MessengerViewDTO">
+        SELECT E.CODE, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
+        FROM MESSENGER_VIEW M,
+             EMPLOYEE_VIEW E
+        WHERE SEQ=#{seq}
+    </select>
+    <!-- 방 시퀀스로 메신저 정보 뽑기 -->
+    <select id="getMessengerInfo" resultType="kh.cocoa.dto.MessengerDTO">
+    	SELECT * FROM MESSENGER WHERE SEQ = #{seq}
+    </select>
     <!-- 1:1 채팅방 존재 여부 체크 -->
     <select id="isSingleMessengerRoomExist" resultType="Integer">
     	SELECT COUNT(*) FROM MESSENGER 
