@@ -23,17 +23,22 @@
         <div class="container" style="max-width: 600px;">
             <div class="row" style="border-bottom: 1px solid #c9c9c9">
                 <div class="col-10 p-2" style="font-size: 24px; font-weight: bold">
-                    마이 페이지
+                    개인정보 변경
                 </div>
             </div>
             <div class="row  mt-3">
                 <div class="col-12 text-center">
-                    <img src="${profile}" style="width: 100px;height: 100px;">
+                    <img id="profile" src="${profile}" style="width: 100px;height: 100px;">
                 </div>
             </div>
             <div class="row  mt-3">
-                <div class="col-10 p-3 text-right">
-
+                <div class="col-3"></div>
+                <div class="col-5 p-3 text-center">
+                    <form id="fileForm">
+                        <div class="input-group">
+                            <input type="file" name="file" oninput="fn_modProfile(${user.code})">
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="row  mt-4">
@@ -81,7 +86,7 @@
                     내선 번호
                 </div>
                 <div class="col-8 p-3 emp-contents" id="emp-office_phone">
-                    ${user.office_phone}
+                    <input type="text" value="${user.office_phone}">
                 </div>
             </div>
             <div class="row  mt-4">
@@ -89,7 +94,8 @@
                     이메일
                 </div>
                 <div class="col-8 p-3 emp-contents" id="emp-email">
-                    ${user.email}
+                    <input type="text" value="${user.email}">
+
                 </div>
             </div>
             <div class="row  mt-4">
@@ -97,7 +103,7 @@
                     회사 이메일
                 </div>
                 <div class="col-8 p-3 emp-contents" id="emp-office_email">
-                    ${user.b_email}
+                    <input type="text" value="${user.b_email}">
                 </div>
             </div>
             <div class="row  mt-4" style="border-bottom: 1px solid #c9c9c9">
@@ -105,7 +111,7 @@
                     주소
                 </div>
                 <div class="col-8 p-3 emp-contents" id="emp-address">
-                    ${user.address}
+                    <input type="text" value="${user.address}">
                 </div>
             </div>
             <div class="row mt-4">
@@ -116,9 +122,25 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
     function fn_toModInfo() {
         location.href="/membership/myInfoModify/"
+    }
+
+
+    function fn_modProfile(code) {
+        $.ajax({
+            type : "POST",
+            url : "/membership/modProfileAJAX",
+            data :new FormData($("#fileForm")[0]),
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            success : function(data) {
+                $("#profile").attr("src",data);
+            }
+        });
     }
 
 </script>
