@@ -70,9 +70,13 @@
     $(document).ready(function () {
         // ajax로 목록 불러오기
         searchAjax("");
-        // partyList 확인해서 체크박스 체크
-
-        // partyList 확인해서 상단에 리스트 띄우기
+        // partyList 확인해서 체크박스 체크 & 상단목록 띄우기
+        // 체크박스는 해제할 수 없고, 상단 리스트를 삭제할 수도 없다.
+        <c:forEach var="i" items="${partyList}">
+            addParty(${i.emp_code},"${i.empname}");
+            $('#checkbox${i.emp_code}').prop('disabled', true);
+            $('#addedParty${i.emp_code}').children('i').remove();
+        </c:forEach>
     });
 
     //-------------------------------- 검색 -------------------------------------
