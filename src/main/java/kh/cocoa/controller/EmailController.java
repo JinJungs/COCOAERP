@@ -2,11 +2,13 @@ package kh.cocoa.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,8 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.cocoa.dto.EmailDTO;
@@ -39,6 +41,7 @@ import kh.cocoa.statics.DocumentConfigurator;
 //import kh.cocoa.service.EmailServices;
 
 @Controller
+@RestController
 @RequestMapping("/email")
 public class EmailController {
 
@@ -60,6 +63,7 @@ public class EmailController {
 	@Autowired
 	private EmployeeService employeeService;
 	
+	//버그리포트 - 이메일 전송
 	@RequestMapping("emailSend.email")
 	public String emailSend(String receiver_email) throws Exception{
 
@@ -80,7 +84,57 @@ public class EmailController {
 
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
-	
+	// 비번찾기 - 이메일 인증
+	@RequestMapping("pwfind.email")
+	public String pwFind( String email,String code) {
+	      System.out.println("비번 찾기 인증코드 전송");
+	      System.out.println(email);
+	      System.out.println(code);
+	      
+	      
+	         Random r = new Random();
+	         int pwcomf = r.nextInt(4589362) + 49311; // 이메일로 받는 인증코드 부분 (난수)
+
+	         String setfrom = "cocoasemiproject@gmail.com"; //보내는 사람
+	         String tomail = request.getParameter("email"); // 받는 사람 이메일 
+	         
+	         String title = "코코아웍스 비밀 번호 찾기 이메일 입니다."; // 제목
+	         String content =
+	               System.getProperty("line.separator") + // 한줄씩 줄간격을 두기위해 작성
+	               System.getProperty("line.separator") +
+
+	               "안녕하세요. 새 비밀번호로 변경하기 위한 인증번호 입니다."
+
+	               + System.getProperty("line.separator") +
+	               System.getProperty("line.separator") +
+
+	               "인증번호는 " + pwcomf + " 입니다. "
+
+	               + System.getProperty("line.separator") +
+	               System.getProperty("line.separator") +
+
+	               "받으신 인증번호를 비밀번호 찾기의 인증번호란에 입력해 주세요."; // 내용
+
+	         try {
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+	            messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+	            messageHelper.setTo(tomail); // 받는사람 이메일
+	            messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+	            messageHelper.setText(content); // 메일 내용
+
+	            mailSender.send(message);
+	         } catch (Exception e) {
+	            System.out.println(e);
+	         }      
+
+	         Map<String,Object> map = new HashMap();
+	         map.put("pwcomf", pwcomf);
+	         JSONObject obj = new JSONObject(map);
+
+	         return obj.toString();
+	   }
 	//메일작성페이지
 	@RequestMapping("sendPage.email")
 	public String toSendPage() {

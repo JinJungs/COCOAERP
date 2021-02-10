@@ -67,8 +67,8 @@
             </div>
             <div class="row">
                 <div class="col-12 p-3">
-                    <label for="email" class="sr-only">Username</label>
-                    <input type="text" id="email" name="code" class="form-control w-100" placeholder="이메일을 입력해주세요."
+                    <label for="email" class="sr-only">UserEmail</label>
+                    <input type="text" id="email" name="email" class="form-control w-100" placeholder="이메일을 입력해주세요."
                            required="required"
                            autofocus="" autocomplete="off" value="${email}">
                 </div>
@@ -89,7 +89,7 @@
             </div>
             <div class="row d-none inputEmailNum">
                 <div class="col-6">
-                    <input type="text" id="EmailNum" class="form-control w-100" placeholder="인증번호 입력">
+                    <input type="text" id="EmailNum" name="EmailNum" class="form-control w-100" placeholder="인증번호 입력">
                 </div>
                 <div class="col-6">
                     <button type="button" class="btn btn-login w-100" >인증하기</button>
@@ -144,15 +144,30 @@
             $("#code").focus();
             return;
         }
-
         $(".inputEmailNum").attr("class","row inputEmailNum");
-
-
-
-
-
     }
-
+    /*인증번호 전송 버튼을 눌렀을 때, 컨트롤러로 이동*/
+	function fn_sendEmail(){
+	console.log("눌림");
+	let email = $('#email').val();
+	let code = $('#code').val();
+	console.log(email ,code);
+		 $.ajax({
+               type : "post",
+               url : "/email/pwfind.email",
+               data : {email:email,code:code},
+               dataType : "json",
+               success : function(data) {
+                   $(".emailmsg").css("color", "white");
+                  $(".emailmsg").text('이메일 전송 성공! 이메일을 확인해 주세요');
+               },
+               error : function(e) {
+                   $(".emailmsg").css("color", "red");
+                  $(".emailmsg").text('존재하지 않은 이메일 입니다.');
+               }
+            });
+	}
+	
     function toLogin() {
         var getRadio=$("input[name=code]:checked").val();
         if(getRadio!=undefined){

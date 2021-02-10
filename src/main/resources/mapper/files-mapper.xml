@@ -6,17 +6,17 @@
 <!-- 파일 업로드 / 게시판용 -->
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0)
+		#{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0,0)
 	</insert>
 <!-- 파일 업로드 / 임시저장에서 다시 임시저장할 때 -->
 	<insert id="uploadFilesTempSave">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,0,#{seq},0,0)
+		#{fdto.savedname}, SYSDATE,0,#{seq},0,0,0)
 	</insert>
 <!-- 파일 업로드 / 업무일지용 -->
 	<insert id="uploadFilesBusinessLog">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,0,#{logDoc_seq},0,0)
+		#{fdto.savedname}, SYSDATE,0,#{logDoc_seq},0,0,0)
 	</insert>
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">

@@ -93,7 +93,7 @@
                                 <span id="filename">filenamee</span>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="#"> 
                             <div class="flex-item">
                                 <img src="/img/run.png" alt="sampleimg">
                             </div>

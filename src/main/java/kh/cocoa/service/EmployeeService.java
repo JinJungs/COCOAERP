@@ -29,7 +29,7 @@ public class EmployeeService implements EmployeeDAO {
 			return "F";
 		}
 	}
-
+	
 	@Override
 	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
 
@@ -176,9 +176,9 @@ public class EmployeeService implements EmployeeDAO {
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
 	}
-	/*-------------지영-BugReport-----------*/
+	/*-------------지영------------*/
+	//BugReport
 	public EmployeeDTO getSenderEmail(int writer_code) {
-		System.out.println("서비스에서 wc는?" +writer_code);
 		return edao.getSenderEmail(writer_code);
 	}
 }
