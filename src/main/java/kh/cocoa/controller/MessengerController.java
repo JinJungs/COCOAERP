@@ -372,11 +372,17 @@ public class MessengerController {
     @RequestMapping("openModifChat")
     public String openModifChat(int seq, Model model) {
     	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
-    	//채팅방에 참가 중인 사람들 코드 전달해야함
-    	//model.addAttribute("listPartyDTO",listPartyDTO);
-    	model.addAttribute("seq",seq);
-    	
-    	return "/mssenger/modifChat";
+    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
+    	model.addAttribute("messenger", messenger);
+    	return "/messenger/modifChat";
+    }
+    //채팅방 이름 변경
+    @RequestMapping("modifChatName")
+    @ResponseBody
+    public void modifChatName(MessengerDTO messenger) {
+    	System.out.println("ModifChatName 도착!!");
+    	System.out.println("messengerDTO : "+messenger);
+    	mservice.updateName(messenger.getSeq(), messenger.getName());    	
     }
 
     @ExceptionHandler(NullPointerException.class)
