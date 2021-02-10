@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,10 +23,16 @@
                          class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
-                    <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                    <span>${partyDTO.empname}</span>
-                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-                    
+                <c:choose>
+	                <c:when test="${messenger.type eq 'M'}">
+	                	<span id="partyname">${messenger.name}</span>
+	                </c:when>
+	                <c:when test="${messenger.type eq 'S'}">
+	                	<!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+	                    <span id="partyname">${partyDTO.empname}</span>
+	                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+	                </c:when>
+                </c:choose>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -35,16 +42,16 @@
             <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
             <div class="action_menu">
                 <ul>
-                    <li><i class="fas fa-user-circle"></i> View profile</li>
-                    <li><i class="fas fa-users"></i> Add to close friends</li>
-                    <li><i class="fas fa-plus"></i> Add to group</li>
-                    <li><i class="fas fa-ban"></i> Block</li>
+                    <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
+                    <li onclick="openModifChat(${seq})"><i class="fas fa-users"></i> 채팅방 설정</li>
+                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                    <li><i class="fas fa-ban"></i> 나가기</li>
                 </ul>
             </div>
         </div>
         <!-- 검색 창-->
         <div class="container">
-            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;;">
+            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;">
                 <input class="col-9" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
                 <div class="p-1" style="position: absolute; left: 280px; top:96px;"><i class="fas fa-chevron-up"></i>
                 </div>
@@ -61,6 +68,14 @@
                 <!--여기 부터가 채팅시작-->
                 <input type="hidden" id="roomNumber" value="${seq}">
                 <input type="hidden" id="loginID" value="${loginDTO.code}">
+            </div>
+        </div>
+        <!-- 새로운 메세지 도착시 알려줌 -->
+        <div class="container">
+            <div class="row w-100 m-0 p-0" id="alertMessageBox" style="border: 1px solid black; display: none;">
+                <div class="col-3" id="alertMessagePartyname">임소형</div>
+                <div class="col-8" id="alertMessageContents">내용</div>
+                <div class="col-1"><i class="fas fa-chevron-down"></i></div>
             </div>
         </div>
         <div class="card-footer">
@@ -103,45 +118,11 @@
     let msgBox = $("#msgBox");
     let loginID = $("#loginID").val();  //${loginDTO.code}
     let m_seq = $("#roomNumber").val();
+    let partyname = $("#partyname").html();
     let lastScrollTop = 0;
+    let before_date = "";
 
-    // 처음 채팅방 입장시 스크롤 아래로 내리기
-    function scrollBottom() {
-        let element = document.getElementById("msg_card_body");
-        $(element).scrollTop(element.scrollHeight);
-    }
-
-    // 리스트 더 불러올 때 스크롤 위치조절
-    function scrollfixed(addedHeight) {
-        $("#msg_card_body").scrollTop(addedHeight);
-    }
-
-    // 메세지 추가될 때 스크롤 아래로 내리기
-    function scrollUpdate() {
-        $('#msg_card_body')
-            .stop()
-            .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
-    }
-
-    // 원하는 Div의 위치로 이동할 수 있을까?
-    function scrollMoveToSearch(seq) {
-        let element = document.getElementById("msg_card_body");
-        let location = document.querySelector("#msgDiv" + seq).offsetTop;
-        console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
-    }
-
-    // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
-    $("#msg_card_body").scroll(function () {
-        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
-        if (currentScrollTop == 0) {
-            cpage += 1;
-            console.log("새로 리스트 불러오기!" + cpage);
-            // 살짝 텀을 주기
-            moreList(cpage);
-        }
-    });
-
+    // <--------------------------------- 스크롤 이벤트 --------------------------------->
     // 리스트 더 불러오기
     function moreList(cpage) {
         $.ajax({
@@ -159,15 +140,15 @@
                 console.log("추가되기 전 msgBox의 길이 : " + beforeMsgBoxHeight);
                 for (let i = 0; i < data.length; i++) {
                     console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
+                    let existMsg = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let write_date = new Date(data[i].write_date);
-                    let current_date = new Date();
-                    current_date.setHours(0, 0, 0, 0);
-                    //console.log(current_date > write_date);
-                    // 날짜가 바뀔 때마다 표시를 해주고 싶은데...
-
-                    let existMsg = "";
+                    let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    if(before_date !== delete_hours_date) {
+                        existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
+                        existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                    }
+                    before_date = delete_hours_date;
                     if (data[i].emp_code == ${loginDTO.code}) {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
@@ -192,12 +173,12 @@
                 // 추가 후 msgBox의 길이를 저장
                 let afterMsgBoxHeight = msgBox.height();
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
-                if (cpage == 1) {
+                // 상단에 닿았을 때만 맨밑으로 내려주고 / 근데 addedHeight라는 인자를 넘겨줘야한다.
+                // 다른 때(검색해서 리스트를 불러올 때)는 실행되지 않아야한다....
+                if(cpage==1){
                     scrollBottom();
-                    console.log("제일처음 스크롤 이벤트 실행");
-                } else {
+                }else{
                     scrollfixed(addedHeight);
-                    // 맨아래로 내려가기 버튼도 추가하면 좋겠다.
                 }
             }
         })
@@ -208,6 +189,7 @@
     $(document).ready(function () {
         // 리스트 불러오기
         moreList(cpage);
+
         connectStomp();
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
@@ -275,8 +257,6 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
-
-            scrollUpdate();
         };
 
         /* 파일 전송 */
@@ -304,58 +284,116 @@
             // 해당 토픽을 구독한다!
             client.subscribe('/topic/' +${seq}, function (e) {
                 var newMsg = "";
+                let element = document.getElementById("msg_card_body");
                 var msg = JSON.parse(e.body).contents;
                 var sender = JSON.parse(e.body).emp_code;
                 //파일 관련 메세지 구분 위해 타입추가*****
                 var type = JSON.parse(e.body).type;
                 var savedname = JSON.parse(e.body).savedname;
 
-                //파일관련 메세지일 경우*****
-                //컨텐츠에 담아둔 파일 이름을 전송하고 a태그를 걸어준다.
-
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
+                let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
+                if(before_date !== delete_hours_date) {
+                    newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
+                    newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                }
+                before_date = delete_hours_date;
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code}) {
+                    // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
+                    let amIAtBottom = (msgBox.height() <= $(element).height()+$(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
-                    /* if(type == "FILE"){
-                    	newMsg += fileTag("msg_cotainer_send",savedname, msg);
-                    	//newMsg += "<div class='msg_cotainer_send'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
-                    }else if(type == "IMAGE"){
-                    	newMsg += "<div class='msg_cotainer_send'><a href='/files/downloadMessengerFile.files?savedname="+savedname+"&oriname="+msg+"'>" + msg + "</a>";
-                    }else{
-                    	newMsg += "<div class='msg_cotainer_send'>" +msg;
-                    } */
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
+                    // 나의 스크롤이 제일 하단에 있을 때는 스크롤 바를 제일 하단으로 내림
+                    // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
+                    // 클릭시 사라지고 스크롤이 하단으로 이동
+                    // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
+                    if(amIAtBottom){
+                        scrollUpdate();
+                    }else{
+                        console.log(amIAtBottom);
+                        showAlertMessageOnBottom(partyname,msg);
+                    }
                 } else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
                     newMsg += msgForm(type, "msg_cotainer", null, msg, savedname);
-                    /* if(type == "FILE"){
-                    	newMsg += fileTag("msg_cotainer",savedname, msg);
-                    }else{
-                    	newMsg += "<div class='msg_cotainer'>" +msg;
-                    } */
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
+                    scrollUpdate();
                 }
             });
         });
     }
+    // alertMessgaeBox를 클릭하면 스크롤 하단 이동 + 다시 display none
+    document.getElementById("alertMessageBox").addEventListener("click", scrollUpdate);
+    document.getElementById("alertMessageBox").addEventListener("click", hideAlertMessageBox);
+    // alertMessgaeBox를 toggle
+    function showAlertMessageBox(){
+        $("#alertMessageBox").delay(1000).show();
+    }
+    function hideAlertMessageBox(){
+        $("#alertMessageBox").delay(1000).hide();
+    }
+    // 스크롤이 상단에 있을 때 상대방의 메세지를 div로 띄워줌(alertMessgaeBox)
+    function showAlertMessageOnBottom(name, msg){
+        showAlertMessageBox();
+        $("#alertMessagePartyname").html(name);
+        $("#alertMessageContents").html(msg);
+    }
+
+    // <--------------------------------- 스크롤 이벤트 --------------------------------->
+    // 처음 채팅방 입장시 스크롤 아래로 내리기
+    function scrollBottom() {
+        let element = document.getElementById("msg_card_body");
+        $(element).scrollTop(element.scrollHeight);
+    }
+
+    // 리스트 더 불러올 때 스크롤 위치조절
+    function scrollfixed(addedHeight) {
+        $("#msg_card_body").scrollTop(addedHeight);
+    }
+
+    // 메세지 추가될 때 스크롤 아래로 내리기
+    function scrollUpdate() {
+        $('#msg_card_body')
+            .stop()
+            .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
+    }
+
+    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
+    function scrollMoveToSearch(seq) {
+        let element = document.getElementById("msg_card_body");
+        let location = document.querySelector("#msgDiv" + seq).offsetTop;
+        console.log("위치 : " + location);
+        element.scrollTo({top: location-300, behavior: 'smooth'});
+    }
+
+    // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
+    $("#msg_card_body").scroll(function () {
+        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        if (currentScrollTop == 0) {
+            cpage += 1;
+            console.log("새로 리스트 불러오기!" + cpage);
+            let addedHeight = moreList(cpage);
+            console.log("added: " + addedHeight);
+            scrollfixed(addedHeight);
+        }
+    });
 
     //***************************************************************************
-
     /* 파일 전송 */
     function uploadMsgFile(evt) {
         evt.preventDefault();
@@ -458,11 +496,12 @@
 
     function showSearchInput() {
         $("#searchContainer").toggle(200);
+        $("#searchContents").focus();
     }
 
-    /* 1. 비동기로 메세지 검색*/
+    /* 1.1. 비동기로 메세지 검색*/
     $("#searchBtn").on("click", searchInChatRoom);
-    // enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
+    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
             searchInChatRoom();
@@ -470,15 +509,26 @@
     });
 
     // 하이라이트
-    // 문제1 - 한번 하이라이트하고 검색어가 바뀌면 지워줘야한다.
-    // 문제2 - 한번에 하나의 메세지만 하이라이트하지 못한다.
+    let highlightArr = [];
     function highlightSearch(seq, searched) {
         if (searched !== "") {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
             let re = new RegExp(searched, "g"); // search for all instances
-            let newText = beforeText.replace(searched, "<mark>" + searched + "</mark>");
+            let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
+            highlightArr.push([seq,searched,newText]);
+            console.log(highlightArr);
         }
+    }
+    // 검색어가 바뀌면 하이라이트된 내용을 원상복구
+    function deHighlightBeforeSearch(){
+        for(let i=0; i<highlightArr.length; i++){
+            let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
+            let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
+            document.getElementById("msg_container" + highlightArr[i][0]).innerHTML = gobackText;
+        }
+        // 초기화
+        highlightArr=[];
     }
 
     // 띠용
@@ -489,9 +539,9 @@
         }, 1000);
     }
 
+    // 문제 - 한번 검색하고 다시 input 창을 backspace로 지울 수가 없다.
     function searchInChatRoom() {
         let searchContents = $("#searchContents").val();
-        let chkEnter = false; // 엔터를 눌렀는지의 여부
         // input 창에 ∧ ∨ 표시가 있어야 한다.
         $.ajax({
             url: "/message/searchMsgInChatRoom",
@@ -503,34 +553,39 @@
             dataType: "json",
             success: function (resp) {
                 console.log("검색갯수 : " + resp.length);
+                deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
                 if (resp.length == 0) {
                     alert("검색결과가 없습니다.");
                     return;
                 } else {
                     let index = 0;
+                    let seq = resp[index].seq; // message의 seq
                     // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
-                    // 일단 비효율적이더라도 쭉 써보자!!
-                    // (0) resp.length가 0이 아닌데 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    // 이걸 어떻게 또 반복해주지....ㅠ
-                    if (!$("#msgDiv" + resp[index].seq).length) {
-                        //alert('msgDiv not exist');
-                        cpage += 1;
-                        setTimeout(function (){
+                    // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
+                    (isMsgExistInMsgBox = function(){
+                        if (!$("#msgDiv" + seq).length) {
+                            cpage += 1;
                             moreList(cpage);
-                        },200)
-                    }
+                            setTimeout(function (){ //딜레이를 약간 주고 재귀함수로 다시 호출한다.
+                                isMsgExistInMsgBox();
+                            },100);
+                        }else{
+                            return;
+                        }
+                    })();
+
                     setTimeout(function () {
                         // (1) 스크롤 이벤트 실행
-                        scrollMoveToSearch(resp[index].seq);
+                        scrollMoveToSearch(seq);
                         // (2) 하이라이팅
-                        highlightSearch(resp[index].seq, searchContents);
-                        // (3) 띠용 - 왜 안되지..ㅠㅜㅜcss animation 공부...
-                        // animateMessage(resp[index].seq);
-                    }, 300);
+                        highlightSearch(seq, searchContents);
+                        // (3) 띠용 - 왜 안되지..
+                        // animateMessage(seq);
+                    }, 200);
 
                     $("#searchContents").on("keydown", function (e) {
-                        e.preventDefault();
                         if (e.keyCode == 13) {
+                            e.preventDefault(); // 기존의 엔터키에 걸린 이벤트를 무효화
                             if (index >= resp.length) {
                                 return;
                             } else {
@@ -544,6 +599,16 @@
                 }
             }
         });
+    }
+    
+    //=========채팅방에 멤버 추가=============
+    function openMemberListToChat(seq){
+    	window.open('/messenger/openMemberList?seq='+seq,'',winFeature);
+    }
+    
+    //==========채팅방 정보 수정=============
+    function openModifChat(seq){
+    	window.open('/messenger/openModifChat?seq='+seq,'',winFeature);
     }
 
 </script>

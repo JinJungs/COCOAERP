@@ -38,7 +38,7 @@ public class StompController {
 	}
 	
 
-	//컨트롤러를 통해 저장하는 방법. 그렇지 않으면 위의 컨트롤러와 합쳐도 상관없음
+	//파일관련 메세지 저장
 	@MessageMapping("/getChat/fileMessage/{seq}")
 	public void getChatFile(MessageDTO message) throws Exception {
 		System.out.println("스톰프 파일전송 메제시 컨트롤러 도착!");
@@ -47,14 +47,20 @@ public class StompController {
 		//01. 미리 받은 시퀀스로 FILE 혹은 IMAGE 타입의 메세지 저장
 		int result = msgservice.insertMessageGotSeq(message);
 		System.out.println("insertMessageGotSeq result : "+result);
-		/*
-		 * //02. msg_seq로 파일의 저장이름 불러오기 String savedName =
-		 * fservice.getSavedName(message.getSeq());
-		 */
+
 		//02.스톰프 메세지 전송 : Message, FilesDTO(originName, savedname)
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
-
 	}
+	
+/*	@MessageMapping("/addMember/chatAnnounce/{seq}")
+	//@SendTo("/topic/message")
+	public void addMember(String savedname) throws Exception {
+		//1.멤버 추가시 멤버 이름(부서/직급), 메신저 방을 스톰프로 전달
+		//2.채팅창에 뿌려준다.
+		
+		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
+//		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
+	}*/
 	
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

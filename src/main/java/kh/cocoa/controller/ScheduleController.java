@@ -30,12 +30,13 @@ public class ScheduleController {
 	
 	@RequestMapping("toScheduleMain.schedule")
 	public String toScheduleMain(Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		
 		List<ScheduleDTO> allSchedule  = sservice.selectAllSchedule();
 		List<ScheduleDTO> companySchedule = sservice.selectCompanySchedule();
-		List<ScheduleDTO> deptSchedule = sservice.selectDeptSchedule("1");
-		List<ScheduleDTO> teamSchedule = sservice.selectTeamSchedule("11");
-		List<ScheduleDTO> personalSchedule = sservice.selectPersonalSchedule("1004");
+		List<ScheduleDTO> deptSchedule = sservice.selectDeptSchedule(Integer.toString(loginDTO.getDept_code()));
+		List<ScheduleDTO> teamSchedule = sservice.selectTeamSchedule(Integer.toString(loginDTO.getTeam_code()));
+		List<ScheduleDTO> personalSchedule = sservice.selectPersonalSchedule(Integer.toString(loginDTO.getCode()));
 
 		Date today = new Date(System.currentTimeMillis());
 		
@@ -52,19 +53,11 @@ public class ScheduleController {
 	
 	@RequestMapping("addSchedule.schedule")
 	public String addSchedule(ScheduleDTO dto, String openTarget, Date startDate, String startTime, Date endDate, String endTime,  Model model) {
-		System.out.println("openTarget : " + openTarget);
-		System.out.println("title : " + dto.getTitle());
-		System.out.println("startDate : " + startDate);
-		System.out.println("startTime : " + startTime);
-		System.out.println("endDate : " + endDate);
-		System.out.println("endTime : " + endTime);
-		System.out.println("contents : " + dto.getContents());
-		System.out.println("color : " + dto.getColor());
 		
 		//글쓴 사람 
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		//int empCode = (Integer)loginDTO.getCode();
-		dto.setWriter("1004");
+		String empCode = Integer.toString(loginDTO.getCode());
+		dto.setWriter(empCode);
 		
 		//날짜 필요한 형태로 바꾸기
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -79,13 +72,13 @@ public class ScheduleController {
 		
 		//공개 범위별 처리(수정필요)
 		if(openTarget.contentEquals("personal")) { //개인 일정
-			dto.setEmp_code("1004");
+			dto.setEmp_code(empCode);
 			sservice.insertSchedule(dto, "personal");
 		}else if(openTarget.contentEquals("team")) { //팀 일정
-			dto.setTeam_code("11");
+			dto.setTeam_code(Integer.toString(loginDTO.getTeam_code()));
 			sservice.insertSchedule(dto, "team");
 		}else if(openTarget.contentEquals("dept")) { //부서 일정
-			dto.setDept_code("1");
+			dto.setDept_code(Integer.toString(loginDTO.getDept_code()));
 			sservice.insertSchedule(dto, "dept");
 		}
 		return "redirect:/schedule/toScheduleMain.schedule";
@@ -94,8 +87,7 @@ public class ScheduleController {
 	@RequestMapping("getSchedule.schedule")
 	public String getSchedule(String seq, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		//int empCode = (Integer)loginDTO.getCode();
-		int empCode = 1004;
+		String empCode = Integer.toString(loginDTO.getCode());
 		
 		ScheduleDTO dto = sservice.getSchedule(seq);
 		
@@ -135,12 +127,6 @@ public class ScheduleController {
 			openTarget="dept";
 		}
 		
-		System.out.println("startDate : " + startDate);
-		System.out.println("startTime : " + startTime);
-		System.out.println("endDate : " + endDate);
-		System.out.println("endTime : " + endTime);
-		
-		
 		model.addAttribute("dto", dto);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("startTime", startTime);
@@ -152,6 +138,7 @@ public class ScheduleController {
 	}
 	@RequestMapping("update.schedule")
 	public String update(ScheduleDTO dto, String openTarget, Date startDate, String startTime, Date endDate, String endTime) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		
 		//날짜 필요한 형태로 바꾸기
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -164,21 +151,19 @@ public class ScheduleController {
 		dto.setStart_time(startTimestamp);
 		dto.setEnd_time(endTimestamp);
 		
-		//contents가 null이면 처리 필요할듯?
-		
 		//공개 범위별 처리
 		if(openTarget.contentEquals("personal")) { //개인 일정
-			dto.setEmp_code("1004");
+			dto.setEmp_code(Integer.toString(loginDTO.getCode()));
 			dto.setTeam_code("");
 			dto.setDept_code("");
 		}else if(openTarget.contentEquals("team")) { //팀 일정
 			dto.setEmp_code("");
-			dto.setTeam_code("11");
+			dto.setTeam_code(Integer.toString(loginDTO.getTeam_code()));
 			dto.setDept_code("");
 		}else if(openTarget.contentEquals("dept")) { //부서 일정
 			dto.setEmp_code("");
 			dto.setTeam_code("");
-			dto.setDept_code("1");
+			dto.setDept_code(Integer.toString(loginDTO.getDept_code()));
 		}
 		sservice.update(dto);
 		

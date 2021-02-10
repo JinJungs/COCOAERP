@@ -9,9 +9,6 @@ import kh.cocoa.dto.FilesMsgDTO;
 
 @Mapper 
 public interface FilesDAO {
-
-
-
 	//파일 업로드
 	public int uploadFiles(int noBoard_seq,FilesDTO fdto);
 
