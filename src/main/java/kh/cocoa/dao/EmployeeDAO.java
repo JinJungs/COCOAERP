@@ -80,5 +80,6 @@ public interface EmployeeDAO {
 
 	//email로 사번받아오기
 	public int isEmailExist(String email);
-
+	//사번으로 bEmail받아오기
+	public String getB_Email(String seq);
 }

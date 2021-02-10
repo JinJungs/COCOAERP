@@ -213,7 +213,7 @@
 
  /*채팅 메일 담당자분 여기다가 작업하시면 됩니다.*/
     function  fn_clickemail(code) {
-        alert("메일 클릭"+code);
+        location.href="/email/sendPage.email?seq=" + code;
     }
     function fn_clickChat(code) {
         window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'','width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes');
