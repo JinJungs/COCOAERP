@@ -2,26 +2,40 @@ package kh.cocoa.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sun.deploy.net.HttpResponse;
+import com.sun.deploy.net.URLEncoder;
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/membership")
 public class EmployeeController {
     @Autowired
     private EmployeeService eservice;
+
+    @Autowired
+    private FilesService filesService;
 
     @Autowired
     private HttpSession session;
@@ -49,26 +63,46 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/myInfo")
-    public String myInfo() {
+    public String myInfo(Model model) {
+        EmployeeDTO user = eservice.getEmpInfo(1000);
+        FilesDTO getProfile = filesService.findBeforeProfile(1000);
+        if(getProfile.getSavedname()!=null) {
+            String profileLoc = "/profileFile/" + getProfile.getSavedname();
+            System.out.println(profileLoc);
+            model.addAttribute("profile",profileLoc);
+        }else{
+            model.addAttribute("profile","/img/Profile-m");
+        }
+        if(user.getGender().contentEquals("M")){
+            user.setGender("남자");
+        }else{
+            user.setGender("여자");
+        }
+        model.addAttribute("user",user);
         return "/membership/myInfo";
     }
 
     @RequestMapping(value = "/myInfoModify")
-    public String myInfoModify() {
-        return "/membership/myInfoModify";
+    public String myInfoModify(Model model) {
+        EmployeeDTO user = eservice.getEmpInfo(1000);
+        FilesDTO getProfile = filesService.findBeforeProfile(1000);
+        if(getProfile.getSavedname()!=null) {
+            String profileLoc = "/profileFile/" + getProfile.getSavedname();
+            System.out.println(profileLoc);
+            model.addAttribute("profile",profileLoc);
+        }else{
+            model.addAttribute("profile","/img/Profile-m");
+        }
+        if(user.getGender().contentEquals("M")){
+            user.setGender("남자");
+        }else{
+            user.setGender("여자");
+        }
+        model.addAttribute("user",user);
+        return "/membership/myInfoMod";
+
     }
 
-    @RequestMapping(value = "/myInfoModifyDone")
-    public String myInfoModifyDone(String password, String gender, String phone, String address, String office_phone) {
-        System.out.println("수정중");
-        System.out.println(password);
-        System.out.println(phone);
-        System.out.println(address);
-        System.out.println(office_phone);
-        EmployeeDTO dto = (EmployeeDTO) session.getAttribute("loginDTO");
-        int result = eservice.myInfoModify(password, gender, phone, address, office_phone, dto.getCode());
-        return "/membership/myInfo";
-    }
 
     @RequestMapping(value = "/findId")
     public String findId() {
@@ -114,4 +148,45 @@ public class EmployeeController {
         model.addAttribute("id",code);
         return "index";
     }
+
+    @RequestMapping("/modProfileAJAX")
+    @ResponseBody
+    public String modProfileAJAX(@RequestParam("file")MultipartFile file, HttpServletResponse resp) throws Exception{
+
+
+        if (!file.getOriginalFilename().contentEquals("")) {
+            String fileRoot = Configurator.profileFileRoot;
+            File filesPath = new File(fileRoot);
+            if (!filesPath.exists()) {
+                filesPath.mkdir();
+            }
+
+            if (!file.getOriginalFilename().contentEquals("")) {
+                String oriName = file.getOriginalFilename();
+                System.out.println(oriName);
+                String uid = UUID.randomUUID().toString().replaceAll("_", "");
+                String savedName = uid+"profile";
+                FilesDTO findBeforeProfile = filesService.findBeforeProfile(1000);
+                if(findBeforeProfile.getSavedname()==null){
+                    int insertFile = filesService.insertProfile(oriName,savedName,1000);
+                    if (insertFile > 0) {
+                        String saveLoc = "/profileFile/"+savedName;
+                        File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                        FileCopyUtils.copy(file.getBytes(), targetLoc);
+                        return saveLoc;
+                    }
+                }else{
+                    int updateFile = filesService.modProfile(oriName,savedName,1000);
+                    if (updateFile > 0) {
+                        String saveLoc = "/profileFile/"+savedName;
+                        File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                        FileCopyUtils.copy(file.getBytes(), targetLoc);
+                        return saveLoc;
+                    }
+                }
+            }
+        }
+        return "false";
+    }
+
 }
