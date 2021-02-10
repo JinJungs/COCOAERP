@@ -1,9 +1,5 @@
 package kh.cocoa.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.sun.deploy.net.HttpResponse;
-import com.sun.deploy.net.URLEncoder;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
