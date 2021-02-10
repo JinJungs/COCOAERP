@@ -12,8 +12,6 @@ input{width:100%;}
 .row{border-bottom: 1px solid pink}
 #fileinsert{width:20%;}
 </style>
-<script
-	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
@@ -47,9 +45,10 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<label>+ File Attach <input type="file" class="fileList"  id="file"
-							name="file" accept="image/*"  multiple>
-						</label>
+						<input type="file" class="fileList"  id="file"
+							name="file"  multiple>
+						<!-- <label>+ File Attach 
+						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -73,6 +72,7 @@ input{width:100%;}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
+
 	<script>
 		/*파일첨부*/
 		 $('#btn_write').on("click", function() {
@@ -87,10 +87,11 @@ input{width:100%;}
 	           return;
 	         }
 	         $('#submitForm').submit();
-        })
-		$("input.fileList").MultiFile({
+        });
+		$("#file").MultiFile({
         max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
-        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        list:"#listBox",
+        accept: "jpg|png|gif|jfif", //허용할 확장자(지정하지 않으면 모든 확장자 허용)
         maxfile: 10240, //각 파일 최대 업로드 크기
         maxsize: 20480,  //전체 파일 최대 업로드 크기
         STRING: { //Multi-lingual support : 메시지 수정 가능
@@ -99,8 +100,7 @@ input{width:100%;}
             toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
             toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
             toobig: "$file 은 크기가 매우 큽니다. (max $size)"
-	        },
-	        list:"#listBox"
+	        }
 	    });
 		/*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){

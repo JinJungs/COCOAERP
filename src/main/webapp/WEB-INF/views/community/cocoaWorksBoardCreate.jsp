@@ -47,8 +47,9 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<label>+ File Attach <input type="file" class="fileList"  id="file"
+						<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
+						<label>+ File Attach 
 						</label>
 							<div id="listBox"></div><br>
 					</div>

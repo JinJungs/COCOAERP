@@ -29,7 +29,7 @@ public class EmployeeService implements EmployeeDAO {
 			return "F";
 		}
 	}
-
+	
 	@Override
 	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
 
@@ -181,6 +181,5 @@ public class EmployeeService implements EmployeeDAO {
 	public EmployeeDTO getSenderEmail(int writer_code) {
 		return edao.getSenderEmail(writer_code);
 	}
-
 }
 

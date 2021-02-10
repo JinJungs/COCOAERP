@@ -45,9 +45,10 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<label>+ File Attach <input type="file" class="fileList"  id="file"
+					<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
-						</label>
+						<!-- <label>+ File Attach 
+						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -93,7 +94,7 @@ input{width:100%;}
         })
 		$("input.fileList").MultiFile({
         max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
-        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        accept: "jpg|png|gif|jfif", //허용할 확장자(지정하지 않으면 모든 확장자 허용)
         maxfile: 10240, //각 파일 최대 업로드 크기
         maxsize: 20480,  //전체 파일 최대 업로드 크기
         STRING: { //Multi-lingual support : 메시지 수정 가능
