@@ -390,7 +390,7 @@ textarea {
 								<input type=date name=startDate value="${today }" id=startDate onchange="fn_dateControll()" required>
 							</div>
 							<div class="col-3">
-								<select name=startTime id=startTime onchange="fn_timeControll('start')">
+								<select name=startTime id=startTime onchange="fn_timeControll('start')" required>
 									<option value="06">6시</option>
 									<option value="07">7시</option>
 									<option value="08">8시</option>
@@ -417,7 +417,7 @@ textarea {
 								<input type=date name=endDate value="${today }" id=endDate onchange="fn_dateControll()" required>
 							</div>
 							<div class="col-3">
-								<select name=endTime id=endTime onchange="fn_timeControll('end')">
+								<select name=endTime id=endTime onchange="fn_timeControll('end')" required>
 									<option value="06">6시</option>
 									<option value="07">7시</option>
 									<option value="08">8시</option>
@@ -447,7 +447,7 @@ textarea {
 						<div class="row dataGroup">
 							<div class="col-3 text-right">색</div>
 							<div class="col-4">
-								<select name="color">
+								<select name="color" required>
 									<option value="#a4a6a5" id="#a4a6a5" class="#a4a6a5" style="background:#a4a6a5;color: white;">gray</option>
 									<option value="#fc9a8d" id="#fc9a8d" class="#fc9a8d" style="background:#fc9a8d;color: white;">red</option>
 									<option value="#8cdba4" id="#8cdba4" class="#8cdba4" style="background:#8cdba4;color: white;">green</option>
