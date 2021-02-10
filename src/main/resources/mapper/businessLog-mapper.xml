@@ -104,6 +104,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 부장 -->
@@ -112,6 +113,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 대표 -->
@@ -120,6 +122,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 		</choose>
@@ -292,11 +295,22 @@
 	</select>
 <!-- 업무일지 수정페이지에 내용 불러오기 -->
 	<select id="getLogBySeqMod" resultType="kh.cocoa.dto.DocumentDTO"> 
-		SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
-		L.REPORT_END,L.TEMP_CODE, E.NAME
-		FROM LOGTEMPLISTALL L, EMPLOYEE E
-		WHERE L.WRITER_CODE=E.CODE
-		AND L.SEQ=#{seq}
+	<choose>
+		<when test="status=='TEMP'">
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
+			L.REPORT_END,L.TEMP_CODE, E.NAME
+			FROM LOGTEMPLISTALL L, EMPLOYEE E
+			WHERE L.WRITER_CODE=E.CODE
+			AND L.SEQ=#{seq}
+		</when>
+		<when test="status=='RAISE'">
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
+			L.REPORT_END,L.TEMP_CODE, E.NAME
+			FROM LOGRAISELISTALL L, EMPLOYEE E
+			WHERE L.WRITER_CODE=E.CODE
+			AND L.SEQ=#{seq}
+		</when>
+	</choose>
 	</select>
 <!-- 글 삭제 (임시저장 문서 ONLY) -->
 	<delete id="logDel">
@@ -314,12 +328,16 @@
 <!-- 수정 - 임시저장 / 일일-->
 	<update id="logModifyTempUpdateDaily">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=null,CONTENTS=#{contents}, WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		REPORT_END=null,CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		STATUS='TEMP'
+		WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 임시저장 / 주간 & 월별-->
 	<update id="logModifyTempUpdate">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=#{report_end},CONTENTS=#{contents}, WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		REPORT_END=#{report_end},CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		STATUS='TEMP'
+		WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 일일-->
 	<update id="logModifyDaily">

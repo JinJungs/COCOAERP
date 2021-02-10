@@ -41,6 +41,13 @@ public interface FilesDAO {
 
 	public List<FilesDTO> getFilesListByDocSeq(String seq);
 
+	//프로필 변경
+	public int insertProfile(String oriname,String savedname,int emp_code);
+
+	public FilesDTO findBeforeProfile(int emp_code);
+
+	public int modProfile(String oriname,String savedname,int emp_code);
+
 	/*======***채팅***=====*/
 	/*=====채팅 파일 업로드=====*/
 	public int uploadFilesMsg(FilesDTO fdto);

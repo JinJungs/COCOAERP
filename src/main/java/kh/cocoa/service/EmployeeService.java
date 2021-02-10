@@ -43,7 +43,7 @@ public class EmployeeService implements EmployeeDAO {
 	}
 
 	@Override
-	public String findIdByEmail(String email) { return edao.findIdByEmail(email); }
+	public List<EmployeeDTO> findIdByEmail(String email) { return edao.findIdByEmail(email); }
 
 	@Override
 	public String findPwByEmail(String email, int code) { return edao.findPwByEmail(email, code); }
@@ -176,9 +176,9 @@ public class EmployeeService implements EmployeeDAO {
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
 	}
-	/*-------------지영-BugReport-----------*/
+	/*-------------지영------------*/
+	//BugReport
 	public EmployeeDTO getSenderEmail(int writer_code) {
-		System.out.println("서비스에서 wc는?" +writer_code);
 		return edao.getSenderEmail(writer_code);
 	}
 }

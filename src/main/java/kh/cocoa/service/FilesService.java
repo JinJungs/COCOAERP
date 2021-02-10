@@ -63,6 +63,22 @@ public class FilesService implements FilesDAO {
 
 		return fdao.documentInsertFile(oriName,savedName,doc_seq);
 	}
+
+	@Override
+	public int insertProfile(String oriname, String savedname, int emp_code) {
+		return fdao.insertProfile(oriname,savedname,emp_code);
+	}
+
+	@Override
+	public FilesDTO findBeforeProfile(int emp_code) {
+		return fdao.findBeforeProfile(emp_code);
+	}
+
+	@Override
+	public int modProfile(String oriname, String savedname, int emp_code) {
+		return fdao.modProfile(oriname,savedname,emp_code);
+	}
+
 	//DocumentSeq에 따른 파일리스트
 	public List<FilesDTO> getFilesListByDocSeq(String seq){
 		return fdao.getFilesListByDocSeq(seq);

@@ -58,7 +58,7 @@
 	<script>
 		/*홈으로*/
 		function fn_home(cpage) {
-			location.href = "";
+			location.href = "/";
 		}
 		/* 리스트에서 글 읽기*/
 		function notificationBoardRead(menu_seq,seq){

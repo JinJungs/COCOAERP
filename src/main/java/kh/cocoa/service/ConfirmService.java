@@ -2,6 +2,7 @@ package kh.cocoa.service;
 
 import kh.cocoa.dao.ConfirmDAO;
 import kh.cocoa.dto.ConfirmDTO;
+import kh.cocoa.dto.EmployeeDTO;
 
 import java.util.List;
 
@@ -33,4 +34,9 @@ public class ConfirmService implements ConfirmDAO {
     public int deleteConfirm(int doc_seq) {
         return cdao.deleteConfirm(doc_seq);
     }
+    //업무일지 승인 정보 불러오기
+    @Override
+	public List<EmployeeDTO> confirmBy(int seq) {
+		return cdao.confirmBy(seq);
+	}
 }

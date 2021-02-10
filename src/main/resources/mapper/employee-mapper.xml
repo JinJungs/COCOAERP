@@ -15,7 +15,7 @@
 		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
 	</update>
 
-	<select id="findIdByEmail" resultType="String">
+	<select id="findIdByEmail" resultType="kh.cocoa.dto.EmployeeDTO">
 		select code from employee where email = #{email}
 	</select>
 
@@ -115,4 +115,5 @@
 	<select id="isEmailExist" resultType="Integer">
 		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
 	</select>
+	
 </mapper>

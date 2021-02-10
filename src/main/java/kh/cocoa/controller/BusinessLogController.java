@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.cocoa.dto.BoardDTO;
@@ -19,6 +18,7 @@ import kh.cocoa.dto.DocumentDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.BusinessLogService;
+import kh.cocoa.service.ConfirmService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.statics.Configurator;
 
@@ -31,6 +31,9 @@ public class BusinessLogController {
 
 	@Autowired
 	private FilesService fservice;
+
+	@Autowired
+	private ConfirmService cservice;
 
 	@Autowired
 	private HttpSession session;
@@ -184,11 +187,15 @@ public class BusinessLogController {
 		//업로드된 파일 가져오기
 		List<FilesDTO> fileList = fservice.getLogFilesBySeq(seq,fdto);
 		System.out.println("파일가져오기 성공?"+fileList.size());
-
+		
+		//승인한 사람 이름 불러오기
+		List<EmployeeDTO> confirmBy = cservice.confirmBy(seq);
+		System.out.println("내용은?"+confirmBy);
 
 		model.addAttribute("status",status);
 		model.addAttribute("lr",logRead);
 		model.addAttribute("fileList",fileList);
+		model.addAttribute("confirmBy",confirmBy);
 		model.addAttribute("fileCount",getLogUploadFileCount);
 		return "businessLog/logRead";
 	}
@@ -246,6 +253,7 @@ public class BusinessLogController {
 		String writer_name = (String)loginDTO.getName();
 		//업무일지 자료 가져오기
 		DocumentDTO logRead = bservice.getLogBySeq(seq);
+		
 		//게시글에 업로드된 파일 갯수 확인
 		int getLogUploadFileCount = fservice.getLogUploadFileCount(fdto);
 
@@ -266,20 +274,23 @@ public class BusinessLogController {
 	@RequestMapping("logModify.log")
 	public String logModify(int seq,String status,DocumentDTO dto,FilesDTO fdto, Model model) {
 		System.out.println("수정 페이지" +seq);
-		System.out.println(dto.getTemp_code());
-
-		//업무일지 자료 가져오기
-		DocumentDTO logRead = bservice.getLogBySeqMod(seq,dto);
-		System.out.println("자료 가져오기 성공?" +logRead);
-
-
+		
+		DocumentDTO logRead = bservice.getLogBySeqMod(seq,dto,status);
+		System.out.println("업무일지 자료 가져오기 성공?" +logRead);
+		
 		//업로드된 파일 가져오기
 		List<FilesDTO> fileList = fservice.getLogFilesBySeq(seq,fdto);
 		System.out.println("파일가져오기 성공?"+fileList);
 
-		model.addAttribute("status",status);
+		//승인한 사람 이름 불러오기
+		List<EmployeeDTO> confirmBy = cservice.confirmBy(seq);
+		System.out.println("내용은?"+confirmBy);
+		
 		model.addAttribute("lr",logRead);
+		model.addAttribute("status",status);
 		model.addAttribute("fileList",fileList);
+		model.addAttribute("confirmBy",confirmBy);
+
 
 		return "businessLog/logModify";
 	}
@@ -333,7 +344,7 @@ public class BusinessLogController {
 			}
 		}
 		}
-		return "redirect:/log/logBoard.log?status="+status;
+		return "redirect:/log/logSentBoard.log";
 	}
 	//수정 페이지 - 임시저장 완료
 	@RequestMapping("logModifyTempSave.log")
@@ -388,7 +399,7 @@ public class BusinessLogController {
 			}
 		}
 		}
-		return "redirect:/log/logBoard.log?status="+status;
+		return "redirect:/log/logBoard.log?status=TEMP";
 	}
 	//보관함 (임시저장 / 업무일지 / 확인요청)
 	@RequestMapping("logBoard.log")
@@ -418,20 +429,20 @@ public class BusinessLogController {
 			model.addAttribute("weeklyList",weeklyList);
 			model.addAttribute("monthlyList",monthlyList);
 
-			//확인요청 보관함인 경우 접속한 ID와 작성자가 동일한 문서 & 본인 직급보다 낮은 직원의 글 불러오기
+		//확인요청 보관함인 경우 접속한 ID와 작성자가 동일한 문서 & 본인과 같은 부서의 직급이 낮은 직원의 글 불러오기
 		}else if (status.contentEquals("RAISE")){
 			//팀원인 경우 로그인 화면으로 돌아감
 			if(pos_code==4) {
 				return "businessLog/Alert";
 			}
 			//글 전체 리스트
-			List<BoardDTO> logAllListR = bservice.logAllListR(status,pos_code);
+			List<BoardDTO> logAllListR = bservice.logAllListR(status,pos_code,dept_code);
 			//일일 리스트 불러오기 
-			List<BoardDTO> dailyListR = bservice.dailyListR(status,pos_code);
+			List<BoardDTO> dailyListR = bservice.dailyListR(status,pos_code,dept_code);
 			//주간 리스트 불러오기
-			List<BoardDTO> weeklyListR = bservice.weeklyListR(status,pos_code);
+			List<BoardDTO> weeklyListR = bservice.weeklyListR(status,pos_code,dept_code);
 			//월별 리스트 불러오기
-			List<BoardDTO> monthlyListR = bservice.monthlyListR(status,pos_code);
+			List<BoardDTO> monthlyListR = bservice.monthlyListR(status,pos_code,dept_code);
 
 			model.addAttribute("logAllList",logAllListR);
 			model.addAttribute("dailyList",dailyListR);

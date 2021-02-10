@@ -9,7 +9,7 @@
 <body>	
 		<script>
          alert("버그리포트 전송 완료!");
-         location.href="/bug";
+         location.href="/";
       </script>
 
 </body>
