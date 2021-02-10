@@ -54,6 +54,7 @@ public class MessengerController {
     	List<EmployeeDTO> memberList = eservice.getAllEmployee();
     	//채팅방 불러오기
     	List<MessengerViewDTO> chatList = mservice.myMessengerList(loginDTO.getCode());
+
     	model.addAttribute("loginDTO",loginDTO);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("chatList", chatList);
@@ -73,11 +74,9 @@ public class MessengerController {
         if(messenger.getType().contentEquals("S")) {
         	 // 해당 채팅방에 있는 상대방 정보 불러오기 - 다중채팅시 오류나겠다...(지금은 한갠데 여러개 받아야해서)
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
-            System.out.println("채팅방 열 때 party empInfo : " + partyDTO.getEmp_code());
             model.addAttribute("partyDTO",partyDTO);
         }else {
         	List<MessengerViewDTO> listPartyDTO = mservice.getListMessengerPartyEmpInfo(seq);
-            System.out.println("채팅방 열 때 다중 채팅방 : " +listPartyDTO.get(0).getEmp_code());
         	model.addAttribute("listPartyDTO",listPartyDTO);
         }
      
@@ -208,25 +207,25 @@ public class MessengerController {
     }
     */
     @RequestMapping("addMemberToChatRoom")
-    public void addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public String addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
         //참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
     	List<MessengerPartyDTO> partyList = new ArrayList<>();
     	String[] empCodeList = request.getParameterValues("emp_code");
-
+    	  	
     	//form 의 empCodeList를 받은 String배열을 int형으로 바꿔 MessengerPartyDTO형 리스트에 넣는다.
     	for(String i : empCodeList) {
     		int emp_code = Integer.parseInt(i);
     		MessengerPartyDTO dto = new MessengerPartyDTO().builder().m_seq(seq).emp_code(emp_code).build();
     		partyList.add(dto);
     	}
-
+    	
     	//메신저 타입 보기
     	MessengerDTO messenger = mservice.getMessengerInfo(seq);
     	System.out.println("추가할 메신저의 정보 : "+messenger);
-
+  
     	if(messenger.getType().contentEquals("S")) {
     		System.out.println("1:1에서 추가할 때");
     		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
@@ -239,7 +238,7 @@ public class MessengerController {
     	int insertMemResult = mpservice.setMessengerMember(partyList);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
     	//!!return을 어디로 해줄지...
-    	//return "";
+    	return "error";
     }
 
     @RequestMapping("messengerSearch")
@@ -374,11 +373,17 @@ public class MessengerController {
     @RequestMapping("openModifChat")
     public String openModifChat(int seq, Model model) {
     	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
-    	//채팅방에 참가 중인 사람들 코드 전달해야함
-
-    	model.addAttribute("seq",seq);
-
-    	return "/mssenger/modifChat";
+    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
+    	model.addAttribute("messenger", messenger);
+    	return "/messenger/modifChat";
+    }
+    //채팅방 이름 변경
+    @RequestMapping("modifChatName")
+    @ResponseBody
+    public void modifChatName(MessengerDTO messenger) {
+    	System.out.println("ModifChatName 도착!!");
+    	System.out.println("messengerDTO : "+messenger);
+    	mservice.updateName(messenger.getSeq(), messenger.getName());
     }
 
     @ExceptionHandler(NullPointerException.class)
