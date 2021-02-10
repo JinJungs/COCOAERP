@@ -43,7 +43,7 @@ public class EmployeeService implements EmployeeDAO {
 	}
 
 	@Override
-	public String findIdByEmail(String email) { return edao.findIdByEmail(email); }
+	public List<EmployeeDTO> findIdByEmail(String email) { return edao.findIdByEmail(email); }
 
 	@Override
 	public String findPwByEmail(String email, int code) { return edao.findPwByEmail(email, code); }

@@ -54,4 +54,10 @@ public class MessageService implements MessageDAO {
         return msgdao.searchMsgByContents(code, contents);
     }
 
+    // 채팅창에서 검색한 메세지 찾기
+    @Override
+    public List<MessageDTO> searchMsgInChatRoom(int m_seq, String contents){
+        return msgdao.searchMsgInChatRoom(m_seq,contents);
+    }
+
 }

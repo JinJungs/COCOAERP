@@ -63,6 +63,17 @@
 	<insert id="documentInsertFile">
 		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
 	</insert>
+	<insert id="insertProfile">
+		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,EMP_CODE) VALUES(FILES_SEQ.NEXTVAL,#{oriname},#{savedname},sysdate,#{emp_code})
+	</insert>
+
+	<update id="modProfile">
+		update files set oriname=#{oriname}, savedname=#{savedname},uploadeddate=sysdate where emp_code=#{emp_code}
+	</update>
+
+	<select id="findBeforeProfile" resultType="kh.cocoa.dto.FilesDTO">
+		select * from files where emp_code=#{emp_code}
+	</select>
 
 	<!-- ****메세지 파일 업로드**** -->
 	<insert id="uploadFilesMsg">

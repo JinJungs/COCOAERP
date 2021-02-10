@@ -13,7 +13,7 @@ public interface EmployeeDAO {
 	public String login(int code, String password);
 	public EmployeeDTO loginInfo(int code);
 	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code);
-	public String findIdByEmail(String email);
+	public List<EmployeeDTO> findIdByEmail(String email);
 	public String findPwByEmail(String email, int code);
 	public int updateTempPw(String password, int code);
 

@@ -576,7 +576,7 @@ public class DocumentController {
 				docList.get(i).setStatus("결재완료");
 			}
 		}
-		System.out.println(hmlist);
+
 		model.addAttribute("clist",hmlist);
 		model.addAttribute("docList", docList);
 		
@@ -594,7 +594,7 @@ public class DocumentController {
 		return "/document/c_templateList";
 	}
 
-	@GetMapping("toWriteDocument")
+	@GetMapping("toWriteDocument.document")
 	public String toWrtieDocument(TemplatesDTO dto, Model model) {
 
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
