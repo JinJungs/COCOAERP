@@ -16,4 +16,8 @@ public interface ScheduleDAO {
 	public List<ScheduleDTO> selectDeptSchedule(String dept);
 	public List<ScheduleDTO> selectTeamSchedule(String team);
 	public List<ScheduleDTO> selectPersonalSchedule(String personal);
+	
+	public ScheduleDTO getSchedule(String seq);
+	public void update(ScheduleDTO dto);
+	public int delete(String seq);
 }

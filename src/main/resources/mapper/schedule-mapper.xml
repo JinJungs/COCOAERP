@@ -41,4 +41,15 @@
 		    WHERE EMP_CODE = #{personal}
 		   	ORDER BY SEQ DESC
 	</select>
+	
+	<select id="getSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE WHERE SEQ=#{seq}
+	</select>
+	<update id="update">
+		UPDATE SCHEDULE SET TITLE=#{title}, CONTENTS='${contents}', START_TIME=#{start_time}, END_TIME=#{end_time}, COLOR=#{color}, DEPT_CODE='${dept_code}', TEAM_CODE='${team_code}', EMP_CODE='${emp_code}' 
+    		WHERE SEQ=#{seq}
+	</update>
+	<delete id="delete">
+		DELETE FROM SCHEDULE WHERE SEQ = #{seq}
+	</delete>
 </mapper>

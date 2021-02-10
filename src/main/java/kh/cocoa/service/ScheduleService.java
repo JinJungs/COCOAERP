@@ -39,4 +39,17 @@ public class ScheduleService implements ScheduleDAO{
 	public List<ScheduleDTO> selectPersonalSchedule(String personal) {
 		return sdao.selectPersonalSchedule(personal);
 	}
+	
+	@Override
+	public ScheduleDTO getSchedule(String seq) {
+		return sdao.getSchedule(seq);
+	}
+	@Override
+	public void update(ScheduleDTO dto) {
+		sdao.update(dto);
+	}
+	@Override
+	public int delete(String seq) {
+		return sdao.delete(seq);
+	}
 }
