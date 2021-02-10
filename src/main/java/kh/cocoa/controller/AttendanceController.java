@@ -23,7 +23,13 @@ public class AttendanceController {
     private HttpSession session;
 
     @RequestMapping(value = "/toAttendanceView")
-    public String toTA() { return "/attendance/attendanceView"; }
+    public String toTA(Model model) {
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        List<AttendanceDTO> attendance = attenService.getAttendanceList(loginSession.getCode());
+        model.addAttribute("attendance", attendance);
+        System.out.println(attendance.size());
+        return "/attendance/attendanceView";
+    }
 
     @RequestMapping(value = "/startWork")
     public String startWork(Model model, HttpServletRequest request) {
@@ -44,7 +50,7 @@ public class AttendanceController {
         else{
             model.addAttribute("result", "already");
         }
-        return "/attendance/attendanceView";
+        return "redirect::/attendance/toAttendanceView";
     }
 
     @RequestMapping(value = "/endWork")
@@ -65,7 +71,7 @@ public class AttendanceController {
         }else {
             model.addAttribute("result", "workedYet");
         }
-        return "/attendance/attendanceView";
+        return "redirect::/attendance/toAttendanceView";
     }
 
     @RequestMapping(value = "getAttendance")

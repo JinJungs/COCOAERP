@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <link href='/fullcalendar/main.css' rel='stylesheet' />
-    <script src='/fullcalendar/main.js'></script>
+    <link href='/lib/main.css' rel='stylesheet' />
+    <script src='/lib/main.js'></script>
     <title>attendanceView</title>
 <%--    <script>--%>
 <%--        document.addEventListener('DOMContentLoaded', function() {--%>
@@ -66,41 +66,55 @@
         function fn_endWork() {
             location.href = "/attendance/endWork"
         }
-        $(document).ready(function (){
-            document.addEventListener('DOMContentLoaded', function (){
-                var calendarEl = document.getElementById('calendar');
+        document.addEventListener('DOMContentLoaded', function (){
+            var calendarEl = document.getElementById('calendar');
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                    },
-                    local : "ko",
-                    navLinks: true,
-                    businessHours: true,
-                    editable: false,
-                    events: [
-<%--                        <c:forEach var="i" items="${attendance}" varStatus="status">--%>
-<%--                        {--%>
-<%--                            title: '근무',--%>
-<%--                            start: '${i.start_time}',--%>
-<%--                            end: '${i.end_time}',--%>
-<%--                            url: '/attendance/getAttendance'--%>
-<%--                        }--%>
-<%--                        </c:forEach>--%>
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'dayGridMonth,dayGridWeek,dayGridDay',
+                    center: 'title',
+                    right: 'prev,next'
+                },
+
+                local : "ko",
+                navLinks: true,
+                businessHours: true,
+                editable: false,
+                events: [
+                        <c:forEach var="i" items="${attendance}" varStatus="status">
                         {
-                            title: 'Meeting',
-                            start: '2021-02-13T11:00:00',
-                            constraint: 'availableForMeeting', // defined below
-                            color: '#257e4a'
+                            title: '출근',
+                            start: '${i.start_time}'
+
+                            // url: '/attendance/getAttendance'
+                        },
+                        </c:forEach>
+                        <c:forEach var="i" items="${attendance}" varStatus="status">
+                        {
+                            title: '퇴근',
+                            start: '${i.end_time}'
+
+                            // url: '/attendance/getAttendance'
                         }
-                    ]
-                });
-                calendar.render();
+
+                            <c:choose>
+                            <c:when test="${status.last}">
+                            </c:when>
+                            <c:otherwise>
+                            ,
+                            </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+//                     {
+//                         title: 'Meeting',
+//                         start: '2021-02-13T11:00:00',
+//                         constraint: 'availableForMeeting', // defined below
+//                         color: '#257e4a'
+//                     }
+                ]
             });
-        })
+            calendar.render();
+        });
     </script>
 </body>
 </html>
