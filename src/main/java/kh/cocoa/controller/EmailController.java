@@ -26,7 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.cocoa.dto.EmailDTO;
@@ -38,10 +38,7 @@ import kh.cocoa.service.FilesService;
 import kh.cocoa.statics.Configurator;
 import kh.cocoa.statics.DocumentConfigurator;
 
-//import kh.cocoa.service.EmailServices;
-
 @Controller
-@RestController
 @RequestMapping("/email")
 public class EmailController {
 
@@ -85,6 +82,7 @@ public class EmailController {
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
 	// 비번찾기 - 이메일 인증
+	@ResponseBody
 	@RequestMapping("pwfind.email")
 	public String pwFind( String email,String code) {
 	      System.out.println("비번 찾기 인증코드 전송");
@@ -137,7 +135,12 @@ public class EmailController {
 	   }
 	//메일작성페이지
 	@RequestMapping("sendPage.email")
-	public String toSendPage() {
+	public String toSendPage(String seq, Model model) {
+		
+		EmailDTO dto = new EmailDTO();
+		dto.setSender(employeeService.getB_Email(seq));
+		
+		model.addAttribute("dto", dto);
 		return "email/sendPage";
 	}
 	

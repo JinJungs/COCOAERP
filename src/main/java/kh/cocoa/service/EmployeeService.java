@@ -181,5 +181,9 @@ public class EmployeeService implements EmployeeDAO {
 	public EmployeeDTO getSenderEmail(int writer_code) {
 		return edao.getSenderEmail(writer_code);
 	}
+	@Override
+	public String getB_Email(String seq) {
+		return edao.getB_Email(seq);
+	}
 }
 
