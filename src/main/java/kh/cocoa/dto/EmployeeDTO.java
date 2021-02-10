@@ -28,6 +28,7 @@ public class EmployeeDTO{
     private String teamname;
     private String posname;
     private int count;
+    private String savedname;
 
     @Builder
     public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address, String email, String b_email, String gender, Date hire_date, String withdraw, int dept_code, int pos_code, int team_code, String deptname, String teamname, String posname) {

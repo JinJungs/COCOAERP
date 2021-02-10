@@ -84,11 +84,6 @@ public class RestOrganChartController {
     public String getEmpInfo(@RequestParam("code") int code){
         EmployeeDTO info = employeeService.getEmpInfo(code);
         FilesDTO getProfile = filesService.findBeforeProfile(code);
-        if(getProfile.getSavedname()!=null){
-
-        }
-
-
         JSONObject json = new JSONObject(info);
         return json.toString();
     }
