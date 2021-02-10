@@ -3,9 +3,11 @@ package kh.cocoa.controller;
 
 import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.dto.TeamDTO;
 import kh.cocoa.service.DepartmentsService;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
 import kh.cocoa.service.TeamService;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,6 +33,8 @@ public class RestOrganChartController {
     private EmployeeService employeeService;
     @Autowired
     private DepartmentsService departmentsService;
+    @Autowired
+    private FilesService filesService;
 
     @RequestMapping("/getteamlist.organ")
     public String getTeamList(@RequestParam("code")List<Integer> code){
@@ -79,6 +83,12 @@ public class RestOrganChartController {
     @RequestMapping("getEmpInfo.organ")
     public String getEmpInfo(@RequestParam("code") int code){
         EmployeeDTO info = employeeService.getEmpInfo(code);
+        FilesDTO getProfile = filesService.findBeforeProfile(code);
+        if(getProfile.getSavedname()!=null){
+
+        }
+
+
         JSONObject json = new JSONObject(info);
         return json.toString();
     }
