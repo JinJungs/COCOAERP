@@ -71,6 +71,7 @@
         // ajax로 목록 불러오기
         searchAjax("");
         // partyList 확인해서 체크박스 체크
+
         // partyList 확인해서 상단에 리스트 띄우기
     });
 
