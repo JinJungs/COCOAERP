@@ -137,10 +137,13 @@ public class EmailController {
 	@RequestMapping("sendPage.email")
 	public String toSendPage(String seq, Model model) {
 		
-		EmailDTO dto = new EmailDTO();
-		dto.setSender(employeeService.getB_Email(seq));
+		if(seq != null) {
+			EmailDTO dto = new EmailDTO();
+			dto.setSender(employeeService.getB_Email(seq));
+			
+			model.addAttribute("dto", dto);
+		}
 		
-		model.addAttribute("dto", dto);
 		return "email/sendPage";
 	}
 	

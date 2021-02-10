@@ -50,7 +50,7 @@ public class AttendanceController {
         else{
             model.addAttribute("result", "already");
         }
-        return "redirect::/attendance/toAttendanceView";
+        return "/attendance/attendanceView";
     }
 
     @RequestMapping(value = "/endWork")
@@ -71,7 +71,7 @@ public class AttendanceController {
         }else {
             model.addAttribute("result", "workedYet");
         }
-        return "redirect::/attendance/toAttendanceView";
+        return "/attendance/attendanceView";
     }
 
     @RequestMapping(value = "getAttendance")

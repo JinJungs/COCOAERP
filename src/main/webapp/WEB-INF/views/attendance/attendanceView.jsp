@@ -85,16 +85,12 @@
                         {
                             title: '출근',
                             start: '${i.start_time}'
-
-                            // url: '/attendance/getAttendance'
                         },
                         </c:forEach>
                         <c:forEach var="i" items="${attendance}" varStatus="status">
                         {
                             title: '퇴근',
                             start: '${i.end_time}'
-
-                            // url: '/attendance/getAttendance'
                         }
 
                             <c:choose>
@@ -105,12 +101,6 @@
                             </c:otherwise>
                             </c:choose>
                         </c:forEach>
-//                     {
-//                         title: 'Meeting',
-//                         start: '2021-02-13T11:00:00',
-//                         constraint: 'availableForMeeting', // defined below
-//                         color: '#257e4a'
-//                     }
                 ]
             });
             calendar.render();
