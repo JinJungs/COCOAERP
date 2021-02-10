@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
+<!-- 게시글 리스트 가져오기 -->
+	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM 
+		(SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
+        WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+<!-- 앨범 게시판 리스트 가져오기 -->
+	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT E.NAME, F.SAVEDNAME ,B.*
+	    FROM BOARD B, EMPLOYEE E, FILES F, 
+	    (SELECT BOARD_SEQ, MAX(SEQ) SEQ FROM FILES
+	    WHERE BOARD_SEQ != 0 GROUP BY BOARD_SEQ
+	    ORDER BY BOARD_SEQ) TEMP
+	    WHERE B.WRITER_CODE = E.CODE
+        AND B.SEQ = F.BOARD_SEQ
+        AND B.MENU_SEQ=3
+        AND TEMP.SEQ = F.SEQ
+    	ORDER BY B.SEQ DESC
+	</select>
+<!-- 검색한 앨범 게시글 가져오기 -->
+	<select id="getAlbumBoardListSearch" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT F.SAVEDNAME,A.*
+		FROM ALBUMBOARDLIST A, FILES F
+		WHERE A.SEQ = F.BOARD_SEQ
+		<choose>
+                 <when test='searchBy=="title"'>
+                 	AND A.TITLE LIKE '%${search}%'
+                </when>
+                 <when test='searchBy=="tc"'>
+                 	AND A.TITLE LIKE '%${search}%'
+                 	OR A.CONTENTS LIKE '%${search}%'
+                 </when>
+
+                 <when test='searchBy=="contents"'>
+                 	AND A.CONTENTS LIKE '%${search}%'
+                 </when>
+                 <when test='searchBy=="writer"'>
+                 	AND A.NAME LIKE '%${search}%'
+                 </when>
+           </choose>
+	</select>
+<!-- 검색한 게시글 가져오기 -->
+	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
+			SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
+			WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
+            <choose>
+                 <when test='searchBy=="title"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                </when>
+                 <when test='searchBy=="tc"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                 	OR B.CONTENTS LIKE '%${search}%'
+                 </when>
+
+                 <when test='searchBy=="contents"'>
+                 	AND B.CONTENTS LIKE '%${search}%'
+                 </when>
+                 <when test='searchBy=="writer"'>
+                 	AND E.NAME LIKE '%${search}%'
+                 </when>
+           </choose>
+	</select>
+<!-- 토탈 카운트 가져오기 -->
+	<select id="recordTotalCount" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
+	</select>
+<!-- 게시글 파일 업로드 - board & files seq값 동일하게 맞추기 -->
+	<select id="noBoardSelectSeq" resultType="Integer">
+		SELECT BOARD_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='BOARD_SEQ'
+	</select>
+<!-- 글작성 -->
+	<insert id="notificationBoardCreateDone" >
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},SYSDATE,0,#{bdto.writer_code},#{menu_seq})<!-- #{writer_code},#{menu_seq}) -->
+	</insert>
+<!-- 게시글 가져오기 -->
+	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE and SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
+	</select>
+	<!-- 게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 -->
+	<select id="checkWriter" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD WHERE SEQ=#{seq} AND WRITER_CODE=#{writer_code}
+	</select>
+	<!-- seq로 게시글 수 확인 -->
+	<select id="getSearchCount" resultType="Integer">
+		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
+  	</select>
+<!-- 게시글 조회수 올리기 -->
+	<update id="notificationBoardViewCount" >
+		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
+	</update>
+<!-- 게시글 수정  -->
+	<update id="notificationBoardContentsModify">
+		UPDATE BOARD SET TITLE=#{title}, CONTENTS=#{contents} WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
+	</update>
+<!-- 게시글 삭제 -->
+	<delete id="notificationBoardContentsDel">
+		DELETE FROM BOARD WHERE SEQ=#{seq}
+	</delete>
+
+<!-- **************내가쓴글*************************** -->
+<!-- 내가쓴글 가져오기 -->
+	<select id="getMyBoardList" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM BOARD WHERE WRITER_CODE=#{writer_code} ORDER BY WRITE_DATE DESC
+	</select>
+</mapper>	

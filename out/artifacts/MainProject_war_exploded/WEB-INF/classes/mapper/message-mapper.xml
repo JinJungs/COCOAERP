@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.MessageDAO">
+    <!--시간에 초까지 필요 SYSDATE 가능?-->
+    <insert id="insertMessage">
+        INSERT INTO MESSAGE
+        VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
+    </insert>
+    <insert id="insertMessageGotSeq">
+        INSERT INTO MESSAGE
+        VALUES (#{seq}, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
+    </insert>
+
+    <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다.-->
+    <select id="getMessageList" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT MSG.CONTENTS
+        FROM MESSENGER M,
+             MESSAGE MSG
+        WHERE M.EMP_CODE = MSG.EMP_CODE
+          AND M_SEQ = #{m_seq}
+        ORDER BY MSG.WRITE_DATE
+    </select>
+    <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다. & CPAGE에 해당하는 리스트를 SELECT-->
+    <select id="getMessageListByCpage" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT A.SEQ, A.CONTENTS, A.WRITE_DATE, A.EMP_CODE, A.M_SEQ, A.TYPE, A.SAVEDNAME
+        FROM (SELECT MSG_VIEW.*, ROW_NUMBER() OVER(ORDER BY MSG_VIEW.SEQ DESC)RN
+              FROM (SELECT M.*, F.SAVEDNAME
+                    FROM MESSAGE M,
+                         FILES F
+                    WHERE M.SEQ = F.MSG_SEQ(+)
+                      AND M_SEQ = #{m_seq}) MSG_VIEW) A
+        WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
+    </select>
+    <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT COUNT(*)
+        FROM MESSAGE
+        WHERE EMP_CODE = #{emp_code}
+    </select>
+
+    <!-- 메세지 파일 업로드 - message & files seq값 동일하게 맞추기 -->
+    <select id="selectMessageSeq" resultType="Integer">
+        SELECT MESSAGE_SEQ.NEXTVAL
+        FROM USER_SEQUENCES
+        WHERE SEQUENCE_NAME = 'MESSAGE_SEQ'
+    </select>
+
+    <!--내용으로 메세지 검색-->
+    <select id="searchMsgByContents" resultType="kh.cocoa.dto.MessageViewDTO">
+        SELECT A.*, B.NAME PARTY_EMPNAME
+        FROM (SELECT MSG.*,
+                     V1.TYPE     M_TYPE,
+                     V1.NAME,
+                     V1.PARTY_SEQ,
+                     V1.EMP_CODE PARTY_EMP_CODE,
+                     E.NAME      EMPNAME
+              FROM MESSAGE MSG,
+                   MESSENGER_VIEW V1,
+                   EMPLOYEE_VIEW E
+              WHERE MSG.M_SEQ = V1.SEQ
+                AND MSG.EMP_CODE = E.CODE
+                AND M_SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
+                AND V1.EMP_CODE!=#{code}) A,
+             EMPLOYEE_VIEW B
+        WHERE A.PARTY_EMP_CODE = B.CODE
+          AND CONTENTS LIKE '%${contents}%'
+    </select>
+    <!-- 채팅방에서 메세지 검색-->
+    <select id="searchMsgInChatRoom" resultType="kh.cocoa.dto.MessageDTO">
+        SELECT *
+        FROM MESSAGE
+        WHERE M_SEQ = #{m_seq}
+          AND CONTENTS LIKE '%${contents}%'
+          AND TYPE!='IMAGE'
+        ORDER BY SEQ DESC
+    </select>
+</mapper>

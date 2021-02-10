@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.ScheduleDAO">
+	<insert id="insertSchedule">
+		INSERT INTO SCHEDULE VALUES
+		<choose>
+			<when test='openTarget=="personal"'>
+				(SCHEDULE_SEQ.NEXTVAL, #{dto.title}, #{dto.contents}, #{dto.start_time}, #{dto.end_time}, #{dto.color}, '', '',#{dto.emp_code}, #{dto.writer})
+			</when>
+			<when test='openTarget=="team"'>
+				(SCHEDULE_SEQ.NEXTVAL, #{dto.title}, #{dto.contents}, #{dto.start_time}, #{dto.end_time}, #{dto.color}, '', #{dto.team_code}, '', #{dto.writer})
+			</when>
+			<when test='openTarget=="dept"'>
+				(SCHEDULE_SEQ.NEXTVAL, #{dto.title}, #{dto.contents}, #{dto.start_time}, #{dto.end_time}, #{dto.color}, #{dto.dept_code}, '', '', #{dto.writer})
+			</when>
+		</choose>
+	</insert>
+	
+	<select id="selectAllSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE ORDER BY SEQ DESC
+	</select>
+	<select id="selectCompanySchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE 
+		    WHERE DEPT_CODE IS NULL
+		        AND TEAM_CODE IS NULL
+		        AND EMP_CODE IS NULL
+		    ORDER BY SEQ DESC
+	</select>
+	<select id="selectDeptSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE 
+		    WHERE DEPT_CODE = #{dept}
+		   	ORDER BY SEQ DESC
+	</select>
+	<select id="selectTeamSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE 
+		    WHERE TEAM_CODE = #{team}
+		   	ORDER BY SEQ DESC
+	</select>
+	<select id="selectPersonalSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE 
+		    WHERE EMP_CODE = #{personal}
+		   	ORDER BY SEQ DESC
+	</select>
+	
+	<select id="getSchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM SCHEDULE WHERE SEQ=#{seq}
+	</select>
+	<update id="update">
+		UPDATE SCHEDULE SET TITLE=#{title}, CONTENTS='${contents}', START_TIME=#{start_time}, END_TIME=#{end_time}, COLOR=#{color}, DEPT_CODE='${dept_code}', TEAM_CODE='${team_code}', EMP_CODE='${emp_code}' 
+    		WHERE SEQ=#{seq}
+	</update>
+	<delete id="delete">
+		DELETE FROM SCHEDULE WHERE SEQ = #{seq}
+	</delete>
+</mapper>

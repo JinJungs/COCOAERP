@@ -1,0 +1,514 @@
+:root {
+  --main-color: #e2e8eb; /*#9d86de*/
+  --main-background-color: #ffffff;
+  --chat-background-color: #e8eaed;
+  --submain-color: hsl(0, 0%, 81%);
+  --sendMsg-color: #c6b5ed;
+  --getMsg-color: #ffffff;
+  --subMsg-color: #94bfe7;
+  --text-color-dark: #575757;
+  --text-color-medium: #bfbfbf;
+  --text-color-light: #c9c9c9;
+  --hover-color-light: #F2F2F2;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  background-color: #e4e4e4;
+}
+body {
+  min-width: 400px;
+  min-height: 660px;
+}
+.align-center{
+  float: none;
+  margin: 0 auto;
+}
+
+/* ====== hide file input ===== */
+/* .file-input lable {
+	display:inline-block;background:#23a3a7;  color:#fff;
+  padding:0px 15px;line-height:35px;cursor:pointer;
+  }
+.file_input label input {
+	position:absolute;width:0;
+    height:0;overflow:hidden;
+    }
+.file_input input[type=text] {
+	vertical-align:middle;color:#866EC7;
+    display:inline-block;width:400px;height:28px;
+    line-height:28px;font-size:13px;padding:0;
+    border:0;
+    } */
+    
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #5cb85c;
+  cursor: pointer;
+  border: 1px solid #4cae4c;
+  border-radius: .25em;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.filebox label:hover {
+  background-color: #6ed36e;
+}
+
+.filebox label:active {
+  background-color: #367c36;
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/* ====== hide file input ====== */
+
+
+.bgMain {
+  background-color: var(--main-color) !important;
+}
+.chatBgMain{
+  background-color: var(--chat-background-color) !important;
+}
+.whiteBg{
+  background-color: var(--main-background-color) !important;
+}
+
+.chat {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.card {
+  border-radius: 15px;
+  background-color: var(--main-background-color);
+}
+.contacts_body {
+  padding: 0.75rem 0;
+  overflow-y: auto;
+  white-space: nowrap;
+}
+.msg_card_body {
+  overflow-y: auto;
+  background-color: var(--chat-background-color);
+}
+.card-header {
+  border-radius: 0 0 0 0;
+  border-bottom: 0;
+  background-color: white;
+}
+.card-footer {
+  border-radius: 0 0 0 0;
+  border-top: 0;
+  background-color: white;
+  height: 120px;
+}
+.container {
+  align-content: center;
+}
+.search {
+  border-radius: 2px 2px 2px 2px;
+  border: 0;
+  background-color: var(--main-color);
+}
+.search:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.type_msg {
+  background-color: white;
+  border: 0;
+  color: var(--dark);
+  height: 100%;
+  overflow-y: auto;
+  resize: none;
+}
+.type_msg:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.attach_btn {
+  border-radius: 2px 0 0 2px !important;
+  background-color: var(--submain-color);
+  border: 0;
+  color: white;
+  cursor: pointer;
+}
+.send_btn {
+  border-radius: 2px 0 0 2px;
+  background-color: var(--submain-color);
+  border: 0;
+  color: white;
+  cursor: pointer;
+}
+.search_btn {
+  border-radius: 0 15px 15px 0;
+  border: 0;
+  color: white;
+  cursor: pointer;
+}
+.contacts {
+  list-style: none;
+  padding: 0;
+}
+.contacts li {
+  width: 100%;
+  padding: 5px 10px;
+  margin-bottom: 15px;
+}
+.active {
+  background-color: var(--submain-color);
+}
+.user_img {
+  height: 60px;
+  width: 60px;
+  border: 1.5px solid var(--text-color-light);
+  background-color: var(--subMsg-color);
+}
+.user_img_msg {
+  height: 40px;
+  width: 40px;
+  border: 1.5px solid var(--text-color-light);
+  background-color: var(--subMsg-color);
+}
+.img_cont {
+  position: relative;
+  height: 70px;
+  width: 70px;
+}
+.img_cont_msg {
+  height: 40px;
+  width: 40px;
+}
+.m-h-90 {
+  min-height: 90px;
+}
+/* .online_icon {
+position: absolute;
+height: 15px;
+width: 15px;
+background-color: #4cd137;
+border-radius: 50%;
+bottom: 0.2em;
+right: 0.4em;
+border: 1.5px solid white;
+}
+.offline {
+background-color: #c23616;
+} */
+.user_info {
+  margin-top: 8px;
+  margin-bottom: auto;
+  margin-left: 15px;
+}
+.user_info span {
+  font-size: 18px;
+  color: var(--text-color-dark);
+}
+.user_info p {
+  font-size: 12px;
+  color: var(--text-color-dark);
+  padding-top: 2px;
+}
+.user_info p > span{
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
+}
+.video_cam {
+  margin-left: 150px;
+}
+.video_cam span {
+  color: var(--text-color-medium);
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.video_cam span:hover {
+  color: var(--text-color-dark);
+}
+.msg_cotainer {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  border-radius: 2px;
+  background-color: var(--getMsg-color);
+  font-size: 14px;
+  padding: 10px;
+  position: relative;
+}
+.msg_cotainer_send {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+  border-radius: 2px;
+  background-color: var(--sendMsg-color);
+  font-size: 14px;
+  padding: 10px;
+  position: relative;
+}
+.msg_time {
+  position: absolute;
+  left: 0;
+  bottom: -15px;
+  color: var(--text-color-dark);
+  font-size: 10px;
+}
+.msg_time_send {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  color: var(--text-color-dark);
+  font-size: 10px;
+}
+.msg_head {
+  position: relative;
+}
+#action_menu_btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--text-color-medium);
+  cursor: pointer;
+  font-size: 20px;
+}
+#action_menu_btn:hover {
+  color: var(--text-color-dark);
+}
+.action_menu {
+  z-index: 1;
+  position: absolute;
+  padding: 15px 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--dark);
+  border-radius: 2px;
+  top: 30px;
+  right: 15px;
+  display: none;
+}
+.action_menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.action_menu ul li {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+}
+.action_menu ul li i {
+  padding-right: 10px;
+}
+.action_menu ul li:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 576px) {
+  .contacts_card {
+    margin-bottom: 15px;
+  }
+}
+
+/* Sohyung */
+.min-w-450 {
+  min-width: 450px !important;
+  min-height: 660px !important;
+}
+.min-w-85 {
+  min-width: 85px;
+}
+.h15 {
+  height: 15%;
+}
+.h85 {
+  height: 85%;
+}
+.b-radius-0 {
+  border-radius: 0 !important;
+}
+/* Sohyung */
+
+/* Sohyung modified / added */
+/* user-info span color */
+/* root text colors */
+/* .con-sidebar{
+	position: fixed;
+}*/
+.con-sidebar > a {
+  color: var(--text-color-dark);
+}
+.con-sidebar > a >div:hover {
+  background-color: var(--text-color-light);
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+/* Default : we can see only memberAll list */
+#memberDept, #memberTeam, #memberMember, #memberMessage, #chatList{
+	display: none;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    opacity: 0;
+}
+
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color:gray;
+}
+/* Sohyung modified / added 20210121 */
+/* 20210122*/
+.myprofil {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--text-color-light);
+}
+.myprofilImg {
+  height: 90px;
+  width: 90px;
+}
+.myprofilImg img {
+  height: 100%;
+  width: 100%;
+}
+/* 20210122*/
+
+.border-top{
+  border-top: 1px solid var(--text-color-light);
+}
+.searchMenu div:hover{
+  cursor: pointer;
+}
+.con-list:hover{
+  cursor: default;
+  background-color: var(--hover-color-light);
+}
+/*
+#searchContents{
+  background-image: url("/static/icon/x-circle-fill.svg");
+}*/
+
+
+
+/* 파일 모아보기 ===========*/
+.date {
+  margin-left: 10px;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.flex-item {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(240, 240, 240);
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flex-item:hover{
+	background-color: lightgray;
+}
+.flex-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flex-item span {
+  align-self: flex-end;
+  margin: 5px;
+  height: 25px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-item > .fileIcon {
+  width: 70px;
+  height: 70px;
+  margin-top: 25px;
+}
+
+a[href$=".pdf"] .fileIcon {
+  background-image: url("/icon/file_format/pdf-file-format-symbol.png");
+  background-size: cover;
+}
+a[href$=".ppt"] .fileIcon {
+  background-image: url("/icon/file_format/ppt-file-format.png");
+  background-size: cover;
+}
+a[href$=".rar"] .fileIcon {
+  background-image: url("/icon/file_format/rar-file-format.png");
+  background-size: cover;
+}
+a[href$=".txt"] .fileIcon {
+  background-image: url("/icon/file_format/txt-text-file-extension-symbol.png");
+  background-size: cover;
+}
+a[href$=".zip"] .fileIcon {
+  background-image: url("/icon/file_format/zip-compressed-files-extension.png");
+  background-size: cover;
+}
+/* 파일 모아보기 ===========*/
+
+a{
+	color: var(--text-color-dark);
+}
+
+/* css animation */
+@keyframes motion {
+  0% {margin-top: 0px;}
+  100% {margin-top: 10px;}
+}
+
+/* addMemberList - 선택된 사람의 목록을 띄워줌*/
+.addedParty{
+  border: 1.5px solid gray;
+  border-radius: 30px;
+  font-size: 12px;
+}
+.addedParty i {
+  line-height: 30px;
+  color: lightgray;
+}
+.memberList-header{
+  position: fixed;
+  z-index: 30;
+}
+
+.memberList-footer{
+  position: fixed;
+}
+
+.memberList-footer div button{
+  position: fixed;
+  z-index: 50;
+}
+
+

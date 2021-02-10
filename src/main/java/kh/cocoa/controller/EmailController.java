@@ -46,7 +46,7 @@ import kh.cocoa.statics.DocumentConfigurator;
 public class EmailController {
 
 	@Autowired
-	private JavaMailSender mailSender; 
+	private JavaMailSender mailSender;
 
 	@Autowired
 	private HttpServletRequest request;

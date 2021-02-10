@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.AttendanceDAO">
+    <insert id="startWork">
+        insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, default, #{emp_code})
+    </insert>
+
+    <insert id="outSideWork">
+        insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'out', #{emp_code})
+    </insert>
+
+    <select id="checkStart" resultType="java.sql.Timestamp">
+        select start_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+    </select>
+
+    <select id="checkEnd" resultType="java.sql.Timestamp">
+        select end_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+    </select>
+
+    <update id="offWork">
+        update attendance set end_time = systimestamp where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+    </update>
+
+    <select id="getAttendanceList" resultType="kh.cocoa.dto.AttendanceDTO">
+        select * from attendance where emp_code = #{emp_code}
+    </select>
+</mapper>

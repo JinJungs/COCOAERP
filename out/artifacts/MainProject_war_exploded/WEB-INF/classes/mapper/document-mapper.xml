@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.DocumentDAO">
+	<select id="getSearchTemporaryList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='TEMP'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getSearchRaiseList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name", EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "dept_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT, TEMPLATES, DOC_CONFIRM, EMPLOYEE, DEPARTMENTS,(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT" FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		WHERE TEMPLATES.CODE = DOCUMENT.TEMP_CODE
+		AND DOCUMENT.SEQ = DOC_CONFIRM.DOC_SEQ
+		AND DOC_CONFIRM.APPROVER_CODE = EMPLOYEE.CODE
+		AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		AND DOC_CONFIRM.APPROVER_ORDER = D2.YCOUNT+1
+		AND DOCUMENT.SEQ = D2.DOC_SEQ
+		AND DOCUMENT.SEQ IN
+		(SELECT D1.DOC_SEQ FROM DOC_CONFIRM D1
+		JOIN
+		(SELECT DOC_SEQ, SUM(CASE WHEN ISCONFIRM = 'Y' THEN 1 ELSE 0 END) AS "YCOUNT"
+		FROM DOC_CONFIRM GROUP BY DOC_SEQ) D2
+		ON D1.DOC_SEQ = D2.DOC_SEQ
+		WHERE D1.APPROVER_ORDER = D2.YCOUNT+1)
+		AND DOCUMENT.STATUS = 'RAISE'
+		AND DOCUMENT.WRITER_CODE = #{empCode}
+		AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND DOCUMENT.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND DOCUMENT.TITLE LIKE '%${searchText}%'
+		ORDER BY DOCUMENT.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getSearchApprovalList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='CONFIRM'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getSearchRejectList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='REJECT'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getSearchReturnList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT D.*, T.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS='RETURN'
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<!-- 페이지네이션 -->
+	<select id="getSearchBoardCount" resultType="Integer">
+		SELECT COUNT(*) FROM
+		(SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+		WHERE D.TEMP_CODE = T.CODE
+		AND D.STATUS=#{status}
+		AND D.WRITER_CODE=#{empCode}
+		AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND D.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		AND D.TITLE LIKE '%${searchText}%'
+		ORDER BY D.WRITE_DATE DESC)
+	</select>
+	<select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", POSITION.NAME "pos_name", DOCUMENT.*
+		    FROM DOCUMENT, TEMPLATES, DEPARTMENTS, EMPLOYEE, POSITION
+		    WHERE DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+		        AND DOCUMENT.DEPT_CODE = DEPARTMENTS.CODE
+		        AND DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+                AND EMPLOYEE.POS_CODE = POSITION.CODE
+		        AND SEQ=#{seq}
+		    ORDER BY DOCUMENT.SEQ
+	</select>
+
+
+	<select id="getStatusBySeq" resultType="String">
+		SELECT STATUS FROM DOCUMENT WHERE SEQ=#{seq}
+	</select>
+	<select id="getTemp_codeBySeq" resultType="String">
+		SELECT TEMP_CODE FROM DOCUMENT WHERE SEQ=#{seq}
+	</select>
+	<update id="tempToUpdate">
+		UPDATE DOCUMENT
+		SET TITLE=#{dto.title}, WRITE_DATE=SYSDATE, FINAL_DATE=''
+		<choose>
+			<when test='temp_code=="6"'>
+				<choose>
+					<when test='submitType=="temp"'>
+						,LEAVE_START=#{dto.leave_start}, LEAVE_END=#{dto.leave_end}, LEAVE_TYPE=#{dto.leave_type},
+						CONTENTS=#{dto.contents},
+						STATUS='TEMP'
+					</when>
+					<when test='submitType=="raise"'>
+						,SEQ=DOCUMENT_SEQ.NEXTVAL,
+						LEAVE_START=#{dto.leave_start}, LEAVE_END=#{dto.leave_end}, LEAVE_TYPE=#{dto.leave_type},
+						CONTENTS=#{dto.contents},
+						STATUS='RAISE'
+					</when>
+				</choose>
+			</when>
+		</choose>
+		WHERE SEQ=#{dto.seq}
+	</update>
+
+	<update id="ReturnDoc">
+		UPDATE DOCUMENT SET STATUS = 'RETURN' WHERE SEQ=#{seq}
+	</update>
+	<select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM
+		(SELECT DOCUMENT.*, EMPLOYEE.NAME "emp_name", DEPARTMENTS.NAME "dept_name", TEMPLATES.NAME "temp_name", ROW_NUMBER() OVER(ORDER BY DOCUMENT.WRITE_DATE DESC) "ROWNUMBER"
+		FROM DOCUMENT, EMPLOYEE, DEPARTMENTS, TEMPLATES
+		WHERE DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+		AND EMPLOYEE.DEPT_CODE = DEPARTMENTS.CODE
+		AND DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+		AND DOCUMENT.STATUS='CONFIRM'
+		AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND DOCUMENT.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		<choose>
+			<when test='searchOption=="title"'>
+				AND DOCUMENT.TITLE LIKE '%${searchText}%'
+			</when>
+			<when test='searchOption=="writer"'>
+				AND EMPLOYEE.NAME LIKE '%${searchText}%'
+			</when>
+			<when test='searchOption=="department"'>
+				AND DEPARTMENTS.NAME LIKE '%${searchText}%'
+			</when>
+		</choose>
+		ORDER BY DOCUMENT.WRITE_DATE DESC)
+		WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+
+	<select id="getAllDocCount" resultType="Integer">
+		SELECT COUNT(*) FROM
+		(SELECT DOCUMENT.*, TEMPLATES.NAME "temp_name" FROM DOCUMENT, TEMPLATES
+		WHERE DOCUMENT.TEMP_CODE = TEMPLATES.CODE
+		AND DOCUMENT.STATUS='CONFIRM'
+		AND DOCUMENT.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+		AND DOCUMENT.TEMP_CODE IN
+		<foreach item="item" collection="templateList" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+		<choose>
+			<when test='searchOption=="title"'>
+				AND DOCUMENT.TITLE LIKE '%${searchText}%'
+			</when>
+			<when test='searchOption=="writer"'>
+				AND EMPLOYEE.NAME LIKE '%${searchText}%'
+			</when>
+			<when test='searchOption=="department"'>
+				AND DEPARTMENTS.NAME LIKE '%${searchText}%'
+			</when>
+		</choose>
+		ORDER BY DOCUMENT.WRITE_DATE DESC)
+	</select>
+
+	<select id="getAllDraftDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT SEQ, TITLE, WRITE_DATE, STATUS 
+		    FROM DOCUMENT
+		    WHERE WRITER_CODE=#{empCode}
+		        AND STATUS NOT IN ('TEMP', 'RETURN')
+		    ORDER BY WRITE_DATE DESC
+	</select>
+
+
+	<!--용국-->
+	<insert id="addDocument">
+		<choose>
+			<when test="temp_code==5">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+			</when>
+			<when test="temp_code==6">
+				<choose>
+					<when test="leave_type=='반차'||leave_type=='조퇴'">
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+					</when>
+					<otherwise>
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+					</otherwise>
+				</choose>
+			</when>
+			<when test="temp_code==4">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="getDocCode" resultType="Integer">
+		select max(seq) from document where writer_code=#{writer_code}
+	</select>
+
+	<insert id="addSaveDocument">
+		<choose>
+			<when test="temp_code==5">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+			</when>
+			<when test="temp_code==6">
+				<choose>
+					<when test="leave_type=='반차'||leave_type=='조퇴'">
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+					</when>
+					<otherwise>
+						insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
+						values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+					</otherwise>
+				</choose>
+			</when>
+			<when test="temp_code==4">
+				insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+			</when>
+			<otherwise>
+				insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
+				values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
+			</otherwise>
+		</choose>
+	</insert>
+
+	<select id="getBeforeConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		    select * from (select d.*,e.name emp_name,de.name dept_name,t.name temp_name,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER" from document d inner join (select d1.doc_seq, d1.isconfirm, d1.approver_order, d2.ycount
+    		from doc_confirm d1 JOIN
+    		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+    		from doc_confirm
+   			group by doc_seq
+  			 ) d2
+   			 on d1.doc_seq = d2.doc_seq
+ 			where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+ 			and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+ 				inner join templates t on t.code = d.temp_code
+ 				inner join employee e on e.code = d.writer_code
+ 				inner join departments de on de.code = d.dept_code
+ 				order by d.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND status not in('TEMP')
+	</select>
+
+	<select id="getAllBeforeConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		    select d.*,e.name emp_name,de.name dept_name,t.name temp_name,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER" from document d inner join (select d1.doc_seq, d1.isconfirm, d1.approver_order, d2.ycount
+    		from doc_confirm d1 JOIN
+    		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+    		from doc_confirm
+   			group by doc_seq
+  			 ) d2
+   			 on d1.doc_seq = d2.doc_seq
+ 			where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+ 			and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+ 				inner join templates t on t.code = d.temp_code
+ 				inner join employee e on e.code = d.writer_code
+ 				inner join departments de on de.code = d.dept_code
+ 				WHERE D.STATUS NOT IN('TEMP')
+ 				order by d.WRITE_DATE DESC
+	</select>
+
+	<select id="getAuthBD" resultType="Integer">
+		   select count(*) from document d inner join (select d1.doc_seq, d1.approver_order,d1.isconfirm, d2.ycount
+    		from doc_confirm d1 JOIN
+    		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+    		from doc_confirm
+   			group by doc_seq
+  			 ) d2
+   			 on d1.doc_seq = d2.doc_seq
+ 			where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+ 			and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+            where isconfirm not in('R') and seq=#{seq} AND D.STATUS NOT IN('TEMP')
+ 			order by d.WRITE_DATE DESC
+	</select>
+
+	<select id="getBDCount" resultType="Integer">
+		    select COUNT(*) from document d inner join (select d1.doc_seq, d1.approver_order, d2.ycount
+    		from doc_confirm d1 JOIN
+    		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+    		from doc_confirm
+   			group by doc_seq
+  			 ) d2
+   			 on d1.doc_seq = d2.doc_seq
+ 			where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+ 			and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+ 				inner join templates t on t.code = d.temp_code
+ 				inner join employee e on e.code = d.writer_code
+ 				inner join departments de on de.code = d.dept_code
+ 				WHERE D.STATUS NOT IN('TEMP')
+ 				order by d.WRITE_DATE DESC
+	</select>
+	<select id="searchConfirmDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		select * from (select d.*,e.name emp_name,de.name dept_name,t.name temp_name,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER" from document d inner join (select d1.doc_seq, d1.approver_order, d2.ycount
+		from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm
+		group by doc_seq
+		) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+		and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+		inner join templates t on t.code = d.temp_code
+		inner join employee e on e.code = d.writer_code
+		inner join departments de on de.code = d.dept_code
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						where d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						where e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						where de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				where t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				where t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				where t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by d.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN('TEMP')
+	</select>
+
+	<select id="searchBDCount" resultType="Integer">
+		select COUNT(*) from document d inner join (select d1.doc_seq, d1.approver_order, d2.ycount
+		from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm
+		group by doc_seq
+		) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE =#{approver_code} and d1.isconfirm not in('R'))
+		and d1.approver_order = d2.ycount+1) d3 on d.seq = d3.doc_seq
+		inner join templates t on t.code = d.temp_code
+		inner join employee e on e.code = d.writer_code
+		inner join departments de on de.code = d.dept_code
+		WHERE D.STATUS NOT IN ('TEMP')
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by d.WRITE_DATE DESC
+	</select>
+
+	<select id="getNFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+
+		select * from (SELECT D.SEQ,D.STATUS, T.NAME TEMP_NAME,DE2.NAME DEPT_NAME,E2.NAME EMP_NAME,E.NAME CON_EMPNAME ,DE.NAME CON_DEPTNAME,D.TITLE,D.WRITE_DATE,T1.APPROVER_CODE,ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		 IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		 (select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <=  ]]>d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE' order by D.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN ('TEMP')
+
+	</select>
+	<select id="getAllNFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+
+		select * from (SELECT D.SEQ,D.STATUS, T.NAME TEMP_NAME,DE2.NAME DEPT_NAME,E2.NAME EMP_NAME,E.NAME CON_EMPNAME ,DE.NAME CON_DEPTNAME,D.TITLE,D.WRITE_DATE,T1.APPROVER_CODE,ROW_NUMBER() OVER(ORDER BY D.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		 IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		 (select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <=  ]]>d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE' order by D.WRITE_DATE DESC) WHERE STATUS NOT IN ('TEMP')
+
+	</select>
+
+
+	<select id="getNFCount" resultType="Integer">
+
+		SELECT COUNT(*) FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		 IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		 (select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <=  ]]>d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE' WHERE D.STATUS NOT IN ('TEMP') order by D.WRITE_DATE DESC
+
+	</select>
+
+	<select id="searchNFDocument" resultType="kh.cocoa.dto.DocumentDTO">
+
+		select * from (SELECT D.SEQ,D.STATUS,T.NAME TEMP_NAME,DE2.NAME DEPT_NAME,E2.NAME EMP_NAME,E.NAME CON_EMPNAME ,DE.NAME CON_DEPTNAME,D.TITLE,D.WRITE_DATE,T1.APPROVER_CODE,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER" FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		(select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <= ]]> d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE'
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						where D.title LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						where E2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						where DE2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				where T.name=#{temp_name} and D.title LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				where T.name=#{temp_name} and E2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				where T.name=#{temp_name} and DE2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by D.WRITE_DATE DESC)  WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN ('TEMP')
+	</select>
+
+	<select id="searchNFCount" resultType="Integer">
+
+		SELECT COUNT(*) FROM DOCUMENT D INNER JOIN
+		(SELECT * FROM DOC_CONFIRM C WHERE (APPROVER_ORDER,DOC_SEQ)
+		IN (SELECT MIN(APPROVER_ORDER),DOC_SEQ FROM DOC_CONFIRM WHERE DOC_SEQ IN
+		(select SEQ from Document
+		where seq in
+		(select d1.doc_seq from doc_confirm d1 JOIN
+		(select doc_seq, (sum(case when ISCONFIRM = 'Y' then 1 else 0 end)) as ycount
+		from doc_confirm group by doc_seq) d2
+		on d1.doc_seq = d2.doc_seq
+		where (APPROVER_CODE = #{approver_code})
+		and d1.approver_order<![CDATA[ <=]]> d2.ycount)
+		and status = 'RAISE') AND APPROVER_CODE !=#{approver_code} AND ISCONFIRM ='N' GROUP BY DOC_SEQ) AND ISCONFIRM ='N') T1 ON D.SEQ =T1.DOC_SEQ
+		INNER JOIN EMPLOYEE E ON E.CODE=T1.APPROVER_CODE
+		INNER JOIN DEPARTMENTS DE ON DE.CODE = E.DEPT_CODE
+		INNER JOIN EMPLOYEE E2 ON E2.CODE = D.WRITER_CODE
+		INNER JOIN TEMPLATES T ON T.CODE = D.TEMP_CODE
+		INNER JOIN DEPARTMENTS DE2 ON DE2.CODE = D.DEPT_CODE and d.status='RAISE'
+		WHERE D.STATUS NOT IN ('TEMP')
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND D.title LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND E2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND DE2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND T.name=#{temp_name} and D.title LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND T.name=#{temp_name} and E2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND T.name=#{temp_name} and DE2.name LIKE '%'||#{searchText}||'%' and D.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by D.WRITE_DATE DESC
+	</select>
+
+	<select id="getFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		select * from (select d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('Y')
+    	) and d.status ='CONFIRM'  order by D.WRITE_DATE DESC) where ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN ('TEMP')
+	</select>
+
+	<select id="getAllFConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		select d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('Y')
+    	) and d.status ='CONFIRM'AND STATUS NOT IN ('TEMP') order by D.WRITE_DATE DESC
+	</select>
+
+	<select id="getFCount" resultType="Integer">
+		select COUNT(*)
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('Y')
+    	) and d.status ='CONFIRM' AND STATUS NOT IN ('TEMP') order by D.WRITE_DATE DESC
+	</select>
+
+	<select id="searchFDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		select * from (select d.seq,t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+		select doc_seq from doc_confirm
+		where approver_code = #{approver_code}
+		and isconfirm in ('Y')
+		) and d.status ='CONFIRM'
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='seq'">
+						AND d.seq LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='seq'">
+				AND d.seq LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by D.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN ('TEMP')
+	</select>
+
+	<select id="searchFCount" resultType="Integer">
+		select COUNT(*)
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+		select doc_seq from doc_confirm
+		where approver_code = #{approver_code}
+		and isconfirm in ('Y')
+		) and d.status ='CONFIRM' AND D.STATUS NOT IN ('TEMP')
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='seq'">
+						AND d.seq LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='seq'">
+				AND d.seq LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by D.WRITE_DATE DESC
+	</select>
+
+	<select id="getRConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM (select  d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('R')
+    	) and d.status ='REJECT'
+    	order by d.WRITE_DATE DESC) WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum} AND STATUS NOT IN ('TEMP')
+	</select>
+
+	<select id="getAllRConfirmList" resultType="kh.cocoa.dto.DocumentDTO">
+		select  d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('R')
+    	) and d.status ='REJECT' AND D.STATUS NOT IN ('TEMP')
+    	order by d.WRITE_DATE DESC
+	</select>
+
+	<select id="getRCount" resultType="Integer">
+		select  COUNT(*)
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+    	select doc_seq from doc_confirm
+    	where approver_code = #{approver_code}
+    	and isconfirm in ('R')
+    	) and d.status ='REJECT' AND D.STATUS NOT IN ('TEMP')
+    	order by d.WRITE_DATE DESC
+	</select>
+
+	<select id="searchRDocument" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT * FROM (select  d.seq, t.name temp_name, d.title,e.name emp_name,de.name dept_name,d.write_date,d.final_date,d.status,ROW_NUMBER() OVER(ORDER BY d.WRITE_DATE DESC) "ROWNUMBER"
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+		select doc_seq from doc_confirm
+		where approver_code = #{approver_code}
+		and isconfirm in ('R')
+		) and d.status ='REJECT' AND D.STATUS NOT IN ('TEMP')
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by d.WRITE_DATE DESC)WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+
+	<select id="searchRCount" resultType="Integer">
+		select COUNT(*)
+		from document d
+		inner join templates t on d.temp_code = t.code
+		inner join departments de on d.dept_code = de.code
+		inner join employee e on d.writer_code = e.code
+		where seq in(
+		select doc_seq from doc_confirm
+		where approver_code = #{approver_code}
+		and isconfirm in ('R')
+		) and d.status ='REJECT' AND D.STATUS NOT IN ('TEMP')
+		<choose>
+			<when test="temp_name=='전체'">
+				<choose>
+					<when test="searchOption=='title'">
+						AND d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<when test="searchOption=='writer'">
+						AND e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</when>
+					<otherwise>
+						AND de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+					</otherwise>
+				</choose>
+			</when>
+			<when test="searchOption=='title'">
+				AND t.name=#{temp_name} and d.title LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<when test="searchOption=='writer'">
+				AND t.name=#{temp_name} and e.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</when>
+			<otherwise>
+				AND t.name=#{temp_name} and de.name LIKE '%'||#{searchText}||'%' and d.write_date between #{startDate} and #{endDate}
+			</otherwise>
+		</choose>
+		order by d.WRITE_DATE DESC
+	</select>
+
+
+	<!--수정페이지 꺼내오기-->
+	<select id="getModDocument" resultType="kh.cocoa.dto.DocumentDTO">
+	   	select d.*,e.name emp_name,de.name dept_name,t.name temp_name,p.name pos_name
+		 from document d
+		 inner join departments de on d.dept_code =de.code
+        inner join employee e on e.code = d.writer_code
+        inner join templates t on t.code = d.temp_code
+        inner join position p on e.pos_code = p.code
+        where d.seq=#{seq}
+	</select>
+
+	<!--수정 4번 5번은 똑같은 양식 6번만 다름.-->
+
+	<update id="modDocument">
+		<choose>
+			<when test="temp_code!=6">
+				update document set title=#{title}, contents=#{contents}, write_date=sysdate where seq=#{seq}
+			</when>
+			<otherwise>
+				<choose>
+					<when test="leave_type='반차'||leave_type='조퇴'">
+						update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start},  leave_type=#{leave_type} where seq=#{seq}
+					</when>
+					<otherwise>
+						update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type} where seq=#{seq}
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+	</update>
+
+	<update id="modAddDocument">
+		<choose>
+			<when test="temp_code!=6">
+				update document set seq=document_seq.nextval, title=#{title}, contents=#{contents}, write_date=sysdate,status='RAISE' where seq=#{seq}
+			</when>
+			<otherwise>
+				<choose>
+					<when test="leave_type='반차'||leave_type='조퇴'">
+						update document set seq=document_seq.nextval, title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start},  leave_type=#{leave_type},status='RAISE' where seq=#{seq}
+					</when>
+					<otherwise>
+						update document set seq=document_seq.nextval, title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type},status='RAISE' where seq=#{seq}
+					</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+	</update>
+
+	<update id="returnD">
+		update document set status='REJECT',final_date=sysdate where seq=#{seq}
+	</update>
+
+	<update id="addRIsConfirm">
+		<choose>
+			<when test="comments==null">
+				update doc_confirm set isconfirm='R', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</when>
+			<otherwise>
+				update doc_confirm set comments=#{comments}, isconfirm='R',confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</otherwise>
+		</choose>
+
+	</update>
+
+	<select id="getIsLast" resultType="int">
+		select count(*) from doc_confirm where doc_seq=#{seq} and isconfirm='N'
+	</select>
+
+	<update id="confirm">
+		update document set final_date=sysdate,status='CONFIRM' where seq=#{seq}
+	</update>
+	<update id="addIsConfirm">
+		<choose>
+			<when test="comments==null">
+				update doc_confirm set isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</when>
+			<otherwise>
+				update doc_confirm set comments=#{comments}, isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+			</otherwise>
+		</choose>
+
+
+
+	</update>
+
+	<select id="canRetrun" resultType="Integer">
+        select count(*) from doc_confirm where isconfirm='Y' and doc_seq=#{seq}
+	</select>
+
+</mapper>

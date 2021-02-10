@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.MessengerDAO">
+    <select id="myMessengerList" resultType="kh.cocoa.dto.MessengerViewDTO">
+        SELECT M.*, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
+        FROM MESSENGER_VIEW M,
+             EMPLOYEE_VIEW E
+        WHERE SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
+          AND M.EMP_CODE = E.CODE
+          AND ((M.EMP_CODE !=#{code} AND M.TYPE='S') OR (M.EMP_CODE = #{code} AND M.TYPE = 'M'))
+    </select>
+    <select id="getMessengerPartyEmpInfo" resultType="kh.cocoa.dto.MessengerViewDTO">
+        SELECT M.EMP_CODE, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
+        FROM MESSENGER_VIEW M,
+             EMPLOYEE_VIEW E
+        WHERE M.SEQ = #{seq}
+          AND M.EMP_CODE !=#{code}
+          AND M.EMP_CODE=E.CODE
+    </select>
+    <!-- 참가자 전원 리스트 뽑기 -->
+    <select id="getListMessengerPartyEmpInfo" resultType="kh.cocoa.dto.MessengerViewDTO">
+        SELECT M.EMP_CODE, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
+        FROM MESSENGER_VIEW M,
+             EMPLOYEE_VIEW E
+        WHERE M.SEQ = #{seq}
+          AND M.EMP_CODE = E.CODE
+    </select>
+    <!-- 방 시퀀스로 메신저 정보 뽑기 -->
+    <select id="getMessengerInfo" resultType="kh.cocoa.dto.MessengerDTO">
+        SELECT *
+        FROM MESSENGER
+        WHERE SEQ = #{seq}
+    </select>
+    <!-- 1:1 채팅방 존재 여부 체크 -->
+    <select id="isSingleMessengerRoomExist" resultType="Integer">
+        SELECT COUNT(*)
+        FROM MESSENGER
+        WHERE SEQ IN (
+            SELECT M.SEQ
+            FROM MESSENGER M,
+                 MESSENGER_PARTY MP
+            WHERE M.SEQ = MP.M_SEQ
+              AND MP.EMP_CODE = #{loginEmpCode}
+        )
+          AND SEQ IN (
+            SELECT M.SEQ
+            FROM MESSENGER M,
+                 MESSENGER_PARTY MP
+            WHERE M.SEQ = MP.M_SEQ
+              AND MP.EMP_CODE = #{partyEmpCode}
+        )
+          AND (TYPE = 'S')
+    </select>
+    <!-- 1:1 채팅방 시퀀스 불러오기  -->
+    <select id="getSingleMessengerRoom" resultType="Integer">
+        SELECT SEQ
+        FROM MESSENGER
+        WHERE SEQ IN (
+            SELECT M.SEQ
+            FROM MESSENGER M,
+                 MESSENGER_PARTY MP
+            WHERE M.SEQ = MP.M_SEQ
+              AND MP.EMP_CODE = #{loginEmpCode}
+        )
+          AND SEQ IN (
+            SELECT M.SEQ
+            FROM MESSENGER M,
+                 MESSENGER_PARTY MP
+            WHERE M.SEQ = MP.M_SEQ
+              AND MP.EMP_CODE = #{partyEmpCode}
+        )
+          AND (TYPE = 'S')
+    </select>
+
+    <!-- 채팅방 생성 후 시퀀스 가져오기 -->
+    <insert id="insertMessengerRoomGetSeq">
+        <selectKey keyProperty="seq" resultType="int" order="BEFORE">
+            SELECT MESSENGER_SEQ.NEXTVAL
+            FROM DUAL
+        </selectKey>
+        INSERT INTO MESSENGER (
+        SEQ
+        ,TYPE
+        ,NAME
+        ) VALUES (
+        #{seq}
+        ,#{type}
+        ,#{name}
+        )
+    </insert>
+
+    <update id="updateTypeToM">
+        UPDATE MESSENGER
+        SET TYPE = 'M'
+        WHERE SEQ = #{seq}
+    </update>
+
+    <update id="updateName">
+        UPDATE MESSENGER
+        SET NAME = #{name}
+        WHERE SEQ = #{seq}
+    </update>
+
+</mapper>
