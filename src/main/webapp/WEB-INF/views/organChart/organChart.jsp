@@ -133,7 +133,7 @@
                     </div>
                     <div class="row w-100 mt-3">
                         <div class="col-12 text-center">
-                            <img src="/img/Profile-m.png" style="width: 100px;height: 100px;">
+                            <img id="emp-profile" style="width: 100px;height: 100px;">
                         </div>
                     </div>
                     <div class="row w-100 mt-3">
@@ -386,6 +386,7 @@
                 $(".modalchaticon").attr("onclick","fn_clickChat("+data.code+")");
                 $("#emp-name").text(data.name);
                 $("#emp-hire_date").text(data.hire_date);
+                $("#emp-profile").attr("src",data.savedname);
                 if(data.gender=='M'){
                     $("#emp-gender").text("남");
                 }else{
