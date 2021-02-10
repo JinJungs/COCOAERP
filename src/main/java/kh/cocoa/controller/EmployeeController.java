@@ -43,21 +43,12 @@ public class EmployeeController {
     @RequestMapping(value = "/login")
     public String login(Model model, int code, String password) {
         String result = eservice.login(code, password);
-//        if (!result.isEmpty()) {
-//            EmployeeDTO loginDTO = eservice.loginInfo(code);
-//            session.setAttribute("loginDTO", loginDTO);
-//            return "index";
-//        }
-//        else {
-//            return "/membership/login";
-//        }
         if (result.equals("T")) {
             EmployeeDTO loginDTO = eservice.loginInfo(code);
             session.setAttribute("loginDTO", loginDTO);
             return "index";
         } else {
             model.addAttribute("result", result);
-            //return "/membership/login";
             return "index";
         }
     }
