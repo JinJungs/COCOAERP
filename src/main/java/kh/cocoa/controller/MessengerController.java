@@ -54,7 +54,6 @@ public class MessengerController {
     	List<EmployeeDTO> memberList = eservice.getAllEmployee();
     	//채팅방 불러오기
     	List<MessengerViewDTO> chatList = mservice.myMessengerList(loginDTO.getCode());
-
     	model.addAttribute("loginDTO",loginDTO);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("chatList", chatList);
@@ -74,9 +73,11 @@ public class MessengerController {
         if(messenger.getType().contentEquals("S")) {
         	 // 해당 채팅방에 있는 상대방 정보 불러오기 - 다중채팅시 오류나겠다...(지금은 한갠데 여러개 받아야해서)
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
+            System.out.println("채팅방 열 때 party empInfo : " + partyDTO.getEmp_code());
             model.addAttribute("partyDTO",partyDTO);
         }else {
         	List<MessengerViewDTO> listPartyDTO = mservice.getListMessengerPartyEmpInfo(seq);
+            System.out.println("채팅방 열 때 다중 채팅방 : " +listPartyDTO.get(0).getEmp_code());
         	model.addAttribute("listPartyDTO",listPartyDTO);
         }
      
@@ -207,7 +208,7 @@ public class MessengerController {
     }
     */
     @RequestMapping("addMemberToChatRoom")
-    public String addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public void addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
@@ -238,7 +239,7 @@ public class MessengerController {
     	int insertMemResult = mpservice.setMessengerMember(partyList);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
     	//!!return을 어디로 해줄지...
-    	return "";
+    	//return "";
     }
 
     @RequestMapping("messengerSearch")
@@ -361,9 +362,9 @@ public class MessengerController {
     	System.out.println("openMemberList 도착 ㅣ seq : "+seq);
     	if(seq > 0) {//둘다 같은 jsp에 넣고 jsp의 form action부분만 바꿔조도 됨. 일단은 분리
     	    // 방의 seq로 참여자의 code의 list를 보내줌
-            //List<MessengerViewDTO> codeList = mservice.getListMessengerPartyEmpInfo(seq);
+            List<MessengerViewDTO> partyList = mservice.getListMessengerPartyEmpInfo(seq);
     		model.addAttribute("seq",seq);
-    		//model.addAttribute("codeList",codeList);
+    		model.addAttribute("partyList",partyList);
     		return "/messenger/addMemberListToChat";
     	}
     	return "/messenger/addMemberList";
@@ -374,7 +375,7 @@ public class MessengerController {
     public String openModifChat(int seq, Model model) {
     	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
     	//채팅방에 참가 중인 사람들 코드 전달해야함
-    	//model.addAttribute("listPartyDTO",listPartyDTO);
+
     	model.addAttribute("seq",seq);
 
     	return "/mssenger/modifChat";
