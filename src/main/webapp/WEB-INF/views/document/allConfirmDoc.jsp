@@ -27,7 +27,6 @@ select {
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
-
 		<div id="content" class="p-4 p-5 pt-5">
 			<div class="container w-80 p-0" style="min-width: 800px;">
 				<h2 class="mb-4">문서대장</h2>

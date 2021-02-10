@@ -7,6 +7,7 @@
 <title>Bug Report</title>
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
+input{width:100%;}
 .row,.title_text,.title_input{border-bottom:1px solid pink;}
 .title_text,.sender_text,.receiver_text{font-size:17px;color:#866EC7;}
 .footer {text-align: right}

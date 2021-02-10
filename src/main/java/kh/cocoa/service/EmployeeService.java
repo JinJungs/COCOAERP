@@ -29,7 +29,7 @@ public class EmployeeService implements EmployeeDAO {
 			return "F";
 		}
 	}
-
+	
 	@Override
 	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
 
@@ -43,7 +43,7 @@ public class EmployeeService implements EmployeeDAO {
 	}
 
 	@Override
-	public String findIdByEmail(String email) { return edao.findIdByEmail(email); }
+	public List<EmployeeDTO> findIdByEmail(String email) { return edao.findIdByEmail(email); }
 
 	@Override
 	public String findPwByEmail(String email, int code) { return edao.findPwByEmail(email, code); }
@@ -150,6 +150,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getTeamEmp(team_code);
 	}
 
+	@Override
+	public List<EmployeeDTO> getSearchEmpCode(String name) {
+		return edao.getSearchEmpCode(name);
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
@@ -171,9 +176,9 @@ public class EmployeeService implements EmployeeDAO {
 	public int isEmailExist(String email) {
 		return edao.isEmailExist(email);
 	}
-	/*-------------지영-BugReport-----------*/
+	/*-------------지영------------*/
+	//BugReport
 	public EmployeeDTO getSenderEmail(int writer_code) {
-		System.out.println("서비스에서 wc는?" +writer_code);
 		return edao.getSenderEmail(writer_code);
 	}
 }

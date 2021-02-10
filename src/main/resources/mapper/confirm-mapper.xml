@@ -28,4 +28,14 @@
 	<delete id="deleteConfirm">
 		delete from doc_confirm where doc_seq = #{doc_seq}
 	</delete>
+	<!-- 지영 -->
+	<!-- 업무 일지- 승인한 사람 이름 불러오기 -->
+	<select id="confirmBy" resultType="kh.cocoa.dto.ConfirmDTO">
+		SELECT DC.*, E.NAME "EMP_NAME" ,D.NAME "DEPT_NAME", P.NAME "POS_NAME" 
+		FROM DOC_CONFIRM DC, EMPLOYEE E, DEPARTMENTS D, POSITION P
+		WHERE DC.APPROVER_CODE = E.CODE
+		AND D.CODE = E.DEPT_CODE
+		AND P.CODE = E.POS_CODE
+		AND DC.DOC_SEQ=#{seq} 
+	</select>
 </mapper>

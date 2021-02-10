@@ -107,7 +107,6 @@ public class DocumentService implements DocumentDAO {
 		}
 		//raise
 		else if (status.contentEquals("RAISE")) {
-			System.out.println("recordTotalCount " + recordTotalCount);
 			if (needPrev) {
 				sb.append("<a href=/document/d_searchRaise.document?cpage=" + (startNavi - 1) + "&status=" + status + "&template=" + template + "&startDate=" + startDate + "&endDate=" + endDate + "&searchText=" + searchText + "><    </a>");
 			}
@@ -120,7 +119,6 @@ public class DocumentService implements DocumentDAO {
 		}
 		//confirm
 		else if (status.contentEquals("CONFIRM")) {
-			System.out.println("recordTotalCount " + recordTotalCount);
 			if (needPrev) {
 				sb.append("<a href=/document/d_searchApproval.document?cpage=" + (startNavi - 1) + "&status=" + status + "&template=" + template + "&startDate=" + startDate + "&endDate=" + endDate + "&searchText=" + searchText + "><    </a>");
 			}
@@ -133,7 +131,6 @@ public class DocumentService implements DocumentDAO {
 		}
 		//reject
 		else if (status.contentEquals("REJECT")) {
-			System.out.println("recordTotalCount " + recordTotalCount);
 			if (needPrev) {
 				sb.append("<a href=/document/d_searchReject.document?cpage=" + (startNavi - 1) + "&status=" + status + "&template=" + template + "&startDate=" + startDate + "&endDate=" + endDate + "&searchText=" + searchText + "><    </a>");
 			}
@@ -146,7 +143,6 @@ public class DocumentService implements DocumentDAO {
 		}
 		//return
 		else if (status.contentEquals("RETURN")) {
-			System.out.println("recordTotalCount " + recordTotalCount);
 			if (needPrev) {
 				sb.append("<a href=/document/d_searchReturn.document?cpage=" + (startNavi - 1) + "&status=" + status + "&template=" + template + "&startDate=" + startDate + "&endDate=" + endDate + "&searchText=" + searchText + "><    </a>");
 			}
@@ -580,7 +576,28 @@ public class DocumentService implements DocumentDAO {
 	public int canRetrun(int seq) {
 		return ddao.canRetrun(seq);
 	}
+
+	@Override
+	public List<DocumentDTO> getAllBeforeConfirmList(int approver_code) {
+		return ddao.getAllBeforeConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllNFConfirmList(int approver_code) {
+		return ddao.getAllNFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllFConfirmList(int approver_code) {
+		return ddao.getAllFConfirmList(approver_code);
+	}
+
+	@Override
+	public List<DocumentDTO> getAllRConfirmList(int approver_code) {
+		return ddao.getAllRConfirmList(approver_code);
+	}
 }
+
 
 
 

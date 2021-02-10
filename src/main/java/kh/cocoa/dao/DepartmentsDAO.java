@@ -17,4 +17,6 @@ public interface DepartmentsDAO {
     public DepartmentsDTO getDept();
 
     public DepartmentsDTO getSearchTopDept(String name);
+
+    public List<DepartmentsDTO> getSearchDeptCode(String name);
 }

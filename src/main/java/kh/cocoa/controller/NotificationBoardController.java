@@ -73,21 +73,16 @@ public class NotificationBoardController {
 			return "community/cocoaWorksBoardList"; 
 		}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
 			if(cpage==null) {cpage="1";} 
-			//게시글 불러오기
+			//게시글 불러오기 (사진제외)
 			List<BoardDTO> albumList = new ArrayList<BoardDTO>();
 			albumList = nservice.getAlbumBoardListCpage(cpage,menu_seq);
-			System.out.println("앨범게시판 게시글? "+albumList.size());
 			//시작 & 끝 페이지 불러오기
 			String albumNavi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
-			
-			//앨범게시판 이미지 불러오기
-			//FilesDTO imgUrl = fservice.getImage(fdto);
 			
 			model.addAttribute("albumNavi",albumNavi);
 			model.addAttribute("albumList",albumList);
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("menu_seq",menu_seq);
-			//model.addAttribute("imgUrl",imgUrl);
 			
 			return "community/albumBoardList";
 		}
@@ -139,7 +134,6 @@ public class NotificationBoardController {
 		}
 		return "index";
 	}
-
 	//게시글 검색
 		@GetMapping("notificationBoardSearch.no")
 		public String notificationBoardSearch(String cpage, String search,String searchBy,int menu_seq, Model model) {
@@ -157,10 +151,8 @@ public class NotificationBoardController {
 			}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
 				return "community/cocoaWorksBoardList"; 
 			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-				List<BoardDTO> albumList = nservice.notificationBoardListBySearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
-				String albumNavi= nservice.notificationBoardSearchNavi(menu_seq,Integer.parseInt(cpage), searchBy,search);
+				List<BoardDTO> albumList = nservice.getAlbumBoardListSearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
 				model.addAttribute("albumList", albumList);
-				model.addAttribute("albumNavi", albumNavi);
 				model.addAttribute("cpage", cpage);
 				model.addAttribute("search", search);
 				return "community/albumBoardList";

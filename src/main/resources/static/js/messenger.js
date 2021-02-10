@@ -8,3 +8,4 @@ $(document).ready(function(){
 $(document).click(function(){
     $('.action_menu').hide();
 });
+

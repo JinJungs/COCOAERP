@@ -129,6 +129,12 @@ public interface DocumentDAO {
 	public int addRIsConfirm(int seq,int approver_code,String comments);
 
 	public int canRetrun(int seq);
+
+	//전체보기
+	public List<DocumentDTO> getAllBeforeConfirmList(int approver_code);
+	public List<DocumentDTO> getAllNFConfirmList(int approver_code);
+	public List<DocumentDTO> getAllFConfirmList(int approver_code);
+	public List<DocumentDTO> getAllRConfirmList(int approver_code);
 }
 
 

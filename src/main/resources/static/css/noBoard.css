@@ -8,7 +8,7 @@
     line-height:28px;font-size:13px;padding:0;
     border:0;}
 
-input{width:100%;height:90%;border:none;background-color:transparent;}
+input{height:90%;border:none;background-color:transparent;}
 input:focus{outline:1px solid pink;}
 .head_box{font-size:17px;color:#866EC7;}
 .contents_box{height:400px;}

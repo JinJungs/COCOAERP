@@ -13,7 +13,7 @@ public interface EmployeeDAO {
 	public String login(int code, String password);
 	public EmployeeDTO loginInfo(int code);
 	public int myInfoModify(String password, String gender, String phone, String address, String office_phone, int code);
-	public String findIdByEmail(String email);
+	public List<EmployeeDTO> findIdByEmail(String email);
 	public String findPwByEmail(String email, int code);
 	public int updateTempPw(String password, int code);
 
@@ -66,6 +66,8 @@ public interface EmployeeDAO {
 	//모든 멤버 카운트 겟
 	public int getAllEmpCount();
 
+	public List<EmployeeDTO> getSearchEmpCode(String name);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
@@ -78,4 +80,5 @@ public interface EmployeeDAO {
 
 	//email로 사번받아오기
 	public int isEmailExist(String email);
+	
 }

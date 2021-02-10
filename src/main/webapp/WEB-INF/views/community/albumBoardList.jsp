@@ -16,6 +16,7 @@ input{width:50%;border-bottom:1px solid pink;}
 .head_box{text-align:center;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
+#btn_footer{text-align:right;}
 </style>
 </head>
 <body>
@@ -45,10 +46,10 @@ input{width:50%;border-bottom:1px solid pink;}
 			<div class="row">
 			<c:forEach var="i" items="${albumList}">
 				<div class="card" style="width: 11rem;">
-					<%-- <img id="img" src="/${path}/boardRepository/${i.savedname}" class="card-img-top" alt="..." style="WIDTH: 150px; HEIGHT: 150px"> --%>
+					<img id="img" src="/boardRepository/${i.savedname}" class="card-img-top"  style="HEIGHT: 150px;"> 
 					<div class="col-12"
 						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
-						<b>${i.title}</b><br><b>${i.name}</b> <b>${i.write_date}</b>
+						<b>${i.title}</b><br><b>${i.name}</b><b>${i.write_date}</b>
 					</div>
 				</div>
 			</c:forEach>
@@ -61,12 +62,10 @@ input{width:50%;border-bottom:1px solid pink;}
 				</div>
 
 				<!--네비게이션  -->
-				<div class="col-md-7 navi_box">
-					<ul class="pagination justify-content-center mb-0">${albumNavi}</ul>
-				</div>
+				<div class="col-md-7"></div>
 
 				<!--버튼 -->
-				<div class="col-md-3  footer">
+				<div class="col-md-3  footer" id="btn_footer">
 					<button type="button" class="btn btn-primary"
 						onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
 				</div>
@@ -91,7 +90,7 @@ input{width:50%;border-bottom:1px solid pink;}
 		}
 		/*홈으로*/
 		function fn_home(cpage) {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"+"&cpage="+cpage;
+			location.href = "/";
 		}
 	</script>
 </html>

@@ -20,8 +20,10 @@
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">앨범게시판(글읽기)</h2>
 
-			<input type="hidden" name="cpage" value="${cpage}"> <input
-				type="hidden" name="seq" value="${dto.seq}"> <input
+			<input type="hidden" name="cpage" value="${cpage}"> 
+			<input
+				type="hidden" name="seq" value="${dto.seq}"> 
+			<input
 				type="hidden" name="menu_seq" value="${dto.menu_seq}">
 
 			<!--제목  -->

@@ -15,7 +15,7 @@
 		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
 	</update>
 
-	<select id="findIdByEmail" resultType="String">
+	<select id="findIdByEmail" resultType="kh.cocoa.dto.EmployeeDTO">
 		select code from employee where email = #{email}
 	</select>
 
@@ -79,6 +79,10 @@
 		SELECT * FROM EMPLOYEE_VIEW WHERE TEAM_CODE =#{team_code} and WITHDRAW= 'N'
 	</select>
 
+	<select id="getSearchEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW
@@ -111,4 +115,5 @@
 	<select id="isEmailExist" resultType="Integer">
 		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
 	</select>
+	
 </mapper>

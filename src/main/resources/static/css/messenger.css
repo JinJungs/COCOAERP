@@ -480,3 +480,9 @@ a[href$=".zip"] .fileIcon {
 a{
 	color: var(--text-color-dark);
 }
+
+/* css animation */
+@keyframes motion {
+  0% {margin-top: 0px;}
+  100% {margin-top: 10px;}
+}
