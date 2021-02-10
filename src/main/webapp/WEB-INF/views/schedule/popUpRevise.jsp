@@ -108,7 +108,7 @@ textarea{
 						<div class="left"><b>시작 날짜</b></div>
 						<div class="right">
 							<input type=date name=startDate value="${startDate }" id=startDate onchange="fn_dateControll()" required>
-							<select name=startTime id=startTime onchange="fn_timeControll('start')">
+							<select name=startTime id=startTime onchange="fn_timeControll('start')" required>
 								<option value="06">6시</option>
 								<option value="07">7시</option>
 								<option value="08">8시</option>
@@ -133,7 +133,7 @@ textarea{
 						<div class="left"><b>마감 날짜</b></div>
 						<div class="right">
 							<input type=date name=endDate value="${endDate }" id=endDate onchange="fn_dateControll()" required>
-							<select name=endTime id=endTime onchange="fn_timeControll('end')">
+							<select name=endTime id=endTime onchange="fn_timeControll('end')" required>
 								<option value="06">6시</option>
 								<option value="07">7시</option>
 								<option value="08">8시</option>
@@ -163,11 +163,11 @@ textarea{
 					<div class="row">
 						<div class="left"><b>색</b></div>
 						<div class="right">
-							<select name="color" id=color>
+							<select name="color" id=color required>
 									<option value="#a4a6a5" id="#a4a6a5" class="#a4a6a5" style="background:#a4a6a5;color: white;">gray</option>
 									<option value="#fc9a8d" id="#fc9a8d" class="#fc9a8d" style="background:#fc9a8d;color: white;">red</option>
 									<option value="#8cdba4" id="#8cdba4" class="#8cdba4" style="background:#8cdba4;color: white;">green</option>
-									<option value="#8cd4db" id="#8cd4db" class="#8cd4db"  style="background:#8cd4db;color: white;" selected>blue</option>
+									<option value="#8cd4db" id="#8cd4db" class="#8cd4db" style="background:#8cd4db;color: white;" selected>blue</option>
 									<option value="#e1c9ff" id="#e1c9ff" class="#e1c9ff" style="background:#e1c9ff;color: white;">purple</option>
 								</select>
 						</div>
