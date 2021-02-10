@@ -33,13 +33,13 @@ public interface BusinessLogDAO {
 	public List<BoardDTO> monthlyList(String status,int writer_code);
 
 	/*----------------확인요청 보관함 -------------------------*/
-	public List<BoardDTO> logAllListR(String status, int pos_code);
+	public List<BoardDTO> logAllListR(String status, int pos_code, int dept_code);
 	
-	public List<BoardDTO> dailyListR(String status, int pos_code);
+	public List<BoardDTO> dailyListR(String status, int pos_code, int dept_code);
 
-	public List<BoardDTO> weeklyListR(String status, int pos_code);
+	public List<BoardDTO> weeklyListR(String status, int pos_code, int dept_code);
 
-	public List<BoardDTO> monthlyListR(String status, int pos_code);
+	public List<BoardDTO> monthlyListR(String status, int pos_code, int dept_code);
 	
 	/*----------------업무일지  보관함------------------------*/
 
@@ -66,7 +66,7 @@ public interface BusinessLogDAO {
 	public int checkWriter(int seq, int writer_code);
 
 	/*--------------업무일지 수정 시 리스트 불러오기*/
-	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto);
+	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto, String status);
 
 	/*--------임시보관된 문서 삭제--------*/
 	public int logDel(int seq);

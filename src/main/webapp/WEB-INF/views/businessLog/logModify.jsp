@@ -15,7 +15,6 @@
 .date_box>input{width:60%;}
 .btn_deleteFile{width:10%;color:#866EC7;}
 #contents_box{margin:1px;height:400px;border:none;}
-
 input{width:100%;}	
 </style>
 </head>
@@ -62,14 +61,7 @@ input{width:100%;}
 						</div>
 					</div>
 				</div>
-
-				<script>
-					
-				</script>
-
 				<div class="row">
-					<div class="col-2 head_box">승인</div>
-					<div class="col-5">(영업부)김지영 부장 (0)</div>
 					<div class="col-2 head_box">작성자</div>
 					<div class="col-3">${lr.name}</div>
 				</div>
@@ -100,18 +92,32 @@ input{width:100%;}
 						<b><span class="files" id="files">추가파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<label>+ File Attach <input type="file" id="myFile"
-							name="file" multiple>
-						</label> <input type="text" readonly="readonly" title="File Route">
+					<input type="file" class="fileList"  id="file"
+							name="file" accept="image/*"  multiple>
+						<!-- <label>+ File Attach 
+						</label> -->
+							<div id="listBox"></div><br>
 					</div>
 				</div>
 				<div class="row">
-					<!--홈으로 이동  -->
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
-					</div>
+					<!--보낸편지함으로 이동  -->
+				<c:choose>
+					<c:when test="${status eq 'RAISE'}">
 
-					<div class="col-sm-5 d-none d-sm-block"></div>
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary"
+								onclick="fn_sentHome()">HOME</button>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<!--홈으로 이동  -->
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
+						</div>
+					</c:otherwise>
+				</c:choose>
+
+					<div class="col-sm-4 d-none d-sm-block"></div>
 
 					<div class="button_box col-sm-5">
 						<button type="submit" id="btn_tempSave" class="btn btn-primary"
@@ -124,6 +130,9 @@ input{width:100%;}
 			</form>
 		</div>
 	</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/jquery.MultiFile.min.js"></script>
 	<script>
 		/*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){
@@ -137,8 +146,12 @@ input{width:100%;}
 			    $('#contents').val("");
 			}
 	 	}
+	 	/*홈으로 - 보낸편지함에서 온 경우*/
+	 	function fn_sentHome(){
+	 		location.href = "/log/logSentBoard.log";
+	 	}
 	 	/*홈으로 */
-		function fn_home(status) {
+		function fn_home() {
 			location.href = "/log/logBoard.log?status=${status}";
 		}
 		/*파일 삭제*/
@@ -156,29 +169,33 @@ input{width:100%;}
 	       	for(var i=0; i<delArr.length; i++){
 	            submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
 	         }
-         //새로 추가할 파일 최대 갯수 지정
-         var x = document.getElementById("myFile");
-         var txt = "";
-         if ('files' in x) {
-            if (x.files.length > 11) {
-               alert("파일은 최대 10개까지 첨부 가능합니다.");
-               document.getElementById("myFile").value = "";
-               return;
-            }
-         }
+          //유효성 검사
+         if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	         }else if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return;
+	         }
+         
          $('#submitForm').submit();
         })
-    	 /*파일 추가시 몇 개가 추가 되었는지 보여주는 것*/
-        $('.file_input input[type=file]').change(function() {
-		    var fileName = $(this).val();
-		    var fileCount = $(this).get(0).files.length;
-		    if($(this).get(0).files.length == 1){
-		        $('.file_input input[type=text]').val(fileName);
-		    }
-		    else {
-		        $('.file_input input[type=text]').val('파일 '+fileCount+'개');
-		    }
-		});
+    	$("input.fileList").MultiFile({
+        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        maxfile: 10240, //각 파일 최대 업로드 크기
+        maxsize: 20480,  //전체 파일 최대 업로드 크기
+        STRING: { //Multi-lingual support : 메시지 수정 가능
+            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
+            duplicate : "$file 은 이미 선택된 파일입니다.",
+            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
+	        },
+	        list:"#listBox"
+	    });
 		/*수정*/
 		function fn_modifyDone(){
 		var report_start =$("#report_start").val().replaceAll("-","");
@@ -213,7 +230,7 @@ input{width:100%;}
             $("#report_end").focus();
             return;
         }
-			$("#submitForm").attr("action","/log/logModifyTempSave.log");
+			$("#submitForm").attr("action","/log/logModifyDone.log");
 			$("#submitForm").submit;
 		
 		}
@@ -251,7 +268,8 @@ input{width:100%;}
             $("#report_end").focus();
             return;
         }
-			$("#submitForm").attr("action","/log/logModifyDone.log");
+			
+			$("#submitForm").attr("action","/log/logModifyTempSave.log");
 			$("#submitForm").submit;
 		
 		}

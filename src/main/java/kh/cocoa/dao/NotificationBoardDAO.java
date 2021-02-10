@@ -51,4 +51,6 @@ public interface NotificationBoardDAO {
 	//내가쓴글 리스트 가져오기
 	public List<BoardDTO> getMyBoardList(int writer_code);
 
+	public List<BoardDTO> getAlbumBoardListSearch(String search, String searchBy, int menu_seq);
+
 }

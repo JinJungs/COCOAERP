@@ -54,18 +54,18 @@ public class BusinessLogService implements BusinessLogDAO {
 
 	/*----------------확인 요청  보관함-------------------------*/
 	
-	public List<BoardDTO> logAllListR(String status, int pos_code) {
-		return bdao.logAllListR(status,pos_code);
+	public List<BoardDTO> logAllListR(String status, int pos_code,int dept_code) {
+		return bdao.logAllListR(status,pos_code,dept_code);
 	}
 
-	public List<BoardDTO> dailyListR(String status, int pos_code) {
-		return bdao.dailyListR(status,pos_code);
+	public List<BoardDTO> dailyListR(String status, int pos_code,int dept_code) {
+		return bdao.dailyListR(status,pos_code,dept_code);
 	}
-	public List<BoardDTO> weeklyListR(String status, int pos_code) {
-		return bdao.weeklyListR(status,pos_code);
+	public List<BoardDTO> weeklyListR(String status, int pos_code,int dept_code) {
+		return bdao.weeklyListR(status,pos_code,dept_code);
 	}
-	public List<BoardDTO> monthlyListR(String status, int pos_code) {
-		return bdao.monthlyListR(status,pos_code);
+	public List<BoardDTO> monthlyListR(String status, int pos_code,int dept_code) {
+		return bdao.monthlyListR(status,pos_code,dept_code);
 	}
 	/*----------------업무일지 보관함-------------------------*/
 	public List<BoardDTO> logAllListC(String status, int dept_code) {
@@ -107,9 +107,11 @@ public class BusinessLogService implements BusinessLogDAO {
 		return bdao.checkWriter(seq,writer_code);
 	}
 	/*--------------업무일지 수정 시 리스트 불러오기*/
-	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto) {
-		return bdao.getLogBySeqMod(seq,dto);
+	
+	public DocumentDTO getLogBySeqMod(int seq,DocumentDTO dto,String status) {
+		return bdao.getLogBySeqMod(seq,dto,status);
 	}
+
 	/*--------임시보관된 문서 삭제--------*/
 	public int logDel(int seq) {
 		return bdao.logDel(seq);

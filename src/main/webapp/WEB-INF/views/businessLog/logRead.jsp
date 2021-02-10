@@ -24,9 +24,9 @@
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 읽기</h2>
 			<input type="hidden" id="status" name="status" value="${status}">
-			<input type="hidden" id="seq" name="seq" value="${lr.seq}">
-				<input type="hidden" id="temp_code" name="temp_code"
-					value="${lr.temp_code}">
+			<input type="hidden" id="seq" name="seq" value="${lr.seq}"> <input
+				type="hidden" id="temp_code" name="temp_code"
+				value="${lr.temp_code}">
 
 
 			<div class="row">
@@ -37,14 +37,25 @@
 			<div class="row">
 				<div class="col-2 head_box">업무기한</div>
 				<div class="col-2">${lr.report_start}</div>
-				<div class="col-3" >${lr.report_end}</div>
+				<div class="col-3">${lr.report_end}</div>
 				<div class="col-2 head_box">작성일</div>
 				<div class="col-3">${lr.write_date}</div>
 			</div>
-			
+
 			<div class="row">
-				<div class="col-2 head_box">승인</div>
-				<div class="col-5">(영업부)김지영 부장 (0)</div>
+				<c:choose>
+					<c:when test="${status eq 'CONFIRM'}">
+						<div class="col-2 head_box">승인</div>
+						<c:forEach var="c" items="${confirmBy}">
+							<div class="col-5">(${c.dept_name}) ${c.emp_name}
+								${c.pos_name}</div>
+						</c:forEach>
+					</c:when>
+						<c:when test="${status eq 'REJECT'}">
+							<div class="col-2 head_box">상태</div>
+							<div class="col-5">거절</div>
+						</c:when>
+				</c:choose>
 				<div class="col-2 head_box">작성자</div>
 				<div class="col-3">${lr.name}</div>
 			</div>
@@ -67,11 +78,23 @@
 				</div>
 			</div>
 			<div class="row">
-				<!--홈으로 이동  -->
-				<div class="col-sm-2">
-							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
-				</div>
 
+				<!--보낸편지함으로 이동  -->
+				<c:choose>
+					<c:when test="${status eq 'RAISE' || status eq 'REJECT'}">
+
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary"
+								onclick="fn_sentHome()">HOME</button>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<!--홈으로 이동  -->
+						<div class="col-sm-2">
+							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
+						</div>
+					</c:otherwise>
+				</c:choose>
 				<div class="col-sm-7 d-none d-sm-block"></div>
 
 				<!--작성자에게만 보이는 버튼  -->
@@ -98,9 +121,13 @@
 			    $('#title').val("");
 			}
 	 	}
+	 	/*홈으로 - 보낸편지함에서 온 경우 (거절 포함)*/
+	 	function fn_sentHome(){
+	 		location.href = "/log/logSentBoard.log";
+	 	}
 	 	/*홈으로 */
 		function fn_home() {
-			location.href = "";
+			location.href = "/log/logBoard.log?status=${status}";
 		}
 		/*수정*/
 		function fn_modify(seq,temp_code) {
