@@ -73,8 +73,8 @@
         <!-- 새로운 메세지 도착시 알려줌 -->
         <div class="container">
             <div class="row w-100 m-0 p-0" id="alertMessageBox" style="border: 1px solid black; display: none;">
-                <div class="col-3" id="alertMessagePartyname">임소형</div>
-                <div class="col-8" id="alertMessageContents">내용</div>
+                <div class="col-3" id="alertMessagePartyname"></div>
+                <div class="col-8" id="alertMessageContents"></div>
                 <div class="col-1"><i class="fas fa-chevron-down"></i></div>
             </div>
         </div>
@@ -382,8 +382,17 @@
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
+    // 스크롤이 제일 하단에 닿을 때 hideAlertMessageBox
     $("#msg_card_body").scroll(function () {
-        var currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        let currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
+        //console.log("전체 높이 : " + $("#msgBox").height());
+        /*console.log("보이는 높이: " + $(this).height());
+        console.log("스크롤height : "  +$(this)[0].scrollHeight);
+        let msgBox_height = $(this)[0].scrollHeight;
+        let msg_card_body_height = $("#msg_card_body").height();
+        let cal = msgBox_height - msg_card_body_height;
+        console.log("뺀 높이 : " + cal);
+        console.log("스크롤탑 : "  +currentScrollTop);*/
         if (currentScrollTop == 0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
@@ -391,6 +400,10 @@
             console.log("added: " + addedHeight);
             scrollfixed(addedHeight);
         }
+        /*if (currentScrollTop == cal){
+            console.log("제일 하단에 닿을 때?");
+            hideAlertMessageBox();
+        }*/
     });
 
     //***************************************************************************

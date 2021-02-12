@@ -79,7 +79,6 @@ public class MessengerController {
         	List<MessengerViewDTO> listPartyDTO = mservice.getListMessengerPartyEmpInfo(seq);
         	model.addAttribute("listPartyDTO",listPartyDTO);
         }
-     
         model.addAttribute("loginDTO",loginDTO);
         //messenger : 해당 시퀀스의 메신저 테이블 정보
         model.addAttribute("messenger", messenger);

@@ -66,13 +66,13 @@
 <script>
     let memberAll = document.getElementById("memberAll");
     let checkArr = new Array();
-
     $(document).ready(function () {
         // ajax로 목록 불러오기
         searchAjax("");
         // partyList 확인해서 체크박스 체크 & 상단목록 띄우기
         // 체크박스는 해제할 수 없고, 상단 리스트를 삭제할 수도 없다.
         <c:forEach var="i" items="${partyList}">
+        console.log("기존멤버 추가 중 : " + ${i.emp_code});
             addParty(${i.emp_code},"${i.empname}");
             $('#checkbox${i.emp_code}').prop('disabled', true);
             $('#addedParty${i.emp_code}').children('i').remove();
@@ -88,7 +88,7 @@
         }
     });
 
-    // 입력중에 실시간으로 검색
+    // 입력중에 실시간으로 검색k
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
         let searchContents = $("#searchContents").val();
         searchAjax(searchContents);
