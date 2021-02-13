@@ -71,6 +71,13 @@
         searchAjax("");
     });
 
+    // esc 누르면 창닫기
+    $(document).keydown(function (e) {
+        if (e.keyCode == 27 || e.which == 27) {
+            window.close();
+        }
+    });
+
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click", searchAjax);
     $("#searchContents").on("keydown", function (e) {

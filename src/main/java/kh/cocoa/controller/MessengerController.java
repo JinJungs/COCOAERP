@@ -50,8 +50,8 @@ public class MessengerController {
     	//사원번호 세션값===========================================
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
     	//==========================================================
-    	//재직중인 전체 멤버 리스트
-    	List<EmployeeDTO> memberList = eservice.getAllEmployee();
+    	//재직중인 전체 멤버 리스트 - 자신제외
+    	List<EmployeeDTO> memberList = eservice.getAllEmployeeExceptMe(loginDTO.getCode());
     	//채팅방 불러오기
     	List<MessengerViewDTO> chatList = mservice.myMessengerList(loginDTO.getCode());
 

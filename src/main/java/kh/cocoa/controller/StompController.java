@@ -33,6 +33,7 @@ public class StompController {
 		System.out.println("EMP_CODE="+message.getEmp_code());
 		System.out.println("MSG_SEQ(방seq)"+message.getM_seq());
 		System.out.println("savedname : "+savedname);
+		System.out.println("empname : "+message.getEmpname());
 		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
 	}

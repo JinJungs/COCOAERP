@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,6 +22,7 @@
 
 <form name="formAddMember" id="formAddMember" action="/messenger/addMemberToChatRoom" methode="post">
     <input type="hidden" name="seq" value="${seq}">
+    <input type="hidden" id="existingMemberNum" value="${fn:length(partyList)}">
     <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
         <div class="row w-100 m-0">
             <!-- head -->
@@ -65,18 +67,38 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     let memberAll = document.getElementById("memberAll");
+    let existingMemberNum = $("#existingMemberNum").val();
     let checkArr = new Array();
+
     $(document).ready(function () {
+        console.log("기존 멤버 수 : " + existingMemberNum);
         // ajax로 목록 불러오기
         searchAjax("");
         // partyList 확인해서 체크박스 체크 & 상단목록 띄우기
         // 체크박스는 해제할 수 없고, 상단 리스트를 삭제할 수도 없다.
         <c:forEach var="i" items="${partyList}">
-        console.log("기존멤버 추가 중 : " + ${i.emp_code});
-            addParty(${i.emp_code},"${i.empname}");
-            $('#checkbox${i.emp_code}').prop('disabled', true);
-            $('#addedParty${i.emp_code}').children('i').remove();
+        console.log("기존멤버 : " + ${i.emp_code});
+        addExistingMembers(${i.emp_code}, "${i.empname}");
+        disableCheckbox(${i.emp_code}) // 체크박스를 수정할 수 없도록 상태를 disabled로 수정
         </c:forEach>
+    });
+
+    // 체크박스를 수정할 수 없도록 상태를 disabled로 수정
+    function disableCheckbox(code) {
+        setTimeout(function () {
+            $("#checkbox"+code).attr("disabled", true);
+        }, 400);
+    }
+/*    // x아이콘은 없앰(기존 멤버를 상단리스트에서 삭제하는 것을 방지)
+    function removeXIcon(code){
+        $("#addedParty"+code).children('i').remove();
+    }*/
+
+    // esc 누르면 창닫기
+    $(document).keydown(function (e) {
+        if (e.keyCode == 27 || e.which == 27) {
+            window.close();
+        }
     });
 
     //-------------------------------- 검색 -------------------------------------
@@ -88,7 +110,7 @@
         }
     });
 
-    // 입력중에 실시간으로 검색k
+    // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
         let searchContents = $("#searchContents").val();
         searchAjax(searchContents);
@@ -113,44 +135,42 @@
             success: function (resp) {
                 let jArrayMember = resp[0];
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
-                setTimeout(function () {
-                    // 멤버
-                    if (jArrayMember.length == 0) {
-                        memberAll.innerHTML = "검색결과가 없습니다.";
-                    } else {
-                        let html = "";
-                        html += "<div class='row mb-2 m-0'></div>";
-                        html += "<ui class='contacts m-0 p-0'>";
-                        for (let i = 0; i < jArrayMember.length; i++) {
-                            html += "<li class='con-list item'>";
-                            html += "<div class='d-flex bd-highlight'>";
-                            html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
-                            html += "</div>";
-                            html += "<a href='#'>";
-                            html += "<div class='user_info item'>";
-                            html += "<span>" + jArrayMember[i].name + "</span>";
-                            html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
-                            html += "</div></a>";
-                            html += "<div class='item ml-auto pb-4 align-self-center'>"
-                            html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
-                            html += "</div>"
-                            html += "</div></li>";
-                        }
-                        html += "</ui>";
-                        memberAll.innerHTML = html;
-                        // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                        setTimeout(function () {
-                            for (let i = 0; i < jArrayMember.length; i++) {
-                                let parsed = jArrayMember[i].code.toString();
-                                if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
-                                    console.log("배열에 들어있나? : " + checkArr.includes(parsed));
-                                    document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
-                                }
-                            }
-                        }, 100);
+                // 멤버
+                if (jArrayMember.length == 0) {
+                    memberAll.innerHTML = "검색결과가 없습니다.";
+                } else {
+                    let html = "";
+                    html += "<div class='row mb-2 m-0'></div>";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayMember.length; i++) {
+                        html += "<li class='con-list item'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont'>";
+                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info item'>";
+                        html += "<span>" + jArrayMember[i].name + "</span>";
+                        html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
+                        html += "</div></a>";
+                        html += "<div class='item ml-auto pb-4 align-self-center'>"
+                        html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                        html += "</div>"
+                        html += "</div></li>";
                     }
-                }, 100);
+                    html += "</ui>";
+                    memberAll.innerHTML = html;
+                    // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
+                    setTimeout(function () {
+                        for (let i = 0; i < jArrayMember.length; i++) {
+                            let parsed = jArrayMember[i].code.toString();
+                            if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
+                                console.log("배열에 들어있나? : " + checkArr.includes(parsed));
+                                document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
+                            }
+                        }
+                    }, 100);
+                }
             }
         })
     }
@@ -160,6 +180,10 @@
         // 체크된 사람이 0명이라면 넘겨주지 않기
         if (checkArr.length == 0) {
             alert("대화상대를 한 명 이상 선택해주세요.");
+            return;
+        }
+        // 기존 멤버에서 추가된 사람이 없을 때
+        if(checkArr.length <= existingMemberNum){
             return;
         }
         $("#formAddMember").submit();
@@ -175,13 +199,31 @@
         } else {
             deleteParty(code);
         }
+        console.log("checkArr: "+checkArr);
+    }
+
+    // 기존멤버를 목록에 추가하기
+    function addExistingMembers(code, name){
+        // 1.1. 체크박스를 체크함
+        setTimeout(function (){
+            if(code !== ${loginDTO.code}){ //본인은 체크하지 말아야함
+                document.getElementById("checkbox"+code).checked = true;
+            }
+        },400);
+        // 1.2. 상단에 사람목록 추가 & x 아이콘 추가하지 않음
+        let html = "";
+        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<span>" + name + "</span>";
+        html += "</div>";
+        $("#addedPartyBox").append(html);
+        // 1.3. 선택한 사람의 숫자 보여주기
+        updatePartyCount();
     }
 
     // 1. 사람 목록에서 추가하기
     function addParty(code, name) {
         // 1.1. 배열에 추가
         checkArr.push(code);
-        console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
         html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
@@ -211,11 +253,11 @@
     }
 
     function updatePartyCount() {
-        if (checkArr.length == 0) {
-            $("#searchAll").html("대화상대 선택");
+        if(checkArr.length <= existingMemberNum){
+            $("#searchAll").html("대화상대 선택 " + existingMemberNum);
             $('#confirm_btn').prop('disabled', true);
         } else {
-            $("#searchAll").html("대화상대 선택 " + checkArr.length);
+            $("#searchAll").html("대화상대 선택 " + checkArr.length + existingMemberNum);
             $('#confirm_btn').prop('disabled', false);
         }
     }

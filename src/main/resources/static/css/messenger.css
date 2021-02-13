@@ -250,6 +250,7 @@ background-color: #c23616;
   font-size: 14px;
   padding: 10px;
   position: relative;
+  white-space: pre;
 }
 .msg_cotainer_send {
   margin-top: auto;
@@ -260,6 +261,7 @@ background-color: #c23616;
   font-size: 14px;
   padding: 10px;
   position: relative;
+  white-space: pre;
 }
 .msg_time {
   position: absolute;
@@ -404,12 +406,6 @@ a:hover {
   cursor: default;
   background-color: var(--hover-color-light);
 }
-/*
-#searchContents{
-  background-image: url("/static/icon/x-circle-fill.svg");
-}*/
-
-
 
 /* 파일 모아보기 ===========*/
 .date {

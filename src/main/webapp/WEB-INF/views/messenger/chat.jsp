@@ -23,16 +23,16 @@
                          class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
-                <c:choose>
-	                <c:when test="${messenger.type eq 'M'}">
-	                	<span id="partyname">${messenger.name}</span>
-	                </c:when>
-	                <c:when test="${messenger.type eq 'S'}">
-	                	<!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-	                    <span id="partyname">${partyDTO.empname}</span>
-	                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-	                </c:when>
-                </c:choose>
+                    <c:choose>
+                        <c:when test="${messenger.type eq 'M'}">
+                            <span id="partyname">${messenger.name}</span>
+                        </c:when>
+                        <c:when test="${messenger.type eq 'S'}">
+                            <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+                            <span id="partyname">${partyDTO.empname}</span>
+                            <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+                        </c:when>
+                    </c:choose>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -144,7 +144,7 @@
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
                     let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
-                    if(before_date !== delete_hours_date) {
+                    if (before_date !== delete_hours_date) {
                         existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
                         existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
                     }
@@ -152,7 +152,6 @@
                     if (data[i].emp_code == ${loginDTO.code}) {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
-                        //existMsg += "<div class='msg_cotainer_send'>"+data[i] .emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
@@ -163,10 +162,12 @@
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
+                        // 상대방 이름 추가
+                        existMsg += "<div>"
+                        existMsg += "<div class='ml-2 pb-1'>"+data[i].empname+"</div>"
                         existMsg += msgForm(data[i].type, "msg_cotainer", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
-                        //existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
-                        existMsg += "</div></div>";
+                        existMsg += "</div></div></div>";
                     }
                     msgBox.prepend(existMsg);
                 }
@@ -175,9 +176,9 @@
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
                 // 상단에 닿았을 때만 맨밑으로 내려주고 / 근데 addedHeight라는 인자를 넘겨줘야한다.
                 // 다른 때(검색해서 리스트를 불러올 때)는 실행되지 않아야한다....
-                if(cpage==1){
+                if (cpage == 1) {
                     scrollBottom();
-                }else{
+                } else {
                     scrollfixed(addedHeight);
                 }
             }
@@ -189,18 +190,23 @@
     $(document).ready(function () {
         // 리스트 불러오기
         moreList(cpage);
-
+        // 스톰프 연결
         connectStomp();
+        // 채팅입력창에 포커스
+        $("#yourMsg").focus();
+
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
         document.getElementById("sendBtn").addEventListener('click', sendMsg);
 
         // enter키 클릭시 메세지 전송
         $("#sendToolBox").on("keydown", function (e) {
-            if (e.keyCode == 13) {
-                if (!e.shiftKey) {
-                    sendMsg();
-                }
+            if (e.keyCode == 13 && !e.shiftKey) {
+                sendMsg();
+                let msg = $('#yourMsg').val();
+                console.log("지운 메세지?:" +msg+":a");
+                let msgLinebreak = msg.replace(/(\r\n\t|\n|\r\t)/gm,""); //엔터제거
+                //$('#yourMsg').val(msgLinebreak);
             }
         });
 
@@ -216,9 +222,10 @@
             // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
             //evt.preventDefault();
 
-            // 내용이 없을 경우에 방어코드
             let msg = $("#yourMsg").val();
-            if (msg == '') {
+            // 미입력 또는 공백 입력 방지
+            if (msg.replace(/\s|　/gi, "").length == 0) {
+                $("#yourMsg").focus();
                 return;
             }
 
@@ -231,8 +238,9 @@
                     seq: ''
                     , contents: msg
                     , write_date: new Date()
-                    , emp_code: ${loginDTO.code} //!수정필요!세션값 작성자 아이디
+                    , emp_code: ${loginDTO.code}
                     , m_seq: ${seq}
+                    , empname: "${loginDTO.name}"
                 }));
             else
                 socket.send(msg);
@@ -257,6 +265,7 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
+
         };
 
         /* 파일 전송 */
@@ -290,12 +299,13 @@
                 //파일 관련 메세지 구분 위해 타입추가*****
                 var type = JSON.parse(e.body).type;
                 var savedname = JSON.parse(e.body).savedname;
+                var empname = JSON.parse(e.body).empname;
 
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
                 let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
-                if(before_date !== delete_hours_date) {
+                if (before_date !== delete_hours_date) {
                     newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
                     newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
                 }
@@ -304,7 +314,7 @@
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code}) {
                     // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
-                    let amIAtBottom = (msgBox.height() <= $(element).height()+$(element).scrollTop());
+                    let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
@@ -317,38 +327,45 @@
                     // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
                     // 클릭시 사라지고 스크롤이 하단으로 이동
                     // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
-                    if(amIAtBottom){
+                    if (amIAtBottom) {
                         scrollUpdate();
-                    }else{
+                    } else {
                         console.log(amIAtBottom);
-                        showAlertMessageOnBottom(partyname,msg);
+                        showAlertMessageOnBottom(partyname, msg);
                     }
                 } else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
+                    // 상대방 이름 추가
+                    newMsg += "<div>"
+                    newMsg += "<div class='ml-2 pb-1'>"+ empname +"</div>"
                     newMsg += msgForm(type, "msg_cotainer", null, msg, savedname);
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
-                    newMsg += "</div></div>";
+                    newMsg += "</div></div></div>";
                     msgBox.append(newMsg);
                     scrollUpdate();
                 }
             });
         });
     }
+
     // alertMessgaeBox를 클릭하면 스크롤 하단 이동 + 다시 display none
     document.getElementById("alertMessageBox").addEventListener("click", scrollUpdate);
     document.getElementById("alertMessageBox").addEventListener("click", hideAlertMessageBox);
+
     // alertMessgaeBox를 toggle
-    function showAlertMessageBox(){
+    function showAlertMessageBox() {
         $("#alertMessageBox").delay(1000).show();
     }
-    function hideAlertMessageBox(){
+
+    function hideAlertMessageBox() {
         $("#alertMessageBox").delay(1000).hide();
     }
+
     // 스크롤이 상단에 있을 때 상대방의 메세지를 div로 띄워줌(alertMessgaeBox)
-    function showAlertMessageOnBottom(name, msg){
+    function showAlertMessageOnBottom(name, msg) {
         showAlertMessageBox();
         $("#alertMessagePartyname").html(name);
         $("#alertMessageContents").html(msg);
@@ -378,7 +395,7 @@
         let element = document.getElementById("msg_card_body");
         let location = document.querySelector("#msgDiv" + seq).offsetTop;
         console.log("위치 : " + location);
-        element.scrollTo({top: location-300, behavior: 'smooth'});
+        element.scrollTo({top: location - 300, behavior: 'smooth'});
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
@@ -523,25 +540,27 @@
 
     // 하이라이트
     let highlightArr = [];
+
     function highlightSearch(seq, searched) {
         if (searched !== "") {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
             let re = new RegExp(searched, "g"); // search for all instances
             let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
-            highlightArr.push([seq,searched,newText]);
+            highlightArr.push([seq, searched, newText]);
             console.log(highlightArr);
         }
     }
+
     // 검색어가 바뀌면 하이라이트된 내용을 원상복구
-    function deHighlightBeforeSearch(){
-        for(let i=0; i<highlightArr.length; i++){
+    function deHighlightBeforeSearch() {
+        for (let i = 0; i < highlightArr.length; i++) {
             let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
             let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
             document.getElementById("msg_container" + highlightArr[i][0]).innerHTML = gobackText;
         }
         // 초기화
-        highlightArr=[];
+        highlightArr = [];
     }
 
     // 띠용
@@ -575,14 +594,14 @@
                     let seq = resp[index].seq; // message의 seq
                     // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
                     // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    (isMsgExistInMsgBox = function(){
+                    (isMsgExistInMsgBox = function () {
                         if (!$("#msgDiv" + seq).length) {
                             cpage += 1;
                             moreList(cpage);
-                            setTimeout(function (){ //딜레이를 약간 주고 재귀함수로 다시 호출한다.
+                            setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
                                 isMsgExistInMsgBox();
-                            },100);
-                        }else{
+                            }, 100);
+                        } else {
                             return;
                         }
                     })();
@@ -592,7 +611,7 @@
                         scrollMoveToSearch(seq);
                         // (2) 하이라이팅
                         highlightSearch(seq, searchContents);
-                        // (3) 띠용 - 왜 안되지..
+                        // (3) 띠용
                         // animateMessage(seq);
                     }, 200);
 
@@ -613,15 +632,15 @@
             }
         });
     }
-    
+
     //=========채팅방에 멤버 추가=============
-    function openMemberListToChat(seq){
-    	window.open('/messenger/openMemberList?seq='+seq,'',winFeature);
+    function openMemberListToChat(seq) {
+        window.open('/messenger/openMemberList?seq=' + seq, '', winFeature);
     }
-    
+
     //==========채팅방 정보 수정=============
-    function openModifChat(seq){
-    	window.open('/messenger/openModifChat?seq='+seq,'',winFeature);
+    function openModifChat(seq) {
+        window.open('/messenger/openModifChat?seq=' + seq, '', winFeature);
     }
 
 </script>

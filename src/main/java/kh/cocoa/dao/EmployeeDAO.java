@@ -19,6 +19,9 @@ public interface EmployeeDAO {
 
 	//전체 멤버 호출
 	public List<EmployeeDTO> getAllEmployee();
+
+	//재직중인 전체 멤버 리스트 - 자신제외
+	public List<EmployeeDTO> getAllEmployeeExceptMe(int code);
 	
 	//사용자와 같은 부서멤버 호출 + 재직 중
 	public List<EmployeeDTO> getDeptMember(@Param("dept_code") int dept_code);

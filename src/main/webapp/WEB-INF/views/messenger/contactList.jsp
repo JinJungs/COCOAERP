@@ -77,13 +77,13 @@
 				<ui class="contacts" id="memberAll"> <c:forEach var="i"
 																items="${memberList}">
 					<li class="con-list">
-						<div class="d-flex bd-highlight">
+						<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})" >
 							<div class="img_cont">
 								<a href="#"> <img src="/img/profile-default.jpg"
 												  class="rounded-circle user_img">
 								</a>
 							</div>
-							<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+							<div class="user_info">
 								<span>${i.name}</span>
 								<p>${i.deptname}/${i.teamname}</p>
 							</div>
@@ -94,13 +94,13 @@
 																 items="${memberList}">
 					<c:if test="${i.dept_code eq loginDTO.dept_code}">
 						<li class="con-list">
-							<div class="d-flex bd-highlight">
+							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
 									<a href="#"> <img src="/img/profile-default.jpg"
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+								<div class="user_info">
 									<span>${i.name}</span>
 									<p>${i.deptname}/${i.teamname}</p>
 								</div>
@@ -112,13 +112,13 @@
 																 items="${memberList}">
 					<c:if test="${i.team_code eq loginDTO.team_code}">
 						<li class="con-list">
-							<div class="d-flex bd-highlight">
+							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
 									<a href="#"> <img src="/img/profile-default.jpg"
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+								<div class="user_info">
 									<span>${i.name}</span>
 									<p>${i.deptname}/${i.teamname}</p>
 								</div>

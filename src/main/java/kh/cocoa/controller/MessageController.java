@@ -62,6 +62,7 @@ public class MessageController {
             param.put("write_date",list.get(i).getWrite_date());
             param.put("type",list.get(i).getType());
             param.put("savedname",list.get(i).getSavedname());
+            param.put("empname",list.get(i).getEmpname());
             jArray.put(param);
         }
         return jArray.toString();
