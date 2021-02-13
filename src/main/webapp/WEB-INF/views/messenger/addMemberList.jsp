@@ -183,7 +183,7 @@
         console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
         html += "<span>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";

@@ -241,6 +241,9 @@ background-color: #c23616;
 .video_cam span:hover {
   color: var(--text-color-dark);
 }
+.msg_cotainer_wrap{
+  max-width: 50%;
+}
 .msg_cotainer {
   margin-top: auto;
   margin-bottom: auto;
@@ -250,7 +253,7 @@ background-color: #c23616;
   font-size: 14px;
   padding: 10px;
   position: relative;
-  white-space: pre;
+  white-space: pre-line;
 }
 .msg_cotainer_send {
   margin-top: auto;
@@ -261,7 +264,8 @@ background-color: #c23616;
   font-size: 14px;
   padding: 10px;
   position: relative;
-  white-space: pre;
+  white-space: pre-line;
+  max-width: 50%;
 }
 .msg_time {
   position: absolute;
@@ -488,6 +492,9 @@ a{
   border: 1.5px solid gray;
   border-radius: 30px;
   font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
 }
 .addedParty i {
   line-height: 30px;

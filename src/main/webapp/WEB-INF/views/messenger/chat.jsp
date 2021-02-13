@@ -163,7 +163,7 @@
                         existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
                         // 상대방 이름 추가
-                        existMsg += "<div>"
+                        existMsg += "<div class='msg_cotainer_wrap'>"
                         existMsg += "<div class='ml-2 pb-1'>"+data[i].empname+"</div>"
                         existMsg += msgForm(data[i].type, "msg_cotainer", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
@@ -367,6 +367,11 @@
     // 스크롤이 상단에 있을 때 상대방의 메세지를 div로 띄워줌(alertMessgaeBox)
     function showAlertMessageOnBottom(name, msg) {
         showAlertMessageBox();
+        // 글자 초과시 말줄임 표시로 바꾸기
+        let length = 15; // 표시할 글자수 기준
+        if (msg.length > length) {
+            msg = msg.substr(0, length-2) + '...';
+        }
         $("#alertMessagePartyname").html(name);
         $("#alertMessageContents").html(msg);
     }
@@ -402,14 +407,7 @@
     // 스크롤이 제일 하단에 닿을 때 hideAlertMessageBox
     $("#msg_card_body").scroll(function () {
         let currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
-        //console.log("전체 높이 : " + $("#msgBox").height());
-        /*console.log("보이는 높이: " + $(this).height());
-        console.log("스크롤height : "  +$(this)[0].scrollHeight);
-        let msgBox_height = $(this)[0].scrollHeight;
-        let msg_card_body_height = $("#msg_card_body").height();
-        let cal = msgBox_height - msg_card_body_height;
-        console.log("뺀 높이 : " + cal);
-        console.log("스크롤탑 : "  +currentScrollTop);*/
+        let amIAtBottom = (msgBox.height() <= $(this).height() + $(this).scrollTop());
         if (currentScrollTop == 0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
@@ -417,10 +415,10 @@
             console.log("added: " + addedHeight);
             scrollfixed(addedHeight);
         }
-        /*if (currentScrollTop == cal){
+        if (amIAtBottom){
             console.log("제일 하단에 닿을 때?");
             hideAlertMessageBox();
-        }*/
+        }
     });
 
     //***************************************************************************
@@ -523,6 +521,7 @@
     /* 0. search 아이콘 클릭시 input 창 생성*/
     $(".fa-search").on("click", showSearchInput);
     $(".fa-times").on("click", showSearchInput);
+    $(".fa-times").on("click", deHighlightBeforeSearch);
 
     function showSearchInput() {
         $("#searchContainer").toggle(200);
@@ -571,7 +570,7 @@
         }, 1000);
     }
 
-    // 문제 - 한번 검색하고 다시 input 창을 backspace로 지울 수가 없다.
+    // 문제
     function searchInChatRoom() {
         let searchContents = $("#searchContents").val();
         // input 창에 ∧ ∨ 표시가 있어야 한다.

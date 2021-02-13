@@ -248,12 +248,12 @@
                         <ui class="contacts m-0 p-0">
                             <c:forEach var="i" items="${messageList}">
                                 <li class="con-list">
-                                    <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})">
+                                    <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})" onclick="shortContents(${i.seq},'${i.contents}')">
                                         <div class="img_cont">
                                             <img src="/img/profile-default.jpg" class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info">
-                                            <span style="font-size: 16px;">${i.contents}</span>
+                                            <span class="contents_span" id="contents_span${i.seq}" style="font-size: 16px;">${i.contents}</span>
                                             <p><span><i class="far fa-comment"></i>
                                                 <c:choose>
                                                     <c:when test="${i.m_type=='S'}"> <!--1:1채팅방-->
@@ -302,6 +302,16 @@
         // 검색창에 검색했던 키워드 띄우기
         $("#searchContents").val(searchKeyword);
     });
+
+    function shortContents(seq, contents){
+        console.log("이거 실행 됨? " + seq +" : "+ contents);
+        // 글자 초과시 말줄임 표시로 바꾸기
+        let length = 15; // 표시할 글자수 기준
+        if (contents.length > length) {
+            contents = contents.substr(0, length-2) + '...';
+        }
+        $("#contents_span"+seq).html(contents);
+    }
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -478,23 +488,34 @@
                         html += "</ui>";
                     }
                     if (jArrayMessage.length != 0){
+                        let contents_length = 15; // 내용 표시할 글자수 기준
+                        let name_length = 10; // 톡방 표시할 글자수 기준
                         html += "<div class='row mb-2 m-0'>메세지</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMessage.length; i++) {
+                            let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm'); // 날짜형식 변경
+                            let contents = jArrayMessage[i].contents;
+                            let name = jArrayMessage[i].name;
+                            if (contents.length > contents_length) { // 말줄임표시
+                                contents = contents.substr(0, contents_length-2) + '...';
+                            }
+                            if (name.length > name_length) { // 말줄임표시
+                                name = name.substr(0, name_length-2) + '...';
+                            }
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                             html += "<div class='img_cont'>";
                             html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
                             html += "</div>";
                             html += "<div class='user_info'>";
-                            html += "<span style='font-size: 16px;'>"+jArrayMessage[i].contents+"</span>";
+                            html += "<span style='font-size: 16px;'>"+contents+"</span>";
                             html += "<p><span><i class='far fa-comment'></i>";
                             if (jArrayMessage[i].m_type == 'S') {
-                                html += jArrayMessage[i].party_empname
+                                html += jArrayMessage[i].party_empname;
                             } else {
-                                html += jArrayMessage[i].name
+                                html += name;
                             }
-                            html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+jArrayMessage[i].write_date+"</p>";
+                            html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
                             html += "</div></div></li>";
                         }
                         html += "</ui>";
@@ -576,23 +597,34 @@
                     memberMessage.innerHTML = "검색결과가 없습니다.";
                 } else {
                     let html = "";
+                    let contents_length = 15; // 내용 표시할 글자수 기준
+                    let name_length = 10; // 톡방 표시할 글자수 기준
                     html += "<div class='row mb-2 m-0'>메세지-검색결과</div>";
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayMessage.length; i++) {
+                        let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm');
+                        let contents = jArrayMessage[i].contents;
+                        let name = jArrayMessage[i].name;
+                        if (contents.length > contents_length) { // 말줄임표시
+                            contents = contents.substr(0, contents_length-2) + '...';
+                        }
+                        if (name.length > name_length) { // 말줄임표시
+                            name = name.substr(0, name_length-2) + '...';
+                        }
                         html += "<li class='con-list'>";
                         html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                         html += "<div class='img_cont'>";
                         html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
                         html += "</div>";
                         html += "<div class='user_info'>";
-                        html += "<span style='font-size: 16px;'>"+jArrayMessage[i].contents+"</span>";
+                        html += "<span style='font-size: 16px;'>"+contents+"</span>";
                         html += "<p><span><i class='far fa-comment'></i>";
                         if (jArrayMessage[i].m_type == 'S') {
-                            html += jArrayMessage[i].party_empname
+                            html += jArrayMessage[i].party_empname;
                         } else {
-                            html += jArrayMessage[i].name
+                            html += name;
                         }
-                        html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+jArrayMessage[i].write_date+"</p>";
+                        html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
                         html += "</div></div></li>";
                     }
                     html += "</ui>";

@@ -89,10 +89,6 @@
             $("#checkbox"+code).attr("disabled", true);
         }, 400);
     }
-/*    // x아이콘은 없앰(기존 멤버를 상단리스트에서 삭제하는 것을 방지)
-    function removeXIcon(code){
-        $("#addedParty"+code).children('i').remove();
-    }*/
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -212,7 +208,7 @@
         },400);
         // 1.2. 상단에 사람목록 추가 & x 아이콘 추가하지 않음
         let html = "";
-        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
         html += "<span>" + name + "</span>";
         html += "</div>";
         $("#addedPartyBox").append(html);
@@ -226,7 +222,7 @@
         checkArr.push(code);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
         html += "<span>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";
