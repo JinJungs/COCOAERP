@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -53,15 +50,16 @@ public class EmployeeController {
 
     @RequestMapping(value = "/myInfo")
     public String myInfo(Model model) {
-
-        EmployeeDTO user = eservice.getEmpInfo(1000);
-        FilesDTO getProfile = filesService.findBeforeProfile(1000);
-        if(getProfile.getSavedname()!=null) {
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = loginDTO.getCode();
+        EmployeeDTO user = eservice.getEmpInfo(empCode);
+        FilesDTO getProfile = filesService.findBeforeProfile(empCode);
+        if(getProfile==null) {
+            model.addAttribute("profile","/img/Profile-m.png");
+        }else{
             String profileLoc = "/profileFile/" + getProfile.getSavedname();
             System.out.println(profileLoc);
             model.addAttribute("profile",profileLoc);
-        }else{
-            model.addAttribute("profile","/img/Profile-m");
         }
         if(user.getGender().contentEquals("M")){
             user.setGender("남자");
@@ -73,16 +71,16 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/myInfoModify")
-    public String myInfoModify(Model model) {
-
-        EmployeeDTO user = eservice.getEmpInfo(1000);
-        FilesDTO getProfile = filesService.findBeforeProfile(1000);
-        if(getProfile.getSavedname()!=null) {
+    public String myInfoModify(Model model) throws Exception{
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = loginDTO.getCode();
+        EmployeeDTO user = eservice.getEmpInfo(empCode);
+        FilesDTO getProfile = filesService.findBeforeProfile(empCode);
+        if(getProfile!=null) {
             String profileLoc = "/profileFile/" + getProfile.getSavedname();
-            System.out.println(profileLoc);
             model.addAttribute("profile",profileLoc);
         }else{
-            model.addAttribute("profile","/img/Profile-m");
+            model.addAttribute("profile","/img/Profile-m.png");
         }
         if(user.getGender().contentEquals("M")){
             user.setGender("남자");
@@ -144,8 +142,7 @@ public class EmployeeController {
     @ResponseBody
     public String modProfileAJAX(@RequestParam("file")MultipartFile file, HttpServletResponse resp) throws Exception{
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-        int empCode = (Integer)loginDTO.getCode();
-
+        int empCode = loginDTO.getCode();
         if (!file.getOriginalFilename().contentEquals("")) {
             String fileRoot = Configurator.profileFileRoot;
             File filesPath = new File(fileRoot);
@@ -155,11 +152,10 @@ public class EmployeeController {
 
             if (!file.getOriginalFilename().contentEquals("")) {
                 String oriName = file.getOriginalFilename();
-                System.out.println(oriName);
                 String uid = UUID.randomUUID().toString().replaceAll("_", "");
                 String savedName = uid+"profile";
                 FilesDTO findBeforeProfile = filesService.findBeforeProfile(empCode);
-                if(findBeforeProfile.getSavedname()==null){
+                if(findBeforeProfile==null){
                     int insertFile = filesService.insertProfile(oriName,savedName,empCode);
                     if (insertFile > 0) {
                         String saveLoc = "/profileFile/"+savedName;
@@ -180,5 +176,37 @@ public class EmployeeController {
         }
         return "false";
     }
+
+    @RequestMapping("/checkPw")
+    @ResponseBody
+    public int checkPw(@RequestParam("pw") String pw){
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = loginDTO.getCode();
+        int checkPw = eservice.getEmpCheckPw(empCode,pw);
+        return checkPw;
+    }
+
+    @RequestMapping("/modInfo")
+    public String modInfo(EmployeeDTO dto){
+        int modInfo= eservice.modInfo(dto);
+        return "redirect:/membership/myInfo";
+    }
+
+    @RequestMapping("/checkUserEmail")
+    @ResponseBody
+    public int checkUserEmail(String code, String email){
+        int checkUserEmail = eservice.checkUserEmail(Integer.parseInt(code),email);
+
+        return checkUserEmail;
+    }
+
+    @RequestMapping("/changePw")
+    @ResponseBody
+    public int changePw(String password,int code){
+        int changePw=eservice.changePw(code,password);
+        return changePw;
+    }
+
+
 
 }

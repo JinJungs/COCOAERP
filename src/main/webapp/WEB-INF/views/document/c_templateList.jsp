@@ -23,13 +23,13 @@
     <div id="content" class="p-4 p-md-5 pt-5">
         <h4>기안 양식함</h4>
         <div id="container">
-            <div class="row" id="defaultheader" style="border-top:1px solid pink; cursor: pointer" onclick="fn_closelist()">
+            <div class="row" id="defaultheader" style="border-top:1px solid #c9c9c9; cursor: pointer" onclick="fn_closelist()">
                 <div class="col-md-11 col-sm-10 col-10 pt-md-3"><b>기본 양식 ${size}</b></div>
                 <div class="col-md-1 col-sm-2 col-2 text-right pt-md-3">▼</div>
             </div>
             <div class="row" id="defaultmain">
                 <div class="col-md-12" >
-                    <div class="row" style="border-bottom: 1px solid pink;">
+                    <div class="row" style="border-bottom: 1px solid #c9c9c9;">
                     <c:forEach var="list" items="${list}">
                         <div class="col-md-1 col-3 p-0 m-md-3 m-3 conbox" style="border: 1px solid #DCDCDC; min-width:135px; max-width: 135px; min-height:130px" id="templatelist"+{list.code} onclick="fn_toWriteDocument(${list.code},'${list.name}')">
                             <div class="row m-0 pt-1 pb-1" style="background-color: #F2F6FF">

@@ -146,6 +146,26 @@ public class EmployeeService implements EmployeeDAO {
 	}
 
 	@Override
+	public int getEmpCheckPw(int code, String password) {
+		String result =  edao.login(code, password);
+		if(pwEncoder.matches(password, result)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int modInfo(EmployeeDTO dto) {
+		return edao.modInfo(dto);
+	}
+
+	@Override
+	public int checkUserEmail(int code, String email) {
+		return edao.checkUserEmail(code,email);
+	}
+
+	@Override
 	public List<EmployeeDTO> getTeamEmp(int team_code) {
 		return edao.getTeamEmp(team_code);
 	}
@@ -153,6 +173,13 @@ public class EmployeeService implements EmployeeDAO {
 	@Override
 	public List<EmployeeDTO> getSearchEmpCode(String name) {
 		return edao.getSearchEmpCode(name);
+	}
+
+	@Override
+	public int changePw(int code,String password) {
+		pwEncoder = new BCryptPasswordEncoder();
+		password = pwEncoder.encode(password);
+		return edao.changePw(code,password);
 	}
 
 	//----------------- 채팅 -----------------//

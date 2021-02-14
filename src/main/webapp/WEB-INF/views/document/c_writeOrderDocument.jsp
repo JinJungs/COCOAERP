@@ -40,6 +40,10 @@
         .clickstat:hover{
             cursor: pointer;
         }
+        .deptteamcontainer:hover, .teamcontainer:hover, .empcontainer:hover{
+            background-color: #F2F6FF;
+        }
+
 
 
     </style>
@@ -201,13 +205,14 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" onclick="fn_closeModal()"  data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -518,6 +523,7 @@
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
     }
+
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
@@ -535,9 +541,7 @@
             $("#contents").focus();
             return;
         }
-
         ajaxadddoucment().then(ajaxaddorder);
-
     }
 
     function ajaxaddorder(param){
@@ -550,14 +554,14 @@
             contentType:'application/json',
             success : function(result) {
                 if(result=="success"){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchRaise.document";
                 }
             }
         });
     }
 
     function ajaxadddoucment(){
-        return new Promise(function(resolve, reject){
+        return new Promise(function (resolve,reject) {
             var contents = $("#contents").val();
             $("#tempcontents").val(contents);
             $.ajax({
@@ -633,7 +637,7 @@
                 getaddedempcode[count]=getempcode;
                 count++;
                 $(".confirmcontainer").append(html);
-                $("#btn_add").attr("onclick","()");
+                $("#btn_add").attr("onclick","fn_isnull()");
             }
         });
     }
@@ -649,6 +653,9 @@
                 getaddedempcode.splice(i,1);
                 count--;
             }
+        }
+        if(getaddedempcode.length==0){
+            $("#btn_add").attr("onclick","fn_clickbtnadd()");
         }
     }
 
@@ -730,7 +737,7 @@
             contentType:'application/json',
             success : function(result) {
                 if(result=="success"){
-                    location.href="/document/ d_searchTemporary.document";
+                    location.href="/document/d_searchTemporary.document";
                 }
             }
         });
@@ -793,6 +800,41 @@
             return;
         }
     }
+
+    function fn_closeModal() {
+        for(var i=0;i<getaddedempcode.length;i++){
+            $(".confirmcontainer").find($("#closeconfirm"+getaddedempcode[i])).remove();
+        }
+        getempcode=0;
+        getaddedempcode = [];
+        count =0;
+        beforeClickEmp =0;
+        clickstat = document.getElementsByClassName("clickstat");
+        beforeTeamcode =-1;
+        beforeDeptCode =-1;
+        getSearchKeyCode=0;
+        $("#confirmlist>div:first").nextAll().remove();
+        $("#deptForm").empty();
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
+        $("#btn_add").attr("onclick","fn_clickbtnadd()");
+    }
+
+    function fn_checkOrderListIsNull(obj) {
+        var val = $(obj).val();
+        if(val==""){
+            $(obj).val("신청 물품을 입력해주세요.");
+            $(obj).css("color","red");
+            $(obj).focus();
+            $("#btn_add").attr("disabled",true);
+            return;
+        }else{
+            $(obj).css("color","black");
+            $("#btn_add").attr("disabled",false);
+        }
+
+    }
+
 </script>
 
 </body>

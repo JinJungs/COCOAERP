@@ -415,8 +415,10 @@ public class RestDocumentController {
 
     @RequestMapping("modsaveconfirm.document")
     public int modSaveConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
+
         cservice.deleteConfirm(ddto.getSeq());
         int result= docservice.modDocument(ddto);
+        System.out.println(result);
         for (int i = 0; i < code.size(); i++) {
             cservice.addConfirm(code.get(i), i + 1, ddto.getSeq());
         }
@@ -488,8 +490,6 @@ public class RestDocumentController {
     @RequestMapping("modaddconfirm.document")
     public int modAddConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
         cservice.deleteConfirm(ddto.getSeq());
-        System.out.println(ddto);
-
         if(ddto.getStatus().contentEquals("TEMP")) {
             docservice.modAddDocument(ddto);
         }else{

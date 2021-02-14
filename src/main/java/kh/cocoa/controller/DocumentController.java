@@ -364,13 +364,15 @@ public class DocumentController {
 
 		//결재전 서류 권한 확인
 		int getAuth = dservice.getAuthBD(Integer.parseInt(seq),empCode);
-		int canreturn=dservice.canRetrun(Integer.parseInt(seq));
+
 		DocumentDTO dto = dservice.getDocument(seq);
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
-		
-		String confirmStatus = cservice.isConfirmed(seq);
+
+/*		int canreturn=dservice.canRetrun(Integer.parseInt(seq));
 		model.addAttribute("canReturn",canreturn);
+		*/
+		String confirmStatus = cservice.isConfirmed(seq);
 		model.addAttribute("auth",getAuth);
 		model.addAttribute("empCode", empCode);
 		model.addAttribute("dto", dto);
@@ -419,8 +421,7 @@ public class DocumentController {
 	@GetMapping("returnDocument.document")
 	public String returnDocument(String seq) {
 		dservice.ReturnDoc(seq);
-		return "redirect:/document/toReadPage.document?seq="+seq;
-		//일단 읽는페이지로 연결을 해놓앗으나 다른 부분과 맞출 필요있음
+		return "redirect:/document/d_searchReturn.document";
 	}
 	
 
@@ -655,7 +656,7 @@ public class DocumentController {
 				}
 			}
 		}
-		return "redirect:toTemplateList.document";
+		return "redirect:/document/d_searchRaise.document";
 	}
 
 

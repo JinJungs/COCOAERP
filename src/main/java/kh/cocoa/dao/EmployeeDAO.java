@@ -68,6 +68,14 @@ public interface EmployeeDAO {
 
 	public List<EmployeeDTO> getSearchEmpCode(String name);
 
+	public int getEmpCheckPw(int emp_code,String pw);
+
+	public int modInfo(EmployeeDTO dto);
+
+	public int checkUserEmail(int code, String email);
+
+	public int changePw(int code,String password);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
