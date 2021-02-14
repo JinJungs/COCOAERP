@@ -194,11 +194,11 @@
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
 	let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
     function toChatRoom(seq) {
-      window.open('/messenger/chat?seq='+seq,'',winFeature);
+      window.open('/messenger/chat?seq='+seq,'chat'+seq,winFeature);
     }
     // 소형 추가 - 상대방 EMP_CODE를 받아 개인 채팅방 열기
     function toSingleChatRoom(code) {
-      window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'',winFeature);
+      window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'singleChat'+code,winFeature);
     }
 
     //-------------------------------- 검색 -------------------------------------
@@ -222,7 +222,7 @@
 		if(searchContents == ''){
 			return;
 		}
-		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
+		window.open('/messenger/messengerSearch?contents='+searchContents,'search',winFeature);
 	}
 	
     //-------------------------------- 채팅방 추가 ---------------------------------

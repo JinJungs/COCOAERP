@@ -1,20 +1,24 @@
 package kh.cocoa.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import kh.cocoa.dto.MessageDTO;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
 
 
 @Controller
@@ -82,6 +86,30 @@ public class MessageController {
         }
         return jArray.toString();
     }
+    
+    //Messenger 컨트롤러 addMemberToChat 과 연계해 테스트 중
+    /*
+    @RequestMapping("chatAnnounce")
+    @ResponseBody
+    public String chatAnnounce(MessageDTO message, MessengerPartyDTO partyList, RedirectAttributes redirectAttributes) {
+    	System.out.println("chatAnnoune arrived!");
+    	System.out.println("message : "+message);
+    	System.out.println("partyList : "+ partyList);
+    	JSONArray jArrayAnnounce = new JSONArray();
+    	HashMap<String,Object> param = new HashMap<>();
+    	param.put("m_seq", message.getM_seq());
+    	param.put("type", message.getType());
+    	jArrayAnnounce.put(param);
+    	
+    	JSONArray jArrayPartyList = new JSONArray();
+    	HashMap<String,Object> param2 = new HashMap<>();
+    	param2.put("partyList", partyList);
+    	
+    	JSONArray jArrayAll = new JSONArray();
+    	jArrayAll.put(jArrayAnnounce);
+    	jArrayAll.put(jArrayPartyList);
+    	return jArrayAll.toString();
+    }*/
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

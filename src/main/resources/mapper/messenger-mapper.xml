@@ -100,5 +100,6 @@
         SET NAME = #{name}
         WHERE SEQ = #{seq}
     </update>
+   
 
 </mapper>
