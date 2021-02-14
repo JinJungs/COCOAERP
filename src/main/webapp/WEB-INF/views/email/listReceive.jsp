@@ -39,7 +39,7 @@ input[type=checkbox]{
       	<h2 class="mb-4">받은 메일함</h2>
       	<div class="listContainer">
       		<div class="row p-3" style="border-bottom: 1px solid gray">
-      			<div class="col-1"><b><input type=checkbox id="all"></b></div>
+      			<div class="col-1"><b><input type=checkbox id="all" value=0></b></div>
       			<div class="col-1"><b>seq</b></div>
       			<div class="col-6 col-sm-4"><b>제목</b></div>
       			<div class="col-4 col-sm-3"><b>발신자</b></div>
@@ -61,12 +61,14 @@ input[type=checkbox]{
       			$(".delBtn").click(function(){
       				var checkedList = "";
       				$("input[type='checkbox']:checked").each(function(index){
-      					if(index != 0){
+      					if(index != 0 && index != 1){
       						checkedList+=",";
       					}
-      					checkedList += $(this).val();
+      					if($(this).val() != 0){
+	      					checkedList += $(this).val();
+	      				}
       				});
-      				location.href="/email/deleteChecked.email?checkedList="+checkedList+"&status=receive";
+      				location.href="/email/deleteReceiveChecked.email?checkedList="+checkedList+"&status=receive";
       			})
       			$("#all").click(function(){
       				if($("input:checkbox[id=all]").prop("checked")){

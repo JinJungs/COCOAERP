@@ -88,7 +88,7 @@ public class DocumentController {
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=0; i<tempList.size(); i++) {
+			for(int i=3; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -145,7 +145,7 @@ public class DocumentController {
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=0; i<tempList.size(); i++) {
+			for(int i=3; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -203,7 +203,7 @@ public class DocumentController {
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=0; i<tempList.size(); i++) {
+			for(int i=3; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -260,7 +260,7 @@ public class DocumentController {
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=0; i<tempList.size(); i++) {
+			for(int i=3; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -316,7 +316,7 @@ public class DocumentController {
 		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=0; i<tempList.size(); i++) {
+			for(int i=3; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -465,11 +465,12 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		if(template==null || template.contentEquals("0")) {
 			template="0";
-			templateList.add("4");
-			templateList.add("5");
-			templateList.add("6");
+			for(int i=3; i<tempList.size(); i++) {
+				templateList.add(Integer.toString(tempList.get(i).getCode()));
+			}
 		}else {
 			templateList.add(template);
 		}
@@ -487,7 +488,6 @@ public class DocumentController {
 			searchText="";
 		}
 		Date today = new Date(System.currentTimeMillis());
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
 		//4. cpage 보안
 		if(cpage==null) {
 			cpage="1";
@@ -566,7 +566,15 @@ public class DocumentController {
 			map.put("status","반려함");
 			hmlist.add(map);
 		}
-		List<DocumentDTO> docList = dservice.getAllDraftDocument(empCode);
+		
+		//필요양식만 검색
+		List<String> templateList = new ArrayList<>();
+		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		for(int i=3; i<tempList.size(); i++) {
+			templateList.add(Integer.toString(tempList.get(i).getCode()));
+		}
+		
+		List<DocumentDTO> docList = dservice.getAllDraftDocument(empCode, templateList); //tempList
 		for(int i=0; i<docList.size(); i++) {
 			if(docList.get(i).getStatus().contentEquals("RAISE")) {
 				docList.get(i).setStatus("결재중");
