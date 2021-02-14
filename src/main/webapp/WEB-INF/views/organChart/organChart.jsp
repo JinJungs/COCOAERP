@@ -133,7 +133,7 @@
                     </div>
                     <div class="row w-100 mt-3">
                         <div class="col-12 text-center">
-                            <img src="/img/Profile-m.png" style="width: 100px;height: 100px;">
+                            <img id="emp-profile" style="width: 100px;height: 100px;">
                         </div>
                     </div>
                     <div class="row w-100 mt-3">
@@ -213,7 +213,7 @@
 
  /*채팅 메일 담당자분 여기다가 작업하시면 됩니다.*/
     function  fn_clickemail(code) {
-        alert("메일 클릭"+code);
+        location.href="/email/sendPage.email?seq=" + code;
     }
     function fn_clickChat(code) {
         window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'','width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes');
@@ -386,6 +386,7 @@
                 $(".modalchaticon").attr("onclick","fn_clickChat("+data.code+")");
                 $("#emp-name").text(data.name);
                 $("#emp-hire_date").text(data.hire_date);
+                $("#emp-profile").attr("src",data.savedname);
                 if(data.gender=='M'){
                     $("#emp-gender").text("남");
                 }else{

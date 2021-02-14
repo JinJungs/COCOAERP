@@ -81,7 +81,7 @@ public class BusinessLogController {
 			//submit을 눌렀을 때, 업로드할 file이 있는 경우만 files에 업로드 (최대 10개)
 			if(filesCount<11){
 				if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-					String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+					String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 					File filesPath = new File(fileRoot);
 					//폴더 없으면 만들기
 					if(!filesPath.exists()) {filesPath.mkdir();}
@@ -108,14 +108,18 @@ public class BusinessLogController {
 	//업무일지 작성 완료
 	@RequestMapping("logCreateDone.log")
 	public String logCreateDone(DocumentDTO ddto,String selectBy,List<MultipartFile> file) throws Exception {
-		System.out.println(ddto.getReport_end());
 		System.out.println("업무일지 작성 컨트롤러 도착");
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
+		System.out.println("사번이 뭐냐"+ddto.getWriter_code());
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
 		ddto.setDept_code(dept_code);
+		System.out.println("부서코드가 뭐냐"+ddto.getDept_code());
+		
+		int pos_code = (Integer)loginDTO.getPos_code();
+		ddto.setDept_code(pos_code);
 
 		if(selectBy.contentEquals("daily")) {
 			System.out.println("일일인 경우");
@@ -127,9 +131,10 @@ public class BusinessLogController {
 		int logDoc_seq= bservice.logDocSelectSeq();
 
 		//업무일지 종류에 따라 문서 저장
-		int createLog = bservice.createLog(logDoc_seq,ddto,selectBy);
+		int createLog = bservice.createLog(logDoc_seq,ddto,selectBy,dept_code);
 		System.out.println("결과는?" +createLog);
-
+		
+		
 		//파일 업로드
 		if(file!=null) { //파일이 있을 때
 			//파일 업로드 할 갯수 확인
@@ -142,7 +147,7 @@ public class BusinessLogController {
 			//submit을 눌렀을 때, 업로드할 file이 있는 경우만 files에 업로드 (최대 10개)
 			if(filesCount<11){
 				if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-					String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+					String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 					File filesPath = new File(fileRoot);
 					//폴더 없으면 만들기
 					if(!filesPath.exists()) {filesPath.mkdir();}
@@ -192,6 +197,10 @@ public class BusinessLogController {
 		List<EmployeeDTO> confirmBy = cservice.confirmBy(seq);
 		System.out.println("내용은?"+confirmBy);
 
+		//거절한 사람 이름 불러오기
+		List<EmployeeDTO> rejectBy = cservice.confirmBy(seq);
+		model.addAttribute("rejectBy",rejectBy);
+		
 		model.addAttribute("status",status);
 		model.addAttribute("lr",logRead);
 		model.addAttribute("fileList",fileList);
@@ -201,10 +210,17 @@ public class BusinessLogController {
 	}
 	//확인요청 업무일지 - 거절
 	@RequestMapping("logReqCheck.log")
-	public String logReqCheck(String status,int seq) {
-		//거절의 경우
+	public String logReqCheck(String status,int seq,Model model,DocumentDTO ddto) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int writer_code = (Integer)loginDTO.getCode();
+		//로그인한 정보의 code를 DocumentDTO writer_code에 넣어주기
+		ddto.setWriter_code(writer_code);
+		//거절의 경우 - DOCUMENT에 넣어주기
 		int updateStatusReject = bservice.updateStatusReject(seq,status);
 		System.out.println("거절의 결과는?"+updateStatusReject);
+
+		//거절의 경우 - doc_confirm에도 넣어주기
+		int rejectDoc = cservice.rejectDoc(seq,ddto);	
 		return "redirect:/log/logBoard.log?status="+status;
 	}	
 	//확인요청 업무일지 - 승인
@@ -212,15 +228,15 @@ public class BusinessLogController {
 	public String logReqCheck2(String status,DocumentDTO ddto,int seq,String report_contents) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
+		System.out.println("seq를 넣음 되잖아?"+seq);
 		//로그인한 정보의 code를 DocumentDTO writer_code에 넣어주기
 		ddto.setWriter_code(writer_code);
 		//승인의 경우 - doc테이블에 내용업뎃
 		int updateStatusConfirm = bservice.updateStatusConfirm(seq,report_contents);
 		
-		//업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기
-		int doc_seq= bservice.doc_seq();
 		//승인의 경우 doc_confirm 테이블에 업뎃
-		int docConf = bservice.docConf(doc_seq,ddto);
+		int docConf = cservice.docConf(seq,ddto);
+		System.out.println("승인의 결과는?"+docConf);
 			
 		return "redirect:/log/logBoard.log?status="+status;
 	}	
@@ -243,7 +259,6 @@ public class BusinessLogController {
 	public String logReqRead(int seq,String status,DocumentDTO ddto,FilesDTO fdto,Model model) {
 		System.out.println("요청일지 읽기");
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-
 		int writer_code = (Integer)loginDTO.getCode();
 		System.out.println(writer_code);
 		//로그인한 정보의 code를 DocumentDTO writer_code에 넣어주기
@@ -324,7 +339,7 @@ public class BusinessLogController {
 		}
 		//파일 추가
 		if(file!=null) { if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-			String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+			String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 			File filesPath = new File(fileRoot);
 			//폴더 없으면 만들기
 			if(!filesPath.exists()) {filesPath.mkdir();}
@@ -379,7 +394,7 @@ public class BusinessLogController {
 		}
 		//파일 추가
 		if(file!=null) { if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-			String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+			String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 			File filesPath = new File(fileRoot);
 			//폴더 없으면 만들기
 			if(!filesPath.exists()) {filesPath.mkdir();}

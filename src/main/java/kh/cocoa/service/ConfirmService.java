@@ -2,6 +2,7 @@ package kh.cocoa.service;
 
 import kh.cocoa.dao.ConfirmDAO;
 import kh.cocoa.dto.ConfirmDTO;
+import kh.cocoa.dto.DocumentDTO;
 import kh.cocoa.dto.EmployeeDTO;
 
 import java.util.List;
@@ -39,4 +40,12 @@ public class ConfirmService implements ConfirmDAO {
 	public List<EmployeeDTO> confirmBy(int seq) {
 		return cdao.confirmBy(seq);
 	}
+    //승인의 경우 doc_confirm 테이블에 업뎃
+  	public int docConf(int doc_seq, DocumentDTO ddto) {
+  		return cdao.docConf(doc_seq,ddto);
+  	}
+  	//거절의 경우 - doc_confirm에도 넣어주기
+  	public int rejectDoc(int doc_seq, DocumentDTO ddto) {
+  		return cdao.rejectDoc(doc_seq,ddto);
+  	}
 }

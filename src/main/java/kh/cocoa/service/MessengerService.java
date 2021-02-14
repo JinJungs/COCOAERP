@@ -27,7 +27,7 @@ public class MessengerService implements MessengerDAO{
 	public MessengerViewDTO getMessengerPartyEmpInfo(int seq, int code){return mdao.getMessengerPartyEmpInfo(seq, code);}
 	//다수의 참가자 정보 리스트
 	@Override
-	public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq, int code){return mdao.getListMessengerPartyEmpInfo(seq, code);}
+	public List<MessengerViewDTO> getListMessengerPartyEmpInfo(int seq){return mdao.getListMessengerPartyEmpInfo(seq);}
 	
 	//1:1채팅 있는지 확인
 	@Override
@@ -45,5 +45,17 @@ public class MessengerService implements MessengerDAO{
 	public int insertMessengerRoomGetSeq(MessengerDTO messenger) {
 		return mdao.insertMessengerRoomGetSeq(messenger);
 	}
+	public MessengerDTO getMessengerInfo(int seq) {
+		return mdao.getMessengerInfo(seq);
+	}
 
+	//메신저 타입 M으로 바꾸기
+	public int updateTypeToM(int seq) {
+		return mdao.updateTypeToM(seq);
+	};
+	
+	//채팅방 이름 바꾸기
+	public int updateName(int seq, String name) {
+		return mdao.updateName(seq, name);
+	};
 }

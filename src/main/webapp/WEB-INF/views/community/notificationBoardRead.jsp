@@ -43,13 +43,13 @@
 					<b>조회수 : ${dto.view_count}</b>
 				</div>
 			</div>
-			<div class="row contents_box">${dto.contents}</div>
+			<div class="row contents_box"><div class="col">${dto.contents}</div></div>
 			<input type="hidden" id="boardfileCount" value="${fileCount} " />
 
 			<!--첨부파일  -->
 			<div class="row">
 				<!-- 해당 게시글에 저장된 파일 갯수 확인 -->
-				<div class="col-md-12 head_box" id="only">
+				<div class="col-md-12 head_box" >
 					<b><span class="files" id="files">첨부파일 : ${fileCount}개</span></b>
 					<ul>
 						<c:forEach var="i" items="${fileList}">
@@ -61,16 +61,8 @@
 				</div>
 			</div>
 			<div class="row">
-				<!--홈으로 이동  -->
-				<div class="col-sm-2">
-					<button type="button" class="btn btn-primary"
-						onclick="fn_home()">HOME</button>
-				</div>
-
-				<div class="col-sm-7 d-none d-sm-block"></div>
-
-				<!--관리자에게만 보이는 버튼  -->
-				<div class="button_box col-sm-3">
+			<!--관리자에게만 보이는 버튼  -->
+				<div class="button_box col-sm-3" style="text-align:left;">
 					<c:choose>
 						<c:when test="${checkWriter>0}">
 							<button type="submit" class="btn btn-primary"
@@ -80,6 +72,14 @@
 						</c:when>
 					</c:choose>
 				</div>
+				
+				<div class="col-sm-7 d-none d-sm-block"></div>
+				<!--홈으로 이동  -->
+				<div class="col-sm-2">
+					<button type="button" class="btn btn-primary"
+						onclick="fn_home()">HOME</button>
+				</div>
+				
 			</div>
 
 			<!--글읽기와 댓글 사이 공간-->
@@ -149,6 +149,7 @@
 	   }
 	   /*댓글 수정*/
 	   	function updateComment(seq){
+	   	console.log("눌렸니");
 			$.ajax({
 	           data: 
 	           {seq : seq},
@@ -192,6 +193,7 @@
 	           type: "post",
 	           url: "/comment/noBoardDeleteComment.co",
 	           success: function(data){
+	           confirm("댓글을 정말 삭제하시겠습니까?");
 	           console.log(data);
 	           console.log("삭제성공!");
 	           getCommentList();

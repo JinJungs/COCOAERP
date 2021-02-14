@@ -52,17 +52,20 @@ public class NotificationBoardController {
 		
 		int writer_code = (Integer)loginDTO.getCode();
 		System.out.println("여기서 직원 코드는?" +writer_code);
+		int dept_code = (Integer)loginDTO.getDept_code();
+		System.out.println("여기서 부서 코드는?" +dept_code);
 		
 		if(cpage==null) {cpage="1";} 
 		//게시글 불러오기
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		list = nservice.getNotificationBoardListCpage(cpage,menu_seq);
-
+		System.out.println(list);
 		//시작 & 끝 페이지 불러오기
 		String navi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
 		
 		model.addAttribute("navi",navi);
 		model.addAttribute("list",list);
+		model.addAttribute("dept_code",dept_code);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("menu_seq",menu_seq);
 
@@ -137,12 +140,20 @@ public class NotificationBoardController {
 	//게시글 검색
 		@GetMapping("notificationBoardSearch.no")
 		public String notificationBoardSearch(String cpage, String search,String searchBy,int menu_seq, Model model) {
+
+			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+			int dept_code = (Integer)loginDTO.getDept_code();
 			if(cpage==null) {cpage = "1";}
 			List<BoardDTO> list = nservice.notificationBoardListBySearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
-			String navi= nservice.notificationBoardSearchNavi(menu_seq,Integer.parseInt(cpage), searchBy,search);
+			int getSearchCount = nservice.getSearchCount(search,searchBy,menu_seq);
+			System.out.println("컨트롤러에서 갯수" + getSearchCount);
+			String navi= nservice.notificationBoardSearchNavi(menu_seq,Integer.parseInt(cpage), searchBy,search,getSearchCount);
+			
 			model.addAttribute("list", list);
 			model.addAttribute("navi", navi);
+			model.addAttribute("dept_code",dept_code);
 			model.addAttribute("cpage", cpage);
+			model.addAttribute("menu_seq",menu_seq);
 			model.addAttribute("search", search);
 			
 			if(menu_seq==1) { //게시판 seq가 1인 경우 - 회사소식
@@ -207,7 +218,7 @@ public class NotificationBoardController {
 				//submit을 눌렀을 때, 업로드할 file이 있는 경우만 files에 업로드 (최대 10개)
 				if(filesCount<11){
 					if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-						String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+						String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 						File filesPath = new File(fileRoot);
 						//폴더 없으면 만들기
 						if(!filesPath.exists()) {filesPath.mkdir();}
@@ -287,7 +298,7 @@ public class NotificationBoardController {
 				if(file!=null) {
 	
 					if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
-						String fileRoot = Configurator.boardFileRoot; //파일 저장할 경로
+						String fileRoot = Configurator.boardFileRootC; //파일 저장할 경로
 						File filesPath = new File(fileRoot);
 						//폴더 없으면 만들기
 						if(!filesPath.exists()) {filesPath.mkdir();}

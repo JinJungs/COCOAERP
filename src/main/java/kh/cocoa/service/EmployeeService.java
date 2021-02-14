@@ -29,7 +29,7 @@ public class EmployeeService implements EmployeeDAO {
 			return "F";
 		}
 	}
-	
+
 	@Override
 	public EmployeeDTO loginInfo(int code) { return edao.loginInfo(code); }
 
@@ -158,18 +158,18 @@ public class EmployeeService implements EmployeeDAO {
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
-	public List<EmployeeDTO> searchEmployeeByName(String contents){
-		return edao.searchEmployeeByName(contents);
+	public List<EmployeeDTO> searchEmployeeByName(int code, String contents){
+		return edao.searchEmployeeByName(code, contents);
 	}
 	// 부서이름으로 찾기
 	@Override
-	public List<EmployeeDTO> searchEmployeeByDeptname(String contents){
-		return edao.searchEmployeeByDeptname(contents);
+	public List<EmployeeDTO> searchEmployeeByDeptname(int code, String contents){
+		return edao.searchEmployeeByDeptname(code, contents);
 	}
 	//팀이름으로 찾기
 	@Override
-	public List<EmployeeDTO> searchEmployeeByTeamname(String contents){
-		return edao.searchEmployeeByTeamname(contents);
+	public List<EmployeeDTO> searchEmployeeByTeamname(int code, String contents){
+		return edao.searchEmployeeByTeamname(code, contents);
 	}
 
 	@Override
@@ -180,6 +180,10 @@ public class EmployeeService implements EmployeeDAO {
 	//BugReport
 	public EmployeeDTO getSenderEmail(int writer_code) {
 		return edao.getSenderEmail(writer_code);
+	}
+	@Override
+	public String getB_Email(String seq) {
+		return edao.getB_Email(seq);
 	}
 }
 

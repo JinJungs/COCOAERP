@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         //지영
         registry.addResourceHandler("/boardRepository/**")
-		.addResourceLocations("file:///D:/boardRepository/");
+		.addResourceLocations("file:///C:/boardRepository/");
 
         registry.addResourceHandler("/profileFile/**")
                 .addResourceLocations("file:///C:/profileRepository/"); //리눅스 root에서 시작하는 폴더 경로

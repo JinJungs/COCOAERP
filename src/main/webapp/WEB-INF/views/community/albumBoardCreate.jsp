@@ -47,8 +47,6 @@ input{width:100%;}
 					<div class="col-12 file_input">
 					<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
-						<!-- <label>+ File Attach 
-						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -63,7 +61,7 @@ input{width:100%;}
 
 					<div class="button_box col-sm-3">
 						<button type="button" class="btn btn-primary" id="btn_write">작성</button>
-						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
@@ -86,7 +84,7 @@ input{width:100%;}
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return;
-	         }else if ($('#fileList').val()==""){
+	         }else if ($('.fileList').val()==""){
 	           alert('파일을 선택해주세요');
 	           return;
 	         }

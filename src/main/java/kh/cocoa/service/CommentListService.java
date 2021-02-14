@@ -43,4 +43,7 @@ public class CommentListService implements CommentListDAO{
 		System.out.println("여기서 id는?" + writer_code);
 		return cdao.checkWriter(seq,writer_code);
 	}
+	public String getModContents(int seq) {
+		return cdao.getModContents(seq);
+	}
 }

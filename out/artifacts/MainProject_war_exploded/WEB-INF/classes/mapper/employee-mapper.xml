@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.EmployeeDAO">
+	<!-- 멤버십 -->
+	<select id="login" resultType="String">
+		select password from employee where code = #{code}
+	</select>
+
+	<select id="loginInfo" resultType="kh.cocoa.dto.EmployeeDTO">
+		select * from employee_view where code = #{code}
+	</select>
+
+	<update id="myInfoModify">
+		update employee set password = #{password}, gender = #{gender}, phone = #{phone}, address = #{address}, office_phone = #{office_phone} where code = #{code}
+	</update>
+
+	<select id="findIdByEmail" resultType="kh.cocoa.dto.EmployeeDTO">
+		select code from employee where email = #{email}
+	</select>
+
+	<select id="findPwByEmail" resultType="String">
+		select password from employee where email = #{email} and code = #{code}
+	</select>
+
+	<update id="updateTempPw">
+		update employee set password = #{password} where code = #{code}
+	</update>
+	<!--용국-->
+	<select id="getOrganChart" resultType="kh.cocoa.dto.EmployeeDTO">
+        select e.name, d.name deptname,t.name teamname from employee e inner join departments d on e.dept_code = d.code inner join team t on d.code=t.dept_code order by 2
+    </select>
+
+	<select id="getConfirmEmp" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,d.name deptname,p.name posname from employee e inner join departments d on e.dept_code = d.code inner join position p on e.pos_code = p.code where e.code=#{code}
+	</select>
+
+	<select id="getEmpPos" resultType="kh.cocoa.dto.EmployeeDTO">
+		select	e.code, e.name, p.name posname from employee e inner join position p on e.pos_code = p.code where team_code =#{code} and withdraw='N'
+	</select>
+
+    <select id="getEmpInfo" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW2 WHERE code=#{code}
+	</select>
+
+	<select id="getTeamCount" resultType="Integer">
+		select count(*) from employee where team_code=#{team_code}
+	</select>
+
+	<select id="getTeamEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
+		select e.code,e.name,e.b_email,d.code dept_code,d.name deptname,p.code pos_code,p.name posname,t.name teamname from employee e
+		inner join team t on e.team_code = t.code
+		inner join departments d on e.dept_code = d.code
+		inner join position p on e.pos_code = p.code where t.code=#{team_code}
+	</select>
+
+	<select id="getEmpNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
+		select * from employee_view where name like '%${name}%'
+	</select>
+
+	<select	id="getDeptNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
+		select count(dept_code) count,d.code,d.name from employee
+		right join departments d on d.code=dept_code where d.name like '%${name}%' and d.code not in (0) group by d.code,d.name
+	</select>
+
+	<select id="getDeptEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE DEPT_CODE=#{dept_code} ORDER BY POS_CODE,NAME
+	</select>
+
+	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW2 order by pos_code
+	</select>
+
+	<select id="getAllEmpCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE
+	</select>
+
+	<select id="getTeamEmp" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAM_CODE =#{team_code} and WITHDRAW= 'N'
+	</select>
+
+	<select id="getSearchEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%'
+	</select>
+
+	<!--소형-->
+	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME
+	</select>
+	
+	<select id="getDeptMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE DEPT_CODE = #{dept_code} and WITHDRAW = 'N'
+	</select>
+	
+	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
+	</select>
+	<!-- 지영  -->
+	<!--  버그리포트 -->
+	<select id="getSenderEmail" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE CODE=#{writer_code}
+	</select>
+	<!--의진-->
+	<select id="searchEmployeeByName" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE NAME LIKE '%${contents}%' AND CODE!=#{code} ORDER BY NAME
+	</select>
+	<select id="searchEmployeeByDeptname" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE DEPTNAME LIKE '%${contents}%' AND CODE!=#{code} ORDER BY DEPTNAME,NAME
+	</select>
+	<select id="searchEmployeeByTeamname" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW WHERE TEAMNAME LIKE '%${contents}%' AND CODE!=#{code} ORDER BY TEAMNAME,NAME
+	</select>
+
+	<!-- 효경 -->
+	<select id="isEmailExist" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE B_EMAIL=#{email}
+	</select>
+	
+</mapper>

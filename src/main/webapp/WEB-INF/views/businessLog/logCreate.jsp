@@ -11,7 +11,7 @@
 .select{text-align:right;}
 .date_box>input{width:58%;}
 #selectBy{border:none;background-color:transparent;}
-#selectBy:focus{outline:1px solid pink;}
+#selectBy:focus{outline:none;}
 input{width:100%;}
 </style>
 </head>
@@ -24,7 +24,7 @@ input{width:100%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 작성</h2>
 			
-			<form  method="post" name="submitForm"
+			<form action="/log/logCreateDone.log" method="post" name="submitForm"
 				id="submitForm" enctype="multipart/form-data">
 				
 			<div class="row search_box">
@@ -40,7 +40,7 @@ input{width:100%;}
 			<div class="row">
 					<div class="col-sm-3 head_box">제목</div>
 					<div class="col-sm-9">
-					<input type="text" id="title" name="title" value="제목을 입력하세요."
+					<input type="text" id="title" name="title" placeholder="제목을 입력하세요."
 							onclick="title_box()">
 					</div>
 				</div>
@@ -77,8 +77,6 @@ input{width:100%;}
 					<div class="col-12 file_input">
 						<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
-						<!-- <label>+ File Attach 
-						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -93,10 +91,11 @@ input{width:100%;}
 					<div class="col-sm-5 d-none d-sm-block"></div>
 
 					<div class="button_box col-sm-5">
-					
-						<button type="button" class="btn btn-primary" id="btn_tempSaved" onclick="fn_temp_Saved()">임시저장</button>
-						<button type="button" class="btn btn-primary" id="btn_write" onclick="fn_write()">작성</button>
-						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="button" class="btn btn-primary" 
+						id="btn_write" >작성</button>
+						<button type="button" class="btn btn-primary" 
+						id="btn_tempSaved" >임시저장</button>
+						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
@@ -107,58 +106,54 @@ input{width:100%;}
 <script src="/js/jquery.MultiFile.min.js"></script>
 <script>
 /*-------------------------작성*/
-		function fn_write(){
-		var report_start =$("#report_start").val().replaceAll("-","");
-        var report_end =$("#report_end").val().replaceAll("-","");
-        var start = $("#report_start").val();
-        var end = $("#report_end").val();
-        var temp =end.split("-");
-        var date = new Date(temp[0],temp[1]-1,temp[2]);
-        var enddate = new Date(date.setDate(date.getDate()+1));
-        var year = enddate.getFullYear();
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var today ="";
-        if(month.toString().length==1 && date.toString().length==1) {
-            today = year + "-0" + month + "-0" + date;
-        }else if(month.toString().length==1){
-            today =year + "-0" + month + "-" + date;
-        }else{
-            today =year + "-" + month + "-" + date;
-        }
-        $("#temp").val(today);
-
-        if(report_end!=""&&report_start>report_end){
-            alert("종료일이 시작일보다 빠릅니다.");
-            return;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return;
-        }
-			$("#submitForm").attr("action","/log/logCreateDone.log");
-			$("#submitForm").submit;
-		}
-		/*파일첨부 */
 		 $('#btn_write').on("click", function() {
-         	if ( $("#selectBy").val()==""){
+		 var report_start =$("#report_start").val().replaceAll("-","");
+	        var report_end =$("#report_end").val().replaceAll("-","");
+	        var start = $("#report_start").val();
+	        var end = $("#report_end").val();
+	        var temp =end.split("-");
+	        var date = new Date(temp[0],temp[1]-1,temp[2]);
+	        var enddate = new Date(date.setDate(date.getDate()+1));
+	        var year = enddate.getFullYear();
+	        var month = enddate.getMonth()+1;
+	        var date = enddate.getDate();
+	        var today ="";
+	        if(month.toString().length==1 && date.toString().length==1) {
+	            today = year + "-0" + month + "-0" + date;
+	        }else if(month.toString().length==1){
+	            today =year + "-0" + month + "-" + date;
+	        }else{
+	            today =year + "-" + month + "-" + date;
+	        }
+	        $("#temp").val(today);
+			if ( $("#selectBy").val()==""){
 	           alert('업무일지 종류를 선택해주세요');
-	           return;
-	         }else if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return;
+           	   $("#selectBy").focus();
+	           return ;
 	         }else if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
-	           return;
-	         }else 
+	           return ;
+	          }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return ;
+	         }else if(report_end==""){
+	            alert("종료일을 입력하세요.");
+	            return ;
+	        }else if (report_start>report_end) {
+	            alert("시작일을 다시 선택해 주세요.");
+	            return ;
+	        }else if(start==""){
+	            alert("시작일을 입력해주세요.");
+	            return ;
+	        }else if(end==""){
+	            alert("종료일을 입력해주세요..");
+	            return ;
+	        }
          $('#submitForm').submit();
         })
+        /*파일첨부 */
         $("input.fileList").MultiFile({
         max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
         accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
@@ -173,8 +168,6 @@ input{width:100%;}
 	        },
 	        list:"#listBox"
 	    });
-		
-		
 
 	/*----------마감일 Event-------*/
 	let selectBy = document.getElementById("selectBy");
@@ -197,21 +190,27 @@ input{width:100%;}
 	selectBy.addEventListener("change",function(){
 	   let index= selectBy.selectedIndex;
 	   if(index=="1"){ // 일일
-	   		today= year + 1 + "-0" + month + "-0" + date;
+	   		console.log("일일");
 	        endDate.style.display="none";
+	        report_start.value=today;
 	        report_end.value = today;
 	        console.log(today);
 	   }else if(index=="2"){ //주간
 	        endDate.style.display="block";
+	        report_start.value=null;
+	        report_end.value = null;
 	   }else if(index=="3"){ //월별
 	        endDate.style.display="block";
+	        report_start.value=null;
+	        report_end.value = null;
 	   }
 	})
 	
 	
 	/* ------------------임시저장*/
-		function fn_temp_Saved(){
-			var report_start =$("#report_start").val().replaceAll("-","");
+		
+		 $('#btn_tempSaved').on("click", function() {
+		 var report_start =$("#report_start").val().replaceAll("-","");
         var report_end =$("#report_end").val().replaceAll("-","");
         var start = $("#report_start").val();
         var end = $("#report_end").val();
@@ -231,35 +230,30 @@ input{width:100%;}
         }
         $("#temp").val(today);
 
-        if(report_end!=""&&report_start>report_end){
+       if ( $("#selectBy").val()==""){
+	           alert('업무일지 종류를 선택해주세요');
+	           return ;
+	    }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return ;
+	   }else if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return ;
+	   }else if(report_end!=""&&report_start>report_end){
             alert("종료일이 시작일보다 빠릅니다.");
-            return;
+            return ;
         }else if(start==""){
             alert("시작일을 입력해주세요.");
             $("#report_start").focus();
-            return;
+            return ;
         }else if(end==""){
             alert("종료일을 입력해주세요..");
             $("#report_end").focus();
-            return;
+            return ;
         }
-			$("#submitForm").attr("action","/log/logTempSave.log");
-			$("#submitForm").submit;
-		}
-		/* 파일 첨부 - 임시저장 부분*/
-		 $('#btn_tempSaved').on("click", function() {
-        if ( $("#selectBy").val()==""){
-	           alert('업무일지 종류를 선택해주세요');
-	           return;
-	         }else if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return;
-	         }else if (!$('#title').val()){
-	           alert('제목을 입력해주세요');
-           	   $("#title").focus();
-	           return;
-	         }else 
+		$("#submitForm").attr("action","/log/logTempSave.log");
          $('#submitForm').submit();
         })
        $("input.fileList").MultiFile({

@@ -27,7 +27,8 @@ input{width:100%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 수정</h2>
 
-			<form method="post" id="submitForm" enctype="multipart/form-data">
+			<form action="/log/logModifyTempSave.log" method="post" name="submitForm"
+			id="submitForm" enctype="multipart/form-data">
 
 				<input type="hidden" id="status" name="status" value="${status }">
 				<input type="hidden" id="temp_code" name="temp_code"
@@ -36,9 +37,14 @@ input{width:100%;}
 
 				<div class="row">
 					<div class="col-sm-2 d-none d-sm-block head_box">제목</div>
-					<div class="col-12 col-sm-10">
+					<div class="col-6 col-sm-4">
 						<input type="text" id="title" name="title" onclick="title_box()"
 							value="${lr.title}">
+					</div>
+					<div class="col-sm-2 d-none d-sm-block head_box">작성일</div>
+					<div class="col-6 col-sm-4">
+						<input type="text" id="write_date" name="write_date"
+							value="${lr.write_date}">
 					</div>
 				</div>
 
@@ -49,13 +55,13 @@ input{width:100%;}
 								<div class="col-6" id="test">
 									<div class="col date_box">
 										<b>시작일 :</b> <input type="date" class="date ml-1 mr-1"
-											name="report_start" id="report_start">
+											name="report_start" id="report_start" value="${lr.report_start }">
 									</div>
 								</div>
 								<div class="col-6" id="test2">
 									<div class="col date_box" id="endDate">
 										<b>마감일 :</b> <input type="date" class="date ml-1 mr-1"
-											name="report_end" id="report_end">
+											name="report_end" id="report_end" value="${lr.report_end }">
 									</div>
 								</div>
 						</div>
@@ -120,11 +126,11 @@ input{width:100%;}
 					<div class="col-sm-4 d-none d-sm-block"></div>
 
 					<div class="button_box col-sm-5">
-						<button type="submit" id="btn_tempSave" class="btn btn-primary"
-							onclick="fn_tempSave()" formaction="/log/logModifyTempSave.log">임시저장</button>
-						<button type="submit" id="btn_modifyDone" class="btn btn-primary" 
-						onclick="fn_modifyDone()" formaction="/log/logModifyDone.log">수정</button>
-						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="button" id="btn_modifyDone" 
+						class="btn btn-primary">작성</button>
+						<button type="submit" id="btn_tempSave" 
+						class="btn btn-primary">임시저장</button>
+						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
@@ -134,6 +140,116 @@ input{width:100%;}
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
 	<script>
+	 //유효성 검사 -임시저장
+        $('#btn_tempSave').on("click", function() {
+        console.log("눌리니?");
+        for(var i=0; i<delArr.length; i++){
+	      submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
+	    }
+        var report_start =$("#report_start").val().replaceAll("-","");
+        var report_end =$("#report_end").val().replaceAll("-","");
+        var start = $("#report_start").val();
+        var end = $("#report_end").val();
+        var temp =end.split("-");
+        var date = new Date(temp[0],temp[1]-1,temp[2]);
+        var enddate = new Date(date.setDate(date.getDate()+1));
+        var year = enddate.getFullYear();
+        var month = enddate.getMonth()+1;
+        var date = enddate.getDate();
+        var today ="";
+        if(month.toString().length==1 && date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
+        }else{
+            today =year + "-" + month + "-" + date;
+        }
+        $("#temp").val(today);
+		if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return false;
+	    }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	    }else if (report_start>report_end) {
+            alert("종료일이 시작일보다 빠릅니다.");
+            return ;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#report_start").focus();
+            return ;
+        }else if(end==""){
+            alert("종료일을 입력해주세요..");
+            $("#report_end").focus();
+            return ;
+		}
+		$("#submitForm").submit;
+        })
+        
+	 //유효성 검사 -저장
+         $('#btn_modifyDone').on("click", function() {
+         for(var i=0; i<delArr.length; i++){
+	            submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
+	         }
+         var report_start =$("#report_start").val().replaceAll("-","");
+        var report_end =$("#report_end").val().replaceAll("-","");
+        var start = $("#report_start").val();
+        var end = $("#report_end").val();
+        var temp =end.split("-");
+        var date = new Date(temp[0],temp[1]-1,temp[2]);
+        var enddate = new Date(date.setDate(date.getDate()+1));
+        var year = enddate.getFullYear();
+        var month = enddate.getMonth()+1;
+        var date = enddate.getDate();
+        var today ="";
+        if(month.toString().length==1 && date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
+        }else{
+            today =year + "-" + month + "-" + date;
+        }
+        $("#temp").val(today);
+		if (!$('#title').val()){
+	           alert('제목을 입력해주세요');
+           	   $("#title").focus();
+	           return;
+	    }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	    }else if (report_start>report_end) {
+            alert("종료일이 시작일보다 빠릅니다.");
+            return ;
+        }else if(start==""){
+            alert("시작일을 입력해주세요.");
+            $("#report_start").focus();
+            return ;
+        }else if(end==""){
+            alert("종료일을 입력해주세요..");
+            $("#report_end").focus();
+            return ;
+        }
+		$("#submitForm").attr("action","/log/logModifyDone.log");
+         $('#submitForm').submit();
+        })
+         
+    	$("input.fileList").MultiFile({
+        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+        maxfile: 10240, //각 파일 최대 업로드 크기
+        maxsize: 20480,  //전체 파일 최대 업로드 크기
+        STRING: { //Multi-lingual support : 메시지 수정 가능
+            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
+            duplicate : "$file 은 이미 선택된 파일입니다.",
+            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
+	        },
+	        list:"#listBox"
+	    });
 		/*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){
 	 		if($('#title').val() != null){
@@ -164,118 +280,8 @@ input{width:100%;}
 	         $(this).parent().remove();      // 파일 삭제버튼을 포함하는 parent인 <li>전체를 없앰
 	         delArr.push(delSeq);         // 제거된 파일의 Seq를 delArr에 추가
 	      })
-	     // x누른 파일 삭제
-	       $('#btn_tempSave').on("click", function() {
-	       	for(var i=0; i<delArr.length; i++){
-	            submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
-	         }
-          //유효성 검사
-         if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return;
-	         }else if (!$('#title').val()){
-	           alert('제목을 입력해주세요');
-           	   $("#title").focus();
-	           return;
-	         }
-         
-         $('#submitForm').submit();
-        })
-    	$("input.fileList").MultiFile({
-        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
-        accept: 'jpg|png|gif|jfif', //허용할 확장자(지정하지 않으면 모든 확장자 허용)
-        maxfile: 10240, //각 파일 최대 업로드 크기
-        maxsize: 20480,  //전체 파일 최대 업로드 크기
-        STRING: { //Multi-lingual support : 메시지 수정 가능
-            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
-            duplicate : "$file 은 이미 선택된 파일입니다.",
-            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
-            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
-            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
-	        },
-	        list:"#listBox"
-	    });
-		/*수정*/
-		function fn_modifyDone(){
-		var report_start =$("#report_start").val().replaceAll("-","");
-        var report_end =$("#report_end").val().replaceAll("-","");
-        var start = $("#report_start").val();
-        var end = $("#report_end").val();
-        var temp =end.split("-");
-        var date = new Date(temp[0],temp[1]-1,temp[2]);
-        var enddate = new Date(date.setDate(date.getDate()+1));
-        var year = enddate.getFullYear();
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var today ="";
-        if(month.toString().length==1 && date.toString().length==1) {
-            today = year + "-0" + month + "-0" + date;
-        }else if(month.toString().length==1){
-            today =year + "-0" + month + "-" + date;
-        }else{
-            today =year + "-" + month + "-" + date;
-        }
-        $("#temp").val(today);
-
-        if(report_end!=""&&report_start>report_end){
-            alert("종료일이 시작일보다 빠릅니다.");
-            return;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return;
-        }
-			$("#submitForm").attr("action","/log/logModifyDone.log");
-			$("#submitForm").submit;
-		
-		}
-		/*임시저장*/
-		function fn_tempSave(){
-		var report_start =$("#report_start").val().replaceAll("-","");
-        var report_end =$("#report_end").val().replaceAll("-","");
-        var start = $("#report_start").val();
-        var end = $("#report_end").val();
-        var temp =end.split("-");
-        var date = new Date(temp[0],temp[1]-1,temp[2]);
-        var enddate = new Date(date.setDate(date.getDate()+1));
-        var year = enddate.getFullYear();
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var today ="";
-        if(month.toString().length==1 && date.toString().length==1) {
-            today = year + "-0" + month + "-0" + date;
-        }else if(month.toString().length==1){
-            today =year + "-0" + month + "-" + date;
-        }else{
-            today =year + "-" + month + "-" + date;
-        }
-        $("#temp").val(today);
-
-        if(report_end!=""&&report_start>report_end){
-            alert("종료일이 시작일보다 빠릅니다.");
-            return;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return;
-        }
-			
-			$("#submitForm").attr("action","/log/logModifyTempSave.log");
-			$("#submitForm").submit;
-		
-		}
-	</script>
-
-<script> 
+	    
+       
 /*페이지 처음 접속 시, temp_code별로 업무기한을 다르게 보여주는 이벤트*/
 	window.onload = function(){
 		let temp_code = document.getElementById("temp_code");
@@ -301,11 +307,10 @@ input{width:100%;}
 		
 		if(temp_code.value==1){
 			test2.style.display="none";
-	   		today= year + 1 + "-0" + month + "-0" + date;
 	        report_end.value = today;
 	        console.log(today);
 		}else if(temp_code.value==2||temp_code.value==3){
-			est2.style.display="block";
+			test2.style.display="block";
 		}
 	}
 </script>

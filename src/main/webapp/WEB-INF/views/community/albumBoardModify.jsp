@@ -94,7 +94,7 @@
 					</div>
 					<div class="col-sm-10 button_box">
 						<button type="button" class="btn btn-primary" id="btn_write">수정</button>
-						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
@@ -145,7 +145,8 @@
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return;
-	         }else if ($('#fileList').val()==""){
+	         }else if ($('.file').val()==""){
+	         console.log("여기니");
 	           alert('파일을 선택해주세요');
 	           return;
 	         }

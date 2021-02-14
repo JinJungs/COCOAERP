@@ -11,7 +11,7 @@ import kh.cocoa.dto.DocumentDTO;
 public interface BusinessLogDAO {
 
 	//업무일지 종류에 따라 문서 저장
-	public 	int createLog(int logDoc_seq,DocumentDTO ddto,String selectBy);
+	public 	int createLog(int logDoc_seq,DocumentDTO ddto,String selectBy,int dept_code);
 	
 	//업무일지 seq & files doc_seq 맞추기
 	public int logDocSelectSeq();
@@ -88,11 +88,5 @@ public interface BusinessLogDAO {
 
 	//수정 페이지 - 수정 후 상신 (주간 & 월별)
 	public int logModify(DocumentDTO ddto);
-
-	//업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기
-	public int doc_seq();
-
-	//승인의 경우 doc_confirm 테이블에 업뎃
-	public int docConf(int doc_seq, DocumentDTO ddto);
 
 }

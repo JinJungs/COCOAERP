@@ -63,7 +63,7 @@ input{width:100%;}
 
 					<div class="button_box col-sm-3">
 						<button type="button" class="btn btn-primary" id="btn_write">작성</button>
-						<button type="reset" class="btn btn-primary">취소</button>
+						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>

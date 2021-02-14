@@ -17,6 +17,7 @@ input{width:50%;border-bottom:1px solid pink;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
 #btn_footer{text-align:right;}
+.card:hover{transform:scale(1.1);}
 </style>
 </head>
 <body>
@@ -45,10 +46,9 @@ input{width:50%;border-bottom:1px solid pink;}
 			
 			<div class="row">
 			<c:forEach var="i" items="${albumList}">
-				<div class="card" style="width: 11rem;">
+				<div class="card" style="width: 11rem;"onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
 					<img id="img" src="/boardRepository/${i.savedname}" class="card-img-top"  style="HEIGHT: 150px;"> 
-					<div class="col-12"
-						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+					<div class="col-12">
 						<b>${i.title}</b><br><b>${i.name}</b><b>${i.write_date}</b>
 					</div>
 				</div>

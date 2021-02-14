@@ -38,13 +38,12 @@ import kh.cocoa.service.FilesService;
 import kh.cocoa.statics.Configurator;
 import kh.cocoa.statics.DocumentConfigurator;
 
-
 @Controller
 @RequestMapping("/email")
 public class EmailController {
 
 	@Autowired
-	private JavaMailSender mailSender; 
+	private JavaMailSender mailSender;
 
 	@Autowired
 	private HttpServletRequest request;
@@ -136,7 +135,15 @@ public class EmailController {
 	   }
 	//메일작성페이지
 	@RequestMapping("sendPage.email")
-	public String toSendPage() {
+	public String toSendPage(String seq, Model model) {
+		
+		if(seq != null) {
+			EmailDTO dto = new EmailDTO();
+			dto.setSender(employeeService.getB_Email(seq));
+			
+			model.addAttribute("dto", dto);
+		}
+		
 		return "email/sendPage";
 	}
 	

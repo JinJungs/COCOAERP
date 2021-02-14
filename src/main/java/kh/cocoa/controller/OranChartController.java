@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,11 +22,15 @@ public class OranChartController {
     private DepartmentsService deptservice;
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private HttpSession session;
 
     @RequestMapping("toOrganChart.organ")
     public String toOrganChart(Model model){
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = (Integer)loginDTO.getCode();
         List<DepartmentsDTO> dlist =deptservice.getDeptList();
-        EmployeeDTO userInfo=employeeService.loginInfo(1000);
+        EmployeeDTO userInfo=employeeService.loginInfo(empCode);
         DepartmentsDTO getDept=deptservice.getDept();
         model.addAttribute("top",getDept);
         model.addAttribute("user",userInfo);

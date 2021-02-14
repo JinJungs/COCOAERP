@@ -29,5 +29,8 @@
 	<update id="noBoardUpdateComment">
 		UPDATE COMMENT_LIST SET CONTENTS = #{contents} WHERE SEQ=#{seq}
 	</update>
+  	<select id="getModContents" resultType="String">
+  		select contents from comment_list where seq = #{seq}
+  	</select>
 
 </mapper>

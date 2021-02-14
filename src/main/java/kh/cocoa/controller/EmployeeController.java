@@ -2,8 +2,6 @@ package kh.cocoa.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.sun.deploy.net.HttpResponse;
-import com.sun.deploy.net.URLEncoder;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
@@ -43,27 +41,19 @@ public class EmployeeController {
     @RequestMapping(value = "/login")
     public String login(Model model, int code, String password) {
         String result = eservice.login(code, password);
-//        if (!result.isEmpty()) {
-//            EmployeeDTO loginDTO = eservice.loginInfo(code);
-//            session.setAttribute("loginDTO", loginDTO);
-//            return "index";
-//        }
-//        else {
-//            return "/membership/login";
-//        }
         if (result.equals("T")) {
             EmployeeDTO loginDTO = eservice.loginInfo(code);
             session.setAttribute("loginDTO", loginDTO);
             return "index";
         } else {
             model.addAttribute("result", result);
-            //return "/membership/login";
             return "index";
         }
     }
 
     @RequestMapping(value = "/myInfo")
     public String myInfo(Model model) {
+
         EmployeeDTO user = eservice.getEmpInfo(1000);
         FilesDTO getProfile = filesService.findBeforeProfile(1000);
         if(getProfile.getSavedname()!=null) {
@@ -84,6 +74,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/myInfoModify")
     public String myInfoModify(Model model) {
+
         EmployeeDTO user = eservice.getEmpInfo(1000);
         FilesDTO getProfile = filesService.findBeforeProfile(1000);
         if(getProfile.getSavedname()!=null) {
@@ -152,7 +143,8 @@ public class EmployeeController {
     @RequestMapping("/modProfileAJAX")
     @ResponseBody
     public String modProfileAJAX(@RequestParam("file")MultipartFile file, HttpServletResponse resp) throws Exception{
-
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = (Integer)loginDTO.getCode();
 
         if (!file.getOriginalFilename().contentEquals("")) {
             String fileRoot = Configurator.profileFileRoot;
@@ -166,9 +158,9 @@ public class EmployeeController {
                 System.out.println(oriName);
                 String uid = UUID.randomUUID().toString().replaceAll("_", "");
                 String savedName = uid+"profile";
-                FilesDTO findBeforeProfile = filesService.findBeforeProfile(1000);
+                FilesDTO findBeforeProfile = filesService.findBeforeProfile(empCode);
                 if(findBeforeProfile.getSavedname()==null){
-                    int insertFile = filesService.insertProfile(oriName,savedName,1000);
+                    int insertFile = filesService.insertProfile(oriName,savedName,empCode);
                     if (insertFile > 0) {
                         String saveLoc = "/profileFile/"+savedName;
                         File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
@@ -176,7 +168,7 @@ public class EmployeeController {
                         return saveLoc;
                     }
                 }else{
-                    int updateFile = filesService.modProfile(oriName,savedName,1000);
+                    int updateFile = filesService.modProfile(oriName,savedName,empCode);
                     if (updateFile > 0) {
                         String saveLoc = "/profileFile/"+savedName;
                         File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);

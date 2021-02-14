@@ -1,0 +1,24 @@
+@charset "UTF-8";
+.file-input lable{display:inline-block;background:#23a3a7;  color:#fff;
+  padding:0px 15px;line-height:35px;cursor:pointer;}
+.file_input label input {position:absolute;width:0;
+    height:0;overflow:hidden;}
+.file_input input[type=text] {vertical-align:middle;color:#866EC7;
+    display:inline-block;width:400px;height:28px;
+    line-height:28px;font-size:13px;padding:0;
+    border:0;}
+
+input{height:90%;border:none;background-color:transparent;}
+input:focus{outline:1px solid pink;}
+.head_box{font-size:17px;color:#866EC7;}
+.contents_box{height:400px;}
+.board_title{color:#866EC7;}
+.board_title:hover{color:blue;}
+.width{height:50px;}
+.button_box{text-align:right;}
+textarea{width:100%; height:100%; border:none;background-color:transparent;}
+textarea:focus{outline:1px solid pink;}
+.btn{margin-top:2px;}
+button{height:90%;}
+ul{ list-style: none;padding-left: 0px;}
+.fileLi{font-size:13px;}
