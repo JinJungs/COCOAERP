@@ -147,17 +147,17 @@
                 <div class="row w-100">
                     <div class="col-1 p-0  pl-3 pt-4 pb-4">유형</div>
                     <input type="hidden" id="getleave_type" value="${ddto.leave_type}">
-                    <div class="col-2 p-0 pl-3 pt-3"><select id="leavetype" name="leave_type" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
-                        <option value="연차">연차</option>
-                        <option value="정기">정기</option>
-                        <option value="반차">반차</option>
-                        <option value="병가">병가</option>
-                        <option value="조퇴">조퇴</option>
-                        <option value="보건">보건</option>
-                        <option value="출산">출산</option>
-                        <option value="경조사">경조사</option>
-                        <option value="기타">기타</option>
-                    </select>
+                    <div class="col-2 p-0 pl-3 pt-3">
+                        <select id="leavetype" name="leave_type" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
+                            <option value="정기">정기</option>
+                            <option value="반차">반차</option>
+                            <option value="병가">병가</option>
+                            <option value="조퇴">조퇴</option>
+                            <option value="보건">보건</option>
+                            <option value="출산">출산</option>
+                            <option value="경조사">경조사</option>
+                            <option value="기타">기타</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row w-100" >
@@ -315,6 +315,7 @@
         }
         var getleave_type=$("#getleave_type").val();
         $("#leavetype option[value="+getleave_type+"]").attr('selected',true);
+        fn_changetype();
 
         $(".empcontainer2").selectable();
         $('#datePicker').datepicker({
