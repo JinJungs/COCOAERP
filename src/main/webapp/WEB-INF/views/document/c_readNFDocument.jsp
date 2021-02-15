@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>진행중 문서</title>
     <style type="text/css">
         select {
             min-width: 90px;
@@ -179,7 +179,6 @@
         var month = enddate.getMonth()+1;
         var date = enddate.getDate();
         var today ="";
-        console.log($("#hidden").val())
         if(month.toString().length==1&&date.toString().length==1) {
             today = year + "-0" + month + "-0" + date;
         }else if(month.toString().length==1){
@@ -209,7 +208,6 @@
             contentType:'application/json',
             dataType:"json",
             success: function (data) {
-                console.log(data);
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){

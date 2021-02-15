@@ -24,6 +24,12 @@ public interface EmailDAO {
 	public int getSendCount(String email);
 	public int getDeleteCount(String email);
 	
-	public void deleteEmail(String seq);
-	public void deleteNEmail(String seq);
+	public void deleteToMeEmail(String seq);
+	public void deleteReceiveEmail(String seq);
+	public void deleteSendEmail(String seq);
+	
+	
+	public void deleteToMeNEmail(String seq);
+	public void deleteReceiveNEmail(String seq);
+	public void deleteSendNEmail(String seq);
 }

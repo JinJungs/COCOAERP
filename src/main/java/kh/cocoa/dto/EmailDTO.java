@@ -16,7 +16,8 @@ public class EmailDTO {
 	private int parent;
 	private String sender;
 	private String receiver;
-	private String status;
+	private String status_sender;
+	private String status_receiver;
 	
 	//추가부분
 	private String rownumber;
@@ -24,7 +25,7 @@ public class EmailDTO {
 	
 	@Builder
 	public EmailDTO(int seq, String title, String contents, Date write_date, int parent, String sender, String receiver,
-			String status) {
+			String status_sender, String status_receiver, String rownumber, String write_dateString) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -33,6 +34,9 @@ public class EmailDTO {
 		this.parent = parent;
 		this.sender = sender;
 		this.receiver = receiver;
-		this.status = status;
+		this.status_sender = status_sender;
+		this.status_receiver = status_receiver;
+		this.rownumber = rownumber;
+		this.write_dateString = write_dateString;
 	}
 }

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+   response.setHeader("Cache-Control","no-store");
+   response.setHeader("Pragma","no-cache");
+   response.setDateHeader("Expires",0);
+   if (request.getProtocol().equals("HTTP/1.1"))
+      response.setHeader("Cache-Control", "no-cache");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -244,7 +251,7 @@
             <input type=button value="휴지통(메일)" id=deleteBtn><br>
             <br>
             <input type=button value="일정" id=scheduleBtn><br>
-
+			<input type=button value="대사우 서비스" id=leaveBtn><br>
 
                <%--용국--%>
             <button type="button" onclick="fn_toBD()">결재전</button>
@@ -308,6 +315,10 @@
          let scheduleBtn = document.getElementById("scheduleBtn");
          scheduleBtn.onclick = function () {
             location.href = "/schedule/toScheduleMain.schedule";
+         }
+         let leaveBtn = document.getElementById("leaveBtn");
+         leaveBtn.onclick = function () {
+            location.href = "/leave/toLeaveMain.leave";
          }
 
          /*지영 부분*/

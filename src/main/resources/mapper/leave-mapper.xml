@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.LeaveDAO">
+	<select id="getLeavelist" resultType="kh.cocoa.dto.LeaveDTO">
+		SELECT * 
+			FROM (SELECT LEAVE.*, ROW_NUMBER() OVER(ORDER BY START_DATE DESC) "rownumber",(END_DATE - START_DATE) "duration" 
+    				FROM LEAVE
+				    WHERE EMP_CODE = #{empCode}
+				        AND START_DATE BETWEEN #{yearStart} AND #{yearEnd}
+				    ORDER BY START_DATE DESC)
+	</select>
+</mapper>

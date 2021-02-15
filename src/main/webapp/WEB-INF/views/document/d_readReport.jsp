@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>업무 보고서</title>
 	<link rel="stylesheet"
 		  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	<style>
@@ -29,6 +29,20 @@
 			width: 100%;
 			left: 13.5px;
 		}
+		@media print {
+			#sidebar {display:none;}
+			#printer {display:none;}
+			#btnModal {display:none;}
+		}
+		#printer{
+			cursor: pointer;
+			border: 1px solid #c9c9c9;
+			padding: 7px;
+			border-radius: 5px;
+		}
+		#printer:hover{
+			background-color: whitesmoke;
+		}
 	</style>
 </head>
 <body>
@@ -39,7 +53,12 @@
 	<div id="content" class="p-4 p-5 pt-5">
 		<div class="container w-80 p-0" style="min-width: 900px;">
 			<div class="row w-100">
-				<h5>${dto.temp_name }</h5>
+				<div class="col-4 p-0">
+					<h5>${dto.temp_name }</h5>
+				</div>
+				<div class="col-8 pr-3 text-right">
+					<img src="/icon/printer-icon.svg" id="printer" onclick="fn_print()">
+				</div>
 			</div>
 			<div class="row w-100"
 				 style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
@@ -124,45 +143,45 @@
 			</c:if>
 
 			<div class="row w-100 pt-3">
-				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.report_contents }</div>
+				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.contents }</div>
 			</div>
 			<div class="row w-100 pt-5 pb-2">
-					<b>결재 의견</b>
+				<b>결재 의견</b>
+			</div>
+			<div class="confirm Table mb-5">
+				<div class="row w-100 text-center" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9">
+					<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9"><b>순서</b></div>
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>결재자</b></div>
+					<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9"><b>결재의견</b></div>
+					<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>상태</b></div>
+					<div class="col-3 p-3">결재일</div>
 				</div>
-				<div class="confirm Table mb-5">
-					<div class="row w-100 text-center" style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9">
-						<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9"><b>순서</b></div>
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>결재자</b></div>
-						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9"><b>결재의견</b></div>
-						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9"><b>상태</b></div>
-						<div class="col-3 p-3">결재일</div>
-					</div>
-					<c:forEach var="list" items="${confirmList}">
-						<div class="row w-100 text-center" style="border-bottom: 1px solid #c9c9c9">
-							<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9">${list.approver_order }</div>
-							<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">${list.emp_name } | ${list.dept_name }</div>
-							<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${list.comments }</div>
-							<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">
-								<c:choose>
-										<c:when test="${list.isConfirm eq 'N'}">
-										미결재
-										</c:when>
-										<c:when test="${list.isConfirm eq 'Y'}">
-										결재
-										</c:when>
-										<c:when test="${list.isConfirm eq 'R'}">
-										반려
-										</c:when>
-									</c:choose>
-							</div>
-							<div class="col-3 p-3">${list.confirm_date }</div>
+				<c:forEach var="list" items="${confirmList}">
+					<div class="row w-100 text-center" style="border-bottom: 1px solid #c9c9c9">
+						<div class="col-1 p-3" style="border-right: 1px solid #c9c9c9">${list.approver_order }</div>
+						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">${list.emp_name } | ${list.dept_name }</div>
+						<div class="col-4 p-3" style="border-right: 1px solid #c9c9c9">${list.comments }</div>
+						<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9">
+							<c:choose>
+								<c:when test="${list.isConfirm eq 'N'}">
+									미결재
+								</c:when>
+								<c:when test="${list.isConfirm eq 'Y'}">
+									결재
+								</c:when>
+								<c:when test="${list.isConfirm eq 'R'}">
+									반려
+								</c:when>
+							</c:choose>
 						</div>
-					</c:forEach>
-				</div>
+						<div class="col-3 p-3">${list.confirm_date }</div>
+					</div>
+				</c:forEach>
+			</div>
 			<div class="row w-100 pt-3">
 				<c:if test="${auth==1}">
 					<div class="col-12 p-3 text-right">
-						<button class="btn btn-dark" data-toggle="modal" data-target="#myModal">반려/결재</button>
+						<button class="btn btn-dark" data-toggle="modal"  id="btnModal" data-target="#myModal">반려/결재</button>
 					</div>
 				</c:if>
 			</div>
@@ -184,9 +203,9 @@
 					<div class="row w-100">
 						<div class="col-3 p-2">결재 상태</div>
 						<div class="col-2 p-2" ><input type="radio" name="confirm" value="승인" checked><span class="p-1">승인</span></div>
-						<c:if test="${canReturn==0}">
-							<div class="col-2 p-2"><input type="radio" name="confirm" value="반려"><span class="p-1">반려</span></div>
-						</c:if>
+
+						<div class="col-2 p-2"><input type="radio" name="confirm" value="반려"><span class="p-1">반려</span></div>
+
 					</div>
 					<div class="row w-100">
 						<div class="col-3 p-2">결재 의견</div>
@@ -267,6 +286,11 @@
 			location.href = "/document/return.document?seq="+seq+"&comments="+comments;
 		}
 	}
+
+	function fn_print() {
+		window.print();
+	}
+
 </script>
 </body>
 </html>

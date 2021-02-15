@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>Insert title here</title>
+    <title>업무 보고서</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
 
@@ -47,6 +47,11 @@
         .clickstat:hover{
             cursor: pointer;
         }
+
+        .deptteamcontainer:hover, .teamcontainer:hover, .empcontainer:hover{
+            background-color: #F2F6FF;
+        }
+
 
 
     </style>
@@ -208,7 +213,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" onclick="fn_closeModal()"  data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
@@ -246,31 +251,59 @@
     $( function() {
         fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
         $(".empcontainer2").selectable();
-
         $.ajax({
             type: "POST",
             url: "/restdocument/getfileList.document",
             data: $("#mainform").serialize(),
             dataType: "json",
             success: function (data) {
-                if (data.length != 0) {
-                    var html = "";
-                    for (var i = 0; i < data.length; i++) {
-                        html += "<div class=MultiFile-label>";
-                        html += "<a class=MultiFile-remove href=#file>"
-                        html += "<img src=/icon/close-x.svg onclick=fn_delfile(this," + data[i].seq + ")>";
-                        html += "</a>";
-                        html += "<span>";
-                        html += "<span class=MultiFile-label title=\'File selected:" + data[i].oriname + "\'>";
-                        html += "<span class=MultiFile-title> " + data[i].oriname + "</span>";
-                        html += "</span>";
-                        html += "</span>";
-                        html += "</div>";
+                if(data.length!=0){
+                    var html="";
+                    for(var i=0;i<data.length;i++){
+                        html+="<div class=MultiFile-label>";
+                        html+="<a class=MultiFile-remove href=#file>"
+                        html+="<img src=/icon/close-x.svg onclick=fn_delfile(this,"+data[i].seq+")>";
+                        html+="</a>";
+                        html+="<span>";
+                        html+="<span class=MultiFile-label title=\'File selected:"+data[i].oriname+"\'>";
+                        html+="<span class=MultiFile-title> "+data[i].oriname+"</span>";
+                        html+="</span>";
+                        html+="</span>";
+                        html+="</div>";
                     }
                     $("#filecontainer").append(html);
                 }
             }
         });
+
+        if($("#tempconfirm").serialize()!="") {
+            $.ajax({
+                type: "POST",
+                url: "/restdocument/loadconfirmlist.document",
+                data: $("#tempconfirm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var html = "";
+                    for (var i = 0; i < data.length; i++) {
+                        html += "<div class=\"row p-2 w-100 m-0\" id=closeconfirm" + data[i].code + " style=\"border-bottom:1px solid #c9c9c9\">";
+                        html += "<div class=\"col-2 p-2\">결재</div>";
+                        html += "<div class=\"col-6 p-2\">" + data[i].emp_name + "|" + data[i].pos_name + "</div>";
+                        html += "<input type=hidden value=" + data[i].code + " name=code>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img src=/icon/close-x.svg style=cursor:pointer onclick=fn_deleteconfirm(" + data[i].code + ")></div>";
+                        html += "<div class=\"col-2 p-2 text-right\"><img class=ui-state-default src=/icon/item-list.svg></div>";
+                        html += "</div>";
+                        getaddedempcode[count++] = data[i].code;
+                    }
+                    $(".confirmcontainer").append(html);
+                    $("#btn_add").attr("onclick", "fn_isnull()");
+
+                }
+            });
+        }
+    });
+
+
         function fn_getDeptList(){
             return new Promise(function (resolve,reject) {
                 $.ajax({
@@ -559,34 +592,8 @@
 
 
 
-        if($("#tempconfirm").serialize()!="") {
-            $.ajax({
-                type: "POST",
-                url: "/restdocument/loadconfirmlist.document",
-                data: $("#tempconfirm").serialize(),
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var html = "";
-                    for (var i = 0; i < data.length; i++) {
-                        html += "<div class=\"row p-2 w-100 m-0\" id=closeconfirm" + data[i].code + " style=\"border-bottom:1px solid #c9c9c9\">";
-                        html += "<div class=\"col-2 p-2\">결재</div>";
-                        html += "<div class=\"col-6 p-2\">" + data[i].emp_name + "|" + data[i].pos_name + "</div>";
-                        html += "<input type=hidden value=" + data[i].code + " name=code>";
-                        html += "<div class=\"col-2 p-2 text-right\"><img src=/icon/close-x.svg style=cursor:pointer onclick=fn_deleteconfirm(" + data[i].code + ")></div>";
-                        html += "<div class=\"col-2 p-2 text-right\"><img class=ui-state-default src=/icon/item-list.svg></div>";
-                        html += "</div>";
-                        getaddedempcode[count++] = data[i].code;
-                    }
-                    $(".confirmcontainer").append(html);
-                    $("#btn_add").attr("onclick", "fn_isnull()");
-
-                }
-            });
-        }
 
 
-    });
 
     function fn_clickbtnadd() {
         alert("최소 한 명의 결재자를 선택해주세요.");
@@ -667,6 +674,9 @@
                 getaddedempcode.splice(i,1);
                 count--;
             }
+        }
+        if(getaddedempcode.length==0){
+            $("#btn_add").attr("onclick","fn_clickbtnadd()");
         }
     }
 
@@ -779,13 +789,29 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchRaise.document";
                 }
             }
         });
+    }
 
-
-
+    function fn_closeModal() {
+        for(var i=0;i<getaddedempcode.length;i++){
+            $(".confirmcontainer").find($("#closeconfirm"+getaddedempcode[i])).remove();
+        }
+        getempcode=0;
+        getaddedempcode = [];
+        count =0;
+        beforeClickEmp =0;
+        clickstat = document.getElementsByClassName("clickstat");
+        beforeTeamcode =-1;
+        beforeDeptCode =-1;
+        getSearchKeyCode=0;
+        $("#confirmlist>div:first").nextAll().remove();
+        $("#deptForm").empty();
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
+        $("#btn_add").attr("onclick","fn_clickbtnadd()");
     }
 
 

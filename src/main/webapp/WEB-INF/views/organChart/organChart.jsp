@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    response.setHeader("Cache-Control","no-store");
+    response.setHeader("Pragma","no-cache");
+    response.setDateHeader("Expires",0);
+    if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>조직도</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
     <style>
         .deptcontainer, .teamst, .r-teammain, .searchchild, .topcontainer{
@@ -352,6 +360,7 @@
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
+                console.log(data);
                 var emp = "";
                 for(var i=0;i<data.length;i++){
                     emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTeamSearch(" + data[i].code + ")>";

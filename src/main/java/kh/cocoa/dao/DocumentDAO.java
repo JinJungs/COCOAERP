@@ -52,7 +52,7 @@ public interface DocumentDAO {
 	
 	//전체보기
 	//기안한 모든 문서(임시저장 제외) 받기
-	public List<DocumentDTO> getAllDraftDocument(int empCode);
+	public List<DocumentDTO> getAllDraftDocument(int empCode, List<String> templateList);
 	
 	
 	

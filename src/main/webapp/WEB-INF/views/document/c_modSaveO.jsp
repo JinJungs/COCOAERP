@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>사무용품 신청서</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
 
@@ -45,6 +45,10 @@
         .clickstat:hover{
             cursor: pointer;
         }
+        .deptteamcontainer:hover, .teamcontainer:hover, .empcontainer:hover{
+            background-color: #F2F6FF;
+        }
+
 
 
     </style>
@@ -233,7 +237,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" onclick="fn_closeModal()"  data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
@@ -334,8 +338,9 @@
                         html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+etc+"\"></div>";
                         html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
                         indexcount++;
+                        $(".ordercontainer").append(html);
+                        html="";
                     }
-                    $(".ordercontainer").append(html);
                 }
             }
         });
@@ -709,6 +714,9 @@
                 count--;
             }
         }
+        if(getaddedempcode.length==0){
+            $("#btn_add").attr("onclick","fn_clickbtnadd()");
+        }
     }
 
     function fn_addconfirm(){
@@ -764,7 +772,7 @@
         }
         var html= "";
         html+="<div class=\"row w-100 m-0 text-center orderwrap\">";
-        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+order_list+"\"></div>";
+        html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_list class=w-100 value=\""+order_list+"\" ></div>";
         html+="<div class=\"col-3 p-3 w-100\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_count class=w-100 value=\""+order_count+"\" oninput=fn_onlycount2(this)></div>";
         html+="<div class=\"col-5 p-3\" style=\"border-right:1px solid #c9c9c9\"><input type=text name=order_etc class=w-100 value=\""+order_etc+"\"></div>";
         html+="<div class=\"col-1 p-0 pt-2 w-100\"><button class=\"btn btn-outline-dark p-0 m-0\" style=\"width:45px; height:40px; font-size:24px;\" onclick=fn_delOrderList(this) type=button>-</button></div>";
@@ -805,6 +813,7 @@
             $(obj).val($(obj).val().substr(0,5));
             return;
         }
+
     }
 
     function fn_delfile(obj,seq) {
@@ -848,7 +857,7 @@
             contentType:'application/json',
             success : function(result) {
                 if(result=="success"){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchRaise.document";
                 }
             }
         });
@@ -1032,6 +1041,27 @@
             });
         });
     }
+
+    function fn_closeModal() {
+        for(var i=0;i<getaddedempcode.length;i++){
+            $(".confirmcontainer").find($("#closeconfirm"+getaddedempcode[i])).remove();
+        }
+        getempcode=0;
+        getaddedempcode = [];
+        count =0;
+        beforeClickEmp =0;
+        clickstat = document.getElementsByClassName("clickstat");
+        beforeTeamcode =-1;
+        beforeDeptCode =-1;
+        getSearchKeyCode=0;
+        $("#confirmlist>div:first").nextAll().remove();
+        $("#deptForm").empty();
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
+        $("#btn_add").attr("onclick","fn_clickbtnadd()");
+    }
+
+
 
 </script>
 

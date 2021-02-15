@@ -86,6 +86,7 @@ select {
 			</c:forEach>
 			<!-- 리스트 출력 부분 -->
 
+
 			<div class="row">
 				<div class="navi col-12 text-center">${navi}</div>
 			</div>

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>Insert title here</title>
+    <title>휴가 신청서</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
     <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
@@ -49,6 +49,10 @@
         .clickstat:hover{
             cursor: pointer;
         }
+        .deptteamcontainer:hover, .teamcontainer:hover, .empcontainer:hover{
+            background-color: #F2F6FF;
+        }
+
 
 
     </style>
@@ -84,6 +88,7 @@
             </div>
             <form id="mainform" method="post" enctype="multipart/form-data">
                 <div class="row w-100 pt-4 pb-4 pl-3 pr-3" style="border-bottom: 1px solid #c9c9c9;">
+
                     <div class="col-md-12" >
                         <div class="row" id="confirmlist">
                             <div class="col-md-1 col-3 p-0 m-md-3 m-3 confirmbox">
@@ -91,8 +96,8 @@
                                     <div class="col-md-12 pt-1 pb-1 text-center" >기안</div>
                                 </div>
                                 <div class="row m-0">
-                                    <div class="col-md-12 pt-2 text-center confirmname" >${ddto.emp_name}</div>
-                                    <div class="col-md-12 text-center confirmposname">(${ddto.pos_name})</div>
+                                    <div class="col-md-12 pt-2 text-center confirmname">${ddto.emp_name}</div>
+                                    <div class="col-md-12 text-center confirmposname">${ddto.pos_name}</div>
                                     <div class="col-md-12 text-center confirmdeptname" >${ddto.dept_name}</div>
                                     <input type="hidden" id="getcuruserempcode" name="writer_code" value="${user}">
                                     <input type="hidden" name="temp_code" value="${ddto.temp_code}">
@@ -101,20 +106,21 @@
                                     <input type="hidden" name="status" value="${ddto.status}">
                                 </div>
                             </div>
+                            <%--포이치 돌려서--%>
+                            <c:forEach var="i" items="${clist}">
+                                <div class="col-md-1 col-3 p-0 m-md-3 m-3 confirmbox2">
+                                    <div class="row m-0 confirmheader2">
+                                        <div class="col-md-12 pt-1 pb-1 text-center" >결재</div>
+                                    </div>
+                                    <div class="row m-0">
+                                        <input type="hidden" name="approver_code" value="${i.approver_code}">
+                                        <div class="col-md-12 pt-2 text-center confirmname">${i.emp_name}</div>
+                                        <div class="col-md-12 text-center confirmposname">${i.pos_name}</div>
+                                        <div class="col-md-12 text-center confirmdeptname" >${i.dept_name}</div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </div>
-                        <c:forEach var="i" items="${clist}">
-                            <div class="col-md-1 col-3 p-0 m-md-3 m-3 confirmbox2">
-                                <div class="row m-0 confirmheader2">
-                                    <div class="col-md-12 pt-1 pb-1 text-center" >결재</div>
-                                </div>
-                                <div class="row m-0">
-                                    <input type="hidden" name="approver_code" value="${i.approver_code}">
-                                    <div class="col-md-12 pt-2 text-center confirmname">${i.emp_name}</div>
-                                    <div class="col-md-12 text-center confirmposname">${i.pos_name}</div>
-                                    <div class="col-md-12 text-center confirmdeptname" >${i.dept_name}</div>
-                                </div>
-                            </div>
-                        </c:forEach>
                     </div>
                 </div>
                 <div class="row w-100 pt-5 pb-2" style="border-bottom: 1px solid #c9c9c9;">
@@ -253,7 +259,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" onclick="fn_closeModal()"  data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
@@ -265,6 +271,7 @@
         <input type="hidden" name="approver_code" value="${i.approver_code}">
     </c:forEach>
 </form>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -302,10 +309,9 @@
         var leave_start =$("#leave_start").val().replaceAll("-","");
         var leave_end =$("#leave_end").val().replaceAll("-","");
         var temp_today =today.replaceAll("-","");
-        if(leave_start<today||leave_end<today){
-            if(leave_start<today){ $("#leave_start").val(today);}
+        if(leave_start<temp_today||leave_end<temp_today){
+            if(leave_start<temp_today){ $("#leave_start").val(today);}
             else{ $("#leave_end").val(today);}
-            alert("이전 신청 기간이 지나 오늘 날짜로 초기화되었습니다.");
         }
         var getleave_type=$("#getleave_type").val();
         $("#leavetype option[value="+getleave_type+"]").attr('selected',true);
@@ -396,7 +402,9 @@
                 data: $("#tempconfirm").serialize(),
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
+                    if(data.length==0){
+                        return;
+                    }
                     var html = "";
                     for (var i = 0; i < data.length; i++) {
                         html += "<div class=\"row p-2 w-100 m-0\" id=closeconfirm" + data[i].code + " style=\"border-bottom:1px solid #c9c9c9\">";
@@ -809,6 +817,9 @@
                 count--;
             }
         }
+        if(getaddedempcode.length==0){
+            $("#btn_add").attr("onclick","fn_clickbtnadd()");
+        }
     }
 
     function fn_addconfirm(){
@@ -942,6 +953,7 @@
         var start = $("#leave_start").val();
         var end = $("#leave_end").val();
         var disable = $("#leave_end").attr("disabled");
+
         if(title==""){
             alert("제목을 입력해주세요.");
             $("#title").focus();
@@ -972,13 +984,32 @@
             processData: false,
             success: function (result) {
                 if(result>0){
-                    location.href="/document/toTemplateList.document";
+                    location.href="/document/d_searchRaise.document";
                 }
 
             }
         });
 
 
+    }
+
+    function fn_closeModal() {
+        for(var i=0;i<getaddedempcode.length;i++){
+            $(".confirmcontainer").find($("#closeconfirm"+getaddedempcode[i])).remove();
+        }
+        getempcode=0;
+        getaddedempcode = [];
+        count =0;
+        beforeClickEmp =0;
+        clickstat = document.getElementsByClassName("clickstat");
+        beforeTeamcode =-1;
+        beforeDeptCode =-1;
+        getSearchKeyCode=0;
+        $("#confirmlist>div:first").nextAll().remove();
+        $("#deptForm").empty();
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
+        $("#btn_add").attr("onclick","fn_clickbtnadd()");
     }
 
 </script>

@@ -44,7 +44,7 @@ button{
       	<h2 class="mb-4">메일함</h2>
       	<div class="mailContainer p-5">
       		<div class="row">
-      			<div class="col-10 title p-0 mb-2"><b>${dto.title }</b></div>
+      			<div class="col-10 title p-0 mb-2"><b><c:out value="${dto.title }"></c:out></b></div>
       		</div>
       		<div class="row">
       			<div class="col-3 col-sm-2 p-1 ml-1"><b>전송 날짜</b></div>
@@ -56,7 +56,7 @@ button{
       		</div>
       		<div class="row pb-4" style="border-bottom: 1px solid #c9c9c9">
       			<div class="col-3 col-sm-2 p-1 ml-1"><b>받는 사람</b></div>
-      			<div class="col-6 p-1 ml-1">${dto.receiver }</div>
+      			<div class="col-6 p-1 ml-1"><c:out value="${dto.receiver }"></c:out></div>
       		</div>
       		
       		<div class="row pt-3">
@@ -80,7 +80,7 @@ button{
       		
       	</div>
       	<div class="row mt-2 btn">
-	      	<c:if test="${dto.receiver eq email }">
+	      	<c:if test="${dto.receiver eq email && dto.sender ne email && dto.status_receiver eq 'SEND'}">
 	      		<button id=reply>답장</button>
 		      		<script>
 		      			$("#reply").click(function(){
@@ -89,19 +89,51 @@ button{
 		      		</script>
 	      	</c:if>
       		<c:choose>
-				<c:when test="${dto.status eq 'SEND'}">
+				<c:when test="${dto.status_sender eq 'SEND' && dto.sender eq email && dto.receiver eq email}">
 		      		<button id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
-		      				location.href = "/email/deleteEmail.email?seq=" + ${dto.seq};
+		      				location.href = "/email/deleteToMeEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
 	      		</c:when>
-	      		<c:when test="${dto.status eq 'DEL'}">
+	      		<c:when test="${dto.status_sender eq 'SEND' && dto.sender eq email && dto.receiver ne email}">
+		      		<button id=delete>삭제</button>
+		      		<script>
+		      			$("#delete").click(function(){
+		      				location.href = "/email/deleteSendEmail.email?seq=" + ${dto.seq};
+		      			})
+		      		</script>
+	      		</c:when>
+	      		<c:when test="${dto.status_receiver eq 'SEND' && dto.sender ne email && dto.receiver eq email}">
+		      		<button id=delete>삭제</button>
+		      		<script>
+		      			$("#delete").click(function(){
+		      				location.href = "/email/deleteReceiveEmail.email?seq=" + ${dto.seq};
+		      			})
+		      		</script>
+	      		</c:when>
+	      		<c:when test="${dto.status_sender eq 'DEL' && dto.sender eq email && dto.receiver eq email}">
 		      		<button id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
-		      				location.href = "/email/deleteNEmail.email?seq=" + ${dto.seq};
+		      				location.href = "/email/deleteToMeNEmail.email?seq=" + ${dto.seq};
+		      			})
+		      		</script>
+	      		</c:when>
+	      		<c:when test="${dto.status_sender eq 'DEL' && dto.sender eq email && dto.receiver ne email}">
+		      		<button id=delete>영구삭제</button>
+		      		<script>
+		      			$("#delete").click(function(){
+		      				location.href = "/email/deleteSendNEmail.email?seq=" + ${dto.seq};
+		      			})
+		      		</script>
+	      		</c:when>
+	      		<c:when test="${dto.status_receiver eq 'DEL' && dto.sender ne email && dto.receiver eq email}">
+		      		<button id=delete>영구삭제</button>
+		      		<script>
+		      			$("#delete").click(function(){
+		      				location.href = "/email/deleteReceiveNEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
 	      		</c:when>
