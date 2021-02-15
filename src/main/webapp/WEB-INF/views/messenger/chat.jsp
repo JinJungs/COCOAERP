@@ -82,7 +82,7 @@
             <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
-                    <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                    <span class="input-group-text attach_btn" id="attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
                 <textarea name="" class="form-control type_msg" id="yourMsg"
                           placeholder="Type your message..."></textarea>
@@ -97,7 +97,6 @@
                 <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
                 <label for="file"><i class="fas fa-paperclip"></i></label>
                 <input type="file" id="file" name=file>
-                <button type="button" id="testBtn">fullsize</button>
             </form>
         </div>
     </div>
@@ -422,6 +421,13 @@
     });
 
     //***************************************************************************
+    // 파일 아이콘 클릭시 input type file 선택창 띄우기
+    document.getElementById("attach_btn").addEventListener("click", openInputFile);
+    function openInputFile(){
+        console.log("클릭!");
+        $("#file-upload-button").trigger("click");
+    }
+
     /* 파일 전송 */
     function uploadMsgFile(evt) {
         evt.preventDefault();
