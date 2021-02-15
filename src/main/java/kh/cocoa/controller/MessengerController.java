@@ -1,21 +1,36 @@
 package kh.cocoa.controller;
 
-import kh.cocoa.dto.*;
-import kh.cocoa.service.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
+import kh.cocoa.dto.MessageViewDTO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
+import kh.cocoa.service.MessengerPartyService;
+import kh.cocoa.service.MessengerService;
 
 
 @Controller
@@ -72,17 +87,17 @@ public class MessengerController {
         MessengerDTO messenger = mservice.getMessengerInfo(seq);
         
         if(messenger.getType().contentEquals("S")) {
-        	 // 해당 채팅방에 있는 상대방 정보 불러오기 - 다중채팅시 오류나겠다...(지금은 한갠데 여러개 받아야해서)
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
             model.addAttribute("partyDTO",partyDTO);
         }else {
         	List<MessengerViewDTO> listPartyDTO = mservice.getListMessengerPartyEmpInfo(seq);
         	model.addAttribute("listPartyDTO",listPartyDTO);
+        	//!partyDTO랑 listPartyDTO 변수이름 같게하면 다른 곳에서 에러나는데 없나 확인!
         }
-        model.addAttribute("loginDTO",loginDTO);
+        //model.addAttribute("loginDTO",loginDTO);
         //messenger : 해당 시퀀스의 메신저 테이블 정보
         model.addAttribute("messenger", messenger);
-        model.addAttribute("seq", seq);
+        model.addAttribute("seq", seq); //??messenger에 담는걸로 수정??
         return "/messenger/chat";
     }
     
@@ -182,29 +197,8 @@ public class MessengerController {
     		return "error";
     	}
     }
-    /*
-    @RequestMapping("addMember")
-    public String addMember(HttpServletRequest request, MessengerDTO messenger) {
-    	
-    	//참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
-    	List<MessengerPartyDTO> partyList = new ArrayList<>();
-    	String[] empCodeList = request.getParameterValues("emp_code");
-    	
-    	//form 의 empCodeList를 받은 String배열을 int형으로 바꿔 MessengerPartyDTO형 리스트에 넣는다.
-    	for(String i : empCodeList) {
-    		System.out.println(i);
-    		int emp_code = Integer.parseInt(i);
-    		MessengerPartyDTO dto = new MessengerPartyDTO().builder().emp_code(emp_code).m_seq(messenger.getSeq()).build();
-    		partyList.add(dto);
-    	}
-    	if(messenger.getType().contentEquals("S")&&partyList.size()!=0) {
-    		//매퍼 만들기 : messenger 타입 변경 
-    	}
-		int insertMemResult = mpservice.setMessengerMember(partyList);
-    	//리턴 무엇으로??
-    	return "";
-    }
-    */
+
+/* 채팅창에서 멤버 추가시 form action 으로 보낼 때 컨트롤러 : 현재 ajax 작업이 성공하면 지울 예정
     @RequestMapping("addMemberToChatRoom")
     public String addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
     	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
@@ -237,8 +231,10 @@ public class MessengerController {
     	int insertMemResult = mpservice.setMessengerMember(partyList);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
     	//!!return을 어디로 해줄지...
-    	return "error";
+    	//아직 작동 안함
+    	return "redirect:/getChat/announce/"+seq;
     }
+*/    
 
     @RequestMapping("messengerSearch")
     public String messengerSearch(String contents,Model model){
@@ -368,21 +364,40 @@ public class MessengerController {
     	return "/messenger/addMemberList";
     }
 
-    //채팅방 설정 변경창 열기
+    //채팅방 설정 변경창 열기 : 모달로 변경. 유지시 삭제 예정
+    /*
     @RequestMapping("openModifChat")
     public String openModifChat(int seq, Model model) {
     	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
     	MessengerDTO messenger = mservice.getMessengerInfo(seq);
     	model.addAttribute("messenger", messenger);
     	return "/messenger/modifChat";
-    }
+    }*/
     //채팅방 이름 변경
     @RequestMapping("modifChatName")
     @ResponseBody
-    public void modifChatName(MessengerDTO messenger) {
+    public int modifChatName(MessengerDTO messenger) {
     	System.out.println("ModifChatName 도착!!");
     	System.out.println("messengerDTO : "+messenger);
-    	mservice.updateName(messenger.getSeq(), messenger.getName());
+    	int result = mservice.updateName(messenger.getSeq(), messenger.getName());
+    	return result;
+    }
+    
+    //채팅방 나가기
+    @RequestMapping("exitRoom")
+    @ResponseBody
+    public String exitRoom(int seq) {
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int code = loginDTO.getCode();
+        //방어코드 : 타입이 'M'이 아닌 경우 리턴하는 처리 해줘야하나??
+        
+    	MessengerPartyDTO mparty = new MessengerPartyDTO();
+    	mparty.setM_seq(seq);
+    	mparty.setEmp_code(code);
+    	int result = mpservice.exitMutiRoom(mparty);
+    	System.out.println("mparty : " + mparty);
+    	System.out.println("채팅방 나가기 : "+result);
+    	return "";
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -391,5 +406,61 @@ public class MessengerController {
         e.printStackTrace();
         return "index";
     }
+    
+
+    @RequestMapping("addMemberToChatRoom")
+    @ResponseBody
+    public int addMemberToChatRoom(int seq, @RequestParam("partyList") String partyList ) throws ParseException {
+    	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
+    	System.out.println("partyList : "+partyList);
+    	System.out.println(partyList.getClass().getName());
+    	
+    	//배열인척하는 스트링을 진짜 배열로 바꿔준다.
+		/*
+		 * partyList.replace("[", ""); partyList.replace("]", "");
+		 */
+    	String partyListEdited = partyList.substring(1, partyList.length()-1);
+    	String[] partyListArr = partyListEdited.split(",");
+    	System.out.println("partyListArr : "+partyListArr);
+    	for(String i : partyListArr) {
+    		System.out.println("partyListArr[i] : "+i);
+    	}
+    	
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int code = loginDTO.getCode();
+        //참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
+    	
+    	//메신저 타입 보기
+    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
+    	System.out.println("추가할 메신저의 정보 : "+messenger);
+
+    	List<MessengerPartyDTO> list = new ArrayList<>();
+    	for(int i=0;i<partyListArr.length;i++) {
+    		MessengerPartyDTO dto = new MessengerPartyDTO();
+    		dto.setM_seq(seq);
+    		dto.setEmp_code(Integer.parseInt(partyListArr[i]));
+    		list.add(dto);
+    	}
+
+    	//[임시]코드로 저장. [보완]ajax에서 소켓으로 쏠 때 이름으로 변환된 리스트 보내주기
+    	String addedMember = "";
+  
+    	if(messenger.getType().contentEquals("S")) {
+    		System.out.println("1:1에서 추가할 때");
+    		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
+    		int resultType = mservice.updateTypeToM(seq);
+    		//String name = loginDTO.getName() + "님 외 " + (partyList.size()+1) + "명";
+    		//리스트 인원 받아서 수정
+    		String name = loginDTO.getName() + "님의 단체 채팅방";
+    		int resultName = mservice.updateName(seq, name);
+    		System.out.println(resultType +" : "+ resultName);
+    	}
+    	int insertMemResult = mpservice.setMessengerMember(list);
+    	System.out.println("인원 추가 결과 : "+insertMemResult);
+    	
+    	
+    	return insertMemResult;
+    }
+
 
 }

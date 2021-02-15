@@ -341,9 +341,9 @@
             location.href = "/attendance/toAttendanceView";
          }
 
-         /*의진 부분*/
+         /*메신저 팝업 : messsenger*/
          function fn_messenger() {
-            var popup = window.open('/messenger/contactList', '', 'width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+            var popup = window.open('/messenger/contactList', 'messenger', 'width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
          }
 
          function fn_totemplate() {

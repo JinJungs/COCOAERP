@@ -14,9 +14,7 @@
     <link rel="stylesheet" href="/css/messenger.css">
 </head>
 <body>
-<form>
-<input type="hidden" name="fromPopup" id="fromPopup">
-</form>
+<input type="hidden" name="getAnnounce" id="getAnnounce" value="false">
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
         <div class="card-header msg_head chatBgMain">
@@ -26,16 +24,16 @@
                          class="rounded-circle user_img">
                 </div>
                 <div class="user_info">
-                    <c:choose>
-                        <c:when test="${messenger.type eq 'M'}">
-                            <span id="partyname">${messenger.name}</span>
-                        </c:when>
-                        <c:when test="${messenger.type eq 'S'}">
-                            <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                            <span id="partyname">${partyDTO.empname}</span>
-                            <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-                        </c:when>
-                    </c:choose>
+                <c:choose>
+	                <c:when test="${messenger.type eq 'M'}">
+	                	<span id="partyname">${messenger.name}</span>
+	                </c:when>
+	                <c:when test="${messenger.type eq 'S'}">
+	                	<!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+	                    <span id="partyname">${partyDTO.empname}</span>
+	                    <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+	                </c:when>
+                </c:choose>
                 </div>
                 <div class="video_cam">
                     <span><i class="fas fa-search"></i></span>
@@ -48,7 +46,7 @@
                     <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
                     <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
                     <c:if test="${messenger.type eq 'M'}">
-                    	<li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
+                    	<li data-toggle="modal" data-target="#exampleModal"><i class="fas fa-users"></i> 채팅방 설정</li>
                     	<li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
                     </c:if>
                 </ul>
@@ -87,7 +85,7 @@
             <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
-                    <span class="input-group-text attach_btn" id="attach_btn"><i class="fas fa-paperclip"></i></span>
+                    <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
                 </div>
                 <textarea name="" class="form-control type_msg" id="yourMsg"
                           placeholder="Type your message..."></textarea>
@@ -102,13 +100,14 @@
                 <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
                 <label for="file"><i class="fas fa-paperclip"></i></label>
                 <input type="file" id="file" name=file>
+                <button type="button" id="testBtn">fullsize</button>
+                
             </form>
         </div>
     </div>
 </div>
-
 <!-- 채팅방 이름 바꾸기 모달 -->
-<div class="modal fade" id="modalModifChat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -126,13 +125,12 @@
       </div>
       <div class="modal-footer">
         <button type="button" id="modifClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="modifSave" class="btn btn-primary">Save changes</button>
+        <button type="button" id="modifSave class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
 </div>
 <!-- 채팅방 이름 바꾸기 모달 -->
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/messenger.js"></script>
 <script type="text/javascript"
@@ -176,46 +174,29 @@
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
                     let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
-                  	//공지타입 구분
-                    let typeArr = (data[i].type).split("_");
-                    console.log("typeArr : ",typeArr);
-
-                    if (before_date !== delete_hours_date) {
+                    if(before_date !== delete_hours_date) {
                         existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
                         existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
                     }
                     before_date = delete_hours_date;
-                    if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
+                    if (data[i].emp_code == ${loginDTO.code}) {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
+                        //existMsg += "<div class='msg_cotainer_send'>"+data[i] .emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
                         existMsg += "</div>";
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div></div>";
-                    } else if(typeArr[0]!="AN"){
+                    } else {
                         existMsg += "<div class='d-flex justify-content-start mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += "<div class='img_cont_msg'>";
                         existMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                         existMsg += "</div>";
-                        // 상대방 이름 추가
-                        existMsg += "<div class='msg_cotainer_wrap'>"
-                        existMsg += "<div class='ml-2 pb-1'>"+data[i].empname+"</div>"
                         existMsg += msgForm(data[i].type, "msg_cotainer", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
+                        //existMsg += "<div class='msg_cotainer'>"+data[i].emp_code+" : "+data[i].contents;
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
-                        existMsg += "</div></div></div>";
-                    }else{
-                    	existMsg += "<div class='text-center font-weight-light'><small>";
-                    	if(typeArr[1]=="MODIF"){
-                    		existMsg += data[i].empname + "님이 " + data[i].contents +" 으로 채팅방 이름을 변경하였습니다.";
-                    	}else if(typeArr[1]=="EXIT"){
-                    		existMsg += data[i].contents + "님이 퇴장하였습니다.";
-                    	}else if(typeArr[1]=="ADD"){
-
-                    	}else{
-                    		existMsg += "공지 메세지 등록 오류";
-                    	}
-                    	existMsg += "</small></div>";
+                        existMsg += "</div></div>";
                     }
                     msgBox.prepend(existMsg);
                 }
@@ -224,9 +205,9 @@
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
                 // 상단에 닿았을 때만 맨밑으로 내려주고 / 근데 addedHeight라는 인자를 넘겨줘야한다.
                 // 다른 때(검색해서 리스트를 불러올 때)는 실행되지 않아야한다....
-                if (cpage == 1) {
+                if(cpage==1){
                     scrollBottom();
-                } else {
+                }else{
                     scrollfixed(addedHeight);
                 }
             }
@@ -238,23 +219,18 @@
     $(document).ready(function () {
         // 리스트 불러오기
         moreList(cpage);
-        // 스톰프 연결
-        connectStomp();
-        // 채팅입력창에 포커스
-        $("#yourMsg").focus();
 
+        connectStomp();
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
         document.getElementById("sendBtn").addEventListener('click', sendMsg);
 
         // enter키 클릭시 메세지 전송
         $("#sendToolBox").on("keydown", function (e) {
-            if (e.keyCode == 13 && !e.shiftKey) {
-                sendMsg();
-                let msg = $('#yourMsg').val();
-                console.log("지운 메세지?:" +msg+":a");
-                let msgLinebreak = msg.replace(/(\r\n\t|\n|\r\t)/gm,""); //엔터제거
-                //$('#yourMsg').val(msgLinebreak);
+            if (e.keyCode == 13) {
+                if (!e.shiftKey) {
+                    sendMsg();
+                }
             }
         });
 
@@ -270,10 +246,9 @@
             // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
             //evt.preventDefault();
 
+            // 내용이 없을 경우에 방어코드
             let msg = $("#yourMsg").val();
-            // 미입력 또는 공백 입력 방지
-            if (msg.replace(/\s|　/gi, "").length == 0) {
-                $("#yourMsg").focus();
+            if (msg == '') {
                 return;
             }
 
@@ -286,9 +261,8 @@
                     seq: ''
                     , contents: msg
                     , write_date: new Date()
-                    , emp_code: ${loginDTO.code}
+                    , emp_code: ${loginDTO.code} //!수정필요!세션값 작성자 아이디
                     , m_seq: ${seq}
-                    , empname: "${loginDTO.name}"
                 }));
             else
                 socket.send(msg);
@@ -319,16 +293,22 @@
         document.getElementById("file").addEventListener('change', uploadMsgFile);
         /* 파일 모아보기 창 띄우기 */
         document.getElementById("showFiles").addEventListener("click", popShowFiles);
-        /* 채팅방 이름변경 (모달창의 확인버튼) */
-        document.getElementById("modifSave").addEventListener("click", modifChatName);
-
-
+        
+        /* 멤버추가시 스톰프 반응 테스트 */
+        //document.getElementById("addedMemberTest").addEventListener("click", getAnnounce);
+        
+        /* 공지 받기 hidden 인풋 기본: false */
+        //document.getElementById("getAnnounce").addEventListener('onchange', getAnnounce);
     });
+
+    document.getElementById("testBtn").addEventListener("click", function () {
+        document.body.requestFullscreen();
+    }, false);
 
     var socket = null;
     var isStomp = false;
 
-    //스톰프 연결
+    //스톰프 연결 connectStomp====================================================
     function connectStomp() {
         var sock = new SockJS("/stompTest"); // endpoint
         var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
@@ -346,26 +326,21 @@
                 //파일 관련 메세지 구분 위해 타입추가*****
                 var type = JSON.parse(e.body).type;
                 var savedname = JSON.parse(e.body).savedname;
-                var empname = JSON.parse(e.body).empname;
 
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
                 let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
-                if (before_date !== delete_hours_date) {
+                if(before_date !== delete_hours_date) {
                     newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
                     newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
                 }
                 before_date = delete_hours_date;
 
-                //공지일 때
-                let typeArr = type.split("_")
-                console.log(typeArr);
-
                 // 내가 메세지를 보냈을 때
-                if (sender == ${loginDTO.code} && typeArr[0]!="AN") {
+                if (sender == ${loginDTO.code}) {
                     // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
-                    let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
+                    let amIAtBottom = (msgBox.height() <= $(element).height()+$(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
@@ -378,57 +353,50 @@
                     // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
                     // 클릭시 사라지고 스크롤이 하단으로 이동
                     // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
-                    if (amIAtBottom) {
+                    if(amIAtBottom){
                         scrollUpdate();
-                    } else {
+                    }else{
                         console.log(amIAtBottom);
-                        showAlertMessageOnBottom(partyname, msg);
+                        showAlertMessageOnBottom(partyname,msg);
                     }
-                } else if(typeArr[0]!="AN") { // 상대방이 보낸 메세지 일 때
+                } else { // 상대방이 보낸 메세지 일 때
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
-                    // 상대방 이름 추가
-                    newMsg += "<div>"
-                    newMsg += "<div class='ml-2 pb-1'>"+ empname +"</div>"
                     newMsg += msgForm(type, "msg_cotainer", null, msg, savedname);
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
-                    newMsg += "</div></div></div>";
-                    msgBox.append(newMsg);
-                    scrollUpdate();
-                }else{
-                	newMsg += "<div class='text-center font-weight-light'><small>";
-					newMsg += msg;
-					newMsg += "</small></div>";
+                    newMsg += "</div></div>";
                     msgBox.append(newMsg);
                     scrollUpdate();
                 }
             });
+            
+            //공지관련 구독**************************************
+            client.subscribe('/topic/announce/' +${seq}, function (e) {
+            	var msg = JSON.parse(e.body).contents;
+            	var type = JSON.parse(e.body).type;
+            	console.log("공지 구곧 스톰프 도착 ! ");
+            	console.log("msg : ",msg);
+            	console.log("type : ", type);
+            });
         });
     }
-
+    //===========스톰프 연결 connectStomp=============================================
+    	
     // alertMessgaeBox를 클릭하면 스크롤 하단 이동 + 다시 display none
     document.getElementById("alertMessageBox").addEventListener("click", scrollUpdate);
     document.getElementById("alertMessageBox").addEventListener("click", hideAlertMessageBox);
-
     // alertMessgaeBox를 toggle
-    function showAlertMessageBox() {
+    function showAlertMessageBox(){
         $("#alertMessageBox").delay(1000).show();
     }
-
-    function hideAlertMessageBox() {
+    function hideAlertMessageBox(){
         $("#alertMessageBox").delay(1000).hide();
     }
-
     // 스크롤이 상단에 있을 때 상대방의 메세지를 div로 띄워줌(alertMessgaeBox)
-    function showAlertMessageOnBottom(name, msg) {
+    function showAlertMessageOnBottom(name, msg){
         showAlertMessageBox();
-        // 글자 초과시 말줄임 표시로 바꾸기
-        let length = 15; // 표시할 글자수 기준
-        if (msg.length > length) {
-            msg = msg.substr(0, length-2) + '...';
-        }
         $("#alertMessagePartyname").html(name);
         $("#alertMessageContents").html(msg);
     }
@@ -457,14 +425,21 @@
         let element = document.getElementById("msg_card_body");
         let location = document.querySelector("#msgDiv" + seq).offsetTop;
         console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
+        element.scrollTo({top: location-300, behavior: 'smooth'});
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
     // 스크롤이 제일 하단에 닿을 때 hideAlertMessageBox
     $("#msg_card_body").scroll(function () {
         let currentScrollTop = $(this).scrollTop(); //스크롤바의 상단위치
-        let amIAtBottom = (msgBox.height() <= $(this).height() + $(this).scrollTop());
+        //console.log("전체 높이 : " + $("#msgBox").height());
+        /*console.log("보이는 높이: " + $(this).height());
+        console.log("스크롤height : "  +$(this)[0].scrollHeight);
+        let msgBox_height = $(this)[0].scrollHeight;
+        let msg_card_body_height = $("#msg_card_body").height();
+        let cal = msgBox_height - msg_card_body_height;
+        console.log("뺀 높이 : " + cal);
+        console.log("스크롤탑 : "  +currentScrollTop);*/
         if (currentScrollTop == 0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
@@ -472,10 +447,10 @@
             console.log("added: " + addedHeight);
             scrollfixed(addedHeight);
         }
-        if (amIAtBottom){
+        /*if (currentScrollTop == cal){
             console.log("제일 하단에 닿을 때?");
             hideAlertMessageBox();
-        }
+        }*/
     });
 
     //***************************************************************************
@@ -570,7 +545,7 @@
     let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
 
     function popShowFiles() {
-        window.open('/messenger/showFiles?m_seq=' +${seq}, '', winFeature);
+        window.open('/messenger/showFiles?m_seq=' +${seq}, 'showFile'+${seq}, winFeature);
     }
 
     //***************************************************************************
@@ -578,7 +553,6 @@
     /* 0. search 아이콘 클릭시 input 창 생성*/
     $(".fa-search").on("click", showSearchInput);
     $(".fa-times").on("click", showSearchInput);
-    $(".fa-times").on("click", deHighlightBeforeSearch);
 
     function showSearchInput() {
         $("#searchContainer").toggle(200);
@@ -602,20 +576,19 @@
             let re = new RegExp(searched, "g"); // search for all instances
             let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
-            highlightArr.push([seq, searched, newText]);
+            highlightArr.push([seq,searched,newText]);
             console.log(highlightArr);
         }
     }
-
     // 검색어가 바뀌면 하이라이트된 내용을 원상복구
-    function deHighlightBeforeSearch() {
-        for (let i = 0; i < highlightArr.length; i++) {
+    function deHighlightBeforeSearch(){
+        for(let i=0; i<highlightArr.length; i++){
             let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
             let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
             document.getElementById("msg_container" + highlightArr[i][0]).innerHTML = gobackText;
         }
         // 초기화
-        highlightArr = [];
+        highlightArr=[];
     }
 
     // 띠용
@@ -649,14 +622,14 @@
                     let seq = resp[index].seq; // message의 seq
                     // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
                     // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    (isMsgExistInMsgBox = function () {
+                    (isMsgExistInMsgBox = function(){
                         if (!$("#msgDiv" + seq).length) {
                             cpage += 1;
                             moreList(cpage);
-                            setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
+                            setTimeout(function (){ //딜레이를 약간 주고 재귀함수로 다시 호출한다.
                                 isMsgExistInMsgBox();
-                            }, 100);
-                        } else {
+                            },100);
+                        }else{
                             return;
                         }
                     })();
@@ -666,7 +639,7 @@
                         scrollMoveToSearch(seq);
                         // (2) 하이라이팅
                         highlightSearch(seq, searchContents);
-                        // (3) 띠용
+                        // (3) 띠용 - 왜 안되지..
                         // animateMessage(seq);
                     }, 200);
 
@@ -687,23 +660,108 @@
             }
         });
     }
-
+    
+    //=========채팅방에 멤버 추가=============
+    function openMemberListToChat(seq){
+    	window.open('/messenger/openMemberList?seq='+seq,'addMember'+{seq},winFeature);
+    }
+    
     //==========채팅방 정보 수정=============
-/*     function openModifChat(seq) {
-        window.open('/messenger/openModifChat?seq=' + seq, '', winFeature);
+    	//모달로 대체
+/*     function openModifChat(seq){
+    	//window.open('/messenger/openModifChat?seq='+seq,'modifChat'+{seq},winFeature);
     } */
+    
+    //==========채팅방 나가기================
+    function exitRoom(seq){
+    	let exit = confirm("정말 나가시겠습니까?");
+    	if(exit){
+    		location.href = "/messenger/exitRoom?seq="+seq;
+    	}
+    	setTimeout(function(){
+    		window.open('','_self').close();
+    	}, 500);
+    }
+    
+    //==========채팅방 인원추가============
+/*     function getAnnounce(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
 
+        if (isStomp) {
+            event.preventDefault();
+            
+            //추가된 멤버들 코드라 가정하고
+            var objParams = {
+                    "m_seq"     : ${seq}, //메신저방 시퀀스 저장
+                    "partyList" : [1000,1001,1002]        //배열 저장
+                };
+
+            //f1. ajax로 파일 전송(RestMessengerController)
+            $.ajax({
+            	url: "/messenger/addMemberToChatRoom",
+                contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
+                type: "post",
+                data: objParams,
+                dataType: "json",
+                success: function (resp) {
+                	result = JSON.parse(resp);
+                	insertMemResult = parseInt(result.insertMemResult);
+                    //인서트에 성공시
+                    //type : AN_ADD
+                    if (insertMemResult > 0) {
+                        //02. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
+                        socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+                        	m_seq: result.m_seq
+                            , contents: result.contents
+                            , write_date: new Date()
+                            , emp_code: result.emp_code
+                            , m_seq: result.m_seq
+                            , type: result.type
+                        }));
+                    }
+                }
+            });
+            scrollUpdate();
+        } else//이건 왜하는거람
+            socket.send(file);
+    }; */
+  //==========채팅방 인원추가==================  
   //==========채팅방 이름변경==================
+    function getAnnounce(evt) {
+        evt.preventDefault();
+        if (!isStomp && socket.readyState !== 1) return;
+
+        if (isStomp) {
+            event.preventDefault();
+            
+            //공지 타입 뽑기
+            let getAnnounce = document.getElementById("getAnnounce");
+            let valueGetAnnounce = getAnnounce.value();
+            console.log(valueGetAnnounce);
+            
+            if(valueGetAnnounce == "modifChatName"){
+/*             	socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+                	m_seq: result.m_seq
+                    , contents: result.contents
+                    , write_date: new Date()
+                    , emp_code: result.emp_code
+                    , m_seq: result.m_seq
+                    , type: result.type
+                })); */
+            }
+
+            
+            scrollUpdate();
+        } else//이건 왜하는거람
+            socket.send(file);
+    };
+    
     function modifChatName(){
-    	//(seq,name,emp_code)
-    	let seq = ${seq};
-    	let name = document.getElementById("modifName").value;
-    	let emp_code = ${loginDTO.code};
-    	console.log("name : ",name);
-    	console.log("emp_code : ", emp_code);
+    	//(seq,name,code)
+    	let name = $("#modifName").value();
     	if(name==""){
-    		alert("빈 값은 입력할 수 없습니다.");
-    		return;
+    		
     	}
     	$.ajax({
         	url: "/messenger/modifChatName",
@@ -716,86 +774,21 @@
             success: function (resp) {
             	if(resp>0){
             		socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-                    	m_seq: seq
+                    	m_seq: result.m_seq
                         , contents: name
                         , write_date: new Date()
-                        , emp_code: emp_code
-                        , type: "AN_MODIF"
+                        , emp_code: result.emp_code
+                        , m_seq: seq
+                        , type: AN_MODIF
                     }));
-            		$('#partyname').text(name);
-            		$('#modalModifChat').modal('hide');
+            		
+            		$('#exampleModal').modal('hide');
             	}
             }
         });
     }
    //==========채팅방 이름변경==================
 
-	//==========채팅방 나가기==================
-    function exitRoom(){
-	   let seq = ${seq};
-	   let code = ${loginDTO.code};
-	   let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
-    	let exit = confirm("정말 나가시겠습니까?");
-    	if(exit){
-    		location.href = "/messenger/exitRoom?seq="+seq;
-    	}
 
-    	socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-        	m_seq: seq
-            , contents: name
-            , write_date: new Date()
-            , emp_code: code
-            , type: "AN_EXIT"
-        }));
-
-    	setTimeout(function(){
-    		window.open('','_self').close();
-    	}, 500);
-    }
-    //==========채팅방 나가기==================
-    //====================채팅 멤버 추가=======
-    function openMemberListToChat(seq) {
-        window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature);
-    }
-    function getReturnValue(returnValue) {
-    	let seq = ${seq};
-    	let emp_code = ${loginDTO.code};
-	    console.log(returnValue);
-	    let checkArr = returnValue;
-
-	    //길이 알아내기 위해
- 	    let checkArrParsed = JSON.parse(returnValue);
-/* 	    console.log("json 형태 : ",checkArr);
-	    console.log("첫번째 값 : ", checkArr[0]); */
-	    console.log("길이 : ", checkArrParsed.length);
-	    //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
-	    //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
- 	    $.ajax({
-        	url: "/messenger/addMemberToChatRoom",
-        	type: "post",
-        	traditional :true,
-            data: {
-            	seq: seq
-            	, partyList: checkArr
-            },
-            dataType: "json",
-            success: function (resp) {
-            	if(resp==checkArrParsed.length){
-            		console.log("소켓 보내기 직전")
-            		socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-                    	m_seq: seq
-                        , contents: checkArr
-                        , write_date: new Date()
-                        , emp_code: emp_code
-                        , type: "AN_ADD"
-                    }));
-
-            	}
-            }
-        });
-	};
-  	//====================채팅 멤버 추가=======
-
-</script>
 </body>
 </html>

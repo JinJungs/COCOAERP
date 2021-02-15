@@ -12,4 +12,8 @@ public interface MessengerPartyDAO {
 	//채팅방 참가자 추가
 	public int setMessengerMember(List<MessengerPartyDTO> list);
 
+	
+	// 메신저 나가기
+	public int exitMutiRoom(MessengerPartyDTO mparty);
+
 }

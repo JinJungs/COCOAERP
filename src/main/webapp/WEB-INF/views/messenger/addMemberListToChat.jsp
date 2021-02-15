@@ -19,8 +19,7 @@
     </style>
 </head>
 <body>
-
-<form name="formAddMember" id="formAddMember" action="/messenger/addMemberToChatRoom" methode="post">
+<form name="formAddMember" id="formAddMember" methode="post">
     <input type="hidden" name="seq" value="${seq}">
     <input type="hidden" id="existingMemberNum" value="${fn:length(partyList)}">
     <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
@@ -62,6 +61,8 @@
             </div>
             <div class="col-2 m-0 p-0">
                 <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
+            	<button class="btn-primary" id="confirm_btn_test" type="button">확인 버튼 테스트</button>
+
             </div>
             <div class="col-4"></div>
         </div>
@@ -176,18 +177,32 @@
     }
 
     //========================체크박스 값 받기===================================
-    function addChatRoom() {
-        // 체크된 사람이 0명이라면 넘겨주지 않기
+
+    //========================확인 후 부모창으로 값 전송============================
+    document.getElementById("confirm_btn_test").addEventListener('click', getReturnValue);
+    function getReturnValue(){
+    	//alert("validAddList!");
+    	console.log("checkArr in validAddList : ",checkArr);
+
+        //체크된 사람이 0명이라면 넘겨주지 않기
         if (checkArr.length == 0) {
             alert("대화상대를 한 명 이상 선택해주세요.");
             return;
         }
-        // 기존 멤버에서 추가된 사람이 없을 때
-        if(checkArr.length <= existingMemberNum){
+        //!!이 부분 에러나서 주석처리했습니다!!
+        //기존 멤버에서 추가된 사람이 없을 때
+/*         if(checkArr.length <= existingMemberNum){
             return;
+        } */
+
+        try{
+            opener.getReturnValue(JSON.stringify(checkArr)); // 부모창 함수 호출
+        }catch(e){ // 부모 자식간의 연결이 끊어졌을 경우 처리
+            alert('채팅방과 연결이 끊어졌습니다. 창을 닫고 다시 시도해주세요.');
         }
-        $("#formAddMember").submit();
+      	window.close();
     }
+  	//========================확인 후 부모창으로 값 전송============================
 
     // 체크박스가 체크되었을 때 addParty
     // 체크박스가 해제되었을 때 deleteParty
