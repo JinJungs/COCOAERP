@@ -209,6 +209,10 @@
 		    FROM DOCUMENT
 		    WHERE WRITER_CODE=#{empCode}
 		        AND STATUS NOT IN ('TEMP', 'RETURN')
+		        AND DOCUMENT.TEMP_CODE IN
+				<foreach item="item" collection="templateList" separator="," open="(" close=")">
+					#{item}
+				</foreach>
 		    ORDER BY WRITE_DATE DESC
 	</select>
 

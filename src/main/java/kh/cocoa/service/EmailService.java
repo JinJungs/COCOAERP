@@ -146,11 +146,28 @@ public class EmailService implements EmailDAO{
 	}
 	
 	@Override
-	public void deleteEmail(String seq) {
-		edao.deleteEmail(seq);	
+	public void deleteToMeEmail(String seq) {
+		edao.deleteToMeEmail(seq);
 	}
 	@Override
-	public void deleteNEmail(String seq) {
-		edao.deleteNEmail(seq);
+	public void deleteReceiveEmail(String seq) {
+		edao.deleteReceiveEmail(seq);
+	}
+	@Override
+	public void deleteSendEmail(String seq) {
+		edao.deleteSendEmail(seq);
+	}
+	
+	@Override
+	public void deleteToMeNEmail(String seq) {
+		edao.deleteToMeNEmail(seq);
+	}
+	@Override
+	public void deleteReceiveNEmail(String seq) {
+		edao.deleteReceiveNEmail(seq);
+	}
+	@Override
+	public void deleteSendNEmail(String seq) {
+		edao.deleteSendNEmail(seq);
 	}
 }

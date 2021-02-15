@@ -251,7 +251,7 @@
             <input type=button value="휴지통(메일)" id=deleteBtn><br>
             <br>
             <input type=button value="일정" id=scheduleBtn><br>
-
+			<input type=button value="대사우 서비스" id=leaveBtn><br>
 
                <%--용국--%>
             <button type="button" onclick="fn_toBD()">결재전</button>
@@ -315,6 +315,10 @@
          let scheduleBtn = document.getElementById("scheduleBtn");
          scheduleBtn.onclick = function () {
             location.href = "/schedule/toScheduleMain.schedule";
+         }
+         let leaveBtn = document.getElementById("leaveBtn");
+         leaveBtn.onclick = function () {
+            location.href = "/leave/toLeaveMain.leave";
          }
 
          /*지영 부분*/

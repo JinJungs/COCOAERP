@@ -124,7 +124,7 @@
 			</c:if>
 
 			<div class="row w-100 pt-3">
-				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.report_contents }</div>
+				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.contents }</div>
 			</div>
 			<div class="row w-100 pt-5 pb-2">
 				<b>결재 의견</b>

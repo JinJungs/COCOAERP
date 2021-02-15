@@ -450,6 +450,7 @@ textarea {
 								<select name="color" required>
 									<option value="#a4a6a5" id="#a4a6a5" class="#a4a6a5" style="background:#a4a6a5;color: white;">gray</option>
 									<option value="#fc9a8d" id="#fc9a8d" class="#fc9a8d" style="background:#fc9a8d;color: white;">red</option>
+									<option value="#f7cc54" id="#f7cc54" class="#f7cc54" style="background:#f7cc54;color: white;">yellow</option>
 									<option value="#8cdba4" id="#8cdba4" class="#8cdba4" style="background:#8cdba4;color: white;">green</option>
 									<option value="#8cd4db" id="#8cd4db" class="#8cd4db"  style="background:#8cd4db;color: white;" selected>blue</option>
 									<option value="#e1c9ff" id="#e1c9ff" class="#e1c9ff" style="background:#e1c9ff;color: white;">purple</option>
