@@ -29,7 +29,7 @@
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("수정이 되나요");
+            obj.set_text("가장 큰 타이틀 입니다.");
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
