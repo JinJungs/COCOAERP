@@ -15,7 +15,7 @@
 	</select>
 	<!-- 댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 -->
 	<select id="checkWriter" resultType="Integer">
-		SELECT COUNT(*) FROM COMMENT_LIST WHERE BOARD_SEQ=#{seq} AND WRITER_CODE=#{writer_code}
+		SELECT COUNT(*),writer_code FROM COMMENT_LIST WHERE BOARD_SEQ=#{seq} AND WRITER_CODE=#{writer_code} GROUP BY writer_code
 	</select>
 <!-- 댓글 수 확인  -->
 	<select id="noBoardCommentCount" resultType="Integer">
