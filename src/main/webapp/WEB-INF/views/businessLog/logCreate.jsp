@@ -7,7 +7,7 @@
 <title>Log Create</title>
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-.row{border-bottom: 1px solid pink}
+.row{border-bottom: 1px solid pink;}
 .select{text-align:right;}
 .date_box>input{width:58%;}
 #selectBy{border:none;background-color:transparent;}
@@ -49,7 +49,7 @@ input{width:100%;}
 					<div class="col head_box">내용</div>
 				</div>
 				
-				<div class="row">
+				<div class="row" >
 					<textarea class="contents_box col-xs-12" id="contents"
 						name="contents" placeholder="내용을 입력하세요."></textarea>
 				</div>
@@ -137,10 +137,7 @@ input{width:100%;}
 	          }else if (!$('#contents').val()){
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
-	           return ;
-	         }else if(report_end==""){
-	            alert("종료일을 입력하세요.");
-	            return ;
+	           return 
 	        }else if (report_start>report_end) {
 	            alert("시작일을 다시 선택해 주세요.");
 	            return ;

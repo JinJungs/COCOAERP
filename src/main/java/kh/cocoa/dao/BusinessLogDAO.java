@@ -17,7 +17,7 @@ public interface BusinessLogDAO {
 	public int logDocSelectSeq();
 	
 	//임시 문서 저장
-	public int tempSavedLog(int logDoc_seq, DocumentDTO ddto, String selectBy);
+	public int tempSavedLog(int logDoc_seq, DocumentDTO ddto, String selectBy,int dept_code);
 
 	/*----------------임시저장 보관함 ------------------------*/
 	//글 전체 리스트

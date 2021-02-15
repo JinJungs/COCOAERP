@@ -29,9 +29,8 @@ public class BusinessLogService implements BusinessLogDAO {
 	}
 	//임시 문서 저장
 	@Override
-	public int tempSavedLog(int logDoc_seq, DocumentDTO ddto, String selectBy) {
-		System.out.println("서비스 selectBy : "+selectBy);
-		return bdao.tempSavedLog(logDoc_seq,ddto,selectBy);
+	public int tempSavedLog(int logDoc_seq, DocumentDTO ddto, String selectBy,int dept_code) {
+		return bdao.tempSavedLog(logDoc_seq,ddto,selectBy,dept_code);
 	}
 	/*----------------임시저장 보관함-------------------------*/
 	

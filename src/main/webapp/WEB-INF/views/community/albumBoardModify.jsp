@@ -61,11 +61,11 @@
 				<!--첨부파일  -->
 				<div class="row">
 					<!-- 해당 게시글에 저장된 파일 갯수 확인 -->
-					<div class="col-md-12 head_box" id="only">
+					<div class="col-md-12 head_box" id="fileLi">
 						<b><span class="files" id="files">첨부파일</span></b>
 						<ul>
 							<c:forEach var="i" items="${fileList}">
-								<li class="fileLi"><a
+								<li class="fileLi"><a 
 									href="/files/downloadNotificationBoardFiles.files?seq=${i.seq}&savedname=${i.savedname}&oriname=${i.oriname}">
 										${i.oriname}</a><input type=button class="btn_deleteFile"
 									value="X" data-seq="${i.seq}"></li>
@@ -80,8 +80,6 @@
 					<div class="col-12 file_input">
 						<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
-						<!-- <label>+ File Attach 
-						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -145,12 +143,11 @@
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return;
-	         }else if ($('.file').val()==""){
+	         }else if ( $('.fileLi').val()=="" && $('.file_input').val() =="" ){
 	         console.log("여기니");
 	           alert('파일을 선택해주세요');
 	           return;
 	         }
-         
          $('#submitForm').submit();
         })
         $("input.fileList").MultiFile({

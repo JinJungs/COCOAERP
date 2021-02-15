@@ -133,11 +133,13 @@
 	                       html += "<div class='col-2'>"+data[i].write_date+"</div>"
 	                       html += "<div class='col-1'></div>";
 	                       html += "<div class='col-9'>"+data[i].contents+"</div>"
-	                       /*댓글 수정 삭제 - 작성자인 경우에만 보이도록 수정해야함*/
-	                       html += "<div class='col-sm-12 col-md-2'>";
-	                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
-	                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
-	                       html += "</div>";
+	                       /*댓글 수정 삭제 */
+		                   html += "<div class='col-sm-12 col-md-2'>";
+	                       if(data[i].checkWriter>0){
+		                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
+		                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
+		                   };
+		                   html += "</div>";
 	                       $("#commentForm").html(html);			
 	                   }
 	               }else if(data.length==0){
@@ -157,7 +159,6 @@
 		           url: "/comment/noBoardWriteComment.co",
 		           data: {contents : contents, seq : ${seq}},
 		           success: function(data){
-		           console.log(data);
 		           console.log("입력성공!");
 	          		$('#comment_contents').val("");
 		           getCommentList();

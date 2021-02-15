@@ -56,7 +56,6 @@ public class BusinessLogController {
 		ddto.setWriter_code(writer_code);
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
-		ddto.setDept_code(dept_code);
 		if(selectBy.contentEquals("daily")) {
 			System.out.println("일일인 경우");
 			ddto.setReport_end(null);
@@ -67,7 +66,7 @@ public class BusinessLogController {
 		int logDoc_seq= bservice.logDocSelectSeq();
 
 		//임시 문서 저장
-		int tempSavedLog = bservice.tempSavedLog(logDoc_seq,ddto,selectBy);
+		int tempSavedLog = bservice.tempSavedLog(logDoc_seq,ddto,selectBy,dept_code);
 
 		//파일 업로드
 		if(file!=null) { //파일이 있을 때
@@ -251,7 +250,10 @@ public class BusinessLogController {
 		//임시보관 된 문서 지우기
 		int logFileDel = fservice.logFileDel(seq);
 		System.out.println("파일도 삭제 됨?" + logFileDel);
-
+		
+		if(status.contentEquals("RAISE")) {
+			return "redirect:/log/logSentBoard.log";
+		}
 		return "redirect:/log/logBoard.log?status="+status;
 	}
 	//요청 받은 업무일지 읽기
