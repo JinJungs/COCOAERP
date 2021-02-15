@@ -29,7 +29,7 @@
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("테스트입니다");
+            obj.set_text("가장 큰 타이틀 입니다.");
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
@@ -473,18 +473,12 @@
         	this.ds_Employee.deleteRow(aDSRowidx[0]);
         };
 
-        this.Static00_onclick = function(obj,e)
-        {
-
-        };
-
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("oninit",this.work01_oninit,this);
-            this.Static00.addEventHandler("onclick",this.Static00_onclick,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button05.addEventHandler("onclick",this.Button05_onclick,this);
             this.Button06.addEventHandler("onclick",this.Button06_onclick,this);
