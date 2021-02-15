@@ -14,16 +14,14 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="/css/messenger.css">
-    <style>
-    </style>
 </head>
 <body>
 
 <form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" methode="post">
     <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-        <div class="row w-100 m-0">
+        <div class="row w-100 h15 m-0">
             <!-- head -->
-            <div class="card-header w-100 p-0 align-center memberList-header" style="border-radius: 0%;">
+            <div class="card-header w-100 p-0 align-center memberList-header fixed-top" style="border-radius: 0%;">
                 <div class="row w-100 ml-4 pt-3">
                     <div class="col-12 col-sm-10 col-md-9 col-lg-8">
                         <div class="row searchMenu">
@@ -45,19 +43,24 @@
             </div>
         </div>
         <!-- main -->
-        <div class="row w-100 m-0 p-4 border-top whiteBg" style="min-height: 70%;">
+        <div class="row w-100 h70 m-0 p-4 border-top whiteBg">
             <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
                 <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                <div class="container" id="memberAll" style="padding-top: 100px;"></div>
+                <div class="container" id="memberAll"></div>
             </div>
         </div>
         <!-- footer -->
-        <div class="row w-100 m-0 p-0 whiteBg" style="height: 70px; border-top: 1px solid lightgray;">
-            <div class="w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
+        <div class="row w-100 h15 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
+            <div class="col-4"></div>
+            <div class="col-2 m-0 p-0">
                 <button class="btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+            </div>
+            <div class="col-2 m-0 p-0">
                 <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
             </div>
+            <div class="col-4"></div>
         </div>
+    </div>
     </div>
 </form>
 
@@ -69,6 +72,13 @@
     $(document).ready(function () {
         // ajax로 목록 불러오기
         searchAjax("");
+    });
+
+    // esc 누르면 창닫기
+    $(document).keydown(function (e) {
+        if (e.keyCode == 27 || e.which == 27) {
+            window.close();
+        }
     });
 
     //-------------------------------- 검색 -------------------------------------
@@ -176,7 +186,7 @@
         console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 pr-0 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
+        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
         html += "<span>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";

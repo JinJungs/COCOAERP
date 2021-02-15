@@ -17,4 +17,9 @@ public class MessengerPartyService implements MessengerPartyDAO {
     public int setMessengerMember(List<MessengerPartyDTO> list) {
 		return mpdao.setMessengerMember(list);
 	}
+	
+	//채팅방 나가기
+	public int exitMutiRoom(MessengerPartyDTO mparty) {
+		return mpdao.exitMutiRoom(mparty);
+	}
 }

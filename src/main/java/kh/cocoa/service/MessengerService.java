@@ -58,4 +58,5 @@ public class MessengerService implements MessengerDAO{
 	public int updateName(int seq, String name) {
 		return mdao.updateName(seq, name);
 	};
+
 }

@@ -78,9 +78,6 @@
         "./nexacro17lib/component/ComComp/Cell.js",
         "./nexacro17lib/component/Grid/GridInfo.js",
         "./nexacro17lib/component/Grid/Grid.js",
-        "./nexacro17lib/component/CompBaseEx/SimpleComp.js",
-        "./nexacro17lib/component/CompBaseEx/ComplexComp.js",
-        "./nexacro17lib/component/ListView/ListView.js",
         "./nexacro17lib/component/DeviceAPI/SQLite.js",
         "./nexacro17lib/component/DeviceAPI/SQLite_Runtime.js",
         "./nexacro17lib/component/DeviceAPI/DeviceObjs.js",
@@ -97,16 +94,19 @@
         ],
         "screen" :
         [    
-        {"id":"Desktop_screen","type":"desktop","themeid":"theme::default"}
+        {"id":"Desktop_screen","type":"desktop","themeid":"theme::blue"}
         ],
         "xadl" :
         [
         {
         	"screenid":"Desktop_screen",
-        	"launch":"./Application_Desktop.xadl.js",
-        	"quickview":"./Application_Desktop.xadl.quickview.js",
+        	"launch":"./App_Desktop.xadl.js",
+        	"quickview":"./App_Desktop.xadl.quickview.js",
         	"form":[
-        				"./FrameBase/Form_Work.xfdl.js"
+        				"./frame/frmTop.xfdl.js",
+        		"./frame/frmLeft.xfdl.js",
+        		"./frame/frmMdi.xfdl.js",
+        		"./frame/frmBottom.xfdl.js"
         	]
         }
         ],  

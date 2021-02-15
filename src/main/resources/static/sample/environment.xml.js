@@ -4,7 +4,7 @@ if (nexacro.Environment)
 
     env.on_init = function ()
     {
-        this.set_themeid("theme::default");
+        this.set_themeid("theme::blue");
         this.set_datatyperule("2.0");
     };
 
@@ -17,13 +17,14 @@ if (nexacro.Environment)
     env.loadTypeDefinition = function ()
     {
         nexacro._setTypeDefinitionURL("typedefinition.xml");
-        nexacro._addService("theme", "file", "./_resource_/_theme_/", "session", null, "", "0", "");
-        nexacro._addService("initvalue", "file", "./_resource_/_initvalue_/", "session", null, "", "0", "");
-        nexacro._addService("xcssrc", "file", "./_resource_/_xcss_/", "session", null, "", "0", "");
-        nexacro._addService("imagerc", "file", "./_resource_/_images_/", "session", null, "", "0", "");
-        nexacro._addService("font", "file", "./_resource_/_font_/", "session", null, "", "0", "");
-        nexacro._addService("Base", "form", "./Base/", "session", null, "", "0", "0");
-        nexacro._addService("FrameBase", "form", "./FrameBase/", "session", null, "", "0", "0");
+        nexacro._addService("theme", "file", "./_resource_/_theme_/", "session", null, "", "0", "0");
+        nexacro._addService("initvalue", "file", "./_resource_/_initvalue_/", "session", null, "", "0", "0");
+        nexacro._addService("xcssrc", "file", "./_resource_/_xcss_/", "session", null, "", "", "");
+        nexacro._addService("imagerc", "file", "./_resource_/_images_/", "session", null, "", "", "");
+        nexacro._addService("font", "file", "./_resource_/_font_/", "session", null, "", "0", "0");
+        nexacro._addService("Base", "form", "./Base/", "none", null, "", "0", "0");
+        nexacro._addService("frame", "form", "./frame/", "none", null, "", "0", "0");
+        nexacro._addService("FrameBase", "form", "./FrameBase/", "none", null, "", "0", "0");
 
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";
@@ -51,8 +52,7 @@ if (nexacro.Environment)
         		{"id":"ImageViewer", "classname":"nexacro.ImageViewer", "type":"JavaScript"},
         		{"id":"ProgressBar", "classname":"nexacro.ProgressBar", "type":"JavaScript"},
         		{"id":"Plugin", "classname":"nexacro.Plugin", "type":"JavaScript"},
-        		{"id":"Dataset", "classname":"nexacro.NormalDataset", "type":"JavaScript"},
-        		{"id":"ListView", "classname":"nexacro.ListView", "type":"JavaScript"}
+        		{"id":"Dataset", "classname":"nexacro.NormalDataset", "type":"JavaScript"}
         ];
     	nexacro._addClasses(registerclass);
     };

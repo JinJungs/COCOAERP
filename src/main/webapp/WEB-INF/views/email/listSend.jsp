@@ -31,7 +31,6 @@ input[type=checkbox]{
 </style>
 </head>
 <body>
-
    <div class="wrapper d-flex align-items-stretch">
       <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5" style="min-width: 450px;">

@@ -3,26 +3,17 @@
 <!doctype html>
 <html>
 <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <meta charset='utf-8' />
     <link href='/lib/main.css' rel='stylesheet' />
     <script src='/lib/main.js'></script>
     <title>attendanceView</title>
-<%--    <script>--%>
-<%--        document.addEventListener('DOMContentLoaded', function() {--%>
-<%--            var calendarEl = document.getElementById('calendar');--%>
-<%--            var calendar = new FullCalendar.Calendar(calendarEl, {--%>
-<%--                themeSystem: 'bootstrap'--%>
-<%--            });--%>
-<%--            calendar.render();--%>
-<%--        });--%>
-<%--    </script>--%>
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-4 board_title">근태현황</h2>
-            <div id='calendar'></div>
             <div id="attendanceForm">
                 <form action="/attendance/startWork" method="post">
                     <button type="submit" onclick="fn_startWork()">출근</button>
@@ -30,6 +21,7 @@
                     <label> <input type="checkbox" name="outSide" id="outSide" value="out"> 외근 </label>
                 </form>
             </div>
+            <div id='calendar'></div>
         </div>
     </div>
     <c:choose>
@@ -59,6 +51,8 @@
             </script>
         </c:when>
     </c:choose>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
         function fn_startWork() {
             location.href = "/attendance/startWork";

@@ -122,7 +122,7 @@
 	           dataType : "json",
 	           data :  {seq : ${seq}}, 
 	           success : function(data) {
-	           console.log(data.length);
+
 	              	   var html = "";
 						if (data.length > 0) {
 	                   for (i = 0; i < data.length; i++) {	

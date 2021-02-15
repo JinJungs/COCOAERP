@@ -2,8 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-출처:  [개발자의 끄적끄적]
 <!doctype html>
 <html lang="en">
 <head>
