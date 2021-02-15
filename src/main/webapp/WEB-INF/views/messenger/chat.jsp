@@ -273,10 +273,6 @@
         document.getElementById("showFiles").addEventListener("click", popShowFiles);
     });
 
-    document.getElementById("testBtn").addEventListener("click", function () {
-        document.body.requestFullscreen();
-    }, false);
-
     var socket = null;
     var isStomp = false;
 
@@ -421,12 +417,6 @@
     });
 
     //***************************************************************************
-    // 파일 아이콘 클릭시 input type file 선택창 띄우기
-    document.getElementById("attach_btn").addEventListener("click", openInputFile);
-    function openInputFile(){
-        console.log("클릭!");
-        $("#file-upload-button").trigger("click");
-    }
 
     /* 파일 전송 */
     function uploadMsgFile(evt) {
