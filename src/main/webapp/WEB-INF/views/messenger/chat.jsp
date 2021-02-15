@@ -46,7 +46,7 @@
             <div class="action_menu">
                 <ul>
                     <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
-                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                    <li onclick="openMemberListToChat(${ㅇseq})"><i class="fas fa-plus"></i> 멤버 추가</li>
                     <c:if test="${messenger.type eq 'M'}">
                     	<li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
                     	<li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
