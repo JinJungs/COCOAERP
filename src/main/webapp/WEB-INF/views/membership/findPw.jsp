@@ -65,64 +65,69 @@
                     <h4 class="form-signin-heading" style="font-weight: bold">비밀번호 찾기</h4>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 p-3">
-                    <label for="email" class="sr-only">UserEmail</label>
-                    <input type="text" id="email" name="email" class="form-control w-100" placeholder="이메일을 입력해주세요."
-                           required="required"
-                           autofocus="" autocomplete="off" value="${email}">
+            <form id=pwForm>
+                <div class="row">
+                    <div class="col-12 p-3">
+                        <label for="email" class="sr-only">UserEmail</label>
+                        <input type="text" id="email" name="email" class="form-control w-100" placeholder="이메일을 입력해주세요."
+                               required="required"
+                               autofocus="" autocomplete="off" value="${email}">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 emailmsg"></div>
-            </div>
-            <div class="row">
-                <div class="col-12 p-3">
-                    <label for="code" class="sr-only">Username</label>
-                    <input type="text" id="code" name="code" class="form-control w-100" placeholder="아이디를 입력해주세요."
-                           required="required"
-                           autofocus="" autocomplete="off" value="${id}">
+                <div class="row">
+                    <div class="col-12 emailmsg"></div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 idmsg"></div>
-            </div>
-            <div class="row d-none inputEmailNum">
-                <div class="col-6">
-                    <input type="text" id="EmailNum" name="EmailNum" class="form-control w-100" placeholder="인증번호 입력">
+                <div class="row">
+                    <div class="col-12 p-3">
+                        <label for="code" class="sr-only">Username</label>
+                        <input type="text" id="code" name="code" class="form-control w-100" placeholder="아이디를 입력해주세요."
+                               required="required"
+                               autofocus="" autocomplete="off" value="${id}">
+                    </div>
                 </div>
-                <div class="col-6">
-                    <button type="button" class="btn btn-login w-100" >인증하기</button>
+                <div class="row">
+                    <div class="col-12 idmsg"></div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 p-3">
-                    <button type="button" class="btn btn-login w-100" onclick="fn_sendEmail()">인증번호 전송</button>
+                <div class="row d-none inputEmailNum">
+                    <div class="col-6">
+                        <input type="text" id="EmailNum" name="EmailNum" class="form-control w-100" placeholder="인증번호 입력">
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-login w-100" onclick="fn_authEmail()">인증하기</button>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-12 authmsg"></div>
+                </div>
+                <div class="row sendAuth">
+                    <div class="col-12 p-3">
+                        <button type="button" class="btn btn-login w-100" onclick="fn_checkEmail()">인증번호 전송</button>
+                    </div>
+                </div>
 
-
-
-            <div class="row">
-                <div class="col-4 p-3">
-                    <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
+                <div class="row">
+                    <div class="col-4 p-3">
+                        <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
+                    </div>
+                    <div class="col-4 pt-3 pr-0">
+                        <button class="btn btn-login" type="button" onclick="fn_toFindId()">아이디 찾기</button>
+                    </div>
+                    <div class="col-3 p-3 btn-changePw">
+                        <button class="btn btn-login" type="button" id="btn-changePw" disabled=true onclick="fn_changePw()">변경하기</button>
+                    </div>
                 </div>
-                <div class="col-5 p-3">
-                    <button class="btn btn-login" type="button" onclick="fn_toFindId()">아이디 찾기</button>
-                </div>
-                <div class="col-3 p-0 pt-3">
-                    <button class="btn btn-login" type="button" onclick="findId()">찾기</button>
-                </div>
-            </div>
+            </form>
             <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
         </div>
     </div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
-    function fn_sendEmail(){
+
+    var getSeq="";
+    var getId=0;
+    function fn_checkEmail(){
         $(".emailmsg").text("");
         $(".idmsg").text("");
         var email = $("#email").val();
@@ -144,30 +149,117 @@
             $("#code").focus();
             return;
         }
-        $(".inputEmailNum").attr("class","row inputEmailNum");
+
+        var code=$("#code").val();
+        $.ajax({
+            type : "post",
+            url : "/membership/checkUserEmail",
+            data : {email:email,code:code},
+            success : function(data) {
+                if(data==1){
+                    $(".inputEmailNum").attr("class","row inputEmailNum");
+                    fn_sendEmail();
+                }else{
+                    $(".idmsg").text("해당 정보와 일치하는 데이터가 없습니다.");
+                }
+            }
+        });
     }
-    /*인증번호 전송 버튼을 눌렀을 때, 컨트롤러로 이동*/
-	function fn_sendEmail(){
-	console.log("눌림");
-	let email = $('#email').val();
-	let code = $('#code').val();
-	console.log(email ,code);
-		 $.ajax({
-               type : "post",
-               url : "/email/pwfind.email",
-               data : {email:email,code:code},
-               dataType : "json",
-               success : function(data) {
-                   $(".emailmsg").css("color", "white");
-                  $(".emailmsg").text('이메일 전송 성공! 이메일을 확인해 주세요');
-               },
-               error : function(e) {
-                   $(".emailmsg").css("color", "red");
-                  $(".emailmsg").text('존재하지 않은 이메일 입니다.');
-               }
+
+    function fn_sendEmail(){
+        var email=$("#email").val();
+        var code=$("#code").val();
+        $.ajax({
+            type : "post",
+            url : "/email/pwfind.email",
+            data : {email:email,code:code},
+            dataType : "json",
+            success : function(data) {
+                $(".emailmsg").css("color", "white");
+                $(".emailmsg").text('이메일 전송 성공! 이메일을 확인해 주세요');
+                getSeq=data.pwcomf;
+                getId=code;
+            },
+            error : function(e) {
+                $(".emailmsg").css("color", "red");
+                $(".emailmsg").text('존재하지 않은 이메일 입니다.');
+            }
+        });
+    }
+
+    function fn_authEmail(){
+
+        var emailNum=$("#EmailNum").val();
+        if(getSeq==emailNum){
+            $(".authmsg").text("인증이 완료되었습니다.");
+            html="";
+            html+="<div class=row>";
+            html+="<div class='col-12 p-3'>";
+            html+="<input type=password id=pw name=password class='form-control w-100' placeholder='새로운 비밀번호를 입력하세요.' required autocomplete=off>";
+            html+="</div></div>";
+            html+="<div class=row>";
+            html+="<div class='col-12 p-3'>";
+            html+="<input type=password id=checkPw class='form-control w-100' placeholder='비밀번호를 한번 더 입력하세요.' required autocomplete=off oninput=fn_checkPw()>";
+            html+="</div></div>";
+            html+="<div class=row>";
+            html+="<div class='col-12 p-3 checkmsg'>";
+            html+="</div></div>";
+            $(".sendAuth").after(html);
+
+        }else{
+            $(".authmsg").text("인증에 실패하였습니다.");
+            return;
+        }
+    }
+
+    function fn_changePw() {
+        var pw = $("#pw").val();
+        var check= $("#checkPw").val();
+        var code= getId;
+        if(pw==check){
+            $.ajax({
+                type : "post",
+                url : "/membership/changePw",
+                data : {password:pw,code:code},
+                dataType : "json",
+                success : function(data) {
+                    if(data==1){
+                        location.href="/";
+                    }else{
+                        alert("변경에 실패하였습니다.");
+                        return;
+                    }
+                }
             });
-	}
-	
+        }else{
+            $(".checkmsg").text("비밀번호가 일치하지않습니다.");
+            $("#btn-changePw").attr("disabled",true);
+            $("#checkPw").focus();
+        }
+    }
+
+    function fn_checkPw() {
+        var setTime =setTimeout(function () {
+            var pw = $("#pw").val();
+            var check = $("#checkPw").val();
+            if(pw==check){
+                $(".checkmsg").text("비밀번호가 일치합니다.");
+                $("#btn-changePw").attr("disabled",false);
+                return;
+            }else{
+                $(".checkmsg").text("비밀번호가 일치하지않습니다.");
+                $("#btn-changePw").attr("disabled",true);
+                $("#checkPw").focus();
+                return;
+            }
+            if(check==""){
+                $("checkmsg").text("");
+                return;
+            }
+        },500)
+
+    }
+
     function toLogin() {
         var getRadio=$("input[name=code]:checked").val();
         if(getRadio!=undefined){
@@ -175,8 +267,8 @@
         }else{
             location.href="/";
         }
-
     }
+
     function fn_toFindId(){
         location.href="/membership/findId";
     }

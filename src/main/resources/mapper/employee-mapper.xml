@@ -44,35 +44,35 @@
 	</select>
 
 	<select id="getTeamCount" resultType="Integer">
-		select count(*) from employee where team_code=#{team_code}
+		select count(*) from employee where team_code=#{team_code} and WITHDRAW= 'N'
 	</select>
 
 	<select id="getTeamEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
 		select e.code,e.name,e.b_email,d.code dept_code,d.name deptname,p.code pos_code,p.name posname,t.name teamname from employee e
 		inner join team t on e.team_code = t.code
 		inner join departments d on e.dept_code = d.code
-		inner join position p on e.pos_code = p.code where t.code=#{team_code}
+		inner join position p on e.pos_code = p.code where t.code=#{team_code} and e.WITHDRAW= 'N' order by p.code,e.name
 	</select>
 
 	<select id="getEmpNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
-		select * from employee_view where name like '%${name}%'
+		select * from employee_view where name like '%${name}%' and WITHDRAW= 'N'
 	</select>
 
 	<select	id="getDeptNameSearchList" resultType="kh.cocoa.dto.EmployeeDTO">
 		select count(dept_code) count,d.code,d.name from employee
-		right join departments d on d.code=dept_code where d.name like '%${name}%' and d.code not in (0) group by d.code,d.name
+		right join departments d on d.code=dept_code where d.name like '%${name}%' and d.code not in (0) group by d.code,d.name order by d.name
 	</select>
 
 	<select id="getDeptEmpList" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW WHERE DEPT_CODE=#{dept_code} ORDER BY POS_CODE,NAME
+		SELECT * FROM EMPLOYEE_VIEW WHERE DEPT_CODE=#{dept_code} and WITHDRAW= 'N' ORDER BY POS_CODE,NAME
 	</select>
 
 	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW2 order by pos_code
+		SELECT * FROM EMPLOYEE_VIEW2 where WITHDRAW= 'N' order by pos_code
 	</select>
 
 	<select id="getAllEmpCount" resultType="Integer">
-		SELECT COUNT(*) FROM EMPLOYEE
+		SELECT COUNT(*) FROM EMPLOYEE where WITHDRAW= 'N'
 	</select>
 
 	<select id="getTeamEmp" resultType="kh.cocoa.dto.EmployeeDTO">
@@ -80,8 +80,24 @@
 	</select>
 
 	<select id="getSearchEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%'
+		SELECT * FROM EMPLOYEE WHERE NAME LIKE '%${name}%' and WITHDRAW= 'N'
 	</select>
+
+	<select id="getEmpCheckPw" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE CODE=#{emp_code} and PASSWORD=#{pw}
+	</select>
+
+	<update id="modInfo">
+		UPDATE EMPLOYEE SET OFFICE_PHONE=#{office_phone}, address=#{address}, b_email=#{b_email}, email=#{email} where code=#{code}
+	</update>
+
+	<select id="checkUserEmail" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE EMAIL=#{email} AND CODE=#{code}
+	</select>
+
+	<update id="changePw">
+		UPDATE EMPLOYEE SET PASSWORD=#{password} WHERE CODE=${code}
+	</update>
 
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">

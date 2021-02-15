@@ -118,7 +118,7 @@
 </div>
 <script>
     function fn_toModInfo() {
-        location.href="/membership/myInfoModify/"
+        location.href="/membership/myInfoModify"
     }
 
 </script>
