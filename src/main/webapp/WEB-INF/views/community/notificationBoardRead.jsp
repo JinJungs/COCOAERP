@@ -131,13 +131,14 @@
 	                       html += "<div class='col-2'>"+data[i].write_date+"</div>"
 	                       html += "<div class='col-1'></div>";
 	                       html += "<div class='col-9'>"+data[i].contents+"</div>"
+	                       html += "<div class='col-sm-12 col-md-2'>";
 	                       /*댓글 수정 삭제 */
 	                       if(data[i].checkWriter>0){
-	                      	 html += "<div class='col-sm-12 col-md-2'>";
 		                     html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
 		                     html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
-		                     html += "</div>";
+		                     
 						   };				
+		                   html += "</div>";
 	                       $("#commentForm").html(html);			
 	                   }
 	               }else if(data.length==0){
