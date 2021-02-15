@@ -21,11 +21,10 @@ div{
 }
 #contents {
 	border: 1px solid black;
-	width: 500px;
+	min-width: 500px;
 	max-width: 500px;
 	min-height: 580px;
 	max-height: 580px;
-	mrgin-left: center;
 }
 
 .body {
@@ -77,7 +76,7 @@ h2 {
 			<div class="container">
 				<div class="row">
 					<div class="left"><b>일정명</b></div>
-					<div class="right">${dto.title }</div>
+					<div class="right"><c:out value="${dto.title }"></c:out></div>
 				</div>
 				<div class="row">
 					<div class="left"><b>시작 날짜</b></div>
@@ -89,7 +88,7 @@ h2 {
 				</div>
 				<div class="row">
 					<div class="left"><b>내용</b></div>
-					<div class="right contentsBox">${dto.contents }</div>
+					<div class="right contentsBox"><c:out value="${dto.contents }"></c:out></div>
 				</div>
 				<c:if test="${empCode eq dto.writer }">
 					<div class="buttonGroup">

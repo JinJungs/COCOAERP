@@ -114,6 +114,7 @@ public class LeaveController {
 		model.addAttribute("childBirthL", childBirthL);
 		model.addAttribute("etcL", etcL);
 		model.addAttribute("yearList", yearList);
+		model.addAttribute("year", year);
 		
 		return "/leave/leaveMain";
 	}

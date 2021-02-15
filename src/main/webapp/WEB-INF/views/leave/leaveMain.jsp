@@ -42,12 +42,20 @@ select{
       	<h2 class="mb-4">휴가 현황보기</h2>
       	<div class="container" style="min-width: 500px;">
       		<div class="selectBox">
-      			<select name=year>
+      			<select name=year id=yearSelect onchange="fn_yearChanged()">
       				<c:forEach var="year" items="${yearList}">
       					<option value=${year }>${year }</option>
 					</c:forEach>
       			</select>
       		</div>
+      		<script>
+      			$('#yearSelect').val("${year}").prop("selected",true);
+      			
+      			function fn_yearChanged(){
+      				var yearVal = $("#yearSelect > option:selected").val();
+      				location.href="/leave/toLeaveMain.leave?year=" + yearVal;
+      			}
+      		</script>
       		<div class="row title float" style="margin-top: 0px;">▶내 휴가 정보</div>
       		<div class="row" style="border-top: 1px solid gray;">
 	      		<div class="col-4 col-md-3 col-xl-2 p-3" style="border-right: 1px solid gray;"><b>입사일</b></div>
