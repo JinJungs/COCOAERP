@@ -8,6 +8,7 @@
 <title>CocoaWorks Notification Board Read</title>
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
+div,textarea{border:1px solid gray;}
 .row{border-bottom: 1px solid pink;} 
 #only{border-top: 1px solid pink;}
 .fileLi{font-size:13px;}
@@ -130,14 +131,17 @@
 	                       html += "<div class='col-8'></div>";
 	                       html += "<div class='col-2'>"+data[i].write_date+"</div>"
 	                       html += "<div class='col-1'></div>";
-	                       html += "<div class='col-9'>"+data[i].contents+"</div>"
+	                       if(data[i].checkWriter>0){
+	                       		html += "<div class='col-9 main_content'>"+data[i].contents+"</div>"
+						   }else if (data[i].checkWriter==0){
+	                       		html += "<div class='col-9'>"+data[i].contents+"</div>"
+						   };			
 	                       html += "<div class='col-sm-12 col-md-2'>";
 	                       /*댓글 수정 삭제 */
 	                       if(data[i].checkWriter>0){
 		                     html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
 		                     html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
-		                     
-						   };				
+						   };			
 		                   html += "</div>";
 	                       $("#commentForm").html(html);			
 	                   }
@@ -150,6 +154,8 @@
 	   /*댓글 수정*/
 	   	function updateComment(seq){
 	   	console.log("눌렸니");
+	   	 $(".main_content").append("<textarea class='modify_contents' name='modify_contents' id='modify_contents'></textarea>");
+	   	 $("#btn-upd"+seq).text("저장");
 			$.ajax({
 	           data: 
 	           {seq : seq},
@@ -157,7 +163,6 @@
 	           url: "/comment/noBoardUpdateComment.co",
 	           success: function(data){
 	           if(data.length>0){
-	           $("#main_content").html("<textarea class=main_contentmod name=contents id=main_contentmod></textarea>");
 	           }
 	           console.log(data);
 	           console.log("수정 성공!");
