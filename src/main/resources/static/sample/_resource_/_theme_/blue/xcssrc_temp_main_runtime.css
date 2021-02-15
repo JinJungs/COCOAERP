@@ -1,0 +1,270 @@
+﻿
+        
+.nexainput.nexaleftalign
+{
+  text-align:left;
+}
+.nexainput.nexarightalign
+{
+  text-align:right;
+}
+.nexainput.nexacenteralign
+{
+  text-align:center;
+}
+
+.nexacontentsbox.nexaleftalign
+{
+  text-align:left;
+}
+.nexacontentsbox.nexarightalign
+{
+  text-align:right;
+}
+.nexacontentsbox.nexacenteralign
+{
+  text-align:center;
+}
+.celltreeline
+{
+  border : 1px dotted #999999;
+}
+.Edit, .MaskEdit, .TextArea, .EditControl, .MaskEditControl, .TextAreaControl
+{
+  cursor:text;
+}
+.Button .nexacontentsbox, .ButtonControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.FileDownload  .nexacontentsbox, .FileDownloadControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.IconTextControl .nexacontentsbox, .IconControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.DatePickerDayItemControl .nexacontentsbox, .DatePickerWeekItemControl .nexacontentsbox, .TitleBarButtonControl .nexacontentsbox
+{
+  text-align:center;
+}
+
+.MainFrame, .VScrollBarControl, .HScrollBarControl
+{
+  cursor:default;
+}
+
+.Sketch .nexacontentsbox
+{
+   text-align:center;
+}
+
+.nexainput
+{
+  cursor:inherit;
+}
+
+.Static.sta_mian_smIocn01
+{
+	background : url("./../../../_resource_/_images_/img_main_smIcon01.png") no-repeat left center;
+	color : #222222;
+	font : 14px "Arial","Malgun Gothic";
+}
+.Static.sta_mian_smIocn01 .nexacontentsbox
+{
+	text-align : left;
+}
+.Static.sta_mian_smIocn02
+{
+	background : url("./../../../_resource_/_images_/img_main_smIcon02.png") no-repeat left center;
+	color : #222222;
+	font : 14px "Arial","Malgun Gothic";
+}
+.Static.sta_mian_smIocn02 .nexacontentsbox
+{
+	text-align : left;
+}
+.Static.sta_mian_smIocn03
+{
+	background : url("./../../../_resource_/_images_/img_main_smIcon03.png") no-repeat left center;
+	color : #222222;
+	font : 14px "Arial","Malgun Gothic";
+}
+.Static.sta_mian_smIocn03 .nexacontentsbox
+{
+	text-align : left;
+}
+.Static.sta_main_iconText
+{
+	font : bold 24px "Arial","Malgun Gothic";
+}
+.Static.sta_main_iconText .nexacontentsbox
+{
+	text-align : left;
+}
+.Static.sta_main_box01
+{
+	background : #f7f7f7;
+	border : 1px solid #c7c7c7;
+}
+.Static.sta_main_box02
+{
+	background : #eeeeee;
+	border : 1px solid #c7c7c7;
+}
+.Static.sta_main_chartx01
+{
+	background : url("./../../../_resource_/_images_/img_main_chart01.png") no-repeat center center;
+}
+.Static.sta_main_boxTle01
+{
+	background : #f7f7f7;
+	color : #666666;
+	font : 20px "Arial";
+	border : 1px solid #c7c7c7;
+}
+.Static.sta_main_more
+{
+	background : url("./../../../_resource_/_images_/img_main_more.png") no-repeat center center;
+	cursor : pointer;
+}
+.Static.sta_main_numbering
+{
+	background : #f7f7f7;
+	border-radius : 10px;
+	color : #666666;
+	font : 100px "Arial";
+	border : 1px solid #c7c7c7;
+}
+.Static.sta_main_numbering .nexacontentsbox
+{
+	text-align : center;
+}
+.Static.sta_main_text11C
+{
+	color : #666666;
+	font : 11px "Arial";
+}
+.Static.sta_main_text11C .nexacontentsbox
+{
+	text-align : center;
+	-nexa-word-wrap : char;
+}
+.Static.sta_main_text12C
+{
+	color : #666666;
+	font : 12x "Arial";
+}
+.Static.sta_main_text12C .nexacontentsbox
+{
+	text-align : center;
+	-nexa-word-wrap : char;
+}
+.Static.sta_main_icon01
+{
+	background : url("./../../../_resource_/_images_/img_main_icon01.png") no-repeat center center;
+	color : #ffffff;
+	font : bold 28px "Arial";
+}
+.Static.sta_main_icon01 .nexacontentsbox
+{
+	text-align : right;
+	vertical-align : middle;
+}
+.Static.sta_main_icon02
+{
+	background : url("./../../../_resource_/_images_/img_main_icon02.png") no-repeat center center;
+	color : #ffffff;
+	font : bold 28px "Arial";
+}
+.Static.sta_main_icon02 .nexacontentsbox
+{
+	text-align : right;
+	vertical-align : middle;
+}
+.Static.sta_main_icon03
+{
+	background : url("./../../../_resource_/_images_/img_main_icon03.png") no-repeat center center;
+	color : #ffffff;
+	font : bold 28px "Arial";
+}
+.Static.sta_main_icon03 .nexacontentsbox
+{
+	text-align : right;
+	vertical-align : middle;
+}
+.Static.sta_main_icon04
+{
+	background : url("./../../../_resource_/_images_/img_main_icon04.png") no-repeat center center;
+	color : #ffffff;
+	font : bold 28px "Arial";
+}
+.Static.sta_main_icon04 .nexacontentsbox
+{
+	text-align : right;
+	vertical-align : middle;
+}
+.Static.sta_main_icon05
+{
+	background : url("./../../../_resource_/_images_/img_main_icon05.png") no-repeat center center;
+	color : #ffffff;
+	font : bold 28px "Arial";
+}
+.Static.sta_main_icon05 .nexacontentsbox
+{
+	text-align : right;
+	vertical-align : middle;
+}
+.Grid.grd_main_table01
+{
+	border : 1px solid #c7c7c7;
+}
+.Grid.grd_main_table01 .head .row .cell
+{
+	background : #666666;
+	color : #ffffff;
+}
+.Grid.grd_main_table01 .head .row .cell .nexacontentsbox
+{
+	text-align : center;
+}
+.Grid.grd_main_table01 .body .row .cell
+{
+	background : #ffffff;
+}
+.Grid.grd_main_table01 .body .row .cell.oddcell
+{
+	background : #f7f7f7;
+}
+.Grid.grd_main_table01 .body .row .cell .nexacontentsbox
+{
+	text-align : center;
+}
+.Grid.grd_main_table01 .body .row .cell[status=mouseover]
+{
+	background : #ffffff;
+}
+.Grid.grd_main_table01 .body .row .cell.oddcell[status=mouseover]
+{
+	background : #f7f7f7;
+}
+.Grid.grd_main_table01 .body .row .cell[status=mouseover] .nexacontentsbox
+{
+	text-align : center;
+}
+.Grid.grd_main_table01 .body .row .cell[userstatus=selected]
+{
+	background : #ffffff;
+}
+.Grid.grd_main_table01 .body .row .cell.oddcell[userstatus=selected]
+{
+	background : #f7f7f7;
+}
+.Grid.grd_main_table01 .body .row .cell[userstatus=selected] .nexacontentsbox
+{
+	text-align : center;
+}

@@ -18,11 +18,11 @@ public class MessageDTO {
     private String type;
     //====파일다운 위해 추가===
     private String savedname;
+    // 사람 이름 추가
+	private String empname;
     
     @Builder
-	public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type,
-			String savedname) {
-		super();
+	public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname, String empname) {
 		this.seq = seq;
 		this.contents = contents;
 		this.write_date = write_date;
@@ -30,5 +30,6 @@ public class MessageDTO {
 		this.m_seq = m_seq;
 		this.type = type;
 		this.savedname = savedname;
+		this.empname = empname;
 	}
 }

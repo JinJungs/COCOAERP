@@ -33,6 +33,7 @@
 			#sidebar {display:none;}
 			#printer {display:none;}
 			#btnModal {display:none;}
+            #footer{display: none;}
 		}
 		#printer{
 			cursor: pointer;
@@ -228,7 +229,7 @@
 	<c:choose>
 		<c:when test="${dto.status eq 'TEMP'}">
 			<div class="container-fluid p-0"
-				 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+				 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;" id="footer">
 				<div class="row">
 					<div class="col-12 p-3 text-center">
 						<button class="btn btn-secondary" id="reviseBtn">수정/상신하기</button>
@@ -244,7 +245,7 @@
 		</c:when>
 		<c:when test="${dto.status eq 'RAISE' && confirmStatus ne 'Y'}">
 			<div class="container-fluid p-0"
-				 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;">
+				 style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow: 0 -2px 7px rgba(0, 0, 0, .15); min-height: 80px;" id="footer">
 				<div class="row">
 					<div class="col-12 p-3 text-center">
 						<button class="btn btn-secondary" id="returnBtn">회수하기</button>

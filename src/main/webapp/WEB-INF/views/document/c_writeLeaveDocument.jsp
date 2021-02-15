@@ -125,7 +125,6 @@
                 <div class="row w-100">
                     <div class="col-1 p-0  pl-3 pt-4 pb-4">유형</div>
                     <div class="col-2 p-0 pl-3 pt-3"><select id="leavetype" name="leave_type" class="form-control form-control-sm" style="border: 1px solid #c9c9c9" onchange="fn_changetype()">
-                        <option value="연차">연차</option>
                         <option value="정기">정기</option>
                         <option value="반차">반차</option>
                         <option value="병가">병가</option>

@@ -21,8 +21,8 @@
 <body>
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
 	<!-- top head -->
-	<div class="row w-100 m-0 h15">
-		<div class="card-header w-100 p-0" style="border-radius: 0%;">
+	<div class="row w-100 m-0 h15 whiteBg">
+		<div class="card-header w-100 p-0 fixed-top" style="border-radius: 0%;">
 			<div class="window-control d-flex justify-content-end">
 				<div class="p-2">-</div>
 				<div class="p-2">ㅁ</div>
@@ -53,12 +53,12 @@
 		</a>
 		</div>
 		<!-- contact list part -->
-		<div class="col-10 col-md-11 p-0">
+		<div class="col-10 col-md-11 p-0 con-memberList">
 			<div class="card contacts_card h-100 b-radius-0">
 				<div class="card-body contacts_body h-75 style="border-radius:0px;!important">
 				<!-- 나의 프로필 상단 고정 -->
 				<ui class="contacts" id="myProfil">
-					<li class="con-list">
+					<li class="con-list m-0 pb-0">
 						<div class="d-flex bd-highlight myprofil">
 							<div class="img_cont myprofilImg">
 								<a href="#"> <img src="/img/profile-default.jpg"
@@ -77,13 +77,13 @@
 				<ui class="contacts" id="memberAll"> <c:forEach var="i"
 																items="${memberList}">
 					<li class="con-list">
-						<div class="d-flex bd-highlight">
+						<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})" >
 							<div class="img_cont">
 								<a href="#"> <img src="/img/profile-default.jpg"
 												  class="rounded-circle user_img">
 								</a>
 							</div>
-							<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+							<div class="user_info">
 								<span>${i.name}</span>
 								<p>${i.deptname}/${i.teamname}</p>
 							</div>
@@ -94,13 +94,13 @@
 																 items="${memberList}">
 					<c:if test="${i.dept_code eq loginDTO.dept_code}">
 						<li class="con-list">
-							<div class="d-flex bd-highlight">
+							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
 									<a href="#"> <img src="/img/profile-default.jpg"
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+								<div class="user_info">
 									<span>${i.name}</span>
 									<p>${i.deptname}/${i.teamname}</p>
 								</div>
@@ -112,13 +112,13 @@
 																 items="${memberList}">
 					<c:if test="${i.team_code eq loginDTO.team_code}">
 						<li class="con-list">
-							<div class="d-flex bd-highlight">
+							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
 									<a href="#"> <img src="/img/profile-default.jpg"
 													  class="rounded-circle user_img">
 									</a>
 								</div>
-								<div class="user_info" onclick="toSingleChatRoom(${i.code})" >
+								<div class="user_info">
 									<span>${i.name}</span>
 									<p>${i.deptname}/${i.teamname}</p>
 								</div>
@@ -194,11 +194,11 @@
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
 	let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
     function toChatRoom(seq) {
-      window.open('/messenger/chat?seq='+seq,'',winFeature);
+      window.open('/messenger/chat?seq='+seq,'chat'+seq,winFeature);
     }
     // 소형 추가 - 상대방 EMP_CODE를 받아 개인 채팅방 열기
     function toSingleChatRoom(code) {
-      window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'',winFeature);
+      window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'singleChat'+code,winFeature);
     }
 
     //-------------------------------- 검색 -------------------------------------
@@ -222,7 +222,7 @@
 		if(searchContents == ''){
 			return;
 		}
-		window.open('/messenger/messengerSearch?contents='+searchContents,'',winFeature);
+		window.open('/messenger/messengerSearch?contents='+searchContents,'search',winFeature);
 	}
 	
     //-------------------------------- 채팅방 추가 ---------------------------------
