@@ -20,7 +20,7 @@
 <!-- top head -->
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
     <div class="row w-100 m-0 h15">
-        <div class="card-header w-100 p-0 align-center" style="border-radius: 0%;">
+        <div class="card-header w-100 p-0 pb-2 align-center fixed-top search_top" style="border-radius: 0%;">
             <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
                 <input type="text" placeholder="이름,부서,팀 검색" name=""
                        class="form-control search" id="searchContents">
@@ -45,8 +45,8 @@
     </div>
     <!-- main -->
     <input type="hidden" id="searchKeyword" value="${searchKeyword}">
-    <div class="row w-100 h-85 m-0 p-4 border-top whiteBg">
-        <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
+    <div class="row w-100 h85 m-0 p-4 border-top whiteBg search_body">
+        <div class=" w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
             <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
             <div class="container" id="memberAll">
                 <c:choose>
@@ -303,7 +303,7 @@
         $("#searchContents").val(searchKeyword);
     });
 
-    function shortContents(seq, contents){
+/*    function shortContents(seq, contents){
         console.log("이거 실행 됨? " + seq +" : "+ contents);
         // 글자 초과시 말줄임 표시로 바꾸기
         let length = 15; // 표시할 글자수 기준
@@ -311,7 +311,7 @@
             contents = contents.substr(0, length-2) + '...';
         }
         $("#contents_span"+seq).html(contents);
-    }
+    }*/
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -416,7 +416,7 @@
 
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax() {
-        let searchContents = $("#searchContents").val().trim();
+        let searchContents = $("#searchContents").val();
         console.log("검색내용: ?" + searchContents);
         $.ajax({
             url: "/messenger/messengerSearchAjax",
@@ -487,29 +487,23 @@
                         }
                         html += "</ui>";
                     }
-                    if (jArrayMessage.length != 0){
+                    if (jArrayMessage.length !== 0){
                         let contents_length = 15; // 내용 표시할 글자수 기준
                         let name_length = 10; // 톡방 표시할 글자수 기준
                         html += "<div class='row mb-2 m-0'>메세지</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMessage.length; i++) {
                             let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm'); // 날짜형식 변경
-                            let contents = jArrayMessage[i].contents;
+                            let contents = jArrayMessage[i].contents.trim();
                             let name = jArrayMessage[i].name;
-                            if (contents.length > contents_length) { // 말줄임표시
-                                contents = contents.substr(0, contents_length-2) + '...';
-                            }
-                            if (name.length > name_length) { // 말줄임표시
-                                name = name.substr(0, name_length-2) + '...';
-                            }
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                             html += "<div class='img_cont'>";
                             html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
                             html += "</div>";
                             html += "<div class='user_info'>";
-                            html += "<span style='font-size: 16px;'>"+contents+"</span>";
-                            html += "<p><span><i class='far fa-comment'></i>";
+                            html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
+                            html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>";
                             if (jArrayMessage[i].m_type == 'S') {
                                 html += jArrayMessage[i].party_empname;
                             } else {
@@ -519,6 +513,9 @@
                             html += "</div></div></li>";
                         }
                         html += "</ui>";
+                    }else{
+                        console.log("검색결과가 없을 때...");
+                        return;
                     }
                     memberAll.innerHTML = html;
                 }
@@ -603,22 +600,16 @@
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayMessage.length; i++) {
                         let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm');
-                        let contents = jArrayMessage[i].contents;
+                        let contents = jArrayMessage[i].contents.trim();
                         let name = jArrayMessage[i].name;
-                        if (contents.length > contents_length) { // 말줄임표시
-                            contents = contents.substr(0, contents_length-2) + '...';
-                        }
-                        if (name.length > name_length) { // 말줄임표시
-                            name = name.substr(0, name_length-2) + '...';
-                        }
                         html += "<li class='con-list'>";
                         html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                         html += "<div class='img_cont'>";
                         html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
                         html += "</div>";
                         html += "<div class='user_info'>";
-                        html += "<span style='font-size: 16px;'>"+contents+"</span>";
-                        html += "<p><span><i class='far fa-comment'></i>";
+                        html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
+                        html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>";
                         if (jArrayMessage[i].m_type == 'S') {
                             html += jArrayMessage[i].party_empname;
                         } else {

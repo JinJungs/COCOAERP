@@ -21,8 +21,8 @@
 <body>
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
 	<!-- top head -->
-	<div class="row w-100 m-0 h15">
-		<div class="card-header w-100 p-0" style="border-radius: 0%;">
+	<div class="row w-100 m-0 h15 whiteBg">
+		<div class="card-header w-100 p-0 fixed-top" style="border-radius: 0%;">
 			<div class="window-control d-flex justify-content-end">
 				<div class="p-2">-</div>
 				<div class="p-2">ㅁ</div>
@@ -53,12 +53,12 @@
 		</a>
 		</div>
 		<!-- contact list part -->
-		<div class="col-10 col-md-11 p-0">
+		<div class="col-10 col-md-11 p-0 con-memberList">
 			<div class="card contacts_card h-100 b-radius-0">
 				<div class="card-body contacts_body h-75 style="border-radius:0px;!important">
 				<!-- 나의 프로필 상단 고정 -->
 				<ui class="contacts" id="myProfil">
-					<li class="con-list">
+					<li class="con-list m-0 pb-0">
 						<div class="d-flex bd-highlight myprofil">
 							<div class="img_cont myprofilImg">
 								<a href="#"> <img src="/img/profile-default.jpg"

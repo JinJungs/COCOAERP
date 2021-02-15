@@ -92,6 +92,8 @@ body {
 .chat {
   margin-top: auto;
   margin-bottom: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 .card {
   border-radius: 15px;
@@ -101,6 +103,8 @@ body {
   padding: 0.75rem 0;
   overflow-y: auto;
   white-space: nowrap;
+  margin-bottom: 150px;
+  border-bottom: 1px solid var(--text-color-light);
 }
 .msg_card_body {
   overflow-y: auto;
@@ -124,6 +128,12 @@ body {
   border-radius: 2px 2px 2px 2px;
   border: 0;
   background-color: var(--main-color);
+}
+.search_top{
+  border-bottom: 1px solid var(--text-color-light);
+}
+.search_body{
+  overflow-y: auto;
 }
 .search:focus {
   box-shadow: none;
@@ -351,14 +361,18 @@ background-color: #c23616;
 /* Sohyung modified / added */
 /* user-info span color */
 /* root text colors */
-/* .con-sidebar{
-	position: fixed;
-}*/
+ .con-sidebar{
+   position: sticky;
+   height: 100vh;
+}
 .con-sidebar > a {
   color: var(--text-color-dark);
 }
 .con-sidebar > a >div:hover {
   background-color: var(--text-color-light);
+}
+.con-memberList{
+  height: 100vh;
 }
 a {
   text-decoration: none;
@@ -495,14 +509,17 @@ a{
   height: 30px;
   line-height: 30px;
   text-align: center;
+  padding: 0;
 }
 .addedParty i {
   line-height: 30px;
   color: lightgray;
 }
 .memberList-header{
-  position: fixed;
-  z-index: 30;
+  border-bottom: 1px solid var(--text-color-light);
+}
+.memberList-body{
+  overflow-y: auto;
 }
 
 .memberList-footer{
@@ -513,5 +530,16 @@ a{
   position: fixed;
   z-index: 50;
 }
-
+/* 의진 - 말줄임표시 */
+.contents_ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display:block;
+  max-width: 250px;
+  margin-bottom: 7px;
+}
+.h70{
+  height: 70%;
+}
 
