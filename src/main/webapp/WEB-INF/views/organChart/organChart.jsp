@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>조직도</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
     <style>
         .deptcontainer, .teamst, .r-teammain, .searchchild, .topcontainer{

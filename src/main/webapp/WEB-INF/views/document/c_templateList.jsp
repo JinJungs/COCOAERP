@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>기안 양식함</title>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.js"></script>
     <style>
         .conbox{

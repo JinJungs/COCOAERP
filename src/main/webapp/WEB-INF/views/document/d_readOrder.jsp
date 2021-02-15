@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>사무용품 신청서</title>
 	<link rel="stylesheet"
 		  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	<style>
@@ -32,6 +32,20 @@
 			width: 100%;
 			left: 13.5px;
 		}
+		@media print {
+			#sidebar {display:none;}
+			#printer {display:none;}
+			#btnModal {display:none;}
+		}
+		#printer{
+			cursor: pointer;
+			border: 1px solid #c9c9c9;
+			padding: 7px;
+			border-radius: 5px;
+		}
+		#printer:hover{
+			background-color: whitesmoke;
+		}
 	</style>
 </head>
 <body>
@@ -42,7 +56,12 @@
 	<div id="content" class="p-4 p-5 pt-5">
 		<div class="container w-80 p-0" style="min-width: 900px;">
 			<div class="row w-100">
-				<h5>${dto.temp_name }</h5>
+				<div class="col-4 p-0">
+					<h5>${dto.temp_name }</h5>
+				</div>
+				<div class="col-8 pr-3 text-right">
+					<img src="/icon/printer-icon.svg" id="printer" onclick="fn_print()">
+				</div>
 			</div>
 			<div class="row w-100"
 				 style="border-top: 1px solid #c9c9c9; border-bottom: 1px solid #c9c9c9;">
@@ -182,7 +201,7 @@
 			<div class="row w-100 pt-3">
 				<c:if test="${auth==1}">
 					<div class="col-12 p-3 text-right">
-						<button class="btn btn-dark" data-toggle="modal" data-target="#myModal">반려/결재</button>
+						<button class="btn btn-dark" data-toggle="modal" id="btnModal" data-target="#myModal">반려/결재</button>
 					</div>
 				</c:if>
 			</div>
@@ -283,6 +302,10 @@
 		}else{
 			location.href = "/document/return.document?seq="+seq+"&comments="+comments;
 		}
+	}
+
+	function fn_print() {
+		window.print();
 	}
 
 
