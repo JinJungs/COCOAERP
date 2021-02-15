@@ -14,4 +14,6 @@ public interface AttendanceDAO {
     public Timestamp checkEnd(int emp_code);
     public int offWork(int emp_code);
     public List<AttendanceDTO> getAttendanceList(int emp_code);
+    
+    
 }

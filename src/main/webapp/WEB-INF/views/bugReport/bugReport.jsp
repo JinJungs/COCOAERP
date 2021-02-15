@@ -31,8 +31,7 @@ input{width:100%;}
 						<input type="hidden" id="sender_email" name="sender_email" value="${sender_email.b_email}" >
 					<div class="col-4 receiver_text"><b>받는 사람</b></div>
 					<div class="col-8 receiver_input">
-						<input type="text" id="receiver_email" name="receiver_email"
-							placeholder="이메일 주소를 입력하세요.">
+						<input type="text" id="receiver_email" name="receiver_email" value="${receiver_email}">
 					</div>
 				</div>
 

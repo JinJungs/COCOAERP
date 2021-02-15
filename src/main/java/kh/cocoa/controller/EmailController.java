@@ -82,8 +82,8 @@ public class EmailController {
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
 	// 비번찾기 - 이메일 인증
-	@ResponseBody
 	@RequestMapping("pwfind.email")
+	@ResponseBody
 	public String pwFind( String email,String code) {
 	      System.out.println("비번 찾기 인증코드 전송");
 	      System.out.println(email);

@@ -52,8 +52,11 @@
 						</c:forEach>
 					</c:when>
 						<c:when test="${status eq 'REJECT'}">
-							<div class="col-2 head_box">상태</div>
-							<div class="col-5">거절</div>
+							<div class="col-2 head_box">거절</div>
+						<c:forEach var="r" items="${rejectBy}">
+							<div class="col-5">(${r.dept_name}) ${r.emp_name}
+								${r.pos_name}</div>
+						</c:forEach>
 						</c:when>
 				</c:choose>
 				<div class="col-2 head_box">작성자</div>

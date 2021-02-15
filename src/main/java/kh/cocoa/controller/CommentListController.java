@@ -3,13 +3,17 @@ package kh.cocoa.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -63,12 +67,16 @@ public class CommentListController {
 		List<CommentListDTO> list = cservice.noBoardWriteCommentList(seq);
 		System.out.println("댓글 list : "+list);
 		
+		//int checkWriter =0;
+		
 		// list를 JsonArray로 바꾼다.
 		for (int i = 0; i < list.size(); i++) {
 			HashMap<String,Object> param = new HashMap<String, Object>();
 			//댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
-			//String checkWriter = cservice.checkWriter(seq,writer_code);
-			param.put("checkWriter",writer_code);
+			int checkWriter = cservice.checkWriter(seq,writer_code);
+			System.out.println("결과는?"+checkWriter);
+			
+			param.put("checkWriter",checkWriter);
 			param.put("seq", list.get(i).getSeq());
 			param.put("contents", list.get(i).getContents());
 			param.put("board_seq", list.get(i).getBoard_seq());
@@ -96,9 +104,11 @@ public class CommentListController {
 		obj.addProperty("result", result);
 		return new Gson().toJson(obj);
 	}
+
 	//댓글 수정
 	@RequestMapping("noBoardUpdateComment.co")
 	public String noBoardUpdateComment(CommentListDTO dto) {
+		System.out.println("댓글수정 도착!");
 		int result = cservice.noBoardUpdateComment(dto);
 		JsonObject obj = new JsonObject();
 		obj.addProperty("result", result);

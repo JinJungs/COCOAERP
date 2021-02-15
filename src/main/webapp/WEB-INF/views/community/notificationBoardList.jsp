@@ -27,6 +27,7 @@ input{width:50%;border-bottom:1px solid pink;}
 			<input type="hidden" id="cpage" name="cpage" value="${cpage}" />
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
 				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
+				<input type="hidden" id="dept_code" name="dept_code" value="${dept_code}" />
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -72,7 +73,6 @@ input{width:50%;border-bottom:1px solid pink;}
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
 				</div>
 			</c:forEach>
-
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">
 					<button type="button" class="btn btn-primary"
@@ -83,12 +83,16 @@ input{width:50%;border-bottom:1px solid pink;}
 				<div class="col-md-7 navi_box">
 					<ul class="pagination justify-content-center mb-0">${navi}</ul>
 				</div>
-
-				<!--버튼 //관리자만 보여야함-->
-				<div class="col-md-3  footer">
-					<button type="button" class="btn btn-primary"
-						onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
-				</div>
+				<c:choose>
+					<c:when test="${dept_code eq 6}">
+						<!--버튼 //행정부만 보여야함-->
+						<div class="col-md-3 ">
+							<button type="button" class="btn btn-primary"
+								onclick="fn_create(${menu_seq},${cpage})">글 등록</button>
+						</div>
+					</c:when>
+				</c:choose>
+				
 			</div>
 		</div>
 	</div>

@@ -43,6 +43,11 @@ public class HomeController {
 		//보내는 사람 이메일 입력
 		EmployeeDTO sender_email = eservice.getSenderEmail(writer_code);
 		model.addAttribute("sender_email",sender_email);
+		
+		//받는 사람 이메일
+		
+		String receiver_email = "cocoasemiproject@gmail.com";
+		model.addAttribute("receiver_email",receiver_email);
         return "/bugReport/bugReport";
     }
 }
