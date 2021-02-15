@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <title>Insert title here</title>
+    <title>휴가 신청서</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
     <link rel="stylesheet" href="/css/bootstrap-datepicker.css">
@@ -44,6 +44,10 @@
         .clickstat:hover{
             cursor: pointer;
         }
+        .deptteamcontainer:hover, .teamcontainer:hover, .empcontainer:hover{
+            background-color: #F2F6FF;
+        }
+
 
 
     </style>
@@ -224,7 +228,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-secondary" onclick="fn_closeModal()"  data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
@@ -630,8 +634,6 @@
         var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
         var leave_start = $("#leave_start").val();
         var leave_end = $("#leave_end").val();
-        console.log(leave_end);
-        console.log(leave_start);
         if(dayRegExp.test(leave_start)==false) {
             $("#startinvalidmsg").css("color", "red");
             $("#startinvalidmsg").text("날짜 형식에 맞춰 작성해주세요. 예)"+today);
@@ -770,6 +772,9 @@
                 count--;
             }
         }
+        if(getaddedempcode.length==0){
+            $("#btn_add").attr("onclick","fn_clickbtnadd()");
+        }
     }
 
     function fn_addconfirm(){
@@ -842,11 +847,30 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/d_searchTemporary.document.document";
+                    location.href="/document/d_searchTemporary.document";
                 }
             }
         });
 
+    }
+
+    function fn_closeModal() {
+        for(var i=0;i<getaddedempcode.length;i++){
+            $(".confirmcontainer").find($("#closeconfirm"+getaddedempcode[i])).remove();
+        }
+        getempcode=0;
+        getaddedempcode = [];
+        count =0;
+        beforeClickEmp =0;
+        clickstat = document.getElementsByClassName("clickstat");
+        beforeTeamcode =-1;
+        beforeDeptCode =-1;
+        getSearchKeyCode=0;
+        $("#confirmlist>div:first").nextAll().remove();
+        $("#deptForm").empty();
+        fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
+        $(".empcontainer2").selectable();
+        $("#btn_add").attr("onclick","fn_clickbtnadd()");
     }
 </script>
 

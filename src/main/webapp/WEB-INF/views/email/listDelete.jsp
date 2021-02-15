@@ -38,7 +38,7 @@ input[type=checkbox]{
       	<h2 class="mb-4">휴지통</h2>
       	<div class="listContainer">
       		<div class="row p-3" style="border-bottom: 1px solid gray">
-      			<div class="col-1"><b><input type=checkbox id="all"></b></div>
+      			<div class="col-1"><b><input type=checkbox id="all" value=0></b></div>
       			<div class="col-1"><b>seq</b></div>
       			<div class="col-6 col-sm-4"><b>제목</b></div>
       			<div class="col-4 col-sm-3"><b>발신자</b></div>
@@ -49,7 +49,7 @@ input[type=checkbox]{
 	      			<div class="row p-3" style="border-bottom: 1px solid gray">
       					<div class="col-1"><input type=checkbox name=delBox value="${list.seq }"></div>
       					<div class="col-1"><a href="/email/readPage.email?seq=${list.seq }">${list.rownumber }</a></div>
-		      			<div class="col-6 col-sm-4 title"><a href="/email/readPage.email?seq=${list.seq }">${list.title }</a></div>
+		      			<div class="col-6 col-sm-4 title"><a href="/email/readPage.email?seq=${list.seq }"><c:out value="${list.title }"></c:out></a></div>
 		      			<div class="col-4 col-sm-3"><a href="/email/readPage.email?seq=${list.seq }">${list.sender }</a></div>
 		      			<div class="d-none d-sm-block col-sm-3 pl-4"><a href="/email/readPage.email?seq=${list.seq }">${list.write_date }</a></div>
 		      		</div>
@@ -60,10 +60,12 @@ input[type=checkbox]{
       			$(".delBtn").click(function(){
       				var checkedList = "";
       				$("input[type='checkbox']:checked").each(function(index){
-      					if(index != 0){
+      					if(index != 0 && index != 1){
       						checkedList+=",";
       					}
-      					checkedList += $(this).val();
+      					if($(this).val() != 0){
+	      					checkedList += $(this).val();
+	      				}
       				});
       				location.href="/email/deleteNChecked.email?checkedList=" + checkedList;
       			})

@@ -14,6 +14,7 @@
 .left,.right{margin:10px;}
 .fix>textarea{height:200px;}
 .btn,.title{text-align:center;}
+#btn_reject,#btn_confirm{width:30%}
 </style>
 </head>
 <script

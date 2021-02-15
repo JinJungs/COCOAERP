@@ -85,7 +85,7 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("getSchedule.schedule")
-	public String getSchedule(String seq, Model model) {
+	public String getSchedule(String seq, String didUpdate, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		String empCode = Integer.toString(loginDTO.getCode());
 		
@@ -93,6 +93,7 @@ public class ScheduleController {
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("empCode", empCode);
+		model.addAttribute("didUpdate", didUpdate);	
 		
 		return "/schedule/popUpInfo";
 	}
@@ -167,7 +168,9 @@ public class ScheduleController {
 		}
 		sservice.update(dto);
 		
-		return "redirect:/schedule/getSchedule.schedule?seq="+dto.getSeq();
+		String didUpdate = "true";	
+		
+		return "redirect:/schedule/getSchedule.schedule?seq=" + dto.getSeq() + "&didUpdate=" + didUpdate;
 	}
 	@RequestMapping("deleteSchedule.schedule")
 	@ResponseBody

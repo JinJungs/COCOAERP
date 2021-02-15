@@ -82,8 +82,8 @@ public class EmailController {
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
 	// 비번찾기 - 이메일 인증
-	@ResponseBody
 	@RequestMapping("pwfind.email")
+	@ResponseBody
 	public String pwFind( String email,String code) {
 	      System.out.println("비번 찾기 인증코드 전송");
 	      System.out.println(email);
@@ -164,7 +164,6 @@ public class EmailController {
 		}
 		
 		//receiverEmail로 받는사람 있는지 확인
-		System.out.println("dto.getReceiver() : " + dto.getReceiver());
 		int isEmailExist = employeeService.isEmailExist(dto.getReceiver());
 		
 		
@@ -205,7 +204,7 @@ public class EmailController {
 		
 		//파일저장
 		if(file.isEmpty() == false) {
-			String realPath = Configurator.emailFileRoot;
+			String realPath = Configurator.emailFileRootC;
 			File filesPath = new File(realPath);
 			//폴더 없으면 만들기
 			if(!filesPath.exists()) {filesPath.mkdir();}
@@ -233,9 +232,9 @@ public class EmailController {
 			}
 		}
 
-		return "email/sendPage";
+		return "redirect:/email/sendList.email";
 	}
-	//내가 쓴 메일 리스트 
+	//내게 쓴 메일 리스트 
 	@RequestMapping("sendToMeList.email")
 	public String sendToMeList(String cpage, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -343,7 +342,7 @@ public class EmailController {
 	//파일 다운로드
 	@RequestMapping("fileDownload.email")
 	public void download(FilesDTO dto, HttpServletResponse resp) throws Exception {
-		String filePath = Configurator.emailFileRoot;
+		String filePath = Configurator.emailFileRootC;
 		File targetFile = new File(filePath + "/" + dto.getSavedname());
 		// 다음 위치에 있는 파일을 파일 객체로 만든다 -> 정보를 뽑아낼 수 있게 하기 위해서
 		String oriName = dto.getOriname();
@@ -363,53 +362,101 @@ public class EmailController {
 			sos.close();
 		}
 	}
-	
-	
-	@RequestMapping("deleteChecked.email")
-	public String deleteChecked(String checkedList, String status){
-		String[] delArr = checkedList.split(",");
+	//메일 하나씩 삭제
+	@RequestMapping("deleteToMeEmail.email")
+	public String deleteToMeEmail(String seq) {
+		eservice.deleteToMeEmail(seq);
 		
-		for(int i=0; i<delArr.length; i++) {
-			eservice.deleteEmail(delArr[i]);
-		}
-		if(status.contentEquals("receive")) {
-			return "redirect:/email/receiveList.email";
-		}else if(status.contentEquals("send")){
-			return "redirect:/email/sendList.email";
-		}else {
-			return "redirect:/email/sendToMeList.email";
-		}
+		return "redirect:/email/sendToMeList.email?cpage=1";
 	}
+	@RequestMapping("deleteSendEmail.email")
+	public String deleteSendEmail(String seq) {
+		eservice.deleteSendEmail(seq);
+		
+		return "redirect:/email/sendList.email?cpage=1";
+	}
+	@RequestMapping("deleteReceiveEmail.email")
+	public String deleteReceiveEmail(String seq) {
+		eservice.deleteReceiveEmail(seq);
+		
+		return "redirect:/email/receiveList.email?cpage=1";
+	}
+	//체크된 메일 삭제
+	@RequestMapping("deleteToMeChecked.email")
+	public String deleteToMeChecked(String checkedList){
+		String[] delArr = checkedList.split(",");
+		for(int i=0; i<delArr.length; i++) {
+			eservice.deleteToMeEmail(delArr[i]);
+		}
+		return "redirect:/email/sendToMeList.email?cpage=1";
+	}
+	@RequestMapping("deleteReceiveChecked.email")
+	public String deleteReceiveChecked(String checkedList){
+		String[] delArr = checkedList.split(",");
+		for(int i=0; i<delArr.length; i++) {
+			eservice.deleteReceiveEmail(delArr[i]);
+		}
+		return "redirect:/email/receiveList.email?cpage=1";
+	}
+	@RequestMapping("deleteSendChecked.email")
+	public String deleteSendChecked(String checkedList){
+		String[] delArr = checkedList.split(",");
+		for(int i=0; i<delArr.length; i++) {
+			eservice.deleteSendEmail(delArr[i]);
+		}
+		return "redirect:/email/sendList.email?cpage=1";
+	}
+	
+	//영구삭제
+	@RequestMapping("deleteToMeNEmail.email")
+	public String deleteToMeNEmail(String seq) {
+		eservice.deleteToMeNEmail(seq);
+		
+		return "redirect:/email/deleteList.email?cpage=1";
+	}
+	@RequestMapping("deleteReceiveNEmail.email")
+	public String deleteReceiveNEmail(String seq) {
+		eservice.deleteReceiveNEmail(seq);
+		
+		return "redirect:/email/deleteList.email?cpage=1";
+	}
+	@RequestMapping("deleteSendNEmail.email")
+	public String deleteSendNEmail(String seq) {
+		eservice.deleteSendNEmail(seq);
+		
+		return "redirect:/email/deleteList.email?cpage=1";
+	}
+	
+	//체크된 메일 영구삭제
 	@RequestMapping("deleteNChecked.email")
 	public String deleteNChecked(String checkedList){
-		String[] delArr = checkedList.split(",");
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String email = loginDTO.getB_email();
 		
+		String[] delArr = checkedList.split(",");
+		EmailDTO dto = new EmailDTO();
 		for(int i=0; i<delArr.length; i++) {
-			eservice.deleteNEmail(delArr[i]);
+			dto = eservice.getEmail(delArr[i]);
+			if(dto.getSender().contentEquals(email)) {
+				if(dto.getReceiver().contentEquals(email)) {
+					eservice.deleteToMeNEmail(delArr[i]);
+				}else {
+					eservice.deleteSendNEmail(delArr[i]);
+				}
+				
+			}else if(dto.getReceiver().contentEquals(email)) {
+				if(dto.getSender().contentEquals(email)) {
+					eservice.deleteToMeNEmail(delArr[i]);
+				}else {
+					eservice.deleteReceiveNEmail(delArr[i]);
+				}
+			}
 		}
 		
 		return "redirect:/email/deleteList.email";
 	}
-	@RequestMapping("deleteEmail.email")
-	public String deleteEmail(String seq, String status) {
-		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		String email = loginDTO.getB_email();
-		
-		EmailDTO dto = eservice.getEmail(seq);
-		eservice.deleteEmail(seq);
-		
-		if(dto.getReceiver().contentEquals(email)) {
-			return "redirect:/email/receiveList.email?cpage=1";
-		}else {
-			return "redirect:/email/sendList.email?cpage=1";
-		}
-	}
-	@RequestMapping("deleteNEmail.email")
-	public String deleteNEmail(String seq) {
-		eservice.deleteNEmail(seq);
-		
-		return "redirect:/email/deleteList.email?cpage=1";
-	}
+	
+	
 	@RequestMapping("replyEmail.email")
 	public String replyEmail(String seq, Model model) {
 		

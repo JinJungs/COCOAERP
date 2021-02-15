@@ -248,8 +248,8 @@ public class DocumentService implements DocumentDAO {
 		return sb.toString();
 	}
 	@Override
-	public List<DocumentDTO> getAllDraftDocument(int empCode) {
-		return ddao.getAllDraftDocument(empCode);
+	public List<DocumentDTO> getAllDraftDocument(int empCode, List<String> templateList) {
+		return ddao.getAllDraftDocument(empCode, templateList);
 	}
 	//+@
 	//날짜 하루 더해주는 메서드(endDate에 이용)

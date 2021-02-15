@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.Leave_Taken_UsedDAO">
+	<select id="getLeaveStatus" resultType="kh.cocoa.dto.Leave_Taken_UsedDTO">
+		SELECT * FROM LEAVE_TAKEN_USED 
+			WHERE EMP_CODE = #{empCode} AND YEAR = #{year}
+	</select>
+</mapper>

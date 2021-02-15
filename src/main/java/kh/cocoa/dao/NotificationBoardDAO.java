@@ -16,7 +16,8 @@ public interface NotificationBoardDAO {
 	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum,int menu_seq);
 
 	//검색한 리스트 가져오기
-	public List<BoardDTO> getSearchList(String search, String searchBy, int menu_seq);
+	public List<BoardDTO> getSearchList(int startRowNum, int endRowNum, String search, String searchBy, int menu_seq);
+
 
 	//네비게이터 가져오기
 	String getNavi(int cpage, int menu_seq);
@@ -31,7 +32,7 @@ public interface NotificationBoardDAO {
 	public BoardDTO notificationBoardContentsSelect(BoardDTO dto);
 	
 	//seq로 게시글 수 확인
-	public int getSearchCount(int menu_seq);
+	public int getSearchCount(String search, String searchBy, int menu_seq);
 
 	//조회수 올리기
 	public void notificationBoardViewCount(BoardDTO dto);
@@ -51,6 +52,9 @@ public interface NotificationBoardDAO {
 	//내가쓴글 리스트 가져오기
 	public List<BoardDTO> getMyBoardList(int writer_code);
 
-	public List<BoardDTO> getAlbumBoardListSearch(String search, String searchBy, int menu_seq);
+	public List<BoardDTO> getAlbumBoardListSearch(String search, String searchBy, int menu_seq,int cpage);
 
+	public int isExistReadPage(int menu_seq);
+
+	
 }
