@@ -130,7 +130,7 @@
         	objChildFrame.set_resizable(true);
         	objChildFrame.set_showtitlebar(false);
          	objChildFrame.set_openstatus("maximize");
-        	objChildFrame.set_formurl("FrameBase::frmWork.xfdl");
+        	objChildFrame.set_formurl("frame::frmWork.xfdl");
         	objChildFrame.show();
 
         	objMdiFrame.form.fn_AddTabPage(sWinId, sMenuNm);

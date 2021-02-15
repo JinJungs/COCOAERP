@@ -103,10 +103,10 @@
         	"launch":"./App_Desktop.xadl.js",
         	"quickview":"./App_Desktop.xadl.quickview.js",
         	"form":[
-        				"./FrameBase/frmTop.xfdl.js",
-        		"./FrameBase/frmLeft.xfdl.js",
-        		"./FrameBase/frmMdi.xfdl.js",
-        		"./FrameBase/frmBottom.xfdl.js"
+        				"./frame/frmTop.xfdl.js",
+        		"./frame/frmLeft.xfdl.js",
+        		"./frame/frmMdi.xfdl.js",
+        		"./frame/frmBottom.xfdl.js"
         	]
         }
         ],  

@@ -13,7 +13,7 @@
 
 
             obj = new Dataset("gdsLeftMenu", this);
-            obj._setContents("<ColumnInfo><Column id=\"MENU_CD\" type=\"STRING\" size=\"256\"/><Column id=\"UP_MENU_CD\" type=\"STRING\" size=\"256\"/><Column id=\"MENU_NM\" type=\"STRING\" size=\"256\"/><Column id=\"MENU_LVL\" type=\"STRING\" size=\"256\"/><Column id=\"PGM_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"PGM_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"MENU_CD\">0000</Col><Col id=\"UP_MENU_CD\">0</Col><Col id=\"MENU_LVL\">0</Col><Col id=\"MENU_NM\">업무화면예시</Col></Row><Row><Col id=\"MENU_CD\">0001</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시1</Col><Col id=\"PGM_PATH\">FrameBase</Col><Col id=\"PGM_ID\">work01.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row><Row><Col id=\"MENU_CD\">0002</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시2</Col><Col id=\"PGM_PATH\">FrameBase</Col><Col id=\"PGM_ID\">work02.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row><Row><Col id=\"MENU_CD\">0003</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시3</Col><Col id=\"PGM_PATH\">FrameBase</Col><Col id=\"PGM_ID\">work03.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"MENU_CD\" type=\"STRING\" size=\"256\"/><Column id=\"UP_MENU_CD\" type=\"STRING\" size=\"256\"/><Column id=\"MENU_NM\" type=\"STRING\" size=\"256\"/><Column id=\"MENU_LVL\" type=\"STRING\" size=\"256\"/><Column id=\"PGM_PATH\" type=\"STRING\" size=\"256\"/><Column id=\"PGM_ID\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"MENU_CD\">0000</Col><Col id=\"UP_MENU_CD\">0</Col><Col id=\"MENU_LVL\">0</Col><Col id=\"MENU_NM\">업무화면예시</Col></Row><Row><Col id=\"MENU_CD\">0001</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시1</Col><Col id=\"PGM_PATH\">frame</Col><Col id=\"PGM_ID\">work01.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row><Row><Col id=\"MENU_CD\">0002</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시2</Col><Col id=\"PGM_PATH\">frame</Col><Col id=\"PGM_ID\">work02.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row><Row><Col id=\"MENU_CD\">0003</Col><Col id=\"UP_MENU_CD\">0000</Col><Col id=\"MENU_NM\">화면예시3</Col><Col id=\"PGM_PATH\">frame</Col><Col id=\"PGM_ID\">work03.xfdl</Col><Col id=\"MENU_LVL\">1</Col></Row></Rows>");
             this._addDataset(obj.name, obj);
 
 
@@ -60,44 +60,44 @@
             this.addChild(frame0.name, frame0);
             this.frame=frame0;
 
-            var frame1 = new ChildFrame("TopFrame",null,null,null,null,null,null,"FrameBase::frmTop.xfdl",frame0);
+            var frame1 = new ChildFrame("TopFrame",null,null,null,null,null,null,"frame::frmTop.xfdl",frame0);
             frame1.set_dragmovetype("none");
             frame1.set_showstatusbar("false");
             frame1.set_showtitlebar("false");
             frame0.addChild(frame1.name, frame1);
-            frame1.set_formurl("FrameBase::frmTop.xfdl");
+            frame1.set_formurl("frame::frmTop.xfdl");
 
 
             var frame2 = new HFrameSet("HFSet01",null,null,null,null,null,null,frame0);
             frame2.set_separatesize("190,*");
             frame0.addChild(frame2.name, frame2);
 
-            var frame3 = new ChildFrame("LeftFrame",null,null,null,null,null,null,"FrameBase::frmLeft.xfdl",frame2);
+            var frame3 = new ChildFrame("LeftFrame",null,null,null,null,null,null,"frame::frmLeft.xfdl",frame2);
             frame3.set_dragmovetype("none");
             frame3.set_showtitlebar("false");
             frame2.addChild(frame3.name, frame3);
-            frame3.set_formurl("FrameBase::frmLeft.xfdl");
+            frame3.set_formurl("frame::frmLeft.xfdl");
 
 
             var frame4 = new VFrameSet("VFSet02",null,null,null,null,null,null,frame2);
             frame4.set_separatesize("30,*");
             frame2.addChild(frame4.name, frame4);
 
-            var frame5 = new ChildFrame("MdiFrame",null,null,null,null,null,null,"FrameBase::frmMdi.xfdl",frame4);
+            var frame5 = new ChildFrame("MdiFrame",null,null,null,null,null,null,"frame::frmMdi.xfdl",frame4);
             frame5.set_showtitlebar("false");
             frame5.set_dragmovetype("none");
             frame4.addChild(frame5.name, frame5);
-            frame5.set_formurl("FrameBase::frmMdi.xfdl");
+            frame5.set_formurl("frame::frmMdi.xfdl");
 
 
             var frame6 = new FrameSet("WorkFrame",null,null,null,null,null,null,frame4);
             frame4.addChild(frame6.name, frame6);
 
-            var frame7 = new ChildFrame("BottomFrame",null,null,null,null,null,null,"FrameBase::frmBottom.xfdl",frame0);
+            var frame7 = new ChildFrame("BottomFrame",null,null,null,null,null,null,"frame::frmBottom.xfdl",frame0);
             frame7.set_showtitlebar("false");
             frame7.set_dragmovetype("none");
             frame0.addChild(frame7.name, frame7);
-            frame7.set_formurl("FrameBase::frmBottom.xfdl");
+            frame7.set_formurl("frame::frmBottom.xfdl");
         };
         
         this.on_initEvent = function()
