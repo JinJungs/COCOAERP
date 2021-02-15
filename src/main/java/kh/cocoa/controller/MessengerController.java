@@ -1,25 +1,36 @@
 package kh.cocoa.controller;
 
-import kh.cocoa.dto.*;
-import kh.cocoa.service.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.json.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import javax.mail.MessageAware;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesMsgDTO;
+import kh.cocoa.dto.MessageViewDTO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerPartyDTO;
+import kh.cocoa.dto.MessengerViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
+import kh.cocoa.service.MessengerPartyService;
+import kh.cocoa.service.MessengerService;
 
 
 @Controller
@@ -399,8 +410,22 @@ public class MessengerController {
 
     @RequestMapping("addMemberToChatRoom")
     @ResponseBody
-    public String addMemberToChatRoom(int seq, List<MessengerPartyDTO> partyList) {
+    public int addMemberToChatRoom(int seq, @RequestParam("partyList") String partyList ) throws ParseException {
     	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
+    	System.out.println("partyList : "+partyList);
+    	System.out.println(partyList.getClass().getName());
+    	
+    	//배열인척하는 스트링을 진짜 배열로 바꿔준다.
+		/*
+		 * partyList.replace("[", ""); partyList.replace("]", "");
+		 */
+    	String partyListEdited = partyList.substring(1, partyList.length()-1);
+    	String[] partyListArr = partyListEdited.split(",");
+    	System.out.println("partyListArr : "+partyListArr);
+    	for(String i : partyListArr) {
+    		System.out.println("partyListArr[i] : "+i);
+    	}
+    	
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
         //참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
@@ -408,6 +433,17 @@ public class MessengerController {
     	//메신저 타입 보기
     	MessengerDTO messenger = mservice.getMessengerInfo(seq);
     	System.out.println("추가할 메신저의 정보 : "+messenger);
+
+    	List<MessengerPartyDTO> list = new ArrayList<>();
+    	for(int i=0;i<partyListArr.length;i++) {
+    		MessengerPartyDTO dto = new MessengerPartyDTO();
+    		dto.setM_seq(seq);
+    		dto.setEmp_code(Integer.parseInt(partyListArr[i]));
+    		list.add(dto);
+    	}
+
+    	//[임시]코드로 저장. [보완]ajax에서 소켓으로 쏠 때 이름으로 변환된 리스트 보내주기
+    	String addedMember = "";
   
     	if(messenger.getType().contentEquals("S")) {
     		System.out.println("1:1에서 추가할 때");
@@ -419,24 +455,11 @@ public class MessengerController {
     		int resultName = mservice.updateName(seq, name);
     		System.out.println(resultType +" : "+ resultName);
     	}
-    	int insertMemResult = mpservice.setMessengerMember(partyList);
+    	int insertMemResult = mpservice.setMessengerMember(list);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
     	
-    	//Message 컨트롤러 chatAnnounce로 전송
-    	//메세지의 공지 타입 : AN_ADD
-    	//메세지에 담길 content : 참가자 code 넣기
-    	String contents = "";
-    	for(int i=0; i<partyList.size(); i++) {
-    		if(i++ == partyList.size()) {
-    			contents += partyList.get(i).getEmp_code();
-    			return contents;
-    		}else {
-    			contents += partyList.get(i).getEmp_code() + ", ";
-    		}    		
-    	}
-    	System.out.println("content : "+contents);
     	
-    	return "";
+    	return insertMemResult;
     }
 
 

@@ -784,33 +784,37 @@
     	let emp_code = ${loginDTO.code};
 	    console.log(returnValue);
 	    let checkArr = returnValue;
-/* 	    let checkArr = JSON.parse(returnValue);
-	    console.log("json 형태 : ",checkArr);
-	    console.log("첫번째 값 : ", checkArr[0]);
-	    console.log("길이 : ", checkArr.length); */
-	    //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!1
-/* 	    $.ajax({
+	    
+	    //길이 알아내기 위해
+ 	    let checkArrParsed = JSON.parse(returnValue);
+/* 	    console.log("json 형태 : ",checkArr);
+	    console.log("첫번째 값 : ", checkArr[0]); */
+	    console.log("길이 : ", checkArrParsed.length);
+	    //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
+	    //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
+ 	    $.ajax({
         	url: "/messenger/addMemberToChatRoom",
         	type: "post",
+        	traditional :true,
             data: {
             	seq: seq
-            	, addMember: checkArr
+            	, partyList: checkArr
             },
             dataType: "json",
             success: function (resp) {
-            	if(resp>0){
+            	if(resp==checkArrParsed.length){
+            		console.log("소켓 보내기 직전")
             		socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
                     	m_seq: seq
-                        , contents: name
+                        , contents: checkArr 
                         , write_date: new Date()
                         , emp_code: emp_code
                         , type: "AN_ADD"
                     }));
-            		$('#partyname').text(name);
-            		$('#modalModifChat').modal('hide');
+            		
             	}
             }
-        }); */
+        }); 
 	};
   	//====================채팅 멤버 추가=======
     	

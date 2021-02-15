@@ -70,8 +70,14 @@ public class StompController {
 		}else if(typeAn.contentEquals("EXIT")) {
 			announce = message.getEmp_code()+" 님이 퇴장하였습니다.";
 			System.out.println("퇴장 : "+announce);
+		}else if(typeAn.contentEquals("ADD")) {
+			//content에 스트링 형으로 받아온 json 파싱해주기
+			
+			//포문 돌리면서 참가자들 이름 받기
+			
+			announce = "채팅참가 공지 메세지 구현 중";
 		}else {
-			announce = "";
+			announce = "공지 메세지 타입이 등록되지 않았습니다.";
 		}
 		message.setContents(announce);
 		
