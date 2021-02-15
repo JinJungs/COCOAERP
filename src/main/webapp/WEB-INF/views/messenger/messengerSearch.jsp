@@ -282,6 +282,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- 날짜 변경 라이브러리-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="/js/bindWithDelay.js"></script>
 <script>
     let memberAll = document.getElementById("memberAll");
     let memberMember = document.getElementById("memberMember");
@@ -303,15 +304,15 @@
         $("#searchContents").val(searchKeyword);
     });
 
-/*    function shortContents(seq, contents){
-        console.log("이거 실행 됨? " + seq +" : "+ contents);
-        // 글자 초과시 말줄임 표시로 바꾸기
-        let length = 15; // 표시할 글자수 기준
-        if (contents.length > length) {
-            contents = contents.substr(0, length-2) + '...';
-        }
-        $("#contents_span"+seq).html(contents);
-    }*/
+    /*    function shortContents(seq, contents){
+            console.log("이거 실행 됨? " + seq +" : "+ contents);
+            // 글자 초과시 말줄임 표시로 바꾸기
+            let length = 15; // 표시할 글자수 기준
+            if (contents.length > length) {
+                contents = contents.substr(0, length-2) + '...';
+            }
+            $("#contents_span"+seq).html(contents);
+        }*/
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -399,7 +400,8 @@
 
     // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
-        searchAjax();
+            searchAjax();
+
     });
 
     // room의 seq를 받아 해당 채팅방으로 이동
@@ -415,29 +417,122 @@
     }
 
     //-------------------------------- 비동기 검색 -------------------------------------
+
+
+
     function searchAjax() {
         let searchContents = $("#searchContents").val();
         console.log("검색내용: ?" + searchContents);
-        $.ajax({
-            url: "/messenger/messengerSearchAjax",
-            type: "post",
-            data: {
-                contents: searchContents
-            },
-            dataType: "json",
-            success: function (resp) {
-                let jArrayMember = resp[0];
-                let jArrayDept = resp[1];
-                let jArrayTeam = resp[2];
-                let jArrayMessage = resp[3];
-                // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
-                // 전체
-                if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0 && jArrayMessage.length == 0) {
-                    memberAll.innerHTML = "검색결과가 없습니다.";
-                } else {
-                    let html = "";
-                    if (jArrayMember.length != 0) {
-                        html += "<div class='row mb-2 m-0'>멤버</div>";
+
+            $.ajax({
+                url: "/messenger/messengerSearchAjax",
+                type: "post",
+                data: {
+                    contents: searchContents
+                },
+                dataType: "json",
+                success: function (resp) {
+                    console.log(resp);
+                    let jArrayMember = resp[0];
+                    let jArrayDept = resp[1];
+                    let jArrayTeam = resp[2];
+                    let jArrayMessage = resp[3];
+                    // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
+                    // 전체
+                    if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0 && jArrayMessage.length == 0) {
+                        memberAll.innerHTML = "검색결과가 없습니다.";
+                    } else {
+                        let html = "";
+                        if (jArrayMember.length != 0) {
+                            html += "<div class='row mb-2 m-0'>멤버</div>";
+                            html += "<ui class='contacts m-0 p-0'>";
+                            for (let i = 0; i < jArrayMember.length; i++) {
+                                html += "<li class='con-list'>";
+                                html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayMember[i].code+")'>";
+                                html += "<div class='img_cont'>";
+                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "</div>";
+                                html += "<a href='#'>";
+                                html += "<div class='user_info'>";
+                                html += "<span>" + jArrayMember[i].name + "</span>";
+                                html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
+                                html += "</div></a></div>";
+                            }
+                            html += "</ui>";
+                        }
+                        if (jArrayDept.length != 0) {
+                            html += "<div class='row mb-2 m-0'>부서</div>";
+                            html += "<ui class='contacts m-0 p-0'>";
+                            for (let i = 0; i < jArrayDept.length; i++) {
+                                html += "<li class='con-list'>";
+                                html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayDept[i].code+")'>";
+                                html += "<div class='img_cont'>";
+                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "</div>";
+                                html += "<a href='#'>";
+                                html += "<div class='user_info'>";
+                                html += "<span>" + jArrayDept[i].name + "</span>";
+                                html += "<p>" + jArrayDept[i].deptname + "/" + jArrayDept[i].teamname + "</p>";
+                                html += "</div></a></div>";
+                            }
+                            html += "</ui>";
+                        }
+                        if (jArrayTeam.length != 0) {
+                            html += "<div class='row mb-2 m-0'>팀</div>";
+                            html += "<ui class='contacts m-0 p-0'>";
+                            for (let i = 0; i < jArrayTeam.length; i++) {
+                                html += "<li class='con-list'>";
+                                html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayTeam[i].code+")'>";
+                                html += "<div class='img_cont'>";
+                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "</div>";
+                                html += "<a href='#'>";
+                                html += "<div class='user_info'>";
+                                html += "<span>" + jArrayTeam[i].name + "</span>";
+                                html += "<p>" + jArrayTeam[i].deptname + "/" + jArrayTeam[i].teamname + "</p>";
+                                html += "</div></a></div>";
+                            }
+                            html += "</ui>";
+                        }
+                        if (jArrayMessage.length !== 0){
+                            let contents_length = 15; // 내용 표시할 글자수 기준
+                            let name_length = 10; // 톡방 표시할 글자수 기준
+                            html += "<div class='row mb-2 m-0'>메세지</div>";
+                            html += "<ui class='contacts m-0 p-0'>";
+                            for (let i = 0; i < jArrayMessage.length; i++) {
+                                let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm'); // 날짜형식 변경
+                                let contents = jArrayMessage[i].contents.trim();
+                                let name = jArrayMessage[i].name;
+                                html += "<li class='con-list'>";
+                                html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
+                                html += "<div class='img_cont'>";
+                                html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
+                                html += "</div>";
+                                html += "<div class='user_info'>";
+                                html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
+                                html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>";
+                                if (jArrayMessage[i].m_type == 'S') {
+                                    html += jArrayMessage[i].party_empname;
+                                } else {
+                                    html += name;
+                                }
+                                html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
+                                html += "</div></div></li>";
+                            }
+                            html += "</ui>";
+                        }else{
+                            console.log("검색결과가 없을 때...");
+                            return;
+                        }
+                        memberAll.innerHTML = html;
+                    }
+
+                    // 멤버
+                    if (jArrayMember.length == 0) {
+                        memberMember.innerHTML = "검색결과가 없습니다.";
+                    } else {
+                        let html = "";
+                        html += "<div class='row mb-2 m-0'>멤버-검색결과</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMember.length; i++) {
                             html += "<li class='con-list'>";
@@ -452,9 +547,15 @@
                             html += "</div></a></div>";
                         }
                         html += "</ui>";
+                        memberMember.innerHTML = html;
                     }
-                    if (jArrayDept.length != 0) {
-                        html += "<div class='row mb-2 m-0'>부서</div>";
+
+                    // 부서
+                    if (jArrayDept.length == 0) {
+                        memberDept.innerHTML = "검색결과가 없습니다.";
+                    } else {
+                        let html = "";
+                        html += "<div class='row mb-2 m-0'>부서-검색결과</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayDept.length; i++) {
                             html += "<li class='con-list'>";
@@ -469,9 +570,15 @@
                             html += "</div></a></div>";
                         }
                         html += "</ui>";
+                        memberDept.innerHTML = html;
                     }
-                    if (jArrayTeam.length != 0) {
-                        html += "<div class='row mb-2 m-0'>팀</div>";
+
+                    // 팀
+                    if (jArrayTeam.length == 0) {
+                        memberTeam.innerHTML = "검색결과가 없습니다.";
+                    } else {
+                        let html = "";
+                        html += "<div class='row mb-2 m-0'>팀-검색결과</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayTeam.length; i++) {
                             html += "<li class='con-list'>";
@@ -486,14 +593,20 @@
                             html += "</div></a></div>";
                         }
                         html += "</ui>";
+                        memberTeam.innerHTML = html;
                     }
-                    if (jArrayMessage.length !== 0){
+
+                    // 메세지
+                    if (jArrayMessage.length == 0) {
+                        memberMessage.innerHTML = "검색결과가 없습니다.";
+                    } else {
+                        let html = "";
                         let contents_length = 15; // 내용 표시할 글자수 기준
                         let name_length = 10; // 톡방 표시할 글자수 기준
-                        html += "<div class='row mb-2 m-0'>메세지</div>";
+                        html += "<div class='row mb-2 m-0'>메세지-검색결과</div>";
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMessage.length; i++) {
-                            let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm'); // 날짜형식 변경
+                            let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm');
                             let contents = jArrayMessage[i].contents.trim();
                             let name = jArrayMessage[i].name;
                             html += "<li class='con-list'>";
@@ -513,116 +626,11 @@
                             html += "</div></div></li>";
                         }
                         html += "</ui>";
-                    }else{
-                        console.log("검색결과가 없을 때...");
-                        return;
+                        memberMessage.innerHTML = html;
                     }
-                    memberAll.innerHTML = html;
                 }
+            })
 
-                // 멤버
-                if (jArrayMember.length == 0) {
-                    memberMember.innerHTML = "검색결과가 없습니다.";
-                } else {
-                    let html = "";
-                    html += "<div class='row mb-2 m-0'>멤버-검색결과</div>";
-                    html += "<ui class='contacts m-0 p-0'>";
-                    for (let i = 0; i < jArrayMember.length; i++) {
-                        html += "<li class='con-list'>";
-                        html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayMember[i].code+")'>";
-                        html += "<div class='img_cont'>";
-                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
-                        html += "</div>";
-                        html += "<a href='#'>";
-                        html += "<div class='user_info'>";
-                        html += "<span>" + jArrayMember[i].name + "</span>";
-                        html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
-                        html += "</div></a></div>";
-                    }
-                    html += "</ui>";
-                    memberMember.innerHTML = html;
-                }
-
-                // 부서
-                if (jArrayDept.length == 0) {
-                    memberDept.innerHTML = "검색결과가 없습니다.";
-                } else {
-                    let html = "";
-                    html += "<div class='row mb-2 m-0'>부서-검색결과</div>";
-                    html += "<ui class='contacts m-0 p-0'>";
-                    for (let i = 0; i < jArrayDept.length; i++) {
-                        html += "<li class='con-list'>";
-                        html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayDept[i].code+")'>";
-                        html += "<div class='img_cont'>";
-                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
-                        html += "</div>";
-                        html += "<a href='#'>";
-                        html += "<div class='user_info'>";
-                        html += "<span>" + jArrayDept[i].name + "</span>";
-                        html += "<p>" + jArrayDept[i].deptname + "/" + jArrayDept[i].teamname + "</p>";
-                        html += "</div></a></div>";
-                    }
-                    html += "</ui>";
-                    memberDept.innerHTML = html;
-                }
-
-                // 팀
-                if (jArrayTeam.length == 0) {
-                    memberTeam.innerHTML = "검색결과가 없습니다.";
-                } else {
-                    let html = "";
-                    html += "<div class='row mb-2 m-0'>팀-검색결과</div>";
-                    html += "<ui class='contacts m-0 p-0'>";
-                    for (let i = 0; i < jArrayTeam.length; i++) {
-                        html += "<li class='con-list'>";
-                        html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayTeam[i].code+")'>";
-                        html += "<div class='img_cont'>";
-                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
-                        html += "</div>";
-                        html += "<a href='#'>";
-                        html += "<div class='user_info'>";
-                        html += "<span>" + jArrayTeam[i].name + "</span>";
-                        html += "<p>" + jArrayTeam[i].deptname + "/" + jArrayTeam[i].teamname + "</p>";
-                        html += "</div></a></div>";
-                    }
-                    html += "</ui>";
-                    memberTeam.innerHTML = html;
-                }
-
-                // 메세지
-                if (jArrayMessage.length == 0) {
-                    memberMessage.innerHTML = "검색결과가 없습니다.";
-                } else {
-                    let html = "";
-                    let contents_length = 15; // 내용 표시할 글자수 기준
-                    let name_length = 10; // 톡방 표시할 글자수 기준
-                    html += "<div class='row mb-2 m-0'>메세지-검색결과</div>";
-                    html += "<ui class='contacts m-0 p-0'>";
-                    for (let i = 0; i < jArrayMessage.length; i++) {
-                        let formed_write_date = moment(jArrayMessage[i].write_date).format('YY-MM-DD HH:mm');
-                        let contents = jArrayMessage[i].contents.trim();
-                        let name = jArrayMessage[i].name;
-                        html += "<li class='con-list'>";
-                        html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
-                        html += "<div class='img_cont'>";
-                        html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
-                        html += "</div>";
-                        html += "<div class='user_info'>";
-                        html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
-                        html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>";
-                        if (jArrayMessage[i].m_type == 'S') {
-                            html += jArrayMessage[i].party_empname;
-                        } else {
-                            html += name;
-                        }
-                        html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
-                        html += "</div></div></li>";
-                    }
-                    html += "</ui>";
-                    memberMessage.innerHTML = html;
-                }
-            }
-        })
     }
 </script>
 <script src="/resources/static/js/messenger.js"></script>
