@@ -80,6 +80,9 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getAllEmployee(){
 		return edao.getAllEmployee();
 	}
+	//재직중인 전체 멤버 리스트 - 자신제외
+	@Override
+	public List<EmployeeDTO> getAllEmployeeExceptMe(int code){ return edao.getAllEmployeeExceptMe(code); }
 	//사용자와 같은 부서멤버 호출
 	@Override
 	public List<EmployeeDTO> getDeptMember(int dept_code) {
