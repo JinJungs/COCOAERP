@@ -79,7 +79,7 @@
    <!-- Page Content  -->
 
    <div id="content" class="p-4 p-5 pt-5">
-      <div class="container w-80 p-0" style="min-width: 800px;">
+      <div class="w-80 p-0" style="min-width: 800px;">
          <h2 class="mb-4">문서함</h2>
          <div class="notice-container">
             <ul class="tabs">

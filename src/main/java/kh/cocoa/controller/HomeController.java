@@ -34,6 +34,21 @@ public class HomeController {
     public String login() {
         return "/index";
     }
+    @RequestMapping("main")
+    public String toMain() {
+    	/*1. 전자 결재*/
+    	
+    	
+    	/*2. 근태 관리*/
+    	
+    	
+    	/*3. 일정 관리*/
+    	
+    	
+    	/*4. 회사 공지*/
+    	
+        return "/testMain";
+    }
     /*-----------지영 - 버그리포트--------*/
     @GetMapping("/bug")
     public String bug(Model model) {

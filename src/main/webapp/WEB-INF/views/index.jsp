@@ -252,6 +252,7 @@
             <br>
             <input type=button value="일정" id=scheduleBtn><br>
 			<input type=button value="대사우 서비스" id=leaveBtn><br>
+			<input type=button value="메인페이지 테스트" id=mainBtn><br>
 
                <%--용국--%>
             <button type="button" onclick="fn_toBD()">결재전</button>
@@ -319,6 +320,11 @@
          let leaveBtn = document.getElementById("leaveBtn");
          leaveBtn.onclick = function () {
             location.href = "/leave/toLeaveMain.leave";
+         }
+         
+         let mainBtn = document.getElementById("mainBtn");
+         mainBtn.onclick = function () {
+            location.href = "/main";
          }
 
          /*지영 부분*/
