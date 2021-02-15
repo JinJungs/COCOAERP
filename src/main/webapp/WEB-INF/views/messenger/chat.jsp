@@ -314,6 +314,8 @@
 
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
+            console.log($('#yourMsg').val());
+            $("#yourMsg").replaceAll(" ","");
         };
 
         /* 파일 전송 */
