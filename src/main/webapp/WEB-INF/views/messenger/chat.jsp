@@ -254,7 +254,7 @@
                 let msg = $('#yourMsg').val();
                 console.log("지운 메세지?:" +msg+":a");
                 let msgLinebreak = msg.replace(/(\r\n\t|\n|\r\t)/gm,""); //엔터제거
-                //$('#yourMsg').val(msgLinebreak);
+                $('#yourMsg').val(msgLinebreak);
             }
         });
 
