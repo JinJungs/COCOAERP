@@ -7,31 +7,34 @@
 	<insert id="createLog">
 		<choose>
 			<when test="selectBy=='daily'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,STATUS) VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},1,
-				null,null,null,null,null,null,#{ddto.report_start},
-				null,null,'RAISE')
+				#{ddto.writer_code},#{dept_code},
+				1,#{ddto.report_start},'RAISE')
 			</when>
 			<when test="selectBy=='weekly'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},2,
-				null,null,null,null,null,null,#{ddto.report_start},
-				#{ddto.report_end},null,'RAISE')
+				#{ddto.writer_code},#{dept_code},
+				2,#{ddto.report_start},#{ddto.report_end},'RAISE')
 			</when>
 			<when test="selectBy=='monthly'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},3,
-				null,null,null,null,null,null,#{ddto.report_start},
-				#{ddto.report_end},null,'RAISE')
+				#{ddto.writer_code},#{dept_code},
+				3,#{ddto.report_start},#{ddto.report_end},'RAISE')
 			</when>
 		</choose>
 	</insert>
 <!-- 업무일지 seq & files doc_seq 맞추기 -->
 	<select id="logDocSelectSeq" resultType="Integer">
-		SELECT DOC_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='DOCUMENT_SEQ'
+		SELECT DOCUMENT_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='DOCUMENT_SEQ'
 	</select>
 <!-- 업무일지 별 문서 임시 저장 -->
 	<insert id="tempSavedLog">
@@ -39,21 +42,21 @@
 			<when test="selectBy=='daily'">
 				INSERT INTO DOCUMENT VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},1,
+				null,#{ddto.writer_code},#{dept_code},1,
 				null,null,null,null,null,null,#{ddto.report_start},
 				null,null,'TEMP')
 			</when>
 			<when test="selectBy=='weekly'">
 				INSERT INTO DOCUMENT VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},2,
+				null,#{ddto.writer_code},#{dept_code},2,
 				null,null,null,null,null,null,#{ddto.report_start},
 				#{ddto.report_end},null,'TEMP')
 			</when>
 			<when test="selectBy=='monthly'">
 				INSERT INTO DOCUMENT VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{ddto.dept_code},3,
+				null,#{ddto.writer_code},#{dept_code},3,
 				null,null,null,null,null,null,#{ddto.report_start},
 				#{ddto.report_end},null,'TEMP')
 			</when>
@@ -136,6 +139,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 부장 -->
@@ -144,6 +148,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 대표 -->
@@ -152,6 +157,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 		</choose>
@@ -165,6 +171,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 부장 -->
@@ -173,6 +180,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 대표 -->
@@ -180,7 +188,8 @@
 				SELECT L.*,E.NAME,E.POS_CODE FROM LOGWEEKLYLIST L, EMPLOYEE E
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
-				AND E.POS_CODE ='2'
+				AND E.POS_CODE ='2' 
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 		</choose>
@@ -194,6 +203,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 부장 -->
@@ -202,6 +212,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 			<!-- 대표 -->
@@ -210,6 +221,7 @@
 				WHERE L.WRITER_CODE = E.CODE
 				AND L.STATUS=#{status}
 				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
 				ORDER BY WRITE_DATE DESC
 			</when>
 		</choose>
@@ -298,14 +310,14 @@
 	<choose>
 		<when test="status=='TEMP'">
 			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
-			L.REPORT_END,L.TEMP_CODE, E.NAME
+			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
 			FROM LOGTEMPLISTALL L, EMPLOYEE E
 			WHERE L.WRITER_CODE=E.CODE
 			AND L.SEQ=#{seq}
 		</when>
 		<when test="status=='RAISE'">
 			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
-			L.REPORT_END,L.TEMP_CODE, E.NAME
+			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
 			FROM LOGRAISELISTALL L, EMPLOYEE E
 			WHERE L.WRITER_CODE=E.CODE
 			AND L.SEQ=#{seq}
@@ -351,13 +363,5 @@
 		REPORT_END=#{report_end},CONTENTS=#{contents}, 
 		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
 	</update>
-<!--  업데이트 된 문서 seq 와 doc_confirm의 docseq 맞추기 -->
-	<select id="doc_seq" resultType="Integer">
-		SELECT DOC_CONFIRM_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='DOC_SEQ'
-	</select>
-<!-- 승인의 경우 doc_confirm 테이블에 업뎃 -->
-	<insert id="docConf">
-		INSERT INTO DOC_CONFIRM VALUES 
-		(doc_confirm_seq.nextval,#{ddto.writer_code},'1','Y',sysdate,#{doc_seq},null)
-	</insert>
+
 </mapper>

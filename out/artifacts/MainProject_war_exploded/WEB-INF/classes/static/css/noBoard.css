@@ -8,8 +8,9 @@
     line-height:28px;font-size:13px;padding:0;
     border:0;}
 
-input{height:90%;border:none;background-color:transparent;}
-input:focus{outline:1px solid pink;}
+.row{padding:5px;}
+input{height:90%;width:90%;border:none;background-color:transparent;}
+input:focus{outline:none;}
 .head_box{font-size:17px;color:#866EC7;}
 .contents_box{height:400px;}
 .board_title{color:#866EC7;}
@@ -17,8 +18,6 @@ input:focus{outline:1px solid pink;}
 .width{height:50px;}
 .button_box{text-align:right;}
 textarea{width:100%; height:100%; border:none;background-color:transparent;}
-textarea:focus{outline:1px solid pink;}
-.btn{margin-top:2px;}
-button{height:90%;}
+textarea:focus{outline:none;}
 ul{ list-style: none;padding-left: 0px;}
 .fileLi{font-size:13px;}
