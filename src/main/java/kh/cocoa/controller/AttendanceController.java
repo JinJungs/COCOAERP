@@ -1,5 +1,6 @@
 package kh.cocoa.controller;
 
+import com.google.gson.JsonObject;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,12 +30,11 @@ public class AttendanceController {
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         List<AttendanceDTO> attendance = attenService.getAttendanceList(loginSession.getCode());
         model.addAttribute("attendance", attendance);
-        System.out.println(attendance.size());
         return "/attendance/attendanceView";
     }
 
     @RequestMapping(value = "/startWork")
-    public String startWork(Model model, HttpServletRequest request) {
+    public String startWork(HttpServletRequest request, RedirectAttributes rttr) throws Exception{
         // 1. 오늘 출근했는지 체크
         // 2. 외근 체크가 되었는지 아닌지
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -45,16 +47,20 @@ public class AttendanceController {
             else {
                 int result = attenService.outSideWork(loginSession.getCode());
             }
-            model.addAttribute("result", "success");
+            //model.addAttribute("result", "success");
+            rttr.addAttribute("result", "success");
         }
         else{
-            model.addAttribute("result", "already");
+            //model.addAttribute("result", "already");
+            rttr.addAttribute("result", "already");
+
         }
-        return "/attendance/attendanceView";
+        return "redirect:/attendance/toAttendanceView";
     }
 
     @RequestMapping(value = "/endWork")
-    public String endWork(Model model) {
+    @ResponseBody
+    public String endWork(RedirectAttributes rttr) throws Exception{
         // 1. 오늘 출근했는지 체크
         // 2. 퇴근되어 있는지 체크
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -63,15 +69,18 @@ public class AttendanceController {
             Timestamp chkEnd = attenService.checkEnd(loginSession.getCode());
             if(chkEnd == null) {
                 int result = attenService.offWork(loginSession.getCode());
-                model.addAttribute("result", "offWork");
+               // model.addAttribute("result", "offWork");
+                rttr.addAttribute("result", "offWork");
             }
             else{
-                model.addAttribute("result", "alreadyOff");
+                //model.addAttribute("result", "alreadyOff");
+                rttr.addAttribute("result", "alreadyOff");
             }
         }else {
-            model.addAttribute("result", "workedYet");
+           // model.addAttribute("result", "workedYet");
+            rttr.addAttribute("result", "workedYet");
         }
-        return "/attendance/attendanceView";
+        return "redirect:/attendance/toAttendanceView";
     }
 
     @RequestMapping(value = "getAttendance")
