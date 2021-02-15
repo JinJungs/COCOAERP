@@ -132,10 +132,11 @@
 	                       /*댓글 수정 삭제 */
 	                       if(data[i].checkWriter>0){
 		                       html += "<div class='col-sm-12 col-md-2'>";
-		                       html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
-		                       html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
+		                       html += "<button type=button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
+		                       html += "<button type=button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
 		                       html += "</div>";
-	                       };		
+	                       };
+	                       html += "<div class=main_contents></div>";
 	                       $("#commentForm").html(html);			
 	                   }
 	               }else if(data.length==0){
@@ -146,14 +147,16 @@
 	   }
 	   /*댓글 수정*/
 	   	function updateComment(seq){
+			$("#btn-upd"+seq).attr("onclick",null);	
 			$.ajax({
 	           data: 
 	           {seq : seq},
 	           type: "post",
 	           url: "/comment/noBoardUpdateComment.co",
+			   contentType : "application/json; charset=UTF-8",
 	           success: function(data){
 	           if(data.length>0){
-	           $("#main_content").html("<textarea class=main_contentmod name=contents id=main_contentmod></textarea>");
+	           $("#main_content"+seq).html("<textarea class=main_contentmod name=contents id=main_contentmod"+seq+"></textarea>");
 	           }
 	           console.log(data);
 	           console.log("수정 성공!");
