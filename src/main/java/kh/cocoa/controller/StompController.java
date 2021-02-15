@@ -87,7 +87,6 @@ public class StompController {
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
 	}
 	
-	
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());

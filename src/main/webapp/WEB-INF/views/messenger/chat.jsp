@@ -46,7 +46,7 @@
             <div class="action_menu">
                 <ul>
                     <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
-                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                    <li onclick="openMemberListToChat(${ㅇseq})"><i class="fas fa-plus"></i> 멤버 추가</li>
                     <c:if test="${messenger.type eq 'M'}">
                     	<li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
                     	<li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
@@ -288,6 +288,7 @@
                     , write_date: new Date()
                     , emp_code: ${loginDTO.code}
                     , m_seq: ${seq}
+                    , type: "TEXT"
                     , empname: "${loginDTO.name}"
                 }));
             else
@@ -364,8 +365,6 @@
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code} && typeArr[0]!="AN") {
-                    // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
-                    let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-end mb-4'>";
                     newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
@@ -374,17 +373,10 @@
                     newMsg += "<img src='/img/cocoa.png' class='rounded-circle user_img_msg'>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
-                    // 나의 스크롤이 제일 하단에 있을 때는 스크롤 바를 제일 하단으로 내림
-                    // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
-                    // 클릭시 사라지고 스크롤이 하단으로 이동
-                    // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
-                    if (amIAtBottom) {
-                        scrollUpdate();
-                    } else {
-                        console.log(amIAtBottom);
-                        showAlertMessageOnBottom(partyname, msg);
-                    }
+                    scrollUpdate();
                 } else if(typeArr[0]!="AN") { // 상대방이 보낸 메세지 일 때
+                    // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
+                    let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
                     newMsg += "<div class='d-flex justify-content-start mb-4'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='/img/run.png' class='rounded-circle user_img_msg'>";
@@ -396,7 +388,16 @@
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                     newMsg += "</div></div></div>";
                     msgBox.append(newMsg);
-                    scrollUpdate();
+                    // 나의 스크롤이 제일 하단에 있을 때는 스크롤 바를 제일 하단으로 내림
+                    // 내의 스크롤이 채팅방 상단에 다른 내용을 보고 있을 때는 밑에 메세지가 왔다는 div를 띄워주고
+                    // 클릭시 사라지고 스크롤이 하단으로 이동
+                    // 일단 내가 하는 쪽에 써보고 나중에 상대편으로 옮기자
+                    if (amIAtBottom) {
+                        scrollUpdate();
+                    } else {
+                        console.log(amIAtBottom);
+                        showAlertMessageOnBottom(partyname, msg);
+                    }
                 }else{
                 	newMsg += "<div class='text-center font-weight-light'><small>";
 					newMsg += msg;
