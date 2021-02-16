@@ -35,6 +35,7 @@ public class StompController {
 		System.out.println("savedname : "+savedname);
 		System.out.println("empname : "+message.getEmpname());
 		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
+		System.out.println("getType : "+message.getType());
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
 	}
 	
