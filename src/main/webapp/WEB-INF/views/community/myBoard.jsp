@@ -39,8 +39,7 @@
 				<div class="row">
 					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
 					<div class="title col-sm-12 col-md-7" 
-					onclick="notificationBoardRead(${i.menu_seq},${i.seq})">
-					<b>${i.title}</b></div>
+					onclick="notificationBoardRead(${i.menu_seq},${i.seq})">${i.title}</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.write_date}</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
 				</div>

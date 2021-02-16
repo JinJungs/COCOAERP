@@ -79,7 +79,7 @@
    <!-- Page Content  -->
 
    <div id="content" class="p-4 p-5 pt-5">
-      <div class="container w-80 p-0" style="min-width: 800px;">
+      <div class="w-80 p-0" style="min-width: 800px;">
          <h2 class="mb-4">문서함</h2>
          <div class="notice-container">
             <ul class="tabs">
@@ -95,7 +95,7 @@
                   <div class="col-2 p-1 text-center textBox"><b>상태</b></div>
                </div>
                <div class=notice-list id=myboard>
-                  <c:forEach var="list" items="${docList }">
+                  <c:forEach var="list" items="${docList }" begin="0" end="10">
                      <div class="row p-3" id="c-hover" style="border-bottom: 1px solid #c9c9c9">
                         <div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
                         <div class="col-5 p-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
@@ -115,7 +115,7 @@
                   <div class="col-2 p-1 text-center textBox"><b>결재 상태</b></div>
                </div>
                <div class=notice-list id=myboard ">
-                  <c:forEach var="clist" items="${clist }">
+                  <c:forEach var="clist" items="${clist }" begin="0" wns="10">
                      <div class="row p-3" id="c-hover" onclick="fn_toReadPage()" style="border-bottom: 1px solid #c9c9c9; cursor:pointer;">
                         <div class="col-2 p-2 text-center textBox">${clist.seq }</div>
                         <div class="col-4 p-2 textBox">${clist.title }</div>

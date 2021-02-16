@@ -6,7 +6,9 @@
 <!-- 게시글 리스트 가져오기 -->
 	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM 
-		(SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
+		(SELECT * FROM BOARD, EMPLOYEE 
+		WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE 
+		AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 <!-- 앨범 게시판 리스트 가져오기 -->
@@ -24,39 +26,19 @@
 	</select>
 <!-- 검색한 앨범 게시글 가져오기 -->
 	<select id="getAlbumBoardListSearch" resultType="kh.cocoa.dto.BoardDTO">
-		SELECT F.SAVEDNAME,A.*
-		FROM ALBUMBOARDLIST A, FILES F
-		WHERE A.SEQ = F.BOARD_SEQ
+		SELECT E.NAME, F.SAVEDNAME ,B.*
+	    FROM BOARD B, EMPLOYEE E, FILES F, 
+	    (SELECT BOARD_SEQ, MAX(SEQ) SEQ FROM FILES
+	    WHERE BOARD_SEQ != 0 GROUP BY BOARD_SEQ
+	    ORDER BY BOARD_SEQ) TEMP
+	    WHERE B.WRITER_CODE = E.CODE
+        AND B.SEQ = F.BOARD_SEQ
+        AND B.MENU_SEQ=3
+        AND TEMP.SEQ = F.SEQ
 		<choose>
                  <when test='searchBy=="title"'>
-                 	AND A.TITLE LIKE '%${search}%'
-                </when>
-                 <when test='searchBy=="tc"'>
-                 	AND A.TITLE LIKE '%${search}%'
-                 	OR A.CONTENTS LIKE '%${search}%'
-                 </when>
-
-                 <when test='searchBy=="contents"'>
-                 	AND A.CONTENTS LIKE '%${search}%'
-                 </when>
-                 <when test='searchBy=="writer"'>
-                 	AND A.NAME LIKE '%${search}%'
-                 </when>
-           </choose>
-	</select>
-<!-- 검색한 게시글 가져오기 -->
-	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
-			SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
-			WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
-            <choose>
-                 <when test='searchBy=="title"'>
                  	AND B.TITLE LIKE '%${search}%'
                 </when>
-                 <when test='searchBy=="tc"'>
-                 	AND B.TITLE LIKE '%${search}%'
-                 	OR B.CONTENTS LIKE '%${search}%'
-                 </when>
-
                  <when test='searchBy=="contents"'>
                  	AND B.CONTENTS LIKE '%${search}%'
                  </when>
@@ -64,7 +46,46 @@
                  	AND E.NAME LIKE '%${search}%'
                  </when>
            </choose>
+    	ORDER BY B.SEQ DESC
 	</select>
+<!-- 검색한 게시글 가져오기 -->
+	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM 
+		(SELECT ROWNUM NUM, N.* FROM 
+		(SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
+		WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
+		 <choose>
+                 <when test='searchBy=="title"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                </when>
+                 <when test='searchBy=="contents"'>
+                 	AND B.CONTENTS LIKE '%${search}%'
+                 </when>
+                 <when test='searchBy=="writer"'>
+                 	AND E.NAME LIKE '%${search}%'
+                 </when>
+           </choose>  
+		ORDER BY B.WRITE_DATE DESC
+		)N) WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	  <!-- 검색한 게시글 수 가져오기 -->
+	<select id="getSearchCount" resultType="Integer">
+		SELECT COUNT(*) FROM 
+		(SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
+		WHERE B.MENU_SEQ = #{menu_seq} AND B.WRITER_CODE = E.CODE
+		 <choose>
+                 <when test='searchBy=="title"'>
+                 	AND B.TITLE LIKE '%${search}%'
+                </when>
+                 <when test='searchBy=="contents"'>
+                 	AND B.CONTENTS LIKE '%${search}%'
+                 </when>
+                 <when test='searchBy=="writer"'>
+                 	AND E.NAME LIKE '%${search}%'
+                 </when>
+           </choose>  
+           ORDER BY B.WRITE_DATE DESC)
+  	</select>
 <!-- 토탈 카운트 가져오기 -->
 	<select id="recordTotalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
@@ -86,9 +107,10 @@
 		SELECT COUNT(*) FROM BOARD WHERE SEQ=#{seq} AND WRITER_CODE=#{writer_code}
 	</select>
 	<!-- seq로 게시글 수 확인 -->
-	<select id="getSearchCount" resultType="Integer">
+	<select id="isExistReadPage" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
   	</select>
+
 <!-- 게시글 조회수 올리기 -->
 	<update id="notificationBoardViewCount" >
 		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}

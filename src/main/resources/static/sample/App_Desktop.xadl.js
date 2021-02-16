@@ -22,7 +22,6 @@
             this._addDataset(obj.name, obj);
             
             // global variable
-
             
             obj = null;
         };

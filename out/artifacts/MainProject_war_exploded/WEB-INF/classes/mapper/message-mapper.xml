@@ -22,14 +22,23 @@
     </select>
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다. & CPAGE에 해당하는 리스트를 SELECT-->
     <select id="getMessageListByCpage" resultType="kh.cocoa.dto.MessageDTO">
-        SELECT A.SEQ, A.CONTENTS, A.WRITE_DATE, A.EMP_CODE, A.M_SEQ, A.TYPE, A.SAVEDNAME
+        SELECT A.SEQ,
+               A.CONTENTS,
+               A.WRITE_DATE,
+               A.EMP_CODE,
+               A.M_SEQ,
+               A.TYPE,
+               A.SAVEDNAME,
+               E.NAME EMPNAME
         FROM (SELECT MSG_VIEW.*, ROW_NUMBER() OVER(ORDER BY MSG_VIEW.SEQ DESC)RN
               FROM (SELECT M.*, F.SAVEDNAME
                     FROM MESSAGE M,
                          FILES F
                     WHERE M.SEQ = F.MSG_SEQ(+)
-                      AND M_SEQ = #{m_seq}) MSG_VIEW) A
+                      AND M_SEQ = #{m_seq}) MSG_VIEW) A,
+             EMPLOYEE_VIEW E
         WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
+          AND A.EMP_CODE = E.CODE
     </select>
     <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">
         SELECT COUNT(*)
@@ -45,6 +54,7 @@
     </select>
 
     <!--내용으로 메세지 검색-->
+    <!--다중채팅방 메세지 여러개 출력 해결하기-->
     <select id="searchMsgByContents" resultType="kh.cocoa.dto.MessageViewDTO">
         SELECT A.*, B.NAME PARTY_EMPNAME
         FROM (SELECT MSG.*,
@@ -59,10 +69,11 @@
               WHERE MSG.M_SEQ = V1.SEQ
                 AND MSG.EMP_CODE = E.CODE
                 AND M_SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
-                AND V1.EMP_CODE!=#{code}) A,
+                AND ((V1.TYPE = 'S' AND V1.EMP_CODE!=#{code}) OR (V1.TYPE = 'M' AND V1.EMP_CODE = #{code}))) A,
              EMPLOYEE_VIEW B
         WHERE A.PARTY_EMP_CODE = B.CODE
           AND CONTENTS LIKE '%${contents}%'
+        ORDER BY A.WRITE_DATE DESC
     </select>
     <!-- 채팅방에서 메세지 검색-->
     <select id="searchMsgInChatRoom" resultType="kh.cocoa.dto.MessageDTO">

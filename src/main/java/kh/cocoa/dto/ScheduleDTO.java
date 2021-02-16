@@ -20,9 +20,12 @@ public class ScheduleDTO {
 	private String emp_code;
 	private String writer;
 
+	//추가부분
+	private String rownumber;
+	
 	@Builder
 	public ScheduleDTO(String seq, String title, String contents, Timestamp start_time, Timestamp end_time,
-			String color, String dept_code, String team_code, String emp_code, String writer) {
+			String color, String dept_code, String team_code, String emp_code, String writer, String rownumber) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -34,5 +37,6 @@ public class ScheduleDTO {
 		this.team_code = team_code;
 		this.emp_code = emp_code;
 		this.writer = writer;
+		this.rownumber = rownumber;
 	}
 }

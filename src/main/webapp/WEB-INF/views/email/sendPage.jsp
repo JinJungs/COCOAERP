@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="/js/jquery.MultiFile.min.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
 #contents{
@@ -26,6 +25,9 @@ textarea{
 	width: 100%;
 	min-height: 300px;
 	max-height: 300px;
+}
+#listBox{
+	width: 100%;
 }
 </style>
 </head>
@@ -58,8 +60,9 @@ textarea{
 	      			<div class="col-3 col-sm-2">
 	      				파일첨부
 	      			</div>
-	      			<div class="col-5">
-	      				<input type=file name=file multiple=multiple>
+	      			<div class="col-9 col-sm-10">
+	      				<input type="file" class="fileList" id="file" name="file" multiple>
+	      				<div id="listBox"></div><br>
 	      			</div>
 	      		</div>
 	      		<div class="row">
@@ -75,6 +78,9 @@ textarea{
 	      		</div>
       		</form>
       	</div>
+      	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+		<script src="/js/jquery-ui.js"></script>
+		<script src="/js/jquery.MultiFile.min.js"></script>
         <script>
         	$("#form").submit(function(){
         		var receiver = $("#receiver").val();
@@ -92,7 +98,22 @@ textarea{
         			}
         		}
         		return true;
-        	})
+        	});
+        	
+        	$("input.fileList").MultiFile({
+		        max: 10, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
+		        //accept: "jpg|png|gif|jfif", //허용할 확장자(지정하지 않으면 모든 확장자 허용)
+		        maxfile: 10240, //각 파일 최대 업로드 크기
+		        maxsize: 20480,  //전체 파일 최대 업로드 크기
+		        STRING: { //Multi-lingual support : 메시지 수정 가능
+		            remove : "<img src='/icon/close-x.svg'>", //추가한 파일 제거 문구, 이미태그를 사용하면 이미지사용가능
+		            duplicate : "$file 은 이미 선택된 파일입니다.",
+		            toomuch: "업로드할 수 있는 최대크기를 초과하였습니다.($size)",
+		            toomany: "업로드할 수 있는 최대 갯수는 $max개 입니다.",
+		            toobig: "$file 은 크기가 매우 큽니다. (max $size)"
+			        },
+			        list:"#listBox"
+			    });
         </script>
       </div>
    </div>

@@ -21,6 +21,12 @@
 	   </foreach>
 	   SELECT * FROM DUAL
 	</insert>
+	
+	<!-- 채팅방 나가기 (멀티) -->
+	<delete id="exitMutiRoom">
+   		DELETE FROM MESSENGER_PARTY
+		WHERE M_SEQ= #{m_seq} AND EMP_CODE=#{emp_code}
+   	</delete>
 
 
 </mapper>

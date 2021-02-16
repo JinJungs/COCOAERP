@@ -53,7 +53,8 @@ input{width:100%;}
 
 				<div class="row footer">
 					<div class="col-2 home_btn">
-						<button type="button" class="btn btn-primary">HOME</button>
+						<button type="button" class="btn btn-primary"
+						onclick="fn_home()">홈으로</button>
 					</div>
 					<div class="col-10 button">
 						<button type="reset" class="btn btn-primary">취소</button>
@@ -64,5 +65,12 @@ input{width:100%;}
 			</form>
 		</div>
 	</div>
+	<script type="text/javascript">
+	/*홈으로*/
+		function fn_home() {
+			location.href = "/";
+		}
+	</script>
+	
 </body>
 </html>
