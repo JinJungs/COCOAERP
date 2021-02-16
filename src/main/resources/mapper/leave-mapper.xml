@@ -10,4 +10,7 @@
 				        AND START_DATE BETWEEN #{yearStart} AND #{yearEnd}
 				    ORDER BY START_DATE DESC)
 	</select>
+	<insert id="insert">
+		INSERT INTO LEAVE VALUES (LEAVE_SEQ.NEXTVAL, #{type}, #{start_date}, '${end_date}', #{time}, #{emp_code})
+	</insert>
 </mapper>

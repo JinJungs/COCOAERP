@@ -10,4 +10,6 @@ import kh.cocoa.dto.LeaveDTO;
 @Mapper
 public interface LeaveDAO {
 	public List<LeaveDTO> getLeavelist(int empCode, String yearStart, String yearEnd);
+	
+	public void insert(LeaveDTO dto);
 }

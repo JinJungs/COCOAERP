@@ -52,4 +52,9 @@ public class ScheduleService implements ScheduleDAO{
 	public int delete(String seq) {
 		return sdao.delete(seq);
 	}
+	
+	@Override
+	public List<ScheduleDTO> selectTodaySchedule(String date1, String date2) {
+		return sdao.selectTodaySchedule(date1, date2);
+	}
 }
