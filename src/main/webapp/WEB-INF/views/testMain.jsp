@@ -41,7 +41,7 @@ div{
       <script>
       	let manageBtn = document.getElementById("manageBtn");
          manageBtn.onclick = function () {
-            location.href = "/manage";
+            location.href = "/toNex";
          }
       </script>
       	<h2 class="mb-4">COCOAWORK</h2>

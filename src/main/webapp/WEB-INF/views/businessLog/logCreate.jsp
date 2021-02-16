@@ -13,6 +13,7 @@
 #selectBy{border:none;background-color:transparent;}
 #selectBy:focus{outline:none;}
 input{width:100%;}
+.contents_box{padding-left:15px;}
 </style>
 </head>
 
