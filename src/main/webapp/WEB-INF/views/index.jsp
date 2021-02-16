@@ -259,6 +259,7 @@
             <button type="button" onclick="fn_toFD()">완료된</button>
             <button type="button" onclick="fn_toRD()">반려한</button>
             <a href="/membership/logout">로그아웃</a>
+            <button type="button" onclick="fn_managerMode()" style="display: none">관리자 모드</button>
          </div>
       </div>
       <script>
