@@ -259,6 +259,7 @@
             <button type="button" onclick="fn_toNFD()">진행중</button>
             <button type="button" onclick="fn_toFD()">완료된</button>
             <button type="button" onclick="fn_toRD()">반려한</button>
+            <button type="button" onclick="fn_toNex()">넥사크로</button>
             <a href="/membership/logout">로그아웃</a>
          </div>
       </div>
@@ -382,6 +383,10 @@
 
          function fn_toRD() {
             location.href = "/document/toRDocument.document?cpage=1"
+         }
+
+         function fn_toNex() {
+            location.href ="/toNex";
          }
       </script>
    </c:otherwise>

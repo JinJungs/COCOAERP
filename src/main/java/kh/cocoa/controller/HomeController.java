@@ -174,4 +174,9 @@ public class HomeController {
 		model.addAttribute("receiver_email",receiver_email);
         return "/bugReport/bugReport";
     }
+
+    @RequestMapping("/toNex")
+    public String toNex(){
+        return "redirect:/index.html";
+    }
 }
