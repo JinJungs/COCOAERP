@@ -416,9 +416,6 @@ public class MessengerController {
     	System.out.println(partyList.getClass().getName());
     	
     	//배열인척하는 스트링을 진짜 배열로 바꿔준다.
-		/*
-		 * partyList.replace("[", ""); partyList.replace("]", "");
-		 */
     	String partyListEdited = partyList.substring(1, partyList.length()-1);
     	String[] partyListArr = partyListEdited.split(",");
     	System.out.println("partyListArr : "+partyListArr);
