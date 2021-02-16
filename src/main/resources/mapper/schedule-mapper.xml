@@ -52,4 +52,11 @@
 	<delete id="delete">
 		DELETE FROM SCHEDULE WHERE SEQ = #{seq}
 	</delete>
+	
+	<select id="selectTodaySchedule" resultType="kh.cocoa.dto.ScheduleDTO">
+		SELECT * FROM (SELECT SCHEDULE.*, ROW_NUMBER() OVER(ORDER BY START_TIME DESC) "ROWNUMBER" FROM schedule 
+		    WHERE START_TIME BETWEEN #{date1} AND #{date2}
+		        OR #{date1} BETWEEN START_TIME and END_TIME)
+		    WHERE ROWNUMBER BETWEEN 1 AND 5
+	</select>
 </mapper>

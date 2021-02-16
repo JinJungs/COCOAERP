@@ -18,4 +18,9 @@ public class LeaveService implements LeaveDAO{
 	public List<LeaveDTO> getLeavelist(int empCode, String yearStart, String yearEnd) {
 		return dao.getLeavelist(empCode, yearStart, yearEnd);
 	}
+	
+	@Override
+	public void insert(LeaveDTO dto) {
+		dao.insert(dto);		
+	}
 }

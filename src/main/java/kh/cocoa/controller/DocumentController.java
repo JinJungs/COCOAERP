@@ -69,6 +69,9 @@ public class DocumentController {
 	@Autowired
 	private OrderService oservice;
 	
+	@Autowired
+	private LeaveService lservice;
+	
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
@@ -774,10 +777,27 @@ public class DocumentController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		int getIsLast =dservice.getIsLast(seq);
-
+		
 		if(getIsLast==1){
 			dservice.confirm(seq,empCode);
 			dservice.addIsConfirm(seq,empCode,comments);
+			
+			//휴가신청서의 경우 휴가 사용처리(조퇴 제외 처리가능)
+			DocumentDTO dto = dservice.getDocument(Integer.toString(seq));
+			if(dto.getTemp_code() == 06) {
+				LeaveDTO ldto = new LeaveDTO();
+				ldto.setType(dto.getLeave_type());
+				ldto.setStart_date(dto.getLeave_start());
+				ldto.setEnd_date(dto.getLeave_end());
+				if(dto.getLeave_type().contentEquals("반차")) {
+					ldto.setTime(4);
+				}
+				ldto.setEmp_code(dto.getWriter_code());
+				if(!ldto.getType().contentEquals("조퇴")) {
+					lservice.insert(ldto);
+				}
+			}
+			
 		}else{
 			dservice.addIsConfirm(seq,empCode,comments);
 		}
