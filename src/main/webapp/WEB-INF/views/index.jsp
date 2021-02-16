@@ -252,12 +252,14 @@
             <br>
             <input type=button value="일정" id=scheduleBtn><br>
 			<input type=button value="대사우 서비스" id=leaveBtn><br>
+			<input type=button value="메인페이지 테스트" id=mainBtn><br>
 
                <%--용국--%>
             <button type="button" onclick="fn_toBD()">결재전</button>
             <button type="button" onclick="fn_toNFD()">진행중</button>
             <button type="button" onclick="fn_toFD()">완료된</button>
             <button type="button" onclick="fn_toRD()">반려한</button>
+            <button type="button" onclick="fn_toNex()">넥사크로</button>
             <a href="/membership/logout">로그아웃</a>
          </div>
       </div>
@@ -320,6 +322,11 @@
          leaveBtn.onclick = function () {
             location.href = "/leave/toLeaveMain.leave";
          }
+         
+         let mainBtn = document.getElementById("mainBtn");
+         mainBtn.onclick = function () {
+            location.href = "/main";
+         }
 
          /*지영 부분*/
          //회사소식
@@ -376,6 +383,10 @@
 
          function fn_toRD() {
             location.href = "/document/toRDocument.document?cpage=1"
+         }
+
+         function fn_toNex() {
+            location.href ="/toNex";
          }
       </script>
    </c:otherwise>

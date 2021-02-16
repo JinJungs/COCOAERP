@@ -85,9 +85,16 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("getSchedule.schedule")
-	public String getSchedule(String seq, String didUpdate, Model model) {
+	public String getSchedule(String seq, String didUpdate, String status, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		String empCode = Integer.toString(loginDTO.getCode());
+		
+		if(status == null) {
+			status = " ";
+		}
+		if(status.contentEquals("main")) {
+			empCode="";
+		}
 		
 		ScheduleDTO dto = sservice.getSchedule(seq);
 		

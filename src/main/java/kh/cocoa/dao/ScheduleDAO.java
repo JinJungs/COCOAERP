@@ -20,4 +20,6 @@ public interface ScheduleDAO {
 	public ScheduleDTO getSchedule(String seq);
 	public void update(ScheduleDTO dto);
 	public int delete(String seq);
+	
+	public List<ScheduleDTO> selectTodaySchedule(String date1, String date2);
 }
