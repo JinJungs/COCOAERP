@@ -16,10 +16,14 @@ public class CocoaApplication extends SpringBootServletInitializer {
         SpringApplication.run(CocoaApplication.class, args);
     }
 
- /*   @Override
+   @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(CocoaApplication.class);
-    }*/
+    }
 
+     public CocoaApplication() {
+         super();
+         setRegisterErrorPageFilter(false); // <- this one
+     }
 
 }

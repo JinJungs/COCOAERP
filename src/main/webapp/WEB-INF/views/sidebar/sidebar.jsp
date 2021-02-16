@@ -26,7 +26,7 @@
       </div>
       <div class="p-4 pt-5">
          <h3>
-            <a href="index.html" class="logo">COCOAWORK</a>
+            <a href="/" class="logo">COCOAWORK</a>
          </h3>
          <ul class="list-unstyled components mb-5">
             

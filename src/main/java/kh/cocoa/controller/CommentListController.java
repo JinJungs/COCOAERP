@@ -63,6 +63,7 @@ public class CommentListController {
 		//로그인한 정보의 code를 board DTO writer_code에 넣어주기
 		dto.setWriter_code(writer_code);
 		System.out.println("동일한 사람?"+writer_code);
+		
 		JSONArray jArray = new JSONArray();
 		List<CommentListDTO> list = cservice.noBoardWriteCommentList(seq);
 		System.out.println("댓글 list : "+list);
@@ -73,6 +74,7 @@ public class CommentListController {
 			HashMap<String,Object> param = new HashMap<String, Object>();
 			//댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기
 			int checkWriter = cservice.checkWriter(seq,writer_code);
+
 			if(writer_code==list.get(i).getWriter_code()) {
 				param.put("checkWriter", checkWriter);
 			}else{

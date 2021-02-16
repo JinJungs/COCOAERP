@@ -81,7 +81,6 @@
 				</div>
 			</div>
 			<div class="row">
-
 				<!--보낸편지함으로 이동  -->
 				<c:choose>
 					<c:when test="${status eq 'RAISE' || status eq 'REJECT'}">
@@ -113,8 +112,18 @@
 						</c:when>
 					</c:choose>
 				</div>
-
 			</div>
+			<!-- 확인요청 - 승인 받은 경우 comment 보기 -->
+			<div class="row">
+				<c:choose>
+					<c:when test="${status eq 'CONFIRM'}">
+						<c:forEach var="c" items="${confirmBy}">
+							<div class="col-5">${c.comments}</div>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+			</div>
+			
 		</div>
 	</div>
 	<script>
