@@ -282,7 +282,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- 날짜 변경 라이브러리-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="/js/bindWithDelay.js"></script>
 <script>
     let memberAll = document.getElementById("memberAll");
     let memberMember = document.getElementById("memberMember");
@@ -304,15 +303,15 @@
         $("#searchContents").val(searchKeyword);
     });
 
-    /*    function shortContents(seq, contents){
-            console.log("이거 실행 됨? " + seq +" : "+ contents);
-            // 글자 초과시 말줄임 표시로 바꾸기
-            let length = 15; // 표시할 글자수 기준
-            if (contents.length > length) {
-                contents = contents.substr(0, length-2) + '...';
-            }
-            $("#contents_span"+seq).html(contents);
-        }*/
+/*    function shortContents(seq, contents){
+        console.log("이거 실행 됨? " + seq +" : "+ contents);
+        // 글자 초과시 말줄임 표시로 바꾸기
+        let length = 15; // 표시할 글자수 기준
+        if (contents.length > length) {
+            contents = contents.substr(0, length-2) + '...';
+        }
+        $("#contents_span"+seq).html(contents);
+    }*/
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -400,8 +399,7 @@
 
     // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
-            searchAjax();
-
+        searchAjax();
     });
 
     // room의 seq를 받아 해당 채팅방으로 이동
@@ -417,27 +415,23 @@
     }
 
     //-------------------------------- 비동기 검색 -------------------------------------
-
-
-
     function searchAjax() {
         let searchContents = $("#searchContents").val();
         console.log("검색내용: ?" + searchContents);
-
-            $.ajax({
-                url: "/messenger/messengerSearchAjax",
-                type: "post",
-                data: {
-                    contents: searchContents
-                },
-                dataType: "json",
-                success: function (resp) {
-                    console.log(resp);
-                    let jArrayMember = resp[0];
-                    let jArrayDept = resp[1];
-                    let jArrayTeam = resp[2];
-                    let jArrayMessage = resp[3];
-                    // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
+        $.ajax({
+            url: "/messenger/messengerSearchAjax",
+            type: "post",
+            data: {
+                contents: searchContents
+            },
+            dataType: "json",
+            success: function (resp) {
+                let jArrayMember = resp[0];
+                let jArrayDept = resp[1];
+                let jArrayTeam = resp[2];
+                let jArrayMessage = resp[3];
+                // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
+                setTimeout(function(){
                     // 전체
                     if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0 && jArrayMessage.length == 0) {
                         memberAll.innerHTML = "검색결과가 없습니다.";
@@ -526,8 +520,11 @@
                         }
                         memberAll.innerHTML = html;
                     }
+                },500);
 
-                    // 멤버
+
+                // 멤버
+                setTimeout(function(){
                     if (jArrayMember.length == 0) {
                         memberMember.innerHTML = "검색결과가 없습니다.";
                     } else {
@@ -549,8 +546,10 @@
                         html += "</ui>";
                         memberMember.innerHTML = html;
                     }
+                },500);
 
-                    // 부서
+                // 부서
+                setTimeout(function(){
                     if (jArrayDept.length == 0) {
                         memberDept.innerHTML = "검색결과가 없습니다.";
                     } else {
@@ -572,8 +571,10 @@
                         html += "</ui>";
                         memberDept.innerHTML = html;
                     }
+                },500);
 
-                    // 팀
+                // 팀
+                setTimeout(function(){
                     if (jArrayTeam.length == 0) {
                         memberTeam.innerHTML = "검색결과가 없습니다.";
                     } else {
@@ -595,8 +596,10 @@
                         html += "</ui>";
                         memberTeam.innerHTML = html;
                     }
+                },500);
 
-                    // 메세지
+                // 메세지
+                setTimeout(function(){
                     if (jArrayMessage.length == 0) {
                         memberMessage.innerHTML = "검색결과가 없습니다.";
                     } else {
@@ -628,9 +631,9 @@
                         html += "</ui>";
                         memberMessage.innerHTML = html;
                     }
-                }
-            })
-
+                },500);
+            }
+        })
     }
 </script>
 <script src="/resources/static/js/messenger.js"></script>

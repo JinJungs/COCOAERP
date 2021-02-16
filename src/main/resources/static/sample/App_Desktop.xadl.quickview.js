@@ -1,7 +1,7 @@
 (function()
 {
-    return function()  
-	{
+    return function()
+    {
         this.on_loadAppVariables = function()
         {		
             var obj = null;
@@ -22,10 +22,11 @@
             this._addDataset(obj.name, obj);
             
             // global variable
+
             
             obj = null;
         };
- 
+        
         // property, event, createMainFrame
         this.on_initApplication = function()
         {
@@ -35,13 +36,13 @@
 
             if (this._is_attach_childframe)
             	return;
-        
+            
             // frame
             var mainframe = this.createMainFrame("mainframe","0","0","1280","720",null,null,this);
             mainframe.set_showtitlebar("true");
             mainframe.set_showstatusbar("false");
             mainframe.set_titletext("MDI (Frameset)");
-            mainframe.on_createBodyFrame = this.mainframe_createBodyFrame;        
+            mainframe.on_createBodyFrame = this.mainframe_createBodyFrame;
 
             // tray
 
@@ -54,57 +55,26 @@
         
         this.mainframe_createBodyFrame = function()
         {
-            var frame0 = new VFrameSet("VFSet01",null,null,null,null,null,null,this);
-            frame0.set_separatesize("65,*,30");
-            this.addChild(frame0.name, frame0);
-            this.frame=frame0;
+            var obj = new ChildFrame("QuickViewFrame", null, null, null, null, null, null, "", this);
+            
+            obj.set_showtitlebar("false");
+            obj.set_showstatusbar("false");
+            obj.set_border("0px none");
+			
+            this.addChild(obj.name, obj);
 
-            var frame1 = new ChildFrame("TopFrame",null,null,null,null,null,null,"frame::frmTop.xfdl",frame0);
-            frame1.set_dragmovetype("none");
-            frame1.set_showstatusbar("false");
-            frame1.set_showtitlebar("false");
-            frame0.addChild(frame1.name, frame1);
-            frame1.set_formurl("frame::frmTop.xfdl");
+            obj.set_formurl(nexacro._quickview_formurl);
 
-
-            var frame2 = new HFrameSet("HFSet01",null,null,null,null,null,null,frame0);
-            frame2.set_separatesize("190,*");
-            frame0.addChild(frame2.name, frame2);
-
-            var frame3 = new ChildFrame("LeftFrame",null,null,null,null,null,null,"frame::frmLeft.xfdl",frame2);
-            frame3.set_dragmovetype("none");
-            frame3.set_showtitlebar("false");
-            frame2.addChild(frame3.name, frame3);
-            frame3.set_formurl("frame::frmLeft.xfdl");
-
-
-            var frame4 = new VFrameSet("VFSet02",null,null,null,null,null,null,frame2);
-            frame4.set_separatesize("30,*");
-            frame2.addChild(frame4.name, frame4);
-
-            var frame5 = new ChildFrame("MdiFrame",null,null,null,null,null,null,"frame::frmMdi.xfdl",frame4);
-            frame5.set_showtitlebar("false");
-            frame5.set_dragmovetype("none");
-            frame4.addChild(frame5.name, frame5);
-            frame5.set_formurl("frame::frmMdi.xfdl");
-
-
-            var frame6 = new FrameSet("WorkFrame",null,null,null,null,null,null,frame4);
-            frame4.addChild(frame6.name, frame6);
-
-            var frame7 = new ChildFrame("BottomFrame",null,null,null,null,null,null,"frame::frmBottom.xfdl",frame0);
-            frame7.set_showtitlebar("false");
-            frame7.set_dragmovetype("none");
-            frame0.addChild(frame7.name, frame7);
-            frame7.set_formurl("frame::frmBottom.xfdl");
+            this.frame = obj;
+            
+            obj = null;
         };
         
         this.on_initEvent = function()
         {
-            this.addEventHandler("onload",this.Application_onload,this);
         };
-        
-        // script Compiler
+
+		// script Compiler
         this.registerScript("App_Desktop.xadl", function() {
         this.VFSet01;
         this.VFSet02;
@@ -128,12 +98,9 @@
         };
 
         });
-
-        this.checkLicense("");
         
         this.loadPreloadList();
         this.loadCss("xcssrc::temp_main.xcss");
-        this.loadIncludeScript("App_Desktop.xadl");
     };
 }
 )();
