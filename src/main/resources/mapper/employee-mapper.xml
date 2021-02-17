@@ -115,6 +115,10 @@
 	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
 	</select>
+	
+	<select id="getAllEmployeeOrderByCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW ORDER BY CODE
+	</select>
 	<!-- 지영  -->
 	<!--  버그리포트 -->
 	<select id="getSenderEmail" resultType="kh.cocoa.dto.EmployeeDTO">

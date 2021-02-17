@@ -216,5 +216,10 @@ public class EmployeeService implements EmployeeDAO {
 	public String getB_Email(String seq) {
 		return edao.getB_Email(seq);
 	}
+	
+	/*-------소형---------*/
+	public List<EmployeeDTO> getAllEmployeeOrderByCode() {
+		return edao.getAllEmployeeOrderByCode();
+	}
 }
 

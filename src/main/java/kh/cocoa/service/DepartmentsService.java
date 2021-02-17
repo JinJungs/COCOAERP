@@ -42,4 +42,10 @@ public class DepartmentsService implements DepartmentsDAO {
     public List<DepartmentsDTO> getSearchDeptCode(String name) {
         return ddao.getSearchDeptCode(name);
     }
+    
+    /* ====소형=== 관리자 - 사용자관리*/
+    @Override
+    public List<DepartmentsDTO> getDeptListOrderByCode(){
+    	return ddao.getDeptListOrderByCode();
+    };
 }

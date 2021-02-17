@@ -11,5 +11,5 @@ public class DepartmentsDTO {
 
     private int code;
     private String name;
-
+    private int location_code;
 }

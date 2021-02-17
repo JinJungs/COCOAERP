@@ -93,4 +93,8 @@ public interface EmployeeDAO {
 	public int isEmailExist(String email);
 	//사번으로 bEmail받아오기
 	public String getB_Email(String seq);
+	
+	//-------------소형-----------------//
+	//전체 멤버 호출 코드로 정렬
+	public List<EmployeeDTO> getAllEmployeeOrderByCode();
 }

@@ -25,4 +25,9 @@
     <select id="getSearchDeptCode" resultType="kh.cocoa.dto.DepartmentsDTO">
         SELECT * FROM DEPARTMENTS WHERE NAME LIKE '%${name}%'
     </select>
+    
+    <!-- ====소형=== 관리자 - 사용자관리 -->
+    <select id="getDeptListOrderByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS ORDER BY CODE
+    </select>
 </mapper>

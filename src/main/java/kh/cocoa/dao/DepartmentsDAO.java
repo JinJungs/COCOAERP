@@ -19,4 +19,7 @@ public interface DepartmentsDAO {
     public DepartmentsDTO getSearchTopDept(String name);
 
     public List<DepartmentsDTO> getSearchDeptCode(String name);
+    
+    /* ====소형=== 관리자 - 사용자관리*/
+    public List<DepartmentsDTO> getDeptListOrderByCode();
 }
