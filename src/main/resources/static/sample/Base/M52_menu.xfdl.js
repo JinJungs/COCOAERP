@@ -26,6 +26,11 @@
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
+            obj = new Grid("grd_menu_manage","114","133","848","373",null,null,null,null,null,null,this);
+            obj.set_taborder("1");
+            obj._setContents("");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
