@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.Leave_Taken_UsedDTO;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.Leave_Taken_UsedService;
 
@@ -52,5 +54,14 @@ public class NexacroLeave_Taken_UsedController {
 			}
 		}
 		return "redirect:/membership/selectEmployeeLTU.employee";
+	}
+	
+	@RequestMapping("addLeave.ltuN")
+	public NexacroResult addLeave(@ParamDataSet(name="in_ds")List<Leave_Taken_UsedDTO> list) {
+		NexacroResult nr = new NexacroResult();
+
+		System.out.println(list.size());
+		
+		return nr;
 	}
 }
