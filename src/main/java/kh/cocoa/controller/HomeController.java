@@ -154,10 +154,6 @@ public class HomeController {
         return "/testMain";
     }
     
-    @RequestMapping("manage")
-    public String toManage() {
-        return "/index";
-    }
     /*-----------지영 - 버그리포트--------*/
     @GetMapping("/bug")
     public String bug(Model model) {
