@@ -1,5 +1,6 @@
 package kh.cocoa.controller;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.cocoa.dto.SidebarViewDTO;
 import kh.cocoa.service.SidebarService;
 import org.json.JSONArray;
@@ -33,11 +34,9 @@ public class SidebarController {
             JSONArray jArray = new JSONArray();
             // 2. 하위목록의 개수를 센다
             int subCount = sService.sidebarCountByMenuSeq(k);
-            System.out.println("하위목록 개수 : " + subCount);
             if(subCount !=0) {
                 // 3. 하위 메뉴의 개수가 0개가 아닐 때, 해당메뉴의 리스트를 불러온다.
                 List<SidebarViewDTO> list = sService.sidebarListByMenuSeq(k);
-
                 // 4. jArray에 리스트를 담는다.
                 for(int i=0; i<list.size(); i++){
                     param = new HashMap<>();
@@ -47,7 +46,10 @@ public class SidebarController {
                     param.put("sub_name", list.get(i).getSub_name());
                     param.put("menu_seq", list.get(i).getMenu_seq());
                     param.put("status", list.get(i).getStatus());
+                    param.put("board_menu_seq", list.get(i).getBoard_menu_seq());
                     param.put("menu_name", list.get(i).getMenu_name());
+                    param.put("type", list.get(i).getType());
+                    param.put("contents", list.get(i).getContents());
                     jArray.put(param);
                 }
                 /*// 하위 메뉴의 개수만큼 for문
@@ -61,6 +63,15 @@ public class SidebarController {
             jArrayAll.put(jArray);
         }
         return jArrayAll.toString();
+    }
+
+    @RequestMapping("getSidbarList.nex")
+    public NexacroResult getSidbarList(){
+        NexacroResult nr = new NexacroResult();
+        List<SidebarViewDTO> list = sService.getSidebarList();
+        System.out.println("리스트 출력중..." + list.get(0).getMenu_name());
+        nr.addDataSet("out_ds",list);
+        return nr;
     }
 
 }
