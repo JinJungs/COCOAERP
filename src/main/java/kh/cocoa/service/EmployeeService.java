@@ -216,5 +216,13 @@ public class EmployeeService implements EmployeeDAO {
 	public String getB_Email(String seq) {
 		return edao.getB_Email(seq);
 	}
+	@Override
+	public List<EmployeeDTO> getEmpleLTU() {
+		return edao.getEmpleLTU();
+	}
+	@Override
+	public List<EmployeeDTO> getListWithdrawN() {
+		return edao.getListWithdrawN();
+	}
 }
 

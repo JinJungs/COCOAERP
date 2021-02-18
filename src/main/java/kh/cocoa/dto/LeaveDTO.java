@@ -21,6 +21,17 @@ public class LeaveDTO {
 	private int duration;
 	
 	@Builder
+	public LeaveDTO(int seq, String type, Date start_date, Date end_date, int time, int emp_code) {
+		super();
+		this.seq = seq;
+		this.type = type;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.time = time;
+		this.emp_code = emp_code;
+	}
+	
+	@Builder
 	public LeaveDTO(int seq, String type, Date start_date, Date end_date, int time, int emp_code, int rownumber,
 			int duration) {
 		super();

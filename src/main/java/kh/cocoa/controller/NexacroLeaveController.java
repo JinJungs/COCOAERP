@@ -1,0 +1,58 @@
+package kh.cocoa.controller;
+
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
+import kh.cocoa.dto.LeaveDTO;
+import kh.cocoa.service.DocumentService;
+import kh.cocoa.service.LeaveService;
+
+
+@Controller
+@RequestMapping("/leaveN")
+public class NexacroLeaveController {
+	
+	@Autowired
+	private LeaveService lservice;
+	@Autowired
+	private DocumentService dservice;
+	
+	@RequestMapping("insert.leaveN")
+	public NexacroResult insert(@ParamVariable(name="seq")int seq,
+			@ParamVariable(name="type")String type, @ParamVariable(name="startDate")String startDate1,
+			@ParamVariable(name="endDate")String endDate1, @ParamVariable(name="time")int time,
+			@ParamVariable(name="empCode")int empCode, @ParamVariable(name="check")boolean check) throws Exception{
+		NexacroResult nr = new NexacroResult();
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        java.sql.Date startDate = new java.sql.Date(format.parse(startDate1).getTime());
+        java.sql.Date endDate;
+        if(!endDate1.contentEquals("undefined")) {	//endDate없을 때 null 삽입
+        	endDate = new java.sql.Date(format.parse(endDate1).getTime());
+        }else {
+        	endDate = null;
+        }
+        
+		//기타 차감-미차감 여부에 따라서 type 입력(조퇴가 아닐때에만)
+        if(!type.contentEquals("조퇴")) {
+			if(check) {
+				type = "기타(차감)";
+			}else {
+				type = "기타(미차감)";
+			}
+        }
+        
+		LeaveDTO dto = new LeaveDTO(0, type, startDate, endDate, time, empCode);
+		lservice.insert(dto);
+		dservice.setProcessY(seq);
+		
+		return nr;
+	}
+}
