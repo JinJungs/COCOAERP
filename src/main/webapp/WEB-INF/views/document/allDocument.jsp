@@ -115,7 +115,7 @@
                   <div class="col-2 p-1 text-center textBox"><b>결재 상태</b></div>
                </div>
                <div class=notice-list id=myboard ">
-                  <c:forEach var="clist" items="${clist }" begin="0" wns="10">
+                  <c:forEach var="clist" items="${clist }" begin="0" end="10">
                      <div class="row p-3" id="c-hover" onclick="fn_toReadPage()" style="border-bottom: 1px solid #c9c9c9; cursor:pointer;">
                         <div class="col-2 p-2 text-center textBox">${clist.seq }</div>
                         <div class="col-4 p-2 textBox">${clist.title }</div>

@@ -42,4 +42,8 @@ public class DepartmentsService implements DepartmentsDAO {
     public List<DepartmentsDTO> getSearchDeptCode(String name) {
         return ddao.getSearchDeptCode(name);
     }
+    @Override
+    public List<DepartmentsDTO> getDeptListForFilter() {
+    	return ddao.getDeptListForFilter();
+    }
 }
