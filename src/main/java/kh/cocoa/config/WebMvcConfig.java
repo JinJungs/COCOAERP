@@ -28,6 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/Test/**").addResourceLocations("classpath:/static/sample/Test/");
         registry.addResourceHandler("/frame/**").addResourceLocations("classpath:/static/sample/frame/");
         registry.addResourceHandler("/Base/**").addResourceLocations("classpath:/static/sample/Base/");
+        registry.addResourceHandler("/popup/**").addResourceLocations("classpath:/static/sample/popup/");
         registry.addResourceHandler("/*.json").addResourceLocations("classpath:/static/sample/");
         registry.addResourceHandler("/*.html").addResourceLocations("classpath:/static/sample/");
         registry.addResourceHandler("/*.js").addResourceLocations("classpath:/static/sample/");

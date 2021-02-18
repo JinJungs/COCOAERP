@@ -46,10 +46,10 @@
             <div class="action_menu">
                 <ul>
                     <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
-                    <li onclick="openMemberListToChat(${ㅇseq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
                     <c:if test="${messenger.type eq 'M'}">
-                    	<li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
-                    	<li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
+                       <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
+                       <li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
                     </c:if>
                 </ul>
             </div>
@@ -119,10 +119,10 @@
       </div>
       <div class="modal-body">
         채팅방 정보 설정 임시 페이지<br>
-		채팅방 이미지 : 한다면 수정 가능하도록<br>
-		채팅방 이름 : <br>
-		<input type="text" id="modifName" value="${messenger.name}" placeholder="채팅방 이름을 설정해주세요.">
-		<div id="msg"></div>
+      채팅방 이미지 : 한다면 수정 가능하도록<br>
+      채팅방 이름 : <br>
+      <input type="text" id="modifName" value="${messenger.name}" placeholder="채팅방 이름을 설정해주세요.">
+      <div id="msg"></div>
       </div>
       <div class="modal-footer">
         <button type="button" id="modifClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,7 +176,7 @@
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
                     let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
-                  	//공지타입 구분
+                     //공지타입 구분
                     let typeArr = (data[i].type).split("_");
                     console.log("typeArr : ",typeArr);
 
@@ -205,17 +205,17 @@
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                         existMsg += "</div></div></div>";
                     }else{
-                    	existMsg += "<div class='text-center font-weight-light'><small>";
-                    	if(typeArr[1]=="MODIF"){
-                    		existMsg += data[i].empname + "님이 " + data[i].contents +" 으로 채팅방 이름을 변경하였습니다.";
-                    	}else if(typeArr[1]=="EXIT"){
-                    		existMsg += data[i].contents + "님이 퇴장하였습니다.";
-                    	}else if(typeArr[1]=="ADD"){
+                       existMsg += "<div class='text-center font-weight-light'><small>";
+                       if(typeArr[1]=="MODIF"){
+                          existMsg += data[i].empname + "님이 " + data[i].contents +" 으로 채팅방 이름을 변경하였습니다.";
+                       }else if(typeArr[1]=="EXIT"){
+                          existMsg += data[i].contents + "님이 퇴장하였습니다.";
+                       }else if(typeArr[1]=="ADD"){
 
-                    	}else{
-                    		existMsg += "공지 메세지 등록 오류";
-                    	}
-                    	existMsg += "</small></div>";
+                       }else{
+                          existMsg += "공지 메세지 등록 오류";
+                       }
+                       existMsg += "</small></div>";
                     }
                     msgBox.prepend(existMsg);
                 }
@@ -254,7 +254,7 @@
                 let msg = $('#yourMsg').val();
                 console.log("지운 메세지?:" +msg+":a");
                 let msgLinebreak = msg.replace(/(\r\n\t|\n|\r\t)/gm,""); //엔터제거
-                //$('#yourMsg').val(msgLinebreak);
+                $('#yourMsg').val(msgLinebreak);
             }
         });
 
@@ -401,9 +401,9 @@
                         showAlertMessageOnBottom(partyname, msg);
                     }
                 }else{
-                	newMsg += "<div class='text-center font-weight-light'><small>";
-					newMsg += msg;
-					newMsg += "</small></div>";
+                   newMsg += "<div class='text-center font-weight-light'><small>";
+               newMsg += msg;
+               newMsg += "</small></div>";
                     msgBox.append(newMsg);
                     scrollUpdate();
                 }
@@ -698,62 +698,62 @@
 
   //==========채팅방 이름변경==================
     function modifChatName(){
-    	//(seq,name,emp_code)
-    	let seq = ${seq};
-    	let name = document.getElementById("modifName").value;
-    	let emp_code = ${loginDTO.code};
-    	console.log("name : ",name);
-    	console.log("emp_code : ", emp_code);
-    	if(name==""){
-    		alert("빈 값은 입력할 수 없습니다.");
-    		return;
-    	}
-    	$.ajax({
-        	url: "/messenger/modifChatName",
-        	type: "post",
+       //(seq,name,emp_code)
+       let seq = ${seq};
+       let name = document.getElementById("modifName").value;
+       let emp_code = ${loginDTO.code};
+       console.log("name : ",name);
+       console.log("emp_code : ", emp_code);
+       if(name==""){
+          alert("빈 값은 입력할 수 없습니다.");
+          return;
+       }
+       $.ajax({
+           url: "/messenger/modifChatName",
+           type: "post",
             data: {
-            	seq: seq
-            	, name: name
+               seq: seq
+               , name: name
             },
             dataType: "json",
             success: function (resp) {
-            	if(resp>0){
-            		socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-                    	m_seq: seq
+               if(resp>0){
+                  socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+                       m_seq: seq
                         , contents: name
                         , write_date: new Date()
                         , emp_code: emp_code
                         , type: "AN_MODIF"
                     }));
-            		$('#partyname').text(name);
-            		$('#modalModifChat').modal('hide');
-            	}
+                  $('#partyname').text(name);
+                  $('#modalModifChat').modal('hide');
+               }
             }
         });
     }
    //==========채팅방 이름변경==================
 
-	//==========채팅방 나가기==================
+   //==========채팅방 나가기==================
     function exitRoom(){
-	   let seq = ${seq};
-	   let code = ${loginDTO.code};
-	   let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
-    	let exit = confirm("정말 나가시겠습니까?");
-    	if(exit){
-    		location.href = "/messenger/exitRoom?seq="+seq;
-    	}
+      let seq = ${seq};
+      let code = ${loginDTO.code};
+      let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
+       let exit = confirm("정말 나가시겠습니까?");
+       if(exit){
+          location.href = "/messenger/exitRoom?seq="+seq;
+       }
 
-    	socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-        	m_seq: seq
+       socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+           m_seq: seq
             , contents: name
             , write_date: new Date()
             , emp_code: code
             , type: "AN_EXIT"
         }));
 
-    	setTimeout(function(){
-    		window.open('','_self').close();
-    	}, 500);
+       setTimeout(function(){
+          window.open('','_self').close();
+       }, 500);
     }
     //==========채팅방 나가기==================
     //====================채팅 멤버 추가=======
@@ -761,43 +761,43 @@
         window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature);
     }
     function getReturnValue(returnValue) {
-    	let seq = ${seq};
-    	let emp_code = ${loginDTO.code};
-	    console.log(returnValue);
-	    let checkArr = returnValue;
+       let seq = ${seq};
+       let emp_code = ${loginDTO.code};
+       console.log(returnValue);
+       let checkArr = returnValue;
 
-	    //길이 알아내기 위해
- 	    let checkArrParsed = JSON.parse(returnValue);
-/* 	    console.log("json 형태 : ",checkArr);
-	    console.log("첫번째 값 : ", checkArr[0]); */
-	    console.log("길이 : ", checkArrParsed.length);
-	    //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
-	    //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
- 	    $.ajax({
-        	url: "/messenger/addMemberToChatRoom",
-        	type: "post",
-        	traditional :true,
+       //길이 알아내기 위해
+        let checkArrParsed = JSON.parse(returnValue);
+/*        console.log("json 형태 : ",checkArr);
+       console.log("첫번째 값 : ", checkArr[0]); */
+       console.log("길이 : ", checkArrParsed.length);
+       //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
+       //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
+        $.ajax({
+           url: "/messenger/addMemberToChatRoom",
+           type: "post",
+           traditional :true,
             data: {
-            	seq: seq
-            	, partyList: checkArr
+               seq: seq
+               , partyList: checkArr
             },
             dataType: "json",
             success: function (resp) {
-            	if(resp==checkArrParsed.length){
-            		console.log("소켓 보내기 직전")
-            		socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-                    	m_seq: seq
+               if(resp==checkArrParsed.length){
+                  console.log("소켓 보내기 직전")
+                  socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+                       m_seq: seq
                         , contents: checkArr
                         , write_date: new Date()
                         , emp_code: emp_code
                         , type: "AN_ADD"
                     }));
 
-            	}
+               }
             }
         });
-	};
-  	//====================채팅 멤버 추가=======
+   };
+     //====================채팅 멤버 추가=======
 
 </script>
 </body>
