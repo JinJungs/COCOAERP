@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kh.cocoa.dao.EmployeeDAO;
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.NexacroSearchDTO;
 
 @Service
 public class EmployeeService implements EmployeeDAO {
@@ -221,5 +222,9 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getAllEmployeeOrderByCode() {
 		return edao.getAllEmployeeOrderByCode();
 	}
+	
+	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
+		return edao.searchEmployee(dto);
+	};
 }
 

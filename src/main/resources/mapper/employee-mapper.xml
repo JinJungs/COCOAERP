@@ -119,6 +119,33 @@
 	<select id="getAllEmployeeOrderByCode" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW ORDER BY CODE
 	</select>
+	<!-- 관리자페이지 검색 -->
+ 	<select id="searchEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE 
+		<if test="dept_code>0 or team_code>0 or pos_code>0 or search!=null">
+			WHERE 0=0
+			<choose>
+				<when test="searchWhat=='code' and search!=null">
+					AND CODE = #{search}
+				</when>
+				<when test="searchWhat=='name'">
+					AND NAME like '%${search}%'
+				</when>
+			</choose>
+			
+			<if test="team_code>0">
+				AND TEAM_CODE = #{team_code}
+			</if>
+			<if test="dept_code>0">
+				AND DEPT_CODE = #{dept_code}
+			</if>
+			<if test="pos_code>0">
+				AND POS_CODE = #{pos_code}
+			</if>
+			
+		</if> 
+	</select>
+	<!-- 소형 끝 -->
 	<!-- 지영  -->
 	<!--  버그리포트 -->
 	<select id="getSenderEmail" resultType="kh.cocoa.dto.EmployeeDTO">
