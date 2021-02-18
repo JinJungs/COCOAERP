@@ -47,14 +47,14 @@
             obj.set_taborder("1");
             obj.set_binddataset("tp_title");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"title\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"- 양식함\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Grid("grid_temp","210","90","592","544",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_binddataset("tp_list");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row band=\"head\" size=\"24\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"code\"/><Cell col=\"1\" text=\"name\"/><Cell col=\"2\" text=\"STATUS\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:name\"/><Cell col=\"2\" text=\"bind:STATUS\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"양식명\"/></Band><Band id=\"body\"><Cell text=\"bind:name\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_titleAdd","10","54","43","26",null,null,null,null,null,null,this);
@@ -118,7 +118,7 @@
 
             obj = new Static("Static01_00","53","124","120","46",null,null,null,null,null,null,this.div_addListForm.form);
             obj.set_taborder("2");
-            obj.set_text("기안 양식 명");
+            obj.set_text("기안 양식 명 *");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.div_addListForm.addChild(obj.name, obj);
@@ -132,7 +132,7 @@
 
             obj = new Static("Static01_02","53","218","120","46",null,null,null,null,null,null,this.div_addListForm.form);
             obj.set_taborder("4");
-            obj.set_text("설명");
+            obj.set_text("설명 *");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.div_addListForm.addChild(obj.name, obj);
@@ -174,12 +174,14 @@
             obj.set_taborder("10");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
+            obj.set_text("");
             this.div_addListForm.addChild(obj.name, obj);
 
             obj = new Static("Static01_06_00_01","173","218","498","46",null,null,null,null,null,null,this.div_addListForm.form);
             obj.set_taborder("11");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
+            obj.set_text("");
             this.div_addListForm.addChild(obj.name, obj);
 
             obj = new Static("Static01_06_00_02","173","265","498","116",null,null,null,null,null,null,this.div_addListForm.form);
@@ -244,6 +246,14 @@
             obj.set_text("공개");
             obj.set_value("Y");
             obj.set_index("0");
+            this.div_addListForm.addChild(obj.name, obj);
+
+            obj = new Static("sta_nameErrMsg","384","132","292","30",null,null,null,null,null,null,this.div_addListForm.form);
+            obj.set_taborder("22");
+            this.div_addListForm.addChild(obj.name, obj);
+
+            obj = new Static("sta_explainErrMsg","453","227","234","30",null,null,null,null,null,null,this.div_addListForm.form);
+            obj.set_taborder("23");
             this.div_addListForm.addChild(obj.name, obj);
 
             // Layout Functions
@@ -430,10 +440,17 @@
         	var user_dept = this.ds_user.getColumn(0,"dept_name");
         	this.div_addListForm.form.sta_writer_code.set_text(user_name+" | "+user_dept);
 
+        	this.div_addListForm.form.tp_listName.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listContents.set_value("");
+        	this.div_addListForm.form.tp_listTemp.set_index();
+
         };
 
         this.btn_addList_onclick = function(obj,e)
         {
+
         	var form_code = this.tp_title.getColumn(this.tp_title.rowposition,"code");
         	var name = this.div_addListForm.form.tp_listName.value;
         	var explain = this.div_addListForm.form.tp_listExplain.value;
@@ -441,7 +458,20 @@
         	var status = this.div_addListForm.form.radio_status.value;
         	var temp_code = this.div_addListForm.form.tp_listTemp.value;
         	var writer_code=this.ds_user.getColumn(0,"code");
-
+        	if(name==""){
+        		this.div_addListForm.form.sta_nameErrMsg.set_text("양식명을 입력해주세요.");
+        		this.div_addListForm.form.tp_listName.setFocus(true);
+        		return;
+        	}else{
+        		this.div_addListForm.form.sta_nameErrMsg.set_text("");
+        	}
+        	if(explain==""){
+        		this.div_addListForm.form.sta_explainErrMsg.set_text("설명을 입력해주세요.");
+        		this.div_addListForm.form.tp_listExplain.setFocus(true);
+        		return;
+        	}else{
+        		this.div_addListForm.form.sta_explainErrMsg.set_text("");
+        	}
 
         	this.transaction(
         		"addList_onclick" //1. strsvcid
@@ -453,8 +483,11 @@
         		,"fn_callback" //6.strCallbackFunc
         		);
 
-
-
+        	this.div_addListForm.form.tp_listName.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listContents.set_value("");
+        	this.div_addListForm.form.tp_listTemp.set_index();
         };
 
         });
