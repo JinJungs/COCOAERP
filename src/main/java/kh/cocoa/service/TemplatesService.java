@@ -28,4 +28,14 @@ public class TemplatesService implements TemplatesDAO{
 	public List<TemplatesDTO> getTemplateList2() {
 		return tdao.getTemplateList2();
 	}
+
+	@Override
+	public List<TemplatesDTO> getClickTemplateList(int code) {
+		return tdao.getClickTemplateList(code);
+	}
+
+	@Override
+	public int addTemplates(TemplatesDTO dto) {
+		return tdao.addTemplates(dto);
+	}
 }
