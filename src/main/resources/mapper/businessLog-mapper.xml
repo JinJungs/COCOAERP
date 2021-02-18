@@ -40,25 +40,28 @@
 	<insert id="tempSavedLog">
 		<choose>
 			<when test="selectBy=='daily'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,STATUS) VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{dept_code},1,
-				null,null,null,null,null,null,#{ddto.report_start},
-				null,null,'TEMP')
+				#{ddto.writer_code},#{dept_code},
+				1,#{ddto.report_start},'TEMP')
 			</when>
 			<when test="selectBy=='weekly'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{dept_code},2,
-				null,null,null,null,null,null,#{ddto.report_start},
-				#{ddto.report_end},null,'TEMP')
+				#{ddto.writer_code},#{dept_code},
+				2,#{ddto.report_start},#{ddto.report_end},'TEMP')
 			</when>
 			<when test="selectBy=='monthly'">
-				INSERT INTO DOCUMENT VALUES
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
-				null,#{ddto.writer_code},#{dept_code},3,
-				null,null,null,null,null,null,#{ddto.report_start},
-				#{ddto.report_end},null,'TEMP')
+				#{ddto.writer_code},#{dept_code},
+				3,#{ddto.report_start},#{ddto.report_end},'TEMP')
 			</when>
 		</choose>
 	</insert>
