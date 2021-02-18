@@ -62,7 +62,7 @@
         		trace("도착==============--================");
         		this.transaction(
         			"OrganDeptTeam" //strSvcID
-        			, "/nexEmployee/nexOrganDept.nex" //strURL
+        			, "/nexDeptTeam/nexOrganDept.nex" //strURL
         			, "" //strInDatasets Sds=Fds:U, A, N
         			, "ds_org=out_org_list" //strOutDatasets - select Fds = Sds
         			, "" //strArgument
@@ -72,7 +72,7 @@
 
         this.fn_callback = function(id, ErrCode, ErrMsg)
         {
-        	alert(ErrMsg);
+        	trace(ErrMsg);
         }
         /*
         this.grd_tree_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)

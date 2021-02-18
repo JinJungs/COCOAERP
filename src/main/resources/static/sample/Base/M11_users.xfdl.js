@@ -18,7 +18,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_employee", this);
-            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"password\" type=\"STRING\" size=\"256\"/><Column id=\"phone\" type=\"STRING\" size=\"256\"/><Column id=\"office_phone\" type=\"STRING\" size=\"256\"/><Column id=\"address\" type=\"STRING\" size=\"256\"/><Column id=\"email\" type=\"STRING\" size=\"256\"/><Column id=\"b_email\" type=\"STRING\" size=\"256\"/><Column id=\"gender\" type=\"STRING\" size=\"256\"/><Column id=\"hire_date\" type=\"STRING\" size=\"256\"/><Column id=\"withdraw\" type=\"STRING\" size=\"256\"/><Column id=\"dept_code\" type=\"INT\" size=\"256\"/><Column id=\"pos_code\" type=\"INT\" size=\"256\"/><Column id=\"team_code\" type=\"INT\" size=\"256\"/><Column id=\"deptname\" type=\"STRING\" size=\"256\"/><Column id=\"teamname\" type=\"STRING\" size=\"256\"/><Column id=\"posname\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
+            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"password\" type=\"STRING\" size=\"256\"/><Column id=\"phone\" type=\"STRING\" size=\"256\"/><Column id=\"office_phone\" type=\"STRING\" size=\"256\"/><Column id=\"address\" type=\"STRING\" size=\"256\"/><Column id=\"email\" type=\"STRING\" size=\"256\"/><Column id=\"b_email\" type=\"STRING\" size=\"256\"/><Column id=\"gender\" type=\"STRING\" size=\"256\"/><Column id=\"hire_date\" type=\"DATE\" size=\"256\"/><Column id=\"withdraw\" type=\"STRING\" size=\"256\"/><Column id=\"dept_code\" type=\"INT\" size=\"256\"/><Column id=\"pos_code\" type=\"INT\" size=\"256\"/><Column id=\"team_code\" type=\"INT\" size=\"256\"/><Column id=\"deptname\" type=\"STRING\" size=\"256\"/><Column id=\"teamname\" type=\"STRING\" size=\"256\"/><Column id=\"posname\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -255,7 +255,7 @@
             obj.set_index("-1");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Combo("cmb_searchTeam","312","123","108","22",null,null,null,null,null,null,this.div_info.form);
+            obj = new Combo("cmb_team","312","123","108","22",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("29");
             obj.set_innerdataset("ds_team");
             obj.set_datacolumn("name");
@@ -461,6 +461,10 @@
             obj = new BindItem("item4","div_info.form.ckb_withdraw","value","ds_employee","withdraw");
             this.addChild(obj.name, obj);
             obj.bind();
+
+            obj = new BindItem("item8","div_info.form.cmb_team","value","ds_employee","team_code");
+            this.addChild(obj.name, obj);
+            obj.bind();
         };
         
         this.loadPreloadList = function()
@@ -492,7 +496,7 @@
         		);
         };
 
-        //저장
+        //저장 & 취소========================================================================
         this.btn_save_onclick = function(obj,e)
         {
         	trace("M11 저장");
@@ -505,9 +509,30 @@
         			,  "fn_callback" //strCallbackFunc
         		);
         };
+        //취소
+        this.btn_cancel_onclick = function(obj,e)
+        {
+        	let cancel = confirm("저장하지 않은 모든 작업이 삭제됩니다. 취소하시겠습니까?");
+        	if(cancel){
+        	//온로드 다시하기
+        		trace("다시 온로드");
+        		this.transaction(
+        			"EmpList" //strSvcID
+        			, "/nexEmployee/nexEmpList.nex" //strURL
+        			, "" //strInDatasets Sds=Fds:U, A, N
+        			, "ds_employee=out_emp_list ds_departments=out_dept_list ds_position=out_pos_list ds_team=out_team_list" //strOutDatasets - select Fds = Sds
+        			, "" //strArgument
+        			,  "fn_callback" //strCallbackFunc
+        		);
+        	}else{
+        		return;
+        	}
+        };
+
+        //저장 & 취소====================================================
 
 
-
+        //ds_employee 업데이트====================================================
         //사원추가
         this.div_info_btn_add_onclick = function(obj,e)
         {
@@ -520,7 +545,18 @@
         	let row = this.ds_employee.rowposition;
         	this.ds_employee.setColumn(row, "withdraw", "Y");
         };
+        //부서콤보제한
+        this.div_info_cmb_dept_onitemchanged = function(obj,e)
+        {
 
+        };
+        //팀 콤보 제한
+        this.div_info_cmb_searchTeam_onitemchanged = function(obj,e)
+        {
+
+        };
+
+        ////ds_employee 업데이트====================================================
 
 
         //검색 ==============================================================
@@ -561,21 +597,13 @@
         //부서 선택시 팀 콤보 목록 재설정
         this.div_search_cmb_searchDept_onitemchanged = function(obj,e)
         {
-        	this.div_search.form.cmb_searchTeam.set_value(null);
-        	let dept_code = this.div_search.form.cmb_searchDept.value;
-        	if(dept_code!=-10){
-        		this.ds_team.filter("dept_code == "+dept_code);
-        	}
+        	this.setDeptCombo();
         };
 
-        //팀 선택시 부서 콤보 재설정-- 미구현
+        //팀 선택시 부서 콤보 재설정
         this.div_search_cmb_searchTeam_onitemchanged = function(obj,e)
         {
-        	let team_code = this.div_search.form.cmb_searchTeam.value;
-        	let row = this.ds_team.findRow("code",team_code);
-        	let dept_code = this.ds_team.getColumn(row,"dept_code");
-        	trace(dept_code);
-        	this.div_search.form.cmb_searchDept.set_value(dept_code);
+        	this.setTeamCombo();
         };
         //직급이 대표일 경우 부서, 팀 값 없애기
         this.div_search_cmb_pos_onitemchanged = function(obj,e)
@@ -599,27 +627,55 @@
         //검색 끝 ==============================================================
 
 
-        this.btn_cancel_onclick = function(obj,e)
-        {
-        	let cancel = confirm("저장하지 않은 모든 작업이 삭제됩니다. 취소하시겠습니까?");
-        	if(cancel){
-        	//온로드 다시하기
-        		trace("다시 온로드");
-        		this.transaction(
-        			"EmpList" //strSvcID
-        			, "/nexEmployee/nexEmpList.nex" //strURL
-        			, "" //strInDatasets Sds=Fds:U, A, N
-        			, "ds_employee=out_emp_list ds_departments=out_dept_list ds_position=out_pos_list ds_team=out_team_list" //strOutDatasets - select Fds = Sds
-        			, "" //strArgument
-        			,  "fn_callback" //strCallbackFunc
-        		);
-        	}else{
-        		return;
+
+        //================================================================
+        //부서콤보 제한
+        this.setDeptCombo = function(){
+        	this.div_search.form.cmb_searchTeam.set_value(null);
+        	let dept_code = this.div_search.form.cmb_searchDept.value;
+        	if(dept_code!=-10){
+        		this.ds_team.filter("dept_code == "+dept_code);
         	}
+        }
+        //팀 콤보 제한
+        this.setTeamCombo = function(){
+        	let team_code = this.div_search.form.cmb_searchTeam.value;
+        	let row = this.ds_team.findRow("code",team_code);
+        	let dept_code = this.ds_team.getColumn(row,"dept_code");
+        	trace(dept_code);
+        	this.div_search.form.cmb_searchDept.set_value(dept_code);
+        }
+
+
+
+
+        //========================테스트중==============================
+        //정보수정 창 팀 콤보에 포커스
+        /*
+        this.div_info_cmb_team_onsetfocus = function(obj:nexacro.Combo,e:nexacro.SetFocusEventInfo)
+        {
+        	let org_team_code = this.div_info.form.cmb_team.value;
+        	this.div_info.form.cmb_team.addEventListner("onchange", checkDeptCode(org_team_code));
+
         };
 
-
-
+        this.checkDeptCode = function(org_team_code){
+        	let team_code = this.div_info.form.cmb_team.value;
+        	let row = this.ds_team.findRow("code",team_code);
+        	let dept_code = this.ds_team.getColumn(row,"dept_code");
+        	trace(dept_code);
+        	let org_dept_code = this.div_info.form.cmb_dept.value;
+        	if(dept_code!=org_dept_code){
+        		let confirm = confirm("기존에 선택된 부서에 속한 팀이 아닙니다. 부서를 바꾸시겠습니까?");
+        		if(confirm){
+        			this.div_info.form.cmb_dept.set_value(dept_code);
+        		}else{
+        			this.div_info.form.cmb_team.set_value(org_team_code);
+        		}
+        	}
+        }
+        */
+        //========================테스트중==============================
 
         });
         
@@ -643,6 +699,8 @@
             this.div_info.form.btn_add.addEventHandler("onclick",this.div_info_btn_add_onclick,this);
             this.div_info.form.ckb_nodept.addEventHandler("onclick",this.div_detail_CheckBox00_onclick,this);
             this.div_info.form.cmb_dept.addEventHandler("onitemchanged",this.div_info_cmb_dept_onitemchanged,this);
+            this.div_info.form.cmb_team.addEventHandler("onitemchanged",this.div_info_cmb_searchTeam_onitemchanged,this);
+            this.div_info.form.cmb_team.addEventHandler("onsetfocus",this.div_info_cmb_team_onsetfocus,this);
             this.div_info.form.btn_withdraw.addEventHandler("onclick",this.div_info_btn_withdraw_onclick,this);
             this.div_search.form.gtn_search.addEventHandler("onclick",this.div_search_gtn_search_onclick,this);
             this.div_search.form.rdo_search.addEventHandler("onitemchanged",this.Div00_rdo_gender_onitemchanged,this);
