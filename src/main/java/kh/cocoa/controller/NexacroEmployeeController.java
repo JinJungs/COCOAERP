@@ -40,7 +40,7 @@ public class NexacroEmployeeController {
 		//사원 전체 불러오기
 		List<EmployeeDTO> emp_list = eservice.getAllEmployeeOrderByCode();
 		//부서목록 불러오기(전체 : -10)
-		List<DepartmentsDTO> dept_list = ddservice.getDeptListOrderByCode();
+		List<DepartmentsDTO> dept_list = ddservice.getDeptListWithout0();
 		DepartmentsDTO dept_all = new DepartmentsDTO(-10,"전체",0);
 		dept_list.add(0, dept_all);
 		//팀목록 불러오기(전체 : -10)

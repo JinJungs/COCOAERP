@@ -41,6 +41,13 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"24\"/></Rows><Band id=\"body\"><Cell text=\"bind:org_nm\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:level\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
+            obj = new Static("sta_msg","340","100","270","90",null,null,null,null,null,null,this);
+            obj.set_taborder("2");
+            obj.set_text("부서, 팀 추가, 삭제, 이름 수정 기능 미구현");
+            obj.set_background("#cecece");
+            obj.set_textAlign("center");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
@@ -85,6 +92,7 @@
         	this.ds_emp.set_rowposition(0);
         };
         */
+
         });
         
         // Regist UI Components Event
@@ -92,6 +100,7 @@
         {
             this.addEventHandler("onload",this.M12_deptTeam_onload,this);
             this.grd_tree.addEventHandler("oncellclick",this.grd_tree_oncellclick,this);
+            this.sta_msg.addEventHandler("onclick",this.sta_msg_onclick,this);
         };
 
         this.loadIncludeScript("M12_deptTeam.xfdl");

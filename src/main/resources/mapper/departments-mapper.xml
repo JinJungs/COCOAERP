@@ -27,8 +27,12 @@
     </select>
     
     <!-- ====소형=== 관리자 - 사용자관리 -->
-    <select id="getDeptListOrderByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+    <select id="getDeptListWithout0" resultType="kh.cocoa.dto.DepartmentsDTO">
         SELECT * FROM DEPARTMENTS WHERE CODE!=0 ORDER BY CODE
+    </select>
+    
+    <select id="getDeptListOrderByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS ORDER BY CODE
     </select>
     
     <select id="getDeptListForFilter" resultType="kh.cocoa.dto.DepartmentsDTO">

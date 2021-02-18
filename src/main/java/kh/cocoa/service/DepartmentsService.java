@@ -50,6 +50,11 @@ public class DepartmentsService implements DepartmentsDAO {
     };
     
     @Override
+    public List<DepartmentsDTO> getDeptListWithout0(){
+    	return ddao.getDeptListWithout0();
+    }
+    
+    @Override
     public List<DepartmentsDTO> getDeptListForFilter() {
     	return ddao.getDeptListForFilter();
     }

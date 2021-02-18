@@ -33,7 +33,6 @@ public class NexacroDeptTeamController {
 		NexacroResult nr = new NexacroResult();
 		List<OrganizationDTO> org_list = new ArrayList<>();
 		List<DepartmentsDTO> dept_list = ddservice.getDeptListOrderByCode();
-		List<TeamDTO> team_list = tservice.getAllTeamList();
 		
 		for(DepartmentsDTO i : dept_list) {
 			int dept_code = i.getCode();
@@ -44,8 +43,7 @@ public class NexacroDeptTeamController {
 			//기업 최고 단위 제외
 			if(i.getCode()!=0) {
 				dto.setP_org_cd(0);
-				dto.setLevel(1);			
-				
+				dto.setLevel(1);		
 			}else {
 				dto.setLevel(0);
 			}
@@ -54,18 +52,13 @@ public class NexacroDeptTeamController {
 			List<TeamDTO> t_list = tservice.getTeamListByDeptCode(dept_code);
 			for(TeamDTO j : t_list) {
 				OrganizationDTO dtoj = new OrganizationDTO();
-				dto.setOrg_nm(j.getName());
-				dto.setOrg_cd(j.getCode());
-				dto.setP_org_cd(dept_code);
-				dto.setLevel(2);
+				dtoj.setOrg_nm(j.getName());
+				dtoj.setOrg_cd(j.getCode());
+				dtoj.setP_org_cd(dept_code);
+				dtoj.setLevel(2);
 				org_list.add(dtoj);
 			}
-		}
-		//dept_code별로 team_list 뽑기
-		//첫번째 부서코드
-		
-
-		System.out.println(org_list);
+		}	
 		nr.addDataSet("out_org_list", org_list);
 		return nr;
 	}

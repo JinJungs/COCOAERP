@@ -26,6 +26,14 @@
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
+            obj = new Static("Static01","170","226","780","148",null,null,null,null,null,null,this);
+            obj.set_taborder("1");
+            obj.set_text("직급 이름 수정 기능이 구현될 예정입니다.");
+            obj.set_textAlign("center");
+            obj.set_background("#d3d3d3");
+            obj.set_font("normal 20pt/normal \"Arial\"");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
