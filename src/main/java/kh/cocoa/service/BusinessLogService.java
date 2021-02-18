@@ -18,8 +18,6 @@ public class BusinessLogService implements BusinessLogDAO {
 	//업무일지 종류에 따라 문서 저장
 	@Override
 	public int createLog(int logDoc_seq,DocumentDTO ddto,String selectBy,int dept_code) {
-		System.out.println("서비스에선ㄴ부서코드가 뭐냐"+dept_code);
-		System.out.println("서비스에선ㄴ사번이 뭐냐"+ddto.getWriter_code());
 		return bdao.createLog(logDoc_seq,ddto,selectBy,dept_code);
 	}
 	//업무일지 seq & files doc_seq 맞추기

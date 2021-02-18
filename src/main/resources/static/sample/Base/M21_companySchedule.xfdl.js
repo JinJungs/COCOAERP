@@ -26,6 +26,10 @@
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
+            obj = new Calendar("Calendar00","10","30","268","202",null,null,null,null,null,null,this);
+            obj.set_taborder("1");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
@@ -41,7 +45,14 @@
         };
         
         // User Script
+        this.registerScript("M21_companySchedule.xfdl", function() {
 
+        this.Calendar00_onchanged = function(obj,e)
+        {
+
+        };
+
+        });
         
         // Regist UI Components Event
         this.on_initEvent = function()

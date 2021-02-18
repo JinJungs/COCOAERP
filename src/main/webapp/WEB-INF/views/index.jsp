@@ -261,6 +261,7 @@
             <button type="button" onclick="fn_toRD()">반려한</button>
             <button type="button" onclick="fn_toNex()">넥사크로</button>
             <a href="/membership/logout">로그아웃</a>
+            <button type="button" onclick="fn_managerMode()" style="display: none">관리자 모드</button>
          </div>
       </div>
       <script>

@@ -211,7 +211,7 @@
   		}
 		/*홈으로*/
 		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
+			location.href = "/"
 		}
 		/*수정*/
 		function fn_modify(cpage,seq) {

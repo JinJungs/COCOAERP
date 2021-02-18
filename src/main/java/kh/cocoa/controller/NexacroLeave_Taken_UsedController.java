@@ -60,7 +60,6 @@ public class NexacroLeave_Taken_UsedController {
 	public NexacroResult addLeave(@ParamDataSet(name="in_ds")List<Leave_Taken_UsedDTO> list) {
 		NexacroResult nr = new NexacroResult();
 
-		System.out.println(list.size());
 		
 		return nr;
 	}
