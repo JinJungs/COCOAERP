@@ -1,6 +1,5 @@
 package kh.cocoa.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.NexacroFakeEmployeeDTO;
 import kh.cocoa.dto.NexacroSearchDTO;
-import kh.cocoa.dto.OrganizationDTO;
 import kh.cocoa.dto.PositionDTO;
 import kh.cocoa.dto.TeamDTO;
 import kh.cocoa.service.DepartmentsService;
@@ -81,11 +80,11 @@ public class NexacroEmployeeController {
 	
 	//지금까지 작업한 내용 저장
 	@RequestMapping("/nexSave.nex")
-	public NexacroResult nexSave(@ParamDataSet(name="in_ds_employee")List<EmployeeDTO> list) {
+	public NexacroResult nexSave(@ParamDataSet(name="in_ds_employee")List<NexacroFakeEmployeeDTO> list) {
 		NexacroResult nr = new NexacroResult();
 		System.out.println("nexSave.nex 도착");
 
-		//System.out.println(list);
+		System.out.println(list);
 
 		return nr;
 	}
