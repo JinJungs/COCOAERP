@@ -1,6 +1,5 @@
 package kh.cocoa.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kh.cocoa.dao.NotificationBoardDAO;
 import kh.cocoa.dto.BoardDTO;
+import kh.cocoa.dto.BoardMenuDTO;
 import kh.cocoa.statics.Configurator;
 
 @Service
@@ -129,10 +129,12 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardListCpage(String cpage,int menu_seq){
 		int startRowNum = (Integer.parseInt(cpage)-1)*Configurator.recordCountPerPage+1;
-		//System.out.println("시작 갯수는?"+startRowNum);
 		int endRowNum = Integer.parseInt(cpage) *Configurator.recordCountPerPage;
-		//System.out.println("끝 갯수는?"+endRowNum);
 		return getNotificationBoardList(startRowNum,endRowNum,menu_seq);
+	}
+	//게시글 리스트 불러오기 @ 메인화면
+	public List<BoardDTO> getNoBoardList(int menu_seq) {
+		return ndao.getNoBoardList(menu_seq);
 	}
 	
 	@Override
@@ -198,7 +200,18 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	public List<BoardDTO> getMyBoardList(int writer_code) {
 		return ndao.getMyBoardList(writer_code);
 	}
-
+	//넥사크로 - 모든 보드 메뉴 불러오기
+	public List<BoardMenuDTO> getBoardMenuList() {
+		return ndao.getBoardMenuList();
+	}
+	//넥사크로 게시판 추가
+	public int addBoard(String type, String name) {
+		return  ndao.addBoard(type,name);
+	}
+	//넥사크로 게시판 수정
+	public int uptBoard(String name,int seq) {
+		return ndao.uptBoard(name,seq);
+	}
 
 
 }

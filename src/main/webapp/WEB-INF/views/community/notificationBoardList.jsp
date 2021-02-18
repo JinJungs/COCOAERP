@@ -111,7 +111,7 @@ input{width:50%;border-bottom:1px solid pink;}
 		}
 		/*홈으로*/
 		function fn_home(cpage) {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"+"&cpage="+cpage;
+			location.href = "/";
 		}
 	</script>
 </body>

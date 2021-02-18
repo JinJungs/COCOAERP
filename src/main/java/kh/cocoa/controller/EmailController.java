@@ -29,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.cocoa.dto.EmailDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
@@ -81,6 +84,29 @@ public class EmailController {
 
 		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함      
 	}
+	@RequestMapping("nexacroEmailSend.email")
+    public String nexacroBug(@ParamVariable(name="title")String title, @ParamVariable(name="receiver_email")String receiver_email, 
+    		@ParamVariable(name="contents")String contents) throws Exception{
+
+		NexacroResult nr = new NexacroResult();
+    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int writer_code = (Integer)loginDTO.getCode();
+		String sender_email = (String)loginDTO.getB_email();
+    	System.out.println(sender_email);
+    	
+		
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+		messageHelper.setFrom(sender_email); // 보내는사람 생략하면 정상작동을 안함
+		messageHelper.setTo(receiver_email); // 받는사람 이메일
+		messageHelper.setSubject(title); // 메일제목은 
+		messageHelper.setText(contents); // 메일 내용
+
+		mailSender.send(message);
+		
+		return "bugReport/bugReportView"; //추우 메인 홈페이지로 변경해야함    
+    }
 	// 비번찾기 - 이메일 인증
 	@RequestMapping("pwfind.email")
 	@ResponseBody

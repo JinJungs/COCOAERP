@@ -14,12 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.DocumentDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.ScheduleDTO;
 import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.service.DocumentService;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.NotificationBoardService;
 import kh.cocoa.service.ScheduleService;
 import kh.cocoa.service.TemplatesService;
 
@@ -37,6 +39,9 @@ public class HomeController {
 	
 	@Autowired
 	private TemplatesService tservice;
+	
+	@Autowired
+	private NotificationBoardService nservice;
 	
 	@Autowired
 	private HttpSession session;
@@ -150,7 +155,15 @@ public class HomeController {
     	model.addAttribute("scheduleList", scheduleList);
     	
     	/*4. 회사 공지*/
+		//게시글 불러오기
+		int writer_code = (Integer)loginDTO.getCode();
+    	int menu_seq = 1;
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		list = nservice.getNoBoardList(menu_seq);
     	
+
+    	model.addAttribute("noBoardList", list);
+    	model.addAttribute("writer_code", writer_code);
         return "/testMain";
     }
     
@@ -171,6 +184,7 @@ public class HomeController {
         return "/bugReport/bugReport";
     }
 
+    
     @RequestMapping("/toNex")
     public String toNex(){
         return "redirect:/index.html";
