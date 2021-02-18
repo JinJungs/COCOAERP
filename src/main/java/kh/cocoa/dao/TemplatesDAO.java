@@ -17,4 +17,9 @@ public interface TemplatesDAO {
 	//업무보고 제외.
 	public List<TemplatesDTO> getTemplateList2();
 
+	//해당 템플릿 폼에 위치한 요소들만
+	public List<TemplatesDTO> getClickTemplateList(int code);
+
+	public int addTemplates(TemplatesDTO dto);
+
 }
