@@ -317,6 +317,7 @@
         {
         	var curRow = this.grid_form.currentrow;
         	this.tp_title.deleteRow(curRow);
+
         	this.fn_update_tpTitle("tp_titleRm","/nexTemp/tp_titleRm.nex");
         };
 
@@ -358,7 +359,7 @@
         		this.transaction(
         		id //1. strsvcid
         		,url //2.strurl
-        		,"in_ds=tp_title:A" //3.strInDatasets Sds=Fds:U :A :
+        		,"in_ds=tp_title:U" //3.strInDatasets Sds=Fds:U :A :
         		,"" //4.strOutDatasets
         		,"" //5.strArgument
         		,"fn_callback" //6.strCallbackFunc
@@ -371,12 +372,16 @@
         	return;
         }
         	var arr = args.split("|");
-        	var getAddRowNum = this.tp_title.addRow();
         	var arr1 = arr[0];
         	var arr2 = arr[1];
-        	this.tp_title.setColumn(getAddRowNum,"title",arr1);
-        	this.tp_title.setColumn(getAddRowNum,"contents",arr2);
-        	this.fn_update_tpTitle("tp_titleAdd","/nexTemp/tp_titleAdd");
+        	this.transaction(
+        		"tp_titleAdd" //1. strsvcid
+        		,"/nexTemp/tp_titleAdd.nex" //2.strurl
+        		,"in_ds=tp_title:U" //3.strInDatasets Sds=Fds:U :A :
+        		,"" //4.strOutDatasets
+        		,"title='"+arr1+"' contents='"+arr2+"'"//5.strArgument
+        		,"fn_callback" //6.strCallbackFunc
+        		);
         	this.setTimer("timer",200)
         	this.M41_fileForm_onload();
 

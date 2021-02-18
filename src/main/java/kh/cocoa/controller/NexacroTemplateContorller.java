@@ -93,9 +93,9 @@ public class NexacroTemplateContorller {
         return nr;
     }
 
-    @RequestMapping("/tp_titleAdd")
-    public NexacroResult tp_titleAdd(@ParamDataSet(name="in_ds") TemplateFormDTO dto){
-        System.out.println(dto);
+    @RequestMapping("/tp_titleAdd.nex")
+    public NexacroResult tp_titleAdd(@ParamVariable(name="title")String title,@ParamVariable(name="contents")String contents){
+        TemplateFormDTO dto = new TemplateFormDTO().builder().title(title).contents(contents).build();
         int result = templateFormService.addTemplateForm(dto);
         return new NexacroResult();
     }
