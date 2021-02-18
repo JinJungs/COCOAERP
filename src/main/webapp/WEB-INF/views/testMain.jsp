@@ -16,7 +16,8 @@
 *{
 	font-size: 1rem;
 }
-div{
+div{ 
+
 	text-overflow: ellipsis; white-space:nowrap; overflow:hidden;
 }
 #manageBtn{
@@ -30,6 +31,8 @@ div{
 	border-right: 0.5px solid gray;
 	border-bottom: 0.5px solid gray;
 }
+.on{text-align:center;}
+.top{padding:10px;padding-top:20px;}
 </style>
 </head>
 <body>
@@ -125,6 +128,18 @@ div{
 	      		</div>
 	      		<div class="box col-12 col-md-6 p-2">
 	      			<h4 class="p-2 m-0">회사 전체 공지</h4>
+		<input type="hidden" name="writer_code" value="${writer_code}">
+	      			<div class ="row" >
+	      					<div class="on col-4"><b>부서명</b></div>
+	      					<div class="col-8"><b>제목</b></div>
+	      			</div>
+		      		<div class="top row" >
+	      				<c:forEach var="n" items="${noBoardList}">
+	      					<div class="on col-4">(${n.name })</div>
+	      					<div class="col-8"><a href="/noBoard/notificationBoardRead.no?menu_seq=1&seq=${n.seq }&writer_code=${n.writer_code}">${n.title }</a></div>
+	      				</c:forEach>
+		      			<div class="col-12 p-1 text-right pr-3 mt-2"><a href="/noBoard/notificationBoardList.no?menu_seq=1&writer_code=${writer_code }"><b>>>회사소식 이동하기</b> </a></div>
+		      		</div>
 	      		</div>
       		</div>
       </div>
