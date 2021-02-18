@@ -150,7 +150,7 @@
     </update>
 
     <update id="ReturnDoc">
-		UPDATE DOCUMENT SET STATUS = 'RETURN' WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET STATUS = 'RETURN', FINAL_DATE = SYSDATE  WHERE SEQ=#{seq}
 	</update>
     <select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
         SELECT * FROM
@@ -215,8 +215,22 @@
 				</foreach>
 		    ORDER BY WRITE_DATE DESC
 	</select>
-
-
+	
+	<!-- 넥사크로 -->
+	<select id="getLeaveListConfirmed" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT DOCUMENT.*, EMPLOYEE.NAME "name" FROM DOCUMENT, EMPLOYEE 
+		    WHERE STATUS='CONFIRM'
+		    	AND DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+		        AND LEAVE_TYPE IN ('조퇴', '기타')
+		    ORDER BY PROCESS, FINAL_DATE DESC
+	</select>
+	<update id="setProcessN">
+		UPDATE DOCUMENT SET PROCESS='N' WHERE SEQ = #{seq}
+	</update>
+	<update id="setProcessY">
+		UPDATE DOCUMENT SET PROCESS='Y' WHERE SEQ = #{seq}
+	</update>
+    
     <!--용국-->
     <insert id="addDocument">
         <choose>

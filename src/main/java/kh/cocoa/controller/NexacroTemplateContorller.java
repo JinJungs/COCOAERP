@@ -56,7 +56,6 @@ public class NexacroTemplateContorller {
         System.out.println("요청 도착");
         NexacroResult nr = new NexacroResult();
         List<TemplatesDTO> list = templatesService.getTemplateList2();
-        System.out.println(list);
         nr.addDataSet("out_ds",list);
         return nr;
     }
@@ -65,7 +64,6 @@ public class NexacroTemplateContorller {
     public NexacroResult tp_origin(){
         NexacroResult nr = new NexacroResult();
         List<TemplatesDTO> list = templatesService.getTemplateList2();
-        System.out.println(list);
         nr.addDataSet("out_ds",list);
         return nr;
     }
@@ -95,8 +93,9 @@ public class NexacroTemplateContorller {
         return nr;
     }
 
-    @RequestMapping("/tp_titleAdd")
-    public NexacroResult tp_titleAdd(@ParamDataSet(name="in_ds") TemplateFormDTO dto){
+    @RequestMapping("/tp_titleAdd.nex")
+    public NexacroResult tp_titleAdd(@ParamVariable(name="title")String title,@ParamVariable(name="contents")String contents){
+        TemplateFormDTO dto = new TemplateFormDTO().builder().title(title).contents(contents).build();
         int result = templateFormService.addTemplateForm(dto);
         return new NexacroResult();
     }

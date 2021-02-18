@@ -12,4 +12,6 @@ public interface LeaveDAO {
 	public List<LeaveDTO> getLeavelist(int empCode, String yearStart, String yearEnd);
 	
 	public void insert(LeaveDTO dto);
+	public List<LeaveDTO> getDuration(int empCode, String startDate, String endDate);
+	public int getTimeSum(int empCode, String startDate, String endDate);
 }
