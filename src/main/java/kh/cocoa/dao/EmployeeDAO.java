@@ -93,4 +93,8 @@ public interface EmployeeDAO {
 	public int isEmailExist(String email);
 	//사번으로 bEmail받아오기
 	public String getB_Email(String seq);
+	
+	//employee와 leave_taken_used 같이 받아오기
+	public List<EmployeeDTO> getEmpleLTU();
+	public List<EmployeeDTO> getListWithdrawN();
 }

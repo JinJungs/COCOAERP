@@ -23,4 +23,12 @@ public class LeaveService implements LeaveDAO{
 	public void insert(LeaveDTO dto) {
 		dao.insert(dto);		
 	}
+	@Override
+	public List<LeaveDTO> getDuration(int empCode, String startDate, String endDate) {
+		return dao.getDuration(empCode, startDate, endDate);
+	}
+	@Override
+	public int getTimeSum(int empCode, String startDate, String endDate) {
+		return dao.getTimeSum(empCode, startDate, endDate);
+	}
 }
