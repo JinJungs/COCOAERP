@@ -23,7 +23,7 @@
 
 
             obj = new Dataset("tp_list", this);
-            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"status\" type=\"STRING\" size=\"256\"/><Column id=\"explain\" type=\"STRING\" size=\"256\"/><Column id=\"contents\" type=\"STRING\" size=\"256\"/><Column id=\"temp_code\" type=\"INT\" size=\"256\"/><Column id=\"form_code\" type=\"INT\" size=\"256\"/><Column id=\"writer_code\" type=\"INT\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"code\">0</Col><Col id=\"name\">321</Col><Col id=\"status\">321</Col><Col id=\"explain\">321</Col><Col id=\"temp_code\">321</Col><Col id=\"form_code\">321</Col><Col id=\"writer_code\">321</Col><Col id=\"contents\">321</Col></Row></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"status\" type=\"STRING\" size=\"256\"/><Column id=\"explain\" type=\"STRING\" size=\"256\"/><Column id=\"contents\" type=\"STRING\" size=\"256\"/><Column id=\"temp_code\" type=\"INT\" size=\"256\"/><Column id=\"form_code\" type=\"INT\" size=\"256\"/><Column id=\"writer_code\" type=\"INT\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
 
 
@@ -316,13 +316,8 @@
         this.btn_titleRm_onclick = function(obj,e)
         {
         	var curRow = this.grid_form.currentrow;
-        	trace(curRow)
-        	if(curRow==0){
-        		this.alert("삭제 불가능한 양식입니다.");
-        		return;
-        	}else{
-        		this.tp_title.deleteRow(curRow);
-        	}
+        	this.tp_title.deleteRow(curRow);
+
         	this.fn_update_tpTitle("tp_titleRm","/nexTemp/tp_titleRm.nex");
         };
 
@@ -358,18 +353,13 @@
         		,"fn_callback" //6.strCallbackFunc
         		);
 
-        		user_name = this.ds_user.getColumn(0,"name");
-        		user_dept = this.ds_user.getColumn(0,"dept_name");
-        		user_team = this.ds_user.getColumn(0,"team_name");
-        		user_pos = this.ds_user.getColumn(0,"pos_name");
-
         };
 
         this.fn_update_tpTitle=function(id,url){
         		this.transaction(
         		id //1. strsvcid
         		,url //2.strurl
-        		,"in_ds=tp_title:U" //3.strInDatasets Sds=Fds:U :A :
+        		,"in_ds=tp_title:A" //3.strInDatasets Sds=Fds:U :A :
         		,"" //4.strOutDatasets
         		,"" //5.strArgument
         		,"fn_callback" //6.strCallbackFunc
@@ -388,10 +378,8 @@
         	this.tp_title.setColumn(getAddRowNum,"title",arr1);
         	this.tp_title.setColumn(getAddRowNum,"contents",arr2);
         	this.fn_update_tpTitle("tp_titleAdd","/nexTemp/tp_titleAdd");
-
-
+        	this.setTimer("timer",200)
         	this.M41_fileForm_onload();
-
 
         }
         this.fn_cbModTitle=function(id,args){
@@ -406,7 +394,9 @@
         	this.tp_title.setColumn(getCurRowNum,"contents",arr2);
         	this.fn_update_tpTitle("tp_titleAdd","/nexTemp/tp_titleMod");
 
+        	this.setTimer("timer",200)
         	this.M41_fileForm_onload();
+
         }
 
 
@@ -490,6 +480,16 @@
         	this.div_addListForm.form.tp_listTemp.set_index();
         };
 
+        this.div_addListForm_btn_reset_onclick = function(obj,e)
+        {
+        	this.div_addListForm.set_visible(false);
+        	this.div_addListForm.form.tp_listName.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listExplain.set_value("");
+        	this.div_addListForm.form.tp_listContents.set_value("");
+        	this.div_addListForm.form.tp_listTemp.set_index();
+        };
+
         });
         
         // Regist UI Components Event
@@ -504,6 +504,7 @@
             this.div_addListForm.form.Static01_01.addEventHandler("onclick",this.Static01_01_onclick,this);
             this.div_addListForm.form.tp_listTemp.addEventHandler("onitemchanged",this.Combo00_onitemchanged,this);
             this.div_addListForm.form.btn_addList.addEventHandler("onclick",this.btn_addList_onclick,this);
+            this.div_addListForm.form.btn_reset.addEventHandler("onclick",this.div_addListForm_btn_reset_onclick,this);
             this.div_addListForm.form.radio_status.addEventHandler("onitemchanged",this.radio_addList_onitemchanged,this);
         };
 
