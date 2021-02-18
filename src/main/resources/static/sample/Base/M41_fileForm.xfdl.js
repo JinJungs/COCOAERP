@@ -317,7 +317,6 @@
         {
         	var curRow = this.grid_form.currentrow;
         	this.tp_title.deleteRow(curRow);
-
         	this.fn_update_tpTitle("tp_titleRm","/nexTemp/tp_titleRm.nex");
         };
 
