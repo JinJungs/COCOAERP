@@ -15,8 +15,14 @@ public class PositionService implements PositionDAO {
 	@Autowired
 	PositionDAO pdao;
 	
+//	소형 관리자 사용자관리
 	@Override
 	public List<PositionDTO> getAllPosList(){
 		return pdao.getAllPosList(); 
+	}
+	
+	@Override
+	public List<PositionDTO> getPositionList() {
+		return pdao.getPositionList();
 	}
 }

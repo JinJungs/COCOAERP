@@ -9,7 +9,14 @@
         SELECT * FROM TEMPLATES WHERE STATUS='N'
     </select>
     <select id="getTemplateList2" resultType="kh.cocoa.dto.TemplatesDTO">
-        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE NOT IN(1,2,3)
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE NOT IN(1,2,3) and CODE between 4 and 6
     </select>
 
+    <select id="getClickTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE FORM_CODE=#{code}
+    </select>
+
+    <insert id="addTemplates">
+        insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},#{contents},#{temp_code},#{writer_code})
+    </insert>
 </mapper>

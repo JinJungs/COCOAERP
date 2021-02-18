@@ -48,4 +48,9 @@ public class DepartmentsService implements DepartmentsDAO {
     public List<DepartmentsDTO> getDeptListOrderByCode(){
     	return ddao.getDeptListOrderByCode();
     };
+    
+    @Override
+    public List<DepartmentsDTO> getDeptListForFilter() {
+    	return ddao.getDeptListForFilter();
+    }
 }

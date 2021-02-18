@@ -48,7 +48,6 @@ public class NotificationBoardController {
 	public String notificationBoardList(BoardDTO dto,FilesDTO fdto,int menu_seq, String cpage,Model model) { 
 		
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-		System.out.println("로그인 아이디값 "+loginDTO);
 		
 		int writer_code = (Integer)loginDTO.getCode();
 		System.out.println("여기서 직원 코드는?" +writer_code);

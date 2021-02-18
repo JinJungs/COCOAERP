@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import kh.cocoa.dto.BoardDTO;
+import kh.cocoa.dto.BoardMenuDTO;
 
 @Mapper 
 public interface NotificationBoardDAO {
@@ -15,6 +16,9 @@ public interface NotificationBoardDAO {
 	//게시글 리스트 가져오기
 	public List<BoardDTO> getNotificationBoardList(int startRowNum, int endRowNum,int menu_seq);
 
+	//게시글 리스트 불러오기 @ 메인화면
+	public List<BoardDTO> getNoBoardList(int menu_seq);
+	
 	//검색한 리스트 가져오기
 	public List<BoardDTO> getSearchList(int startRowNum, int endRowNum, String search, String searchBy, int menu_seq);
 
@@ -55,6 +59,15 @@ public interface NotificationBoardDAO {
 	public List<BoardDTO> getAlbumBoardListSearch(String search, String searchBy, int menu_seq,int cpage);
 
 	public int isExistReadPage(int menu_seq);
+
+	//넥사크로 - 모든 보드 메뉴 불러오기
+	public List<BoardMenuDTO> getBoardMenuList();
+	
+	//넥사크로 - 게시판 추가
+	public int addBoard(String type, String name);
+
+	//넥사크로 - 게시판 수정
+	public int uptBoard(String name,int seq);
 
 	
 }

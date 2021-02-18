@@ -24,33 +24,33 @@
             <div id='calendar'></div>
         </div>
     </div>
-    <c:choose>
-        <c:when test="${result eq 'success'}">
-            <script>
-                alert("출근 하였습니다.");
-            </script>
-        </c:when>
-        <c:when test="${result eq 'already'}">
-            <script>
-                alert("이미 출근되어 있습니다.");
-            </script>
-        </c:when>
-        <c:when test="${result eq 'offWork'}">
-            <script>
-                alert("퇴근되었습니다.");
-            </script>
-        </c:when>
-        <c:when test="${result eq 'alreadyOff'}">
-            <script>
-                alert("이미 퇴근하였습니다.");
-            </script>
-        </c:when>
-        <c:when test="${result eq 'workedYet'}">
-            <script>
-                alert("아직 출근하지 않았습니다.");
-            </script>
-        </c:when>
-    </c:choose>
+<%--    <c:choose>--%>
+<%--        <c:when test="${result eq 'success'}">--%>
+<%--            <script>--%>
+<%--                alert("출근 하였습니다.");--%>
+<%--            </script>--%>
+<%--        </c:when>--%>
+<%--        <c:when test="${result eq 'already'}">--%>
+<%--            <script>--%>
+<%--                alert("이미 출근되어 있습니다.");--%>
+<%--            </script>--%>
+<%--        </c:when>--%>
+<%--        <c:when test="${result eq 'offWork'}">--%>
+<%--            <script>--%>
+<%--                alert("퇴근되었습니다.");--%>
+<%--            </script>--%>
+<%--        </c:when>--%>
+<%--        <c:when test="${result eq 'alreadyOff'}">--%>
+<%--            <script>--%>
+<%--                alert("이미 퇴근하였습니다.");--%>
+<%--            </script>--%>
+<%--        </c:when>--%>
+<%--        <c:when test="${result eq 'workedYet'}">--%>
+<%--            <script>--%>
+<%--                alert("아직 출근하지 않았습니다.");--%>
+<%--            </script>--%>
+<%--        </c:when>--%>
+<%--    </c:choose>--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>

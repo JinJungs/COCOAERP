@@ -101,7 +101,7 @@
 
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME
+		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME 
 	</select>
 
 	<select id="getAllEmployeeExceptMe" resultType="kh.cocoa.dto.EmployeeDTO">
@@ -168,5 +168,18 @@
 	</select>
 	<select id="getB_Email" resultType="String">
 		SELECT B_EMAIL FROM EMPLOYEE WHERE CODE=#{seq}
+	</select>
+	<select id="getEmpleLTU" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT DEPARTMENTS.CODE "deptCode", DEPARTMENTS.NAME "deptname",TEAM.CODE "teamCode", TEAM.NAME "teamname", POSITION.CODE "posCode", POSITION.NAME "posname", EMPLOYEE.*, LEAVE_TAKEN_USED.* 
+		    FROM EMPLOYEE LEFT JOIN TEAM
+		    ON EMPLOYEE.TEAM_CODE = TEAM.CODE, DEPARTMENTS, POSITION, LEAVE_TAKEN_USED
+		    WHERE DEPARTMENTS.CODE = EMPLOYEE.DEPT_CODE
+		        AND POSITION.CODE = EMPLOYEE.POS_CODE
+		        AND LEAVE_TAKEN_USED.EMP_CODE = EMPLOYEE.CODE
+		        AND EMPLOYEE.WITHDRAW = 'N'
+		    ORDER BY LEAVE_TAKEN_USED.YEAR DESC, DEPARTMENTS.CODE, TEAM.CODE, POSITION.CODE, EMPLOYEE.NAME
+	</select>
+	<select id="getListWithdrawN" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE WHERE WITHDRAW='N' ORDER BY NAME
 	</select>
 </mapper>

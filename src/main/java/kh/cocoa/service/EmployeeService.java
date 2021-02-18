@@ -218,7 +218,7 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getB_Email(seq);
 	}
 	
-	/*-------소형---------*/
+	/*-------소형 관리자 사용자관리---------*/
 	public List<EmployeeDTO> getAllEmployeeOrderByCode() {
 		return edao.getAllEmployeeOrderByCode();
 	}
@@ -226,5 +226,15 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
 		return edao.searchEmployee(dto);
 	};
+	/*-------소형 끝 관리자 사용자관리*/
+	
+	@Override
+	public List<EmployeeDTO> getEmpleLTU() {
+		return edao.getEmpleLTU();
+	}
+	@Override
+	public List<EmployeeDTO> getListWithdrawN() {
+		return edao.getListWithdrawN();
+	}
 }
 

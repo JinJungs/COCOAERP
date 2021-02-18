@@ -65,9 +65,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				<div class="row">
 					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
 					<div class="title col-sm-12 col-md-5"
-						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
-						<b>${i.title}</b>
-					</div>
+						onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">${i.title}</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.name}</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.write_date}</div>
 					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
@@ -113,7 +111,7 @@ input{width:50%;border-bottom:1px solid pink;}
 		}
 		/*홈으로*/
 		function fn_home(cpage) {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"+"&cpage="+cpage;
+			location.href = "/";
 		}
 	</script>
 </body>

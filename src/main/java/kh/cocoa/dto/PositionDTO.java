@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PositionDTO {
-	int code;
-	String name;
+	private int code;
+	private String name;
 	
 	@Builder
 	public PositionDTO(int code, String name) {

@@ -11,6 +11,15 @@
 		AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
+<!-- 게시글 리스트 불러오기 @ 메인보드 -->
+	<select id="getNoBoardList" resultType="kh.cocoa.dto.BoardDTO">
+		SELECT * FROM(SELECT ROWNUM NUM, N.* FROM 
+		(SELECT B.*,D.NAME FROM BOARD B, EMPLOYEE E, DEPARTMENTS D
+		WHERE E.CODE = B.WRITER_CODE 
+        AND D.CODE =E.DEPT_CODE
+		AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
+        WHERE NUM BETWEEN '1' AND '5'
+	</select>
 <!-- 앨범 게시판 리스트 가져오기 -->
 	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT E.NAME, F.SAVEDNAME ,B.*
@@ -129,4 +138,18 @@
 	<select id="getMyBoardList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM BOARD WHERE WRITER_CODE=#{writer_code} ORDER BY WRITE_DATE DESC
 	</select>
+
+<!-- **************넥사크로 보드 메뉴리스트*************************** -->
+<!-- 넥사크로 - 모든 보드 메뉴 불러오기 -->
+	<select id="getBoardMenuList" resultType="kh.cocoa.dto.BoardMenuDTO">
+		SELECT * FROM BOARD_MENU ORDER BY SEQ
+	</select>
+<!-- 넥사크로 - 보드메뉴 추가 -->
+	<insert id="addBoard">
+		INSERT INTO BOARD_MENU VALUES (BOARD_MN_SEQ.NEXTVAL,#{name},#{type})
+	</insert>
+<!-- 넥사크로 - 보드 이름 수정 -->
+	<update id="uptBoard">
+		UPDATE BOARD_MENU SET NAME=#{name} WHERE SEQ=#{seq}
+	</update>
 </mapper>	

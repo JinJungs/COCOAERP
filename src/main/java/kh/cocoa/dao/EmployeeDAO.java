@@ -96,9 +96,16 @@ public interface EmployeeDAO {
 	//사번으로 bEmail받아오기
 	public String getB_Email(String seq);
 	
+
 	//-------------소형-----------------//
 	//전체 멤버 호출 코드로 정렬
 	public List<EmployeeDTO> getAllEmployeeOrderByCode();
 	
 	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto);
+	//-------------소형 끝---------------//
+
+	//employee와 leave_taken_used 같이 받아오기
+	public List<EmployeeDTO> getEmpleLTU();
+	public List<EmployeeDTO> getListWithdrawN();
+
 }

@@ -286,6 +286,20 @@ public class DocumentService implements DocumentDAO {
 		return list;
 	}
 
+	@Override
+	public List<DocumentDTO> getLeaveListConfirmed() {
+		return ddao.getLeaveListConfirmed();
+	}
+	@Override
+	public void setProcessY(int seq) {
+		ddao.setProcessY(seq);
+		
+	}
+	@Override
+	public void setProcessN(int seq) {
+		ddao.setProcessN(seq);
+	}
+	
 	//용국
 
 

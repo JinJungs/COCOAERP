@@ -111,27 +111,27 @@
 						<c:forEach var="i" items="${logAllList}">
 							<c:choose>
 								<c:when test="${status eq 'RAISE'}">
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-2">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-2">
 										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-1 d-none d-md-block">
 										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-3">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-3">
 										<a href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -144,27 +144,27 @@
 						<c:forEach var="i" items="${dailyList}">
 							<c:choose>
 								<c:when test="${status eq 'RAISE'}">
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-2">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-2">
 										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-1 d-none d-md-block">
 										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-3">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-3">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -177,27 +177,27 @@
 						<c:forEach var="i" items="${weeklyList}">
 							<c:choose>
 								<c:when test="${status eq 'RAISE'}">
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-2">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-2">
 										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-1 d-none d-md-block">
 										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-3">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-3">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -210,27 +210,27 @@
 						<c:forEach var="i" items="${monthlyList}">
 							<c:choose>
 								<c:when test="${status eq 'RAISE'}">
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-2">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-2">
 										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="col-md-1 d-none d-md-block">
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-1 d-none d-md-block">
 										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
 									</div>
 								</c:when>
 								<c:otherwise>
-									<div class="col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="col-sm-12 col-md-3">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-3">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 									</div>
-									<div class="col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="col-md-2 d-none d-md-block">${i.write_date}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
