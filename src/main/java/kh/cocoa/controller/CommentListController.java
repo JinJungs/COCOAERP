@@ -110,8 +110,10 @@ public class CommentListController {
 
 	//댓글 수정
 	@RequestMapping("noBoardUpdateComment.co")
-	public String noBoardUpdateComment(CommentListDTO dto) {
+	public String noBoardUpdateComment(CommentListDTO dto,String modify_contents) {
 		System.out.println("댓글수정 도착!");
+		System.out.println(modify_contents);
+		
 		int result = cservice.noBoardUpdateComment(dto);
 		JsonObject obj = new JsonObject();
 		obj.addProperty("result", result);
