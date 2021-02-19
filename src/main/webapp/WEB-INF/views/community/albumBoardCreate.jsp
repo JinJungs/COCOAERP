@@ -17,7 +17,7 @@ input{width:100%;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">앨범게시판(글작성)</h2>
+			<h2 class="mb-4 board_title">${mid_name }(글작성)</h2>
 
 			<form action="/noBoard/notificationBoardCreateDone.no" method="post"
 				id="submitForm" enctype="multipart/form-data">
@@ -76,13 +76,13 @@ input{width:100%;}
 		/*파일첨부*/
 		 $('#btn_write').on("click", function() {
 	         
-	         if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return;
-	         }else if (!$('#title').val()){
+	         if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
+	           return;
+	         }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
 	           return;
 	         }else if ($('.fileList').val()==""){
 	           alert('파일을 선택해주세요');

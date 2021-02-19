@@ -44,6 +44,19 @@ public class SidebarService implements SidebarDAO{
         return sdao.getBusinessLogList();
     }
 
-
+	//넥사크로 사이드바에 게시판 추가
+	public int addSideBar(String name,int board_menu_seq) {
+		return sdao.addSideBar(name,board_menu_seq);
+	}
+	//게시글 이름& 타입 가져오기
+	public SidebarViewDTO selectInfor(int menu_seq) {
+		return sdao.selectInfor(menu_seq);
+	}
+	public int uptSideBar(String name, int seq) {
+		return sdao.uptSideBar(name,seq);
+	}
+	public int delBoard(int seq) {
+		return sdao.delBoard(seq);
+	}
 
 }
