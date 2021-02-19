@@ -12,12 +12,32 @@
     </delete>
 
     <insert id="addTemplateForm">
-        insert into templateform values(templateform_seq.nextval,#{title},#{contents},sysdate,'',1000)
+    <choose>
+        <when test="contents!='undefined'">
+            insert into templateform values(templateform_seq.nextval,#{title},#{contents},sysdate,'',1000)
+        </when>
+        <otherwise>
+            insert into templateform values(templateform_seq.nextval,#{title},'',sysdate,'',1000)
+        </otherwise>
+
+    </choose>
+
     </insert>
 
     <update id="modTemlateForm">
-        update templateform set title=#{title}, contents=#{contents},mod_date=sysdate where code=#{code}
+    <choose>
+        <when test="contents==null">
+            update templateform set title=#{title}, mod_date=sysdate where code=#{code}
+        </when>
+        <otherwise>
+            update templateform set title=#{title}, contents=#{contents},mod_date=sysdate where code=#{code}
+        </otherwise>
+    </choose>
     </update>
+
+    <select id="getFormInfoByCode" resultType="kh.cocoa.dto.TemplateFormDTO">
+        SELECT * FROM TEMPLATEFORM WHERE CODE=#{code}
+    </select>
 </mapper>
 
 

@@ -17,6 +17,7 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
+<<<<<<< HEAD
             obj = new Dataset("ds_employee", this);
             obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"deptname\" type=\"STRING\" size=\"256\"/><Column id=\"teamname\" type=\"STRING\" size=\"256\"/><Column id=\"posname\" type=\"STRING\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"hire_date\" type=\"STRING\" size=\"256\"/><Column id=\"office_phone\" type=\"STRING\" size=\"256\"/><Column id=\"year\" type=\"INT\" size=\"256\"/><Column id=\"leave_got\" type=\"INT\" size=\"256\"/><Column id=\"leave_used\" type=\"INT\" size=\"256\"/><Column id=\"deptCode\" type=\"INT\" size=\"256\"/><Column id=\"teamCode\" type=\"INT\" size=\"256\"/><Column id=\"posCode\" type=\"INT\" size=\"256\"/><Column id=\"addLeave\" type=\"INT\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
             this.addChild(obj.name, obj);
@@ -30,14 +31,18 @@
             obj = new Dataset("ds_position", this);
             obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"code\">01</Col><Col id=\"name\">대표</Col></Row><Row><Col id=\"code\">02</Col><Col id=\"name\">사장</Col></Row><Row><Col id=\"code\">03</Col><Col id=\"name\">부장</Col></Row><Row><Col id=\"code\">04</Col><Col id=\"name\">대리</Col></Row></Rows>");
             this.addChild(obj.name, obj);
+=======
+
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
             
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("휴가 부여");
+            obj.set_text("휴가 사용처리");
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
+<<<<<<< HEAD
             obj = new Div("Div00","3%","160",null,null,"3%","10%",null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("Div00");
@@ -125,10 +130,11 @@
             obj.set_text("추가휴가 입력");
             this.addChild(obj.name, obj);
 
+=======
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
-            obj.set_stepcount("0");
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -141,64 +147,8 @@
         };
         
         // User Script
-        this.registerScript("M32_approveVaction.xfdl", function() {
 
-        this.M32_approveVaction_onload = function(obj,e)
-        {
-        	//1. ds_employee 받아오기
-        	this.transaction(
-        			"selectEmployeeList", // 1. strSvcID
-        			"/membership/selectEmployeeLTU.employee", // 2. strURL
-        			"", // 3. strIndatasets - Insert,Delete,Update  Sds = Fds :U ,:A ,:N
-        			"ds_employee=out_employee", // 4. strOutDatasets -select Fds=Sds
-        			"", // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
-        			"" // 6. strCallbackFunc
-        		);
-
-        	//2. ds_departments 받아오기
-        	this.transaction(
-        			"getDepartmentsList", // 1. strSvcID
-        			"/department/getDeptList.department", // 2. strURL
-        			"", // 3. strIndatasets - Insert,Delete,Update  Sds = Fds :U ,:A ,:N
-        			"ds_departments=out_departments", // 4. strOutDatasets -select Fds=Sds
-        			"", // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
-        			"" // 6. strCallbackFunc
-        		);
-
-        	//3. ds_position 받아오기
-        	this.transaction(
-        			"getPositionList", // 1. strSvcID
-        			"/position/getPositionList.position", // 2. strURL
-        			"", // 3. strIndatasets - Insert,Delete,Update  Sds = Fds :U ,:A ,:N
-        			"ds_position=out_position", // 4. strOutDatasets -select Fds=Sds
-        			"", // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
-        			"" // 6. strCallbackFunc
-        		);
-        };
-
-        this.btnInsert_onclick = function(obj,e)
-        {
-        	//Leave_Taken_Used 넣기
-        	this.transaction(
-        			"insertAllLTU", // 1. strSvcID
-        			"/ltuN/insertAllLTU.ltuN", // 2. strURL
-        			"", // 3. strIndatasets - Insert,Delete,Update  Sds = Fds :U ,:A ,:N
-        			"ds_employee=out_employee", // 4. strOutDatasets -select Fds=Sds
-        			"", // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
-        			"fn_callback" // 6. strCallbackFunc
-        		);
-        };
-        this.fn_callback = function(result) {
-        	this.alert("일괄부여가 완료되었습니다.");
-        }
-        this.Div01_btnSearch_onclick = function(obj,e)
-        {
-        	var empCode = this.Div01.form.editEmpCode.value;
-        	var dept = this.Div01.form.comboDept.value;
-        	var pos = this.Div01.form.comboPos.value;
-        	var name = this.Div01.form.editName.value;
-        	var year = this.Div01.form.editYear.value;
-
+<<<<<<< HEAD
         	var filterCon = "";
         	if(empCode != null){
         		if(filterCon != ""){
@@ -274,17 +224,13 @@
         }
 
         });
+=======
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-            this.addEventHandler("onload",this.M32_approveVaction_onload,this);
-            this.Div01.form.btnSearch.addEventHandler("onclick",this.Div01_btnSearch_onclick,this);
-            this.Div01.form.editName.addEventHandler("onchanged",this.Edit_onchanged,this);
-            this.Div01.form.editYear.addEventHandler("onchanged",this.Edit_onchanged,this);
-            this.Div01.form.btnReset.addEventHandler("onclick",this.Div01_btnReset_onclick,this);
-            this.btnInsert.addEventHandler("onclick",this.btnInsert_onclick,this);
-            this.btnAdd.addEventHandler("onclick",this.btnAdd_onclick,this);
+
         };
 
         this.loadIncludeScript("M32_approveVaction.xfdl");
