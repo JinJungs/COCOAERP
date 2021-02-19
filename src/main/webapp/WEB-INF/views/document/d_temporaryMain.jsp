@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+div{
+	font-size: 16px;
+}
 select {
 	min-width: 90px;
 }
@@ -18,6 +21,9 @@ select {
 	overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+}
+.item{
+	background-color : #6749b930; 
 }
 </style>
 </head>
@@ -62,13 +68,13 @@ select {
 					</div>
 					<div class="row">
 						<div class="col-12 text-center">
-							<input type=submit value=조회 >
+							<input type=submit class="btn btn-primary" value=조회 >
 						</div>
 					</div>
 				</div>
 			</form>
 			<hr>
-			<div class="documentList row text-center">
+			<div class="documentList row text-center item p-2">
 				<div class="col-3"><b>양식</b></div>
 				<div class="col-6"><b>제목</b></div>
 				<div class="col-3"><b>저장일</b></div>
@@ -78,7 +84,7 @@ select {
 			<c:forEach var="list" items="${list}">
 				<div class="row text-center">
 					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
-					<div class="col-6 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+					<div class="col-6 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
 				</div>
 			</c:forEach>

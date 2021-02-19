@@ -17,6 +17,8 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
+<<<<<<< HEAD
+=======
             obj = new Dataset("tp_title", this);
             obj.set_useclientlayout("true");
             obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"title\" type=\"STRING\" size=\"256\"/><Column id=\"contents\" type=\"STRING\" size=\"256\"/><Column id=\"made_date\" type=\"STRING\" size=\"256\"/><Column id=\"mod_date\" type=\"STRING\" size=\"256\"/><Column id=\"emp_code\" type=\"INT\" size=\"256\"/></ColumnInfo>");
@@ -33,6 +35,7 @@
             obj.set_useclientlayout("false");
             obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"status\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
 
 
             obj = new Dataset("ds_user", this);
@@ -497,6 +500,14 @@
         
         // User Script
         this.registerScript("M41_fileForm.xfdl", function() {
+<<<<<<< HEAD
+
+        this.Static00_onclick = function(obj,e)
+        {
+
+        };
+
+=======
         var getAddCol =-1;
         var count =0;
         this.M41_fileForm_onload = function(obj,e)
@@ -776,11 +787,15 @@
 
 
 
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
+<<<<<<< HEAD
+
+=======
             this.addEventHandler("onload",this.M41_fileForm_onload,this);
             this.grid_form.addEventHandler("oncellclick",this.grid_form_oncellclick,this);
             this.grid_temp.addEventHandler("oncellclick",this.grid_temp_oncellclick,this);
@@ -802,6 +817,7 @@
             this.Tab00.Tabpage2.form.radio_status.addEventHandler("onitemchanged",this.radio_addList_onitemchanged,this);
             this.Tab00.Tabpage2.form.btn_modList.addEventHandler("onclick",this.div_addListForm_btn_modList_onclick,this);
             this.Tab00.Tabpage2.form.btn_removeList.addEventHandler("onclick",this.div_addListForm_btn_removeList_onclick,this);
+>>>>>>> abef99652206b238010e4156be61c300328d8e05
         };
 
         this.loadIncludeScript("M41_fileForm.xfdl");

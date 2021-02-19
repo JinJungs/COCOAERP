@@ -31,4 +31,9 @@ public class Leave_Taken_UsedService implements Leave_Taken_UsedDAO{
 	public void insert(int year, int empCode, int leaveCount) {
 		ldao.insert(year, empCode, leaveCount);
 	}
+	
+	@Override
+	public void plusLeaveGot(int year, int empCode, int leaveCount) {
+		ldao.plusLeaveGot(year, empCode, leaveCount);	
+	}
 }

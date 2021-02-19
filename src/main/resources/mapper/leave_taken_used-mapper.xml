@@ -19,4 +19,7 @@
 	<insert id="insert">
 		INSERT INTO LEAVE_TAKEN_USED VALUES(LEAVE_TAKEN_USED_SEQ.NEXTVAL, #{leaveCount}, 0, #{year}, #{empCode})
 	</insert>
+	<update id="plusLeaveGot">
+		UPDATE LEAVE_TAKEN_USED SET LEAVE_GOT=#{leaveCount} WHERE EMP_CODE=#{empCode} AND YEAR=#{year}
+	</update>
 </mapper>
