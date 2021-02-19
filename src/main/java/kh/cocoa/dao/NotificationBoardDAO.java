@@ -24,7 +24,7 @@ public interface NotificationBoardDAO {
 
 
 	//네비게이터 가져오기
-	String getNavi(int cpage, int menu_seq);
+	String getNavi(String type,int cpage, int menu_seq);
 
 	//네비게이터
 	public int recordTotalCount(int menu_seq);
@@ -64,10 +64,15 @@ public interface NotificationBoardDAO {
 	public List<BoardMenuDTO> getBoardMenuList();
 	
 	//넥사크로 - 게시판 추가
-	public int addBoard(String type, String name);
+	public int addBoard(String type, String name,int board_menu_seq);
 
 	//넥사크로 - 게시판 수정
 	public int uptBoard(String name,int seq);
+
+	public int bms();
+
+	public int delBoard(int seq);
+
 
 	
 }

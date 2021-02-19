@@ -21,4 +21,18 @@
     <select id="sidebarListByMenuSeq" resultType="kh.cocoa.dto.SidebarViewDTO">
         SELECT * FROM SIDEBAR_VIEW WHERE MENU_SEQ = #{menu_seq} AND STATUS='Y'
     </select>
+	<!-- 커뮤니티 추가 -->
+	<insert  id="addSideBar">
+		INSERT INTO SIDEBAR VALUES (SIDEBAR_SEQ.NEXTVAL,SIDEBAR_MID_SEQ.NEXTVAL,#{name},NULL,NULL,'6','Y',#{board_menu_seq})
+	</insert>
+	<!-- 정보가져오기 -->
+	<select id="selectInfor" resultType="kh.cocoa.dto.SidebarViewDTO">
+		SELECT * FROM SIDEBAR_VIEW WHERE BOARD_MENU_SEQ=#{menu_seq}
+	</select>
+	<update id="uptSideBar">
+		UPDATE SIDEBAR SET MID_NAME=#{name} WHERE BOARD_MENU_SEQ=#{seq}
+	</update>
+	<delete id="delBoard">
+		DELETE FROM SIDEBAR WHERE BOARD_MENU_SEQ=#{seq}
+	</delete>
 </mapper>

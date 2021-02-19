@@ -43,15 +43,16 @@
             obj = new Static("infor_static","11.93%","29.85%","14.95%","44.92%",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text(" (1) 필수 첨부 내용\r\n\r\n  - 보내는 사람 소속 \r\n    ex) 회사명, 부서명, 이름\r\n  - 문제점\r\n    ex) 어떤 경우에 생기는 문제\r\n      인지 상세하게 기입하세요\r\n \r\n (2) 회신및 문제 해결 기간\r\n\r\n  - 회신 : 최대 3-4일 \r\n  - 문제 해결 기간은 회신 이메\r\n    일에 자세히 안내 될 예정\r\n\r\n (3) Contact Detail\r\n\r\n - 회사명 : 올바른데이터\r\n  - 회사 번호 : (02)1231-1231\r\n ");
-            obj.set_border("1px groove #d3d3d3");
+            obj.set_border("1px double #0052a6");
             obj.set_padding("0px");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Infor_title_static","13%","23%","13%","4%",null,null,null,null,null,null,this);
+            obj = new Static("Infor_title_static","12.94%","23.85%","12.94%","4.00%",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("버그리포트 전송 안내");
             obj.set_textAlign("center");
-            obj.set_font("bold 12px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
+            obj.set_font("bold italic 13px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
+            obj.set_border("0px none,0px none,1px solid #0052a6");
             this.addChild(obj.name, obj);
 
             obj = new Div("bugReport_div","24.50%","17.08%","52.57%","70.00%",null,null,null,null,null,null,this);

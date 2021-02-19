@@ -12,21 +12,26 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.cocoa.dto.BoardMenuDTO;
 import kh.cocoa.service.NotificationBoardService;
+import kh.cocoa.service.SidebarService;
 
 @Controller
 @RequestMapping("/NecBoard")
 public class NexacroBoardController {
 	@Autowired
 	private NotificationBoardService nservice;
+	@Autowired
+	private SidebarService sservice;
 	//게시판 불러오기
 		@RequestMapping("/getBoardMenuList.nc")
 		public NexacroResult getBoardMenuList() {
 			System.out.println("리스트 부르기");
-			
 
 			NexacroResult nr = new NexacroResult();
 			List<BoardMenuDTO> list = new ArrayList<BoardMenuDTO>();
 			list = nservice.getBoardMenuList();
+			for(int i=0; i<list.size(); i++) {
+				list.get(i).setChk(0);
+			}
 			
 			nr.addDataSet("out_board_menu",list);
 			System.out.println(list);
@@ -39,24 +44,40 @@ public class NexacroBoardController {
 		System.out.println(type);
 		System.out.println(name);
 		
-		int result = nservice.addBoard(type,name);
+		int board_menu_seq = nservice.bms();
+		System.out.println("과연"+board_menu_seq);
+	
+		int result = nservice.addBoard(type,name,board_menu_seq);
+		System.out.println(result);
+		
+		
+		int result1 = sservice.addSideBar(name,board_menu_seq);
+		System.out.println(result1);
 		
 	}
 	//게시판 삭제
 	@RequestMapping("/delBoard.nc")
-	public String delBoard() {
+	public void delBoard(@ParamVariable(name="seq")int seq) {
 		System.out.println("삭제");
-		return "";
+		System.out.println(seq);
+	
+		int result = nservice.delBoard(seq);
+		System.out.println(result);
+		int result1 = sservice.delBoard(seq);
+		System.out.println(result1);
 	}
 	//게시판 수정
 	@RequestMapping("/uptBoard.nc")
-	public String uptBoard(@ParamVariable(name="name")String name,@ParamVariable(name="seq")int seq) {
+	public void uptBoard(@ParamVariable(name="name")String name,@ParamVariable(name="seq")int seq) {
 		System.out.println("수정");
 		System.out.println(name);
 		System.out.println(seq);
-
-		int result = nservice.uptBoard(name,seq);
 		
-		return "";
+		int result = nservice.uptBoard(name,seq);
+		System.out.println("result"+result);
+		
+		int result1 = sservice.uptSideBar(name,seq);
+		System.out.println("result1"+result1);
+		
 	}
 }

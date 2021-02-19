@@ -20,24 +20,24 @@
 
             
             // UI Components Initialize
-            obj = new Static("staLogo","25.00%","2.50%","50.00%","10.00%",null,null,null,null,null,null,this);
+            obj = new Static("staLogo","24.33%","7.50%","50.00%","10.00%",null,null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("게시판 추가");
             obj.set_font("bold 18px/normal \"Gulim\"");
             obj.set_textAlign("center");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stcType","6.67%","45.00%","23.00%","8.00%",null,null,null,null,null,null,this);
+            obj = new Static("stcType","8.00%","22.50%","23.00%","8.00%",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("게시판 종류 :");
             this.addChild(obj.name, obj);
 
-            obj = new Static("stcName","11.67%","62.50%","21.00%","8.00%",null,null,null,null,null,null,this);
+            obj = new Static("stcName","15.67%","33.50%","21.00%","8.00%",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("수업이름");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("edtName","32.67%","63.00%","52.00%","7.50%",null,null,null,null,null,null,this);
+            obj = new Edit("edtName","36.67%","34.00%","52.00%","7.50%",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_displaynulltext("이름을 입력하세요");
             this.addChild(obj.name, obj);
@@ -52,7 +52,7 @@
             obj.set_text("Cancel");
             this.addChild(obj.name, obj);
 
-            obj = new Radio("rdoType","32.67%","45.25%","61.67%","7.75%",null,null,null,null,null,null,this);
+            obj = new Radio("rdoType","34.00%","22.75%","61.67%","7.75%",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
@@ -62,16 +62,28 @@
             obj.set_innerdataset(rdoType_innerdataset);
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static01","25.00%","15.00%","47.00%","6.50%",null,null,null,null,null,null,this);
+            obj = new Static("Static01","26.33%","49.50%","47.00%","6.50%",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             obj.set_text("새 게시판 생성 안내");
             obj.set_textAlign("center");
             obj.set_font("bold 12px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00","20","89","252","86",null,null,null,null,null,null,this);
+            obj = new Div("Div00","8.33%","56.75%","84.00%","21.50%",null,null,null,null,null,null,this);
             obj.set_taborder("8");
-            obj.set_border("1px groove #d3d3d3");
+            obj.set_border("1px groove #0052a6");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("infor_static","10.33%","59.50%","39.67%","16.00%",null,null,null,null,null,null,this);
+            obj.set_taborder("9");
+            obj.set_text("(1)이미지형\r\n - 사진파일 첨부 필수\r\n - 최대 10개 첨부 가능");
+            obj.set_padding("0px");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("infor_static00","51.33%","59.50%","39.67%","16.00%",null,null,null,null,null,null,this);
+            obj.set_taborder("10");
+            obj.set_text("(2)리스트형\r\n - 목록형 리스트\r\n - 최대 10개 첨부 가능");
+            obj.set_padding("0px");
             this.addChild(obj.name, obj);
 
             // Layout Functions
@@ -119,6 +131,8 @@
         {
             this.btnOk.addEventHandler("onclick",this.btnOk_onclick,this);
             this.btnCancel.addEventHandler("onclick",this.btnCancel_onclick,this);
+            this.infor_static.addEventHandler("onclick",this.infor_static_onclick,this);
+            this.infor_static00.addEventHandler("onclick",this.infor_static_onclick,this);
         };
 
         this.loadIncludeScript("M54_boardPop.xfdl");
