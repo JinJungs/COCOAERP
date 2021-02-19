@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.DocumentDTO;
+import kh.cocoa.dto.EmailDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.ScheduleDTO;
 import kh.cocoa.dto.TemplatesDTO;
 import kh.cocoa.service.DocumentService;
+import kh.cocoa.service.EmailService;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.NotificationBoardService;
 import kh.cocoa.service.ScheduleService;
 import kh.cocoa.service.TemplatesService;
+import kh.cocoa.statics.DocumentConfigurator;
 
 @Controller
 public class HomeController {
@@ -42,6 +45,9 @@ public class HomeController {
 	
 	@Autowired
 	private NotificationBoardService nservice;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Autowired
 	private HttpSession session;
@@ -140,20 +146,10 @@ public class HomeController {
     	
     	
     	/*3. 일정 관리*/
-    	Date today = new Date(System.currentTimeMillis());
-    	SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-    	SimpleDateFormat format2 = new SimpleDateFormat("MM / dd (E)");
-    	
-    	String todayString = format2.format(today);
-    	
-    	String todayString2 = format.format(today);
-    	String date1 = todayString2 + "00:00:00";
-    	String date2 = todayString2 + "23:59:59";
-    	List<ScheduleDTO> scheduleList = sservice.selectTodaySchedule(date1, date2);
-    	
-    	model.addAttribute("todayString", todayString);
-    	model.addAttribute("scheduleList", scheduleList);
-    	
+		List<ScheduleDTO> personalSchedule = sservice.selectPersonalSchedule(Integer.toString(loginDTO.getCode()));
+
+		model.addAttribute("personalSchedule", personalSchedule);
+		
     	/*4. 회사 공지*/
 		//게시글 불러오기
 		int writer_code = (Integer)loginDTO.getCode();
@@ -161,9 +157,19 @@ public class HomeController {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		list = nservice.getNoBoardList(menu_seq);
     	
-
     	model.addAttribute("noBoardList", list);
     	model.addAttribute("writer_code", writer_code);
+    	
+    	/*5. 받은 메일*/
+		String cpage = "1";
+		int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
+		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
+		
+		String email = loginDTO.getB_email();
+		List<EmailDTO> emailList = emailService.receiveList(email, startRowNum, endRowNum);
+		
+		model.addAttribute("emailList", emailList);
+    	
         return "/testMain";
     }
     

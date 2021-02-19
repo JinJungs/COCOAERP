@@ -96,17 +96,17 @@
     <!-- 페이지네이션 -->
     <select id="getSearchBoardCount" resultType="Integer">
         SELECT COUNT(*) FROM
-        (SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
-        WHERE D.TEMP_CODE = T.CODE
-        AND D.STATUS=#{status}
-        AND D.WRITER_CODE=#{empCode}
-        AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-        AND D.TEMP_CODE IN
-        <foreach item="item" collection="templateList" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-        AND D.TITLE LIKE '%${searchText}%'
-        ORDER BY D.WRITE_DATE DESC)
+	        (SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+	        WHERE D.TEMP_CODE = T.CODE
+	        AND D.STATUS=#{status}
+	        AND D.WRITER_CODE=#{empCode}
+	        AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+	        AND D.TEMP_CODE IN
+	        <foreach item="item" collection="templateList" separator="," open="(" close=")">
+	            #{item}
+	        </foreach>
+	        AND D.TITLE LIKE '%${searchText}%'
+	        ORDER BY D.WRITE_DATE DESC)
     </select>
     <select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", POSITION.NAME "pos_name", DOCUMENT.*

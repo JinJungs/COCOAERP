@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+div{
+	font-size: 16px;
+}
 select {
 	min-width: 90px;
 }
@@ -68,7 +71,7 @@ select {
 				</div>
 			</form>
 			<hr>
-			<div class="documentList row text-center">
+			<div class="documentList row text-center item p-2">
 				<div class="col-2"><b>문서번호</b></div>
 				<div class="col-2 d-none d-sm-block"><b>양식</b></div>
 				<div class="col-4"><b>제목</b></div>
@@ -81,7 +84,7 @@ select {
 				<div class="row text-center">
 					<div class="col-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
 					<div class="col-2 d-none d-sm-block textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
-					<div class="col-4 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+					<div class="col-4 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 					<div class="col-3 col-sm-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
 					<div class="col-3 col-sm-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.final_date }</a></div>
 				</div>

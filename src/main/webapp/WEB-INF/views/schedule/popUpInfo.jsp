@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href='/lib/main.css' rel='stylesheet' />
-<script src='/lib/main.js'></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -20,7 +20,7 @@ div{
 	margin: center;
 }
 #contents {
-	border: 1px solid black;
+	border: 1px solid lightgray;
 	min-width: 500px;
 	max-width: 500px;
 	min-height: 580px;
@@ -35,7 +35,9 @@ div{
 	text-align: right
 }
 h2 {
-	margin-left: 20px;
+	margin: 0;
+	padding: 20px;
+	background-color : #6749b930;
 }
 .dataGroup {
 	margin-top: 20px;
@@ -67,6 +69,11 @@ h2 {
 	margin: 5px;
 	margin-left: 10px;
 }
+.btn{
+	background-color : #6749b930;
+	padding: 3px 8px 3px 8px;
+	border: 1px solid lightgray;
+}
 </style>
 </head>
 <body>
@@ -92,8 +99,8 @@ h2 {
 				</div>
 				<c:if test="${empCode eq dto.writer }">
 					<div class="buttonGroup">
-						<input type="button" value="수정" id="revise">
-						<input type="button" value="삭제" id="delete">
+						<input type="button" class=btn value="수정" id="revise">
+						<input type="button" class=btn value="삭제" id="delete">
 					</div>
 				</c:if>
 				<script>

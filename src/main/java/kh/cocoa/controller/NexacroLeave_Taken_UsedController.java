@@ -2,6 +2,7 @@ package kh.cocoa.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,23 @@ public class NexacroLeave_Taken_UsedController {
 	}
 	
 	@RequestMapping("addLeave.ltuN")
-	public NexacroResult addLeave(@ParamDataSet(name="in_ds")List<Leave_Taken_UsedDTO> list) {
-		NexacroResult nr = new NexacroResult();
-
-		
-		return nr;
+	public String addLeave(@ParamDataSet(name="in_ds")List<Leave_Taken_UsedDTO> list) {
+		int empCode = 0;
+		int leaveDay = 0;
+		int year = 0;
+		for(int i=0; i<list.size(); i++) {
+			empCode = list.get(i).getCode();
+			year = list.get(i).getYear();
+			
+			Leave_Taken_UsedDTO dto = lservice.getLeaveStatus(empCode, Integer.toString(year)); //해당 년도, 사번에 따른 휴가dto
+			
+			if(dto.getLeave_got() != 0) {
+				leaveDay = dto.getLeave_got() + list.get(i).getAddLeave(); //기존 휴가 + 추가 휴가
+			}else {
+				leaveDay = list.get(i).getAddLeave();
+			}
+			lservice.plusLeaveGot(year, empCode, leaveDay); //새로 셋팅
+		}
+		return "redirect:/membership/selectEmployeeLTU.employee";
 	}
 }
