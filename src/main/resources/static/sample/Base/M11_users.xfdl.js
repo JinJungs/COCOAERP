@@ -110,6 +110,7 @@
             obj.set_taborder("0");
             obj.set_type("number");
             obj.set_format("#,###");
+            obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_name00","19","149","76","34",null,null,null,null,null,null,this.div_info.form);
@@ -229,6 +230,7 @@
             obj.set_taborder("24");
             obj.set_text("소속 없음");
             obj.set_font("normal 8px/normal \"Arial\"");
+            obj.set_falsevalue("0");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Button("btn_reset","341","20","97","37",null,null,null,null,null,null,this.div_info.form);
@@ -279,6 +281,7 @@
 
             obj = new Calendar("cal_hire_date00","91","226","122","26",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("32");
+            obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new MaskEdit("msk_code","92","85","106","25",null,null,null,null,null,null,this.div_info.form);
@@ -400,6 +403,12 @@
             obj.set_text("작업 취소");
             this.addChild(obj.name, obj);
 
+            obj = new Static("Static02","325","11","425","52",null,null,null,null,null,null,this);
+            obj.set_taborder("7");
+            obj.set_text("구현 : 검색/불러오기/트랜잭션으로 값 전송 \r\n미구현 : 각종 유효성 검사 및 디비 업데이트 ");
+            obj.set_background("#fcd3f2");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",1090,650,this,function(p){});
@@ -463,6 +472,10 @@
             obj.bind();
 
             obj = new BindItem("item8","div_info.form.cmb_team","value","ds_employee","team_code");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item9","div_info.form.ckb_nodept","value","ds_employee","team_code");
             this.addChild(obj.name, obj);
             obj.bind();
         };
@@ -648,35 +661,6 @@
 
 
 
-
-        //========================테스트중==============================
-        //정보수정 창 팀 콤보에 포커스
-        /*
-        this.div_info_cmb_team_onsetfocus = function(obj:nexacro.Combo,e:nexacro.SetFocusEventInfo)
-        {
-        	let org_team_code = this.div_info.form.cmb_team.value;
-        	this.div_info.form.cmb_team.addEventListner("onchange", checkDeptCode(org_team_code));
-
-        };
-
-        this.checkDeptCode = function(org_team_code){
-        	let team_code = this.div_info.form.cmb_team.value;
-        	let row = this.ds_team.findRow("code",team_code);
-        	let dept_code = this.ds_team.getColumn(row,"dept_code");
-        	trace(dept_code);
-        	let org_dept_code = this.div_info.form.cmb_dept.value;
-        	if(dept_code!=org_dept_code){
-        		let confirm = confirm("기존에 선택된 부서에 속한 팀이 아닙니다. 부서를 바꾸시겠습니까?");
-        		if(confirm){
-        			this.div_info.form.cmb_dept.set_value(dept_code);
-        		}else{
-        			this.div_info.form.cmb_team.set_value(org_team_code);
-        		}
-        	}
-        }
-        */
-        //========================테스트중==============================
-
         });
         
         // Regist UI Components Event
@@ -711,6 +695,7 @@
             this.Static01.addEventHandler("onclick",this.Static01_onclick,this);
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_cancel.addEventHandler("onclick",this.btn_cancel_onclick,this);
+            this.Static02.addEventHandler("onclick",this.Static02_onclick,this);
         };
 
         this.loadIncludeScript("M11_users.xfdl");

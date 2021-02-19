@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.NexacroFakeEmployeeDTO;
 import kh.cocoa.dto.NexacroSearchDTO;
 
 @Mapper
@@ -102,6 +103,7 @@ public interface EmployeeDAO {
 	public List<EmployeeDTO> getAllEmployeeOrderByCode();
 	
 	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto);
+	
 	//-------------소형 끝---------------//
 
 	//employee와 leave_taken_used 같이 받아오기

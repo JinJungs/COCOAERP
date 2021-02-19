@@ -55,7 +55,7 @@ input::-ms-clear,input::-ms-reveal
 }
 
 
-div.nexacontainer
+.nexacontainer
 {
   position:absolute;
   left:0px;
@@ -63,34 +63,21 @@ div.nexacontainer
   width:100%;
   height:100%;
 }
-.nexacontainer.nexartl
-{ 
-  right:0px;
+.nexacontainer.withvscroll
+{
+  right:14px;
+}
+.nexacontainer.withhscroll
+{
+  bottom:14px;
+}
+.nexacontainer.withbothscroll
+{
+  right:14px;
+  bottom:14px;
 }
 
-div.nexacontainer.withvscroll
-{
-  right:14px;
-}
-.nexacontainer.nexartl.withvscroll
-{
-  left:14px;
-}
-div.nexacontainer.withhscroll
-{
-  bottom:14px;
-}
-div.nexacontainer.withbothscroll
-{
-  right:14px;
-  bottom:14px;
-}
-.nexacontainer.nexartl.withbothscroll
-{
-  left:14px;
-  bottom:14px;
-}
-div.nexalefttop
+.nexalefttop
 {
   left:0px;
   top:0px;
@@ -98,11 +85,7 @@ div.nexalefttop
   background-position:left top;
   font-size:1px;
 }
-.nexalefttop.nexartl
-{
-  background-position:right top;
-}
-div.nexaleftbottom
+.nexaleftbottom
 {
   left:0px;
   bottom:0px;
@@ -110,11 +93,7 @@ div.nexaleftbottom
   background-position:left bottom;
   font-size:1px;
 }
-.nexaleftbottom.nexartl
-{
-  background-position:right bottom;
-}
-div.nexarightbottom
+.nexarightbottom
 {
   right:0px;
   bottom:0px;
@@ -122,50 +101,41 @@ div.nexarightbottom
   background-position:right bottom;
   font-size:1px;
 }
-.nexarightbottom.nexartl
-{
-  background-position:left bottom;
-}
-div.nexarighttop
+.nexarighttop
 {
   right:0px;
   top:0px;
   background-repeat:no-repeat;
   background-position:right top;
 }
-.nexarighttop.nexartl
-{
-  background-position:left top;
-}
-div.nexaedge
+.nexaedge
 {
   width:100%;
   height:100%;
 }
-div.nexamodaloverlay
+.nexamodaloverlay
 {
   width:100%;
   height:100%;
 }
-div.nexainnercontainer
+.nexainnercontainer
 {
   transform : translate3d(0px, 0px, 0);
 }
-div.nexatransform
+
+.nexatransform
 {
   transform : translate3d(0px, 0px, 0);
 }
-div.nexacontentsbox
+
+.nexacontentsbox
 {
   position:relative;
   display:table-cell;
   background-position:left center;
   background-repeat:no-repeat;
   vertical-align:middle;
-}
-.nexacontentsbox.nexartl
-{
-  background-position:right center;
+  pointer-events:none;
 }
 .nexatextitem
 {
@@ -183,6 +153,7 @@ div.nexacontentsbox
   background-position:center center;
   background-repeat:no-repeat;
 }
+
 .nexainput
 {
   font:inherit;
@@ -195,6 +166,7 @@ div.nexacontentsbox
   background:transparent;
   padding : 0px;
 }
+
 .nexatextarea
 {
   font:inherit;
@@ -212,198 +184,146 @@ div.nexacontentsbox
   padding : 0px;
   box-sizing:border-box;		
 }
-div.nexaleftalign, input.nexaleftalign
+
+.nexaleftalign
 {
   text-align:left;
 }
-.nexaleftalign.nexartl
+
+.nexarightalign
 {
   text-align:right;
 }
-div.nexarightalign, input.nexarightalign
-{
-  text-align:right;
-}
-.nexarightalign.nexartl
-{
-  text-align:left;
-}
-div.nexacenteralign,input.nexacenteralign
+
+.nexacenteralign
 {
   text-align:center;
 }
-div.nexamap div *
+
+.nexamap div *
 {
   overflow:visible;
 }
-div.nexanativescroll
+
+.nexanativescroll
 {
   overflow:scroll;
   -ms-overflow-style:none;
+  color:black;
 }
 
-div.celltreeline
+.celltreeline
 {
   border : 1px dotted #999999;
 }
 
-div.Edit, div.MaskEdit, div.TextArea, div.EditControl, div.MaskEditControl, div.TextAreaControl
+.Edit, .MaskEdit, .TextArea, .EditControl, .MaskEditControl, .TextAreaControl
 {
   cursor:text;
 }
-div.Button .nexacontentsbox, div.ButtonControl .nexacontentsbox
+.Button .nexacontentsbox, .ButtonControl .nexacontentsbox
 {
   text-align:center;
   background-position:center center;
 }
-div.FileDownload  .nexacontentsbox, div.FileDownloadControl .nexacontentsbox
+
+.FileDownload  .nexacontentsbox, .FileDownloadControl .nexacontentsbox
 {
   text-align:center;
   background-position:center center;
 }
-div.IconTextControl .nexacontentsbox, div.IconControl .nexacontentsbox
+
+.IconTextControl .nexacontentsbox, .IconControl .nexacontentsbox
 {
   text-align:center;
   background-position:center center;
 }
-div.DatePickerDayItemControl .nexacontentsbox, div.DatePickerWeekItemControl .nexacontentsbox, div.TitleBarButtonControl .nexacontentsbox
+
+.DatePickerDayItemControl .nexacontentsbox, .DatePickerWeekItemControl .nexacontentsbox, .TitleBarButtonControl .nexacontentsbox
 {
   text-align:center;
   background-position:center center;
 }
-div.Sketch .nexacontentsbox
+
+.Sketch .nexacontentsbox
 {
-  text-align:center;
+   text-align:center;
 }
-div.MainFrame, div.VScrollBarControl, div.HScrollBarControl
+
+.MainFrame, .VScrollBarControl, .HScrollBarControl
 {
   cursor:default;
 }
 
-div.Static.sta_mian_smIocn01
+.Static.sta_mian_smIocn01
 {
 	background : url("./../../../_resource_/_images_/img_main_smIcon01.png") no-repeat left center;
 	color : #222222;
 	font : 14px "Arial","Malgun Gothic";
 }
-div.Static.sta_mian_smIocn01 .nexacontentsbox
+.Static.sta_mian_smIocn01 .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-.Static.nexartl.sta_mian_smIocn01
-{
-	background : url('./../../../_resource_/_images_/img_main_smIcon01.png') no-repeat right center;
-}
-.Static.nexartl.sta_mian_smIocn01 .nexacontentsbox
-{
-	text-align : right;
-	background-position-x : right;
-}
-div.Static.sta_mian_smIocn02
+.Static.sta_mian_smIocn02
 {
 	background : url("./../../../_resource_/_images_/img_main_smIcon02.png") no-repeat left center;
 	color : #222222;
 	font : 14px "Arial","Malgun Gothic";
 }
-div.Static.sta_mian_smIocn02 .nexacontentsbox
+.Static.sta_mian_smIocn02 .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-.Static.nexartl.sta_mian_smIocn02
-{
-	background : url('./../../../_resource_/_images_/img_main_smIcon02.png') no-repeat right center;
-}
-.Static.nexartl.sta_mian_smIocn02 .nexacontentsbox
-{
-	text-align : right;
-	background-position-x : right;
-}
-div.Static.sta_mian_smIocn03
+.Static.sta_mian_smIocn03
 {
 	background : url("./../../../_resource_/_images_/img_main_smIcon03.png") no-repeat left center;
 	color : #222222;
 	font : 14px "Arial","Malgun Gothic";
 }
-div.Static.sta_mian_smIocn03 .nexacontentsbox
+.Static.sta_mian_smIocn03 .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-.Static.nexartl.sta_mian_smIocn03
-{
-	background : url('./../../../_resource_/_images_/img_main_smIcon03.png') no-repeat right center;
-}
-.Static.nexartl.sta_mian_smIocn03 .nexacontentsbox
-{
-	text-align : right;
-	background-position-x : right;
-}
-div.Static.sta_main_iconText
+.Static.sta_main_iconText
 {
 	font : bold 24px "Arial","Malgun Gothic";
 }
-div.Static.sta_main_iconText .nexacontentsbox
+.Static.sta_main_iconText .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-.Static.nexartl.sta_main_iconText .nexacontentsbox
-{
-	text-align : right;
-	background-position-x : right;
-}
-div.Static.sta_main_box01
+.Static.sta_main_box01
 {
 	background : #f7f7f7;
 	border : 1px solid #c7c7c7;
 }
-.Static.nexartl.sta_main_box01
-{
-	background : #f7f7f7;
-	border : 1px solid #c7c7c7;
-}
-div.Static.sta_main_box02
+.Static.sta_main_box02
 {
 	background : #eeeeee;
 	border : 1px solid #c7c7c7;
 }
-.Static.nexartl.sta_main_box02
-{
-	background : #eeeeee;
-	border : 1px solid #c7c7c7;
-}
-div.Static.sta_main_chartx01
+.Static.sta_main_chartx01
 {
 	background : url("./../../../_resource_/_images_/img_main_chart01.png") no-repeat center center;
 }
-.Static.nexartl.sta_main_chartx01
-{
-	background : url('./../../../_resource_/_images_/img_main_chart01.png') no-repeat center center;
-}
-div.Static.sta_main_boxTle01
+.Static.sta_main_boxTle01
 {
 	background : #f7f7f7;
 	color : #666666;
 	font : 20px "Arial";
 	border : 1px solid #c7c7c7;
 }
-.Static.nexartl.sta_main_boxTle01
-{
-	background : #f7f7f7;
-	border : 1px solid #c7c7c7;
-}
-div.Static.sta_main_more
+.Static.sta_main_more
 {
 	background : url("./../../../_resource_/_images_/img_main_more.png") no-repeat center center;
 	cursor : pointer;
 }
-.Static.nexartl.sta_main_more
-{
-	background : url('./../../../_resource_/_images_/img_main_more.png') no-repeat center center;
-}
-div.Static.sta_main_numbering
+.Static.sta_main_numbering
 {
 	background : #f7f7f7;
 	border-radius : 10px;
@@ -411,28 +331,17 @@ div.Static.sta_main_numbering
 	font : 100px "Arial";
 	border : 1px solid #c7c7c7;
 }
-div.Static.sta_main_numbering .nexacontentsbox
+.Static.sta_main_numbering .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
 }
-.Static.nexartl.sta_main_numbering
-{
-	background : #f7f7f7;
-	border-radius : 10px;
-	border : 1px solid #c7c7c7;
-}
-.Static.nexartl.sta_main_numbering .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-div.Static.sta_main_text11C
+.Static.sta_main_text11C
 {
 	color : #666666;
 	font : 11px "Arial";
 }
-div.Static.sta_main_text11C .nexacontentsbox
+.Static.sta_main_text11C .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
@@ -440,20 +349,12 @@ div.Static.sta_main_text11C .nexacontentsbox
 	word-wrap : break-word;
 	word-break : break-all;
 }
-.Static.nexartl.sta_main_text11C .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-	white-space : pre-wrap;
-	word-wrap : break-word;
-	word-break : break-all;
-}
-div.Static.sta_main_text12C
+.Static.sta_main_text12C
 {
 	color : #666666;
 	font : 12x "Arial";
 }
-div.Static.sta_main_text12C .nexacontentsbox
+.Static.sta_main_text12C .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
@@ -461,230 +362,120 @@ div.Static.sta_main_text12C .nexacontentsbox
 	word-wrap : break-word;
 	word-break : break-all;
 }
-.Static.nexartl.sta_main_text12C .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-	white-space : pre-wrap;
-	word-wrap : break-word;
-	word-break : break-all;
-}
-div.Static.sta_main_icon01
+.Static.sta_main_icon01
 {
 	background : url("./../../../_resource_/_images_/img_main_icon01.png") no-repeat center center;
 	color : #ffffff;
 	font : bold 28px "Arial";
 }
-div.Static.sta_main_icon01 .nexacontentsbox
+.Static.sta_main_icon01 .nexacontentsbox
 {
 	text-align : right;
 	background-position-x : right;
 	vertical-align : middle;
 	background-position-y : center;
 }
-.Static.nexartl.sta_main_icon01
-{
-	background : url('./../../../_resource_/_images_/img_main_icon01.png') no-repeat center center;
-}
-.Static.nexartl.sta_main_icon01 .nexacontentsbox
-{
-	text-align : left;
-	background-position-x : left;
-	background-position-y : center;
-}
-div.Static.sta_main_icon02
+.Static.sta_main_icon02
 {
 	background : url("./../../../_resource_/_images_/img_main_icon02.png") no-repeat center center;
 	color : #ffffff;
 	font : bold 28px "Arial";
 }
-div.Static.sta_main_icon02 .nexacontentsbox
+.Static.sta_main_icon02 .nexacontentsbox
 {
 	text-align : right;
 	background-position-x : right;
 	vertical-align : middle;
 	background-position-y : center;
 }
-.Static.nexartl.sta_main_icon02
-{
-	background : url('./../../../_resource_/_images_/img_main_icon02.png') no-repeat center center;
-}
-.Static.nexartl.sta_main_icon02 .nexacontentsbox
-{
-	text-align : left;
-	background-position-x : left;
-	background-position-y : center;
-}
-div.Static.sta_main_icon03
+.Static.sta_main_icon03
 {
 	background : url("./../../../_resource_/_images_/img_main_icon03.png") no-repeat center center;
 	color : #ffffff;
 	font : bold 28px "Arial";
 }
-div.Static.sta_main_icon03 .nexacontentsbox
+.Static.sta_main_icon03 .nexacontentsbox
 {
 	text-align : right;
 	background-position-x : right;
 	vertical-align : middle;
 	background-position-y : center;
 }
-.Static.nexartl.sta_main_icon03
-{
-	background : url('./../../../_resource_/_images_/img_main_icon03.png') no-repeat center center;
-}
-.Static.nexartl.sta_main_icon03 .nexacontentsbox
-{
-	text-align : left;
-	background-position-x : left;
-	background-position-y : center;
-}
-div.Static.sta_main_icon04
+.Static.sta_main_icon04
 {
 	background : url("./../../../_resource_/_images_/img_main_icon04.png") no-repeat center center;
 	color : #ffffff;
 	font : bold 28px "Arial";
 }
-div.Static.sta_main_icon04 .nexacontentsbox
+.Static.sta_main_icon04 .nexacontentsbox
 {
 	text-align : right;
 	background-position-x : right;
 	vertical-align : middle;
 	background-position-y : center;
 }
-.Static.nexartl.sta_main_icon04
-{
-	background : url('./../../../_resource_/_images_/img_main_icon04.png') no-repeat center center;
-}
-.Static.nexartl.sta_main_icon04 .nexacontentsbox
-{
-	text-align : left;
-	background-position-x : left;
-	background-position-y : center;
-}
-div.Static.sta_main_icon05
+.Static.sta_main_icon05
 {
 	background : url("./../../../_resource_/_images_/img_main_icon05.png") no-repeat center center;
 	color : #ffffff;
 	font : bold 28px "Arial";
 }
-div.Static.sta_main_icon05 .nexacontentsbox
+.Static.sta_main_icon05 .nexacontentsbox
 {
 	text-align : right;
 	background-position-x : right;
 	vertical-align : middle;
 	background-position-y : center;
 }
-.Static.nexartl.sta_main_icon05
-{
-	background : url('./../../../_resource_/_images_/img_main_icon05.png') no-repeat center center;
-}
-.Static.nexartl.sta_main_icon05 .nexacontentsbox
-{
-	text-align : left;
-	background-position-x : left;
-	background-position-y : center;
-}
-div.Grid.grd_main_table01
+.Grid.grd_main_table01
 {
 	border : 1px solid #c7c7c7;
 }
-.Grid.nexartl.grd_main_table01
-{
-	border : 1px solid #c7c7c7;
-}
-div.Grid.grd_main_table01 .head .row .cell
+.Grid.grd_main_table01 .head .row .cell
 {
 	background : #666666;
 	color : #ffffff;
 }
-div.Grid.grd_main_table01 .head .row .cell > .nexacontentsbox
+.Grid.grd_main_table01 .head .row .cell > .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
 }
-.Grid.nexartl.grd_main_table01 .head .row .cell
-{
-	background : #666666;
-}
-.Grid.nexartl.grd_main_table01 .head .row .cell > .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-div.Grid.grd_main_table01 .body .row .cell
+.Grid.grd_main_table01 .body .row .cell
 {
 	background : #ffffff;
 }
-div.Grid.grd_main_table01 .body .row .cell.oddcell
+.Grid.grd_main_table01 .body .row .cell.oddcell
 {
 	background : #f7f7f7;
 }
-div.Grid.grd_main_table01 .body .row .cell > .nexacontentsbox
+.Grid.grd_main_table01 .body .row .cell > .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
 }
-.Grid.nexartl.grd_main_table01 .body .row .cell
+#nexacontainer .Grid.grd_main_table01 .body .row .cell[status=mouseover]
 {
 	background : #ffffff;
 }
-.Grid.nexartl.grd_main_table01 .body .row .cell.oddcell
+#nexacontainer .Grid.grd_main_table01 .body .row .cell.oddcell[status=mouseover]
 {
 	background : #f7f7f7;
 }
-.Grid.nexartl.grd_main_table01 .body .row .cell > .nexacontentsbox
+#nexacontainer .Grid.grd_main_table01 .body .row .cell[status=mouseover] > .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
 }
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell[status=mouseover]
+#nexacontainer .Grid.grd_main_table01 .body .row .cell[userstatus=selected]
 {
 	background : #ffffff;
 }
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell.oddcell[status=mouseover]
+#nexacontainer .Grid.grd_main_table01 .body .row .cell.oddcell[userstatus=selected]
 {
 	background : #f7f7f7;
 }
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell[status=mouseover] > .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell[status=mouseover]
-{
-	background : #ffffff;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell.oddcell[status=mouseover]
-{
-	background : #f7f7f7;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell[status=mouseover] > .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell[userstatus=selected]
-{
-	background : #ffffff;
-}
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell.oddcell[userstatus=selected]
-{
-	background : #f7f7f7;
-}
-div#nexacontainer .Grid.grd_main_table01 .body .row .cell[userstatus=selected] > .nexacontentsbox
-{
-	text-align : center;
-	background-position-x : center;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell[userstatus=selected]
-{
-	background : #ffffff;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell.oddcell[userstatus=selected]
-{
-	background : #f7f7f7;
-}
-.Grid.nexartl.grd_main_table01 .body .row .cell[userstatus=selected] > .nexacontentsbox
+#nexacontainer .Grid.grd_main_table01 .body .row .cell[userstatus=selected] > .nexacontentsbox
 {
 	text-align : center;
 	background-position-x : center;
