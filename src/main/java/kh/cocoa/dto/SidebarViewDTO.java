@@ -17,9 +17,10 @@ public class SidebarViewDTO {
     private String menu_name;
     private String type;
     private String contents;
+    private String chk;
 
     @Builder
-    public SidebarViewDTO(int code, int mid_code, String mid_name, String sub_name, int menu_seq, String status, int board_menu_seq, String menu_name, String type, String contents) {
+    public SidebarViewDTO(int code, int mid_code, String mid_name, String sub_name, int menu_seq, String status, int board_menu_seq, String menu_name, String type, String contents, String chk) {
         this.code = code;
         this.mid_code = mid_code;
         this.mid_name = mid_name;
@@ -30,5 +31,6 @@ public class SidebarViewDTO {
         this.menu_name = menu_name;
         this.type = type;
         this.contents = contents;
+        this.chk = chk;
     }
 }
