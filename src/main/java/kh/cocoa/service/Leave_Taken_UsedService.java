@@ -18,4 +18,22 @@ public class Leave_Taken_UsedService implements Leave_Taken_UsedDAO{
 		return ldao.getLeaveStatus(empCode, year);
 		
 	}
+	@Override
+	public void updateUsed(int used, String year, int empCode) {
+		ldao.updateUsed(used, year, empCode);
+	}
+	
+	@Override
+	public int isExist(int empCode, int year) {
+		return ldao.isExist(empCode, year);
+	}
+	@Override
+	public void insert(int year, int empCode, int leaveCount) {
+		ldao.insert(year, empCode, leaveCount);
+	}
+	
+	@Override
+	public void plusLeaveGot(int year, int empCode, int leaveCount) {
+		ldao.plusLeaveGot(year, empCode, leaveCount);	
+	}
 }

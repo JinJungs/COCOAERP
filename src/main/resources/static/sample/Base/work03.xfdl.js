@@ -268,17 +268,11 @@
         	alert("엑셀");
         };
 
-        this.Calendar00_onchanged = function(obj,e)
-        {
-
-        };
-
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-            this.Calendar00.addEventHandler("onchanged",this.Calendar00_onchanged,this);
             this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
             this.Button01.addEventHandler("onclick",this.Button01_onclick,this);
             this.Button02.addEventHandler("onclick",this.Button02_onclick,this);

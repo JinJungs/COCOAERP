@@ -30,7 +30,7 @@
 
             obj = new Static("Static01","10","44","120","36",null,null,null,null,null,null,this);
             obj.set_taborder("1");
-            obj.set_text("양식 분류 명");
+            obj.set_text("양식 분류 명 *");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static01_00","10","110","120","36",null,null,null,null,null,null,this);
@@ -62,6 +62,11 @@
             obj.set_text("");
             this.addChild(obj.name, obj);
 
+            obj = new Static("sta_titleErrMsg","91","88","201","24",null,null,null,null,null,null,this);
+            obj.set_taborder("8");
+            obj.set_color("red");
+            this.addChild(obj.name, obj);
+
             // Layout Functions
             //-- Default Layout : this
             obj = new Layout("default","",310,400,this,function(p){});
@@ -79,8 +84,6 @@
         
         // User Script
         this.registerScript("fileForm_addTitle.xfdl", function() {
-
-
         this.btn_cancel_onclick = function(obj,e)
         {
         	this.close("cancel");
@@ -88,12 +91,30 @@
 
         this.btn_add_onclick = function(obj,e)
         {
-        	var getArg = this.Edit00.value;
-        	var getText = this.TextArea00.value;
-        	var args = getArg + "|" +getText;
-        	trace(args);
-        	this.close(args);
+        	var title = this.Edit00.value;
+        	var contents = this.TextArea00.value;
+
+        	if(title==null){
+        		this.sta_titleErrMsg.set_text("양식 분류명을 작성해주세요.");
+        		this.Edit00.setFocus(true);
+        		return;
+        	}else{
+        		this.sta_titleErrMsg.set_text("");
+        	}
+
+        	this.transaction(
+        		"tp_getFormInfoByCode" //1. strsvcid
+        		,"/nexTemp/tp_titleAdd.nex" //2.strurl
+        		,"" //3.strInDatasets Sds=Fds:U :A :
+        		,"" //4.strOutDatasets
+        		,"title='"+title+"' contents='"+contents+"'" //5.strArgument
+        		,"fn_addListCallBack" //6.strCallbackFunc
+        	);
         };
+
+        this.fn_addListCallBack=function(id,msg){
+        	this.close(msg);
+        }
 
 
 

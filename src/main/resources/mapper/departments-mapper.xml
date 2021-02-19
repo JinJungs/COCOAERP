@@ -25,4 +25,11 @@
     <select id="getSearchDeptCode" resultType="kh.cocoa.dto.DepartmentsDTO">
         SELECT * FROM DEPARTMENTS WHERE NAME LIKE '%${name}%'
     </select>
+    <select id="getDeptListForFilter" resultType="kh.cocoa.dto.DepartmentsDTO">
+    	SELECT * 
+			FROM (SELECT code, name FROM DEPARTMENTS WHERE CODE != 0
+					UNION ALL
+				  SELECT 0 code, '전체' name FROM DUAL)
+			ORDER BY CODE
+    </select>
 </mapper>

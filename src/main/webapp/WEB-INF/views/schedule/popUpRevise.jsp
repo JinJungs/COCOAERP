@@ -19,7 +19,7 @@ div{
 	margin: center;
 }
 #contents {
-	border: 1px solid black;
+	border: 1px solid lightgray;
 	min-width: 500px;
 	max-width: 500px;
 	min-height: 580px;
@@ -34,7 +34,9 @@ div{
 	text-align: right
 }
 h2 {
-	margin-left: 20px;
+	margin: 0;
+	padding: 20px;
+	background-color : #6749b930;
 }
 .dataGroup {
 	margin-top: 20px;
@@ -82,6 +84,11 @@ textarea{
 .buttonGroup input{
 	margin: 5px;
 	margin-left: 10px;
+}
+.btn{
+	background-color : #6749b930;
+	padding: 3px 8px 3px 8px;
+	border: 1px solid lightgray;
 }
 </style>
 </head>
@@ -219,8 +226,8 @@ textarea{
 						}
 					</script>
 					<div class="buttonGroup">
-						<input type="submit" value="수정" id="revise">
-						<button type="button" id="cancel">취소</button>
+						<input type="submit" class=btn value="수정" id="revise">
+						<button type="button" class=btn id="cancel">취소</button>
 					</div>
 					<script>
 			            var cancelBtn = document.getElementById("cancel");

@@ -6,4 +6,20 @@
 		SELECT * FROM LEAVE_TAKEN_USED 
 			WHERE EMP_CODE = #{empCode} AND YEAR = #{year}
 	</select>
+	<update id="updateUsed">
+		UPDATE LEAVE_TAKEN_USED SET LEAVE_USED = #{used}
+			WHERE YEAR = #{year}
+				AND EMP_CODE = #{empCode}
+	</update>
+	<select id="isExist" resultType="Integer">
+		SELECT COUNT(*) FROM LEAVE_TAKEN_USED
+			WHERE YEAR = ${year}
+				AND EMP_CODE = #{empCode}
+	</select>
+	<insert id="insert">
+		INSERT INTO LEAVE_TAKEN_USED VALUES(LEAVE_TAKEN_USED_SEQ.NEXTVAL, #{leaveCount}, 0, #{year}, #{empCode})
+	</insert>
+	<update id="plusLeaveGot">
+		UPDATE LEAVE_TAKEN_USED SET LEAVE_GOT=#{leaveCount} WHERE EMP_CODE=#{empCode} AND YEAR=#{year}
+	</update>
 </mapper>

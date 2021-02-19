@@ -17,17 +17,13 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
-            obj = new Dataset("board_type_radio", this);
-            obj._setContents("<ColumnInfo><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">List</Col><Col id=\"datacolumn\">리스트형</Col></Row><Row><Col id=\"codecolumn\">Album</Col><Col id=\"datacolumn\">이미지형</Col></Row></Rows>");
-            this.addChild(obj.name, obj);
-
 
             obj = new Dataset("ds_board_menu", this);
             obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"STRING\" size=\"256\"/><Column id=\"seq\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"type\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("Static00","0","6",null,"34","10",null,null,null,null,null,this);
+            obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("게시판 관리");
             obj.set_cssclass("sta_WF_title01");
@@ -145,39 +141,6 @@
         };
         
         // User Script
-        this.registerScript("M53_board.xfdl", function() {
-        //내용 불러오기
-        this.M53_board_onload = function(obj,e)
-        {
-        	trace("도착");
-        	this.transaction(
-          		"board_Menu_list" // id
-          		, "/NecBoard/getBoardMenuList.nc" // url
-        		, "" // inData
-          		, "ds_board_menu=out_board_menu" // outData
-         		, ""// strArg
-          		, "fn_callback_mnList" // callback
-          	);
-        };
-        this.fn_callback_mnList = function(result)
-        {
-        	trace("리스트 불러옴!");
-        }
-        //추가 버튼
-        this.board_div_btn_add_onclick = function(obj,e)
-        {
-        	trace("눌린거지");
-        	var objCF = new ChildFrame();
-        	objCF.set_openalign("center middle");
-        	objCF.set_formurl("Base::M54_boardPop.xfdl");
-        	objCF.showModal(
-        		this.getOwnerFrame()
-        		,{}
-        		,this
-        		, "fn_callback_boardPop"
-        	);
-        };
-        this.fn_callback_boardPop = function(id,sRtn){
 
         	var arrRtn = sRtn.split("|");
         	var type = arrRtn[0];
@@ -311,5 +274,3 @@
         // Remove Reference
         obj = null;
     };
-}
-)();

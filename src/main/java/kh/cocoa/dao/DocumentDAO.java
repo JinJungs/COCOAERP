@@ -54,7 +54,10 @@ public interface DocumentDAO {
 	//기안한 모든 문서(임시저장 제외) 받기
 	public List<DocumentDTO> getAllDraftDocument(int empCode, List<String> templateList);
 	
-	
+	/*넥사크로*/
+	public List<DocumentDTO> getLeaveListConfirmed();
+	public void setProcessN(int seq);
+	public void setProcessY(int seq);
 	
 	//용국
 	//문서 추가.

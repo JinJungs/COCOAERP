@@ -96,17 +96,17 @@
     <!-- 페이지네이션 -->
     <select id="getSearchBoardCount" resultType="Integer">
         SELECT COUNT(*) FROM
-        (SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
-        WHERE D.TEMP_CODE = T.CODE
-        AND D.STATUS=#{status}
-        AND D.WRITER_CODE=#{empCode}
-        AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
-        AND D.TEMP_CODE IN
-        <foreach item="item" collection="templateList" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-        AND D.TITLE LIKE '%${searchText}%'
-        ORDER BY D.WRITE_DATE DESC)
+	        (SELECT D.*, T.NAME "temp_name" FROM DOCUMENT D, TEMPLATES T
+	        WHERE D.TEMP_CODE = T.CODE
+	        AND D.STATUS=#{status}
+	        AND D.WRITER_CODE=#{empCode}
+	        AND D.WRITE_DATE BETWEEN #{startDate} AND #{endDate}
+	        AND D.TEMP_CODE IN
+	        <foreach item="item" collection="templateList" separator="," open="(" close=")">
+	            #{item}
+	        </foreach>
+	        AND D.TITLE LIKE '%${searchText}%'
+	        ORDER BY D.WRITE_DATE DESC)
     </select>
     <select id="getDocument" resultType="kh.cocoa.dto.DocumentDTO">
 		SELECT TEMPLATES.NAME "temp_name", DEPARTMENTS.NAME "dept_name",EMPLOYEE.NAME "emp_name", POSITION.NAME "pos_name", DOCUMENT.*
@@ -150,7 +150,7 @@
     </update>
 
     <update id="ReturnDoc">
-		UPDATE DOCUMENT SET STATUS = 'RETURN' WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET STATUS = 'RETURN', FINAL_DATE = SYSDATE  WHERE SEQ=#{seq}
 	</update>
     <select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
         SELECT * FROM
@@ -215,8 +215,22 @@
 				</foreach>
 		    ORDER BY WRITE_DATE DESC
 	</select>
-
-
+	
+	<!-- 넥사크로 -->
+	<select id="getLeaveListConfirmed" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT DOCUMENT.*, EMPLOYEE.NAME "name" FROM DOCUMENT, EMPLOYEE 
+		    WHERE STATUS='CONFIRM'
+		    	AND DOCUMENT.WRITER_CODE = EMPLOYEE.CODE
+		        AND LEAVE_TYPE IN ('조퇴', '기타')
+		    ORDER BY PROCESS, FINAL_DATE DESC
+	</select>
+	<update id="setProcessN">
+		UPDATE DOCUMENT SET PROCESS='N' WHERE SEQ = #{seq}
+	</update>
+	<update id="setProcessY">
+		UPDATE DOCUMENT SET PROCESS='Y' WHERE SEQ = #{seq}
+	</update>
+    
     <!--용국-->
     <insert id="addDocument">
         <choose>

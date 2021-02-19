@@ -3,6 +3,7 @@ package kh.cocoa.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.ServletOutputStream;
@@ -41,6 +42,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 
 @Controller
 @RequestMapping("/document")
@@ -71,6 +74,9 @@ public class DocumentController {
 	
 	@Autowired
 	private LeaveService lservice;
+	
+	@Autowired
+	private Leave_Taken_UsedService ltuService;
 	
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
@@ -172,7 +178,7 @@ public class DocumentController {
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RAISE");
 		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
-
+		
 		model.addAttribute("list", list);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
@@ -785,19 +791,42 @@ public class DocumentController {
 			//휴가신청서의 경우 휴가 사용처리(조퇴 제외 처리가능)
 			DocumentDTO dto = dservice.getDocument(Integer.toString(seq));
 			if(dto.getTemp_code() == 06) {
+				//0. process컬럼에 N넣어주기
+				dservice.setProcessN(seq);
+				//1. 사용처리
 				LeaveDTO ldto = new LeaveDTO();
 				ldto.setType(dto.getLeave_type());
 				ldto.setStart_date(dto.getLeave_start());
 				ldto.setEnd_date(dto.getLeave_end());
 				if(dto.getLeave_type().contentEquals("반차")) {
+					//미처리 컬럼에 N넣어주어야 함
 					ldto.setTime(4);
 				}
 				ldto.setEmp_code(dto.getWriter_code());
-				if(!ldto.getType().contentEquals("조퇴")) {
+				if(!ldto.getType().contentEquals("조퇴") || !ldto.getType().contentEquals("기타")) {
 					lservice.insert(ldto);
 				}
+				//2. 잔여 휴가일 계산해서 빼기
+				//2-1. 기간 받아오기
+				Date today =  new Date(System.currentTimeMillis());
+				SimpleDateFormat format = new SimpleDateFormat("yyyy");
+				String year = format.format(today);
+				String yearStart = year + "-01-01";
+				String yearEnd = year + "-12-31";
+				List<LeaveDTO> leaveList = lservice.getDuration(dto.getWriter_code(), yearStart, yearEnd);
+				
+				int durationSum = 0; //기간 합
+				for(int i=0; i<leaveList.size(); i++) {
+					if(leaveList.get(i).getType().contentEquals("정기") || leaveList.get(i).getType().contentEquals("병가")|| leaveList.get(i).getType().contentEquals("기타(차감)")) {
+						durationSum = durationSum + leaveList.get(i).getDuration();
+					}
+				}
+				//2-2. 시간 받아오기
+				int timeSum = lservice.getTimeSum(dto.getWriter_code(), yearStart, yearEnd);
+				durationSum = durationSum + (timeSum / 8);
+				//3. 사용날짜 다시 입력해주기
+				ltuService.updateUsed(durationSum, year, dto.getWriter_code());
 			}
-			
 		}else{
 			dservice.addIsConfirm(seq,empCode,comments);
 		}

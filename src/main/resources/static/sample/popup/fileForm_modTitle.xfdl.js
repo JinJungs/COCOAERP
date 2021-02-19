@@ -19,7 +19,9 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
-
+            obj = new Dataset("tp_title", this);
+            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"title\" type=\"STRING\" size=\"256\"/><Column id=\"contents\" type=\"STRING\" size=\"256\"/><Column id=\"made_date\" type=\"INT\" size=\"256\"/><Column id=\"mod_date\" type=\"INT\" size=\"256\"/><Column id=\"emp_code\" type=\"INT\" size=\"256\"/></ColumnInfo>");
+            this.addChild(obj.name, obj);
             
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","-780",null,null,null,null,null,this);
@@ -44,6 +46,7 @@
 
             obj = new TextArea("TextArea00","91","120","199","144",null,null,null,null,null,null,this);
             obj.set_taborder("4");
+            obj.set_displaynulltext(" ");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_cancel","20","370","112","46",null,null,null,null,null,null,this);
@@ -86,7 +89,21 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
+            obj = new BindItem("item0","Edit00","value","tp_title","title");
+            this.addChild(obj.name, obj);
+            obj.bind();
 
+            obj = new BindItem("item1","TextArea00","value","tp_title","contents");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item2","sta_made_date","text","tp_title","made_date");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item3","sta_mod_date","text","tp_title","mod_date");
+            this.addChild(obj.name, obj);
+            obj.bind();
         };
         
         this.loadPreloadList = function()
@@ -99,18 +116,16 @@
 
         this.fileForm_modTitle_onload = function(obj,e)
         {
+        	var code = this.parent.code;
 
-        	var title = this.parent.title;
-        	var contents = this.parent.contents;
-        	var made_date = this.parent.made_date.substr(0,10);
-        	if(this.parent.mod_date==undefined){
-        	}else{
-        		var mod_date=this.parent.made_date.substr(0,10);
-        		this.sta_mod_date.set_text(mod_date);
-        	}
-        	this.Edit00.set_value(title);
-        	this.TextArea00.set_value(contents);
-        	this.sta_made_date.set_text(made_date);
+        	this.transaction(
+        		"tp_getFormInfoByCode" //1. strsvcid
+        		,"/nexTemp/tp_getFormInfoByCode.nex" //2.strurl
+        		,"" //3.strInDatasets Sds=Fds:U :A :
+        		,"tp_title=out_ds" //4.strOutDatasets
+        		,"code="+code //5.strArgument
+        		,"fn_callback" //6.strCallbackFunc
+        	);
 
         };
 
@@ -121,11 +136,26 @@
 
         this.btn_add_onclick = function(obj,e)
         {
-        	var title = this.Edit00.value;
-        	var contents = this.TextArea00.value;
-        	var args = title +"|"+contents;
-        	this.close(args);
+
+        	var getCurRow = this.tp_title.addRow();
+        	var title = this.tp_title.getColumn(0,"title");
+        	var contents = this.tp_title.getColumn(0,"contents");
+        	this.tp_title.setColumn(getCurRow,"code",this.parent.code);
+        	this.tp_title.setColumn(getCurRow,"title",title);
+        	this.tp_title.setColumn(getCurRow,"contents",contents);
+        	this.transaction(
+        		"tp_getFormInfoByCode" //1. strsvcid
+        		,"/nexTemp/tp_titleMod.nex" //2.strurl
+        		,"in_ds=tp_title:U" //3.strInDatasets Sds=Fds:U :A :
+        		,"" //4.strOutDatasets
+        		,"" //5.strArgument
+        		,"fn_modListCallBack" //6.strCallbackFunc
+        	);
         };
+
+        this.fn_modListCallBack=function(id,errmsg,etc){
+        	this.close(errmsg);
+        }
 
         });
         

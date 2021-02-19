@@ -161,7 +161,7 @@
          }else if(code==18) {
             location.href = "/schedule/toScheduleMain.schedule";
          }else if(code==19) {
-            location.href = "#";
+            location.href = "/leave/toLeaveMain.leave";
          // 4. 근태현황
          }else if(code==20) {
             location.href = "/attendance/toAttendanceView";

@@ -38,4 +38,19 @@ public class TemplatesService implements TemplatesDAO{
 	public int addTemplates(TemplatesDTO dto) {
 		return tdao.addTemplates(dto);
 	}
+
+	@Override
+	public int modTemplates(TemplatesDTO dto) {
+		return tdao.modTemplates(dto);
+	}
+
+	@Override
+	public int delTemplate(int code) {
+		return tdao.delTemplate(code);
+	}
+
+	@Override
+	public List<TemplatesDTO> searchList(String getSearch, int form_code) {
+		return tdao.searchList(getSearch,form_code);
+	}
 }
