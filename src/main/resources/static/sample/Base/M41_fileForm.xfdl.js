@@ -13,7 +13,7 @@
             this.set_titletext("New Form");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1560,720);
+                this._setFormPosition(1090,650);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -48,7 +48,7 @@
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
-            obj.set_text("기안 양식 관리");
+            obj.set_text("파일 양식 관리");
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
@@ -449,7 +449,7 @@
 
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1560,720,this,function(p){});
+            obj = new Layout("default","",1090,650,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -497,6 +497,7 @@
         
         // User Script
         this.registerScript("M41_fileForm.xfdl", function() {
+
         var getAddCol =-1;
         var count =0;
         this.M41_fileForm_onload = function(obj,e)
@@ -772,7 +773,6 @@
         	);
 
         };
-
 
 
 

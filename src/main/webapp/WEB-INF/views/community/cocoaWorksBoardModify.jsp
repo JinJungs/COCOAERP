@@ -22,11 +22,12 @@ input{width:100%;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">자유게시판(글수정)</h2>
+			<h2 class="mb-4 board_title">${mid_name }(글수정)</h2>
 					
 			<input type="hidden" name="cpage" value="${cpage}"> 
 			<input type="hidden" name="seq" value="${dto.seq}">
-			
+			<input
+				type="hidden" name="menu_seq" value="${menu_seq}">
 			<form
 				action="/noBoard/notificationBoardModifyDone.no?menu_seq=${menu_seq}&cpage=${cpage}&seq=${dto.seq}"
 				method="post" id="submitForm" enctype="multipart/form-data">
@@ -119,7 +120,7 @@ input{width:100%;}
  	}
  	/*홈으로*/
 	function fn_home(cpage) {
-		location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
+		location.href = "/"
 	}
 	/*파일 삭제*/
 	// 화면상에서만 리스트가 사라진 것처럼 보이게 gkrl &제거 전 제거될 파일의 seq값을 리스트에 추가
