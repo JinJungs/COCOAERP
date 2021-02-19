@@ -158,6 +158,13 @@ public class DocumentService implements DocumentDAO {
 
 	@Override
 	public int getSearchBoardCount(int empCode, Date startDate, Date endDate, List<String> templateList, String searchText, int cpage, String status) {
+		System.out.println("empCode : " + empCode);
+		System.out.println("startDate : " + startDate);
+		System.out.println("endDate : " + endDate);
+		System.out.println("templateList : " + templateList.size());
+		System.out.println("searchText : " + searchText);
+		System.out.println("cpage : " + cpage);
+		System.out.println("status : " + status);
 		return ddao.getSearchBoardCount(empCode, startDate, endDate, templateList, searchText, cpage, status);
 	}
 
@@ -286,6 +293,20 @@ public class DocumentService implements DocumentDAO {
 		return list;
 	}
 
+	@Override
+	public List<DocumentDTO> getLeaveListConfirmed() {
+		return ddao.getLeaveListConfirmed();
+	}
+	@Override
+	public void setProcessY(int seq) {
+		ddao.setProcessY(seq);
+		
+	}
+	@Override
+	public void setProcessN(int seq) {
+		ddao.setProcessN(seq);
+	}
+	
 	//용국
 
 

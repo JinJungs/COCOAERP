@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+div{
+	font-size: 16px;
+}
 select {
 	min-width: 90px;
 }
@@ -68,7 +71,7 @@ select {
 				</div>
 			</form>
 			<hr>
-			<div class="documentList row text-center">
+			<div class="documentList row text-center item p-2">
 				<div class="col-2"><b>양식</b></div>
 				<div class="col-3"><b>제목</b></div>
 				<div class="col-3"><b>상신일</b></div>
@@ -79,7 +82,7 @@ select {
 			<c:forEach var="list" items="${list}">
 				<div class="row text-center">
 					<div class="col-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
-					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+					<div class="col-3 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 					<div class="col-3 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
 					<div class="col-4 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.emp_name } | ${list.dept_name }</a></div>
 				</div>

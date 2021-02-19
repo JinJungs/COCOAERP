@@ -32,4 +32,9 @@ public class TemplateFormService implements TemplateFormDAO {
     public int modTemlateForm(TemplateFormDTO dto) {
         return dao.modTemlateForm(dto);
     }
+
+    @Override
+    public TemplateFormDTO getFormInfoByCode(int code) {
+        return dao.getFormInfoByCode(code);
+    }
 }

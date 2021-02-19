@@ -2,6 +2,8 @@ package kh.cocoa.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -206,7 +209,27 @@ public class EmployeeController {
         int changePw=eservice.changePw(code,password);
         return changePw;
     }
-
+    @RequestMapping("selectEmployee.employee")
+    public NexacroResult selectEmployee() {
+    	NexacroResult nr = new NexacroResult();
+    	
+    	List<EmployeeDTO> list = eservice.getListWithdrawN();
+    	
+    	nr.addDataSet("out_employee", list);
+    	
+    	return nr;
+    }
+    
+    @RequestMapping("selectEmployeeLTU.employee")
+    public NexacroResult selectEmployeeLTU() {
+    	NexacroResult nr = new NexacroResult();
+    	
+    	List<EmployeeDTO> list = eservice.getEmpleLTU();
+    	
+    	nr.addDataSet("out_employee", list);
+    	
+    	return nr;
+    }
 
 
 }

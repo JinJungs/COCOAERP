@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+div{
+	font-size: 16px;
+}
 select {
 	min-width: 90px;
 }
@@ -68,7 +71,7 @@ select {
 				</div>
 			</form>
 			<hr>
-			<div class="documentList row text-center">
+			<div class="documentList row text-center item p-2">
 				<div class="col-3"><b>양식</b></div>
 				<div class="col-3"><b>제목</b></div>
 				<div class="col-3"><b>상신일</b></div>
