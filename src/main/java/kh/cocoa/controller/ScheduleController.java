@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -184,5 +185,13 @@ public class ScheduleController {
 	public String delete(String seq) {
 		int result = sservice.delete(seq);
 		return Integer.toString(result);
+	}
+
+	@RequestMapping("/getList.nex")
+	public NexacroResult getList(){
+		NexacroResult nr = new NexacroResult();
+		List<ScheduleDTO> list = sservice.selectAllSchedule();
+		nr.addDataSet("out_ds", list);
+		return nr;
 	}
 }
