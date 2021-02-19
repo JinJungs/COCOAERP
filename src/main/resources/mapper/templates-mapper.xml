@@ -13,10 +13,37 @@
     </select>
 
     <select id="getClickTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
-        SELECT * FROM TEMPLATES WHERE FORM_CODE=#{code}
+        SELECT * FROM TEMPLATES WHERE FORM_CODE=#{code} order by code
     </select>
 
     <insert id="addTemplates">
-        insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},#{contents},#{temp_code},#{writer_code})
+    <choose>
+        <when test="contents==null">
+            insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},'',#{temp_code},#{writer_code})
+        </when>
+        <otherwise>
+            insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},#{contents},#{temp_code},#{writer_code})
+        </otherwise>
+    </choose>
     </insert>
+
+    <update id="modTemplates">
+        <choose>
+            <when test="contents==null">
+                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code} where code=#{code}
+            </when>
+            <otherwise>
+                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code} where code=#{code}
+            </otherwise>
+        </choose>
+
+    </update>
+
+    <delete id="delTemplate">
+        delete from templates where code=#{code}
+    </delete>
+
+    <select id="searchList" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where form_code=#{form_code} and name like '%${getSearch}%'
+    </select>
 </mapper>
