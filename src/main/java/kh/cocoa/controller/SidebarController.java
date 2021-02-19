@@ -71,6 +71,10 @@ public class SidebarController {
     public NexacroResult getSidbarList(){
         NexacroResult nr = new NexacroResult();
         List<SidebarViewDTO> list = sService.getSidebarList();
+        // chk에 모두 0값을 넣어서 보낸다.
+        for(int i=0; i<list.size(); i++){
+            list.get(i).setChk("0");
+        }
         nr.addDataSet("out_ds",list);
         return nr;
     }
