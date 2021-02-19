@@ -498,13 +498,6 @@
         // User Script
         this.registerScript("M41_fileForm.xfdl", function() {
 
-        this.Static00_onclick = function(obj,e)
-        {
-
-        {
-
-        };
-
         var getAddCol =-1;
         var count =0;
         this.M41_fileForm_onload = function(obj,e)
