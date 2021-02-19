@@ -13,13 +13,19 @@ public class Leave_Taken_UsedDTO {
 	private int year;
 	private int emp_code;
 	
+	//추가부분
+	private int addLeave;
+	private int code;
+	
 	@Builder
-	public Leave_Taken_UsedDTO(int seq, int leave_got, int leave_used, int year, int emp_code) {
+	public Leave_Taken_UsedDTO(int seq, int leave_got, int leave_used, int year, int emp_code, int addLeave, int code) {
 		super();
 		this.seq = seq;
 		this.leave_got = leave_got;
 		this.leave_used = leave_used;
 		this.year = year;
 		this.emp_code = emp_code;
+		this.addLeave = addLeave;
+		this.code = code;
 	}
 }

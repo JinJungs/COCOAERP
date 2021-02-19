@@ -12,4 +12,5 @@ public interface Leave_Taken_UsedDAO {
 	
 	public int isExist(int empCode, int year);
 	public void insert(int year, int empCode, int leaveCount);
+	public void plusLeaveGot(int year, int empCode, int leaveCount);
 }

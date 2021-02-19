@@ -16,4 +16,6 @@ public interface TemplateFormDAO {
     public int addTemplateForm(TemplateFormDTO dto);
 
     public int modTemlateForm(TemplateFormDTO dto);
+
+    public TemplateFormDTO getFormInfoByCode(int code);
 }

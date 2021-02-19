@@ -18,7 +18,8 @@ public class BoardDTO {
 	private int menu_seq;
 	/* 추가부분 */
 	private String name;
-	private String savedname;
+	private String savedname;;
+	private int chk;
 	
 	@Builder
 	public BoardDTO(int seq, String title, String contents, Date write_date, int view_count, int writer_code,

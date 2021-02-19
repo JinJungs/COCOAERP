@@ -29,7 +29,7 @@
 	    ORDER BY BOARD_SEQ) TEMP
 	    WHERE B.WRITER_CODE = E.CODE
         AND B.SEQ = F.BOARD_SEQ
-        AND B.MENU_SEQ=3
+        AND B.MENU_SEQ=#{menu_seq}
         AND TEMP.SEQ = F.SEQ
     	ORDER BY B.SEQ DESC
 	</select>
@@ -42,7 +42,7 @@
 	    ORDER BY BOARD_SEQ) TEMP
 	    WHERE B.WRITER_CODE = E.CODE
         AND B.SEQ = F.BOARD_SEQ
-        AND B.MENU_SEQ=3
+        AND B.MENU_SEQ=#{menu_seq}
         AND TEMP.SEQ = F.SEQ
 		<choose>
                  <when test='searchBy=="title"'>
@@ -146,10 +146,16 @@
 	</select>
 <!-- 넥사크로 - 보드메뉴 추가 -->
 	<insert id="addBoard">
-		INSERT INTO BOARD_MENU VALUES (BOARD_MN_SEQ.NEXTVAL,#{name},#{type})
+		INSERT INTO BOARD_MENU VALUES (#{board_menu_seq},#{name},#{type})
 	</insert>
 <!-- 넥사크로 - 보드 이름 수정 -->
 	<update id="uptBoard">
 		UPDATE BOARD_MENU SET NAME=#{name} WHERE SEQ=#{seq}
 	</update>
+	<select id="bms" resultType="Integer">
+		SELECT BOARD_MN_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='BOARD_MN_SEQ'
+	</select>
+	<delete id="delBoard">
+		DELETE FROM BOARD_MENU WHERE SEQ=#{seq}
+	</delete>
 </mapper>	

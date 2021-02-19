@@ -22,4 +22,10 @@ public interface TemplatesDAO {
 
 	public int addTemplates(TemplatesDTO dto);
 
+	public int modTemplates(TemplatesDTO dto);
+
+	public int delTemplate(int code);
+
+	public List<TemplatesDTO> searchList(String getSearch,int form_code);
+
 }

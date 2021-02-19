@@ -178,7 +178,7 @@ public class DocumentController {
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RAISE");
 		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
-
+		
 		model.addAttribute("list", list);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
