@@ -25,6 +25,7 @@
             obj = new Static("Static00","0","0",null,"24","0",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_cssclass("sta_top_bg01");
+            obj.set_background("linear-gradient(to right,cornflowerblue 12%,#684bb9 49%)");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static01","0","24",null,"41","0",null,null,null,null,null,this);
@@ -32,52 +33,18 @@
             obj.set_cssclass("sta_top_bg02");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static02","0","24","160","41",null,null,null,null,null,null,this);
-            obj.set_taborder("2");
-            obj.set_cssclass("sta_top_logo");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button00","190","24","120","40",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
-            obj.set_text("상단메뉴01");
-            obj.set_cssclass("btn_top_menu");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button01","310","24","120","40",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("상단메뉴01");
-            obj.set_cssclass("btn_top_menu");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button02","430","24","120","40",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
-            obj.set_text("상단메뉴01");
-            obj.set_cssclass("btn_top_menu");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button03","550","24","120","40",null,null,null,null,null,null,this);
-            obj.set_taborder("6");
-            obj.set_text("상단메뉴01");
-            obj.set_cssclass("btn_top_menu");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("Button04","670","24","120","40",null,null,null,null,null,null,this);
-            obj.set_taborder("7");
-            obj.set_text("상단메뉴01");
-            obj.set_cssclass("btn_top_menu");
-            this.addChild(obj.name, obj);
-
             obj = new Static("Static03","10","0","210","24",null,null,null,null,null,null,this);
-            obj.set_taborder("8");
+            obj.set_taborder("2");
             obj.set_text("Hello! Hong Gil Dong");
             obj.set_cssclass("sta_top_textWht");
             this.addChild(obj.name, obj);
 
-            obj = new PopupMenu("PopupMenu00","190","64","120","101",null,null,null,null,null,null,this);
-            obj.set_innerdataset("ds_Popup");
-            obj.set_captioncolumn("Column0");
-            obj.set_idcolumn("Column2");
-            obj.set_levelcolumn("Column1");
+            obj = new Static("Static02","0","24","164","41",null,null,null,null,null,null,this);
+            obj.set_taborder("3");
+            obj.set_text("COCOAERP");
+            obj.set_padding("5px");
+            obj.set_font("bold 24px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
+            obj.set_color("black");
             this.addChild(obj.name, obj);
 
             // Layout Functions
@@ -103,12 +70,17 @@
         	this.PopupMenu00.trackPopupByComponent(this.Button00,0,41);
         };
 
+        this.fm_top_onload = function(obj,e)
+        {
+
+        };
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
-            this.Button00.addEventHandler("onclick",this.Button00_onclick,this);
+            this.addEventHandler("onload",this.fm_top_onload,this);
         };
 
         this.loadIncludeScript("frmTop.xfdl");

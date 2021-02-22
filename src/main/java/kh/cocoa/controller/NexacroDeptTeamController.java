@@ -14,9 +14,12 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import com.nexacro17.xapi.data.DataSet;
 
 import kh.cocoa.dto.DepartmentsDTO;
+import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.OrganizationDTO;
 import kh.cocoa.dto.TeamDTO;
 import kh.cocoa.service.DepartmentsService;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.PositionService;
 import kh.cocoa.service.TeamService;
 
 @Controller
@@ -28,6 +31,12 @@ public class NexacroDeptTeamController {
 	
 	@Autowired
 	TeamService tservice;
+	
+	@Autowired
+	PositionService pservice;
+	
+	@Autowired
+	EmployeeService eservice;
 	
 	//부서 조직도 불러오기
 	
@@ -62,7 +71,10 @@ public class NexacroDeptTeamController {
 				dtoj.setLevel(2);
 				org_list.add(dtoj);
 			}
-		}	
+		}
+		//사원 전체 불러오기
+		List<EmployeeDTO> emp_list = eservice.getAllEmployeeOrderByCode();
+		nr.addDataSet("out_emp_list", emp_list);
 		nr.addDataSet("out_org_list", org_list);
 		return nr;
 	}

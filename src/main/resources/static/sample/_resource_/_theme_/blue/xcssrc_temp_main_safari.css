@@ -444,6 +444,12 @@ textarea::-webkit-scrollbar { display: none; }
 	text-align : center;
 	background-position-x : center;
 }
+.Button.btn_confirm
+{
+	border-radius : 5px;
+	background : #23272B;
+	color : #ffffff;
+}
 #nexacontainer .Grid.grd_main_table01 .body .row .cell[status=mouseover]
 {
 	background : #ffffff;

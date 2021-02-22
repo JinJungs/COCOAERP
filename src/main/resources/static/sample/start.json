@@ -117,11 +117,19 @@
         },
         "resource" :
         {
-
+            "windows" : {
+                "updateurl" : "./",
+                "timeout" : "30",
+                "retry" : "3",
+                "autoupdate" : "auto",
+                "updatetype" : "server"
+            }
         },
 		"deploy" :
         {
-
+            "windows" : {
+                "updateurl" : "./"
+            }
         },
         "userfont" :
         [

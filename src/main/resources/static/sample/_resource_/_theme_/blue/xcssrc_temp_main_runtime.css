@@ -244,6 +244,12 @@
 {
 	text-align : center;
 }
+.Button.btn_confirm
+{
+	border-radius : 5px;
+	background : #23272B;
+	color : #ffffff;
+}
 .Grid.grd_main_table01 .body .row .cell[status=mouseover]
 {
 	background : #ffffff;
