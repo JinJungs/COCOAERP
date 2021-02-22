@@ -9,6 +9,9 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <style>
+div{
+	font-size: 16px;
+}
 select {
 	min-width: 90px;
 }
@@ -86,7 +89,7 @@ select {
 								<div class="col-1 p-2 text-center textBox">
 									<a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
 								<div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
-								<div class="col-4 p-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
+								<div class="col-4 p-2 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 								<div class="col-3 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.emp_name } | ${list.dept_name }</a></div>
 								<div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
 							</div>

@@ -21,7 +21,7 @@ input{width:50%;border-bottom:1px solid pink;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">자유게시판</h2>
+			<h2 class="mb-4 board_title">${mid_name}</h2>
 
 			<input type="hidden" id="cpage" name="cpage" value="${cpage}" />
 			<form action="/noBoard/notificationBoardSearch.no" method="get">

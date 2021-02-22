@@ -49,7 +49,7 @@
                // 업무일지, 전자결재, 일정관리, 근태현황, 전자우편, 커뮤니티, 개인정보, 조직도, 버그리포팅
                for(let j=0; j<9; j++){
                   if(!data[j][0].mid_name){ //mid_name이 없는 경우 - 조직도, 버그리포팅
-                     html += "<li><a href='javascript:side_findLocation("+data[j][0].code+","+data[j][0].board_menu_seq+","+data[j][0].type+");'>"+data[j][0].menu_name+"</a></li>";
+                     html += "<li><a href='javascript:side_findLocation("+data[j][0].code+","+data[j][0].board_menu_seq+",\""+data[j][0].type+"\");'>"+data[j][0].menu_name+"</a></li>";
                   }else if(j==1) { // 전자결재 - 기안함, 결재함
                      // 기안함, 결재함으로 바뀌는 index 번호 확인
                      let draftIndex = 0; // 기안함이 시작되는 index
@@ -66,7 +66,7 @@
                      <!-- 결재문서 작성-->
                      if(!data[j][0].sub_name){ // 결재문서 작성이 있다면 (첫번째 데이터가 sub_name이 없는 경우)
                         draftIndex = 1;
-                        html += "<li><a href='javascript:side_findLocation("+data[j][0].code+","+data[j][0].board_menu_seq+","+data[j][0].type+");'>"+data[j][0].mid_name+"</a></li>";
+                        html += "<li><a href='javascript:side_findLocation("+data[j][0].code+","+data[j][0].board_menu_seq+",\""+data[j][0].type+"\");'>"+data[j][0].mid_name+"</a></li>";
                      }
 
                      <!-- 기안함 -->
@@ -75,7 +75,7 @@
                      html += "<ul class='collapse list-unstyled' id='Document2'>";
                      for(let i= draftIndex; i<approveIndex; i++){ // 하위메뉴 출력
                         if(data[j][i].mid_code == 7){
-                           html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+","+data[j][i].type+");'>"+data[j][i].sub_name+"</a></li>";
+                           html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+",\""+data[j][i].type+"\");'>"+data[j][i].sub_name+"</a></li>";
                         }
                      }
                      html += "</ul>";
@@ -87,7 +87,7 @@
                      html += "<ul class='collapse list-unstyled' id='Document3'>";
                      for(let i=approveIndex; i<data[j].length; i++){ // 하위메뉴 출력
                         if(data[j][i].mid_code == 8){
-                           html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+","+data[j][i].type+");'>"+data[j][i].sub_name+"</a></li>";
+                           html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+",\""+data[j][i].type+"\");'>"+data[j][i].sub_name+"</a></li>";
                         }
                      }
                      html += "</ul>";
@@ -101,7 +101,9 @@
                      html += "<ul class='collapse list-unstyled' id='sidebarMenuNum_"+j+"'>";
                      for(let i=0; i<data[j].length; i++){
                         console.log("보드메뉴 : " +data[j][i].board_menu_seq);
-                        html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+","+data[j][i].type+");'>"+data[j][i].mid_name+"</a></li>";
+                        console.log("보드타입 : " +data[j][i].type);
+                        console.log("보드명 : " +data[j][i].mid_name);
+                        html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+",\""+data[j][i].type+"\",\""+data[j][i].mid_name+"\");'>"+data[j][i].mid_name+"</a></li>";
                      }
                      html += "</ul>";
                      html += "</li>";
@@ -114,10 +116,11 @@
       });
 
       // 1~33까지 code번호를 받아서 location.href= 각 페이지로 이동한다.
-      function side_findLocation(code, board_menu_seq, type){
+      function side_findLocation(code, board_menu_seq, type,mid_name){
          console.log("코드 : " +code);
          console.log("보드 메뉴 시퀀스 : " +board_menu_seq);
          console.log("보드 타입 : " +type);
+         console.log("이름 : " +mid_name);
          // 1. 업무일지
          if(code==1){
             location.href = "/log/logCreate.log";
@@ -181,9 +184,9 @@
          }else if(code==28) {
             location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
          }else if(code==29) {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=2";
+            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
          }else if(code==30) {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=3";
+            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
          // 7. 개인정보
          }else if(code==31) {
             location.href = "/membership/myInfo";
@@ -194,7 +197,7 @@
          }else if(code==33) {
             location.href = "/bug";
          }else{ // 게시판이 추가되는 경우
-            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type;
+            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
          }
       }
 

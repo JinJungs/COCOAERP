@@ -7,6 +7,9 @@
     <meta charset="UTF-8">
     <title>진행중 문서</title>
     <style type="text/css">
+		div{
+			font-size: 16px;
+		}
         select {
             min-width: 90px;
         }
@@ -78,7 +81,7 @@
         <div class="documentList row text-center">
             <div class="col-1 col-sm-2"><b>양식</b></div>
             <div class="col-3 col-sm-2 d-none d-sm-block"><b>제목</b></div>
-            <div class="col-1 col-sm-2"><b>기안자|부서</b></div>
+            <div class="col-1 col-sm-2"><b>기안자 | 부서</b></div>
             <div class="col-1 col-sm-2"><b>상신일</b></div>
             <div class="col-1 col-sm-2"><b>결재구분</b></div>
             <div class="col-1 col-sm-2"><b>결재대기</b></div>
@@ -89,7 +92,7 @@
             <c:forEach var="list" items="${list}">
                 <div class="row text-center" style="cursor: pointer" onclick="fn_toread(${list.seq})">
                     <div class="col-1 col-sm-2 textBox">${list.temp_name}</div>
-                    <div class="col-3 col-sm-2 d-none d-sm-block textBox">${list.title}</div>
+                    <div class="col-3 col-sm-2 d-none d-sm-block textBox text-left pl-4">${list.title}</div>
                     <div class="col-1 col-sm-2 textBox">${list.emp_name } | ${list.dept_name}</div>
                     <div class="col-1 col-sm-2 textBox">${list.write_date }</div>
                     <div class="col-1 col-sm-2 textBox">결재</div>

@@ -13,7 +13,7 @@
             this.set_titletext("New Form");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1580,650);
+                this._setFormPosition(1090,650);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -52,36 +52,36 @@
             obj.set_cssclass("sta_WF_title01");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_form","10","90","180","546",null,null,null,null,null,null,this);
+            obj = new Grid("grid_form","20","90","150","546",null,null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_binddataset("tp_title");
             obj.set_autofittype("col");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"38\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"- 양식함\" textAlign=\"left\" padding=\"5px\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_temp","210","90","592","544",null,null,null,null,null,null,this);
+            obj = new Grid("grid_temp","180","90",null,"544","560",null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_binddataset("tp_list");
             obj.set_autofittype("col");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"97\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"양식명\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:name\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleAdd","10","54","43","26",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleAdd","20","54","43","26",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("추가");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleMod","60","54","43","26",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleMod","73","54","43","26",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("수정");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleRm","110","54","43","26",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleRm","126","54","43","26",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("삭제");
             this.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","420","57","129","26",null,null,null,null,null,null,this);
+            obj = new Combo("Combo00","185","54","115","26",null,null,null,null,null,null,this);
             obj.set_taborder("6");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
@@ -93,26 +93,27 @@
             obj.set_index("0");
             this.addChild(obj.name, obj);
 
-            obj = new Edit("Edit00","556","57","196","26",null,null,null,null,null,null,this);
+            obj = new Edit("Edit00","310","53","150","26",null,null,null,null,null,null,this);
             obj.set_taborder("7");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_listSearch","759","57","43","26",null,null,null,null,null,null,this);
+            obj = new Button("btn_listSearch","470","53","60","26",null,null,null,null,null,null,this);
             obj.set_taborder("8");
             obj.set_text("검색");
+            obj.set_cssclass("btn_WF_search01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_listAdd","716","18","87","32",null,null,null,null,null,null,this);
+            obj = new Button("btn_listAdd","438","18","92","26",null,null,null,null,null,null,this);
             obj.set_taborder("9");
             obj.set_text("양식 추가");
+            obj.set_cssclass("btn_WF_add01");
             this.addChild(obj.name, obj);
 
-            obj = new Tab("Tab00","817","20","773","614",null,null,null,null,null,null,this);
+            obj = new Tab("Tab00",null,"90","450","571","100",null,null,null,null,null,this);
             obj.set_taborder("10");
             obj.set_tabindex("0");
             obj.set_tabbuttonheight("0");
-            obj.set_visible("false");
-            obj.set_tabposition("right");
+            obj.set_tabposition("bottom");
             this.addChild(obj.name, obj);
 
             obj = new Tabpage("Tabpage1",this.Tab00);
@@ -120,108 +121,109 @@
             obj.set_formscrolltype("none");
             this.Tab00.addChild(obj.name, obj);
 
-            obj = new Static("Static00","0","0",null,"34","-484",null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static00","0","0",null,"34","0",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("0");
             obj.set_text("양식 추가");
             obj.set_cssclass("sta_WF_title01");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01","53","77","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01","20","77","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("1");
             obj.set_text("양식 분류");
             obj.set_border("1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_00","53","124","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_00","20","124","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("2");
             obj.set_text("기안 양식 명 *");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_01","53","171","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_01","20","171","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("3");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_text("양식 담당자");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_02","53","218","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_02","20","218","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("4");
             obj.set_text("설명 *");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_03","53","265","120","116",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_03","20","265","120","116",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("5");
             obj.set_text("내용");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_04","53","382","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_04","20","382","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("6");
             obj.set_text("공개여부");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_05","53","429","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_05","20","429","120","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("7");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_text("템플릿 설정");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_form","173","77","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_form","122","77",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("8");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_border("1px solid #c9c9c9,0px none");
             obj.set_text("");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_06_00","173","124","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_06_00","122","124",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("9");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_writer_code","173","171","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_writer_code","122","171",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("10");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_text("");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_06_00_01","173","218","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_06_00_01","122","218",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("11");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_text("");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_06_00_02","173","265","498","116",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_06_00_02","119","266",null,"116","23",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("12");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
+            obj.set_text("");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_06_00_03","173","382","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_06_00_03","122","382",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("13");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("Static01_06_00_04","173","429","498","46",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("Static01_06_00_04","122","429",null,"46","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("14");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             obj.set_padding("0px 0px 0px 10px");
             obj.set_text("");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Combo("tp_listTemp","181","435","193","35",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Combo("tp_listTemp","153","433","180","35",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_innerdataset("tp_origin");
             obj.set_codecolumn("code");
             obj.set_datacolumn("name");
@@ -230,32 +232,32 @@
             obj.set_value("6");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Edit("tp_listName","181","131","193","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Edit("tp_listName","149","130","131","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("16");
             obj.set_maxlength("10");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Edit("tp_listExplain","181","225","259","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Edit("tp_listExplain","150","225","169","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("17");
             obj.set_maxlength("15");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new TextArea("tp_listContents","181","272","370","100",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new TextArea("tp_listContents","150","273","230","100",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("18");
             obj.set_maxlength("100");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Button("btn_addList","585","489","86","33",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Button("btn_addList","335","483",null,"25","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("19");
             obj.set_text("추가");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Button("btn_reset","485","489","86","33",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Button("btn_reset","227","483",null,"25","138",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("20");
             obj.set_text("취소");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Radio("radio_status","183","380","137","50",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Radio("radio_status","149","379","137","50",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("21");
             obj.set_innerdataset("ds_status");
             obj.set_codecolumn("code");
@@ -266,15 +268,15 @@
             obj.set_index("0");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_nameErrMsg","384","132","292","30",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_nameErrMsg","286","131","122","30",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("22");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_explainErrMsg","453","227","234","30",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_explainErrMsg","333","227",null,"30","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("23");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_comboErrMsg","390","436","275","37",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_comboErrMsg","339","436",null,"37","20",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("24");
             obj.set_color("red");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
@@ -449,7 +451,7 @@
 
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1580,650,this,function(p){});
+            obj = new Layout("default","",1090,650,this,function(p){});
             this.addLayout(obj.name, obj);
             
             // BindItem Information
@@ -781,6 +783,11 @@
 
         };
 
+        this.Tab00_Tabpage1_Static01_02_onclick = function(obj,e)
+        {
+
+        };
+
         });
         
         // Regist UI Components Event
@@ -797,6 +804,7 @@
             this.btn_listAdd.addEventHandler("onclick",this.btn_listAdd_onclick,this);
             this.Tab00.addEventHandler("onchanged",this.Tab00_onchanged,this);
             this.Tab00.Tabpage1.form.Static01_01.addEventHandler("onclick",this.Static01_01_onclick,this);
+            this.Tab00.Tabpage1.form.Static01_02.addEventHandler("onclick",this.Tab00_Tabpage1_Static01_02_onclick,this);
             this.Tab00.Tabpage1.form.tp_listTemp.addEventHandler("onitemchanged",this.div_addListForm_tp_listTemp_onitemchanged,this);
             this.Tab00.Tabpage1.form.tp_listName.addEventHandler("onchanged",this.div_addListForm_tp_listName_onchanged,this);
             this.Tab00.Tabpage1.form.btn_addList.addEventHandler("onclick",this.btn_addList_onclick,this);
