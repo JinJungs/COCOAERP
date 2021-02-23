@@ -9,10 +9,17 @@ import kh.cocoa.dao.PositionDAO;
 import kh.cocoa.dto.PositionDTO;
 
 @Service
-public class PositionService implements PositionDAO{
-
+public class PositionService implements PositionDAO {
+	
+	
 	@Autowired
-	private PositionDAO pdao;
+	PositionDAO pdao;
+	
+//	소형 관리자 사용자관리
+	@Override
+	public List<PositionDTO> getAllPosList(){
+		return pdao.getAllPosList(); 
+	}
 	
 	@Override
 	public List<PositionDTO> getPositionList() {

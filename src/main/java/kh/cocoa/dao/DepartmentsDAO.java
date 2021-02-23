@@ -20,5 +20,12 @@ public interface DepartmentsDAO {
 
     public List<DepartmentsDTO> getSearchDeptCode(String name);
     
+
+    /* ====소형=== 관리자 - 사용자관리*/
+    public List<DepartmentsDTO> getDeptListOrderByCode();
+    
+    public List<DepartmentsDTO> getDeptListWithout0();
+
     public List<DepartmentsDTO> getDeptListForFilter();
+
 }
