@@ -430,7 +430,7 @@ public class DocumentController {
 
 	
 	//회수하기
-	@GetMapping("returnDocument.document")
+	@RequestMapping("returnDocument.document")
 	public String returnDocument(String seq) {
 		dservice.ReturnDoc(seq);
 		return "redirect:/document/d_searchReturn.document";
@@ -466,7 +466,7 @@ public class DocumentController {
 	}
 
 	//문서대장
-	@GetMapping("allConfirmDoc.document")
+	@RequestMapping("allConfirmDoc.document")
 	public String allConfirmDoc(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model){
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
@@ -526,7 +526,7 @@ public class DocumentController {
 		return "/document/allConfirmDoc";
 	}
 	//문서 전체보기
-	@GetMapping("allDocument.document")
+	@RequestMapping("allDocument.document")
 	public String toWritOrder(Model model){
 		//0. 사번
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -603,6 +603,25 @@ public class DocumentController {
 		
 		return "document/allDocument";
 	}
+	
+	//휴가신청시 잔여휴가 체크 후 신청가능여부
+	@RequestMapping("canGetLeave.document")
+	@ResponseBody
+	public int canGetLeave() {
+		//1. 사번
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		//2. 오늘 날짜(년도)
+		Date today =  new Date(System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy");
+		String year = format.format(today);
+		
+		
+		Leave_Taken_UsedDTO dto = ltuService.getLeaveStatus(empCode, year);
+		int leaveCount = dto.getLeave_got() - dto.getLeave_used();
+		return leaveCount;
+	}
+	
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
@@ -807,12 +826,13 @@ public class DocumentController {
 				ldto.setStart_date(dto.getLeave_start());
 				ldto.setEnd_date(dto.getLeave_end());
 				if(dto.getLeave_type().contentEquals("반차")) {
-					//미처리 컬럼에 N넣어주어야 함
 					ldto.setTime(4);
 				}
 				ldto.setEmp_code(dto.getWriter_code());
 				if(!ldto.getType().contentEquals("조퇴") || !ldto.getType().contentEquals("기타")) {
 					lservice.insert(ldto);
+					//process컬럼에 N넣어주기
+					dservice.setProcessN(seq);
 				}
 				//2. 잔여 휴가일 계산해서 빼기
 				//2-1. 기간 받아오기
@@ -834,6 +854,7 @@ public class DocumentController {
 				durationSum = durationSum + (timeSum / 8);
 				//3. 사용날짜 다시 입력해주기
 				ltuService.updateUsed(durationSum, year, dto.getWriter_code());
+				
 			}
 		}else{
 			dservice.addIsConfirm(seq,empCode,comments);

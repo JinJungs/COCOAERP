@@ -366,7 +366,7 @@ div {
                      <h4 class="p-2 m-0">
                         <b>보낸 업무일지함</b>
                      </h4>
-                     <c:forEach var="n" items="${logAllList}">
+                     <c:forEach var="n" items="${logAllList}" begin="0" end="4">
                         <div class="row">
                            <div class="on col-3 p-1">${n.name }</div>
                            <div class="col-3 p-1">

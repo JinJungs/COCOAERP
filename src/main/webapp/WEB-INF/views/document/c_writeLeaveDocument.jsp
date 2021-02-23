@@ -81,6 +81,7 @@
 
                 </div>
             </div>
+            
             <form id="mainform" method="post" enctype="multipart/form-data">
                 <div class="row w-100 pt-4 pb-4 pl-3 pr-3" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-md-12" >
@@ -168,9 +169,9 @@
                 <div class="row w-100 pt-3 mb-5">
                     <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px" placeholder="휴가 사유를 적어주세요."></textarea></div>
                 </div>
+			</form>
         </div>
     </div>
-
 </div>
 <div class="container-fluid p-0" style="position: fixed; background-color: white; left: 0; bottom: 0; box-shadow:0 -2px 7px rgba(0,0,0,.15); min-height: 80px;">
     <div class="row">
@@ -178,8 +179,6 @@
         <div class="col-6 p-3 "><button type="button" class="btn btn-dark" id="btn_add" onclick="fn_clickbtnadd()">상신하기</button></div>
     </div>
 </div>
-
-</form>
 <div class="modal" id="modal" tabindex="-1" >
     <div class="modal-dialog modal-xl modal-dialog-centered" style="min-width: 1138px;">
         <div class="modal-content">
@@ -682,24 +681,33 @@
             $("#leave_end").focus();
             return;
         }
+        
         $.ajax({
-            url:"/restdocument/ajaxadddocument.document",
-            type:"post",
-            enctype: 'multipart/form-data',
-            data:new FormData($("#mainform")[0]),
-            contentType: false,
-            processData: false,
-            success: function (result) {
-                if(result>0){
-                    location.href="/document/toTemplateList.document";
-                }
-
-            }
-        });
-
-
+        	url: "/document/canGetLeave.document",
+        	type: "post",
+        	success: function(result){
+        		var confirmResult = confirm("남은 휴가일은 " + result + "일 입니다.\n신청하시겠습니까?");
+        		if(!confirmResult){
+        			
+        		}else{
+        			 $.ajax({
+		            url:"/restdocument/ajaxadddocument.document",
+		            type:"post",
+		            enctype: 'multipart/form-data',
+		            data:new FormData($("#mainform")[0]),
+		            contentType: false,
+		            processData: false,
+		            success: function (result) {
+		                if(result>0){
+		                    location.href="/document/toTemplateList.document";
+		                }
+		
+			            }
+			        });
+        		}
+        	}
+        })
     }
-
 
     $("#file").MultiFile({
         max: 5, //업로드 최대 파일 갯수 (지정하지 않으면 무한대)
