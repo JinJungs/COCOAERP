@@ -108,135 +108,176 @@
 				<div class="tab-pane fade show active" id="all">
 					<div class="row tab-content current" id="tab-1"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${logAllList}">
-							<c:choose>
-								<c:when test="${status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty logAllList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${logAllList}">
+									<c:choose>
+										<c:when test="${status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-2">
+												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-3">
+												<a
+													href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 일일 -->
 				<div class="tab-pane fade" id="daily">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${dailyList}">
-							<c:choose>
-								<c:when test="${status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty logAllList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${dailyList}">
+									<c:choose>
+										<c:when test="${status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-2">
+												<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-3">
+												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 주간 -->
 				<div class="tab-pane fade" id="weekly">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${weeklyList}">
-							<c:choose>
-								<c:when test="${status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty logAllList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${weeklyList}">
+									<c:choose>
+										<c:when test="${status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-2">
+												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-3">
+												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 월별 -->
 				<div class="tab-pane fade" id="monthly">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${monthlyList}">
-							<c:choose>
-								<c:when test="${status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-2">
-										<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png" style="height: 20px; width: 25px;border-radius: 20px;;">
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-3">
-										<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
-									</div>
-									<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-									<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${empty logAllList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${monthlyList}">
+									<c:choose>
+										<c:when test="${status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-2">
+												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+											<div class="on col-sm-12 col-md-3">
+												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
+											</div>
+											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
+											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>

@@ -219,7 +219,13 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		return ndao.bms();
 	}
 
+	//보드메뉴에서 지우기
 	public int delBoard(int seq) {
 		return ndao.delBoard(seq);
+	}
+
+	//게시글 내용도 지우기
+	public int delBoardText(int seq) {
+		return ndao.delBoardText(seq);
 	}
 }

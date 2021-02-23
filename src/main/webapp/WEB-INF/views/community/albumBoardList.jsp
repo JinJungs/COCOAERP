@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Album Board</title>
-<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css"
+	media="screen" />
 <style type="text/css">
 .card{margin:10px;}
 input{width:50%;border-bottom:1px solid pink;}
@@ -18,6 +19,7 @@ input{width:50%;border-bottom:1px solid pink;}
 .title:hover{color:#866EC7;}
 #btn_footer{text-align:right;}
 .card:hover{transform:scale(1.1);}
+#notice{border-top:1px solid pink;}
 </style>
 </head>
 <body>
@@ -28,9 +30,8 @@ input{width:50%;border-bottom:1px solid pink;}
 
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
 				<input type="hidden" id="getmenu_seq" name="menu_seq"
-					value="${menu_seq}" />
-				<input type="hidden" id="mid_name" name="mid_name"
-					value="${mid_name}" />
+					value="${menu_seq}" /> <input type="hidden" id="mid_name"
+					name="mid_name" value="${mid_name}" />
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -44,17 +45,28 @@ input{width:50%;border-bottom:1px solid pink;}
 					</div>
 				</div>
 			</form>
-			
-			<div class="row">
-			<c:forEach var="i" items="${albumList}">
-				<div class="card" style="width: 11rem;" onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
-					<img id="img" src="/boardRepository/${i.savedname}" class="card-img-top"  style="HEIGHT: 150px;"> 
-					<div class="col-12">
-						<b>${i.title}</b><br><b>${i.name}</b><b>${i.write_date}</b>
+			<c:choose>
+				<c:when test="${empty albumList}">
+					<div class="row" id="notice">
+						<div class="col">작성된 글이 없습니다.</div>
 					</div>
-				</div>
-			</c:forEach>
-			</div>
+				</c:when>
+				<c:otherwise>
+						<div class="row">
+					<c:forEach var="i" items="${albumList}">
+							<div class="card" style="width: 11rem;"
+								onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+								<img id="img" src="/boardRepository/${i.savedname}"
+									class="card-img-top" style="HEIGHT: 150px;">
+								<div class="col-12">
+									<b>${i.title}</b><br>
+									<b>${i.name}</b><b>${i.write_date}</b>
+								</div>
+							</div>
+					</c:forEach>
+						</div>
+				</c:otherwise>
+			</c:choose>
 
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">

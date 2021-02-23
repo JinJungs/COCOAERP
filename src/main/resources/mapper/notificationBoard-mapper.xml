@@ -158,4 +158,7 @@
 	<delete id="delBoard">
 		DELETE FROM BOARD_MENU WHERE SEQ=#{seq}
 	</delete>
+	<delete id="delBoardText">
+	DELETE FROM BOARD WHERE MENU_SEQ=#{seq}
+	</delete>
 </mapper>	
