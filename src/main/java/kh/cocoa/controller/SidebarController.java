@@ -2,6 +2,7 @@ package kh.cocoa.controller;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.SidebarViewDTO;
 import kh.cocoa.service.SidebarService;
 import org.json.JSONArray;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,12 +22,17 @@ public class SidebarController {
     @Autowired
     private SidebarService sService;
 
+    @Autowired
+    private HttpSession session;
+
     // ajax로 사이드바에 값을 보내준다.
+    // 사용자 정보도 같이 보내줘야한다.
     @RequestMapping("getSidebarList")
     @ResponseBody
     public String getSidebarList(String test){
         JSONArray jArrayAll = new JSONArray(); //전체 리스트를 담을 jsonarray
         HashMap<String,Object> param = null;
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         // 사이드바 메뉴의 개수
         int menuCount = sService.sidebarMenuCount();
 
@@ -64,6 +71,14 @@ public class SidebarController {
             }
             jArrayAll.put(jArray);
         }
+        // 로그인 한 사용자 정보도 같이 담아서 보내준다.
+        param = new HashMap<>();
+        param.put("code",loginDTO.getCode());
+        param.put("name", loginDTO.getName());
+        param.put("deptname",loginDTO.getDeptname());
+        param.put("teamname",loginDTO.getTeamname());
+        param.put("posname",loginDTO.getPosname());
+        jArrayAll.put(param);
         return jArrayAll.toString();
     }
 

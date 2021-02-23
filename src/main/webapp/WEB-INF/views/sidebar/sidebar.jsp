@@ -14,6 +14,31 @@
    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   <style>
+      .side-profile {
+         margin-left: auto;
+         margin-right: auto;
+         text-align: center;
+         margin-bottom: 30px;
+         padding-bottom: 30px;
+         border-bottom: 1px solid #efefef;
+      }
+      .side-name {
+         font-size: 18px;
+         color: #cfcfcf;
+         margin-bottom: 0;
+      }
+      .side-dept{
+         font-size: 14px;
+         color: #cfcfcf;
+      }
+      .side-img {
+         width: 100px;
+         height: 100px;
+         margin: 0 auto 20px auto;
+         border-radius: 50%;
+      }
+   </style>
 </head>
 <body>
    <nav id="sidebar">
@@ -23,9 +48,15 @@
          </button>
       </div>
       <div class="p-4 pt-5">
-         <h3>
+         <h3 class="mb-4">
             <a href="/" class="logo">COCOAWORK</a>
          </h3>
+         <!--사진-->
+         <div class="side-profile" style="user-select: auto;">
+            <img src="/img/Profile-m.png" alt="Image" class="side-img" style="user-select: auto;">
+            <h3 class="side-name" style="user-select: auto;"></h3>
+            <span class="side-dept" style="user-select: auto;"></span>
+         </div>
          <ul class="list-unstyled components mb-5" id="sidebarBox">
             <!-- 여기에 사이드바의 내용이 추가된다.-->
          </ul>
@@ -43,7 +74,17 @@
             url: "/sidebar/getSidebarList",
             dataType: "json",
             success: function (data){
-               // 리스트가 비어있는 경우에 방어코드가 한줄 있어야 한다.
+               // -------- 사용자의 정보를 띄워줌 --------
+               console.log("code: "+data[9].code);
+               let user_code = data[9].code;
+               let user_name = data[9].name;
+               let user_deptname = data[9].deptname;
+               let user_teamname = data[9].teamname;
+               let user_posname = data[9].posname;
+               $(".side-name").html(user_name);
+               $(".side-dept").html(user_deptname+" | "+user_posname);
+
+               // -------- 사이드바의 목록을 띄워줌 --------
                let html = "";
 
                // 업무일지, 전자결재, 일정관리, 근태현황, 전자우편, 커뮤니티, 개인정보, 조직도, 버그리포팅

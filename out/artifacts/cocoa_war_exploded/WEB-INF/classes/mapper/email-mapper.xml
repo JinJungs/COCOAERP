@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.EmailDAO">
+	<insert id="sendEmail">
+		INSERT INTO EMAIL VALUES(#{seq}, #{title}, #{contents}, SYSDATE, #{parent}, #{sender}, #{receiver},'SEND', 'SEND')
+	</insert>
+	<select id="getSeq" resultType="Integer">
+		SELECT EMAIL_SEQ.NEXTVAL FROM
+			USER_SEQUENCES WHERE SEQUENCE_NAME='EMAIL_SEQ'
+	</select>
+	<select id="sendToMeList" resultType="kh.cocoa.dto.EmailDTO">
+		SELECT * 
+			FROM (SELECT EMAIL.*, ROW_NUMBER() OVER(ORDER BY WRITE_DATE DESC) "ROWNUMBER" FROM EMAIL WHERE SENDER = #{email} AND RECEIVER = #{email}  AND STATUS_SENDER='SEND')
+			WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="receiveList" resultType="kh.cocoa.dto.EmailDTO">
+		SELECT * 
+			FROM (SELECT EMAIL.*, ROW_NUMBER() OVER(ORDER BY WRITE_DATE DESC) "ROWNUMBER" FROM EMAIL WHERE RECEIVER = #{email} AND SENDER != #{email} AND STATUS_RECEIVER='SEND')
+			WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="sendList" resultType="kh.cocoa.dto.EmailDTO">
+		SELECT * 
+			FROM (SELECT EMAIL.*, ROW_NUMBER() OVER(ORDER BY WRITE_DATE DESC) "ROWNUMBER" FROM EMAIL WHERE SENDER = #{email} AND RECEIVER != #{email}  AND STATUS_SENDER='SEND')
+			WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="deleteList" resultType="kh.cocoa.dto.EmailDTO">
+		SELECT * 
+			FROM (SELECT EMAIL.*, ROW_NUMBER() OVER(ORDER BY WRITE_DATE DESC) "ROWNUMBER" FROM EMAIL WHERE (RECEIVER = #{email} AND SENDER != #{email} AND STATUS_RECEIVER='DEL') 
+																										OR (RECEIVER != #{email} AND SENDER = #{email} AND STATUS_SENDER='DEL')
+																										OR (RECEIVER = #{email} AND SENDER = #{email} AND STATUS_RECEIVER='DEL' AND STATUS_SENDER='DEL'))
+			WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getEmail" resultType="kh.cocoa.dto.EmailDTO">
+		SELECT * FROM EMAIL WHERE SEQ=#{seq}
+	</select>
+	<select id="getToMeCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMAIL WHERE SENDER=#{email} AND RECEIVER=#{email} AND STATUS_SENDER='SEND'
+	</select>
+	<select id="getReceiveCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMAIL WHERE STATUS_RECEIVER='SEND' AND RECEIVER=#{email} AND SENDER!=#{email}
+	</select>
+	<select id="getSendCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMAIL WHERE STATUS_SENDER='SEND' AND SENDER=#{email} AND RECEIVER!=#{email}
+	</select>
+	<select id="getDeleteCount" resultType="Integer">
+		SELECT COUNT(*) FROM EMAIL WHERE (RECEIVER = #{email} AND SENDER != #{email} AND STATUS_RECEIVER='DEL') 
+										OR (RECEIVER != #{email} AND SENDER = #{email} AND STATUS_SENDER='DEL')
+										OR (RECEIVER = #{email} AND SENDER = #{email} AND STATUS_RECEIVER='DEL' AND STATUS_SENDER='DEL')
+	</select>
+	
+	<update id="deleteToMeEmail">
+		UPDATE EMAIL SET STATUS_SENDER='DEL', STATUS_RECEIVER='DEL' WHERE SEQ=#{seq}
+	</update>
+	<update id="deleteReceiveEmail">
+		UPDATE EMAIL SET STATUS_RECEIVER='DEL' WHERE SEQ=#{seq}
+	</update>
+	<update id="deleteSendEmail">
+		UPDATE EMAIL SET STATUS_SENDER='DEL' WHERE SEQ=#{seq}
+	</update>
+	
+	<update id="deleteToMeNEmail">
+		UPDATE EMAIL SET STATUS_SENDER='N', STATUS_RECEIVER='N' WHERE SEQ=#{seq}
+	</update>
+	<update id="deleteReceiveNEmail">
+		UPDATE EMAIL SET STATUS_RECEIVER='N' WHERE SEQ=#{seq}
+	</update>
+	<update id="deleteSendNEmail">
+		UPDATE EMAIL SET STATUS_SENDER='N' WHERE SEQ=#{seq}
+	</update>
+	
+</mapper>
