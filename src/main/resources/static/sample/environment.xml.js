@@ -24,6 +24,7 @@ if (nexacro.Environment)
         nexacro._addService("font", "file", "./_resource_/_font_/", "session", null, "", "0", "0");
         nexacro._addService("Base", "form", "./Base/", "session", null, "", "0", "0");
         nexacro._addService("frame", "form", "./frame/", "session", null, "", "0", "0");
+        nexacro._addService("popup", "form", "./popup/", "session", null, "", "0", "0");
 
     	nexacro._component_uri = (nexacro._arg_compurl ? nexacro._arg_compurl : "./nexacro17lib/component/");
     	nexacro._theme_uri = "./_resource_/_theme_/";

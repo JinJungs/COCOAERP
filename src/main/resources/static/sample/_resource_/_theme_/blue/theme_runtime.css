@@ -926,7 +926,7 @@
 }
 .Button.btn_mdi_close
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
@@ -1128,7 +1128,6 @@
 }
 .Button.btn_WF_search01
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -1302,14 +1301,13 @@
 {
 	text-align : left;
 }
-.Button.btn_WF_text01
+.Button.btn_WF_reset01
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01 .nexacontentsbox
+.Button.btn_WF_reset01 .nexacontentsbox
 {
 	text-align : left;
 }
@@ -1887,7 +1885,7 @@
 }
 .Button.btn_mdi_close[status=focused]
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
@@ -2063,7 +2061,6 @@
 }
 .Button.btn_WF_search01[status=focused]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -2307,18 +2304,17 @@
 	background : #e0e0e0;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01[status=focused]
+.Button.btn_WF_reset01[status=focused]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01[status=focused] .nexacontentsbox
+.Button.btn_WF_reset01[status=focused] .nexacontentsbox
 {
 	text-align : left;
 }
-.Button.btn_WF_text01[status=mouseover]
+.Button.btn_WF_reset01[status=mouseover]
 {
 	background : #e0e0e0;
 	border : 1px solid #c7c7c7;
@@ -2742,7 +2738,7 @@
 }
 .Button.btn_mdi_close[userstatus=selected]
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
@@ -2876,7 +2872,6 @@
 }
 .Button.btn_WF_search01[userstatus=selected]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -3154,23 +3149,22 @@
 {
 	text-decoration : underline;
 }
-.Button.btn_WF_text01[userstatus=selected]
+.Button.btn_WF_reset01[userstatus=selected]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01[userstatus=selected] .nexacontentsbox
+.Button.btn_WF_reset01[userstatus=selected] .nexacontentsbox
 {
 	text-align : left;
 }
-.Button.btn_WF_text01[userstatus=pushed]
+.Button.btn_WF_reset01[userstatus=pushed]
 {
 	background : #d7d7d7;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01[userstatus=pushed] .nexacontentsbox
+.Button.btn_WF_reset01[userstatus=pushed] .nexacontentsbox
 {
 	text-decoration : underline;
 }
@@ -3815,7 +3809,7 @@
 	color : #aaaaaa;
 	border : 1px solid #aaaaaa;
 }
-.Button.btn_WF_text01[status=disabled]
+.Button.btn_WF_reset01[status=disabled]
 {
 	background : #dddddd;
 	color : #aaaaaa;

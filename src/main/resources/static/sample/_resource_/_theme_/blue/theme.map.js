@@ -1379,7 +1379,7 @@
 						}
 					},
 					{
-						"btn_WF_text01" :
+						"btn_WF_reset01" :
 						{
 							"self" :
 							{
@@ -1387,28 +1387,28 @@
 								{
 									"color" : nexacro.ColorObject("#101010"),
 									"border" : nexacro.BorderObject("1px solid #c7c7c7"),
-									"icon" : nexacro.UrlObject("url(\"imagerc::img_WF_text01.png\")"),
 									"iconPosition" : "left",
 									"padding" : nexacro.PaddingObject("0px 0px 2px 6px"),
-									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px")
+									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px"),
+									"icon" : nexacro.UrlObject("url('theme://images/btn_reset.png')")
 								},
 								"focused" :
 								{
 									"color" : nexacro.ColorObject("#101010"),
 									"border" : nexacro.BorderObject("1px solid #c7c7c7"),
-									"icon" : nexacro.UrlObject("url(\"imagerc::img_WF_text01.png\")"),
 									"iconPosition" : "left",
 									"padding" : nexacro.PaddingObject("0px 0px 2px 6px"),
-									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px")
+									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px"),
+									"icon" : nexacro.UrlObject("url('theme://images/btn_reset.png')")
 								},
 								"selected" :
 								{
 									"color" : nexacro.ColorObject("#101010"),
 									"border" : nexacro.BorderObject("1px solid #c7c7c7"),
-									"icon" : nexacro.UrlObject("url(\"imagerc::img_WF_text01.png\")"),
 									"iconPosition" : "left",
 									"padding" : nexacro.PaddingObject("0px 0px 2px 6px"),
-									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px")
+									"textPadding" : nexacro.PaddingObject("0px 0px 0px 5px"),
+									"icon" : nexacro.UrlObject("url('theme://images/btn_reset.png')")
 								},
 								"mouseover" :
 								{
@@ -5923,7 +5923,7 @@
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_location01.png")] = { width:11, height:15 };
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_bookmark01.png")] = { width:16, height:16 };
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_music01.png")] = { width:16, height:16 };
-		imgcache[nexacro._getImageLocation("imagerc::img_WF_text01.png")] = { width:16, height:16 };
+		imgcache[nexacro._getImageLocation("theme://images/btn_reset.png")] = { width:10, height:10 };
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_pdf01.png")] = { width:15, height:14 };
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_word01.png")] = { width:15, height:14 };
 		imgcache[nexacro._getImageLocation("imagerc::img_WF_timer01.png")] = { width:16, height:16 };
@@ -5951,18 +5951,6 @@
 		imgcache[nexacro._getImageLocation("theme://images/img_WF_Vtrackbar_D.png")] = { width:5, height:8 };
 		imgcache[nexacro._getImageLocation("theme://images/mnu_WF_PopItemImg.png")] = { width:8, height:7 };
 		imgcache[nexacro._getImageLocation("theme://images/rdo_WF_Radio_NS.png")] = { width:15, height:15 };
-		imgcache[nexacro._getImageLocation("theme://theme.map.js")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://theme_chrome.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://theme_ie10.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://theme_ie11.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://theme_runtime.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://theme_safari.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main.map.js")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main_chrome.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main_ie10.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main_ie11.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main_runtime.css")] = { width:0, height:0 };
-		imgcache[nexacro._getImageLocation("theme://xcssrc_temp_main_safari.css")] = { width:0, height:0 };
 	};
 }
 )();

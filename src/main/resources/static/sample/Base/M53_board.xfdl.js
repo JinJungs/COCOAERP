@@ -17,104 +17,122 @@
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
+            obj = new Dataset("board_type_radio", this);
+            obj._setContents("<ColumnInfo><Column id=\"codecolumn\" type=\"STRING\" size=\"256\"/><Column id=\"datacolumn\" type=\"STRING\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">List</Col><Col id=\"datacolumn\">리스트형</Col></Row><Row><Col id=\"codecolumn\">Album</Col><Col id=\"datacolumn\">이미지형</Col></Row></Rows>");
+            this.addChild(obj.name, obj);
+
 
             obj = new Dataset("ds_board_menu", this);
             obj._setContents("<ColumnInfo><Column id=\"chk\" type=\"STRING\" size=\"256\"/><Column id=\"seq\" type=\"INT\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"type\" type=\"STRING\" size=\"256\"/></ColumnInfo>");
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
+            obj = new Static("Static00","20","10",null,"34","10",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("게시판 관리");
             obj.set_cssclass("sta_WF_title01");
+            obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("Main_Grid","4%","13%","74%","77%",null,null,null,null,null,null,this);
+            obj = new Button("btn_modify",null,"55","55","35","100",null,null,null,null,null,this);
             obj.set_taborder("1");
-            obj._setContents("");
+            obj.set_text("수정");
+            obj.set_cssclass("btn_WF_reset01");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00","7%","15%","15%","5%",null,null,null,null,null,null,this);
+            obj = new Button("btn_del",null,"55","55","35","172",null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("새 게시판 생성");
-            obj.set_cssclass("sta_WF_title01");
-            obj.set_font("normal 13px/normal");
+            obj.set_text("삭제");
+            obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
-            obj = new Div("board_div","10.09%","20.62%","65.23%","60.31%",null,null,null,null,null,null,this);
+            obj = new Button("btn_add",null,"55","55","35","250",null,null,null,null,null,this);
             obj.set_taborder("3");
-            obj.set_text("Div00");
+            obj.set_text("추가");
+            obj.set_cssclass("btn_WF_add01");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("board_mn_list_Grd","0.14%","8.93%","49.09%","76.79%",null,null,null,null,null,null,this.board_div.form);
-            obj.set_taborder("0");
+            obj = new Grid("board_mn_list_Grd","20","100",null,null,"500","50",null,null,null,null,this);
+            obj.set_taborder("4");
             obj.set_binddataset("ds_board_menu");
             obj.set_autofittype("col");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"50\"/><Column size=\"53\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"0\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\"/><Cell col=\"1\" text=\"게시판 번호\"/><Cell col=\"2\" text=\"게시판 이름\"/><Cell col=\"3\" text=\"게시판 종류\"/></Band><Band id=\"body\"><Cell text=\"bind:chk\" displaytype=\"checkboxcontrol\" edittype=\"checkbox\"/><Cell col=\"1\" text=\"bind:seq\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:name\"/><Cell col=\"3\" text=\"bind:type\"/></Band></Format></Formats>");
-            this.board_div.addChild(obj.name, obj);
+            this.addChild(obj.name, obj);
 
-            obj = new Button("btn_modify","79.04%","77.55%","7.88%","6.38%",null,null,null,null,null,null,this.board_div.form);
-            obj.set_taborder("1");
-            obj.set_text("수정");
-            this.board_div.addChild(obj.name, obj);
-
-            obj = new Button("btn_add","60.76%","77.55%","7.88%","6.38%",null,null,null,null,null,null,this.board_div.form);
-            obj.set_taborder("2");
-            obj.set_text("추가");
-            this.board_div.addChild(obj.name, obj);
-
-            obj = new Button("btn_del","69.76%","77.55%","7.88%","6.38%",null,null,null,null,null,null,this.board_div.form);
-            obj.set_taborder("3");
-            obj.set_text("삭제");
-            this.board_div.addChild(obj.name, obj);
-
-            obj = new Static("Static01","63.01%","11.48%","21.38%","5.87%",null,null,null,null,null,null,this.board_div.form);
-            obj.set_taborder("4");
-            obj.set_text("게시판 정보안내 및 수정");
-            obj.set_textAlign("center");
-            obj.set_font("bold 13px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
-            this.board_div.addChild(obj.name, obj);
-
-            obj = new Div("Div00","52.04%","21.94%","43.60%","51.02%",null,null,null,null,null,null,this.board_div.form);
+            obj = new Static("stcTitle",null,"100","192","35","204",null,null,null,null,null,this);
             obj.set_taborder("5");
-            obj.set_border("1px groove #0052a6");
-            this.board_div.addChild(obj.name, obj);
-
-            obj = new Static("stcSeq","28","16.74%","21.36%","18.03%",null,null,null,null,null,null,this.board_div.form.Div00.form);
-            obj.set_taborder("0");
-            obj.set_text("게시판 번호");
-            this.board_div.form.Div00.addChild(obj.name, obj);
-
-            obj = new Static("Static00","8.09%","37.77%","22.01%","18.03%",null,null,null,null,null,null,this.board_div.form.Div00.form);
-            obj.set_taborder("1");
-            obj.set_text("게시판 이름");
-            this.board_div.form.Div00.addChild(obj.name, obj);
-
-            obj = new MaskEdit("mskSeq","35.60%","16.31%","10%","13%",null,null,null,null,null,null,this.board_div.form.Div00.form);
-            obj.set_taborder("2");
-            obj.set_border("0px none,0px none,1px groove #0052a6");
+            obj.set_text("게시판 정보 및 수정");
+            obj.set_font("bold 13px/normal \"Arial\",\"Malgun Gothic\",\"Gulim\"");
             obj.set_textAlign("center");
-            this.board_div.form.Div00.addChild(obj.name, obj);
+            this.addChild(obj.name, obj);
 
-            obj = new Radio("rdoType","35.60%","58.37%",null,"18.03%","19",null,null,null,null,null,this.board_div.form.Div00.form);
+            obj = new Div("divBoardInfor",null,"145","386",null,"100","50",null,null,null,null,this);
+            obj.set_taborder("6");
+            obj.set_text("");
+            obj.set_border("1px solid #c7c7c7");
+            this.addChild(obj.name, obj);
+
+            obj = new Static("stcTypeForm","138","127","200","132",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("0");
+            obj.set_border("0px none,0px none,1px solid #c9c9c9");
+            obj.set_padding("0px 0px 0px 10px");
+            obj.set_text("");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Static("stcNmForm","138","80","200","46",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("1");
+            obj.set_border("0px none,0px none,1px solid #c9c9c9");
+            obj.set_padding("0px 0px 0px 10px");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Static("stcSeqForm","138","33","200","46",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("2");
+            obj.set_padding("0px 0px 0px 10px");
+            obj.set_border("1px solid #c9c9c9,0px none");
+            obj.set_text("");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Static("stcSeq","18","33","120","46",null,null,null,null,null,null,this.divBoardInfor.form);
             obj.set_taborder("3");
+            obj.set_text("게시판 번호");
+            obj.set_border("1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
+            obj.set_padding("0px 0px 0px 10px");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Static("stcNm","18","80","120","46",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("4");
+            obj.set_text("게시판 명");
+            obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
+            obj.set_padding("0px 0px 0px 10px");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Static("stcType","18","127","120","132",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("5");
+            obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
+            obj.set_padding("0px 0px 0px 10px");
+            obj.set_text("게시판 종류");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new MaskEdit("mskSeq","145","40","30","32",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("6");
+            obj.set_textAlign("center");
+            obj.set_border("0px none,0px none,1px solid #c7c7c7");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Edit("edtBoardNm","144","86","151","34",null,null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("7");
+            obj.getSetter("onclick").set("Common_onclick");
+            obj.set_border("0px none,0px none,1px solid #c7c7c7");
+            this.divBoardInfor.addChild(obj.name, obj);
+
+            obj = new Radio("rdoType","148","136",null,"108","91",null,null,null,null,null,this.divBoardInfor.form);
+            obj.set_taborder("8");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
-            obj.set_columncount("2");
+            obj.set_columncount("1");
             obj.set_readonly("true");
             obj.set_innerdataset("board_type_radio");
-            this.board_div.form.Div00.addChild(obj.name, obj);
-
-            obj = new Static("Static00_00","8.09%","59.23%","22.01%","16.31%",null,null,null,null,null,null,this.board_div.form.Div00.form);
-            obj.set_taborder("4");
-            obj.set_text("게시판 종류");
-            this.board_div.form.Div00.addChild(obj.name, obj);
-
-            obj = new Edit("edtBoardNm","35.60%","37.34%","49.84%","16.31%",null,null,null,null,null,null,this.board_div.form.Div00.form);
-            obj.set_taborder("5");
-            obj.getSetter("onclick").set("Common_onclick");
-            obj.set_border("0px none,0px none,1px groove #0052a6");
-            this.board_div.form.Div00.addChild(obj.name, obj);
+            this.divBoardInfor.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
@@ -122,15 +140,15 @@
             this.addLayout(obj.name, obj);
             
             // BindItem Information
-            obj = new BindItem("item2","board_div.form.Div00.form.mskSeq","value","ds_board_menu","seq");
+            obj = new BindItem("item0","divBoardInfor.form.mskSeq","value","ds_board_menu","seq");
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item1","board_div.form.Div00.form.rdoType","value","ds_board_menu","type");
+            obj = new BindItem("item1","divBoardInfor.form.edtBoardNm","value","ds_board_menu","name");
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item0","board_div.form.Div00.form.edtBoardNm","value","ds_board_menu","name");
+            obj = new BindItem("item2","divBoardInfor.form.rdoType","value","ds_board_menu","type");
             this.addChild(obj.name, obj);
             obj.bind();
         };
@@ -141,10 +159,42 @@
         };
         
         // User Script
+        this.registerScript("M53_board.xfdl", function() {
+        //내용 불러오기
+        this.M53_board_onload = function(obj,e)
+        {
+        	this.transaction(
+          		"board_Menu_list" // id
+          		, "/NecBoard/getBoardMenuList.nc" // url
+        		, "" // inData
+          		, "ds_board_menu=out_board_menu" // outData
+         		, ""// strArg
+          		, "fn_callback_mnList" // callback
+          	);
+        };
+        this.fn_callback_mnList = function(id, ErrCode, ErrMsg)
+        {
+        }
+        //추가 버튼
+        this.board_div_btn_add_onclick = function(obj,e)
+        {
+        	var objCF = new ChildFrame();
+        	objCF.set_openalign("center middle");
+        	objCF.set_formurl("Base::M54_boardPop.xfdl");
+        	objCF.showModal(
+        		this.getOwnerFrame()
+        		,{}
+        		,this
+        		, "fn_callback_boardPop"
+        	);
+        };
+        this.fn_callback_boardPop = function(id,sRtn){
 
         	var arrRtn = sRtn.split("|");
         	var type = arrRtn[0];
         	var name = arrRtn[1];
+        	trace("type"+type);
+
         	if (type=="1"){
         		type = "Album";
         	}
@@ -152,8 +202,6 @@
         		type = "List";
         	}
 
-        	trace("여기"+type);
-        	trace("여기"+name);
          	this.transaction(
            		"boardPop" // id
            		, "/NecBoard/addBoard.nc" // url
@@ -164,9 +212,8 @@
            	);
         };
 
-        this.fn_callback = function(result)
+        this.fn_callback =function(id, ErrCode, ErrMsg)
         {
-        	trace("추가 완료!");
         	this.M53_board_onload();
         }
 
@@ -176,10 +223,8 @@
         	let arr = this.ds_board_menu.extractRows("chk==1");
          	this.ds_board_menu.deleteMultiRows(arr);
 
-        	var seq = this.board_div.form.Div00.form.mskSeq.value;
-        	var name = this.board_div.form.Div00.form.edtBoardNm.value;
-        	trace("변경할 이름 : "+name);
-        	trace("번호 : "+seq);
+        	var seq = this.divBoardInfor.form.mskSeq.value;
+        	var name = this.divBoardInfor.form.edtBoardNm.value;
         	this.transaction(
           		"boardUpdate" // id
           		, "/NecBoard/uptBoard.nc" // url
@@ -189,9 +234,8 @@
           		, "fn_callback_upt" // callback
           	);
         };
-        this.fn_callback_upt = function(result)
+        this.fn_callback_upt =function(id, ErrCode, ErrMsg)
         {
-        	trace("수정 완료!");
         	this.M53_board_onload();
         }
         //Grid 체크박스
@@ -207,15 +251,10 @@
 
         this.gf_setCheckAll = function(obj, e)
         {
-        	trace("박스가 눌리니..");
         	var strColID = obj.getCellProperty("body", e.cell, "text").replace("bind:", ""); //Cell의 특정 속성 값을 반환하는 메소드입니다.
         	var sheadValue = obj.getCellProperty("head", e.cell, "text"); //head에서 선택한 행의 text 값 가져오기
         	//var objDs = obj.getBindDataset();
 
-        		trace("strColID 값은?"+strColID);
-        		trace("sheadValue 값은?"+sheadValue);
-
-        		trace("아닐때");
         		sheadValue = (sheadValue == "0" ? "1" : "0");
         		obj.setCellProperty("head",e.cell,"text",sheadValue);
         		obj.setCellProperty("body",e.cell,"text",sheadValue);
@@ -231,12 +270,11 @@
         this.board_div_btn_del_onclick = function(obj,e)
         {
         	let arr = this.ds_board_menu.extractRows("chk==1");
-        	var seq = this.board_div.form.Div00.form.mskSeq.value;
+        	var seq = this.divBoardInfor.form.mskSeq.value;
+        	trace("seq값은? "+seq);
         	if(arr.length == 0 || arr == -1) {alert("선택된 항목이 없습니다.");return}
-        	trace("arr은?"+arr);
 
          	this.ds_board_menu.deleteMultiRows(arr);
-
         	this.transaction(
           		"boardDelete" // id
           		, "/NecBoard/delBoard.nc" // url
@@ -246,26 +284,23 @@
           		, "fn_callback_del" // callback
           	);
         };
-        this.fn_callback_del = function(result)
+        this.fn_callback_del = function(id, ErrCode, ErrMsg)
         {
-        	trace("삭제 완료!");
         	this.alert("삭제 되었습니다.");
         }
+
         });
         
         // Regist UI Components Event
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.M53_board_onload,this);
-            this.board_div.form.board_mn_list_Grd.addEventHandler("onheadclick",this.board_div_board_mn_list_Grd_onheadclick,this);
-            this.board_div.form.board_mn_list_Grd.addEventHandler("oncellclick",this.board_div_board_mn_list_Grd_oncellclick,this);
-            this.board_div.form.btn_modify.addEventHandler("onclick",this.board_div_btn_modify_onclick,this);
-            this.board_div.form.btn_add.addEventHandler("onclick",this.board_div_btn_add_onclick,this);
-            this.board_div.form.btn_del.addEventHandler("onclick",this.board_div_btn_del_onclick,this);
-            this.board_div.form.Static01.addEventHandler("onclick",this.Common_onclick,this);
-            this.board_div.form.Div00.form.stcSeq.addEventHandler("onclick",this.Common_onclick,this);
-            this.board_div.form.Div00.form.Static00.addEventHandler("onclick",this.Common_onclick,this);
-            this.board_div.form.Div00.form.Static00_00.addEventHandler("onclick",this.Common_onclick,this);
+            this.btn_modify.addEventHandler("onclick",this.board_div_btn_modify_onclick,this);
+            this.btn_del.addEventHandler("onclick",this.board_div_btn_del_onclick,this);
+            this.btn_add.addEventHandler("onclick",this.board_div_btn_add_onclick,this);
+            this.board_mn_list_Grd.addEventHandler("onheadclick",this.board_div_board_mn_list_Grd_onheadclick,this);
+            this.board_mn_list_Grd.addEventHandler("oncellclick",this.board_div_board_mn_list_Grd_oncellclick,this);
+            this.divBoardInfor.form.stcType.addEventHandler("onclick",this.Static01_01_onclick,this);
         };
 
         this.loadIncludeScript("M53_board.xfdl");
@@ -274,3 +309,5 @@
         // Remove Reference
         obj = null;
     };
+}
+)();

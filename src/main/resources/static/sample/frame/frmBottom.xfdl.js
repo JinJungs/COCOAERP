@@ -23,11 +23,11 @@
             obj = new Static("Static00","0","0",null,"30","0",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_cssclass("sta_BT_bg01");
+            obj.set_background("skyblue");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static01","20","0","270","30",null,null,null,null,null,null,this);
             obj.set_taborder("1");
-            obj.set_text("알람 <b v=\'true\'>5건</b>이 대기 중 입니다.");
             obj.set_usedecorate("true");
             this.addChild(obj.name, obj);
 
