@@ -50,9 +50,8 @@ public class EmployeeController {
             return "index";
         }
     }
-
-    @RequestMapping(value = "/myInfo")
-    public String myInfo(Model model) {
+    @RequestMapping("/myInfo")
+    public String testPage(Model model){
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int empCode = loginDTO.getCode();
         EmployeeDTO user = eservice.getEmpInfo(empCode);
@@ -61,7 +60,6 @@ public class EmployeeController {
             model.addAttribute("profile","/img/Profile-m.png");
         }else{
             String profileLoc = "/profileFile/" + getProfile.getSavedname();
-            System.out.println(profileLoc);
             model.addAttribute("profile",profileLoc);
         }
         if(user.getGender().contentEquals("M")){
@@ -72,29 +70,6 @@ public class EmployeeController {
         model.addAttribute("user",user);
         return "/membership/myInfo";
     }
-
-    @RequestMapping(value = "/myInfoModify")
-    public String myInfoModify(Model model) throws Exception{
-        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-        int empCode = loginDTO.getCode();
-        EmployeeDTO user = eservice.getEmpInfo(empCode);
-        FilesDTO getProfile = filesService.findBeforeProfile(empCode);
-        if(getProfile!=null) {
-            String profileLoc = "/profileFile/" + getProfile.getSavedname();
-            model.addAttribute("profile",profileLoc);
-        }else{
-            model.addAttribute("profile","/img/Profile-m.png");
-        }
-        if(user.getGender().contentEquals("M")){
-            user.setGender("남자");
-        }else{
-            user.setGender("여자");
-        }
-        model.addAttribute("user",user);
-        return "/membership/myInfoMod";
-
-    }
-
 
     @RequestMapping(value = "/findId")
     public String findId() {
@@ -192,7 +167,7 @@ public class EmployeeController {
     @RequestMapping("/modInfo")
     public String modInfo(EmployeeDTO dto){
         int modInfo= eservice.modInfo(dto);
-        return "redirect:/membership/myInfo";
+        return "redirect:/membership/test";
     }
 
     @RequestMapping("/checkUserEmail")
