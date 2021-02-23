@@ -294,6 +294,24 @@
 						}
 					}
 				}
+			},
+			"Button" :
+			{
+				"class" :
+				[
+					{
+						"btn_confirm" :
+						{
+							"self" :
+							{
+								"enabled" :
+								{
+									"color" : nexacro.ColorObject("#ffffff")
+								}
+							}
+						}
+					}
+				]
 			}
 		},
 		{

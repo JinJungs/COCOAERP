@@ -22,6 +22,9 @@
             text-overflow:ellipsis;
             white-space:nowrap;
         }
+        .item{
+			background-color : #6749b930;
+		}
     </style>
 </head>
 <body>
@@ -77,7 +80,7 @@
             </div>
         </form>
         <hr>
-        <div class="documentList row text-center">
+        <div class="documentList row text-center item p-2">
             <div class="col-2"><b>양식</b></div>
             <div class="col-2 d-none d-sm-block"><b>제목</b></div>
             <div class="col-4"><b>기안자 | 부서</b></div>

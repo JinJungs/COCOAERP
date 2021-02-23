@@ -1438,7 +1438,6 @@ input::-ms-clear,input::-ms-reveal
 }
 .Button.btn_WF_search01
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -1625,14 +1624,13 @@ input::-ms-clear,input::-ms-reveal
 	text-align : left;
 	background-position-x : left;
 }
-.Button.btn_WF_text01
+.Button.btn_WF_reset01
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-.Button.btn_WF_text01 .nexacontentsbox
+.Button.btn_WF_reset01 .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
@@ -2414,7 +2412,6 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Button.btn_WF_search01[status=focused]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -2670,19 +2667,18 @@ input::-ms-clear,input::-ms-reveal
 	background : #e0e0e0;
 	border : 1px solid #c7c7c7;
 }
-#nexacontainer .Button.btn_WF_text01[status=focused]
+#nexacontainer .Button.btn_WF_reset01[status=focused]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-#nexacontainer .Button.btn_WF_text01[status=focused] .nexacontentsbox
+#nexacontainer .Button.btn_WF_reset01[status=focused] .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-#nexacontainer .Button.btn_WF_text01[status=mouseover]
+#nexacontainer .Button.btn_WF_reset01[status=mouseover]
 {
 	background : #e0e0e0;
 	border : 1px solid #c7c7c7;
@@ -3271,7 +3267,6 @@ input::-ms-clear,input::-ms-reveal
 }
 #nexacontainer .Button.btn_WF_search01[userstatus=selected]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
@@ -3560,24 +3555,23 @@ input::-ms-clear,input::-ms-reveal
 {
 	text-decoration : underline;
 }
-#nexacontainer .Button.btn_WF_text01[userstatus=selected]
+#nexacontainer .Button.btn_WF_reset01[userstatus=selected]
 {
-	background : #e7e7e7;
 	color : #101010;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
-#nexacontainer .Button.btn_WF_text01[userstatus=selected] .nexacontentsbox
+#nexacontainer .Button.btn_WF_reset01[userstatus=selected] .nexacontentsbox
 {
 	text-align : left;
 	background-position-x : left;
 }
-#nexacontainer .Button.btn_WF_text01[userstatus=pushed]
+#nexacontainer .Button.btn_WF_reset01[userstatus=pushed]
 {
 	background : #d7d7d7;
 	border : 1px solid #c7c7c7;
 }
-#nexacontainer .Button.btn_WF_text01[userstatus=pushed] .nexacontentsbox
+#nexacontainer .Button.btn_WF_reset01[userstatus=pushed] .nexacontentsbox
 {
 	text-decoration : underline;
 }
@@ -4234,7 +4228,7 @@ input::-ms-clear,input::-ms-reveal
 	color : #aaaaaa;
 	border : 1px solid #aaaaaa;
 }
-#nexacontainer .Button.btn_WF_text01[status=disabled]
+#nexacontainer .Button.btn_WF_reset01[status=disabled]
 {
 	background : #dddddd;
 	color : #aaaaaa;
