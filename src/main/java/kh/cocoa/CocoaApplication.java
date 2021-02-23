@@ -21,9 +21,9 @@ public class CocoaApplication extends SpringBootServletInitializer {
         return builder.sources(CocoaApplication.class);
     }
 
-     public CocoaApplication() {
+ /*    public CocoaApplication() {
          super();
          setRegisterErrorPageFilter(false); // <- this one
-     }
+     }*/
 
 }
