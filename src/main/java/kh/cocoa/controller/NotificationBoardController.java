@@ -76,12 +76,10 @@ public class NotificationBoardController {
 			return "community/notificationBoardList"; 
 		}else if(menu_seq==2||type.contentEquals("List")) {//게시판 seq가 2인 경우 - 자유게시판
 
-			System.out.println("새로운 리스트형 게시판~");
 			return "community/cocoaWorksBoardList"; 
 			
 		}else if(menu_seq==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
 
-			System.out.println("새로운 앨범형 게시판~");
 			//게시글 불러오기 (사진제외)
 			List<BoardDTO> albumList = new ArrayList<BoardDTO>();
 			albumList = nservice.getAlbumBoardListCpage(cpage,menu_seq);
@@ -235,6 +233,7 @@ public class NotificationBoardController {
 	
 			//글 작성 
 			int done = nservice.notificationBoardCreateDone(noBoard_seq,bdto,menu_seq);
+			System.out.println("글작성 결과는?"+done);
 			if(file!=null) { //파일이 있을 때
 				//파일 업로드 할 갯수 확인
 				int filesCount = 0;

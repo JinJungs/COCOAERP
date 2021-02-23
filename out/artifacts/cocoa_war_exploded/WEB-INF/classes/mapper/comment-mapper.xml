@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kh.cocoa.dao.CommentListDAO">
+<!-- *************************회사 소식***************************** -->
+<!-- 댓글 작성 -->
+	<insert id="noBoardWriteComment">
+		INSERT INTO COMMENT_LIST VALUES (COMMENT_SEQ.NEXTVAL,#{contents},SYSDATE,#{seq},#{writer_code})
+	</insert>
+<!-- 댓글 리스트 불러오기 -->
+	<select id="noBoardWriteCommentList" resultType="kh.cocoa.dto.CommentListDTO">
+		SELECT CL.*,E.NAME FROM COMMENT_LIST CL, EMPLOYEE E WHERE CL.WRITER_CODE=E.CODE 
+		AND CL.BOARD_SEQ=#{seq} ORDER BY CL.WRITE_DATE DESC
+	</select>
+	<!-- 댓글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 -->
+	<select id="checkWriter" resultType="Integer">
+		SELECT COUNT(*),writer_code FROM COMMENT_LIST WHERE BOARD_SEQ=#{seq} AND WRITER_CODE=#{writer_code} GROUP BY writer_code
+	</select>
+<!-- 댓글 수 확인  -->
+	<select id="noBoardCommentCount" resultType="Integer">
+  		SELECT COUNT(*) FROM COMMENT_LIST WHERE BOARD_SEQ=#{seq}
+  	</select>
+ <!-- 댓글 삭제 -->
+	 <delete id="noBoardDeleteComment">
+	 	DELETE FROM COMMENT_LIST WHERE SEQ=#{seq}
+	</delete>
+<!-- 댓글 수정  -->
+	<update id="noBoardUpdateComment">
+		UPDATE COMMENT_LIST SET CONTENTS = #{contents} WHERE SEQ=#{seq}
+	</update>
+  	<select id="getModContents" resultType="String">
+  		select contents from comment_list where seq = #{seq}
+  	</select>
+
+</mapper>

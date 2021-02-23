@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.NexacroFakeEmployeeDTO;
 import kh.cocoa.dto.NexacroSearchDTO;
+
 
 @Mapper
 public interface EmployeeDAO {

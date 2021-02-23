@@ -33,19 +33,19 @@
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
 				</div>
-				<div class="col-sm-12 col-md-2">
+				<div class="col-sm-12 col-md-6">
 					<b>제목</b>
 				</div>
-				<div class="col-md-2 d-none d-md-block">
+				<div class="col-md-1 d-none d-md-block">
 					<b>작성자</b>
 				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>업무 시작일</b>
+				<div class="col-md-1 d-none d-md-block">
+					<b>시작일</b>
 				</div>
-				<div class="col-md-2 d-none d-md-block">
-					<b>업무 마감일</b>
+				<div class="col-md-1 d-none d-md-block">
+					<b>마감일</b>
 				</div>
-				<div class="col-md-2 d-none d-md-block">
+				<div class="col-md-1 d-none d-md-block">
 					<b>작성일</b>
 				</div>
 				<div class="col-md-1 d-none d-md-block">
@@ -58,148 +58,184 @@
 				<div class="tab-pane fade show active" id="all">
 					<div class="row tab-content current" id="tab-1"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${logAllList}">
-							<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="on col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
-							</div>
-							<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-							<!-- 상태 이미지 -->
-							<c:choose>
-								<c:when test="${i.status eq 'CONFIRM'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/승인4.jfif"
-											style="height: 25px; width: 25px;border-radius: 20px; ">
+						<c:choose>
+							<c:when test="${empty logAllList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${logAllList}">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-6">
+										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
-								</c:when>
-								<c:when test="${i.status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png"
-											style="height: 20px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-								<c:when test="${i.status eq 'REJECT'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/거절4.png"
-											style="height: 25px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-							</c:choose>
-						</c:forEach>
+									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
+									<!-- 상태 이미지 -->
+									<c:choose>
+										<c:when test="${i.status eq 'CONFIRM'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/승인4.jfif"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'REJECT'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/거절4.png"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 일일 -->
 				<div class="tab-pane fade" id="daily">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${dailyList}">
-							<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="on col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
-							</div>
-							<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-							<!-- 상태 이미지 -->
-							<c:choose>
-								<c:when test="${i.status eq 'CONFIRM'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/승인4.jfif"
-											style="height: 25px; width: 25px;border-radius: 20px; ">
+						<c:choose>
+							<c:when test="${empty dailyList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${dailyList}">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-6">
+										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
-								</c:when>
-								<c:when test="${i.status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png"
-											style="height: 20px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-								<c:when test="${i.status eq 'REJECT'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/거절4.png"
-											style="height: 25px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-							</c:choose>
-						</c:forEach>
+									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
+									<!-- 상태 이미지 -->
+									<c:choose>
+										<c:when test="${i.status eq 'CONFIRM'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/승인4.jfif"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'REJECT'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/거절4.png"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 주간 -->
 				<div class="tab-pane fade" id="weekly">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${weeklyList}">
-							<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="on col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
-							</div>
-							<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-							<!-- 상태 이미지 -->
-							<c:choose>
-								<c:when test="${i.status eq 'CONFIRM'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/승인4.jfif"
-											style="height: 25px; width: 25px;border-radius: 20px; ">
+						<c:choose>
+							<c:when test="${empty weeklyList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${weeklyList}">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-6">
+										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
-								</c:when>
-								<c:when test="${i.status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png"
-											style="height: 20px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-								<c:when test="${i.status eq 'REJECT'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/거절4.png"
-											style="height: 25px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-							</c:choose>
-						</c:forEach>
+									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
+									<!-- 상태 이미지 -->
+									<c:choose>
+										<c:when test="${i.status eq 'CONFIRM'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/승인4.jfif"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'REJECT'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/거절4.png"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<!-- 월별 -->
 				<div class="tab-pane fade" id="monthly">
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid pink;">
-						<c:forEach var="i" items="${monthlyList}">
-							<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-							<div class="on col-sm-12 col-md-2">
-								<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
-							</div>
-							<div class="on col-md-2 d-none d-md-block">${i.name}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
-							<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
-							<!-- 상태 이미지 -->
-							<c:choose>
-								<c:when test="${i.status eq 'CONFIRM'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/승인4.jfif"
-											style="height: 25px; width: 25px;border-radius: 20px; ">
+						<c:choose>
+							<c:when test="${empty monthlyList}">
+								<div class="row" id="notice">
+									<div class="col">작성된 글이 없습니다.</div>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="i" items="${monthlyList}">
+									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
+									<div class="on col-sm-12 col-md-6">
+										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
-								</c:when>
-								<c:when test="${i.status eq 'RAISE'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/대기10.png"
-											style="height: 20px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-								<c:when test="${i.status eq 'REJECT'}">
-									<div class="on col-md-1 d-none d-md-block">
-										<img alt="" src="/img/거절4.png"
-											style="height: 25px; width: 25px;border-radius: 20px;">
-									</div>
-								</c:when>
-							</c:choose>
-						</c:forEach>
+									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
+									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
+									<!-- 상태 이미지 -->
+									<c:choose>
+										<c:when test="${i.status eq 'CONFIRM'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/승인4.jfif"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'RAISE'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/대기10.png"
+													style="height: 20px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+										<c:when test="${i.status eq 'REJECT'}">
+											<div class="on col-md-1 d-none d-md-block">
+												<img alt="" src="/img/거절4.png"
+													style="height: 25px; width: 25px; border-radius: 20px;">
+											</div>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>

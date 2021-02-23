@@ -43,12 +43,19 @@
       }
 
       .flex-container{
-         background: #000000;  /* fallback for old browsers */
-         background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-         background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+         background-image: url("/icon/cinemagraphs.gif");
+         background-size: 100% 100%;
+         background-repeat: no-repeat;
+         /* background: #000000;  !* fallback for old browsers *!
+          background: -webkit-linear-gradient(to right, #434343, #000000);  !* Chrome 10-25, Safari 5.1-6 *!
+          background: linear-gradient(to right, #434343, #000000); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+
+         /*    background: -webkit-radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));
+             background: radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));*/
 
 
-         background-size: 400% 400%;
+
+         /*background-size: 400% 400%;*/
          width: 100%;
          height: 100vh;
          display: -webkit-box;
@@ -83,20 +90,20 @@
 <c:choose>
    <c:when test="${empty loginDTO}">
       <!-- 로그인 start -->
-      <div class="flex-container" id="loginDiv">
+      <div class="flex-container" id="login-container" >
          <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
             <form class="form-signin w-100" method="post" action="/membership/login">
                <div class="col-12 p-5">
                   <div class="row w-100">
                      <div class= "col-12 p-3">
-                        <h4 class="form-signin-heading" style="font-weight: bold">코코아 워크 로그인</h4>
+                        <h3 class="form-signin-heading" style="font-weight: bold">COCOAWORK</h3>
                      </div>
                   </div>
                   <div class="row">
                      <div class="col-12 p-3">
                         <input type="text" id="code" name="code" class="form-control w-100" placeholder="사원번호를 입력해주세요."
                                required="required"
-                               value="${id}" >
+                               value="${id}" autocomplete="off">
                      </div>
                      <input type="hidden" id="getFindId" value="${id}">
                   </div>
@@ -111,7 +118,7 @@
                      <div class="col-12 p-3">
                         <div class="custom-control custom-checkbox">
                            <input type="checkbox" id="rememberId" name="rememberId" class="custom-control-input">
-                           <label class="custom-control-label" for="rememberId" style="font-weight: bold">아이디 저장하기</label>
+                           <label class="custom-control-label" for="rememberId" style="font-weight: bold;cursor: pointer">아이디 저장하기</label>
                         </div>
                      </div>
                   </div>
@@ -120,25 +127,122 @@
                      <div class="col-6 p-3 text-right" ><span class="find-pw" onclick="fn_toFindPw()">비밀번호 찾기</span></div>
                   </div>
                   <div class="row">
-                     <div class="col-6 p-3">
-
-                     </div>
-                     <div class="col-6 p-3 text-right">
-                        <button class="btn btn-lg btn-login" type="submit">로그인</button>
+                     <div class="col-12 p-3 text-center">
+                        <button class="btn btn-lg btn-login w-100" type="submit">로그인</button>
                      </div>
                   </div>
-
                   <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
                </div>
 
             </form>
          </div>
-
       </div>
 
+      <div class="flex-container d-none" id="find-id-container">
+         <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
 
+            <div class="col-12 p-5">
+               <div class="row w-100">
+                  <div class= "col-12 p-3">
+                     <h4 class="form-signin-heading" style="font-weight: bold">아이디 찾기</h4>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12 p-3">
+                     <label for="email" class="sr-only">Username</label>
+                     <input type="text" id="email" name="code" class="form-control w-100" placeholder="이메일을 입력해주세요."
+                            required="required"
+                            autofocus="" autocomplete="off">
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12 p-3 idContainer">
 
-      <div id="dropDownSelect1"></div>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="col-4 p-3">
+                     <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
+                  </div>
+                  <div class="col-5 p-3">
+                     <button class="btn btn-login" type="button" onclick="fn_toFindPwbyFindId()">비밀번호 찾기</button>
+                  </div>
+                  <div class="col-3 p-0 pt-3">
+                     <button class="btn btn-login" type="button" onclick="findId()">찾기</button>
+                  </div>
+               </div>
+               <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
+            </div>
+         </div>
+      </div>
+
+      <div class="flex-container d-none" id="findPw-container">
+         <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
+            <form id="find-pw-resetform">
+               <div class="col-12 p-5">
+                  <div class="row w-100">
+                     <div class= "col-12 p-3">
+                        <h4 class="form-signin-heading" style="font-weight: bold">비밀번호 찾기</h4>
+                     </div>
+                  </div>
+                  <form id=pwForm>
+                     <div class="row">
+                        <div class="col-12 p-3">
+                           <label for="email_pw" class="sr-only">UserEmail</label>
+                           <input type="text" id="email_pw" name="email" class="form-control w-100" placeholder="이메일을 입력해주세요."
+                                  required="required"
+                                  autofocus="" autocomplete="off" value="${email}">
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12 emailmsg"></div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12 p-3">
+                           <label for="code_id" class="sr-only">Username</label>
+                           <input type="text" id="code_id" name="code" class="form-control w-100" placeholder="아이디를 입력해주세요."
+                                  required="required"
+                                  autofocus="" autocomplete="off" value="${id}">
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12 idmsg"></div>
+                     </div>
+                     <div class="row d-none inputEmailNum">
+                        <div class="col-6">
+                           <input type="text" id="EmailNum" name="EmailNum" class="form-control w-100" placeholder="인증번호 입력">
+                        </div>
+                        <div class="col-6">
+                           <button type="button" class="btn btn-login w-100" onclick="fn_authEmail()">인증하기</button>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12 authmsg"></div>
+                     </div>
+                     <div class="row sendAuth">
+                        <div class="col-12 p-3">
+                           <button type="button" class="btn btn-login w-100" onclick="fn_checkEmail()">인증번호 전송</button>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                        <div class="col-4 p-3">
+                           <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
+                        </div>
+                        <div class="col-4 pt-3 pr-0">
+                           <button class="btn btn-login" type="button" onclick="fn_toFindId()">아이디 찾기</button>
+                        </div>
+                        <div class="col-3 p-3 btn-changePw">
+                           <button class="btn btn-login" type="button" id="btn-changePw" disabled=true onclick="fn_changePw()">변경하기</button>
+                        </div>
+                     </div>
+                  </form>
+                  <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
+               </div>
+            </form>
+         </div>
+      </div>
       <c:if test="${result == 'F'}">
          <script>
             alert("로그인 실패");
@@ -148,10 +252,16 @@
       <!-- 아이디값 쿠키에 저장하기 -->
       <script>
          function fn_toFindId(){
-            location.href="/membership/findId";
+            $("#find-id-container").attr("class","flex-container");
+            $("#login-container").attr("class","flex-container d-none");
+            $("#findPw-container").attr("class","flex-container d-none");
          }
+
          function fn_toFindPw(){
-            location.href="/membership/findPw";
+            console.log("클릭");
+            $("#find-id-container").attr("class","flex-container d-none");
+            $("#login-container").attr("class","flex-container d-none");
+            $("#findPw-container").attr("class","flex-container");
          }
 
          $(document).ready(function () {
@@ -211,6 +321,226 @@
                return unescape(cookieValue);
             }
          });
+
+         var tempEmail ="";
+
+         function findId() {
+            var email= $("#email").val();
+            if(email==""){
+               var html="";
+               $(".idContainer").empty();
+               html+="<div class=row>";
+               html+="<div class='col-12 p-3'>";
+               html+="이메일을 입력해주세요.";
+               html+="</div>";
+               html+="</div>";
+               $(".idContainer").append(html);
+               $("#email").focus();
+               return;
+            }
+            $.ajax({
+               url: "/membership/findIdByEmail",
+               type: "post",
+               data: {email: $("#email").val()},
+               dataType: "json",
+               success: function (data) {
+                  tempEmail=$("#email").val();
+                  var html="";
+                  $(".idContainer").empty();
+                  if(data!="") {
+                     html+="<div class=row>";
+                     html+="<div class='col-12 p-3'>";
+                     html+="고객님의 정보와 일치하는 아이디 목록입니다.";
+                     html+="</div>";
+                     html+="</div>";
+                     for (var i = 0; i < data.length; i++) {
+                        html += "<div class=row>";
+                        html += "<div class='col-12 p-3'>";
+                        html += "<div class='custom-control custom-radio'>"
+                        html += "<input type=radio name=code id=code"+i+" class=custom-control-input value="+data[i].code+">";
+                        html += "<label class='custom-control-label' for=code"+i+">"+data[i].code+"</label>";
+                        html += "</div>";
+                        html += "</div>";
+                        html += "</div>";
+                     }
+                     $(".idContainer").append(html);
+                  }else{
+                     html+="<div class=row>";
+                     html+="<div class='col-12 p-3'>";
+                     html+="고객님의 정보와 일치하는 정보가 없습니다.";
+                     html+="</div>";
+                     html+="</div>";
+                     $(".idContainer").append(html);
+                  }
+
+
+               }
+            })
+         }
+
+         function toLogin() {
+            var getRadio=$("input[name=code]:checked").val();
+            if(getRadio!=undefined){
+               $("#code").val(getRadio);
+            }
+            $("#find-id-container").attr("class","flex-container  d-none");
+            $("#login-container").attr("class","flex-container");
+            $("#findPw-container").attr("class","flex-container d-none");
+
+         }
+         function fn_toFindPwbyFindId() {
+            var getRadio = $("input[name=code]:checked").val();
+            if (tempEmail != "" || getRadio != undefined) {
+               $("#email_pw").val(tempEmail);
+               $("#code_id").val(getRadio);
+            }
+            $("#find-id-container").attr("class","flex-container  d-none");
+            $("#login-container").attr("class","flex-container d-none");
+            $("#findPw-container").attr("class","flex-container");
+         }
+         var getSeq="";
+         var getId=0;
+         var isConfirm="false";
+
+         function fn_checkEmail(){
+            $(".emailmsg").text("");
+            $(".idmsg").text("");
+            var email = $("#email_pw").val();
+            var id = $("#code_id").val();
+            if(id=="" && email==""){
+               $(".inputEmailNum").attr("class","row d-none inputEmailNum");
+               $(".emailmsg").text("이메일을 입력해주세요.");
+               $(".idmsg").text("아이디를 입력해주세요.");
+               return;
+            }
+            if(email==""){
+               $(".inputEmailNum").attr("class","row d-none inputEmailNum");
+               $(".emailmsg").text("이메일을 입력해주세요.");
+               $("#email_pw").focus();
+               return;
+            }else if(id==""){
+               $(".inputEmailNum").attr("class","row d-none inputEmailNum");
+               $(".idmsg").text("아이디를 입력해주세요.");
+               $("#code_id").focus();
+               return;
+            }
+
+            var code=$("#code_id").val();
+            $.ajax({
+               type : "post",
+               url : "/membership/checkUserEmail",
+               data : {email:email,code:code},
+               success : function(data) {
+                  if(data==1){
+                     $(".inputEmailNum").attr("class","row inputEmailNum");
+                     fn_sendEmail();
+                  }else{
+                     $(".idmsg").text("해당 정보와 일치하는 데이터가 없습니다.");
+                  }
+               }
+            });
+         }
+
+         function fn_sendEmail(){
+            var email=$("#email_pw").val();
+            var code=$("#code_id").val();
+            $.ajax({
+               type : "post",
+               url : "/email/pwfind.email",
+               data : {email:email,code:code},
+               dataType : "json",
+               success : function(data) {
+                  $(".emailmsg").css("color", "white");
+                  $(".emailmsg").text('이메일 전송 성공! 이메일을 확인해 주세요');
+                  getSeq=data.pwcomf;
+                  getId=code;
+               },
+               error : function(e) {
+                  $(".emailmsg").css("color", "red");
+                  $(".emailmsg").text('존재하지 않은 이메일 입니다.');
+               }
+            });
+         }
+
+         function fn_authEmail(){
+            if(isConfirm!="false"){
+               return;
+            }
+            var emailNum=$("#EmailNum").val();
+            if(getSeq==emailNum){
+               isConfirm=getSeq;
+               $(".authmsg").text("인증이 완료되었습니다.");
+               html="";
+               html+="<div class=row>";
+               html+="<div class='col-12 p-3'>";
+               html+="<input type=password id=pw name=password class='form-control w-100' placeholder='새로운 비밀번호를 입력하세요.' required autocomplete=off>";
+               html+="</div></div>";
+               html+="<div class=row>";
+               html+="<div class='col-12 p-3'>";
+               html+="<input type=password id=checkPw class='form-control w-100' placeholder='비밀번호를 한번 더 입력하세요.' required autocomplete=off oninput=fn_checkPw()>";
+               html+="</div></div>";
+               html+="<div class=row>";
+               html+="<div class='col-12 p-3 checkmsg'>";
+               html+="</div></div>";
+               $(".sendAuth").after(html);
+
+            }else{
+               $(".authmsg").text("인증에 실패하였습니다.");
+               return;
+            }
+         }
+
+         function fn_changePw() {
+            var pw = $("#pw").val();
+            var check= $("#checkPw").val();
+            var code= getId;
+            if(pw==check){
+               $.ajax({
+                  type : "post",
+                  url : "/membership/changePw",
+                  data : {password:pw,code:code},
+                  dataType : "json",
+                  success : function(data) {
+                     if(data==1){
+                        $("#find-id-container").attr("class","flex-container  d-none");
+                        $("#login-container").attr("class","flex-container");
+                        $("#findPw-container").attr("class","flex-container d-none");
+                        $("#find-pw-resetform")[0].reset();
+                     }else{
+                        alert("변경에 실패하였습니다.");
+                        return;
+                     }
+                  }
+               });
+            }else{
+               $(".checkmsg").text("비밀번호가 일치하지않습니다.");
+               $("#btn-changePw").attr("disabled",true);
+               $("#checkPw").focus();
+            }
+         }
+
+         function fn_checkPw() {
+            var setTime =setTimeout(function () {
+               var pw = $("#pw").val();
+               var check = $("#checkPw").val();
+               if(pw==check){
+                  $(".checkmsg").text("비밀번호가 일치합니다.");
+                  $("#btn-changePw").attr("disabled",false);
+                  return;
+               }else{
+                  $(".checkmsg").text("비밀번호가 일치하지않습니다.");
+                  $("#btn-changePw").attr("disabled",true);
+                  $("#checkPw").focus();
+                  return;
+               }
+               if(check==""){
+                  $("checkmsg").text("");
+                  return;
+               }
+            },300)
+
+         }
+
       </script>
       <!-- 로그인 end -->
    </c:when>
@@ -251,8 +581,8 @@
             <input type=button value="휴지통(메일)" id=deleteBtn><br>
             <br>
             <input type=button value="일정" id=scheduleBtn><br>
-			<input type=button value="대사우 서비스" id=leaveBtn><br>
-			<input type=button value="메인페이지 테스트" id=mainBtn><br>
+            <input type=button value="대사우 서비스" id=leaveBtn><br>
+            <input type=button value="메인페이지 테스트" id=mainBtn><br>
 
                <%--용국--%>
             <button type="button" onclick="fn_toBD()">결재전</button>
@@ -323,7 +653,7 @@
          leaveBtn.onclick = function () {
             location.href = "/leave/toLeaveMain.leave";
          }
-         
+
          let mainBtn = document.getElementById("mainBtn");
          mainBtn.onclick = function () {
             location.href = "/main";

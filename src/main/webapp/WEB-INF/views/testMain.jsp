@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -161,7 +162,13 @@ div {
                      <h4 class="p-2 m-0">
                         <b>보낸 업무일지함</b>
                      </h4>
-                     <c:forEach var="n" items="${logAllList}">
+                     <div class="row">
+                     	<div class="on col-3 p-1"><b>작성자</b></div>
+                           <div class="col-3 p-1"><b>제목</b></div>
+                           <div class="on col-3 p-1"><b>날짜</b></div>
+                           <div class="on col-3 p-1"><b>상태</b></div>
+                     </div>
+                     <c:forEach var="n" items="${logAllList}" begin="0" end="4">
                         <div class="row">
                            <div class="on col-3 p-1">${n.name }</div>
                            <div class="col-3 p-1">

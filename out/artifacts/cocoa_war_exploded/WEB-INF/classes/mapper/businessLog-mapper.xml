@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="kh.cocoa.dao.BusinessLogDAO">
+<!-- 업무일지 종류에 따라 문서 저장 -->
+	<insert id="createLog">
+		<choose>
+			<when test="selectBy=='daily'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,STATUS) VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				1,#{ddto.report_start},'RAISE')
+			</when>
+			<when test="selectBy=='weekly'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				2,#{ddto.report_start},#{ddto.report_end},'RAISE')
+			</when>
+			<when test="selectBy=='monthly'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				3,#{ddto.report_start},#{ddto.report_end},'RAISE')
+			</when>
+		</choose>
+	</insert>
+<!-- 업무일지 seq & files doc_seq 맞추기 -->
+	<select id="logDocSelectSeq" resultType="Integer">
+		SELECT DOCUMENT_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='DOCUMENT_SEQ'
+	</select>
+<!-- 업무일지 별 문서 임시 저장 -->
+	<insert id="tempSavedLog">
+		<choose>
+			<when test="selectBy=='daily'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,STATUS) VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				1,#{ddto.report_start},'TEMP')
+			</when>
+			<when test="selectBy=='weekly'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				2,#{ddto.report_start},#{ddto.report_end},'TEMP')
+			</when>
+			<when test="selectBy=='monthly'">
+				INSERT INTO DOCUMENT 
+				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
+				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				#{ddto.writer_code},#{dept_code},
+				3,#{ddto.report_start},#{ddto.report_end},'TEMP')
+			</when>
+		</choose>
+	</insert>
+	
+<!--***********임시저장 보관함 *************  -->
+<!-- 업무일지함 전체 리스트  -->	
+	<select id="getLogAllList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND L.WRITER_CODE=#{writer_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!--  업무일지함 일일 리스트 불러오기 -->
+	<select id="dailyList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGDAILYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND L.WRITER_CODE=#{writer_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!--  업무일지함 주간 리스트 불러오기 -->
+	<select id="weeklyList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGWEEKLYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND L.WRITER_CODE=#{writer_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!-- 업무일지함 월별 리스트 불러오기 -->
+	<select id="monthlyList" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGMONTHLYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND L.WRITER_CODE=#{writer_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+
+<!--***********확인요청 보관함 *************  -->
+	<!-- 전체 리스트  -->	
+	<select id="logAllListR" resultType="kh.cocoa.dto.DocumentDTO">
+		<choose>
+			<!-- 팀장 -->
+			<when test="pos_code==3">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 부장 -->
+			<when test="pos_code==2">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 대표 -->
+			<when test="pos_code==1">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+		</choose>
+	</select>
+<!--  일일 리스트 불러오기 -->
+	<select id="dailyListR" resultType="kh.cocoa.dto.DocumentDTO">
+		<choose>
+			<!-- 팀장 -->
+			<when test="pos_code==3">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGDAILYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 부장 -->
+			<when test="pos_code==2">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGDAILYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 대표 -->
+			<when test="pos_code==1">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGDAILYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+		</choose>
+	</select>
+<!--  주간 리스트 불러오기 -->
+	<select id="weeklyListR" resultType="kh.cocoa.dto.DocumentDTO">
+		<choose>
+			<!-- 팀장 -->
+			<when test="pos_code==3">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGWEEKLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 부장 -->
+			<when test="pos_code==2">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGWEEKLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 대표 -->
+			<when test="pos_code==1">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGWEEKLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='2' 
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+		</choose>
+	</select>
+<!--  월별 리스트 불러오기 -->
+	<select id="monthlyListR" resultType="kh.cocoa.dto.DocumentDTO">
+				<choose>
+			<!-- 팀장 -->
+			<when test="pos_code==3">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGMONTHLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE > '3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 부장 -->
+			<when test="pos_code==2">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGMONTHLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='3'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+			<!-- 대표 -->
+			<when test="pos_code==1">
+				SELECT L.*,E.NAME,E.POS_CODE FROM LOGMONTHLYLIST L, EMPLOYEE E
+				WHERE L.WRITER_CODE = E.CODE
+				AND L.STATUS=#{status}
+				AND E.POS_CODE ='2'
+				AND L.DEPT_CODE =#{dept_code}
+				ORDER BY WRITE_DATE DESC
+			</when>
+		</choose>
+	</select>
+
+<!--***********업무일지 보관함*************  -->
+<!-- 업무일지함 전체 리스트  -->	
+	<select id="logAllListC" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND E.DEPT_CODE=#{dept_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!--  업무일지함 일일 리스트 불러오기 -->
+	<select id="dailyListC" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGDAILYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND E.DEPT_CODE=#{dept_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!--  업무일지함 주간 리스트 불러오기 -->
+	<select id="weeklyListC" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGWEEKLYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND E.DEPT_CODE=#{dept_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!-- 업무일지함 월별 리스트 불러오기 -->
+	<select id="monthlyListC" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM LOGMONTHLYLIST L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.STATUS=#{status} 
+		AND E.DEPT_CODE=#{dept_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+
+<!--***********보낸업무일지 보관함*************  -->
+<!-- 보낸업무일지함 리스트 --> 
+	<!-- 전체 -->
+	<select id="sentLogAllList"  resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM logListSent L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.WRITER_CODE=#{writer_code}
+		ORDER BY WRITE_DATE DESC
+	</select>
+	<!-- 일일 -->
+	<select id="sentLogDailyList"  resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM logDailyListSent L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.WRITER_CODE=#{writer_code}
+		AND L.TEMP_CODE='1'
+		ORDER BY WRITE_DATE DESC
+	</select>
+	<!-- 주간 -->
+	<select id="sentLogWeeklyList"  resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM logListSent L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.WRITER_CODE=#{writer_code}
+		AND L.TEMP_CODE='2'
+		ORDER BY WRITE_DATE DESC
+	</select>
+	<!-- 월별 -->
+	<select id="sentLogMonthlyList"  resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT L.*,E.NAME FROM logMonthlyListSent L, EMPLOYEE E
+		WHERE L.WRITER_CODE = E.CODE
+		AND L.WRITER_CODE=#{writer_code}
+		AND L.TEMP_CODE='3'
+		ORDER BY WRITE_DATE DESC
+	</select>
+<!-- 업무일지 읽기 -->
+	<!-- 글 내용 가져오기 -->
+	<select id="getLogBySeq" resultType="kh.cocoa.dto.DocumentDTO">
+		SELECT D.*,E.NAME FROM DOCUMENT D,EMPLOYEE E 
+		WHERE D.WRITER_CODE=E.CODE AND SEQ=#{seq}
+	</select>
+	<!-- 수정버튼 - 작성자인 경우만 보이기 -->
+	<select id="checkWriter" resultType="Integer">
+		SELECT COUNT(*) FROM DOCUMENT WHERE SEQ=#{seq} 
+		AND WRITER_CODE=#{writer_code}
+	</select>
+<!-- 업무일지 수정페이지에 내용 불러오기 -->
+	<select id="getLogBySeqMod" resultType="kh.cocoa.dto.DocumentDTO"> 
+	<choose>
+		<when test="status=='TEMP'">
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
+			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
+			FROM LOGTEMPLISTALL L, EMPLOYEE E
+			WHERE L.WRITER_CODE=E.CODE
+			AND L.SEQ=#{seq}
+		</when>
+		<when test="status=='RAISE'">
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
+			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
+			FROM LOGRAISELISTALL L, EMPLOYEE E
+			WHERE L.WRITER_CODE=E.CODE
+			AND L.SEQ=#{seq}
+		</when>
+	</choose>
+	</select>
+<!-- 글 삭제 (임시저장 문서 ONLY) -->
+	<delete id="logDel">
+		DELETE FROM DOCUMENT WHERE SEQ=#{seq}
+	</delete>
+<!-- 확인요청 문서 거절 -->
+	<update id="updateStatusReject">
+		UPDATE DOCUMENT SET STATUS='REJECT' WHERE SEQ=#{seq}
+	</update>
+<!-- 확인요청 문서 승인 -->
+	<update id="updateStatusConfirm">
+		UPDATE DOCUMENT SET REPORT_CONTENTS=#{report_contents}, STATUS='CONFIRM' 
+		WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 임시저장 / 일일-->
+	<update id="logModifyTempUpdateDaily">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=null,CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		STATUS='TEMP'
+		WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 임시저장 / 주간 & 월별-->
+	<update id="logModifyTempUpdate">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=#{report_end},CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		STATUS='TEMP'
+		WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 수정완료 / 일일-->
+	<update id="logModifyDaily">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=null,CONTENTS=#{contents}, 
+		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+<!-- 수정 - 수정완료 / 주간 & 월별 -->
+	<update id="logModify">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
+		REPORT_END=#{report_end},CONTENTS=#{contents}, 
+		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+
+</mapper>

@@ -77,6 +77,9 @@ public class DocumentController {
 	
 	@Autowired
 	private Leave_Taken_UsedService ltuService;
+
+	@Autowired
+	private TemplateFormService templateFormService;
 	
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
@@ -427,7 +430,7 @@ public class DocumentController {
 
 	
 	//회수하기
-	@GetMapping("returnDocument.document")
+	@RequestMapping("returnDocument.document")
 	public String returnDocument(String seq) {
 		dservice.ReturnDoc(seq);
 		return "redirect:/document/d_searchReturn.document";
@@ -463,7 +466,7 @@ public class DocumentController {
 	}
 
 	//문서대장
-	@GetMapping("allConfirmDoc.document")
+	@RequestMapping("allConfirmDoc.document")
 	public String allConfirmDoc(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, Model model){
 		//1. 날짜
 		//날짜정보(startDate,endDate)가 null일 경우 - startDate는 static 변수를, endDate는 오늘 날짜를 입력
@@ -523,7 +526,7 @@ public class DocumentController {
 		return "/document/allConfirmDoc";
 	}
 	//문서 전체보기
-	@GetMapping("allDocument.document")
+	@RequestMapping("allDocument.document")
 	public String toWritOrder(Model model){
 		//0. 사번
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
@@ -600,15 +603,43 @@ public class DocumentController {
 		
 		return "document/allDocument";
 	}
+	
+	//휴가신청시 잔여휴가 체크 후 신청가능여부
+	@RequestMapping("canGetLeave.document")
+	@ResponseBody
+	public int canGetLeave() {
+		//1. 사번
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		int empCode = (Integer)loginDTO.getCode();
+		//2. 오늘 날짜(년도)
+		Date today =  new Date(System.currentTimeMillis());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy");
+		String year = format.format(today);
+		
+		
+		Leave_Taken_UsedDTO dto = ltuService.getLeaveStatus(empCode, year);
+		int leaveCount = dto.getLeave_got() - dto.getLeave_used();
+		return leaveCount;
+	}
+	
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
-		List<TemplatesDTO> list = tservice.getTemplateList2();
-		List<TemplatesDTO> subList = tservice.getSubTemplateList();
-		model.addAttribute("list", list);
-		model.addAttribute("size", list.size());
-		model.addAttribute("sublist", subList);
-		model.addAttribute("subsize", subList.size());
+		List<TemplateFormDTO> formList = templateFormService.getTempleateFormList();
+		List<HashMap> hashMapList= new ArrayList<>();
+		for(int i=0;i<formList.size();i++) {
+			HashMap<String,Object> map = new HashMap<>();
+			int count = tservice.getTemplateCount(formList.get(i).getCode());
+			if(count!=0){
+				map.put("count",count);
+				map.put("title",formList.get(i).getTitle());
+				map.put("contents",formList.get(i).getContents());
+				map.put("code",formList.get(i).getCode());
+				hashMapList.add(map);
+			}
+
+		}
+		model.addAttribute("formList",hashMapList);
 		return "/document/c_templateList";
 	}
 
@@ -618,24 +649,20 @@ public class DocumentController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		String deptName = deptservice.getDeptName();
-		List<DepartmentsDTO> deptList = new ArrayList<>();
-		EmployeeDTO getEmpinfo = new EmployeeDTO();
-		getEmpinfo = eservice.getEmpInfo(empCode);
-		deptList = deptservice.getDeptList();
-		System.out.println(getEmpinfo);
-		System.out.println(deptList);
-		System.out.println(deptName);
-		model.addAttribute("temp_code", dto.getCode());
+		TemplatesDTO tempInfo = tservice.getTemplateInfo(dto.getCode());
+		List<DepartmentsDTO> deptList = deptservice.getDeptList();
+		EmployeeDTO getEmpinfo = eservice.getEmpInfo(empCode);
+		model.addAttribute("dto",tempInfo);
 		model.addAttribute("empInfo", getEmpinfo);
 		model.addAttribute("size", deptList.size());
 		model.addAttribute("deptName", deptName);
-		model.addAttribute("dto", dto);
 		model.addAttribute("deptList", deptList);
-		if (dto.getCode() == 4) {
+		model.addAttribute("temp_code",tempInfo.getCode());
+		if (dto.getForm_code() == 4) {
 			return "document/c_writeDocument";
-		} else if (dto.getCode() == 5) {
+		} else if (dto.getForm_code() == 5) {
 			return "document/c_writeOrderDocument";
-		} else if (dto.getCode() == 6) {
+		} else if (dto.getForm_code() == 6) {
 			return "document/c_writeLeaveDocument";
 		} else {
 			return "document/c_writeDocument";
@@ -646,7 +673,7 @@ public class DocumentController {
 
 	@RequestMapping("addconfirm.document")
 	public String addconfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
-
+		//int getTempCode =tservice.getTempCode(ddto.getTemp_code());
 		int result = dservice.addDocument(ddto);
 		int getDoc_code = dservice.getDocCode(ddto.getWriter_code());
 
@@ -758,21 +785,21 @@ public class DocumentController {
 	public String toReWrite(String seq, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
-
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
-
 		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
 		List<ConfirmDTO> getConfirmList =cservice.getConfirmList(seq);
+		int getTempCode = tservice.getTempCode(getModDocument.getTemp_code());
 		model.addAttribute("ddto",getModDocument);
 		model.addAttribute("clist",getConfirmList);
 		model.addAttribute("user",empCode);
 		model.addAttribute("dlist",deptList);
+		model.addAttribute("ori_temp_code",getTempCode);
 
-		if(getModDocument.getTemp_code()==4) {
+		if(getTempCode==4) {
 			return "/document/c_modSaveD";
-		}else if(getModDocument.getTemp_code()==5){
+		}else if(getTempCode==5){
 			return "/document/c_modSaveO";
-		}else if(getModDocument.getTemp_code()==6){
+		}else if(getTempCode==6){
             return "/document/c_modSaveL";
         }
 		return "redirect:/";
@@ -799,12 +826,13 @@ public class DocumentController {
 				ldto.setStart_date(dto.getLeave_start());
 				ldto.setEnd_date(dto.getLeave_end());
 				if(dto.getLeave_type().contentEquals("반차")) {
-					//미처리 컬럼에 N넣어주어야 함
 					ldto.setTime(4);
 				}
 				ldto.setEmp_code(dto.getWriter_code());
 				if(!ldto.getType().contentEquals("조퇴") || !ldto.getType().contentEquals("기타")) {
 					lservice.insert(ldto);
+					//process컬럼에 N넣어주기
+					dservice.setProcessN(seq);
 				}
 				//2. 잔여 휴가일 계산해서 빼기
 				//2-1. 기간 받아오기
@@ -826,6 +854,7 @@ public class DocumentController {
 				durationSum = durationSum + (timeSum / 8);
 				//3. 사용날짜 다시 입력해주기
 				ltuService.updateUsed(durationSum, year, dto.getWriter_code());
+				
 			}
 		}else{
 			dservice.addIsConfirm(seq,empCode,comments);

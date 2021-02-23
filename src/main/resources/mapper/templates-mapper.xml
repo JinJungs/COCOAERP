@@ -46,4 +46,21 @@
     <select id="searchList" resultType="kh.cocoa.dto.TemplatesDTO">
         select * from templates where form_code=#{form_code} and name like '%${getSearch}%'
     </select>
+
+    <select id="getTemplateListbyFormCode" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where form_code=#{form_code} and status='Y' order by code
+    </select>
+
+    <select id="getTemplateInfo" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where code=#{code}
+    </select>
+
+    <select id="getTempCode" resultType="Integer">
+        select temp_code from templates where code=#{code}
+    </select>
+
+    <select id="getTemplateCount" resultType="Integer">
+        SELECT COUNT(*) FROM TEMPLATES WHERE FORM_CODE =#{form_code} AND STATUS='Y'
+    </select>
+
 </mapper>

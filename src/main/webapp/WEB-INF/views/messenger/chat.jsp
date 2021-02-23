@@ -629,7 +629,7 @@
         }, 1000);
     }
 
-    // 문제 - 한번 검색하고 다시 input 창을 backspace로 지울 수가 없다.
+    // 검색
     function searchInChatRoom() {
         let searchContents = $("#searchContents").val();
         // input 창에 ∧ ∨ 표시가 있어야 한다.
@@ -737,7 +737,8 @@
     function exitRoom(){
       let seq = ${seq};
       let code = ${loginDTO.code};
-      let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
+      //let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
+        let contents = "${loginDTO.name}(${loginDTO.deptname}/${loginDTO.teamname})";
        let exit = confirm("정말 나가시겠습니까?");
        if(exit){
           location.href = "/messenger/exitRoom?seq="+seq;
