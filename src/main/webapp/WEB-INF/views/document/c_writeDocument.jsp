@@ -95,6 +95,7 @@
                                     <input type="hidden" id="getcuruserempcode" name="writer_code" value="${empInfo.code}">
                                     <input type="hidden" name="temp_code" value="${temp_code}">
                                     <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
+                                    <input type="hidden" name="ori_temp_code" value="${dto.temp_code}">
                                 </div>
                             </div>
                         </div>
@@ -104,8 +105,8 @@
                     <h5>기안 내용</h5>
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;" autocomplete="off"></div>
+                    <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목</div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -117,7 +118,7 @@
                     <div class="col-9 p-3" id="filecontainer"></div>
                 </div>
 
-                <div class="row w-100 pt-3">
+                <div class="row w-100 pt-3 mb-5">
                     <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
                 </div>
         </div>

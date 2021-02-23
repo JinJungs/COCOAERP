@@ -51,11 +51,11 @@ public class SidebarController {
             JSONArray jArray = new JSONArray();
             // 2. 하위목록의 개수를 센다
             int subCount = sService.sidebarCountByMenuSeq(k);
-            System.out.println("subCount: " + subCount);
+           // System.out.println("subCount: " + subCount);
             if(subCount !=0) {
                 // 3. 하위 메뉴의 개수가 0개가 아닐 때, 해당메뉴의 리스트를 불러온다.
                 List<SidebarViewDTO> list = sService.sidebarListByMenuSeq(k);
-                System.out.println("list 사이즈 ? 여기서 null인가? "  +list.size());
+              //  System.out.println("list 사이즈 ? 여기서 null인가? "  +list.size());
                 // 4. jArray에 리스트를 담는다.
                 for(int i=0; i<list.size(); i++){
                     param = new HashMap<>();
@@ -73,10 +73,10 @@ public class SidebarController {
                 }
                 // 하위 메뉴의 개수만큼 for문
                 for (int j=0; j<subCount; j++){
-                    System.out.println("menu_seq가 "+k+"일 때 : " +list.get(j).getMid_name());
+                  //  System.out.println("menu_seq가 "+k+"일 때 : " +list.get(j).getMid_name());
                 }
             }else{
-                System.out.println("리스트 없음!");
+             //   System.out.println("리스트 없음!");
             }
             jArrayAll.put(jArray);
         }

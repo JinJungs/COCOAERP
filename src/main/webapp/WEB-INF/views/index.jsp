@@ -43,9 +43,14 @@
       }
 
       .flex-container{
-         background: #000000;  /* fallback for old browsers */
-         background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-         background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      /*   background: #000000;  !* fallback for old browsers *!
+         background: -webkit-linear-gradient(to right, #434343, #000000);  !* Chrome 10-25, Safari 5.1-6 *!
+         background: linear-gradient(to right, #434343, #000000); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+       /*  background: #6a3093;  !* fallback for old browsers *!
+         background: -webkit-linear-gradient(to right, #a044ff, #6a3093);  !* Chrome 10-25, Safari 5.1-6 *!
+         background: linear-gradient(to right, #a044ff, #6a3093); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+         background-image: url("/icon/gifTest.gif");
+         background-repeat: no-repeat;
 
 
          background-size: 400% 400%;
@@ -83,7 +88,7 @@
 <c:choose>
    <c:when test="${empty loginDTO}">
       <!-- 로그인 start -->
-      <div class="flex-container" id="loginDiv">
+      <div class="flex-container" id="loginDiv" >
          <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
             <form class="form-signin w-100" method="post" action="/membership/login">
                <div class="col-12 p-5">

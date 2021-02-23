@@ -60,11 +60,14 @@ public class NexacroBoardController {
 	public void delBoard(@ParamVariable(name="seq")int seq) {
 		System.out.println("삭제");
 		System.out.println(seq);
-	
+		//보드메뉴에서 지우기
 		int result = nservice.delBoard(seq);
 		System.out.println(result);
+		//사이드바에서 목록지우기
 		int result1 = sservice.delBoard(seq);
 		System.out.println(result1);
+		//게시글 내용도 지우기
+		int result2 = nservice.delBoardText(seq);
 	}
 	//게시판 수정
 	@RequestMapping("/uptBoard.nc")

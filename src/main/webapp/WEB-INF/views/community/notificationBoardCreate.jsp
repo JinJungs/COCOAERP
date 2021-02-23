@@ -47,8 +47,7 @@ input{width:100%;}
 					<div class="col-12 file_input">
 						<input type="file" class="fileList"  id="file"
 							name="file"  multiple>
-						<!-- <label>+ File Attach 
-						</label> -->
+						<!-- <label>+ File Attach</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>

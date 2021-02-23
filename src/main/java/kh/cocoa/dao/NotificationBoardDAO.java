@@ -71,8 +71,10 @@ public interface NotificationBoardDAO {
 
 	public int bms();
 
+	//보드 메뉴에서 지우기
 	public int delBoard(int seq);
 
+	//게시글 내용도 지우기
+	public int delBoardText(int seq);
 
-	
 }

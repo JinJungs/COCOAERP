@@ -59,7 +59,6 @@ public class BusinessLogController {
 		if(selectBy.contentEquals("daily")) {
 			System.out.println("일일인 경우");
 			ddto.setReport_end(null);
-			System.out.println("변경후 :"+ddto.getReport_end());
 		}
 
 		//업무일지 seq & files doc_seq 맞추기
@@ -102,7 +101,7 @@ public class BusinessLogController {
 				}
 			}
 		}
-		return "businessLog/logCreate"; //경로 바꿔줘야함
+		return "redirect:/log/logBoard.log?status=TEMP"; //경로 바꿔줘야함
 	}
 	//업무일지 작성 완료
 	@RequestMapping("logCreateDone.log")
@@ -111,19 +110,15 @@ public class BusinessLogController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
-		System.out.println("사번이 뭐냐"+ddto.getWriter_code());
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
 		ddto.setDept_code(dept_code);
-		System.out.println("부서코드가 뭐냐"+ddto.getDept_code());
 		
 		int pos_code = (Integer)loginDTO.getPos_code();
 		ddto.setDept_code(pos_code);
 
 		if(selectBy.contentEquals("daily")) {
-			System.out.println("일일인 경우");
 			ddto.setReport_end(null);
-			System.out.println("변경후 :"+ddto.getReport_end());
 		}
 
 		//업무일지 seq & files doc_seq 맞추기
@@ -131,7 +126,6 @@ public class BusinessLogController {
 
 		//업무일지 종류에 따라 문서 저장
 		int createLog = bservice.createLog(logDoc_seq,ddto,selectBy,dept_code);
-		System.out.println("결과는?" +createLog);
 		
 		
 		//파일 업로드
@@ -168,13 +162,12 @@ public class BusinessLogController {
 				}
 			}
 		}
-		return "businessLog/logCreate"; //경로 바꿔줘야함
+		return "redirect:/log/logSentBoard.log";
 	}
 	//업무일지 읽기
 	@RequestMapping("logRead.log")
 	public String logRead(int seq,Model model, String status, DocumentDTO ddto, FilesDTO fdto) {
 		System.out.println("읽기 페이지 도착");
-		System.out.println("여기서 seq?"+seq);
 
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
@@ -183,22 +176,18 @@ public class BusinessLogController {
 
 		//업무일지 자료 가져오기
 		DocumentDTO logRead = bservice.getLogBySeq(seq);
-		System.out.println("자료 가져오기 성공?" +logRead);
 
 		//게시글에 업로드된 파일 갯수 확인
 		int getLogUploadFileCount = fservice.getLogUploadFileCount(fdto);
 
 		//업로드된 파일 가져오기
 		List<FilesDTO> fileList = fservice.getLogFilesBySeq(seq,fdto);
-		System.out.println("파일가져오기 성공?"+fileList.size());
 		
 		//승인한 사람 이름 불러오기
 		List<EmployeeDTO> confirmBy = cservice.confirmBy(seq);
-		System.out.println("내용은?"+confirmBy);
 
 		//거절한 사람 이름 불러오기
 		List<EmployeeDTO> rejectBy = cservice.confirmBy(seq);
-		model.addAttribute("rejectBy",rejectBy);
 		
 		model.addAttribute("status",status);
 		model.addAttribute("lr",logRead);
@@ -216,7 +205,6 @@ public class BusinessLogController {
 		ddto.setWriter_code(writer_code);
 		//거절의 경우 - DOCUMENT에 넣어주기
 		int updateStatusReject = bservice.updateStatusReject(seq,status);
-		System.out.println("거절의 결과는?"+updateStatusReject);
 
 		//거절의 경우 - doc_confirm에도 넣어주기
 		int rejectDoc = cservice.rejectDoc(seq,ddto);	
@@ -227,7 +215,6 @@ public class BusinessLogController {
 	public String logReqCheck2(String status,DocumentDTO ddto,int seq,String report_contents) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
-		System.out.println("seq를 넣음 되잖아?"+seq);
 		//로그인한 정보의 code를 DocumentDTO writer_code에 넣어주기
 		ddto.setWriter_code(writer_code);
 		//승인의 경우 - doc테이블에 내용업뎃
@@ -235,21 +222,17 @@ public class BusinessLogController {
 		
 		//승인의 경우 doc_confirm 테이블에 업뎃
 		int docConf = cservice.docConf(seq,ddto);
-		System.out.println("승인의 결과는?"+docConf);
 			
 		return "redirect:/log/logBoard.log?status="+status;
 	}	
 	//업무일지 삭제 (임시보관 ONELY)
 	@RequestMapping("logDel.log")
 	public String logDel(int seq,String status) {
-		System.out.println("삭제에 seq는?"+seq);
 		//임시보관 문서 삭제
 		int result = bservice.logDel(seq);
-		System.out.println("삭제 되었나?"+result);
 
 		//임시보관 된 문서 지우기
 		int logFileDel = fservice.logFileDel(seq);
-		System.out.println("파일도 삭제 됨?" + logFileDel);
 		
 		if(status.contentEquals("RAISE")) {
 			return "redirect:/log/logSentBoard.log";
@@ -293,15 +276,12 @@ public class BusinessLogController {
 		System.out.println("수정 페이지" +seq);
 		
 		DocumentDTO logRead = bservice.getLogBySeqMod(seq,dto,status);
-		System.out.println("업무일지 자료 가져오기 성공?" +logRead);
 		
 		//업로드된 파일 가져오기
 		List<FilesDTO> fileList = fservice.getLogFilesBySeq(seq,fdto);
-		System.out.println("파일가져오기 성공?"+fileList);
 
 		//승인한 사람 이름 불러오기
 		List<EmployeeDTO> confirmBy = cservice.confirmBy(seq);
-		System.out.println("내용은?"+confirmBy);
 		
 		model.addAttribute("lr",logRead);
 		model.addAttribute("status",status);
@@ -317,27 +297,21 @@ public class BusinessLogController {
 			List<MultipartFile> file) throws Exception {
 		System.out.println("수정 완료 페이지");
 		if(temp_code==1) {
-			System.out.println("일일인 경우");
 			ddto.setReport_end(null);
-			System.out.println("변경후 :"+ddto.getReport_end());
 			//수정 후 상신 (일일)
 			int logModifyDaily = bservice.logModifyDaily(ddto);
 
-			System.out.println("일 일 성공?"+logModifyDaily);
 		}else if (temp_code==2||temp_code==3) {
 			//수정 후 상신 (주간/월별)
 			int logModify = bservice.logModify(ddto);
-			System.out.println("성공?"+logModify);
 		}
 		/*------------------파일 수정--------------*/
 		//파일 삭제 - 파일의 seq로 삭제
 		if (delArr != null) {
-			System.out.println("선택된 갯수? "+delArr.length);
 			int fileDelResult = 0;
 			for (int i = 0; i < delArr.length; i++) {
 				fileDelResult += fservice.deleteNotificationBoardFiles(delArr[i]);
 			}
-			System.out.println("파일 삭제 :" +fileDelResult);
 		}
 		//파일 추가
 		if(file!=null) { if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
@@ -353,7 +327,6 @@ public class BusinessLogController {
 				FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null,0, seq,0,0);
 
 				int result = fservice.uploadFilesTempSave(seq,fdto1);
-				System.out.println("파일 추가 결과? " +result );
 				if (result > 0) {
 					File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
 					FileCopyUtils.copy(mf.getBytes(), targetLoc);
@@ -368,31 +341,22 @@ public class BusinessLogController {
 	public String logModifyTempSave(int temp_code, int[] delArr,int seq,DocumentDTO ddto,FilesDTO fdto, String status,
 			List<MultipartFile> file) throws Exception{
 		System.out.println("임시저장 수정 ");
-		System.out.println(status);
-		System.out.println("여기선?"+seq);
-		System.out.println("여기선?"+temp_code);
 		if(temp_code==1) {
-			System.out.println("일일인 경우");
 			ddto.setReport_end(null);
-			System.out.println("변경후 :"+ddto.getReport_end());
 			//임시저장될 문서
 			int logModifyTempUpdateDaily = bservice.logModifyTempUpdateDaily(ddto);
 
-			System.out.println("일 일 성공?"+logModifyTempUpdateDaily);
 		}else if (temp_code==2||temp_code==3) {
 			//임시저장될 문서
 			int logModifyTempUpdate = bservice.logModifyTempUpdate(ddto);
-			System.out.println("성공?"+logModifyTempUpdate);
 		}
 		/*------------------파일 수정--------------*/
 		//파일 삭제 - 파일의 seq로 삭제
 		if (delArr != null) {
-			System.out.println("선택된 갯수? "+delArr.length);
 			int fileDelResult = 0;
 			for (int i = 0; i < delArr.length; i++) {
 				fileDelResult += fservice.deleteNotificationBoardFiles(delArr[i]);
 			}
-			System.out.println("파일 삭제 :" +fileDelResult);
 		}
 		//파일 추가
 		if(file!=null) { if (!file.get(0).isEmpty()) { //파일추가 없이 글쓰기 
@@ -408,7 +372,6 @@ public class BusinessLogController {
 				FilesDTO fdto1 = new FilesDTO(0, oriName, savedName,null,0, seq,0,0);
 
 				int result = fservice.uploadFilesTempSave(seq,fdto1);
-				System.out.println("파일 추가 결과? " +result );
 				if (result > 0) {
 					File targetLoc = new File(filesPath.getAbsolutePath() + "/" + savedName);
 					FileCopyUtils.copy(mf.getBytes(), targetLoc);
@@ -425,10 +388,6 @@ public class BusinessLogController {
 		int writer_code = (Integer)loginDTO.getCode();
 		int dept_code = (Integer)loginDTO.getDept_code();
 		int pos_code = (Integer)loginDTO.getPos_code();
-		System.out.println("접속자"+writer_code);
-		System.out.println("부서"+dept_code);
-		System.out.println("직위"+pos_code);
-		System.out.println("보관함 종류 : "+status);
 
 		//임시저장 보관함인 경우 접속한 ID와 작성자가 동일한 문서만 불러오기
 		if(status.contentEquals("TEMP")) {
