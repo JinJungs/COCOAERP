@@ -24,15 +24,29 @@
          </button>
       </div>
       <div class="p-4 pt-5">
-         <h3 class="mb-4">
+         <h3 class="mb-3">
             <a href="/" class="logo">COCOAWORK</a>
          </h3>
          <!-- 프로필 -->
-         <div class="side-profile" style="user-select: auto;">
-            <img src="/img/Profile-m.png" alt="Image" class="side-img" style="user-select: auto;">
+         <%--<div class="side-profile" style="user-select: auto;">
+            <img class="side-img" alt="Image" style="user-select: auto;">
             <h3 class="side-name" style="user-select: auto;"></h3>
             <span class="side-dept" style="user-select: auto;"></span>
-            <p class="mt-1 mb-0 p-0"><button class="btn btn-primary side-chat p-0" onclick="fn_messenger()"><img src="/icon/chat-full.svg">채팅하기</button></p>
+            <p class="mt-1 mb-0 p-0"><button class="btn btn-primary side-chat p-0" onclick="fn_messenger()"><img src="/icon/chat-full-white.svg">채팅하기</button></p>
+         </div>--%>
+         <div class="side-profile">
+            <div class="side-user-pic">
+               <img class="side-img" style="user-select: auto;">
+            </div>
+            <div class="side-user-info">
+             <span class="side-user-name"></span>
+            <span class="side-user-role"></span>
+               <p class="mt-1 mb-0 p-0">
+                  <button class="btn btn-primary side-chat p-0" onclick="fn_messenger()">
+                     <img src="/icon/chat-full-white.svg">채팅하기
+                  </button>
+               </p>
+            </div>
          </div>
          <ul class="list-unstyled components mb-5" id="sidebarBox">
             <!-- 여기에 사이드바의 내용이 추가된다.-->
@@ -58,9 +72,11 @@
                let user_deptname = data[9].deptname;
                let user_teamname = data[9].teamname;
                let user_posname = data[9].posname;
+               let user_profile = data[9].profile;
                let countSidebarMenu = 9;
-               $(".side-name").html(user_name);
-               $(".side-dept").html(user_deptname+" | "+user_posname);
+               $(".side-user-name").html(user_name);
+               $(".side-user-role").html(user_deptname+" | "+user_posname);
+               $(".side-img").attr("src",user_profile);
 
                // -------- 사이드바의 목록을 띄워줌 --------
                let html = "";

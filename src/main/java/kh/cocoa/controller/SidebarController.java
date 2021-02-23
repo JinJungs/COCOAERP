@@ -3,7 +3,10 @@ package kh.cocoa.controller;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.dto.SidebarViewDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
 import kh.cocoa.service.SidebarService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class SidebarController {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private EmployeeService eservice;
+
+    @Autowired
+    private FilesService filesService;
 
     // ajax로 사이드바에 값을 보내준다.
     // 사용자 정보도 같이 보내줘야한다.
@@ -78,6 +87,16 @@ public class SidebarController {
         param.put("deptname",loginDTO.getDeptname());
         param.put("teamname",loginDTO.getTeamname());
         param.put("posname",loginDTO.getPosname());
+
+        // 사용자의 프로필이미지 전송
+        FilesDTO getProfile = filesService.findBeforeProfile(loginDTO.getCode());
+        if(getProfile==null) {
+            param.put("profile","/img/Profile-m.png");
+        }else{
+            String profileLoc = "/profileFile/" + getProfile.getSavedname();
+            System.out.println(profileLoc);
+            param.put("profile",profileLoc);
+        }
         jArrayAll.put(param);
         return jArrayAll.toString();
     }

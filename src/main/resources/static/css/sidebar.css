@@ -1,36 +1,47 @@
-.side-profile {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #efefef;
-}
-.side-name{
-    font-size: 18px;
-    color: #cfcfcf;
-    margin-bottom: 0;
-}
-.side-dept{
-    font-size: 14px;
-    color: #cfcfcf;
-}
-.side-img {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 20px auto;
-    border-radius: 50%;
-}
 .side-no-sidebar-menu{
     text-align: center;
     color: #cfcfcf;
 }
 .side-chat{
-    width: 90px;
-    height: 30px;
-    font-size: 12px;
+    width: 85px;
+    height: 25px;
+    font-size: 11px;
 }
 .side-chat img{
-    width: 15px;
+    width: 13px;
     margin: 0 8px 0 0;
 }
+
+/* alt */
+.side-profile {
+    padding: 10px 10px 20px 0;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-bottom: 1px solid #efefef;
+}
+.side-user-info {
+    color: #b8bfce;
+    float: left;
+}
+.side-user-info span {
+    display: block;
+}
+.side-user-pic{
+    float: left;
+    width: 80px;
+    padding: 2px;
+    border-radius: 12px;
+    margin-right: 15px;
+    overflow: hidden;
+}
+.side-user-role{
+    font-size: 12px;
+    color: #b8bfce;
+}
+.side-img {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 0 auto;
+    border-radius: 50%;
+}
+
