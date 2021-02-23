@@ -137,43 +137,43 @@
             </form>
          </div>
       </div>
-
       <div class="flex-container d-none" id="find-id-container">
          <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
+            <form id="find-id-resetform">
+               <div class="col-12 p-5">
+                  <div class="row w-100">
+                     <div class= "col-12 p-3">
+                        <h4 class="form-signin-heading" style="font-weight: bold">아이디 찾기</h4>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 p-3">
+                        <label for="email" class="sr-only">Username</label>
+                        <input type="text" id="email" name="code" class="form-control w-100" placeholder="이메일을 입력해주세요."
+                               required="required"
+                               autofocus="" autocomplete="off">
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12 p-3 idContainer">
 
-            <div class="col-12 p-5">
-               <div class="row w-100">
-                  <div class= "col-12 p-3">
-                     <h4 class="form-signin-heading" style="font-weight: bold">아이디 찾기</h4>
+                     </div>
                   </div>
-               </div>
-               <div class="row">
-                  <div class="col-12 p-3">
-                     <label for="email" class="sr-only">Username</label>
-                     <input type="text" id="email" name="code" class="form-control w-100" placeholder="이메일을 입력해주세요."
-                            required="required"
-                            autofocus="" autocomplete="off">
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-12 p-3 idContainer">
 
+                  <div class="row">
+                     <div class="col-4 p-3">
+                        <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
+                     </div>
+                     <div class="col-5 p-3">
+                        <button class="btn btn-login" type="button" onclick="fn_toFindPwbyFindId()">비밀번호 찾기</button>
+                     </div>
+                     <div class="col-3 p-0 pt-3">
+                        <button class="btn btn-login" type="button" onclick="findId()">찾기</button>
+                     </div>
                   </div>
+                  <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
                </div>
-
-               <div class="row">
-                  <div class="col-4 p-3">
-                     <button class="btn btn-login" type="button" onclick="toLogin()">로그인 하기</button>
-                  </div>
-                  <div class="col-5 p-3">
-                     <button class="btn btn-login" type="button" onclick="fn_toFindPwbyFindId()">비밀번호 찾기</button>
-                  </div>
-                  <div class="col-3 p-0 pt-3">
-                     <button class="btn btn-login" type="button" onclick="findId()">찾기</button>
-                  </div>
-               </div>
-               <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
-            </div>
+            </form>
          </div>
       </div>
 
@@ -255,10 +255,12 @@
             $("#find-id-container").attr("class","flex-container");
             $("#login-container").attr("class","flex-container d-none");
             $("#findPw-container").attr("class","flex-container d-none");
+
          }
 
          function fn_toFindPw(){
             console.log("클릭");
+            $("#find-id-resetform")[0].reset();
             $("#find-id-container").attr("class","flex-container d-none");
             $("#login-container").attr("class","flex-container d-none");
             $("#findPw-container").attr("class","flex-container");
@@ -354,7 +356,7 @@
                      html+="</div>";
                      html+="</div>";
                      for (var i = 0; i < data.length; i++) {
-                        html += "<div class=row>";
+                        html += "<div class=row id=idlist>";
                         html += "<div class='col-12 p-3'>";
                         html += "<div class='custom-control custom-radio'>"
                         html += "<input type=radio name=code id=code"+i+" class=custom-control-input value="+data[i].code+">";
@@ -365,7 +367,7 @@
                      }
                      $(".idContainer").append(html);
                   }else{
-                     html+="<div class=row>";
+                     html+="<div class=row id=idlist>";
                      html+="<div class='col-12 p-3'>";
                      html+="고객님의 정보와 일치하는 정보가 없습니다.";
                      html+="</div>";
@@ -383,6 +385,8 @@
             if(getRadio!=undefined){
                $("#code").val(getRadio);
             }
+            $("#find-id-resetform")[0].reset();
+            $("#find-pw-resetform")[0].reset();
             $("#find-id-container").attr("class","flex-container  d-none");
             $("#login-container").attr("class","flex-container");
             $("#findPw-container").attr("class","flex-container d-none");
@@ -394,6 +398,8 @@
                $("#email_pw").val(tempEmail);
                $("#code_id").val(getRadio);
             }
+            $(".idlist").empty();
+            $("#find-id-resetform")[0].reset();
             $("#find-id-container").attr("class","flex-container  d-none");
             $("#login-container").attr("class","flex-container d-none");
             $("#findPw-container").attr("class","flex-container");
