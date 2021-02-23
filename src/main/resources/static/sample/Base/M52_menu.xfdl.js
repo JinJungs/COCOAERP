@@ -90,7 +90,7 @@
             obj.set_cssclass("btn_WF_save01");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_menu_manage","20","170",null,null,"560","50","300",null,"300",null,this);
+            obj = new Grid("grd_menu_manage","20","170",null,null,"560","50","300",null,null,null,this);
             obj.set_taborder("1");
             obj.set_binddataset("ds_sidebar");
             obj.set_autofittype("col");
@@ -104,7 +104,7 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00","grd_menu_manage:10","170","450",null,null,"50",null,null,"300",null,this);
+            obj = new Div("Div00","grd_menu_manage:10","170","450",null,null,"50",null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7");

@@ -52,7 +52,7 @@
             obj = new Grid("grd_emp_list","20","175",null,"425","499",null,"150",null,null,null,this);
             obj.set_taborder("1");
             obj.set_binddataset("ds_employee");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"부서\"/><Cell col=\"2\" text=\"팀\"/><Cell col=\"3\" text=\"직책\"/><Cell col=\"4\" text=\"이름\"/><Cell col=\"5\" text=\"연락처\"/><Cell col=\"6\" text=\"내선번호\"/><Cell col=\"7\" text=\"주소\"/><Cell col=\"8\" text=\"이메일\"/><Cell col=\"9\" text=\"내부 메일\"/><Cell col=\"10\" text=\"성\"/><Cell col=\"11\" text=\"고용일\"/><Cell col=\"12\" text=\"퇴사\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:dept_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_departments\" combodatacol=\"name\" combocodecol=\"code\"/><Cell col=\"2\" text=\"bind:team_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_team\" combocodecol=\"code\" combodatacol=\"name\"/><Cell col=\"3\" text=\"bind:pos_code\" combodataset=\"ds_position\" combodatacol=\"name\" combocodecol=\"code\" displaytype=\"combotext\" edittype=\"combo\"/><Cell col=\"4\" text=\"bind:name\"/><Cell col=\"5\" text=\"bind:phone\"/><Cell col=\"6\" text=\"bind:office_phone\"/><Cell col=\"7\" text=\"bind:address\"/><Cell col=\"8\" text=\"bind:email\"/><Cell col=\"9\" text=\"bind:b_email\"/><Cell col=\"10\" text=\"bind:gender\"/><Cell col=\"11\" text=\"bind:hire_date\"/><Cell col=\"12\" text=\"bind:withdraw\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"26\"/><Column size=\"100\"/><Column size=\"80\"/><Column size=\"140\"/><Column size=\"140\"/><Column size=\"140\"/><Column size=\"80\"/><Column size=\"26\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"이름\"/><Cell col=\"2\" text=\"부서\"/><Cell col=\"3\" text=\"팀\"/><Cell col=\"4\" text=\"직책\"/><Cell col=\"5\" text=\"성\"/><Cell col=\"6\" text=\"연락처\"/><Cell col=\"7\" text=\"내선번호\"/><Cell col=\"8\" text=\"주소\"/><Cell col=\"9\" text=\"이메일\"/><Cell col=\"10\" text=\"내부 메일\"/><Cell col=\"11\" text=\"고용일\"/><Cell col=\"12\" text=\"퇴사\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:name\"/><Cell col=\"2\" text=\"bind:dept_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_departments\" combodatacol=\"name\" combocodecol=\"code\"/><Cell col=\"3\" text=\"bind:team_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_team\" combocodecol=\"code\" combodatacol=\"name\"/><Cell col=\"4\" text=\"bind:pos_code\" combodataset=\"ds_position\" combodatacol=\"name\" combocodecol=\"code\" displaytype=\"combotext\" edittype=\"combo\"/><Cell col=\"5\" text=\"bind:gender\"/><Cell col=\"6\" text=\"bind:phone\"/><Cell col=\"7\" text=\"bind:office_phone\"/><Cell col=\"8\" text=\"bind:address\"/><Cell col=\"9\" text=\"bind:email\"/><Cell col=\"10\" text=\"bind:b_email\"/><Cell col=\"11\" text=\"bind:hire_date\"/><Cell col=\"12\" text=\"bind:withdraw\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Div("div_info","grd_emp_list:10","175","389","425",null,null,"150",null,null,null,this);
@@ -205,16 +205,12 @@
             obj.set_border("0px none,1px solid #c9c9c9,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Edit("edt_posname","270","129","100","24",null,null,null,null,null,null,this.div_info.form);
+            obj = new Edit("edt_b_email","76","320","289","23",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("17");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Edit("edt_b_email","76","320","289","23",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("18");
-            this.div_info.addChild(obj.name, obj);
-
             obj = new Static("sta_b_mail","8","314","58","34",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("19");
+            obj.set_taborder("18");
             obj.set_text("사내 메일");
             obj.set_background("");
             obj.set_padding("0px");
@@ -223,11 +219,11 @@
             this.div_info.addChild(obj.name, obj);
 
             obj = new Edit("edt_address","76","358","293","56",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("20");
+            obj.set_taborder("19");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_address","8","358","58","66",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("21");
+            obj.set_taborder("20");
             obj.set_text("주소");
             obj.set_background("");
             obj.set_padding("0px");
@@ -235,52 +231,46 @@
             obj.set_border("0px none,1px solid #c9c9c9,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Button("btn_modif",null,"8","55","24","45",null,null,null,null,null,this.div_info.form);
+            obj = new Button("btn_reset",null,"8","25","25","10",null,null,null,null,null,this.div_info.form);
             obj.set_taborder("23");
-            obj.set_text("수정");
+            obj.set_text("");
+            obj.set_cssclass("btn_WF_reset01");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Button("btn_withdraw",null,"8","55","24","btn_modif:10",null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("34");
+            obj = new Button("btn_withdraw",null,"8","55","24","btn_reset:10",null,null,null,null,null,this.div_info.form);
+            obj.set_taborder("32");
             obj.set_text("퇴직");
             obj.set_cssclass("btn_WF_delete01");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Button("btn_add",null,"8","55","24","btn_withdraw:10",null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("22");
+            obj.set_taborder("21");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Button("btn_reset",null,"8","25","25","10",null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("25");
-            obj.set_text("");
-            obj.set_cssclass("btn_WF_reset01");
-            this.div_info.addChild(obj.name, obj);
-
             obj = new CheckBox("chk_notaem","224","86","56","34",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("24");
-            obj.set_text("소속 없음");
+            obj.set_taborder("22");
+            obj.set_text("무소속");
             obj.set_font("normal 8px/normal \"Arial\"");
-            obj.set_falsevalue("0");
             obj.set_border("0px none,1px solid #c7c7c7,0px none,0px none");
             obj.set_padding("0px 3px 0px 0px");
             this.div_info.addChild(obj.name, obj);
 
             obj = new MaskEdit("msk_password","76","129","100","24",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("26");
+            obj.set_taborder("24");
             obj.set_type("string");
             obj.set_visible("false");
             obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Edit("edt_name","76","91","100","24",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("27");
+            obj.set_taborder("25");
             obj.getSetter("onclick").set("div_info_edt_name_onclick");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Combo("cmb_dept","270","53","100","25",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("28");
+            obj.set_taborder("26");
             obj.set_innerdataset("ds_departments");
             obj.set_datacolumn("name");
             obj.set_codecolumn("code");
@@ -289,90 +279,98 @@
             this.div_info.addChild(obj.name, obj);
 
             obj = new Combo("cmb_team","285","92","85","22",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("29");
+            obj.set_taborder("27");
             obj.set_innerdataset("ds_team");
             obj.set_datacolumn("name");
             obj.set_codecolumn("code");
             obj.set_text("Combo00");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Radio("Radio00","76","169","100","20",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("30");
+            obj = new Radio("rad_gender","76","169","100","20",null,null,null,null,null,null,this.div_info.form);
+            obj.set_taborder("28");
             obj.set_codecolumn("codecolumn");
             obj.set_datacolumn("datacolumn");
             obj.set_columncount("2");
-            var div_info_form_Radio00_innerdataset = new nexacro.NormalDataset("div_info_form_Radio00_innerdataset", obj);
-            div_info_form_Radio00_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">M</Col><Col id=\"datacolumn\">남</Col></Row><Row><Col id=\"codecolumn\">W</Col><Col id=\"datacolumn\">여</Col></Row></Rows>");
-            obj.set_innerdataset(div_info_form_Radio00_innerdataset);
+            var div_info_form_rad_gender_innerdataset = new nexacro.NormalDataset("div_info_form_rad_gender_innerdataset", obj);
+            div_info_form_rad_gender_innerdataset._setContents("<ColumnInfo><Column id=\"codecolumn\" size=\"256\"/><Column id=\"datacolumn\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"codecolumn\">M</Col><Col id=\"datacolumn\">남</Col></Row><Row><Col id=\"codecolumn\">W</Col><Col id=\"datacolumn\">여</Col></Row></Rows>");
+            obj.set_innerdataset(div_info_form_rad_gender_innerdataset);
             this.div_info.addChild(obj.name, obj);
 
             obj = new Calendar("cal_hire_date","76","204","100","26",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("31");
+            obj.set_taborder("29");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Calendar("cal_hire_date00","76","242","100","26",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("32");
+            obj.set_taborder("30");
             obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new MaskEdit("msk_code","76","53","100","25",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("33");
+            obj.set_taborder("31");
             obj.set_format("######");
             obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line","10","46","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("35");
+            obj.set_taborder("33");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00","10","84","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("36");
+            obj.set_taborder("34");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00_00","10","160","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("38");
+            obj.set_taborder("36");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00","10","122","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("37");
+            obj.set_taborder("35");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00_00_00","10","198","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("39");
+            obj.set_taborder("37");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00_00_00_00","66","236","313","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("40");
+            obj.set_taborder("38");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00_00_00_00_00","10","274","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("41");
+            obj.set_taborder("39");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_line00_00_00_00_00_00_00","10","312","369","8",null,null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("42");
+            obj.set_taborder("40");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7,0px none,0px none");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Static("sta_subtitle","0","0",null,"34","299",null,null,null,null,null,this.div_info.form);
-            obj.set_taborder("43");
+            obj.set_taborder("41");
             obj.set_text("사원 정보");
             obj.set_cssclass("sta_WF_title01");
+            this.div_info.addChild(obj.name, obj);
+
+            obj = new Combo("Combo00","270","128","100","25",null,null,null,null,null,null,this.div_info.form);
+            obj.set_taborder("42");
+            obj.set_innerdataset("ds_position");
+            obj.set_codecolumn("code");
+            obj.set_datacolumn("name");
+            obj.set_text("Combo00");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Div("div_search","20","100",null,"50","100",null,null,null,null,null,this);
@@ -482,6 +480,7 @@
             obj = new Button("btn_cancel",null,"55","80","35","100",null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("작업 취소");
+            obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static02","240","18","280","52",null,null,null,null,null,null,this);
@@ -501,10 +500,6 @@
             obj.bind();
 
             obj = new BindItem("item5","div_search.form.rdo_search","value","ds_emp","GENDER");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item14","div_info.form.edt_posname","value","ds_employee","posname");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -536,7 +531,7 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item7","div_info.form.Radio00","value","ds_employee","gender");
+            obj = new BindItem("item7","div_info.form.rad_gender","value","ds_employee","gender");
             this.addChild(obj.name, obj);
             obj.bind();
 
@@ -557,6 +552,10 @@
             obj.bind();
 
             obj = new BindItem("item9","div_info.form.chk_notaem","value","ds_employee","team_code");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item10","div_info.form.Combo00","value","ds_employee","pos_code");
             this.addChild(obj.name, obj);
             obj.bind();
         };
@@ -591,7 +590,7 @@
         		);
         };
 
-        //저장 & 취소========================================================================
+        //저장 & 취소 START========================================================================
         this.btn_save_onclick = function(obj,e)
         {
         	trace("M11 저장");
@@ -624,14 +623,15 @@
         	}
         };
 
-        //저장 & 취소====================================================
+        //저장 & 취소 END====================================================
 
 
-        //ds_employee 업데이트====================================================
+        //ds_employee 업데이트 START====================================================
         //사원추가
         this.div_info_btn_add_onclick = function(obj,e)
         {
-        	this.ds_employee.addRow();
+        	let row = this.ds_employee.addRow();
+        	this.ds_employee.setColumn(row, "withdraw", "N");
         };
         //퇴직
         this.div_info_btn_withdraw_onclick = function(obj,e)
@@ -643,15 +643,87 @@
         //부서콤보제한
         this.div_info_cmb_dept_onitemchanged = function(obj,e)
         {
-
+        	this.div_info.form.cmb_team.set_value(null);
+        	let dept_code = this.div_info.form.cmb_dept.value;
+        	if(dept_code!=-10){
+        		this.ds_team.filter("dept_code == "+dept_code);
+        	}
         };
         //팀 콤보 제한
         this.div_info_cmb_searchTeam_onitemchanged = function(obj,e)
         {
-
+        	let team_code = this.div_info.form.cmb_team.value;
+        	let row = this.ds_team.findRow("code",team_code);
+        	let dept_code = this.ds_team.getColumn(row,"dept_code");
+        	trace(dept_code);
+        	this.div_info.form.cmb_dept.set_value(dept_code);
         };
 
-        ////ds_employee 업데이트====================================================
+
+        //퇴사 체크시 무든 수정입력 불가능
+        this.div_info_ckb_withdraw_onchanged = function(obj,e)
+        {
+        	let withdraw = obj.value;
+        	if(withdraw=='Y'){
+        		let check = confirm("퇴사한 사원의 이름을 제외한 개인정보는 모두 삭제됩니다. 계속하시겠습니까 ?");
+        		if(check){
+        			this.div_info.form.cmb_dept.set_enable(false);
+        			this.div_info.form.edt_name.set_enable(false);
+        			this.div_info.form.cmb_team.set_enable(false);
+        			this.div_info.form.chk_notaem.set_enable(false);
+        			this.div_info.form.msk_password.set_enable(false);
+        			this.div_info.form.edt_posname.set_enable(false);
+        			this.div_info.form.rad_gender.set_enable(false);
+        			this.div_info.form.edt_posname.set_enable(false);
+        			this.div_info.form.msk_salary.set_enable(false);
+        			this.div_info.form.cal_hire_date.set_enable(false);
+        			this.div_info.form.edt_phone.set_enable(false);
+        			this.div_info.form.edt_office_phone.set_enable(false);
+        			this.div_info.form.edt_email.set_enable(false);
+        			this.div_info.form.edt_b_email.set_enable(false);
+        			this.div_info.form.edt_address.set_enable(false);
+        			//값 지우기
+        			this.div_info.form.msk_password.set_value(null);
+        			this.div_info.form.rad_gender.set_value(null);
+        			this.div_info.form.msk_salary.set_value(null);
+        			this.div_info.form.edt_phone.set_value(null);
+        			this.div_info.form.edt_office_phone.set_value(null);
+        			this.div_info.form.edt_email.set_value(null);
+        			this.div_info.form.edt_b_email.set_value(null);
+        			this.div_info.form.edt_address.set_value(null);
+        		}else{
+        			return;
+        		}
+
+        	}else{
+        			this.div_info.form.cmb_dept.set_enable(true);
+        			this.div_info.form.edt_name.set_enable(true);
+        			this.div_info.form.cmb_team.set_enable(true);
+        			this.div_info.form.chk_notaem.set_enable(true);
+        			this.div_info.form.msk_password.set_enable(true);
+        			this.div_info.form.edt_posname.set_enable(true);
+        			this.div_info.form.rad_gender.set_enable(true);
+        			this.div_info.form.edt_posname.set_enable(true);
+        			this.div_info.form.msk_salary.set_enable(true);
+        			this.div_info.form.cal_hire_date.set_enable(true);
+        			this.div_info.form.edt_phone.set_enable(true);
+        			this.div_info.form.edt_office_phone.set_enable(true);
+        			this.div_info.form.edt_email.set_enable(true);
+        			this.div_info.form.edt_b_email.set_enable(true);
+        			this.div_info.form.edt_address.set_enable(true);
+        	}
+        };
+        //팀 무소속 : 팀 선택 콤부 비활성화, 팀 값 null
+        this.div_info_chk_notaem_onchanged = function(obj,e)
+        {
+        	let noteam = obj.value;
+        	if(noteam){
+        		this.div_info.form.cmb_team.set_value(null);
+        		this.div_info.form.cmb_team.set_enable(false);
+        	}
+        };
+
+        ////ds_employee 업데이트 END====================================================
 
 
         //검색 ==============================================================
@@ -743,6 +815,8 @@
 
 
 
+
+
         });
         
         // Regist UI Components Event
@@ -755,7 +829,7 @@
             this.div_info.form.sta_pass.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_phone.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_localphone.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
-            this.div_info.form.ckb_withdraw.addEventHandler("onclick",this.div_detail_CheckBox00_onclick,this);
+            this.div_info.form.ckb_withdraw.addEventHandler("onchanged",this.div_info_ckb_withdraw_onchanged,this);
             this.div_info.form.sta_mail.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_dept.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_team.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
@@ -764,7 +838,7 @@
             this.div_info.form.sta_address.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.btn_withdraw.addEventHandler("onclick",this.div_info_btn_withdraw_onclick,this);
             this.div_info.form.btn_add.addEventHandler("onclick",this.div_info_btn_add_onclick,this);
-            this.div_info.form.chk_notaem.addEventHandler("onclick",this.div_detail_CheckBox00_onclick,this);
+            this.div_info.form.chk_notaem.addEventHandler("onchanged",this.div_info_chk_notaem_onchanged,this);
             this.div_info.form.cmb_dept.addEventHandler("onitemchanged",this.div_info_cmb_dept_onitemchanged,this);
             this.div_info.form.cmb_team.addEventHandler("onitemchanged",this.div_info_cmb_searchTeam_onitemchanged,this);
             this.div_info.form.cmb_team.addEventHandler("onsetfocus",this.div_info_cmb_team_onsetfocus,this);

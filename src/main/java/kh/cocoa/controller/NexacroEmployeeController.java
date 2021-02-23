@@ -1,14 +1,13 @@
 package kh.cocoa.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
@@ -108,14 +107,6 @@ public class NexacroEmployeeController {
         for (int i=0; i<size; i++) {
             Map<String,Object> emp = dataList.get(i);
             
-
-
-			/*
-			 * String hire_date_form = (String) emp.get("hire_date"); SimpleDateFormat
-			 * transFormat = new SimpleDateFormat("yyyyMMdd"); Date hire_date =
-			 * transFormat.parse(hire_date_form);
-			 */
-            
             int rowType = Integer.parseInt(String.valueOf(emp.get(DataSetRowTypeAccessor.NAME)));
             if (rowType == DataSet.ROW_TYPE_INSERTED){
                System.out.println("추가된 로우 : "+ emp);
@@ -132,11 +123,20 @@ public class NexacroEmployeeController {
                String b_email = (String) emp.get("b_email");
                String gender = (String) emp.get("gender");
                String withdraw = (String) emp.get("withdraw");
+               
+               String s_hire_date = (String) emp.get("hire_date");
+               String year = s_hire_date.substring(0, 4);
+               String month = s_hire_date.substring(4, 6);
+               String day = s_hire_date.substring(6, 8);
+               String full_hire_date = year+"-"+month+"-"+day;
+               System.out.println("full date : "+full_hire_date);
+               java.sql.Date hire_date =java.sql.Date.valueOf(full_hire_date);
+               
                int dept_code = (int)emp.get("dept_code");
                int pos_code = (int)emp.get("pos_code");
                int team_code = (int)emp.get("team_code");
    			   
-               EmployeeDTO dto = new EmployeeDTO().builder().name(name).password(password).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
+               EmployeeDTO dto = new EmployeeDTO().builder().name(name).password(password).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).hire_date(hire_date).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
                System.out.println(dto);
                //int result = eservice.addOneEmployee(dto);
                //System.out.println("하나추가 : "+result);
@@ -144,8 +144,6 @@ public class NexacroEmployeeController {
                
             }else if (rowType == DataSet.ROW_TYPE_UPDATED){
             	System.out.println("수정된 로우 : "+ emp);
-            }else if (rowType == DataSet.ROW_TYPE_DELETED){
-            	System.out.println("삭제된 로우 : "+ emp);
             }
         }
         
@@ -155,7 +153,11 @@ public class NexacroEmployeeController {
 	}
 
 	
-
+    @ExceptionHandler(NullPointerException.class)
+    public Object nullex(Exception e) {
+        System.err.println(e.getClass());
+        return "error";
+    }
 	
 	
 }

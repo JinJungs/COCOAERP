@@ -1234,7 +1234,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 .Button.btn_mdi_close
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
@@ -2235,7 +2235,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .Button.btn_mdi_close[status=focused]
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
@@ -3132,7 +3132,7 @@ textarea::-webkit-scrollbar { display: none; }
 }
 #nexacontainer .Button.btn_mdi_close[userstatus=selected]
 {
-	background : url("./../../../_resource_/_images_/btn_mdi_close.png") no-repeat center center #e7e7e7;
+	background : url('./../../../_resource_/_images_/btn_mdi_close.png') no-repeat center center #e7e7e7;
 	cursor : pointer;
 	border : 1px solid #c7c7c7;
 }
