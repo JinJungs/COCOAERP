@@ -231,6 +231,14 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
 		return edao.searchEmployee(dto);
 	};
+	
+	public int addEmployee(List<EmployeeDTO> list) {
+		return edao.addEmployee(list);
+	};
+	
+	public int addOneEmployee(EmployeeDTO dto) {
+		return edao.addOneEmployee(dto);
+	};
 	/*-------소형 끝 관리자 사용자관리*/
 	
 	@Override
