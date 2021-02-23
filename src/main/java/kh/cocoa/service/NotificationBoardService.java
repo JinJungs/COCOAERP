@@ -147,7 +147,7 @@ public class NotificationBoardService implements NotificationBoardDAO {
 	}
 	//네비게이터 가져오기
 	@Override
-	public String getNavi(int cpage,int menu_seq) {
+	public String getNavi(String type,int cpage,int menu_seq) {
 
 		int recordTotalCount = recordTotalCount(menu_seq);
 		System.out.println("총 게시글 수는?"+recordTotalCount);
@@ -181,13 +181,13 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		StringBuilder sb = new StringBuilder();
 
 		if(needPrev) {
-			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(startNavi-1)+"&menu_seq="+menu_seq+">Previous</a></li>");
+			sb.append("<li class=page-item disabled><a class=page-link href=/noBoard/notificationBoardList.no?type="+type+"&cpage="+(startNavi-1)+"&menu_seq="+menu_seq+">Previous</a></li>");
 		}
 		for(int i = startNavi; i<=endNavi; i++){
-			sb.append("<li class=page-item><a class=page-link href =/noBoard/notificationBoardList.no?cpage="+i+"&menu_seq="+menu_seq+"> "+i+"</a></li>");
+			sb.append("<li class=page-item><a class=page-link href =/noBoard/notificationBoardList.no?type="+type+"&cpage="+i+"&menu_seq="+menu_seq+"> "+i+"</a></li>");
 		}
 		if(needNext) {
-			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardList.no?cpage="+(endNavi+1)+"&menu_seq="+menu_seq+">Next</a></li>");
+			sb.append("<li class=page-item><a class=page-link href=/noBoard/notificationBoardList.no?type="+type+"&cpage="+(endNavi+1)+"&menu_seq="+menu_seq+">Next</a></li>");
 		}
 		return sb.toString();
 
@@ -205,13 +205,21 @@ public class NotificationBoardService implements NotificationBoardDAO {
 		return ndao.getBoardMenuList();
 	}
 	//넥사크로 게시판 추가
-	public int addBoard(String type, String name) {
-		return  ndao.addBoard(type,name);
+	@Override
+	public int addBoard(String type, String name,int board_menu_seq) {
+		return  ndao.addBoard(type,name,board_menu_seq);
 	}
 	//넥사크로 게시판 수정
+	@Override
 	public int uptBoard(String name,int seq) {
 		return ndao.uptBoard(name,seq);
 	}
+	@Override
+	public int bms() {
+		return ndao.bms();
+	}
 
-
+	public int delBoard(int seq) {
+		return ndao.delBoard(seq);
+	}
 }

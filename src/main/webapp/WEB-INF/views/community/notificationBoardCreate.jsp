@@ -74,18 +74,17 @@ input{width:100%;}
 <script src="/js/jquery.MultiFile.min.js"></script>
 
 	<script>
-		/*파일첨부*/
 		 $('#btn_write').on("click", function() {
 	         
-	         if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return;
-	         }else if (!$('#title').val()){
+	         if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return;
-	         }
+	         }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return;
+	          }
 	         $('#submitForm').submit();
         });
 		$("#file").MultiFile({

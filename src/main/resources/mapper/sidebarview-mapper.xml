@@ -6,19 +6,37 @@
     <select id="sidebarMenuCount" resultType="Integer">
         SELECT COUNT(*) FROM SIDEBAR_MENU
     </select>
-    <select id="getSidebarList" resultType="kh.cocoa.dto.SidebarViewDTO">
-        SELECT * FROM SIDEBAR_VIEW
-    </select>
-    <select id="getBusinessLogList" resultType="kh.cocoa.dto.SidebarViewDTO">
-        SELECT * FROM SIDEBAR_VIEW WHERE MENU_SEQ = 1 AND STATUS='Y'
-    </select>
-    <select id="businessLogCount" resultType="Integer">
-        SELECT COUNT(*) FROM SIDEBAR_VIEW WHERE MENU_SEQ = 1 AND STATUS='Y'
-    </select>
     <select id="sidebarCountByMenuSeq" resultType="Integer">
         SELECT COUNT(*) FROM SIDEBAR_VIEW WHERE MENU_SEQ = #{menu_seq} AND STATUS='Y'
     </select>
     <select id="sidebarListByMenuSeq" resultType="kh.cocoa.dto.SidebarViewDTO">
         SELECT * FROM SIDEBAR_VIEW WHERE MENU_SEQ = #{menu_seq} AND STATUS='Y'
     </select>
+    <!-- 넥사크로 -->
+    <select id="getSidebarList" resultType="kh.cocoa.dto.SidebarViewDTO">
+        SELECT * FROM SIDEBAR_VIEW
+    </select>
+    <update id="updateSidebar">
+        UPDATE SIDEBAR SET STATUS=#{status},CONTENTS=#{contents} WHERE CODE=#{code}
+    </update>
+    <update id="updateSidebarAll">
+        <foreach item="i" collection="list" open="DECLARE BEGIN"
+                 close="; END;" separator=";">
+            UPDATE SIDEBAR SET STATUS=#{i.status},CONTENTS=#{i.contents} WHERE CODE=#{i.code}
+        </foreach>
+    </update>
+	<!-- 커뮤니티 추가 -->
+	<insert  id="addSideBar">
+		INSERT INTO SIDEBAR VALUES (SIDEBAR_SEQ.NEXTVAL,SIDEBAR_MID_SEQ.NEXTVAL,#{name},NULL,NULL,'6','Y',#{board_menu_seq})
+	</insert>
+	<!-- 정보가져오기 -->
+	<select id="selectInfor" resultType="kh.cocoa.dto.SidebarViewDTO">
+		SELECT * FROM SIDEBAR_VIEW WHERE BOARD_MENU_SEQ=#{menu_seq}
+	</select>
+	<update id="uptSideBar">
+		UPDATE SIDEBAR SET MID_NAME=#{name} WHERE BOARD_MENU_SEQ=#{seq}
+	</update>
+	<delete id="delBoard">
+		DELETE FROM SIDEBAR WHERE BOARD_MENU_SEQ=#{seq}
+	</delete>
 </mapper>

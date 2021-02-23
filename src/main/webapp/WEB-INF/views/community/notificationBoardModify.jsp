@@ -77,8 +77,6 @@
 					<div class="col-12 file_input">
 					<input type="file" class="fileList"  id="file"
 							name="file" accept="image/*"  multiple>
-						<!-- <label>+ File Attach 
-						</label> -->
 							<div id="listBox"></div><br>
 					</div>
 				</div>
@@ -116,7 +114,7 @@
  	}
  	/*홈으로*/
 	function fn_home() {
-		location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
+		location.href = "/"
 	}
 	/*파일 삭제*/
 	// 화면상에서만 리스트가 사라진 것처럼 보이게 gkrl &제거 전 제거될 파일의 seq값을 리스트에 추가

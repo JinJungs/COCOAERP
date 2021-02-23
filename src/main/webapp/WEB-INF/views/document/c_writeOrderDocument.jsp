@@ -95,6 +95,7 @@
                                     <input type="hidden" name="temp_code" value="${temp_code}">
                                     <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
                                     <input type="hidden" name="contents" id="tempcontents">
+                                    <input type="hidden" name="ori_temp_code" value="${ori_temp_code}">
                                 </div>
                             </div>
                         </div>
@@ -104,8 +105,8 @@
                     <h5>기안 내용</h5>
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
-                    <div class="col-2 p-3" style="border-right: 1px solid pink;">기안 제목 *</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid pink;"></div>
+                    <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목 *</div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -130,9 +131,9 @@
                     <form id="orderform" class="w-100">
                         <div class="ordercontainer w-100">
                             <div class="row w-100 m-0 text-center orderwrap">
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요."></div>
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요."></div>
-                                <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc"></div>
+                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요." autocomplete="off"></div>
+                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요." autocomplete="off"></div>
+                                <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc" autocomplete="off"></div>
                                 <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
                             </div>
 
@@ -142,7 +143,7 @@
 
                 </div>
 
-                <div class="row w-100 pt-3">
+                <div class="row w-100 pt-3 mb-5">
                     <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
                 </div>
         </div>

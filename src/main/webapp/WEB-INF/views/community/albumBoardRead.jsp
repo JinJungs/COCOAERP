@@ -18,11 +18,12 @@
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">앨범게시판(글읽기)</h2>
-
+			<h2 class="mb-4 board_title">${s.mid_name}(글읽기)</h2>
 			<input type="hidden" name="cpage" value="${cpage}"> <input
 				type="hidden" name="seq" value="${dto.seq}"> <input
 				type="hidden" name="menu_seq" value="${dto.menu_seq}">
+				<input
+				type="hidden" name="type" value="${s.type}">
 
 			<!--제목  -->
 			<div class="row">
@@ -67,9 +68,9 @@
 					<c:choose>
 						<c:when test="${checkWriter>0}">
 							<button type="submit" class="btn btn-primary"
-								onclick="fn_modify(${cpage},${dto.seq})">수정</button>
+								onclick="fn_modify(${cpage},${dto.seq},${dto.menu_seq})">수정</button>
 							<button type="button" class="btn btn-primary"
-								onclick="fn_delete(${cpage},${dto.seq})">삭제</button>
+								onclick="fn_delete(${cpage},${dto.seq},${dto.menu_seq})">삭제</button>
 						</c:when>
 					</c:choose>
 				</div>
@@ -209,18 +210,17 @@
   		}
 		/*홈으로*/
 		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
+			location.href = "/";
 		}
 		/*수정*/
-		function fn_modify(cpage,seq) {
-			location.href = "/noBoard/notificationBoardModify.no?menu_seq=3&seq="+seq+"&cpage="+cpage;
+		function fn_modify(cpage,seq,menu_seq) {
+			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;
 		}
 		/*삭제*/
-		function fn_delete(cpage,seq) {
+		function fn_delete(cpage,seq,menu_seq) {
 			doubleCheck = confirm("해당 게시글을 정말 삭제 하시겠습니까?");
 			if(doubleCheck==true){
-				location.href = "/noBoard/notificationBoardDelete.no?menu_seq=3&seq="+seq+"&cpage="+cpage;
-			}else{
+				location.href = "/noBoard/notificationBoardDelete.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;
 				return;
 			}
 		}

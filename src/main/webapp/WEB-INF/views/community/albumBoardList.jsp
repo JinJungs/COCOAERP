@@ -24,11 +24,13 @@ input{width:50%;border-bottom:1px solid pink;}
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<h2 class="mb-4 board_title">앨범 게시판</h2>
+			<h2 class="mb-4 board_title">${mid_name}</h2>
 
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
 				<input type="hidden" id="getmenu_seq" name="menu_seq"
 					value="${menu_seq}" />
+				<input type="hidden" id="mid_name" name="mid_name"
+					value="${mid_name}" />
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -36,7 +38,6 @@ input{width:50%;border-bottom:1px solid pink;}
 							<option value="title">제목</option>
 							<option value="contents">내용</option>
 							<option value="writer">작성자</option>
-							<!-- <option value="tc">제목과 내용</option> -->
 						</select> <input type="text" name="search" id="search"
 							placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
 						<button type=submit class="btn btn-primary">검색</button>
@@ -46,7 +47,7 @@ input{width:50%;border-bottom:1px solid pink;}
 			
 			<div class="row">
 			<c:forEach var="i" items="${albumList}">
-				<div class="card" style="width: 11rem;"onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
+				<div class="card" style="width: 11rem;" onclick="notificationBoardRead(${i.menu_seq},${i.seq},${cpage})">
 					<img id="img" src="/boardRepository/${i.savedname}" class="card-img-top"  style="HEIGHT: 150px;"> 
 					<div class="col-12">
 						<b>${i.title}</b><br><b>${i.name}</b><b>${i.write_date}</b>

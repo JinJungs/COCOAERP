@@ -139,7 +139,7 @@
 	 	}
 	 	/*홈으로 */
 		function fn_home() {
-			location.href = "/log/logBoard.log?status=${status}";
+			location.href = "/";
 		}
 		/*수정*/
 		function fn_modify(seq,temp_code) {

@@ -3,32 +3,27 @@ package kh.cocoa.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kh.cocoa.dto.BoardDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.SidebarViewDTO;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.NotificationBoardService;
+import kh.cocoa.service.SidebarService;
 import kh.cocoa.statics.Configurator;
 
 @Controller
@@ -40,13 +35,20 @@ public class NotificationBoardController {
 	
 	@Autowired
 	private FilesService fservice;
-	
+
+	@Autowired
+	private SidebarService sservice;
 	@Autowired
 	private HttpSession session;
 	//게시판
 	@RequestMapping("notificationBoardList.no") 
-	public String notificationBoardList(BoardDTO dto,FilesDTO fdto,int menu_seq, String cpage,Model model) { 
-		
+	public String notificationBoardList(String type, String mid_name,BoardDTO dto,FilesDTO fdto,int menu_seq, String cpage,Model model) { 
+		System.out.println("type은? "+type);
+		System.out.println("mid_name은? "+mid_name);
+		//게시글 이름& 타입 가져오기
+		SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+		 mid_name = sviewDTO.getMid_name();
+		 type = sviewDTO.getType();
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		
 		int writer_code = (Integer)loginDTO.getCode();
@@ -60,31 +62,33 @@ public class NotificationBoardController {
 		list = nservice.getNotificationBoardListCpage(cpage,menu_seq);
 		System.out.println(list);
 		//시작 & 끝 페이지 불러오기
-		String navi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
+		String navi = nservice.getNavi(type,Integer.parseInt(cpage),menu_seq);
 		
 		model.addAttribute("navi",navi);
 		model.addAttribute("list",list);
 		model.addAttribute("dept_code",dept_code);
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("menu_seq",menu_seq);
+		model.addAttribute("mid_name",mid_name);
 
 		if(menu_seq==1) { //게시판 seq가 1인 경우 - 회사소식
 			
 			return "community/notificationBoardList"; 
-		}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
+		}else if(menu_seq==2||type.contentEquals("List")) {//게시판 seq가 2인 경우 - 자유게시판
+
+			System.out.println("새로운 리스트형 게시판~");
 			return "community/cocoaWorksBoardList"; 
-		}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
-			if(cpage==null) {cpage="1";} 
+			
+		}else if(menu_seq==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
+
+			System.out.println("새로운 앨범형 게시판~");
 			//게시글 불러오기 (사진제외)
 			List<BoardDTO> albumList = new ArrayList<BoardDTO>();
 			albumList = nservice.getAlbumBoardListCpage(cpage,menu_seq);
-			//시작 & 끝 페이지 불러오기
-			String albumNavi = nservice.getNavi(Integer.parseInt(cpage),menu_seq);
-			
-			model.addAttribute("albumNavi",albumNavi);
 			model.addAttribute("albumList",albumList);
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("menu_seq",menu_seq);
+			model.addAttribute("mid_name",mid_name);
 			
 			return "community/albumBoardList";
 		}
@@ -93,12 +97,21 @@ public class NotificationBoardController {
 
 	//게시글 읽기
 	@RequestMapping("notificationBoardRead.no")
-	public String notificationBoardRead(String cpage,BoardDTO dto,FilesDTO fdto, Model model) {
+	public String notificationBoardRead(int menu_seq,String cpage,BoardDTO dto,FilesDTO fdto, Model model) {
+		System.out.println("게시판 번호?"+menu_seq);
+		
+
+		//게시글 이름& 타입 가져오기
+		SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+		String mid_name = sviewDTO.getMid_name();
+		String type = sviewDTO.getType();
+		
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 
 		int writer_code = (Integer)loginDTO.getCode();
 		//로그인한 정보의 code를 board DTO writer_code에 넣어주기
 		dto.setWriter_code(writer_code);
+		
 		
 		if(cpage==null) {cpage="1";}
 		//seq로 게시글 수 확인
@@ -125,13 +138,14 @@ public class NotificationBoardController {
 			model.addAttribute("seq",dto.getSeq());
 			model.addAttribute("fileList", fileList);
 			model.addAttribute("fileCount",isExistUploadFile);
+			model.addAttribute("s",sviewDTO);
 		}
 
 		if(dto.getMenu_seq()==1) { //게시판 seq가 1인 경우 - 회사소식
 			return "community/notificationBoardRead";
-		}else if(dto.getMenu_seq()==2) { //게시판 seq가 2인 경우 - 자유게시판
+		}else if(dto.getMenu_seq()==2||type.contentEquals("List")) { //게시판 seq가 2인 경우 - 자유게시판
 			return "community/cocoaWorksBoardRead";
-		}else if(dto.getMenu_seq()==3) {//게시판 seq가 3인 경우 - 앨범게시판
+		}else if(dto.getMenu_seq()==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
 			return "community/albumBoardRead";
 		}
 		return "index";
@@ -142,6 +156,10 @@ public class NotificationBoardController {
 
 			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 			int dept_code = (Integer)loginDTO.getDept_code();
+			//게시글 이름& 타입 가져오기
+			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+			String mid_name = sviewDTO.getMid_name();
+			String type = sviewDTO.getType();
 			if(cpage==null) {cpage = "1";}
 			List<BoardDTO> list = nservice.notificationBoardListBySearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
 			int getSearchCount = nservice.getSearchCount(search,searchBy,menu_seq);
@@ -154,13 +172,15 @@ public class NotificationBoardController {
 			model.addAttribute("cpage", cpage);
 			model.addAttribute("menu_seq",menu_seq);
 			model.addAttribute("search", search);
+			model.addAttribute("mid_name", mid_name);
+			model.addAttribute("type", type);
 			
 			if(menu_seq==1) { //게시판 seq가 1인 경우 - 회사소식
 				return "community/notificationBoardList"; 
 
-			}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
+			}else if(menu_seq==2||type.contentEquals("List")) {//게시판 seq가 2인 경우 - 자유게시판
 				return "community/cocoaWorksBoardList"; 
-			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
+			}else if(menu_seq==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
 				List<BoardDTO> albumList = nservice.getAlbumBoardListSearch(search,searchBy,menu_seq,Integer.parseInt(cpage));
 				model.addAttribute("albumList", albumList);
 				model.addAttribute("cpage", cpage);
@@ -177,17 +197,23 @@ public class NotificationBoardController {
 			System.out.println("로그인 아이디값 "+loginDTO);
 			
 			if(cpage==null) {cpage="1";}
-			//사번
-			
+
+			//게시글 이름& 타입 가져오기
+			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+			String mid_name = sviewDTO.getMid_name();
+			String type = sviewDTO.getType();
+				
 			model.addAttribute("cpage",cpage);
 			model.addAttribute("menu_seq",menu_seq);
+			model.addAttribute("mid_name",mid_name);
+			model.addAttribute("type",type);
 
 			if(menu_seq==1) { //게시판 seq가 1인 경우 - 회사소식
 				return "community/notificationBoardCreate";
 
-			}else if(menu_seq==2) {//게시판 seq가 2인 경우 - 자유게시판
+			}else if(menu_seq==2||type.contentEquals("List")) {//게시판 seq가 2인 경우 - 자유게시판
 				return "community/cocoaWorksBoardCreate"; 
-			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
+			}else if(menu_seq==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
 				return "community/albumBoardCreate";
 			}
 			return "index";
@@ -196,7 +222,10 @@ public class NotificationBoardController {
 		@RequestMapping("notificationBoardCreateDone.no")
 		public String notificationBoardCreateDone(BoardDTO bdto, int menu_seq,List<MultipartFile> file,Model model) throws Exception {
 			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-
+			//게시글 이름& 타입 가져오기
+			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+			String type = sviewDTO.getType();
+			String mid_name = sviewDTO.getMid_name();
 			int writer_code = (Integer)loginDTO.getCode();
 			//로그인한 정보의 code를 board DTO writer_code에 넣어주기
 			bdto.setWriter_code(writer_code);
@@ -240,15 +269,22 @@ public class NotificationBoardController {
 				}
 			}
 			model.addAttribute("cpage", 1);
-			return "redirect:/noBoard/notificationBoardList.no?menu_seq="+menu_seq;
+			model.addAttribute("menu_seq",menu_seq);
+			model.addAttribute("mid_name",mid_name);
+			return "redirect:/noBoard/notificationBoardList.no?menu_seq="+menu_seq+"&type="+type+"&mid_name"+mid_name;
 		}
 	
 	
 		//게시글 수정
 		@RequestMapping("notificationBoardModify.no")
 		public String notificationBoardModify(int menu_seq,BoardDTO dto,FilesDTO fdto,int cpage,Model model) {
+			//게시글 이름& 타입 가져오기
+			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+			String mid_name = sviewDTO.getMid_name();
+			String type = sviewDTO.getType();
 			//seq으로 제목,작성자,날짜,내용 가져오기
 			BoardDTO bdto = nservice.notificationBoardContentsSelect(dto);
+			System.out.println("왜 안되니?"+bdto);
 			//게시글에 업로드된 첨부파일 리스트 불러오기
 			List<FilesDTO> fileList = fservice.getFilesBySeq(fdto);
 			model.addAttribute("dto",bdto);
@@ -256,21 +292,28 @@ public class NotificationBoardController {
 			model.addAttribute("seq",dto.getSeq());
 			model.addAttribute("fileList", fileList);
 			model.addAttribute("menu_seq",menu_seq);
+			model.addAttribute("mid_name",mid_name);
+			model.addAttribute("type",type);
 			
 			if(dto.getMenu_seq()==1) { //게시판 seq가 1인 경우 - 회사소식
 				return "community/notificationBoardModify";
 
-			}else if(dto.getMenu_seq()==2) {//게시판 seq가 2인 경우 - 자유게시판
+			}else if(dto.getMenu_seq()==2||type.contentEquals("List")) {//게시판 seq가 2인 경우 - 자유게시판
 				return "community/cocoaWorksBoardModify"; 
-			}else if(menu_seq==3) {//게시판 seq가 3인 경우 - 앨범게시판
+			}else if(menu_seq==3||type.contentEquals("Album")) {//게시판 seq가 3인 경우 - 앨범게시판
 				return "community/albumBoardModify";
 			}
 			return "index";
 		}
 		//게시글 수정 완료
 		@RequestMapping("notificationBoardModifyDone.no")
-		public String notificationBoardModifyDone(int[] delArr,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
+		public String notificationBoardModifyDone(int[] delArr,int menu_seq,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
 			System.out.println("게시글 번호는 ?"+dto.getSeq());
+			//게시글 이름& 타입 가져오기
+			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+			String mid_name = sviewDTO.getMid_name();
+			System.out.println("게시판 이름ㅇㅡㅡ ?"+mid_name);
+			String type = sviewDTO.getType();
 			//수정된 글 업로드
 			nservice.notificationBoardContentsModify(dto);
 	
@@ -318,13 +361,19 @@ public class NotificationBoardController {
 					}
 				}
 				model.addAttribute("cpage", 1);
+				model.addAttribute("mid_name",mid_name);
+				model.addAttribute("type",type);
 			}
-			return "redirect:/noBoard/notificationBoardList.no?menu_seq="+dto.getMenu_seq();
+			return "redirect:/noBoard/notificationBoardList.no?menu_seq="+dto.getMenu_seq()+"&type="+type;
 	
 		}
 	//회사공지 게시글 삭제 (관리자 ONLY)
 	@RequestMapping("notificationBoardDelete.no")
 	public String notificationBoardDelete(int seq,int menu_seq,int cpage,Model model) {
+
+		SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
+		String mid_name = sviewDTO.getMid_name();
+		String type = sviewDTO.getType();
 		//게시글 삭제
 		int result = nservice.notificationBoardContentsDel(seq);
 		
@@ -334,7 +383,7 @@ public class NotificationBoardController {
 		model.addAttribute("cpage",cpage);
 		model.addAttribute("seq",seq);
 		model.addAttribute("menu_seq",menu_seq);
-		return "redirect:/noBoard/notificationBoardList.no?menu_seq="+menu_seq;
+		return "redirect:/noBoard/notificationBoardList.no?menu_seq="+menu_seq+"&type="+type;
 	}
 	@ExceptionHandler
 	public String exceptionHandler(Exception e) {
