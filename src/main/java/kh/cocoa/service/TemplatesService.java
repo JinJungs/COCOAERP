@@ -53,4 +53,24 @@ public class TemplatesService implements TemplatesDAO{
 	public List<TemplatesDTO> searchList(String getSearch, int form_code) {
 		return tdao.searchList(getSearch,form_code);
 	}
+
+	@Override
+	public List<TemplatesDTO> getTemplateListbyFormCode(int form_code) {
+		return tdao.getTemplateListbyFormCode(form_code);
+	}
+
+	@Override
+	public TemplatesDTO getTemplateInfo(int code) {
+		return tdao.getTemplateInfo(code);
+	}
+
+	@Override
+	public int getTempCode(int code) {
+		return tdao.getTempCode(code);
+	}
+
+	@Override
+	public int getTemplateCount(int form_code) {
+		return tdao.getTemplateCount(form_code);
+	}
 }

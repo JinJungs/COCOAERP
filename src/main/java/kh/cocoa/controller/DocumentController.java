@@ -77,6 +77,9 @@ public class DocumentController {
 	
 	@Autowired
 	private Leave_Taken_UsedService ltuService;
+
+	@Autowired
+	private TemplateFormService templateFormService;
 	
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
@@ -603,12 +606,21 @@ public class DocumentController {
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
-		List<TemplatesDTO> list = tservice.getTemplateList2();
-		List<TemplatesDTO> subList = tservice.getSubTemplateList();
-		model.addAttribute("list", list);
-		model.addAttribute("size", list.size());
-		model.addAttribute("sublist", subList);
-		model.addAttribute("subsize", subList.size());
+		List<TemplateFormDTO> formList = templateFormService.getTempleateFormList();
+		List<HashMap> hashMapList= new ArrayList<>();
+		for(int i=0;i<formList.size();i++) {
+			HashMap<String,Object> map = new HashMap<>();
+			int count = tservice.getTemplateCount(formList.get(i).getCode());
+			if(count!=0){
+				map.put("count",count);
+				map.put("title",formList.get(i).getTitle());
+				map.put("contents",formList.get(i).getContents());
+				map.put("code",formList.get(i).getCode());
+				hashMapList.add(map);
+			}
+
+		}
+		model.addAttribute("formList",hashMapList);
 		return "/document/c_templateList";
 	}
 
@@ -618,24 +630,20 @@ public class DocumentController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		String deptName = deptservice.getDeptName();
-		List<DepartmentsDTO> deptList = new ArrayList<>();
-		EmployeeDTO getEmpinfo = new EmployeeDTO();
-		getEmpinfo = eservice.getEmpInfo(empCode);
-		deptList = deptservice.getDeptList();
-		System.out.println(getEmpinfo);
-		System.out.println(deptList);
-		System.out.println(deptName);
-		model.addAttribute("temp_code", dto.getCode());
+		TemplatesDTO tempInfo = tservice.getTemplateInfo(dto.getCode());
+		List<DepartmentsDTO> deptList = deptservice.getDeptList();
+		EmployeeDTO getEmpinfo = eservice.getEmpInfo(empCode);
+		model.addAttribute("dto",tempInfo);
 		model.addAttribute("empInfo", getEmpinfo);
 		model.addAttribute("size", deptList.size());
 		model.addAttribute("deptName", deptName);
-		model.addAttribute("dto", dto);
 		model.addAttribute("deptList", deptList);
-		if (dto.getCode() == 4) {
+		model.addAttribute("temp_code",tempInfo.getCode());
+		if (dto.getForm_code() == 4) {
 			return "document/c_writeDocument";
-		} else if (dto.getCode() == 5) {
+		} else if (dto.getForm_code() == 5) {
 			return "document/c_writeOrderDocument";
-		} else if (dto.getCode() == 6) {
+		} else if (dto.getForm_code() == 6) {
 			return "document/c_writeLeaveDocument";
 		} else {
 			return "document/c_writeDocument";
@@ -646,7 +654,7 @@ public class DocumentController {
 
 	@RequestMapping("addconfirm.document")
 	public String addconfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
-
+		//int getTempCode =tservice.getTempCode(ddto.getTemp_code());
 		int result = dservice.addDocument(ddto);
 		int getDoc_code = dservice.getDocCode(ddto.getWriter_code());
 
@@ -758,21 +766,21 @@ public class DocumentController {
 	public String toReWrite(String seq, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
-
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
-
 		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
 		List<ConfirmDTO> getConfirmList =cservice.getConfirmList(seq);
+		int getTempCode = tservice.getTempCode(getModDocument.getTemp_code());
 		model.addAttribute("ddto",getModDocument);
 		model.addAttribute("clist",getConfirmList);
 		model.addAttribute("user",empCode);
 		model.addAttribute("dlist",deptList);
+		model.addAttribute("ori_temp_code",getTempCode);
 
-		if(getModDocument.getTemp_code()==4) {
+		if(getTempCode==4) {
 			return "/document/c_modSaveD";
-		}else if(getModDocument.getTemp_code()==5){
+		}else if(getTempCode==5){
 			return "/document/c_modSaveO";
-		}else if(getModDocument.getTemp_code()==6){
+		}else if(getTempCode==6){
             return "/document/c_modSaveL";
         }
 		return "redirect:/";

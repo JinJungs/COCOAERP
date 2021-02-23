@@ -88,7 +88,7 @@
 	</select>
 
 	<update id="modInfo">
-		UPDATE EMPLOYEE SET OFFICE_PHONE=#{office_phone}, address=#{address}, b_email=#{b_email}, email=#{email} where code=#{code}
+		UPDATE EMPLOYEE SET PHONE=#{phone}, OFFICE_PHONE=#{office_phone}, address=#{address}, email=#{email} where code=#{code}
 	</update>
 
 	<select id="checkUserEmail" resultType="Integer">
