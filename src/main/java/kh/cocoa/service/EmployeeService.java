@@ -225,20 +225,25 @@ public class EmployeeService implements EmployeeDAO {
 	}
 	
 	/*-------소형 관리자 사용자관리---------*/
+	@Override
 	public List<EmployeeDTO> getAllEmployeeOrderByCode() {
 		return edao.getAllEmployeeOrderByCode();
 	}
-	
+	@Override
 	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
 		return edao.searchEmployee(dto);
 	};
-	
+	@Override
 	public int addEmployee(List<EmployeeDTO> list) {
 		return edao.addEmployee(list);
 	};
-	
+	@Override
 	public int addOneEmployee(EmployeeDTO dto) {
 		return edao.addOneEmployee(dto);
+	};
+	@Override
+	public int updateEmployee(List<EmployeeDTO> list) {
+		return edao.updateEmployee(list);
 	};
 	/*-------소형 끝 관리자 사용자관리*/
 	

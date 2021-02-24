@@ -1,14 +1,14 @@
 package kh.cocoa.controller;
 
-import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
@@ -102,60 +102,73 @@ public class NexacroEmployeeController {
 		NexacroResult nr = new NexacroResult();
 		System.out.println("nexSave.nex 도착");
 		int size = dataList.size();
-		
+		int resultAdd = 0;
+		int resultModif = 0;
 		List<EmployeeDTO> addList = new ArrayList<>();	
+		List<EmployeeDTO> updateList = new ArrayList<>();
 		
         for (int i=0; i<size; i++) {
             Map<String,Object> emp = dataList.get(i);
             
-
-
-			/*
-			 * String hire_date_form = (String) emp.get("hire_date"); SimpleDateFormat
-			 * transFormat = new SimpleDateFormat("yyyyMMdd"); Date hire_date =
-			 * transFormat.parse(hire_date_form);
-			 */
+          //전송된 데이터 값              
+            String name = (String) emp.get("name");
+            String phone = (String) emp.get("phone");
+            String office_phone = (String) emp.get("office_phone");
+            String address = (String) emp.get("address");
+            String email = (String) emp.get("email");
+            String b_email = (String) emp.get("b_email");
+            String gender = (String) emp.get("gender");
+            String withdraw = (String) emp.get("withdraw");
+            int dept_code = (int)emp.get("dept_code");
+            int pos_code = (int)emp.get("pos_code");
+            int team_code = (int)emp.get("team_code");
+            //스트링으로 받은 날짜를 SQL Date형으로 바꾸기
+            String s_hire_date = (String) emp.get("hire_date");
+            Date hire_date = neservice.getSqlDate(s_hire_date);
             
             int rowType = Integer.parseInt(String.valueOf(emp.get(DataSetRowTypeAccessor.NAME)));
             if (rowType == DataSet.ROW_TYPE_INSERTED){
                System.out.println("추가된 로우 : "+ emp);
                
-               System.out.println("랜덤 8자리 : " + neservice.getRandomStr(8));
+               //폰 번호를 비번으로 인코딩
                pwEncoder = new BCryptPasswordEncoder();
-   			   String password = pwEncoder.encode(neservice.getRandomStr(8));
-               
-               String name = (String) emp.get("name");
-               String phone = (String) emp.get("phone");
-               String office_phone = (String) emp.get("office_phone");
-               String address = (String) emp.get("address");
-               String email = (String) emp.get("email");
-               String b_email = (String) emp.get("b_email");
-               String gender = (String) emp.get("gender");
-               String withdraw = (String) emp.get("withdraw");
-               int dept_code = (int)emp.get("dept_code");
-               int pos_code = (int)emp.get("pos_code");
-               int team_code = (int)emp.get("team_code");
+   			   String password = pwEncoder.encode(phone);
    			   
-               EmployeeDTO dto = new EmployeeDTO().builder().name(name).password(password).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
+               EmployeeDTO dto = new EmployeeDTO().builder().name(name).password(password).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).hire_date(hire_date).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
                System.out.println(dto);
-               //int result = eservice.addOneEmployee(dto);
-               //System.out.println("하나추가 : "+result);
                addList.add(dto);
                
             }else if (rowType == DataSet.ROW_TYPE_UPDATED){
             	System.out.println("수정된 로우 : "+ emp);
-            }else if (rowType == DataSet.ROW_TYPE_DELETED){
-            	System.out.println("삭제된 로우 : "+ emp);
+            	int code = (int) emp.get("code");
+                EmployeeDTO dto = new EmployeeDTO().builder().code(code).name(name).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).hire_date(hire_date).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
+                System.out.println(dto);
+                updateList.add(dto);
             }
         }
+        if(addList.size()!=0) {
+        	resultAdd = eservice.addEmployee(addList);
+        }
+        if(updateList.size()!=0) {
+        	resultModif = eservice.updateEmployee(updateList);
+        }
+        //보낸 변수값은 넥사에서 어떻게 받지??
+        nr.addVariable("resultAdd", resultAdd);
+        nr.addVariable("resultModif", resultModif);
         
-        int result = eservice.addEmployee(addList);
-        System.out.println("여러행 추가" + result);
+        System.out.println("resultAdd" + resultAdd);
+        System.out.println("resultModif" + resultModif);
+        
+        //nr.addVariable("test",10);
 		return nr;
 	}
 
 	
-
+    @ExceptionHandler(NullPointerException.class)
+    public Object nullex(Exception e) {
+        System.err.println(e.getClass());
+        return "error";
+    }
 	
 	
 }
