@@ -49,7 +49,7 @@ public class NexacroTemplateContorller {
         NexacroResult nr = new NexacroResult();
         nr.addDataSet("out_ds",map);
         //오리진 템플릿 리스트
-        List<TemplatesDTO> list = templatesService.getTemplateList2();
+        List<TemplatesDTO> list = templatesService.getTemplateList3();
         nr.addDataSet("out_origin",list);
         //폼 리스트
         List<TemplateFormDTO> formList = templateFormService.getTempleateFormList();
