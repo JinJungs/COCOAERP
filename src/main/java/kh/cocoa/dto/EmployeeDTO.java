@@ -38,13 +38,12 @@ public class EmployeeDTO{
     private int leave_used;
     private int year;
     private int addLeave;
+
+    // 의진추가
+	private String profile;
     
     @Builder
-	public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address,
-			String email, String b_email, String gender, Date hire_date, String withdraw, int dept_code, int pos_code,
-			int team_code, String deptname, String teamname, String posname, int count, String savedname, int deptCode,
-			int teamCode, int posCode, int leave_got, int leave_used, int year, int addLeave) {
-		super();
+	public EmployeeDTO(int code, String name, String password, String phone, String office_phone, String address, String email, String b_email, String gender, Date hire_date, String withdraw, int dept_code, int pos_code, int team_code, String deptname, String teamname, String posname, int count, String savedname, int deptCode, int teamCode, int posCode, int leave_got, int leave_used, int year, int addLeave, String profile) {
 		this.code = code;
 		this.name = name;
 		this.password = password;
@@ -71,9 +70,6 @@ public class EmployeeDTO{
 		this.leave_used = leave_used;
 		this.year = year;
 		this.addLeave = addLeave;
+		this.profile = profile;
 	}
-	
-    
-    
-    
 }
