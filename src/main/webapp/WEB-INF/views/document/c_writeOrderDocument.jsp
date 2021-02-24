@@ -95,7 +95,7 @@
                                     <input type="hidden" name="temp_code" value="${temp_code}">
                                     <input type="hidden" name="dept_code" value="${empInfo.dept_code}">
                                     <input type="hidden" name="contents" id="tempcontents">
-                                    <input type="hidden" name="ori_temp_code" value="${ori_temp_code}">
+                                    <input type="hidden" name="ori_temp_code" value="${dto.temp_code}">
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
             </form>
                 <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
                     <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
-                        <b>물품 입력 칸</b>
+                        <b>물품 입력 칸</b> <b data-bs-toggle="tooltip" data-bs-placement="top" title="물품 입력 후 추가 버튼(+)을 눌러야 추가가 됩니다."><img class="mb-3" id="tipicon" src="/icon/info-circle.svg" style="cursor: pointer"></b>
                     </div>
                     <div class="row w-100 m-0 text-center">
                         <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
@@ -228,10 +228,17 @@
     var beforeDeptCode =-1;
     var getSearchKeyCode=0;
 
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
     $( function() {
         fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
         $(".empcontainer2").selectable();
     } );
+
+
 
     function fn_getDeptList(){
         return new Promise(function (resolve,reject) {
@@ -528,6 +535,35 @@
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
+        var order_list=$("#order_list").val();
+        var order_count=$("#order_count").val();
+        if(order_list!="" || order_count!=""){
+            if(order_list==""){
+                alert("신청 상품을 입력해주세요.");
+                $("#order_list").focus();
+                return;
+            }else if(order_count==""){
+                alert("상품 수량을 입력해주세요.")
+                $("#order_count").focus();
+                return;
+            }
+            if($(".orderwrap").length==1){
+                var conf = confirm("물품을 추가하지 않았습니다 추가하시겠습니까?");
+                if(conf==true){
+                    fn_addOrderList();
+                    return;
+                }else{
+                    return;
+                }
+            }
+            var conf = confirm("물품을 입력하고 추가하지 않은 항목이 있습니다. 추가하시겠습니까?");
+            if(conf==true){
+                fn_addOrderList();
+                return;
+            }else{
+                return;
+            }
+        }
         if($(".orderwrap").length==1){
             alert("목록을 추가 해주세요");
             return;

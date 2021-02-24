@@ -15,6 +15,12 @@
 <link rel="stylesheet" href="/css/style.css">
    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
    <link rel="stylesheet" href="/css/sidebar.css">
+<style>
+   /*스크롤바 제거*/
+   ::-webkit-scrollbar {
+      display: none;
+   }
+</style>
 </head>
 <body>
    <nav id="sidebar">
