@@ -13,4 +13,10 @@
 				SELECT 0 code, '전체' name FROM DUAL)
 			ORDER BY CODE
    </select>
+	<update id="updatePosList">
+		<foreach item="i" collection="list" open="DECLARE BEGIN"
+				 close="; END;" separator=";">
+		UPDATE POSITION SET NAME=#{i.name} WHERE CODE=#{i.code}
+		</foreach>
+	</update>
 </mapper>

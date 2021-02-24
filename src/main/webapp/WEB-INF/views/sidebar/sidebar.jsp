@@ -28,12 +28,6 @@
             <a href="/" class="logo">COCOAWORK</a>
          </h3>
          <!-- 프로필 -->
-         <%--<div class="side-profile" style="user-select: auto;">
-            <img class="side-img" alt="Image" style="user-select: auto;">
-            <h3 class="side-name" style="user-select: auto;"></h3>
-            <span class="side-dept" style="user-select: auto;"></span>
-            <p class="mt-1 mb-0 p-0"><button class="btn btn-primary side-chat p-0" onclick="fn_messenger()"><img src="/icon/chat-full-white.svg">채팅하기</button></p>
-         </div>--%>
          <div class="side-profile">
             <div class="side-user-pic">
                <img class="side-img" style="user-select: auto;">

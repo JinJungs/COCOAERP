@@ -33,10 +33,10 @@
             obj.set_cssclass("sta_top_bg02");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static03","10","0","210","24",null,null,null,null,null,null,this);
+            obj = new Static("sta_topName","10","0","210","24",null,null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("Hello! Hong Gil Dong");
             obj.set_cssclass("sta_top_textWht");
+            obj.set_text("안녕하세요 000님!");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static02","0","24","164","41",null,null,null,null,null,null,this);

@@ -1,10 +1,9 @@
 package kh.cocoa.dao;
 
-import java.util.List;
-
+import kh.cocoa.dto.PositionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
-import kh.cocoa.dto.PositionDTO;
+import java.util.List;
 
 @Mapper
 public interface PositionDAO {
@@ -14,5 +13,7 @@ public interface PositionDAO {
 
 
 	public List<PositionDTO> getPositionList();
+
+	public int updatePosList(List<PositionDTO> list);
 }
 

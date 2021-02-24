@@ -18,7 +18,7 @@
             
             // Object(Dataset, ExcelExportObject) Initialize
             obj = new Dataset("ds_employee", this);
-            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"deptname\" type=\"STRING\" size=\"256\"/><Column id=\"teamname\" type=\"STRING\" size=\"256\"/><Column id=\"posname\" type=\"STRING\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"hire_date\" type=\"STRING\" size=\"256\"/><Column id=\"office_phone\" type=\"STRING\" size=\"256\"/><Column id=\"year\" type=\"INT\" size=\"256\"/><Column id=\"leave_got\" type=\"INT\" size=\"256\"/><Column id=\"leave_used\" type=\"INT\" size=\"256\"/><Column id=\"deptCode\" type=\"INT\" size=\"256\"/><Column id=\"teamCode\" type=\"INT\" size=\"256\"/><Column id=\"posCode\" type=\"INT\" size=\"256\"/><Column id=\"addLeave\" type=\"INT\" size=\"256\"/></ColumnInfo><Rows><Row/></Rows>");
+            obj._setContents("<ColumnInfo><Column id=\"code\" type=\"INT\" size=\"256\"/><Column id=\"deptname\" type=\"STRING\" size=\"256\"/><Column id=\"teamname\" type=\"STRING\" size=\"256\"/><Column id=\"posname\" type=\"STRING\" size=\"256\"/><Column id=\"name\" type=\"STRING\" size=\"256\"/><Column id=\"hire_date\" type=\"STRING\" size=\"256\"/><Column id=\"office_phone\" type=\"STRING\" size=\"256\"/><Column id=\"year\" type=\"INT\" size=\"256\"/><Column id=\"leave_got\" type=\"INT\" size=\"256\"/><Column id=\"leave_used\" type=\"INT\" size=\"256\"/><Column id=\"deptCode\" type=\"INT\" size=\"256\"/><Column id=\"teamCode\" type=\"INT\" size=\"256\"/><Column id=\"posCode\" type=\"INT\" size=\"256\"/><Column id=\"addLeave\" type=\"INT\" size=\"256\"/></ColumnInfo><Rows><Row><Col id=\"leave_got\">5</Col></Row><Row><Col id=\"leave_got\">6</Col></Row></Rows>");
             this.addChild(obj.name, obj);
 
 
@@ -39,7 +39,7 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00","20","170",null,null,"100","50",null,null,null,null,this);
+            obj = new Div("Div00","20","170",null,null,"100","50","905",null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("Div00");
             this.addChild(obj.name, obj);
@@ -48,33 +48,33 @@
             obj.set_taborder("0");
             obj.set_binddataset("ds_employee");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"부서명\"/><Cell col=\"2\" text=\"팀명\"/><Cell col=\"3\" text=\"posname\"/><Cell col=\"4\" text=\"name\"/><Cell col=\"5\" text=\"hire_date\"/><Cell col=\"6\" text=\"office_phone\"/><Cell col=\"7\" text=\"year\"/><Cell col=\"8\" text=\"leave_got\"/><Cell col=\"9\" text=\"leave_used\"/><Cell col=\"10\" text=\"addLeave\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:deptname\"/><Cell col=\"2\" text=\"bind:teamname\"/><Cell col=\"3\" text=\"bind:posname\"/><Cell col=\"4\" text=\"bind:name\"/><Cell col=\"5\" text=\"bind:hire_date\"/><Cell col=\"6\" text=\"bind:office_phone\"/><Cell col=\"7\" text=\"bind:year\"/><Cell col=\"8\" text=\"bind:leave_got\"/><Cell col=\"9\" text=\"bind:leave_used\"/><Cell col=\"10\" text=\"bind:addLeave\" edittype=\"mask\" maskeditformat=\"###\" displaytype=\"editcontrol\" autosizerow=\"limitmin\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"부서명\"/><Cell col=\"2\" text=\"팀명\"/><Cell col=\"3\" text=\"직급\"/><Cell col=\"4\" text=\"이름\"/><Cell col=\"5\" text=\"입사일\"/><Cell col=\"6\" text=\"사내 번호\"/><Cell col=\"7\" text=\"입사일\"/><Cell col=\"8\" text=\"받은 휴가\"/><Cell col=\"9\" text=\"사용한 휴가\"/><Cell col=\"10\" text=\"추가지급\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:deptname\"/><Cell col=\"2\" text=\"bind:teamname\"/><Cell col=\"3\" text=\"bind:posname\"/><Cell col=\"4\" text=\"bind:name\"/><Cell col=\"5\" text=\"bind:hire_date\"/><Cell col=\"6\" text=\"bind:office_phone\"/><Cell col=\"7\" text=\"bind:year\"/><Cell col=\"8\" text=\"bind:leave_got\"/><Cell col=\"9\" text=\"bind:leave_used\"/><Cell col=\"10\" text=\"bind:addLeave\" edittype=\"mask\" maskeditformat=\"###\" displaytype=\"editcontrol\" autosizerow=\"limitmin\"/></Band></Format></Formats>");
             this.Div00.addChild(obj.name, obj);
 
-            obj = new Div("Div01","20","100",null,"50","100",null,null,null,null,null,this);
+            obj = new Div("Div01","20","100",null,"50","100",null,"905",null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("Div01");
             obj.set_border("1px solid #c7c7c7");
             obj.set_background("#eeeeee");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static00","9","12","27","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Static("Static00","10","12","25","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("0");
             obj.set_text("사번");
             obj.set_textAlign("right");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Button("btnSearch","92%","12",null,"25","2%",null,null,null,null,null,this.Div01.form);
+            obj = new Button("btnSearch",null,"12","60","25","10",null,null,null,null,null,this.Div01.form);
             obj.set_taborder("1");
             obj.set_text("검색");
             obj.set_cssclass("btn_WF_search01");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Edit("editName","52.38%","12","100","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Edit("editName","500","12","100","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("2");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Combo("comboDept","19.94%","12","110","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Combo("comboDept","190","12","110","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("3");
             obj.set_innerdataset("ds_departments");
             obj.set_codecolumn("code");
@@ -84,7 +84,7 @@
             obj.set_index("-1");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Combo("comboPos","36.16%","12","110","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Combo("comboPos","345","12","110","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("4");
             obj.set_innerdataset("ds_position");
             obj.set_codecolumn("code");
@@ -94,56 +94,63 @@
             obj.set_index("-1");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Edit("editYear","67.46%","12","100","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Edit("editYear","645","12","100","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("5");
             obj.set_text("d");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Button("btnReset","82.44%","12",null,"25","9.92%",null,null,null,null,null,this.Div01.form);
+            obj = new Button("btnReset",null,"12","70","25","80",null,null,null,null,null,this.Div01.form);
             obj.set_taborder("6");
             obj.set_text("초기화");
             obj.set_cssclass("btn_WF_reset01");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Edit("editEmpCode","46","12","100","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Edit("editEmpCode","45","12","100","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("7");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01","156","12","27","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Static("Static00_01","155","12","27","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("8");
             obj.set_text("부서");
             obj.set_textAlign("right");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01_00","313","12","27","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Static("Static00_01_00","310","12","25","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("9");
             obj.set_text("직위");
             obj.set_textAlign("right");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01_00_00","470","12","27","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Static("Static00_01_00_00","465","12","27","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("10");
             obj.set_text("이름");
             obj.set_textAlign("right");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01_00_00_00","617","12","27","25",null,null,null,null,null,null,this.Div01.form);
+            obj = new Static("Static00_01_00_00_00","610","12","27","25",null,null,null,null,null,null,this.Div01.form);
             obj.set_taborder("11");
             obj.set_text("년도");
             obj.set_textAlign("right");
             this.Div01.addChild(obj.name, obj);
 
-            obj = new Button("btnInsert",null,"55","80","35","100",null,null,null,null,null,this);
+            obj = new Div("Div02","20","0",null,"90","100",null,"905",null,null,null,this);
             obj.set_taborder("3");
-            obj.set_text("일괄부여");
-            obj.set_cssclass("btn_WF_add01");
+            obj.set_text("Div02");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btnAdd",null,"55","110","35","190",null,null,null,null,null,this);
-            obj.set_taborder("4");
+            obj = new Button("btnInsert",null,null,"80","35","0","0",null,null,null,null,this.Div02.form);
+            obj.set_taborder("0");
+            obj.set_text("일괄부여");
+            obj.set_cssclass("btn_WF_add01");
+            obj.set_tooltiptext("해당년도 휴가 미부여자에게 휴가를 일괄적으로 부여합니다.");
+            this.Div02.addChild(obj.name, obj);
+
+            obj = new Button("btnAdd",null,null,"110","35","90","0",null,null,null,null,this.Div02.form);
+            obj.set_taborder("1");
             obj.set_text("추가휴가 입력");
             obj.set_cssclass("btn_WF_add01");
-            this.addChild(obj.name, obj);
+            obj.set_tooltiptext("아래 [추가휴가]란에 입력한 휴가를 추가로 지급합니다. ");
+            this.Div02.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
@@ -292,6 +299,16 @@
         this.fn_callback2 = function(){
         	this.alert("추가 성공");
         }
+        this.ds_employee_oncolumnchanged = function(obj,e)
+        {
+        	var leave = this.ds_employee.getColumn(e.row, "leave_got");
+        	var addLeave = this.ds_employee.getColumn(e.row, "addLeave");
+        	if(365-leave-addLeave < 0){
+        		alert("지급할 수 있는 휴가날짜를 초과하였습니다.\n다시 입력해주세요.");
+        	this.ds_employee.setColumn(e.row, "addLeave", 0);
+        	}
+        };
+
 
         });
         
@@ -303,8 +320,9 @@
             this.Div01.form.editName.addEventHandler("onchanged",this.Edit_onchanged,this);
             this.Div01.form.editYear.addEventHandler("onchanged",this.Edit_onchanged,this);
             this.Div01.form.btnReset.addEventHandler("onclick",this.Div01_btnReset_onclick,this);
-            this.btnInsert.addEventHandler("onclick",this.btnInsert_onclick,this);
-            this.btnAdd.addEventHandler("onclick",this.btnAdd_onclick,this);
+            this.Div02.form.btnInsert.addEventHandler("onclick",this.btnInsert_onclick,this);
+            this.Div02.form.btnAdd.addEventHandler("onclick",this.btnAdd_onclick,this);
+            this.ds_employee.addEventHandler("oncolumnchanged",this.ds_employee_oncolumnchanged,this);
         };
 
         this.loadIncludeScript("M32_approveVaction.xfdl");

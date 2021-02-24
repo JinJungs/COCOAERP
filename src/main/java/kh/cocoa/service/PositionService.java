@@ -1,12 +1,11 @@
 package kh.cocoa.service;
 
-import java.util.List;
-
+import kh.cocoa.dao.PositionDAO;
+import kh.cocoa.dto.PositionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kh.cocoa.dao.PositionDAO;
-import kh.cocoa.dto.PositionDTO;
+import java.util.List;
 
 @Service
 public class PositionService implements PositionDAO {
@@ -25,4 +24,7 @@ public class PositionService implements PositionDAO {
 	public List<PositionDTO> getPositionList() {
 		return pdao.getPositionList();
 	}
+
+	@Override
+	public int updatePosList(List<PositionDTO> list){ return pdao.updatePosList(list); }
 }

@@ -46,52 +46,52 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("grid_form","20","171","180",null,null,"49",null,null,"532",null,this);
+            obj = new Grid("grid_form","20","100","180",null,null,"49",null,null,"450",null,this);
             obj.set_taborder("0");
             obj.set_binddataset("tp_title");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"38\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"- 양식함\" textAlign=\"left\" padding=\"5px\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"38\" band=\"head\"/><Row size=\"35\"/></Rows><Band id=\"head\"><Cell text=\"- 양식함\" textAlign=\"left\" padding=\"5px\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_temp","grid_form:10","171",null,null,"505","49","505",null,"532",null,this);
+            obj = new Grid("grid_temp","grid_form:10","100",null,null,"505","49","505",null,"450",null,this);
             obj.set_taborder("1");
             obj.set_binddataset("tp_list");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"97\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"양식명\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:name\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"97\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"35\"/></Rows><Band id=\"head\"><Cell text=\"양식명\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:name\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleAdd","20","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleAdd","20","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleMod","btn_titleAdd:5","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleMod","btn_titleAdd:5","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("수정");
             obj.set_cssclass("btn_WF_list01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleRm","btn_titleMod:5","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleRm","btn_titleMod:5","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("삭제");
             obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_listAdd","btn_titleRm:15","130","80","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_listAdd","btn_titleRm:15","60","80","35",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("양식 추가");
             obj.set_cssclass("btn_WF_add01");
+            obj.set_enable("false");
             this.addChild(obj.name, obj);
 
-            obj = new Tab("Tab00","grid_temp:10","170","400",null,null,"50",null,null,"532",null,this);
+            obj = new Tab("Tab00","grid_temp:10","100","400",null,null,"50",null,null,"450",null,this);
             obj.set_taborder("6");
-            obj.set_tabindex("0");
+            obj.set_tabindex("1");
             obj.set_extrabuttonsize("0 0");
             obj.set_tabposition("right");
             obj.set_tabbuttonheight("0");
             obj.set_tabbuttonwidth("1");
-            obj.set_visible("false");
             this.addChild(obj.name, obj);
 
             obj = new Tabpage("Tabpage1",this.Tab00);
@@ -215,7 +215,7 @@
             obj.set_maxlength("10");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Edit("tp_listExplain","Static01_02:10","195","140","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Edit("tp_listExplain","Static01_02:10","195","130","32",null,null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("17");
             obj.set_maxlength("15");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
@@ -252,10 +252,12 @@
             obj = new Static("sta_nameErrMsg","tp_listName:10","101",null,"30","10",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("22");
             obj.set_text("");
+            obj.set_color("red");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
-            obj = new Static("sta_explainErrMsg","tp_listExplain:10","194",null,"30","12",null,null,null,null,null,this.Tab00.Tabpage1.form);
+            obj = new Static("sta_explainErrMsg","tp_listExplain:5","194",null,"30","10",null,null,null,null,null,this.Tab00.Tabpage1.form);
             obj.set_taborder("23");
+            obj.set_color("red");
             this.Tab00.Tabpage1.addChild(obj.name, obj);
 
             obj = new Static("sta_comboErrMsg","tp_listTemp:10","402",null,"37","17",null,null,null,null,null,this.Tab00.Tabpage1.form);
@@ -377,6 +379,7 @@
             obj.set_taborder("15");
             obj.set_text("");
             obj.set_value("6");
+            obj.set_index("-1");
             this.Tab00.Tabpage2.addChild(obj.name, obj);
 
             obj = new Edit("tp_listName","Static01_00:10","101","110","32",null,null,null,null,null,null,this.Tab00.Tabpage2.form);
@@ -384,7 +387,7 @@
             obj.set_maxlength("10");
             this.Tab00.Tabpage2.addChild(obj.name, obj);
 
-            obj = new Edit("tp_listExplain","Static01_02:10","195","140","32",null,null,null,null,null,null,this.Tab00.Tabpage2.form);
+            obj = new Edit("tp_listExplain","Static01_02:10","195","130","32",null,null,null,null,null,null,this.Tab00.Tabpage2.form);
             obj.set_taborder("17");
             obj.set_maxlength("15");
             this.Tab00.Tabpage2.addChild(obj.name, obj);
@@ -412,7 +415,7 @@
             obj.set_color("red");
             this.Tab00.Tabpage2.addChild(obj.name, obj);
 
-            obj = new Static("sta_explainErrMsg","tp_listExplain:10","195","100","30",null,null,null,null,null,null,this.Tab00.Tabpage2.form);
+            obj = new Static("sta_explainErrMsg","tp_listExplain:10","195",null,"30","10",null,null,null,null,null,this.Tab00.Tabpage2.form);
             obj.set_taborder("21");
             obj.set_color("red");
             this.Tab00.Tabpage2.addChild(obj.name, obj);
@@ -495,33 +498,15 @@
         var count =0;
         this.M41_fileForm_onload = function(obj,e)
         {
-
         	this.transaction(
         		"ds_getUser" //1. strsvcid
-        		,"/nexTemp/ds_user.nex" //2.strurl
+        		,"/nexTemp/formLoad.nex" //2.strurl
         		,"" //3.strInDatasets Sds=Fds:U :A :
-        		,"ds_user=out_ds" //4.strOutDatasets
+        		,"ds_user=out_ds tp_origin=out_origin tp_title=out_title" //4.strOutDatasets
         		,"" //5.strArgument
         		,"fn_callback" //6.strCallbackFunc
         	);
 
-        	this.transaction(
-        		"tp_origin" //1. strsvcid
-        		,"/nexTemp/tp_origin.nex" //2.strurl
-        		,"" //3.strInDatasets Sds=Fds:U :A :
-        		,"tp_origin=out_ds" //4.strOutDatasets
-        		,"" //5.strArgument
-        		,"fn_callback" //6.strCallbackFunc
-        	);
-
-        	this.transaction(
-        		"tp_title" //1. strsvcid
-        		,"/nexTemp/tp_title.nex" //2.strurl
-        		,"" //3.strInDatasets Sds=Fds:U :A :
-        		,"tp_title=out_ds" //4.strOutDatasets
-        		,"" //5.strArgument
-        		,"fn_callback" //6.strCallbackFunc
-        		);
 
         };
 
@@ -604,6 +589,7 @@
         {
 
         	this.Tab00.set_visible(false);
+        	this.btn_listAdd.set_enable(true);
         	if(getAddCol!=-1){
         		getAddCol=-1;
         		count=0;

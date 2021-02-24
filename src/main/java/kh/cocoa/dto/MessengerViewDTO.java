@@ -17,10 +17,11 @@ public class MessengerViewDTO {
     private String deptname;
     private String teamname;
     private String posname;
+    // 의진추가 - 프로필사진
+    private String profile;
 
     @Builder
-
-    public MessengerViewDTO(int seq, String type, String name, int party_seq, int emp_code, String empname, String deptname, String teamname, String posname) {
+    public MessengerViewDTO(int seq, String type, String name, int party_seq, int emp_code, String empname, String deptname, String teamname, String posname, String profile) {
         this.seq = seq;
         this.type = type;
         this.name = name;
@@ -30,5 +31,6 @@ public class MessengerViewDTO {
         this.deptname = deptname;
         this.teamname = teamname;
         this.posname = posname;
+        this.profile = profile;
     }
 }

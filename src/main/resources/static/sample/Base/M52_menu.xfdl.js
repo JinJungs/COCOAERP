@@ -90,11 +90,11 @@
             obj.set_cssclass("btn_WF_save01");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_menu_manage","20","170",null,null,"560","50","300",null,"300",null,this);
+            obj = new Grid("grd_menu_manage","20","170",null,null,"560","50","300",null,null,null,this);
             obj.set_taborder("1");
             obj.set_binddataset("ds_sidebar");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"61\"/><Column size=\"80\"/><Column size=\"142\"/><Column size=\"235\"/><Column size=\"223\"/><Column size=\"292\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell edittype=\"none\" text=\"chk\"/><Cell col=\"1\" text=\"번호\"/><Cell col=\"2\" text=\"대분류\"/><Cell col=\"3\" text=\"중분류\"/><Cell col=\"4\" text=\"소분류\"/><Cell col=\"5\" text=\"설명\"/><Cell col=\"6\" text=\"상태\"/></Band><Band id=\"body\"><Cell edittype=\"checkbox\" displaytype=\"checkboxcontrol\" text=\"bind:chk\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\"/><Cell col=\"1\" text=\"bind:code\" textAlign=\"left\"/><Cell col=\"2\" text=\"bind:menu_name\"/><Cell col=\"3\" text=\"bind:mid_name\"/><Cell col=\"4\" text=\"bind:sub_name\"/><Cell col=\"5\" text=\"bind:contents\" edittype=\"normal\"/><Cell col=\"6\" text=\"bind:status\" edittype=\"mask\" maskedittype=\"string\" maskedittrimtype=\"both\" maskeditformat=\"A\" displaytype=\"mask\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"61\"/><Column size=\"80\"/><Column size=\"142\"/><Column size=\"235\"/><Column size=\"223\"/><Column size=\"292\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell edittype=\"none\" text=\"chk\"/><Cell col=\"1\" text=\"번호\"/><Cell col=\"2\" text=\"대분류\"/><Cell col=\"3\" text=\"중분류\"/><Cell col=\"4\" text=\"소분류\"/><Cell col=\"5\" text=\"설명\"/><Cell col=\"6\" text=\"상태\"/></Band><Band id=\"body\"><Cell edittype=\"checkbox\" displaytype=\"checkboxcontrol\" text=\"bind:chk\" checkboxtruevalue=\"1\" checkboxfalsevalue=\"0\"/><Cell col=\"1\" text=\"bind:code\" textAlign=\"left\"/><Cell col=\"2\" text=\"bind:menu_name\"/><Cell col=\"3\" text=\"bind:mid_name\"/><Cell col=\"4\" text=\"bind:sub_name\"/><Cell col=\"5\" text=\"bind:contents\" edittype=\"normal\"/><Cell col=\"6\" text=\"bind:status\" edittype=\"mask\" maskedittype=\"string\" maskedittrimtype=\"both\" maskeditformat=\"A\" displaytype=\"mask\" textAlign=\"center\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
             obj = new Static("Static00","20","10",null,"34","10",null,null,null,null,null,this);
@@ -104,7 +104,7 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("Div00","grd_menu_manage:10","170","450",null,null,"50",null,null,"300",null,this);
+            obj = new Div("Div00","grd_menu_manage:10","170","450",null,null,"50",null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7");
