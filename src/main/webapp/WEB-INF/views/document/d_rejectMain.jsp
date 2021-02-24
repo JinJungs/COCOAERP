@@ -67,7 +67,7 @@ background-color : #6749b930;
 					</div>
 					<div class="row">
 						<div class="col-12 text-center">
-							<input type=submit value=조회 >
+							<input type=submit class="btn btn-primary" value=조회 >
 						</div>
 					</div>
 				</div>

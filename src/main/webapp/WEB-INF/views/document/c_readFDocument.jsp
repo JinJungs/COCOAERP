@@ -78,7 +78,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
 
-                        <input type=button value=조회 onclick="fn_btnsearch()">
+                        <input type=button class="btn btn-primary" value=조회 onclick="fn_btnsearch()">
                     </div>
                 </div>
             </div>

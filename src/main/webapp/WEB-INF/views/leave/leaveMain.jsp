@@ -44,20 +44,20 @@ select{
      			}
      		</script>
      		<div class="row title float" style="margin-top: 0px;">▶내 휴가 정보</div>
-     		<div class="row" style="border-top: 1px solid lightgray;">
-      		<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid lightgray;"><b>입사일</b></div>
+     		<div class="row" style="border-top: 1px solid #bfbfbf;">
+      		<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid #bfbfbf;"><b>입사일</b></div>
       		<div class="col-8 col-md-9 col-xl-10 p-3">${hireDate }</div>
      		</div>
-     		<div class="row" style="border-top: 1px solid lightgray;">
-     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid lightgray;"><b>휴가 지급일수</b></div>
-     			<div class="col-2 col-md-3 col-xl-4 p-3" style="border-right: 1px solid lightgray;">${ltuLeaveDTO.leave_got }일</div>
-     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid lightgray;"><b>휴가 총 사용일</b></div>
+     		<div class="row" style="border-top: 1px solid #bfbfbf;">
+     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid #bfbfbf;"><b>휴가 지급일수</b></div>
+     			<div class="col-2 col-md-3 col-xl-4 p-3" style="border-right: 1px solid #cacaca;">${ltuLeaveDTO.leave_got }일</div>
+     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid #bfbfbf;"><b>휴가 총 사용일</b></div>
      			<div class="col-2 col-md-3 col-xl-4 p-3">${ltuLeaveDTO.leave_used }일</div>
      		</div>
-     		<div class="row" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray">
-     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid lightgray;"><b>조퇴 / 반차 누적시간</b></div>
+     		<div class="row" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf">
+     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid #bfbfbf;"><b>조퇴 / 반차 누적시간</b></div>
      			<div class="col-2 col-md-3 col-xl-4 p-3" style="border-right: 1px solid lightgray;">${timeSum }시간</div>
-     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid lightgray;"><b>휴가 잔여일수</b></div>
+     			<div class="col-4 col-md-3 col-xl-2 p-3 backgroundC" style="border-right: 1px solid #bfbfbf;"><b>휴가 잔여일수</b></div>
      			<div class="col-2 col-md-3 col-xl-4 p-3">${ltuLeaveDTO.leave_got - ltuLeaveDTO.leave_used }일</div>
      		</div>
      		
@@ -66,54 +66,54 @@ select{
      		<div class="row title">▶휴가 사용 일수</div>
 	     		<div class="row">
 	     			<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray;"><b>정기</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray;">${ordinaryL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf;"><b>정기</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf;">${ordinaryL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>병가</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${sickL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>병가</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${sickL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>보건</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${longSickL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>보건</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${longSickL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>조퇴</b><b style="font-size: 11px;">(시)</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${earlyL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>조퇴</b><b style="font-size: 11px;">(시)</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${earlyL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>반차</b><b style="font-size: 11px;">(시)</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${halfL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>반차</b><b style="font-size: 11px;">(시)</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${halfL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray;"><b>경조사</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${familyL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf;"><b>경조사</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${familyL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>출산</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${childBirthL }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>출산</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${childBirthL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid lightgray; border-bottom: 1px solid lightgray; border-left: 1px solid lightgray"><b>기타</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid lightgray; border-left: 1px solid lightgray">${etc/k }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etc/k }</div>
 				</div>
      		</div>
      		
      		<div class="row title">▶휴가 사용현황</div>
-     		<div class="row" style="border-top: 1px solid lightgray;border-bottom: 1px solid lightgray;">
-     			<div class="col-1 p-1 text-center backgroundC" style="border-right: 1px solid lightgray;"><b>seq</b></div>
-     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid lightgray;"><b>휴가 종류</b></div>
-     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid lightgray;"><b>시작 날짜</b></div>
-     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid lightgray;"><b>끝 날짜</b></div>
+     		<div class="row" style="border-top: 1px solid #bfbfbf;border-bottom: 1px solid #bfbfbf;">
+     			<div class="col-1 p-1 text-center backgroundC" style="border-right: 1px solid #bfbfbf;"><b>seq</b></div>
+     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid #bfbfbf;"><b>휴가 종류</b></div>
+     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid #bfbfbf;"><b>시작 날짜</b></div>
+     			<div class="col-3 p-2 text-center backgroundC" style="border-right: 1px solid #bfbfbf;"><b>끝 날짜</b></div>
      			<div class="col-2 p-2 text-center backgroundC"><b>시간</b></div>
      		</div>
      		
      		<c:forEach var="i" items="${leaveList }">
-      		<div class="row" style="border-bottom: 1px solid lightgray;">
-      			<div class="col-1 p-2 text-center" style="border-right: 1px solid lightgray;">${i.rownumber }</div>
-      			<div class="col-3 p-2 text-center" style="border-right: 1px solid lightgray;">${i.type }</div>
-      			<div class="col-3 p-2 text-center" style="border-right: 1px solid lightgray;">${i.start_date }</div>
-      			<div class="col-3 p-2 text-center" style="border-right: 1px solid lightgray;">
+      		<div class="row" style="border-bottom: 1px solid #bfbfbf;">
+      			<div class="col-1 p-2 text-center" style="border-right: 1px solid #bfbfbf;">${i.rownumber }</div>
+      			<div class="col-3 p-2 text-center" style="border-right: 1px solid #bfbfbf;">${i.type }</div>
+      			<div class="col-3 p-2 text-center" style="border-right: 1px solid #bfbfbf;">${i.start_date }</div>
+      			<div class="col-3 p-2 text-center" style="border-right: 1px solid #bfbfbf;">
       				<c:if test="${empty i.end_date}">
       					-
       				</c:if>
