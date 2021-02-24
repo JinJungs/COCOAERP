@@ -17,7 +17,7 @@
 
 	<select id="findIdByEmail" resultType="kh.cocoa.dto.EmployeeDTO">
 		select code from employee where email = #{email}
-	</select>
+</select>
 
 	<select id="findPwByEmail" resultType="String">
 		select password from employee where email = #{email} and code = #{code}

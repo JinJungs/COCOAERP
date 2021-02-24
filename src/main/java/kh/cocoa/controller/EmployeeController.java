@@ -167,7 +167,7 @@ public class EmployeeController {
     @RequestMapping("/modInfo")
     public String modInfo(EmployeeDTO dto){
         int modInfo= eservice.modInfo(dto);
-        return "redirect:/membership/test";
+        return "redirect:/membership/myInfo";
     }
 
     @RequestMapping("/checkUserEmail")
