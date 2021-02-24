@@ -94,7 +94,6 @@ public class SidebarController {
             param.put("profile","/img/Profile-m.png");
         }else{
             String profileLoc = "/profileFile/" + getProfile.getSavedname();
-            System.out.println(profileLoc);
             param.put("profile",profileLoc);
         }
         jArrayAll.put(param);

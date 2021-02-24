@@ -1,15 +1,8 @@
 package kh.cocoa.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import kh.cocoa.dto.*;
+import kh.cocoa.service.*;
 import org.json.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,17 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.FilesMsgDTO;
-import kh.cocoa.dto.MessageViewDTO;
-import kh.cocoa.dto.MessengerDTO;
-import kh.cocoa.dto.MessengerPartyDTO;
-import kh.cocoa.dto.MessengerViewDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
-import kh.cocoa.service.MessengerPartyService;
-import kh.cocoa.service.MessengerService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -65,11 +52,46 @@ public class MessengerController {
     	//사원번호 세션값===========================================
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
     	//==========================================================
+        int code = loginDTO.getCode();
     	//재직중인 전체 멤버 리스트 - 자신제외
-    	List<EmployeeDTO> memberList = eservice.getAllEmployeeExceptMe(loginDTO.getCode());
+    	List<EmployeeDTO> memberList = eservice.getAllEmployeeExceptMe(code);
     	//채팅방 불러오기
-    	List<MessengerViewDTO> chatList = mservice.myMessengerList(loginDTO.getCode());
+    	List<MessengerViewDTO> chatList = mservice.myMessengerList(code);
+    	// 내 프로필 전송
+        FilesDTO myProfile = fservice.findBeforeProfile(code);
+        if(myProfile==null) {
+            loginDTO.setProfile("/img/Profile-m.png");
+        }else{
+            String profileLoc = "/profileFile/" + myProfile.getSavedname();
+            loginDTO.setProfile(profileLoc);
+        }
 
+        // 사용자의 프로필이미지 전송
+        for(int i=0; i<memberList.size(); i++){
+            FilesDTO getProfile = fservice.findBeforeProfile(memberList.get(i).getCode());
+            if(getProfile==null) {
+                memberList.get(i).setProfile("/img/Profile-m.png");
+            }else{
+                String profileLoc = "/profileFile/" + getProfile.getSavedname();
+                memberList.get(i).setProfile(profileLoc);
+            }
+        }
+        // 채팅방의 프로필이미지 전송
+        for(int i=0; i<chatList.size(); i++){
+            FilesDTO getProfile = fservice.findBeforeProfile(chatList.get(i).getEmp_code());
+            // 1:1채팅방일 때
+            if(chatList.get(i).getType().charAt(0) == 'S'){
+                if(getProfile==null) {
+                    chatList.get(i).setProfile("/img/Profile-m.png");
+                }else{
+                    String profileLoc = "/profileFile/" + getProfile.getSavedname();
+                    chatList.get(i).setProfile(profileLoc);
+                }
+            // 1:N채팅방일 때
+            }else{
+                chatList.get(i).setProfile("/img/cocoa.png");
+            }
+        }
     	model.addAttribute("loginDTO",loginDTO);
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("chatList", chatList);

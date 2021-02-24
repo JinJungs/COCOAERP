@@ -1,16 +1,14 @@
 package kh.cocoa.controller;
 
-import java.util.List;
-
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import kh.cocoa.dto.PositionDTO;
+import kh.cocoa.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
-
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.PositionDTO;
-import kh.cocoa.service.PositionService;
+import java.util.List;
 
 @Controller
 @RequestMapping("/nexPos")
@@ -27,6 +25,13 @@ public class NexacroPosController {
 		List<PositionDTO> pos_list = pservice.getAllPosList();
 		nr.addDataSet("out_pos_list", pos_list);
 		System.out.println(pos_list);
+		return nr;
+	}
+
+	@RequestMapping("/updatePosList.nex")
+	public NexacroResult updatePosList(@ParamDataSet(name="in_ds")List<PositionDTO> list){
+		NexacroResult nr = new NexacroResult();
+		int result = pservice.updatePosList(list);
 		return nr;
 	}
 }
