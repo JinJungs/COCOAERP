@@ -190,7 +190,9 @@ public class ScheduleController {
 	@RequestMapping("/getList.nex")
 	public NexacroResult getList(){
 		NexacroResult nr = new NexacroResult();
-		List<ScheduleDTO> list = sservice.selectAllSchedule();
+		List<ScheduleDTO> list = sservice.selectListNex();
+		System.out.println(list.get(0));
+		System.out.println(list.get(0).getStr_start_time());
 		nr.addDataSet("out_ds", list);
 		return nr;
 	}

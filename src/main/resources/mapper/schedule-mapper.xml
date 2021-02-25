@@ -59,4 +59,8 @@
 		        OR #{date1} BETWEEN START_TIME and END_TIME)
 		    WHERE ROWNUMBER BETWEEN 1 AND 5
 	</select>
+
+	<select id="selectListNex" resultType="kh.cocoa.dto.ScheduleDTO">
+		select seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time, to_char(end_time, 'YYYY-MM-DD') as str_end_time, color, dept_code, team_code, emp_code, writer from schedule ORDER BY SEQ DESC
+	</select>
 </mapper>

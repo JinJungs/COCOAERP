@@ -22,4 +22,7 @@ public interface ScheduleDAO {
 	public int delete(String seq);
 	
 	public List<ScheduleDTO> selectTodaySchedule(String date1, String date2);
+
+	// 넥사크로
+	public List<ScheduleDTO> selectListNex();
 }
