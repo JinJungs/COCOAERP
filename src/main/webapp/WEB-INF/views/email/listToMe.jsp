@@ -80,5 +80,6 @@ input[type=checkbox]{
       	<div class="navi text-center">${navi }</div>
       </div>
    </div>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
