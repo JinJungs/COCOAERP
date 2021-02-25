@@ -17,7 +17,7 @@
         SELECT * FROM TEAM WHERE NAME LIKE '%${name}%'
     </select>
     
-    <!-- 소형 관리자 사용자관리 -->
+    <!-- 소형 관리자 시작 -->
     <select id="getAllTeamList"  resultType="kh.cocoa.dto.TeamDTO">
         SELECT * FROM TEAM ORDER BY CODE
     </select>
@@ -25,4 +25,36 @@
     <select id="getTeamListByDeptCode"  resultType="kh.cocoa.dto.TeamDTO">
         SELECT * FROM TEAM WHERE DEPT_CODE=#{dept_code} ORDER BY CODE
     </select>
+    
+    <insert id="addTeam" parameterType="List">
+    	INSERT ALL
+    	<foreach collection="list" item="i">
+    		INTO TEAM
+    		(CODE, NAME, DEPT_CODE)
+    		VALUES
+    		(FUNC_TEAM_SEQ
+    		,#{i.name}
+    		,#{i.dept_code})
+    	</foreach>
+    	SELECT*FROM DUAL
+    </insert>
+    
+    <update id="updateTeam">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		UPDATE TEAM
+    		SET
+    			NAME=#{i.name}
+    			,DEPT_CODE=#{i.dept_code}
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </update>
+    
+    <delete id="deleteTeam">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		DELETE FROM TEAM
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </delete>
+    
+    <!-- 소형 관리자 끝 -->
 </mapper>
