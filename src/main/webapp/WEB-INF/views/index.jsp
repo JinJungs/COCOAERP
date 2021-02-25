@@ -102,7 +102,7 @@
       <!-- 로그인 start -->
       <div class="flex-container" id="login-container" >
          <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
-            <form class="form-signin w-100" method="post" action="/membership/login">
+            <form class="form-signin w-100" method="post" id="loginform">
                <div class="col-12 p-5">
                   <div class="row w-100">
                      <div class= "col-12 p-3">
@@ -121,7 +121,17 @@
                      <div class="col-12 p-3">
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력해주세요"
-                               required="required" autocomplete="off">
+                               required="required" autocomplete="off" onkeypress="caps_lock(event)">
+                     </div>
+                  </div>
+                  <div class="row" id="capslock" style="display:none;">
+                     <div class="col-12">
+                        <b>CAPSLOCK</b>이 켜져 있습니다.
+                     </div>
+                  </div>
+                  <div class="row" id="login-msg" style="display:none">
+                     <div class="col-12">
+                        <b>일치하는 데이터가 존재하지 않습니다.</b>
                      </div>
                   </div>
                   <div class="row">
@@ -138,7 +148,7 @@
                   </div>
                   <div class="row">
                      <div class="col-12 p-3 text-center">
-                        <button class="btn btn-lg btn-login w-100" type="submit">로그인</button>
+                        <button class="btn btn-lg btn-login w-100" type="button" onclick="fn_login()">로그인</button>
                      </div>
                   </div>
                </div>
@@ -252,14 +262,9 @@
             </form>
          </div>
       </div>
-      <c:if test="${result == 'F'}">
-         <script>
-            alert("로그인 실패");
-         </script>
-      </c:if>
       <!-- 로그인 스크립트 -->
       <!-- 아이디값 쿠키에 저장하기 -->
-
+      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
       <script>
 
          var getSeq="";
@@ -267,6 +272,19 @@
          var isConfirm="false";
          var tempEmail ="";
 
+         function fn_login() {
+            var code=$("#code").val();
+            var password =$("#password").val();
+            $.ajax({
+               url: "/membership/login",
+               type: "post",
+               data: {code:code,password:password},
+               success: function (data) {
+                  console.log(data);
+
+               }
+            })
+         }
          function fn_toFindId(){
             getSeq="";
             getId=0;
@@ -596,6 +614,29 @@
             },300)
 
          }
+
+         function caps_lock(e){
+            var keyCode = 0;
+            var shiftKey = false;
+            keyCode = e.keyCode;
+            shiftKey = e.shiftKey;
+            if (((keyCode >= 65 && keyCode <= 90) && !shiftKey)
+                    || ((keyCode >= 97 && keyCode <= 122) && shiftKey)) {
+               show_caps_lock();
+               setTimeout("hide_caps_lock()", 3500);
+            } else {
+               hide_caps_lock();
+            }
+         }
+         function show_caps_lock() {
+            $("#capslock").show();
+         }
+
+         function hide_caps_lock() {
+            $("#capslock").hide();
+         }
+
+
 
       </script>
       <!-- 로그인 end -->
