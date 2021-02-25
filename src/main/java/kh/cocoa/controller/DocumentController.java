@@ -891,7 +891,4 @@ public class DocumentController {
 		model.addAttribute("deptList", deptList);
 		return "document/test";
 	}
-
 }
-
-

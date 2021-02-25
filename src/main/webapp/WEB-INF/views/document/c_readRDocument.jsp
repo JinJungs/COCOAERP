@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
 
-                        <button type="button" onclick="fn_btnsearch()">조회</button>
+                        <button type="button" class="btn btn-primary" onclick="fn_btnsearch()">조회</button>
                     </div>
                 </div>
             </div>

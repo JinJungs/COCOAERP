@@ -43,6 +43,7 @@
 						~
 						<input type=date class="date ml-1 mr-1" name=endDate value=${endDate } max=${today }>
 					</div>
+
 				</div>
 				<div class="row">
 					<div class="col-2 mb-2">기안양식</div>
@@ -68,7 +69,7 @@
 				</div>
 				<div class="row">
 					<div class="col-12 text-center">
-						<input type=submit value=조회 >
+						<input type=submit class="btn btn-primary" value=조회 >
 					</div>
 				</div>
 			</div>

@@ -11,6 +11,7 @@ public interface TemplatesDAO {
 	//기본 템플릿 리스트
 	public List<TemplatesDTO> getTemplateList();
 
+	public List<TemplatesDTO> getUsingTemplates();
 	//만든 템플릿 리스트
 	public List<TemplatesDTO> getSubTemplateList();
 
@@ -37,5 +38,5 @@ public interface TemplatesDAO {
 	public int getTemplateCount(int form_code);
 
 	public List<TemplatesDTO> getTemplateList3();
-
+	
 }
