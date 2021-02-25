@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css"
 		  href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 	<link rel="stylesheet" href="/css/messenger.css">
+	<meta name="mobile-web-app-capable" content="yes">
 </head>
 <!--Coded With Love By Mutiullah Samim-->
 <body>
@@ -199,6 +200,14 @@
     function toSingleChatRoom(code) {
       window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'singleChat'+code,winFeature);
     }
+
+	/*$(window).load(function(){
+		setTimeout(scrollTo, 0,0,1);
+	});*/
+	$("#testBtn").on("click",function(){
+		//document.body.requestFullscreen();
+		//const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+	})
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click",search);

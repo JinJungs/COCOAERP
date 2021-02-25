@@ -21,11 +21,18 @@ html {
 body {
   min-width: 400px;
   min-height: 660px;
+  "display": "standalone";
 }
 .align-center{
   float: none;
   margin: 0 auto;
 }
+
+/*@media all and (display-mode: standalone) {
+  body {
+    background-color: yellow;
+  }
+}*/
 
 /* ====== hide file input ===== */
 /* .file-input lable {
@@ -541,5 +548,10 @@ a{
 }
 .h70{
   height: 70%;
+}
+/* 파일 버튼 숨기기 */
+#file-upload-button{
+  display: none;
+  background-color: black;
 }
 

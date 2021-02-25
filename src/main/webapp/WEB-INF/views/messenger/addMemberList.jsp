@@ -127,7 +127,7 @@
                             html += "<li class='con-list item'>";
                             html += "<div class='d-flex bd-highlight'>";
                             html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
                             html += "<div class='user_info item'>";
