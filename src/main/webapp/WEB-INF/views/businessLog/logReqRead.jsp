@@ -22,6 +22,7 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+   	<script src="/js/bootstrap.min.js"></script>
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">확인요청 업무일지</h2>

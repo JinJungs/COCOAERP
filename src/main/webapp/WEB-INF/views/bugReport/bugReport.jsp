@@ -65,6 +65,7 @@ input{width:100%;}
 			</form>
 		</div>
 	</div>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	/*홈으로*/
 		function fn_home() {

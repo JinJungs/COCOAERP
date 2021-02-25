@@ -14,6 +14,7 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+   	<script src="/js/bootstrap.min.js"></script>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">보낸 업무일지 보관함</h2>
 
@@ -33,17 +34,14 @@
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
 				</div>
-				<div class="col-sm-12 col-md-6">
+				<div class="col-sm-12 col-md-7">
 					<b>제목</b>
 				</div>
 				<div class="col-md-1 d-none d-md-block">
 					<b>작성자</b>
 				</div>
 				<div class="col-md-1 d-none d-md-block">
-					<b>시작일</b>
-				</div>
-				<div class="col-md-1 d-none d-md-block">
-					<b>마감일</b>
+					<b>업무기한</b>
 				</div>
 				<div class="col-md-1 d-none d-md-block">
 					<b>작성일</b>
@@ -67,12 +65,11 @@
 							<c:otherwise>
 								<c:forEach var="i" items="${logAllList}">
 									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-6">
+									<div class="on col-sm-12 col-md-7">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
 									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
 									<!-- 상태 이미지 -->
 									<c:choose>
@@ -113,12 +110,11 @@
 							<c:otherwise>
 								<c:forEach var="i" items="${dailyList}">
 									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-6">
+									<div class="on col-sm-12 col-md-7">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
 									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
 									<!-- 상태 이미지 -->
 									<c:choose>
@@ -159,12 +155,11 @@
 							<c:otherwise>
 								<c:forEach var="i" items="${weeklyList}">
 									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-6">
+									<div class="on col-sm-12 col-md-7">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
 									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
 									<!-- 상태 이미지 -->
 									<c:choose>
@@ -205,12 +200,11 @@
 							<c:otherwise>
 								<c:forEach var="i" items="${monthlyList}">
 									<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-									<div class="on col-sm-12 col-md-6">
+									<div class="on col-sm-12 col-md-7">
 										<a href="/log/logRead.log?seq=${i.seq}&status=${i.status}">${i.title }</a>
 									</div>
 									<div class="on col-md-1 d-none d-md-block">${i.name}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.report_start}</div>
-									<div class="on col-md-1 d-none d-md-block">${i.report_end}</div>
 									<div class="on col-md-1 d-none d-md-block">${i.write_date}</div>
 									<!-- 상태 이미지 -->
 									<c:choose>
@@ -241,8 +235,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-	
-    </script>
 </body>
 </html>

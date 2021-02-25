@@ -27,8 +27,8 @@ public class DocumentDTO {
 	private Date leave_end;
 	private String leave_type;
 	
-	private Date report_start;
-	private Date report_end;
+	private String report_start;
+	private String report_end;
 	private String report_contents;
 	
 	private String status;
@@ -55,7 +55,7 @@ public class DocumentDTO {
 	@Builder
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,
 			int dept_code, int temp_code, String order_list, int order_count, String order_etc, Date leave_start,
-			Date leave_end, String leave_type, Date report_start, Date report_end, String report_contents,
+			Date leave_end, String leave_type, String report_start, String report_end, String report_contents,
 			String status, String process, String temp_name, String emp_name, String dept_name, String pos_name,
 			String detailStatus, String con_empname, String con_deptname, int endNavi, int startNavi, boolean needPrev,
 			boolean needNext, String name) {

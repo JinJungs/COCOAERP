@@ -127,7 +127,6 @@ public class BusinessLogController {
 		//업무일지 종류에 따라 문서 저장
 		int createLog = bservice.createLog(logDoc_seq,ddto,selectBy,dept_code);
 		
-		
 		//파일 업로드
 		if(file!=null) { //파일이 있을 때
 			//파일 업로드 할 갯수 확인
