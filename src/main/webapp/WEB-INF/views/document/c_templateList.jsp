@@ -44,11 +44,12 @@
 
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script>
     /*접어따 펴따*/
     function fn_closelist(code){
         $("#contents"+code).attr("class","row d-none");
-        $("#header"+code).css("border-bottom","1px solid pink");
+        $("#header"+code).css("border-bottom","1px solid #c9c9c9");
         $("#header"+code).css("padding-bottom","10px");
         $("#header"+code).attr("onclick","fn_openlist("+code+")");
     }

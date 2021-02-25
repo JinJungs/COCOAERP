@@ -97,5 +97,6 @@ background-color : #6749b930;
 			</div>
 		</div>
 	</div>
+	<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
