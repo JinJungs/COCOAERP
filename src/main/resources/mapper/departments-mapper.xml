@@ -42,4 +42,34 @@
 				  SELECT 0 code, '전체' name FROM DUAL)
 			ORDER BY CODE
     </select>
+    
+    <insert id="addDept" parameterType="List">
+    	INSERT ALL
+    	<foreach collection="list" item="i">
+    		INTO DEPARTMENTS
+    		(CODE, NAME)
+    		VALUES
+    		(FUNC_DEPARTMENTS_SEQ
+    		,#{i.name})
+    	</foreach>
+    	SELECT*FROM DUAL
+    </insert>
+    
+    <update id="updateDept">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		UPDATE DEPARTMENTS
+    		SET
+    			NAME=#{i.name}
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </update>
+    
+    <delete id="deleteDept">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		DELETE FROM DEPARTMENTS
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </delete>
+    
+    <!-- ====소형=== 관리자 - 사용자관리 끝 -->
 </mapper>

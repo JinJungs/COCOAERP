@@ -1,6 +1,7 @@
 package kh.cocoa.controller;
 
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,25 +39,19 @@ public class EmployeeController {
     @Autowired
     private HttpSession session;
 
-    @RequestMapping(value = "/login")
-    public String login(Model model, int code, String password) {
-        String result = eservice.login(code, password);
+    @RequestMapping("/login")
+    @ResponseBody
+    public String login(EmployeeDTO dto) {
+        System.out.println("왜않옴 ..");
+        String result = eservice.login(dto.getCode(), dto.getPassword());
         if (result.equals("T")) {
-            EmployeeDTO loginDTO = eservice.loginInfo(code);
+            EmployeeDTO loginDTO = eservice.loginInfo(dto.getCode());
             // 의진추가 - 사용자 프로필 이미지 추가하기
-            FilesDTO getProfile = filesService.findBeforeProfile(code);
-            if(getProfile==null) {
-                loginDTO.setProfile("/img/Profile-m.png");
-            }else{
-                String profileLoc = "/profileFile/" + getProfile.getSavedname();
-                loginDTO.setProfile(profileLoc);
-            }
+            String profile = filesService.getProfile(dto.getCode());
+            loginDTO.setProfile(profile);
             session.setAttribute("loginDTO", loginDTO);
-            return "index";
-        } else {
-            model.addAttribute("result", result);
-            return "index";
         }
+        return result;
     }
     @RequestMapping("/myInfo")
     public String testPage(Model model){
@@ -193,24 +189,24 @@ public class EmployeeController {
     }
     @RequestMapping("selectEmployee.employee")
     public NexacroResult selectEmployee() {
-    	NexacroResult nr = new NexacroResult();
-    	
-    	List<EmployeeDTO> list = eservice.getListWithdrawN();
-    	
-    	nr.addDataSet("out_employee", list);
-    	
-    	return nr;
+        NexacroResult nr = new NexacroResult();
+
+        List<EmployeeDTO> list = eservice.getListWithdrawN();
+
+        nr.addDataSet("out_employee", list);
+
+        return nr;
     }
-    
+
     @RequestMapping("selectEmployeeLTU.employee")
     public NexacroResult selectEmployeeLTU() {
-    	NexacroResult nr = new NexacroResult();
-    	
-    	List<EmployeeDTO> list = eservice.getEmpleLTU();
-    	
-    	nr.addDataSet("out_employee", list);
-    	
-    	return nr;
+        NexacroResult nr = new NexacroResult();
+
+        List<EmployeeDTO> list = eservice.getEmpleLTU();
+
+        nr.addDataSet("out_employee", list);
+
+        return nr;
     }
 
 
