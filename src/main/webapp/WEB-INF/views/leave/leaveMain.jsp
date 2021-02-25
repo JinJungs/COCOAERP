@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/bootstrap.min.js"></script>
 <style type="text/css">
 .selectBox{
 	margin-left: 85%;

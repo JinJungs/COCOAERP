@@ -53,8 +53,8 @@ public class ScheduleController {
 	}
 	
 	@RequestMapping("addSchedule.schedule")
-	public String addSchedule(ScheduleDTO dto, String openTarget, Date startDate, String startTime, Date endDate, String endTime,  Model model) {
-		
+	public String addSchedule(ScheduleDTO dto, String openTarget, String startDate, String startTime, Date endDate, String endTime,  Model model) {
+		System.out.println("=================" + startDate);
 		//글쓴 사람 
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		String empCode = Integer.toString(loginDTO.getCode());

@@ -216,15 +216,19 @@ public class RestDocumentController {
             }
         }
 
-
         return getDoc_code;
     }
 
     @RequestMapping("ajaxadddocument.document")
     public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        System.out.println("임시 - > 상신 일로오나..");
         System.out.println(ddto);
+        System.out.println(code);
+
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
+
+        System.out.println(getDoc_code);
 
         for (int i = 0; i < code.size(); i++) {
             int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
@@ -265,6 +269,8 @@ public class RestDocumentController {
             dto.setOrder_etc(map.get(i + 2).get("value"));
             list.add(dto);
         }
+
+        System.out.println(list);
         for (int i = 0; i < list.size(); i++) {
             int result = oservice.addOrder(list.get(i).getOrder_list(), list.get(i).getOrder_count(), list.get(i).getOrder_etc(), list.get(i).getDoc_seq());
         }
@@ -401,6 +407,7 @@ public class RestDocumentController {
     //임시저장 수정 파트
     @RequestMapping("loadconfirmlist.document")
     public String loadConfirmList(@RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code) {
+        System.out.println("로드 컨펌리스트");
         List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
         ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
         for (int i = 0; i < code.size(); i++) {
@@ -449,6 +456,7 @@ public class RestDocumentController {
 
     @RequestMapping("getfileList.document")
     public String getFileList(DocumentDTO ddto) {
+        System.out.println("파일리스트");
         List<FilesDTO> flist = fservice.getFilesListByDocSeq2(ddto.getSeq());
         JSONArray json = new JSONArray(flist);
         return json.toString();
@@ -493,38 +501,61 @@ public class RestDocumentController {
     @RequestMapping("modaddconfirm.document")
     public int modAddConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         cservice.deleteConfirm(ddto.getSeq());
-        System.out.println(ddto);
         if (ddto.getStatus().contentEquals("TEMP")) {
             docservice.modAddDocument(ddto);
-        } else {
-            docservice.addDocument(ddto);
-        }
-
-        int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
-        fservice.updateFile(getDoc_code, ddto.getSeq());
-        for (int i = 0; i < code.size(); i++) {
-            cservice.addConfirm(code.get(i), i + 1, getDoc_code);
-        }
-        if (!file.get(0).getOriginalFilename().contentEquals("")) {
-            String fileRoot = Configurator.boardFileRootC;
-            File filesPath = new File(fileRoot);
-            if (!filesPath.exists()) {
-                filesPath.mkdir();
+            for (int i = 0; i < code.size(); i++) {
+                cservice.addConfirm(code.get(i), i + 1, ddto.getSeq());
             }
-            for (MultipartFile mf : file) {
-                if (!mf.getOriginalFilename().contentEquals("")) {
-                    String oriName = mf.getOriginalFilename();
-                    String uid = UUID.randomUUID().toString().replaceAll("_", "");
-                    String savedName = uid + "_" + oriName;
-                    int insertFile = fservice.documentInsertFile(oriName, savedName, getDoc_code);
-                    if (insertFile > 0) {
-                        File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
-                        FileCopyUtils.copy(mf.getBytes(), targetLoc);
+            if (!file.get(0).getOriginalFilename().contentEquals("")) {
+                String fileRoot = Configurator.boardFileRootC;
+                File filesPath = new File(fileRoot);
+                if (!filesPath.exists()) {
+                    filesPath.mkdir();
+                }
+                for (MultipartFile mf : file) {
+                    if (!mf.getOriginalFilename().contentEquals("")) {
+                        String oriName = mf.getOriginalFilename();
+                        String uid = UUID.randomUUID().toString().replaceAll("_", "");
+                        String savedName = uid + "_" + oriName;
+                        int insertFile = fservice.documentInsertFile(oriName, savedName, ddto.getSeq());
+                        if (insertFile > 0) {
+                            File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                            FileCopyUtils.copy(mf.getBytes(), targetLoc);
+                        }
                     }
                 }
             }
+            return ddto.getSeq();
+        } else {
+            docservice.addDocument(ddto);
+            int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
+            fservice.updateFile(getDoc_code, ddto.getSeq());
+            for (int i = 0; i < code.size(); i++) {
+                cservice.addConfirm(code.get(i), i + 1, getDoc_code);
+            }
+            if (!file.get(0).getOriginalFilename().contentEquals("")) {
+                String fileRoot = Configurator.boardFileRootC;
+                File filesPath = new File(fileRoot);
+                if (!filesPath.exists()) {
+                    filesPath.mkdir();
+                }
+                for (MultipartFile mf : file) {
+                    if (!mf.getOriginalFilename().contentEquals("")) {
+                        String oriName = mf.getOriginalFilename();
+                        String uid = UUID.randomUUID().toString().replaceAll("_", "");
+                        String savedName = uid + "_" + oriName;
+                        int insertFile = fservice.documentInsertFile(oriName, savedName, getDoc_code);
+                        if (insertFile > 0) {
+                            File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                            FileCopyUtils.copy(mf.getBytes(), targetLoc);
+                        }
+                    }
+                }
+            }
+            return getDoc_code;
         }
-        return getDoc_code;
+
+
     }
 
     @RequestMapping("modaddorder.document")

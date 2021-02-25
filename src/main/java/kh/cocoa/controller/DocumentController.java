@@ -71,16 +71,16 @@ public class DocumentController {
 
 	@Autowired
 	private OrderService oservice;
-	
+
 	@Autowired
 	private LeaveService lservice;
-	
+
 	@Autowired
 	private Leave_Taken_UsedService ltuService;
 
 	@Autowired
 	private TemplateFormService templateFormService;
-	
+
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
@@ -178,7 +178,7 @@ public class DocumentController {
 		}
 		int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-		
+
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RAISE");
 		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
@@ -382,26 +382,24 @@ public class DocumentController {
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
 
-/*		int canreturn=dservice.canRetrun(Integer.parseInt(seq));
-		model.addAttribute("canReturn",canreturn);
-		*/
 		String confirmStatus = cservice.isConfirmed(seq);
-		model.addAttribute("auth",getAuth);
+		model.addAttribute("auth", getAuth);
 		model.addAttribute("empCode", empCode);
 		model.addAttribute("dto", dto);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("confirmList", confirmList);
 		model.addAttribute("confirmStatus", confirmStatus);
-		if(dto.getTemp_code()==4) {
+		
+		int tempCode = tservice.getTempCode(dto.getTemp_code());
+		
+		if(tempCode==4) {
 			return "/document/d_readReport";
-		}else if(dto.getTemp_code()==5) {
-			List<OrderDTO> orderList = oservice.getOrderListBySeq(seq);
+		}else if(tempCode==5) {
+			List<OrderDTO> orderList = oservice.getOrderListBySeq2(dto.getSeq());
 			model.addAttribute("orderList", orderList);
 			return "/document/d_readOrder";
-		}else if(dto.getTemp_code()==6){
-			return "/document/d_readLeave";
 		}else {
-			return "/document/d_readReport";
+			return "/document/d_readLeave";
 		}
 	}
 
@@ -429,21 +427,21 @@ public class DocumentController {
 		}
 	}
 
-	
+
 	//회수하기
 	@RequestMapping("returnDocument.document")
 	public String returnDocument(String seq) {
 		dservice.ReturnDoc(seq);
 		return "redirect:/document/d_searchReturn.document";
 	}
-	
+
 
 	//재상신 동작
 	@RequestMapping("submitToRewrite.document")
 	public String reWrite(String seq, DocumentDTO dto, String submitType, Model model) {
 		String status =  dservice.getStatusBySeq(seq);
 		String temp_code = dservice.getTemp_codeBySeq(seq);
-		
+
 		if(status.contentEquals("TEMP")) {
 			if(submitType.contentEquals("temp")) { //임시저장 -> 임시저장
 				dservice.tempToUpdate(dto, temp_code, submitType);
@@ -451,15 +449,17 @@ public class DocumentController {
 				dservice.tempToUpdate(dto, temp_code, submitType);
 			}
 		}else if(status.contentEquals("RETURN") || status.contentEquals("REJECT")) {
-			
+
 		}
 		//dto 다시 받아오기
 		dto = dservice.getDocument(seq);
 		model.addAttribute("dto",dto);
 		
-		if(dto.getTemp_code()==4) {
+		int tempCode = tservice.getTempCode(dto.getTemp_code());
+		
+		if(tempCode==4) {
 			return "/document/d_readReport";
-		}else if(dto.getTemp_code()==5) {
+		}else if(tempCode==5) {
 			return "/document/d_readOrder";
 		}else {
 			return "/document/d_readLeave";
@@ -508,7 +508,7 @@ public class DocumentController {
 		}
 		int startRowNum = (Integer.parseInt(cpage)-1)*DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage -1;
-		
+
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getAllDocNavi(startDate, endDate, templateList, searchOption, searchText, Integer.parseInt(cpage));
 		List<DocumentDTO> docList = dservice.getAllConfirmDoc(startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
@@ -523,7 +523,7 @@ public class DocumentController {
 		model.addAttribute("tempList", tempList);
 		model.addAttribute("navi", navi);
 		model.addAttribute("docList", docList);
-		
+
 		return "/document/allConfirmDoc";
 	}
 	//문서 전체보기
@@ -580,14 +580,14 @@ public class DocumentController {
 			map.put("status","반려함");
 			hmlist.add(map);
 		}
-		
+
 		//필요양식만 검색
 		List<String> templateList = new ArrayList<>();
 		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		for(int i=0; i<tempList.size(); i++) {
 			templateList.add(Integer.toString(tempList.get(i).getCode()));
 		}
-		
+
 		List<DocumentDTO> docList = dservice.getAllDraftDocument(empCode, templateList); //tempList
 		for(int i=0; i<docList.size(); i++) {
 			if(docList.get(i).getStatus().contentEquals("RAISE")) {
@@ -601,10 +601,10 @@ public class DocumentController {
 
 		model.addAttribute("clist",hmlist);
 		model.addAttribute("docList", docList);
-		
+
 		return "document/allDocument";
 	}
-	
+
 	//휴가신청시 잔여휴가 체크 후 신청가능여부
 	@RequestMapping("canGetLeave.document")
 	@ResponseBody
@@ -616,13 +616,13 @@ public class DocumentController {
 		Date today =  new Date(System.currentTimeMillis());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy");
 		String year = format.format(today);
-		
-		
+
+
 		Leave_Taken_UsedDTO dto = ltuService.getLeaveStatus(empCode, year);
 		int leaveCount = dto.getLeave_got() - dto.getLeave_used();
 		return leaveCount;
 	}
-	
+
 	//용국
 	@GetMapping("toTemplateList.document")
 	public String toTemplateList(Model model) {
@@ -801,8 +801,8 @@ public class DocumentController {
 		}else if(getTempCode==5){
 			return "/document/c_modSaveO";
 		}else if(getTempCode==6){
-            return "/document/c_modSaveL";
-        }
+			return "/document/c_modSaveL";
+		}
 		return "redirect:/";
 	}
 
@@ -811,14 +811,14 @@ public class DocumentController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
 		int getIsLast =dservice.getIsLast(seq);
-		
+
 		if(getIsLast==1){
 			dservice.confirm(seq,empCode);
 			dservice.addIsConfirm(seq,empCode,comments);
-			
+
 			//휴가신청서의 경우 휴가 사용처리(조퇴 제외 처리가능)
 			DocumentDTO dto = dservice.getDocument(Integer.toString(seq));
-			if(dto.getTemp_code() == 06) {
+			if(dto.getTemp_code() == 289) {
 				//0. process컬럼에 N넣어주기
 				dservice.setProcessN(seq);
 				//1. 사용처리
@@ -843,7 +843,7 @@ public class DocumentController {
 				String yearStart = year + "-01-01";
 				String yearEnd = year + "-12-31";
 				List<LeaveDTO> leaveList = lservice.getDuration(dto.getWriter_code(), yearStart, yearEnd);
-				
+
 				int durationSum = 0; //기간 합
 				for(int i=0; i<leaveList.size(); i++) {
 					if(leaveList.get(i).getType().contentEquals("정기") || leaveList.get(i).getType().contentEquals("병가")|| leaveList.get(i).getType().contentEquals("기타(차감)")) {
@@ -855,13 +855,13 @@ public class DocumentController {
 				durationSum = durationSum + (timeSum / 8);
 				//3. 사용날짜 다시 입력해주기
 				ltuService.updateUsed(durationSum, year, dto.getWriter_code());
-				
+
 			}
 		}else{
 			dservice.addIsConfirm(seq,empCode,comments);
 		}
 
-		return "redirect:/";
+		return "redirect:/document/toBDocument.document?cpage=1";
 	}
 
 	@RequestMapping("return.document")
@@ -870,7 +870,7 @@ public class DocumentController {
 		int empCode = (Integer)loginDTO.getCode();
 		dservice.returnD(seq,empCode);
 		dservice.addRIsConfirm(seq,empCode,comments);
-		return "redirect:/";
+		return "redirect:/document/toRDocument.document?cpage=1";
 	}
 
 
@@ -894,5 +894,4 @@ public class DocumentController {
 	}
 
 }
-
 

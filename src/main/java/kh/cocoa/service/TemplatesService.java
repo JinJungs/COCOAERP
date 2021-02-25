@@ -76,4 +76,10 @@ public class TemplatesService implements TemplatesDAO{
 	public int getTemplateCount(int form_code) {
 		return tdao.getTemplateCount(form_code);
 	}
+
+	@Override
+	public List<TemplatesDTO> getTemplateList3() {
+		return tdao.getTemplateList3();
+	}
+	
 }
