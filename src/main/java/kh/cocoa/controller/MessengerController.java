@@ -47,6 +47,7 @@ public class MessengerController {
         return "/messenger/messengerIndex";
     }
 
+
     @RequestMapping("contactList")
     public String toContactList(Model model) {
     	//사원번호 세션값===========================================

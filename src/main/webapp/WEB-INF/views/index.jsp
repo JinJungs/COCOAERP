@@ -618,6 +618,7 @@
             <button type="button" onclick="fn_to_TA()">근태현황</button>
             <!-- 의진: 메신저 연락처-->
             <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
+            <button type="button" onclick="fn_newMessenger()">새로운 채팅</button>
                <%--용국 템플릿 리스트 바로가기--%>
             <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
 
@@ -750,6 +751,9 @@
          function fn_messenger() {
             var popup = window.open('/messenger/contactList', 'messenger', 'width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
          }
+         function fn_newMessenger(){
+            var popup2 = window.open('/messenger/newContactList', 'newMessenger', 'width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+         }
 
          function fn_totemplate() {
             location.href = "/document/toTemplateList.document";
@@ -779,7 +783,6 @@
          function fn_logout() {
             localStorage.clear();
             location.href="/membership/logout";
-
 
          }
       </script>

@@ -95,7 +95,9 @@
             <div class="input-group m-h-90" id="sendToolBox">
                 <!-- onclick="fileSend()" id="fileUpload" -->
                 <div class="input-group-append">
-                    <span class="input-group-text attach_btn" id="attach_btn"><i class="fas fa-paperclip"></i></span>
+                    <span class="input-group-text attach_btn" id="attach_btn">
+                        <i class="fas fa-paperclip"></i>
+                    </span>
                 </div>
                 <textarea name="" class="form-control type_msg" id="yourMsg"
                           placeholder="Type your message..."></textarea>
@@ -108,7 +110,6 @@
         <div class="fileBox">
             <form id="mainForm" enctype="multipart/form-data">
                 <!-- accept=".gif, .jpg, .png" 등 나중에 조건 추가해주기 -->
-                <label for="file"><i class="fas fa-paperclip"></i></label>
                 <input type="file" id="file" name=file>
             </form>
         </div>
@@ -161,6 +162,11 @@
     let partyname = $("#partyname").html();
     let lastScrollTop = 0;
     let before_date = "";
+
+    // 파일 못생긴 버튼 대신 예쁜버튼 눌렀을 때 파일선택 기능 실행하기
+    $("#attach_btn").click(()=>{
+        $("#file").click();
+    });
 
     // <--------------------------------- 스크롤 이벤트 --------------------------------->
     // 리스트 더 불러오기
@@ -712,7 +718,7 @@
        let seq = ${seq};
        let name = document.getElementById("modifName").value;
        let emp_code = ${loginDTO.code};
-       let empname = ${loginDTO.name};
+       let empname = "${loginDTO.name}";
        console.log("name : ",name);
        console.log("emp_code : ", emp_code);
        if(name==""){

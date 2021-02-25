@@ -378,6 +378,13 @@ background-color: #c23616;
 .con-sidebar > a >div:hover {
   background-color: var(--text-color-light);
 }
+.con-sidebar div{
+  background-color: red;
+}
+.con-sidebar span{
+  font-size: 13px;
+  margin: 0 0 0 3px;
+}
 .con-memberList{
   height: 100vh;
 }
@@ -550,8 +557,7 @@ a{
   height: 70%;
 }
 /* 파일 버튼 숨기기 */
-#file-upload-button{
+#file{
   display: none;
-  background-color: black;
 }
 
