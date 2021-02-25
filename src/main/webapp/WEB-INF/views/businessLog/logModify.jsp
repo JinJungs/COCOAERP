@@ -27,13 +27,13 @@ input{width:100%;}
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 수정</h2>
 
-			<form action="/log/logModifyTempSave.log" method="post" name="submitForm"
-			id="submitForm" enctype="multipart/form-data">
+			<form action="/log/logModifyTempSave.log" method="post"
+				name="submitForm" id="submitForm" enctype="multipart/form-data">
 
 				<input type="hidden" id="status" name="status" value="${status }">
 				<input type="hidden" id="temp_code" name="temp_code"
-					value="${lr.temp_code}">
-				<input type="hidden" id="seq" name="seq" value="${lr.seq}">
+					value="${lr.temp_code}"> <input type="hidden" id="seq"
+					name="seq" value="${lr.seq}">
 
 				<div class="row">
 					<div class="col-sm-2 d-none d-sm-block head_box">제목</div>
@@ -52,7 +52,20 @@ input{width:100%;}
 					<div class="col-md-2 head_box">업무기한</div>
 					<div class="col-md-10">
 						<div class="row" style="border: none;">
-								<div class="col-6" id="test">
+							<div class="col-md-12 head_box">
+								<b><span class="files" id="files">일정</span></b>
+							</div>
+							<div class="col-12 date_box" id="startDate">
+								<input type="date" class="date ml-1 mr-1" name="report_start"
+									id="report_start">
+							</div>
+							<div class="col-12 date_box" id="report_start_week">
+								<input type="week" class="week ml-1 mr-1" name="report_start">
+							</div>
+							<div class="col-12 date_box" id="report_start_month">
+								<input type="month" class="month ml-1 mr-1" name="report_start">
+							</div>
+							<%-- <div class="col-6" id="test">
 									<div class="col date_box">
 										<b>시작일 :</b> <input type="date" class="date ml-1 mr-1"
 											name="report_start" id="report_start" value="${lr.report_start }">
@@ -63,7 +76,7 @@ input{width:100%;}
 										<b>마감일 :</b> <input type="date" class="date ml-1 mr-1"
 											name="report_end" id="report_end" value="${lr.report_end }">
 									</div>
-								</div>
+								</div> --%>
 						</div>
 					</div>
 				</div>
@@ -98,73 +111,52 @@ input{width:100%;}
 						<b><span class="files" id="files">추가파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-					<input type="file" class="fileList"  id="file"
-							name="file" accept="image/*"  multiple>
+						<input type="file" class="fileList" id="file" name="file"
+							accept="image/*" multiple>
 						<!-- <label>+ File Attach 
 						</label> -->
-							<div id="listBox"></div><br>
+						<div id="listBox"></div>
+						<br>
 					</div>
 				</div>
 				<div class="row">
 					<!--보낸편지함으로 이동  -->
-				<c:choose>
-					<c:when test="${status eq 'RAISE'}">
+					<c:choose>
+						<c:when test="${status eq 'RAISE'}">
 
-						<div class="col-sm-2">
-							<button type="button" class="btn btn-primary"
-								onclick="fn_sentHome()">HOME</button>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<!--홈으로 이동  -->
-						<div class="col-sm-2">
-							<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
-						</div>
-					</c:otherwise>
-				</c:choose>
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-primary"
+									onclick="fn_sentHome()">HOME</button>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<!--홈으로 이동  -->
+							<div class="col-sm-2">
+								<button type="button" class="btn btn-primary"
+									onclick="fn_home()">HOME</button>
+							</div>
+						</c:otherwise>
+					</c:choose>
 
 					<div class="col-sm-4 d-none d-sm-block"></div>
 
 					<div class="button_box col-sm-5">
-						<button type="button" id="btn_modifyDone" 
-						class="btn btn-primary">작성</button>
-						<button type="submit" id="btn_tempSave" 
-						class="btn btn-primary">임시저장</button>
+						<button type="button" id="btn_modifyDone" class="btn btn-primary">작성</button>
+						<button type="submit" id="btn_tempSave" class="btn btn-primary">임시저장</button>
 						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<script src="/js/jquery.MultiFile.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="/js/jquery-ui.js"></script>
+	<script src="/js/jquery.MultiFile.min.js"></script>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script>
 	 //유효성 검사 -임시저장
         $('#btn_tempSave').on("click", function() {
-        console.log("눌리니?");
-        for(var i=0; i<delArr.length; i++){
-	      submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
-	    }
-        var report_start =$("#report_start").val().replaceAll("-","");
-        var report_end =$("#report_end").val().replaceAll("-","");
-        var start = $("#report_start").val();
-        var end = $("#report_end").val();
-        var temp =end.split("-");
-        var date = new Date(temp[0],temp[1]-1,temp[2]);
-        var enddate = new Date(date.setDate(date.getDate()+1));
-        var year = enddate.getFullYear();
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var today ="";
-        if(month.toString().length==1 && date.toString().length==1) {
-            today = year + "-0" + month + "-0" + date;
-        }else if(month.toString().length==1){
-            today =year + "-0" + month + "-" + date;
-        }else{
-            today =year + "-" + month + "-" + date;
-        }
-        $("#temp").val(today);
+        
 		if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
@@ -173,45 +165,13 @@ input{width:100%;}
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
 	           return;
-	    }else if (report_start>report_end) {
-            alert("종료일이 시작일보다 빠릅니다.");
-            return ;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return ;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return ;
-		}
+	    }
 		$("#submitForm").submit;
         })
         
 	 //유효성 검사 -저장
          $('#btn_modifyDone').on("click", function() {
-         for(var i=0; i<delArr.length; i++){
-	            submitForm.append($('<input/>', {type: 'hidden', name: 'delArr', value: delArr[i]}));
-	         }
-         var report_start =$("#report_start").val().replaceAll("-","");
-        var report_end =$("#report_end").val().replaceAll("-","");
-        var start = $("#report_start").val();
-        var end = $("#report_end").val();
-        var temp =end.split("-");
-        var date = new Date(temp[0],temp[1]-1,temp[2]);
-        var enddate = new Date(date.setDate(date.getDate()+1));
-        var year = enddate.getFullYear();
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var today ="";
-        if(month.toString().length==1 && date.toString().length==1) {
-            today = year + "-0" + month + "-0" + date;
-        }else if(month.toString().length==1){
-            today =year + "-0" + month + "-" + date;
-        }else{
-            today =year + "-" + month + "-" + date;
-        }
-        $("#temp").val(today);
+         
 		if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
@@ -220,18 +180,7 @@ input{width:100%;}
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
 	           return;
-	    }else if (report_start>report_end) {
-            alert("종료일이 시작일보다 빠릅니다.");
-            return ;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return ;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return ;
-        }
+	    }
 		$("#submitForm").attr("action","/log/logModifyDone.log");
          $('#submitForm').submit();
         })
@@ -285,13 +234,9 @@ input{width:100%;}
 /*페이지 처음 접속 시, temp_code별로 업무기한을 다르게 보여주는 이벤트*/
 	window.onload = function(){
 		let temp_code = document.getElementById("temp_code");
-		let test = document.getElementById("test");
-		let test2 = document.getElementById("test2");
-		
-		let selectBy = document.getElementById("selectBy");
-		let endDate = document.getElementById("endDate");
-		let daily = document.getElementById("daily");
-		let report_end = document.getElementById("report_end");
+		let startDate= document.getElementById("startDate");
+		let report_start_week = document.getElementById("report_start_week");
+		let report_start_month = document.getElementById("report_start_month");
 		var curdate = new Date();
 	    var year =curdate.getFullYear();
 	    var month =curdate.getMonth()+1;
@@ -304,13 +249,19 @@ input{width:100%;}
 	    }else{
 	        today =year + "-" + month + "-" + date;
 	    }
-		
 		if(temp_code.value==1){
-			test2.style.display="none";
-	        report_end.value = today;
-	        console.log(today);
-		}else if(temp_code.value==2||temp_code.value==3){
-			test2.style.display="block";
+			startDate.style.display="block";
+			report_start_week.style.display="none";
+			report_start_month.style.display="none";
+			report_start.value=today;
+		}else if(temp_code.value==2){
+			startDate.style.display="none";
+			report_start_week.style.display="block";
+			report_start_month.style.display="none";
+		}else if(temp_code.value==3){
+			startDate.style.display="none";
+			report_start_week.style.display="none";
+			report_start_month.style.display="block";
 		}
 	}
 </script>

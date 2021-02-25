@@ -38,17 +38,17 @@ public class EmployeeController {
     @Autowired
     private HttpSession session;
 
-    @RequestMapping(value = "/login")
-    public String login(Model model, int code, String password) {
-        String result = eservice.login(code, password);
+    @RequestMapping("/login")
+    @ResponseBody
+    public String login(EmployeeDTO dto) {
+        System.out.println("왜않옴 ..");
+        String result = eservice.login(dto.getCode(), dto.getPassword());
         if (result.equals("T")) {
-            EmployeeDTO loginDTO = eservice.loginInfo(code);
-            session.setAttribute("loginDTO", loginDTO);
-            return "index";
-        } else {
-            model.addAttribute("result", result);
-            return "index";
+            EmployeeDTO loginDTO = eservice.loginInfo(dto.getCode());
+            session.setAttribute("loginDTO",loginDTO);
         }
+
+        return result;
     }
     @RequestMapping("/myInfo")
     public String testPage(Model model){
@@ -186,24 +186,24 @@ public class EmployeeController {
     }
     @RequestMapping("selectEmployee.employee")
     public NexacroResult selectEmployee() {
-    	NexacroResult nr = new NexacroResult();
-    	
-    	List<EmployeeDTO> list = eservice.getListWithdrawN();
-    	
-    	nr.addDataSet("out_employee", list);
-    	
-    	return nr;
+        NexacroResult nr = new NexacroResult();
+
+        List<EmployeeDTO> list = eservice.getListWithdrawN();
+
+        nr.addDataSet("out_employee", list);
+
+        return nr;
     }
-    
+
     @RequestMapping("selectEmployeeLTU.employee")
     public NexacroResult selectEmployeeLTU() {
-    	NexacroResult nr = new NexacroResult();
-    	
-    	List<EmployeeDTO> list = eservice.getEmpleLTU();
-    	
-    	nr.addDataSet("out_employee", list);
-    	
-    	return nr;
+        NexacroResult nr = new NexacroResult();
+
+        List<EmployeeDTO> list = eservice.getEmpleLTU();
+
+        nr.addDataSet("out_employee", list);
+
+        return nr;
     }
 
 

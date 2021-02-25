@@ -12,6 +12,7 @@
 <html>
 <head>
    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script>
    <meta charset="UTF-8">
 
    <title>Insert title here</title>
@@ -48,23 +49,6 @@
          background-position: center;
          background-color: #FDEEEA;
          object-fit: cover;
-
-
-     /*    background-image: url("/icon/cinemagraphs.gif");
-         background-repeat: no-repeat;
-         background-size: 100% 100%;
-*/
-
-        /* background: #000000;
-          background: -webkit-linear-gradient(to right, #434343, #000000);
-          background: linear-gradient(to right, #434343, #000000);*/
-
-        /*  background: -webkit-radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));
-             background: radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));*/
-
-
-
-         /*background-size: 400% 400%;*/
          width: 100%;
          height: 100vh;
          display: -webkit-box;
@@ -89,19 +73,14 @@
       .find-id:hover, .find-pw:hover{
          color:#c9c9c9;
       }
-
-
-
    </style>
 
 </head>
 <body>
-<c:choose>
-   <c:when test="${empty loginDTO}">
       <!-- 로그인 start -->
       <div class="flex-container" id="login-container" >
          <div class="row d-flex justify-content-center login-Container" style="min-width: 450px;">
-            <form class="form-signin w-100" method="post" action="/membership/login">
+            <form class="form-signin w-100" method="post" id="loginform">
                <div class="col-12 p-5">
                   <div class="row w-100">
                      <div class= "col-12 p-3">
@@ -120,7 +99,17 @@
                      <div class="col-12 p-3">
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호를 입력해주세요"
-                               required="required" autocomplete="off">
+                               required="required" autocomplete="off" onkeypress="caps_lock(event)">
+                     </div>
+                  </div>
+                  <div class="row" id="capslock" style="display:none;">
+                     <div class="col-12">
+                        <b>CAPSLOCK</b>이 켜져 있습니다.
+                     </div>
+                  </div>
+                  <div class="row" id="login-msg" style="display:none">
+                     <div class="col-12">
+                        <b>일치하는 데이터가 존재하지 않습니다.</b>
                      </div>
                   </div>
                   <div class="row">
@@ -137,11 +126,10 @@
                   </div>
                   <div class="row">
                      <div class="col-12 p-3 text-center">
-                        <button class="btn btn-lg btn-login w-100" type="submit">로그인</button>
+                        <button class="btn btn-lg btn-login w-100" type="button" onclick="fn_login()">로그인</button>
                      </div>
                   </div>
                </div>
-
             </form>
          </div>
       </div>
@@ -251,13 +239,8 @@
             </form>
          </div>
       </div>
-      <c:if test="${result == 'F'}">
-         <script>
-            alert("로그인 실패");
-         </script>
-      </c:if>
-      <!-- 로그인 스크립트 -->
-      <!-- 아이디값 쿠키에 저장하기 -->
+
+      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
       <script>
 
          var getSeq="";
@@ -265,6 +248,24 @@
          var isConfirm="false";
          var tempEmail ="";
 
+         function fn_login() {
+            var code=$("#code").val();
+            var password =$("#password").val();
+            $.ajax({
+               url: "/membership/login",
+               type: "post",
+               data: {code:code,password:password},
+               success: function (data) {
+                  if(data=='T'){
+                     location.href="/";
+                  }else{
+                     $("#capslock").hide();
+                     $("#login-msg").show();
+                  }
+
+               }
+            })
+         }
          function fn_toFindId(){
             getSeq="";
             getId=0;
@@ -448,8 +449,6 @@
                      html+="</div>";
                      $(".idContainer").append(html);
                   }
-
-
                }
             })
          }
@@ -597,186 +596,28 @@
 
          }
 
+         function caps_lock(e){
+            var keyCode = 0;
+            var shiftKey = false;
+            keyCode = e.keyCode;
+            shiftKey = e.shiftKey;
+            if (((keyCode >= 65 && keyCode <= 90) && !shiftKey)
+                    || ((keyCode >= 97 && keyCode <= 122) && shiftKey)) {
+               show_caps_lock();
+               setTimeout("hide_caps_lock()", 3500);
+            } else {
+               hide_caps_lock();
+            }
+         }
+         function show_caps_lock() {
+            $("#capslock").show();
+         }
+
+         function hide_caps_lock() {
+            $("#capslock").hide();
+         }
+
       </script>
-      <!-- 로그인 end -->
-   </c:when>
-   <c:otherwise>
-      <div class="wrapper d-flex align-items-stretch">
-         <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp" %>   <!-- Page Content  -->
-         <div id="content" class="p-4 p-md-5 pt-5">
-            <!-- 지영 -->
 
-            <button type="button" onclick="fn_board()">회사소식 게시판 바로가기</button>
-            <button type="button" onclick="fn_cocoaBoard()">자유 게시판 바로가기</button>
-            <button type="button" onclick="fn_albumBoard()">앨범 게시판 바로가기</button>
-            <button type="button" onclick="fn_logCreate()">업무일지 작성 바로가기</button>
-            <button type="button" onclick="fn_board()">게시판 바로가기</button>
-
-            <!-- 내정보 보기-->
-            <button type="button" onclick="fn_to_myInfo()">내 정보</button>
-            <!-- 근태현황 -->
-            <button type="button" onclick="fn_to_TA()">근태현황</button>
-            <!-- 의진: 메신저 연락처-->
-            <button type="button" onclick="fn_messenger()">메신저 바로가기</button>
-               <%--용국 템플릿 리스트 바로가기--%>
-            <button type="button" onclick="fn_totemplate()">기안 작성 바로가기</button>
-
-            <!-- 효경 -->
-            <input type=button value="저장된" id=temporaryBtn><br>
-            <input type=button value="상신한" id=raiseBtn><br>
-            <input type=button value="승인된" id=approvalBtn><br>
-            <input type=button value="반려된" id=rejectBtn><br>
-            <input type=button value="회수한" id=returnBtn><br>
-            <input type=button value="전체보기" id=allDocBtn><br>
-            <input type=button value="문서대장" id=allConfirmDocBtn><br>
-            <br>
-            <input type=button value="메일쓰기" id=sendEmailBtn><br>
-            <input type=button value="내게 쓴 메일" id=sendToMeBtn><br>
-            <input type=button value="받은 메일함" id=receiveBtn><br>
-            <input type=button value="보낸 메일함" id=sendBtn><br>
-            <input type=button value="휴지통(메일)" id=deleteBtn><br>
-            <br>
-            <input type=button value="일정" id=scheduleBtn><br>
-            <input type=button value="대사우 서비스" id=leaveBtn><br>
-            <input type=button value="메인페이지 테스트" id=mainBtn><br>
-
-               <%--용국--%>
-            <button type="button" onclick="fn_toBD()">결재전</button>
-            <button type="button" onclick="fn_toNFD()">진행중</button>
-            <button type="button" onclick="fn_toFD()">완료된</button>
-            <button type="button" onclick="fn_toRD()">반려한</button>
-            <button type="button" onclick="fn_toNex()">넥사크로</button>
-            <a href="/membership/logout">로그아웃</a>
-            <button type="button" onclick="fn_managerMode()" style="display: none">관리자 모드</button>
-         </div>
-      </div>
-      <script>
-         let temporaryBtn = document.getElementById("temporaryBtn");
-         temporaryBtn.onclick = function () {
-            location.href = "/document/d_searchTemporary.document?&searchText=";
-         }
-         let raiseBtn = document.getElementById("raiseBtn");
-         raiseBtn.onclick = function () {
-            location.href = "/document/d_searchRaise.document?&searchText=";
-         }
-         let approvalBtn = document.getElementById("approvalBtn");
-         approvalBtn.onclick = function () {
-            location.href = "/document/d_searchApproval.document?&searchText=";
-         }
-         let rejectBtn = document.getElementById("rejectBtn");
-         rejectBtn.onclick = function () {
-            location.href = "/document/d_searchReject.document?&searchText=";
-         }
-         let returnBtn = document.getElementById("returnBtn");
-         returnBtn.onclick = function () {
-            location.href = "/document/d_searchReturn.document?&searchText=";
-         }
-         let allDocBtn = document.getElementById("allDocBtn");
-         allDocBtn.onclick = function () {
-            location.href = "/document/allDocument.document";
-         }
-         let allConfirmDocBtn = document.getElementById("allConfirmDocBtn");
-         allConfirmDocBtn.onclick = function () {
-            location.href = "/document/allConfirmDoc.document";
-         }
-
-         let sendEmailBtn = document.getElementById("sendEmailBtn");
-         sendEmailBtn.onclick = function () {
-            location.href = "/email/sendPage.email";
-         }
-         let sendToMeBtn = document.getElementById("sendToMeBtn");
-         sendToMeBtn.onclick = function () {
-            location.href = "/email/sendToMeList.email?cpage=1";
-         }
-         let receiveBtn = document.getElementById("receiveBtn");
-         receiveBtn.onclick = function () {
-            location.href = "/email/receiveList.email?cpage=1";
-         }
-         let sendBtn = document.getElementById("sendBtn");
-         sendBtn.onclick = function () {
-            location.href = "/email/sendList.email?cpage=1";
-         }
-         let deleteBtn = document.getElementById("deleteBtn");
-         deleteBtn.onclick = function () {
-            location.href = "/email/deleteList.email?cpage=1";
-         }
-
-         let scheduleBtn = document.getElementById("scheduleBtn");
-         scheduleBtn.onclick = function () {
-            location.href = "/schedule/toScheduleMain.schedule";
-         }
-         let leaveBtn = document.getElementById("leaveBtn");
-         leaveBtn.onclick = function () {
-            location.href = "/leave/toLeaveMain.leave";
-         }
-
-         let mainBtn = document.getElementById("mainBtn");
-         mainBtn.onclick = function () {
-            location.href = "/main";
-         }
-
-         /*지영 부분*/
-         //회사소식
-         function fn_board() {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
-         }
-
-         //자유게시판
-         function fn_cocoaBoard() {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=2"
-         }
-
-         //앨범게시판
-         function fn_albumBoard() {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=3"
-         }
-
-         //업무일지 작성
-         function fn_logCreate() {
-            location.href = "/log/logCreate.log"
-         }
-
-         /*내정보보기*/
-         function fn_to_myInfo() {
-            location.href = "/membership/myInfo";
-         }
-
-         /*근태현황*/
-         function fn_to_TA() {
-            location.href = "/attendance/toAttendanceView";
-         }
-
-         /*메신저 팝업 : messsenger*/
-         function fn_messenger() {
-            var popup = window.open('/messenger/contactList', 'messenger', 'width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
-         }
-
-         function fn_totemplate() {
-            location.href = "/document/toTemplateList.document";
-
-         }
-
-         function fn_toBD() {
-            location.href = "/document/toBDocument.document?cpage=1"
-         }
-
-         function fn_toNFD() {
-            location.href = "/document/toNFDocument.document?cpage=1"
-         }
-
-         function fn_toFD() {
-            location.href = "/document/toFDocument.document?cpage=1"
-         }
-
-         function fn_toRD() {
-            location.href = "/document/toRDocument.document?cpage=1"
-         }
-
-         function fn_toNex() {
-            location.href ="/toNex";
-         }
-      </script>
-   </c:otherwise>
-</c:choose>
 </body>
 </html>

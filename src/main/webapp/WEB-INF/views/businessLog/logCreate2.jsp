@@ -9,7 +9,7 @@
 <style type="text/css">
 .row{border-bottom: 1px solid pink;}
 .select{text-align:right;}
-.date_box>input{width:30%;padding:7px;}
+.date_box>input{width:58%;}
 #selectBy{border:none;background-color:transparent;}
 #selectBy:focus{outline:none;}
 input{width:100%;}
@@ -59,16 +59,18 @@ input{width:100%;}
 					<div class="col-md-12 head_box">
 						<b><span class="files" id="files">일정</span></b>
 					</div>
-					<div class="col-12 date_box" id="startDate">
+					<div class="col-6 date_box">
+						<b>시작일 :</b> 
 						<input type="date" class="date ml-1 mr-1" name="report_start" id="report_start">
+						<input type="week" class="week ml-1 mr-1" name="report_start" id="report_start_week">
+						<input type="month" class="month ml-1 mr-1" name="report_start" id="report_start_month">
 					</div>
-					<div class="col-12 date_box"  id="report_start_week">
-						<input type="week" class="week ml-1 mr-1" name="report_start">
+					<div class="col-6 date_box" id="endDate"> 
+						<b>마감일 :</b>
+						<input type="date" class="date ml-1 mr-1" name="report_end" id="report_end">
+						<input type="week" class="week ml-1 mr-1" name="report_end" id="report_end_week">
+						<input type="month" class="month ml-1 mr-1" name="report_end" id="report_end_month">
 					</div>
-					<div class="col-12 date_box" id="report_start_month">
-						<input type="month" class="month ml-1 mr-1" name="report_start">
-					</div>
-					
 				</div>
 				<script type="text/javascript">
 					
@@ -109,18 +111,27 @@ input{width:100%;}
 <script src="/js/jquery.MultiFile.min.js"></script>
    	<script src="/js/bootstrap.min.js"></script>
 <script>
-		window.onload = function(){
-		let startDate= document.getElementById("startDate");
-		let report_start_week = document.getElementById("report_start_week");
-		let report_start_month = document.getElementById("report_start_month");
-			startDate.style.display="block";
-			report_start_week.style.display="none";
-			report_start_month.style.display="none";
-		
-		}
 /*-------------------------작성*/
 		 $('#btn_write').on("click", function() {
-		
+		 var report_start =$("#report_start").val().replaceAll("-","");
+	        var report_end =$("#report_end").val().replaceAll("-","");
+	        var start = $("#report_start").val();
+	        var end = $("#report_end").val();
+	        var temp =end.split("-");
+	        var date = new Date(temp[0],temp[1]-1,temp[2]);
+	        var enddate = new Date(date.setDate(date.getDate()+1));
+	        var year = enddate.getFullYear();
+	        var month = enddate.getMonth()+1;
+	        var date = enddate.getDate();
+	        var today ="";
+	        if(month.toString().length==1 && date.toString().length==1) {
+	            today = year + "-0" + month + "-0" + date;
+	        }else if(month.toString().length==1){
+	            today =year + "-0" + month + "-" + date;
+	        }else{
+	            today =year + "-" + month + "-" + date;
+	        }
+	        $("#temp").val(today);
 			if ( $("#selectBy").val()==""){
 	           alert('업무일지 종류를 선택해주세요');
            	   $("#selectBy").focus();
@@ -133,6 +144,15 @@ input{width:100%;}
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
 	           return 
+	        }else if (report_start>report_end) {
+	            alert("시작일을 다시 선택해 주세요.");
+	            return ;
+	        }else if(start==""){
+	            alert("시작일을 입력해주세요.");
+	            return ;
+	        }else if(end==""){
+	            alert("종료일을 입력해주세요..");
+	            return ;
 	        }
          $('#submitForm').submit();
         })
@@ -154,46 +174,65 @@ input{width:100%;}
 
 	/*----------마감일 Event-------*/
 	let selectBy = document.getElementById("selectBy");
-  	 var curdate = new Date();
-	    var year =curdate.getFullYear();
-	    var month =curdate.getMonth()+1;
-	    var date = curdate.getDate();
-	    var today ="";
-	    if(month.toString().length==1&&date.toString().length==1) {
-	        today = year + "-0" + month + "-0" + date;
-	    }else if(month.toString().length==1){
-	        today =year + "-0" + month + "-" + date;
-	    }else{
-	        today =year + "-" + month + "-" + date;
-	    }
+	let endDate = document.getElementById("endDate");
+	let daily = document.getElementById("daily");
+	let report_end = document.getElementById("report_end");
+	var curdate = new Date();
+    var year =curdate.getFullYear();
+    var month =curdate.getMonth()+1;
+    var date = curdate.getDate();
+    var today ="";
+    if(month.toString().length==1&&date.toString().length==1) {
+        today = year + "-0" + month + "-0" + date;
+    }else if(month.toString().length==1){
+        today =year + "-0" + month + "-" + date;
+    }else{
+        today =year + "-" + month + "-" + date;
+    }
+    	
 	selectBy.addEventListener("change",function(){
 	   let index= selectBy.selectedIndex;
 	   if(index=="1"){ // 일일
 	   		console.log("일일");
-	        startDate.style.display="block";
+	        endDate.style.display="none";
 	        report_start.value=today;
-	        report_start_week.style.display="none";
-	        report_start_month.style.display="none";
-	        report_start.value=today;
-	        
+	        report_end.value = today;
+	        console.log(today);
 	   }else if(index=="2"){ //주간
-	        report_start.style.display="none";
-	        report_start_week.style.display="block";
-	        report_start_month.style.display="none";
+	        endDate.style.display="block";
 	        report_start.value=null;
-	        report_start_month.value=null;
+	        report_end.value = null;
 	   }else if(index=="3"){ //월별
-	        report_start.style.display="none";
-	        report_start_week.style.display="none";
-	        report_start_month.style.display="block";
+	        endDate.style.display="block";
 	        report_start.value=null;
-	        report_start_week.value=null;
+	        report_end.value = null;
 	   }
 	})
 	
 	
 	/* ------------------임시저장*/
-	$('#btn_tempSaved').on("click", function() {
+		
+		 $('#btn_tempSaved').on("click", function() {
+		 var report_start =$("#report_start").val().replaceAll("-","");
+        var report_end =$("#report_end").val().replaceAll("-","");
+        var start = $("#report_start").val();
+        var end = $("#report_end").val();
+        var temp =end.split("-");
+        var date = new Date(temp[0],temp[1]-1,temp[2]);
+        var enddate = new Date(date.setDate(date.getDate()+1));
+        var year = enddate.getFullYear();
+        var month = enddate.getMonth()+1;
+        var date = enddate.getDate();
+        var today ="";
+        if(month.toString().length==1 && date.toString().length==1) {
+            today = year + "-0" + month + "-0" + date;
+        }else if(month.toString().length==1){
+            today =year + "-0" + month + "-" + date;
+        }else{
+            today =year + "-" + month + "-" + date;
+        }
+        $("#temp").val(today);
+
        if ( $("#selectBy").val()==""){
 	           alert('업무일지 종류를 선택해주세요');
            	   $("#selectBy").focus();
@@ -206,6 +245,15 @@ input{width:100%;}
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
 	           return 
+	        }else if (report_start>report_end) {
+	            alert("시작일을 다시 선택해 주세요.");
+	            return ;
+	        }else if(start==""){
+	            alert("시작일을 입력해주세요.");
+	            return ;
+	        }else if(end==""){
+	            alert("종료일을 입력해주세요..");
+	            return ;
 	        }
 		$("#submitForm").attr("action","/log/logTempSave.log");
          $('#submitForm').submit();
@@ -234,7 +282,7 @@ input{width:100%;}
 	/*홈으로*/
 		function fn_home() {
 			location.href = "/";
-		}
+		}		
 </script>
 </body>
 </html>

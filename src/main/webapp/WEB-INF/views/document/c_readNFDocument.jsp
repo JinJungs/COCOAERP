@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <input type="hidden">
-                        <input type=button value=조회 onclick="fn_btnsearch()">
+                        <input type=button class="btn btn-primary" value=조회 onclick="fn_btnsearch()">
                     </div>
                     <input type="hidden" name="cpage" id=cpage value="${cpage}">
                 </div>
@@ -114,6 +114,7 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script>
     var curdate = new Date();
     var year =curdate.getFullYear();
@@ -219,7 +220,7 @@
                 for(var i=0;i<data.length-1;i++){
                     html+="<div class=\"row text-center\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox\">"+data[i].title+"</div>";
+                    html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox text-left pl-4\">"+data[i].title+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">결재</div>";
