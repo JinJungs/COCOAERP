@@ -24,6 +24,7 @@
 </head>
 <body>
 <nav id="sidebar" >
+    <a href="/membership/logout" style="color:white"><b>로그아웃(임시)</b></a>
     <div class="custom-menu">
         <button type="button" id="sidebarCollapse" class="btn btn-primary" >
             <i class="fa fa-bars"></i> <span class="sr-only">Toggle Menu</span>
