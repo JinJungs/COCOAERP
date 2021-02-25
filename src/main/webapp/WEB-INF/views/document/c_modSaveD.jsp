@@ -180,7 +180,7 @@
                                 <div class="col-12 p-2"><input type="text" class="w-100" id="search" placeholder="부서명, 이름 입력." autocomplete="off"></div>
                             </div>
                             <div class="row">
-                                <div class="col-12 ">-대표 회사명 넣을지?</div>
+                                <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
                             <form id="deptForm">
@@ -228,6 +228,7 @@
     </c:forEach>
 </form>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
 <script src="/js/bindWithDelay.js"></script>
@@ -388,7 +389,6 @@
 
         function fn_getSearchDeptList(code){
             return new Promise(function (resolve,reject) {
-
                 $.ajax({
                     type : "POST",
                     data : {code:code},

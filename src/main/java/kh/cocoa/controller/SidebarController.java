@@ -122,4 +122,9 @@ public class SidebarController {
         return nr;
     }
 
+    @RequestMapping("clicka")
+    public void clicka(){
+        System.out.println("a태그 클릭");
+    }
+
 }

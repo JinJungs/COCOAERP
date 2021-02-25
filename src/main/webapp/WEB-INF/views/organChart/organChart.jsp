@@ -94,7 +94,7 @@
 
                 </div>
 
-                <div class="row w-100" style="min-width: 1280px;min-height: 800px;" >
+                <div class="row w-100" style="min-width: 1080px;min-height: 600px;" >
                     <div class="col-3 p-4 " style="border: 1px solid #333; max-width: 400px;">
                         <div class="row pb-3" style="border-bottom: 1px solid #333; ">
                             <div class="col-6  user-name" style="font-size: 18px;font-weight: bold" onclick="fn_getEmpInfo(${user.code})">${user.name} | ${user.posname}</div>
@@ -115,7 +115,7 @@
                             </c:forEach>
                         </form>
                     </div>
-                    <div class="col-9  r-container">
+                    <div class="col-9  r-container" style="max-height: 700px;min-height: 700px;">
 
                     </div>
                 </div>
@@ -132,68 +132,68 @@
                         <div class="col-10 p-2" style="font-size: 24px; font-weight: bold">
                             상세 정보
                         </div>
-                        <div class="col-1 pt-3">
+                        <div class="col-1 pt-2">
                             <img class="icon modalemailicon" src="/icon/envelope-fill.svg/">
                         </div>
-                        <div class="col-1 pt-3">
+                        <div class="col-1 pt-2">
                             <img class="icon modalchaticon"  src="/icon/chat-full.svg/">
                         </div>
                     </div>
                     <div class="row w-100 mt-3">
                         <div class="col-12 text-center">
-                            <img id="emp-profile" style="width: 100px;height: 100px;">
+                            <img id="emp-profile" style="width: 100px;height: 100px; border-radius: 50%;">
                         </div>
                     </div>
                     <div class="row w-100 mt-3">
-                        <div class="col-10 p-3 text-right">
+                        <div class="col-10 p-2 text-right">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             이름
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-name">
+                        <div class="col-8 p-2 emp-contents" id="emp-name">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             성별
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-gender">
+                        <div class="col-8 p-2 emp-contents" id="emp-gender">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             입사일
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-hire_date">
+                        <div class="col-8 p-2 emp-contents" id="emp-hire_date">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             부서 | 직급
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-dept">
+                        <div class="col-8 p-2 emp-contents" id="emp-dept">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             내선 번호
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-office_phone">
+                        <div class="col-8 p-2 emp-contents" id="emp-office_phone">
 
                         </div>
                     </div>
-                    <div class="row w-100 mt-4">
-                        <div class="col-3 p-3" style="font-size: 18px; font-weight: bold">
+                    <div class="row w-100 mt-3">
+                        <div class="col-3 p-2" style="font-size: 18px; font-weight: bold">
                             회사 이메일
                         </div>
-                        <div class="col-8 p-3 emp-contents" id="emp-office_email">
+                        <div class="col-8 p-2 emp-contents" id="emp-office_email">
 
                         </div>
                     </div>
