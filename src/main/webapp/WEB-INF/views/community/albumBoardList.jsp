@@ -25,6 +25,7 @@ input{width:50%;border-bottom:1px solid pink;}
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+   	<script src="/js/bootstrap.min.js"></script>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">${mid_name}</h2>
 

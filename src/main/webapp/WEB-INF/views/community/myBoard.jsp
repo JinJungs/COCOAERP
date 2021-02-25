@@ -17,6 +17,7 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+   	<script src="/js/bootstrap.min.js"></script>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">내가 쓴 글</h2>
 

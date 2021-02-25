@@ -58,4 +58,21 @@ public class DepartmentsService implements DepartmentsDAO {
     public List<DepartmentsDTO> getDeptListForFilter() {
     	return ddao.getDeptListForFilter();
     }
+    
+    @Override
+    public int addDept(List<DepartmentsDTO> dto) {
+    	return ddao.addDept(dto);
+    };
+    
+    @Override
+    public int updateDept(List<DepartmentsDTO> dto) {
+    	return ddao.updateDept(dto);
+    };
+    
+    @Override
+    public int deleteDept(List<DepartmentsDTO> dto) {
+    	return ddao.deleteDept(dto);
+    };
+
+
 }

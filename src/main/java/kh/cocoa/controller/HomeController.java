@@ -63,14 +63,15 @@ public class HomeController {
         return "document/c_templateList";
     }
 
+
     @RequestMapping("/")
-    public String login() {
-        return "/index";
-    }
-    @RequestMapping("main")
     public String toMain(Model model) {
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        if(loginDTO==null){
+            return "/index";
+        }
        /*1. 전자 결재*/
-      EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+
       int empCode = (Integer)loginDTO.getCode();
       int deptCode = loginDTO.getDept_code();
       

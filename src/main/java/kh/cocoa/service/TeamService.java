@@ -44,4 +44,18 @@ public class TeamService implements TeamDAO {
     	return tdao.getTeamListByDeptCode(dept_code);
     };
     
+    @Override
+    public int addTeam(List<TeamDTO> dto) {
+    	return tdao.addTeam(dto);
+    };
+    
+    @Override
+    public int updateTeam(List<TeamDTO> dto) {
+    	return tdao.updateTeam(dto);
+    };
+    
+    @Override
+    public int deleteTeam(List<TeamDTO> dto) {
+    	return tdao.deleteTeam(dto);
+    }
 }

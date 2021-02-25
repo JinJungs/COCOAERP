@@ -28,7 +28,7 @@ div {
 	height: 70px; 
 	line-height: 70px; 
 	color: #666; 
-	font-size: 50px;
+	font-size: 36px;
 }
 #manageBtn {
 	float: right;
@@ -36,10 +36,10 @@ div {
 
 .box {
 	padding: 5px;
-	border-top: 0.5px solid lightgray;
-	border-left: 0.5px solid lightgray;
-	border-right: 0.5px solid lightgray;
-	border-bottom: 0.5px solid lightgray;
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+	border-left: 1px solid rgba(0, 0, 0, 0.125);
+	border-right: 1px solid rgba(0, 0, 0, 0.125);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .comunity {
@@ -86,8 +86,8 @@ div {
 					<div class="row">
 						<div class="col-12 col-sm-7" id="clock"></div>
 						<div class="col text-left text-sm-right p-sm-3">
-							<button type="button" class="mr-1 btn btn-primary" id=btnStart onclick="fn_startWork()">출근</button>
-							<button type="button" class="mr-1 btn btn-primary" id=btnEnd onclick="fn_endWork()">퇴근</button>
+							<button type="button" class="mr-1 btn btn-outline-dark" id=btnStart onclick="fn_startWork()">출근</button>
+							<button type="button" class="mr-1 btn btn-outline-dark" id=btnEnd onclick="fn_endWork()">퇴근</button>
 							<input type="checkbox" name="outSide" id="outSide" value="out"> 외근
 						</div>
 					</div>
@@ -107,26 +107,30 @@ div {
 			<div class="row">
 				<div class="col-12 col-md-5 box mr-3 mb-3">
 					<div class="row">
-						<div class="comunity col-12 pt-3 pb-3" style="min-height: 200px;">
-							<h4 class="p-2 m-0">
-								<b>회사 전체 공지</b>
-							</h4>
-							<input type="hidden" name="writer_code" value="${writer_code}">
+						<div class="comunity col-12 pt-1 pb-3" style="min-height: 200px;">
 							<div class="row">
-								<div class="on col-4">
-									<b>부서명</b>
+								<div class="col-12 pb-1" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+									<h5 class="p-2 m-0">
+										<b>회사 전체 공지</b>
+									</h5>
 								</div>
-								<div class="col-8">
+							</div>
+							<input type="hidden" name="writer_code" value="${writer_code}">
+							<div class="row pt-2">
+								<div class="col-8 pl-4">
 									<b>제목</b>
+								</div>
+								<div class="on col-4">
+									<b>부서</b>
 								</div>
 							</div>
 							<div class="top row">
 								<c:forEach var="n" items="${noBoardList}" begin="0" end="3">
-									<div class="on col-4 p-1">(${n.name })</div>
-									<div class="col-8 p-1">
+									<div class="col-8 p-1 pl-4">
 										<a
 											href="/noBoard/notificationBoardRead.no?menu_seq=1&seq=${n.seq }&writer_code=${n.writer_code}">${n.title }</a>
 									</div>
+									<div class="on col-4 p-1">${n.name }</div>
 								</c:forEach>
 								<div class="col-12 p-1 text-right pr-3 mt-2">
 									<a
@@ -138,10 +142,14 @@ div {
 					</div>
 					<div class="row">
 						<div class="email col-12 pt-3 pb-3" style="min-height: 200px;">
-							<h4 class="p-2 m-0">
-								<b>받은 메일함</b>
-							</h4>
-							<div class="row p-1">
+							<div class="row">
+								<div class="col-12 pb-1" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+									<h5 class="p-2 m-0">
+										<b>받은 메일함</b>
+									</h5>
+								</div>
+							</div>
+							<div class="row pt-2">
 								<div class="col-4 col-md-6 col-xl-4 pl-4">
 									<b>제목</b>
 								</div>
@@ -173,9 +181,14 @@ div {
 					<!-- 내용보이기 - 보낸이,제목, 날짜, 상태-->
 					<div class="top row">
 						<div class="col-12 pt-3 pb-3" style="min-height: 200px;">
-							<h4 class="p-2 m-0">
-								<b>보낸 업무일지함</b>
-							</h4>
+							<div class="row">
+								<div class="col-12 pb-1" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+									<h5 class="p-2 m-0">
+										<b>보낸 업무일지함</b>
+									</h5>
+								</div>
+							</div>
+
 							<div class="toB_LogBtn" id="toBusinessLog">
 								<b>업무일지 작성</b>
 							</div>
@@ -390,7 +403,7 @@ div {
          // if(currentSeconds >= 50){// 50초 이상일 때 색을 변환해 준다.
          //    currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
          // }
-         clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size:50px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
+         clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size: 24px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
 
          setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
       }

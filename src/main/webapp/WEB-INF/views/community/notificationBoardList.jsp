@@ -94,6 +94,7 @@ input{width:50%;border-bottom:1px solid pink;}
 			</div>
 		</div>
 	</div>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script>
 		/*검색창 누르면 placeholder 없애기*/
 		function search_box(){
