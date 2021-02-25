@@ -70,9 +70,10 @@ public class HomeController {
     @RequestMapping("main")
     public String toMain(Model model) {
        /*1. 전자 결재*/
-       //0. 사번
       EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
       int empCode = (Integer)loginDTO.getCode();
+      int deptCode = loginDTO.getDept_code();
+      
       List<DocumentDTO> getBList =dservice.getAllBeforeConfirmList(empCode); //결재전
       List<DocumentDTO> getNFList =dservice.getAllNFConfirmList(empCode);
       List<DocumentDTO> getFList =dservice.getAllNFConfirmList(empCode);
@@ -142,6 +143,7 @@ public class HomeController {
 
       model.addAttribute("clist",hmlist);
       model.addAttribute("docList", docList);
+      model.addAttribute("deptCode", deptCode);
        
        /*2. 근태 관리*/
        

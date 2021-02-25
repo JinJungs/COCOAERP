@@ -105,6 +105,7 @@ input{width:100%;}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script>
 	/*제목부분 누르면 기존에 있던 내용 없애기*/
  	function title_box(){

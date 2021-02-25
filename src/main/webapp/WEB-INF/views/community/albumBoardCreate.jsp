@@ -72,6 +72,7 @@ input{width:100%;}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
+   	<script src="/js/bootstrap.min.js"></script>
 <script>
 		/*파일첨부*/
 		 $('#btn_write').on("click", function() {
@@ -119,5 +120,4 @@ input{width:100%;}
 		
 </script>
 </body>
-
 </html>

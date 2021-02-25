@@ -860,7 +860,7 @@ public class DocumentController {
 			dservice.addIsConfirm(seq,empCode,comments);
 		}
 
-		return "redirect:/";
+		return "redirect:/document/toBDocument.document?cpage=1";
 	}
 
 	@RequestMapping("return.document")
@@ -869,7 +869,7 @@ public class DocumentController {
 		int empCode = (Integer)loginDTO.getCode();
 		dservice.returnD(seq,empCode);
 		dservice.addRIsConfirm(seq,empCode,comments);
-		return "redirect:/";
+		return "redirect:/document/toRDocument.document?cpage=1";
 	}
 
 
@@ -891,7 +891,4 @@ public class DocumentController {
 		model.addAttribute("deptList", deptList);
 		return "document/test";
 	}
-
 }
-
-
