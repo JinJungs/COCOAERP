@@ -1,9 +1,10 @@
 package kh.cocoa.dao;
 
-import kh.cocoa.dto.DepartmentsDTO;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import kh.cocoa.dto.DepartmentsDTO;
 
 @Mapper
 public interface DepartmentsDAO {
@@ -27,5 +28,11 @@ public interface DepartmentsDAO {
     public List<DepartmentsDTO> getDeptListWithout0();
 
     public List<DepartmentsDTO> getDeptListForFilter();
+    
+    public int addDept(List<DepartmentsDTO> dto);
+    
+    public int updateDept(List<DepartmentsDTO> dto);
+    
+    public int deleteDept(List<DepartmentsDTO> dto);
 
 }

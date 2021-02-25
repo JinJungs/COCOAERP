@@ -1,5 +1,6 @@
 package kh.cocoa.dao;
 
+import kh.cocoa.dto.DepartmentsDTO;
 import kh.cocoa.dto.TeamDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,7 @@ public interface TeamDAO {
     /* 소형 관리자 사용자관리*/
     public List<TeamDTO> getAllTeamList();
     public List<TeamDTO> getTeamListByDeptCode(int dept_code);
+    public int addTeam(List<TeamDTO> dto);
+    public int updateTeam(List<TeamDTO> dto);
+    public int deleteTeam(List<TeamDTO> dto);
 }
