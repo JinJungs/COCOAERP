@@ -36,4 +36,6 @@ public interface TemplatesDAO {
 
 	public int getTemplateCount(int form_code);
 
+	public List<TemplatesDTO> getTemplateList3();
+
 }

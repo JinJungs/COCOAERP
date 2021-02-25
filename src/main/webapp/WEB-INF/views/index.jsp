@@ -12,6 +12,7 @@
 <html>
 <head>
    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script>
    <meta charset="UTF-8">
 
    <title>Insert title here</title>
@@ -43,14 +44,23 @@
       }
 
       .flex-container{
-         background-image: url("/icon/cinemagraphs.gif");
-         background-size: 100% 100%;
-         background-repeat: no-repeat;
-         /* background: #000000;  !* fallback for old browsers *!
-          background: -webkit-linear-gradient(to right, #434343, #000000);  !* Chrome 10-25, Safari 5.1-6 *!
-          background: linear-gradient(to right, #434343, #000000); !* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ *!*/
+         background-image: url("/icon/cute4.gif");
+         background-repeat:no-repeat;
+         background-position: center;
+         background-color: #FDEEEA;
+         object-fit: cover;
 
-         /*    background: -webkit-radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));
+
+     /*    background-image: url("/icon/cinemagraphs.gif");
+         background-repeat: no-repeat;
+         background-size: 100% 100%;
+*/
+
+        /* background: #000000;
+          background: -webkit-linear-gradient(to right, #434343, #000000);
+          background: linear-gradient(to right, #434343, #000000);*/
+
+        /*  background: -webkit-radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));
              background: radial-gradient(rgb(0, 0, 0), rgb(3, 129, 255));*/
 
 
@@ -131,7 +141,6 @@
                         <button class="btn btn-lg btn-login w-100" type="submit">로그인</button>
                      </div>
                   </div>
-                  <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /-->
                </div>
 
             </form>
@@ -250,20 +259,86 @@
       </c:if>
       <!-- 로그인 스크립트 -->
       <!-- 아이디값 쿠키에 저장하기 -->
+
       <script>
+
+         var getSeq="";
+         var getId=0;
+         var isConfirm="false";
+         var tempEmail ="";
+
          function fn_toFindId(){
+            getSeq="";
+            getId=0;
+            isConfirm="false";
+            $(".inputEmailNum").attr("class","row d-none inputEmailNum");
+            $("#afterAuth").remove();
+            $("#find-pw-resetform")[0].reset();
+            $(".emailmsg").text("");
+            $(".idmsg").text("");
+            $(".authmsg").text("");
+            $(".checkmsg").text("");
+            $("#confirmmsg").remove();
+            $("#checkmsgbox").remove();
             $("#find-id-container").attr("class","flex-container");
             $("#login-container").attr("class","flex-container d-none");
             $("#findPw-container").attr("class","flex-container d-none");
-
          }
 
          function fn_toFindPw(){
-            console.log("클릭");
+            tempEmail="";
+            $("#idlist").empty();
+            $("#findidmsg").text("");
             $("#find-id-resetform")[0].reset();
             $("#find-id-container").attr("class","flex-container d-none");
             $("#login-container").attr("class","flex-container d-none");
             $("#findPw-container").attr("class","flex-container");
+         }
+
+         function fn_toFindPwbyFindId() {
+            tempEmail="";
+            var getRadio = $("input[name=code]:checked").val();
+            if (tempEmail != "" || getRadio != undefined) {
+               $("#email_pw").val(tempEmail);
+               $("#code_id").val(getRadio);
+            }
+            $("#idlist").empty();
+            $("#findidmsg").text("");
+            $("#find-id-resetform")[0].reset();
+            $("#find-id-container").attr("class","flex-container  d-none");
+            $("#login-container").attr("class","flex-container d-none");
+            $("#findPw-container").attr("class","flex-container");
+         }
+
+
+         function toLogin() {
+
+            var getRadio=$("input[name=code]:checked").val();
+            if(getRadio!=undefined){
+               $("#code").val(getRadio);
+            }
+            //닫아주기 패스워드
+            getSeq="";
+            getId=0;
+            isConfirm="false";
+            $(".inputEmailNum").attr("class","row d-none inputEmailNum");
+            $("#confirmmsg").remove();
+            $("#afterAuth").remove();
+            $("#checkmsgbox").remove();
+            $("#find-pw-resetform")[0].reset();
+            $(".emailmsg").text("");
+            $(".idmsg").text("");
+            $(".authmsg").text("");
+            $(".checkmsg").text("");
+            //닫아주기 아이디
+            tempEmail="";
+            $("#idlist").empty();
+            $("#findidmsg").text("");
+            $("#find-id-resetform")[0].reset();
+            $("#find-id-container").attr("class","flex-container  d-none");
+            $("#login-container").attr("class","flex-container");
+            $("#findPw-container").attr("class","flex-container d-none");
+
          }
 
          $(document).ready(function () {
@@ -283,7 +358,7 @@
                      setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
                   } else { // ID 저장하기 체크 해제 시,
                      deleteCookie("userInputId");
-                  }
+                  }findId()
                });
 
                // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
@@ -324,7 +399,7 @@
             }
          });
 
-         var tempEmail ="";
+
 
          function findId() {
             var email= $("#email").val();
@@ -346,12 +421,13 @@
                data: {email: $("#email").val()},
                dataType: "json",
                success: function (data) {
+                  console.log(data);
                   tempEmail=$("#email").val();
                   var html="";
                   $(".idContainer").empty();
                   if(data!="") {
                      html+="<div class=row>";
-                     html+="<div class='col-12 p-3'>";
+                     html+="<div class='col-12 p-3' id=findidmsg>";
                      html+="고객님의 정보와 일치하는 아이디 목록입니다.";
                      html+="</div>";
                      html+="</div>";
@@ -368,45 +444,19 @@
                      $(".idContainer").append(html);
                   }else{
                      html+="<div class=row id=idlist>";
-                     html+="<div class='col-12 p-3'>";
+                     html+="<div class='col-12 p-3' id=findidmsg>";
                      html+="고객님의 정보와 일치하는 정보가 없습니다.";
                      html+="</div>";
                      html+="</div>";
                      $(".idContainer").append(html);
                   }
-
-
                }
             })
          }
 
-         function toLogin() {
-            var getRadio=$("input[name=code]:checked").val();
-            if(getRadio!=undefined){
-               $("#code").val(getRadio);
-            }
-            $("#find-id-resetform")[0].reset();
-            $("#find-pw-resetform")[0].reset();
-            $("#find-id-container").attr("class","flex-container  d-none");
-            $("#login-container").attr("class","flex-container");
-            $("#findPw-container").attr("class","flex-container d-none");
 
-         }
-         function fn_toFindPwbyFindId() {
-            var getRadio = $("input[name=code]:checked").val();
-            if (tempEmail != "" || getRadio != undefined) {
-               $("#email_pw").val(tempEmail);
-               $("#code_id").val(getRadio);
-            }
-            $(".idlist").empty();
-            $("#find-id-resetform")[0].reset();
-            $("#find-id-container").attr("class","flex-container  d-none");
-            $("#login-container").attr("class","flex-container d-none");
-            $("#findPw-container").attr("class","flex-container");
-         }
-         var getSeq="";
-         var getId=0;
-         var isConfirm="false";
+
+
 
          function fn_checkEmail(){
             $(".emailmsg").text("");
@@ -477,15 +527,15 @@
                isConfirm=getSeq;
                $(".authmsg").text("인증이 완료되었습니다.");
                html="";
-               html+="<div class=row>";
+               html+="<div class=row id=afterAuth>";
                html+="<div class='col-12 p-3'>";
                html+="<input type=password id=pw name=password class='form-control w-100' placeholder='새로운 비밀번호를 입력하세요.' required autocomplete=off>";
                html+="</div></div>";
-               html+="<div class=row>";
+               html+="<div class=row id=confirmmsg>";
                html+="<div class='col-12 p-3'>";
                html+="<input type=password id=checkPw class='form-control w-100' placeholder='비밀번호를 한번 더 입력하세요.' required autocomplete=off oninput=fn_checkPw()>";
                html+="</div></div>";
-               html+="<div class=row>";
+               html+="<div class=row id=checkmsgbox>";
                html+="<div class='col-12 p-3 checkmsg'>";
                html+="</div></div>";
                $(".sendAuth").after(html);
@@ -596,7 +646,7 @@
             <button type="button" onclick="fn_toFD()">완료된</button>
             <button type="button" onclick="fn_toRD()">반려한</button>
             <button type="button" onclick="fn_toNex()">넥사크로</button>
-            <a href="/membership/logout">로그아웃</a>
+            <a href="#" onclick="fn_logout()">로그아웃</a>
             <button type="button" onclick="fn_managerMode()" style="display: none">관리자 모드</button>
          </div>
       </div>
@@ -724,6 +774,13 @@
 
          function fn_toNex() {
             location.href ="/toNex";
+         }
+
+         function fn_logout() {
+            localStorage.clear();
+            location.href="/membership/logout";
+
+
          }
       </script>
    </c:otherwise>

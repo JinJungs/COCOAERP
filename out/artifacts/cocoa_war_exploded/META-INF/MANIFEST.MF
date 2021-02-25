@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Created-By: IntelliJ IDEA
-Built-By: Admin
-Build-Jdk: version 1.8.0_251
-Implementation-Title: cocoa
-Implementation-Version: 0.0.1-SNAPSHOT
-Implementation-Vendor-Id: kh.cocoa
-Main-Class: ${start-class}
-

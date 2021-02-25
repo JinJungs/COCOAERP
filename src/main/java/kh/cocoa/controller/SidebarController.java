@@ -94,7 +94,6 @@ public class SidebarController {
             param.put("profile","/img/Profile-m.png");
         }else{
             String profileLoc = "/profileFile/" + getProfile.getSavedname();
-            System.out.println(profileLoc);
             param.put("profile",profileLoc);
         }
         jArrayAll.put(param);
@@ -121,6 +120,11 @@ public class SidebarController {
         //int result = sService.updateSidebar(sdto);
         int result = sService.updateSidebarAll(list);
         return nr;
+    }
+
+    @RequestMapping("clicka")
+    public void clicka(){
+        System.out.println("a태그 클릭");
     }
 
 }

@@ -33,7 +33,7 @@
                                 <div class="col-3 p-0">
                                     <div class="row">
                                         <div class="col-12">
-                                            <img id="profile" src="${profile}" style="height: 100px; width: 100px">
+                                            <img id="profile" src="${profile}" style="height: 100px; width: 100px; border-radius: 50%">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -285,6 +285,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<%--<script src="/js/bootstrap.min.js"></script>--%>
 <script>
     function btn_findAddress() {
         new daum.Postcode({

@@ -17,7 +17,7 @@
 
 	<select id="findIdByEmail" resultType="kh.cocoa.dto.EmployeeDTO">
 		select code from employee where email = #{email}
-	</select>
+</select>
 
 	<select id="findPwByEmail" resultType="String">
 		select password from employee where email = #{email} and code = #{code}
@@ -162,8 +162,7 @@
 		, #{i.email}
 		, #{i.b_email}
 		, #{i.gender}
-		<!--, #{i.hire_date}-->
-		, SYSDATE
+		, #{i.hire_date}
 		, #{i.withdraw}
 		, #{i.dept_code}
 		, #{i.pos_code}
@@ -172,7 +171,7 @@
 		SELECT * FROM DUAL
 	</insert>
 	
-		<insert id="addOneEmployee">
+	<insert id="addOneEmployee">
 		INSERT 
 		INTO EMPLOYEE 
 		(CODE,NAME,PASSWORD,PHONE,OFFICE_PHONE,ADDRESS,EMAIL,B_EMAIL,GENDER,HIRE_DATE,WITHDRAW,DEPT_CODE,POS_CODE,TEAM_CODE) 
@@ -186,13 +185,33 @@
 		, #{email}
 		, #{b_email}
 		, #{gender}
-		<!--, #{i.hire_date}-->
-		, SYSDATE
+		, #{i.hire_date}
 		, #{withdraw}
 		, #{dept_code}
 		, #{pos_code}
 		, #{team_code})
 	</insert>
+	
+	<update id="updateEmployee" parameterType="List">
+		<foreach collection="list" item="i" index="index" 
+      separator=";" open="DECLARE BEGIN" close="; END;">
+		UPDATE EMPLOYEE 
+		SET
+			NAME=#{i.name}
+			,PHONE=#{i.phone}
+			,OFFICE_PHONE=#{i.office_phone}
+			,ADDRESS=#{i.address}
+			,EMAIL=#{i.email}
+			,B_EMAIL=#{i.b_email}
+			,GENDER=#{i.gender}
+			,HIRE_DATE=#{i.hire_date}
+			,WITHDRAW=#{i.withdraw}
+			,DEPT_CODE=#{i.dept_code}
+			,POS_CODE=#{i.pos_code}
+			,TEAM_CODE=#{i.team_code} 
+		WHERE CODE = #{i.code}
+		</foreach>
+	</update>
 	<!-- 소형 끝 -->
 	<!-- 지영  -->
 	<!--  버그리포트 -->
