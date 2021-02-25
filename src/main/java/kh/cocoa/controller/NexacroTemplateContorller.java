@@ -34,6 +34,29 @@ public class NexacroTemplateContorller {
     @Autowired
     private HttpSession session;
 
+    @RequestMapping("/formLoad.nex")
+    public NexacroResult formLoad(){
+        System.out.println("폼로드 도착");
+        /*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");*/
+        int emp_code = 1000;
+        EmployeeDTO dto = employeeService.getEmpInfo(emp_code);
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("code",dto.getCode());
+        map.put("name",dto.getName());
+        map.put("team_name",dto.getTeamname());
+        map.put("dept_name",dto.getDeptname());
+        map.put("pos_name",dto.getPosname());
+        NexacroResult nr = new NexacroResult();
+        nr.addDataSet("out_ds",map);
+        //오리진 템플릿 리스트
+        List<TemplatesDTO> list = templatesService.getTemplateList3();
+        nr.addDataSet("out_origin",list);
+        //폼 리스트
+        List<TemplateFormDTO> formList = templateFormService.getTempleateFormList();
+        nr.addDataSet("out_title",formList);
+        return nr;
+    }
+
     @RequestMapping("/ds_user.nex")
     public NexacroResult ds_user(){
         /*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");*/
@@ -59,21 +82,6 @@ public class NexacroTemplateContorller {
         return nr;
     }
 
-    @RequestMapping("/tp_origin.nex")
-    public NexacroResult tp_origin(){
-        NexacroResult nr = new NexacroResult();
-        List<TemplatesDTO> list = templatesService.getTemplateList2();
-        nr.addDataSet("out_ds",list);
-        return nr;
-    }
-
-    @RequestMapping("/tp_title.nex")
-    public NexacroResult tp_title(){
-        NexacroResult nr = new NexacroResult();
-        List<TemplateFormDTO> list = templateFormService.getTempleateFormList();
-        nr.addDataSet("out_ds",list);
-        return nr;
-    }
 
     @RequestMapping("/onclick_tp_title.nex")
     public NexacroResult onclick_tp_title(@ParamVariable(name="code") int code){

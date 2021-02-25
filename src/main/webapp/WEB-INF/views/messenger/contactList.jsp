@@ -61,7 +61,7 @@
 					<li class="con-list m-0 pb-0">
 						<div class="d-flex bd-highlight myprofil">
 							<div class="img_cont myprofilImg">
-								<a href="#"> <img src="/img/profile-default.jpg"
+								<a href="#"> <img src="${loginDTO.profile}"
 												  class="rounded-circle user_img">
 								</a>
 							</div>
@@ -79,7 +79,7 @@
 					<li class="con-list">
 						<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})" >
 							<div class="img_cont">
-								<a href="#"> <img src="/img/profile-default.jpg"
+								<a href="#"> <img src="${i.profile}"
 												  class="rounded-circle user_img">
 								</a>
 							</div>
@@ -96,7 +96,7 @@
 						<li class="con-list">
 							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
-									<a href="#"> <img src="/img/profile-default.jpg"
+									<a href="#"> <img src="${i.profile}"
 													  class="rounded-circle user_img">
 									</a>
 								</div>
@@ -114,8 +114,7 @@
 						<li class="con-list">
 							<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
 								<div class="img_cont">
-									<a href="#"> <img src="/img/profile-default.jpg"
-													  class="rounded-circle user_img">
+									<a href="#"> <img src="${i.profile}" class="rounded-circle user_img">
 									</a>
 								</div>
 								<div class="user_info">
@@ -132,7 +131,7 @@
 						<li class="con-list">
 							<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
 								<div class="img_cont">
-									<img src="/img/profile-default.jpg" class="rounded-circle user_img">
+									<img src="${i.profile}" class="rounded-circle user_img">
 								</div>
 									<div class="user_info">
 										<c:choose>

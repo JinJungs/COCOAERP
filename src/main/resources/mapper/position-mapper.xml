@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.PositionDAO">
+	<!-- 소형 관리자 사용자관리 -->
+	<select id="getAllPosList" resultType="kh.cocoa.dto.PositionDTO">
+        SELECT*FROM POSITION ORDER BY CODE
+    </select>
+
    <select id="getPositionList" resultType="kh.cocoa.dto.PositionDTO">
    		SELECT * 
 			FROM (SELECT * FROM POSITION
@@ -8,4 +13,10 @@
 				SELECT 0 code, '전체' name FROM DUAL)
 			ORDER BY CODE
    </select>
+	<update id="updatePosList">
+		<foreach item="i" collection="list" open="DECLARE BEGIN"
+				 close="; END;" separator=";">
+		UPDATE POSITION SET NAME=#{i.name} WHERE CODE=#{i.code}
+		</foreach>
+	</update>
 </mapper>

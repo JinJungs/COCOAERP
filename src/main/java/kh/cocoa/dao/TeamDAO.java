@@ -12,4 +12,7 @@ public interface TeamDAO {
     public TeamDTO getTeamName(int code);
     public List<TeamDTO> getSearchTeamList(String name);
     public List<TeamDTO> getSearchTeamCode(String name);
+    /* 소형 관리자 사용자관리*/
+    public List<TeamDTO> getAllTeamList();
+    public List<TeamDTO> getTeamListByDeptCode(int dept_code);
 }

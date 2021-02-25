@@ -77,10 +77,14 @@
 				<div class="col-sm-7 d-none d-sm-block"></div>
 				<!--홈으로 이동  -->
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-primary"
-						onclick="fn_home()">HOME</button>
+						<button type="button" class="btn btn-primary" onclick="fn_home()">HOME</button>
 				</div>
-				
+				<script>
+					/*홈으로*/
+					function fn_home() {
+						location.href = "/";
+					}
+				</script>
 			</div>
 			    
 			    <!--글읽기와 댓글 사이 공간-->
@@ -158,7 +162,8 @@
 	   /*댓글 수정*/
 	   	function updateComment(seq){
 		$("#btn-upd"+seq).attr("onclick",null);	
-	   	$(".main_content"+seq).append("<textarea class='modify_contents'name='modify_contents' id='modify_contents"+seq+"' placeholder='수정 할 내용을 적어주세요.'></textarea>");
+	   	$(".main_content"+seq).append("<textarea class='modify_contents'name='modify_contents' id='modify_contents"+seq+"' 
+	   	placeholder='수정 할 내용을 적어주세요.'></textarea>");
 	   	$("#btn-upd"+seq).text("저장");
 		$("#btn-upd"+seq).attr("onclick","modComment("+seq+")");
 			
@@ -209,10 +214,7 @@
 	      	 }
 	  	 })
   		}
-		/*홈으로*/
-		function fn_home() {
-			location.href = "/"
-		}
+		
 		/*수정*/
 		function fn_modify(cpage,seq,menu_seq) {
 			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;

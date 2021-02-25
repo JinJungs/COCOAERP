@@ -32,4 +32,16 @@ public class TeamService implements TeamDAO {
     public List<TeamDTO> getSearchTeamCode(String name) {
         return tdao.getSearchTeamCode(name);
     }
+    
+    /* 소형 관리자 사용자관리*/
+    @Override
+    public List<TeamDTO> getAllTeamList(){
+    	return tdao.getAllTeamList();
+    };
+    
+    @Override
+    public List<TeamDTO> getTeamListByDeptCode(int dept_code){
+    	return tdao.getTeamListByDeptCode(dept_code);
+    };
+    
 }

@@ -49,6 +49,8 @@ public class DocumentDTO {
 	private boolean needPrev;
 	private boolean needNext;
 	private String name;
+
+	private int ori_temp_code;
 	
 	@Builder
 	public DocumentDTO(int seq, String title, String contents, Date write_date, Date final_date, int writer_code,

@@ -28,4 +28,14 @@ public interface TemplatesDAO {
 
 	public List<TemplatesDTO> searchList(String getSearch,int form_code);
 
+	public List<TemplatesDTO> getTemplateListbyFormCode(int form_code);
+
+	public TemplatesDTO getTemplateInfo(int code);
+
+	public int getTempCode(int code);
+
+	public int getTemplateCount(int form_code);
+
+	public List<TemplatesDTO> getTemplateList3();
+
 }

@@ -45,20 +45,23 @@ public class RestDocumentController {
     @Autowired
     private OrderService oservice;
 
+    @Autowired
+    private TemplatesService templatesService;
+
 
     @RequestMapping("getTeamList")
-    public String getTeamList(@RequestParam("code")List<Integer> code){
+    public String getTeamList(@RequestParam("code") List<Integer> code) {
         List<TeamDTO> list = new ArrayList<>();
         List<HashMap> hmlist = new ArrayList<>();
-        for(int i=0;i<code.size();i++){
-            list=tservice.getTeamList(code.get(i));
-            for(int j=list.size()-1;j>=0;j--){
+        for (int i = 0; i < code.size(); i++) {
+            list = tservice.getTeamList(code.get(i));
+            for (int j = list.size() - 1; j >= 0; j--) {
                 HashMap map = new HashMap<>();
-                int getTemaCount=eservice.getTeamCount(list.get(j).getCode());
-                map.put("count",getTemaCount);
-                map.put("team_code",list.get(j).getCode());
-                map.put("team_name",list.get(j).getName());
-                map.put("dept_code",list.get(j).getDept_code());
+                int getTemaCount = eservice.getTeamCount(list.get(j).getCode());
+                map.put("count", getTemaCount);
+                map.put("team_code", list.get(j).getCode());
+                map.put("team_name", list.get(j).getName());
+                map.put("dept_code", list.get(j).getDept_code());
                 hmlist.add(map);
             }
         }
@@ -67,22 +70,22 @@ public class RestDocumentController {
     }
 
     @RequestMapping("getemplist")
-    public String getemplist(@RequestParam("team_code")List<Integer> team_code){
+    public String getemplist(@RequestParam("team_code") List<Integer> team_code) {
         List<EmployeeDTO> getTeamList = new ArrayList<>();
 
         List<HashMap> hmlist = new ArrayList<>();
-        for(int i=0;i<team_code.size();i++) {
-            getTeamList=eservice.getTeamEmp(team_code.get(i));
-            for(int j=0;j<getTeamList.size();j++){
+        for (int i = 0; i < team_code.size(); i++) {
+            getTeamList = eservice.getTeamEmp(team_code.get(i));
+            for (int j = 0; j < getTeamList.size(); j++) {
                 HashMap map = new HashMap<>();
-                map.put("code",getTeamList.get(j).getCode());
-                map.put("name",getTeamList.get(j).getName());
-                map.put("dept_code",getTeamList.get(j).getDept_code());
-                map.put("dept_name",getTeamList.get(j).getDeptname());
-                map.put("pos_code",getTeamList.get(j).getPos_code());
-                map.put("pos_name",getTeamList.get(j).getPosname());
-                map.put("team_code",getTeamList.get(j).getTeam_code());
-                map.put("team_name",getTeamList.get(j).getTeamname());
+                map.put("code", getTeamList.get(j).getCode());
+                map.put("name", getTeamList.get(j).getName());
+                map.put("dept_code", getTeamList.get(j).getDept_code());
+                map.put("dept_name", getTeamList.get(j).getDeptname());
+                map.put("pos_code", getTeamList.get(j).getPos_code());
+                map.put("pos_name", getTeamList.get(j).getPosname());
+                map.put("team_code", getTeamList.get(j).getTeam_code());
+                map.put("team_name", getTeamList.get(j).getTeamname());
                 hmlist.add(map);
             }
         }
@@ -91,10 +94,10 @@ public class RestDocumentController {
     }
 
     @RequestMapping("getSearchList")
-    public String getSearchList(@RequestParam("name")String name){
-        List<EmployeeDTO> getSearchEmpCode =eservice.getSearchEmpCode(name);
-        List<DepartmentsDTO> getSearchDeptCode =dservice.getSearchDeptCode(name);
-        List<TeamDTO> getSearchTeamCode =tservice.getSearchTeamCode(name);
+    public String getSearchList(@RequestParam("name") String name) {
+        List<EmployeeDTO> getSearchEmpCode = eservice.getSearchEmpCode(name);
+        List<DepartmentsDTO> getSearchDeptCode = dservice.getSearchDeptCode(name);
+        List<TeamDTO> getSearchTeamCode = tservice.getSearchTeamCode(name);
         JSONArray json = new JSONArray();
         json.put(getSearchDeptCode);
         json.put(getSearchTeamCode);
@@ -103,15 +106,15 @@ public class RestDocumentController {
     }
 
     @RequestMapping("getDeptList")
-    public String getDeptList(){
+    public String getDeptList() {
         List<DepartmentsDTO> getDeptList = dservice.getDeptList();
         JSONArray json = new JSONArray(getDeptList);
         return json.toString();
     }
 
     @RequestMapping("getSearchDeptList")
-    public String getSearchDeptList(@RequestParam("code") int code){
-        if(code==0){
+    public String getSearchDeptList(@RequestParam("code") int code) {
+        if (code == 0) {
             return "";
         }
         DepartmentsDTO dept = dservice.getDeptNameByCode(code);
@@ -120,16 +123,17 @@ public class RestDocumentController {
     }
 
     @RequestMapping("getSearchTeamList")
-    public String getSearchTeamList(@RequestParam("code") int code){
-        if(code==0){
+    public String getSearchTeamList(@RequestParam("code") int code) {
+        if (code == 0) {
             return "";
         }
         TeamDTO team = tservice.getTeamName(code);
         JSONObject json = new JSONObject(team);
         return json.toString();
     }
+
     @RequestMapping("getSearchEmpList")
-    public String getSearchEmpList(@RequestParam("code") int code){
+    public String getSearchEmpList(@RequestParam("code") int code) {
 
         EmployeeDTO emp = eservice.getEmpInfo(code);
         JSONObject json = new JSONObject(emp);
@@ -212,16 +216,19 @@ public class RestDocumentController {
             }
         }
 
-
-
         return getDoc_code;
     }
 
     @RequestMapping("ajaxadddocument.document")
     public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        System.out.println("임시 - > 상신 일로오나..");
+        System.out.println(ddto);
+        System.out.println(code);
 
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
+
+        System.out.println(getDoc_code);
 
         for (int i = 0; i < code.size(); i++) {
             int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
@@ -262,6 +269,8 @@ public class RestDocumentController {
             dto.setOrder_etc(map.get(i + 2).get("value"));
             list.add(dto);
         }
+
+        System.out.println(list);
         for (int i = 0; i < list.size(); i++) {
             int result = oservice.addOrder(list.get(i).getOrder_list(), list.get(i).getOrder_count(), list.get(i).getOrder_etc(), list.get(i).getDoc_seq());
         }
@@ -398,6 +407,7 @@ public class RestDocumentController {
     //임시저장 수정 파트
     @RequestMapping("loadconfirmlist.document")
     public String loadConfirmList(@RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code) {
+        System.out.println("로드 컨펌리스트");
         List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
         ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
         for (int i = 0; i < code.size(); i++) {
@@ -414,10 +424,10 @@ public class RestDocumentController {
     }
 
     @RequestMapping("modsaveconfirm.document")
-    public int modSaveConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
-
+    public int modSaveConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        System.out.println(ddto);
         cservice.deleteConfirm(ddto.getSeq());
-        int result= docservice.modDocument(ddto);
+        int result = docservice.modDocument(ddto);
         System.out.println(result);
         for (int i = 0; i < code.size(); i++) {
             cservice.addConfirm(code.get(i), i + 1, ddto.getSeq());
@@ -445,21 +455,22 @@ public class RestDocumentController {
     }
 
     @RequestMapping("getfileList.document")
-    public String getFileList(DocumentDTO ddto){
-        List<FilesDTO> flist= fservice.getFilesListByDocSeq2(ddto.getSeq());
+    public String getFileList(DocumentDTO ddto) {
+        System.out.println("파일리스트");
+        List<FilesDTO> flist = fservice.getFilesListByDocSeq2(ddto.getSeq());
         JSONArray json = new JSONArray(flist);
         return json.toString();
     }
 
     @RequestMapping("deldocfile.document")
-    public String deldocfile(int seq){
+    public String deldocfile(int seq) {
         System.out.println(seq);
         fservice.deleteDocFile(seq);
         return "success";
     }
 
     @RequestMapping("getorderlist.document")
-    public String getOrderList(DocumentDTO ddto){
+    public String getOrderList(DocumentDTO ddto) {
         List<OrderDTO> getList = oservice.getOrderListBySeq2(ddto.getSeq());
         JSONArray json = new JSONArray(getList);
         return json.toString();
@@ -488,46 +499,70 @@ public class RestDocumentController {
     }
 
     @RequestMapping("modaddconfirm.document")
-    public int modAddConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
+    public int modAddConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
         cservice.deleteConfirm(ddto.getSeq());
-        if(ddto.getStatus().contentEquals("TEMP")) {
+        if (ddto.getStatus().contentEquals("TEMP")) {
             docservice.modAddDocument(ddto);
-        }else{
-            docservice.addDocument(ddto);
-        }
-
-        int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
-        fservice.updateFile(getDoc_code,ddto.getSeq());
-        for (int i = 0; i < code.size(); i++) {
-            cservice.addConfirm(code.get(i), i + 1, getDoc_code);
-        }
-        if (!file.get(0).getOriginalFilename().contentEquals("")) {
-            String fileRoot = Configurator.boardFileRootC;
-            File filesPath = new File(fileRoot);
-            if (!filesPath.exists()) {
-                filesPath.mkdir();
+            for (int i = 0; i < code.size(); i++) {
+                cservice.addConfirm(code.get(i), i + 1, ddto.getSeq());
             }
-            for (MultipartFile mf : file) {
-                if (!mf.getOriginalFilename().contentEquals("")) {
-                    String oriName = mf.getOriginalFilename();
-                    String uid = UUID.randomUUID().toString().replaceAll("_", "");
-                    String savedName = uid + "_" + oriName;
-                    int insertFile = fservice.documentInsertFile(oriName, savedName, getDoc_code);
-                    if (insertFile > 0) {
-                        File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
-                        FileCopyUtils.copy(mf.getBytes(), targetLoc);
+            if (!file.get(0).getOriginalFilename().contentEquals("")) {
+                String fileRoot = Configurator.boardFileRootC;
+                File filesPath = new File(fileRoot);
+                if (!filesPath.exists()) {
+                    filesPath.mkdir();
+                }
+                for (MultipartFile mf : file) {
+                    if (!mf.getOriginalFilename().contentEquals("")) {
+                        String oriName = mf.getOriginalFilename();
+                        String uid = UUID.randomUUID().toString().replaceAll("_", "");
+                        String savedName = uid + "_" + oriName;
+                        int insertFile = fservice.documentInsertFile(oriName, savedName, ddto.getSeq());
+                        if (insertFile > 0) {
+                            File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                            FileCopyUtils.copy(mf.getBytes(), targetLoc);
+                        }
                     }
                 }
             }
+            return ddto.getSeq();
+        } else {
+            docservice.addDocument(ddto);
+            int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
+            fservice.updateFile(getDoc_code, ddto.getSeq());
+            for (int i = 0; i < code.size(); i++) {
+                cservice.addConfirm(code.get(i), i + 1, getDoc_code);
+            }
+            if (!file.get(0).getOriginalFilename().contentEquals("")) {
+                String fileRoot = Configurator.boardFileRootC;
+                File filesPath = new File(fileRoot);
+                if (!filesPath.exists()) {
+                    filesPath.mkdir();
+                }
+                for (MultipartFile mf : file) {
+                    if (!mf.getOriginalFilename().contentEquals("")) {
+                        String oriName = mf.getOriginalFilename();
+                        String uid = UUID.randomUUID().toString().replaceAll("_", "");
+                        String savedName = uid + "_" + oriName;
+                        int insertFile = fservice.documentInsertFile(oriName, savedName, getDoc_code);
+                        if (insertFile > 0) {
+                            File targetLoc = new File(filesPath.getAbsoluteFile() + "/" + savedName);
+                            FileCopyUtils.copy(mf.getBytes(), targetLoc);
+                        }
+                    }
+                }
+            }
+            return getDoc_code;
         }
-        return getDoc_code;
+
+
     }
 
     @RequestMapping("modaddorder.document")
     public String modAddOrder(@RequestBody List<Map<String, String>> map) throws Exception {
         List<OrderDTO> list = new ArrayList<>();
         System.out.println(map);
-        for (int i = 1; i < map.size()-1; i = i + 3) {
+        for (int i = 1; i < map.size() - 1; i = i + 3) {
             OrderDTO dto = new OrderDTO();
             dto.setDoc_seq(Integer.parseInt(map.get(0).get("value")));
             dto.setOrder_list(map.get(i).get("value"));
@@ -535,7 +570,7 @@ public class RestDocumentController {
             dto.setOrder_etc(map.get(i + 2).get("value"));
             list.add(dto);
         }
-        oservice.modDelOrderList(Integer.parseInt(map.get(map.size()-1).get("value")));
+        oservice.modDelOrderList(Integer.parseInt(map.get(map.size() - 1).get("value")));
         for (int i = 0; i < list.size(); i++) {
             int result = oservice.addOrder(list.get(i).getOrder_list(), list.get(i).getOrder_count(), list.get(i).getOrder_etc(), list.get(i).getDoc_seq());
         }
@@ -544,7 +579,24 @@ public class RestDocumentController {
 
     }
 
-
+    @RequestMapping("getTemplatesListAjax.document")
+    public String getTemplatesListAjax(@RequestParam("form_code")List<Integer> form_code){
+        List<HashMap> hashMapList= new ArrayList();
+        for(int i=0;i<form_code.size();i++) {
+            List<TemplatesDTO> list = templatesService.getTemplateListbyFormCode(form_code.get(i));
+            for(int j=0;j<list.size();j++){
+                HashMap<String,Object> map = new HashMap<>();
+                map.put("code",list.get(j).getCode());
+                map.put("tempname",list.get(j).getName());
+                map.put("explain",list.get(j).getExplain());
+                map.put("form_code",list.get(j).getForm_code());
+                map.put("temp_code",list.get(j).getTemp_code());
+                hashMapList.add(map);
+            }
+        }
+        JSONArray json = new JSONArray(hashMapList);
+        return json.toString();
+    }
 
 
 }

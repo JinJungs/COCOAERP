@@ -16,4 +16,13 @@
     <select id="getSearchTeamCode" resultType="kh.cocoa.dto.TeamDTO">
         SELECT * FROM TEAM WHERE NAME LIKE '%${name}%'
     </select>
+    
+    <!-- 소형 관리자 사용자관리 -->
+    <select id="getAllTeamList"  resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM ORDER BY CODE
+    </select>
+    
+    <select id="getTeamListByDeptCode"  resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM WHERE DEPT_CODE=#{dept_code} ORDER BY CODE
+    </select>
 </mapper>

@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>CocoaWorks Board</title>
-<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css"
+	media="screen" />
 <style type="text/css">
 input{width:50%;border-bottom:1px solid pink;}
 #search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
@@ -25,8 +26,9 @@ input{width:50%;border-bottom:1px solid pink;}
 
 			<input type="hidden" id="cpage" name="cpage" value="${cpage}" />
 			<form action="/noBoard/notificationBoardSearch.no" method="get">
-				<input type="hidden" id="getmenu_seq" name="menu_seq" value="${menu_seq}" />
-				
+				<input type="hidden" id="getmenu_seq" name="menu_seq"
+					value="${menu_seq}" />
+
 				<div class="row search_box">
 					<!--검색어 & 버튼입력  -->
 					<div class="select col-12">
@@ -59,17 +61,29 @@ input{width:50%;border-bottom:1px solid pink;}
 					<b>조회수</b>
 				</div>
 			</div>
-
-			<c:forEach var="i" items="${list}">
-				<div class="row">
-					<div class="col-md-1 d-none d-md-block" style="text-align: center;">${i.seq}</div>
-					<div class="title col-sm-12 col-md-5"
-						onclick="notificationBoardRead(${menu_seq},${i.seq},${cpage})">${i.title}</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.name}</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.write_date}</div>
-					<div class="col-md-2 d-none d-md-block" style="text-align: center;">${i.view_count}</div>
-				</div>
-			</c:forEach>
+			<c:choose>
+				<c:when test="${empty list}">
+					<div class="row" id="notice">
+						<div class="col">작성된 글이 없습니다.</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="i" items="${list}">
+						<div class="row">
+							<div class="col-md-1 d-none d-md-block"
+								style="text-align: center;">${i.seq}</div>
+							<div class="title col-sm-12 col-md-5"
+								onclick="notificationBoardRead(${menu_seq},${i.seq},${cpage})">${i.title}</div>
+							<div class="col-md-2 d-none d-md-block"
+								style="text-align: center;">${i.name}</div>
+							<div class="col-md-2 d-none d-md-block"
+								style="text-align: center;">${i.write_date}</div>
+							<div class="col-md-2 d-none d-md-block"
+								style="text-align: center;">${i.view_count}</div>
+						</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 
 			<div class="row" style="border-top: 1px solid pink;">
 				<div class="col-md-2  footer">
