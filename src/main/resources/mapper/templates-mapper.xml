@@ -3,13 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.TemplatesDAO">
     <select id="getTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
-       SELECT * FROM TEMPLATES WHERE STATUS='Y' ORDER BY CODE
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' ORDER BY CODE
+    </select>
+    <select id="getUsingTemplates" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE > 3 ORDER BY CODE
     </select>
     <select id="getSubTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE STATUS='N'
     </select>
     <select id="getTemplateList2" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE >6 order by code
+    </select>
+    <select id="getTemplateList3" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE CODE IN(4,5,6)
     </select>
 
     <select id="getClickTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
@@ -62,5 +68,4 @@
     <select id="getTemplateCount" resultType="Integer">
         SELECT COUNT(*) FROM TEMPLATES WHERE FORM_CODE =#{form_code} AND STATUS='Y'
     </select>
-
 </mapper>

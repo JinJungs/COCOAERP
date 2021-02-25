@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>완료된 문서</title>
+    <script src="/js/bootstrap.min.js"></script>
     <style type="text/css">
 		div{
 			font-size: 16px;
@@ -78,7 +79,7 @@
                 <div class="row">
                     <div class="col-12 text-center">
 
-                        <input type=button value=조회 onclick="fn_btnsearch()">
+                        <input type=button class="btn btn-primary" value=조회 onclick="fn_btnsearch()">
                     </div>
                 </div>
             </div>
@@ -116,6 +117,7 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script>
     var curdate = new Date();
     var year =curdate.getFullYear();
@@ -220,14 +222,15 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\ style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
+                    html+="<div class='row text-center' style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
                     html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].seq+"</div>";
-                    html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].title+"</div>";
+                    html+="<div class=\"col-3 col-sm-2 d-none d-sm-block textBox \">"+data[i].temp_name+"</div>";
+                    html+="<div class=\"col-1 col-sm-2 textBox text-left pl-4\">"+data[i].title+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].final_date+"</div>";
                     html+="</div>";
+                    console.log(html);
                 }
                 $("#listcontainer").html(html);
                 navi="";

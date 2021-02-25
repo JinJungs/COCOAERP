@@ -36,8 +36,7 @@
 
 			<div class="row">
 				<div class="col-2 head_box">업무기한</div>
-				<div class="col-2">${lr.report_start}</div>
-				<div class="col-3">${lr.report_end}</div>
+				<div class="col-5">${lr.report_start}</div>
 				<div class="col-2 head_box">작성일</div>
 				<div class="col-3">${lr.write_date}</div>
 			</div>
@@ -126,6 +125,7 @@
 			
 		</div>
 	</div>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script>
 		/*제목부분 누르면 기존에 있던 내용 없애기*/
 	 	function title_box(){

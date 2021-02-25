@@ -12,6 +12,7 @@
 <html>
 <head>
    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+   <script src="/js/bootstrap.min.js"></script>
    <meta charset="UTF-8">
 
    <title>Insert title here</title>
@@ -258,6 +259,7 @@
       </c:if>
       <!-- 로그인 스크립트 -->
       <!-- 아이디값 쿠키에 저장하기 -->
+
       <script>
 
          var getSeq="";
@@ -448,8 +450,6 @@
                      html+="</div>";
                      $(".idContainer").append(html);
                   }
-
-
                }
             })
          }
@@ -646,7 +646,7 @@
             <button type="button" onclick="fn_toFD()">완료된</button>
             <button type="button" onclick="fn_toRD()">반려한</button>
             <button type="button" onclick="fn_toNex()">넥사크로</button>
-            <a href="/membership/logout">로그아웃</a>
+            <a href="#" onclick="fn_logout()">로그아웃</a>
             <button type="button" onclick="fn_managerMode()" style="display: none">관리자 모드</button>
          </div>
       </div>
@@ -774,6 +774,13 @@
 
          function fn_toNex() {
             location.href ="/toNex";
+         }
+
+         function fn_logout() {
+            localStorage.clear();
+            location.href="/membership/logout";
+
+
          }
       </script>
    </c:otherwise>
