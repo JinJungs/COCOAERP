@@ -17,18 +17,18 @@
 			<when test="selectBy=='weekly'">
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
-				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				2,#{ddto.report_start},#{ddto.report_end},'RAISE')
+				2,#{ddto.report_start,jdbcType=VARCHAR},'RAISE')
 			</when>
 			<when test="selectBy=='monthly'">
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
-				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				3,#{ddto.report_start},#{ddto.report_end},'RAISE')
+				3,#{ddto.report_start,jdbcType=VARCHAR},'RAISE')
 			</when>
 		</choose>
 	</insert>
@@ -50,18 +50,18 @@
 			<when test="selectBy=='weekly'">
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
-				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				2,#{ddto.report_start},#{ddto.report_end},'TEMP')
+				2,#{ddto.report_start,jdbcType=VARCHAR},'TEMP')
 			</when>
 			<when test="selectBy=='monthly'">
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
-				TEMP_CODE,REPORT_START,REPORT_END,STATUS)VALUES
+				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				3,#{ddto.report_start},#{ddto.report_end},'TEMP')
+				3,#{ddto.report_start,jdbcType=VARCHAR},'TEMP')
 			</when>
 		</choose>
 	</insert>
@@ -312,15 +312,13 @@
 	<select id="getLogBySeqMod" resultType="kh.cocoa.dto.DocumentDTO"> 
 	<choose>
 		<when test="status=='TEMP'">
-			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
-			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,L.TEMP_CODE, L.WRITE_DATE, E.NAME
 			FROM LOGTEMPLISTALL L, EMPLOYEE E
 			WHERE L.WRITER_CODE=E.CODE
 			AND L.SEQ=#{seq}
 		</when>
 		<when test="status=='RAISE'">
-			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,
-			L.REPORT_END,L.TEMP_CODE, L.WRITE_DATE, E.NAME
+			SELECT L.SEQ, L.WRITER_CODE,L.TITLE,L.CONTENTS,L.REPORT_START,L.TEMP_CODE, L.WRITE_DATE, E.NAME
 			FROM LOGRAISELISTALL L, EMPLOYEE E
 			WHERE L.WRITER_CODE=E.CODE
 			AND L.SEQ=#{seq}
@@ -343,28 +341,24 @@
 <!-- 수정 - 임시저장 / 일일-->
 	<update id="logModifyTempUpdateDaily">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=null,CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
 		STATUS='TEMP'
 		WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 임시저장 / 주간 & 월별-->
 	<update id="logModifyTempUpdate">
-		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=#{report_end},CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
-		STATUS='TEMP'
-		WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
+		CONTENTS=#{contents}, WRITE_DATE=SYSDATE,STATUS='TEMP'WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 일일-->
 	<update id="logModifyDaily">
-		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=null,CONTENTS=#{contents}, 
-		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 주간 & 월별 -->
 	<update id="logModify">
-		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		REPORT_END=#{report_end},CONTENTS=#{contents}, 
-		STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
 	</update>
 
 </mapper>

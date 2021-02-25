@@ -29,6 +29,7 @@
 <body>
 	<div class="wrapper d-flex align-items-stretch">
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
+<script src="/js/bootstrap.min.js"></script>
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<input type="hidden" id="status" name="status" value="${status }">
 
@@ -62,17 +63,14 @@
 						<div class="col-md-1 d-none d-md-block">
 							<b>#</b>
 						</div>
-						<div class="col-sm-12 col-md-2">
+						<div class="col-sm-12 col-md-4">
 							<b>제목</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
 							<b>작성자</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
-							<b>업무 시작일</b>
-						</div>
-						<div class="col-md-2 d-none d-md-block">
-							<b>업무 마감일</b>
+							<b>업무 기한</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
 							<b>작성일</b>
@@ -83,17 +81,14 @@
 						<div class="col-md-1 d-none d-md-block">
 							<b>#</b>
 						</div>
-						<div class="col-sm-12 col-md-3">
+						<div class="col-sm-12 col-md-5">
 							<b>제목</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
 							<b>작성자</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
-							<b>업무 시작일</b>
-						</div>
-						<div class="col-md-2 d-none d-md-block">
-							<b>업무 마감일</b>
+							<b>업무 기한</b>
 						</div>
 						<div class="col-md-2 d-none d-md-block">
 							<b>작성일</b>
@@ -119,12 +114,11 @@
 									<c:choose>
 										<c:when test="${status eq 'RAISE'}">
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-2">
+											<div class="on col-sm-12 col-md-4">
 												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 											<div class="on col-md-1 d-none d-md-block">
 												<img alt="" src="/img/대기10.png"
@@ -133,13 +127,11 @@
 										</c:when>
 										<c:otherwise>
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-3">
-												<a
-													href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
+											<div class="on col-sm-12 col-md-5">
+												<a href="/log/logRead.log?seq=${i.seq}&tempCode=${i.temp_code}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 										</c:otherwise>
 									</c:choose>
@@ -163,12 +155,11 @@
 									<c:choose>
 										<c:when test="${status eq 'RAISE'}">
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-2">
+											<div class="on col-sm-12 col-md-4">
 												<a href="/log/logReqRead.log?seq=${i.seq}+&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 											<div class="on col-md-1 d-none d-md-block">
 												<img alt="" src="/img/대기10.png"
@@ -177,12 +168,11 @@
 										</c:when>
 										<c:otherwise>
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-3">
+											<div class="on col-sm-12 col-md-5">
 												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 										</c:otherwise>
 									</c:choose>
@@ -206,12 +196,11 @@
 									<c:choose>
 										<c:when test="${status eq 'RAISE'}">
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-2">
+											<div class="on col-sm-12 col-md-4">
 												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 											<div class="on col-md-1 d-none d-md-block">
 												<img alt="" src="/img/대기10.png"
@@ -220,12 +209,11 @@
 										</c:when>
 										<c:otherwise>
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-3">
+											<div class="on col-sm-12 col-md-5">
 												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 										</c:otherwise>
 									</c:choose>
@@ -249,12 +237,11 @@
 									<c:choose>
 										<c:when test="${status eq 'RAISE'}">
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-2">
+											<div class="on col-sm-12 col-md-4">
 												<a href="/log/logReqRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 											<div class="on col-md-1 d-none d-md-block">
 												<img alt="" src="/img/대기10.png"
@@ -263,12 +250,11 @@
 										</c:when>
 										<c:otherwise>
 											<div class="on col-md-1 d-none d-md-block">${i.seq}</div>
-											<div class="on col-sm-12 col-md-3">
+											<div class="on col-sm-12 col-md-5">
 												<a href="/log/logRead.log?seq=${i.seq}&status=${status}">${i.title }</a>
 											</div>
 											<div class="on col-md-2 d-none d-md-block">${i.name}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.report_start}</div>
-											<div class="on col-md-2 d-none d-md-block">${i.report_end}</div>
 											<div class="on col-md-2 d-none d-md-block">${i.write_date}</div>
 										</c:otherwise>
 									</c:choose>

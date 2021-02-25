@@ -108,6 +108,7 @@
 	</div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   	<script src="/js/bootstrap.min.js"></script>
 	<script>
 		/*댓글 - 페이지 불러올 때 댓글 불러오기*/
 		$(function() {
