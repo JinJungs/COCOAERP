@@ -1,11 +1,13 @@
 package kh.cocoa.dao;
 
-import kh.cocoa.dto.EmployeeDTO;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
-import java.util.List;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.NexacroSearchDTO;
+
 
 @Mapper
 public interface EmployeeDAO {
@@ -95,7 +97,21 @@ public interface EmployeeDAO {
 	//사번으로 bEmail받아오기
 	public String getB_Email(String seq);
 	
+
+	//-------------소형-----------------//
+	//전체 멤버 호출 코드로 정렬
+	public List<EmployeeDTO> getAllEmployeeOrderByCode();
+	
+	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto);
+	
+	public int addEmployee(List<EmployeeDTO> list);
+	
+	public int addOneEmployee(EmployeeDTO dto);
+	
+	//-------------소형 끝---------------//
+
 	//employee와 leave_taken_used 같이 받아오기
 	public List<EmployeeDTO> getEmpleLTU();
 	public List<EmployeeDTO> getListWithdrawN();
+
 }

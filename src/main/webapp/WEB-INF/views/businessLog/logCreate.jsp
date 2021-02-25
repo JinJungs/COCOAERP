@@ -230,27 +230,26 @@ input{width:100%;}
 
        if ( $("#selectBy").val()==""){
 	           alert('업무일지 종류를 선택해주세요');
+           	   $("#selectBy").focus();
 	           return ;
-	    }else if (!$('#contents').val()){
-	           alert('내용을 입력해주세요');
-           	   $("#contents").focus();
-	           return ;
-	   }else if (!$('#title').val()){
+	         }else if (!$('#title').val()){
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return ;
-	   }else if(report_end!=""&&report_start>report_end){
-            alert("종료일이 시작일보다 빠릅니다.");
-            return ;
-        }else if(start==""){
-            alert("시작일을 입력해주세요.");
-            $("#report_start").focus();
-            return ;
-        }else if(end==""){
-            alert("종료일을 입력해주세요..");
-            $("#report_end").focus();
-            return ;
-        }
+	          }else if (!$('#contents').val()){
+	           alert('내용을 입력해주세요');
+           	   $("#contents").focus();
+	           return 
+	        }else if (report_start>report_end) {
+	            alert("시작일을 다시 선택해 주세요.");
+	            return ;
+	        }else if(start==""){
+	            alert("시작일을 입력해주세요.");
+	            return ;
+	        }else if(end==""){
+	            alert("종료일을 입력해주세요..");
+	            return ;
+	        }
 		$("#submitForm").attr("action","/log/logTempSave.log");
          $('#submitForm').submit();
         })
@@ -277,7 +276,7 @@ input{width:100%;}
 	 	}
 	/*홈으로*/
 		function fn_home() {
-			location.href = "/"
+			location.href = "/";
 		}
 	
 		

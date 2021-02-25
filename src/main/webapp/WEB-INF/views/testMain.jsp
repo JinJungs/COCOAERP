@@ -74,22 +74,15 @@ div {
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<!--<c:if test="${deptCode == '6' }">
+			<c:if test="${deptCode != 0 }">
 				<button id=manageBtn class="btn btn-primary">관리자로 가기</button>
 				<script>
 		         let manageBtn = document.getElementById("manageBtn");
 		         manageBtn.onclick = function () {
 		            location.href = "/toNex";
 		         }
-	     		 </script>
-     		 </c:if>-->
-     		 <button id=manageBtn class="btn btn-primary">관리자로 가기</button>
-				<script>
-		         let manageBtn = document.getElementById("manageBtn");
-		         manageBtn.onclick = function () {
-		            location.href = "/toNex";
-		         }
-	     		 </script>
+	     		</script>
+     		</c:if>
 			<h2 class="mb-2">COCOAWORK</h2>
 			<div class="row">
 				<div class="box attendance col-12 mb-3">

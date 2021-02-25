@@ -24,6 +24,9 @@ select {
     text-overflow:ellipsis;
     white-space:nowrap;
 }
+.item{
+	background-color : #6749b930;
+}
 </style>
 </head>
 <body>
@@ -48,7 +51,7 @@ select {
 						<div class="col-3 pl-3">
 							<select class="selectTemplate" name=template id="templateSelect">
 								<option value=0>전체</option>
-								<c:forEach var="list" items="${tempList}" begin="3">
+								<c:forEach var="list" items="${tempList}">
 									<option value=${list.code }>${list.name }</option>
 								</c:forEach>
 							</select>
@@ -70,15 +73,15 @@ select {
 					</div>
 					<div class="row">
 						<div class="col-12 text-center">
-							<input type=submit value=조회 >
+							<input type=submit class="btn btn-primary" value=조회 >
 						</div>
 					</div>
 				</div>
 				</form>
 				<div>
-					<div class="row" style="border-bottom: 1px solid #c9c9c9">
-						<div class="col-1 p-1 text-center textBox"><b>문서번호</b></div>
-						<div class="col-2 p-1 text-center textBox"><b>양식</b></div>
+					<div class="row item p-2" style="border-bottom: 1px solid #c9c9c9">
+						<div class="col p-1 text-center textBox"><b>문서번호</b></div>
+						<div class="col p-1 text-center textBox"><b>양식</b></div>
 						<div class="col-4 p-1 pl-2 text-center textBox"><b>제목</b></div>
 						<div class="col-3 p-1 text-center textBox"><b>작성자</b></div>
 						<div class="col-2 p-1 text-center textBox"><b>작성날짜</b></div>
@@ -86,9 +89,9 @@ select {
 					<div class=notice-list id=myboard>
 						<c:forEach var="list" items="${docList }">
 							<div class="row p-2" style="border-bottom: 1px solid #c9c9c9">
-								<div class="col-1 p-2 text-center textBox">
+								<div class="col p-2 text-center textBox">
 									<a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
-								<div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
+								<div class="col p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
 								<div class="col-4 p-2 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 								<div class="col-3 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.emp_name } | ${list.dept_name }</a></div>
 								<div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>

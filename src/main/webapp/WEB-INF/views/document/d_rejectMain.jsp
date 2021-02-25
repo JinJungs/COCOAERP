@@ -48,7 +48,7 @@ background-color : #6749b930;
 						<div class="col-3 pl-3">
 							<select class="selectTemplate" name=template id="templateSelect">
 								<option value=0>전체</option>
-								<c:forEach var="list" items="${tempList}" begin="3">
+								<c:forEach var="list" items="${tempList}">
 									<option value=${list.code }>${list.name }</option>
 								</c:forEach>
 							</select>

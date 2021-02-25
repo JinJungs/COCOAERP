@@ -3,7 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.TemplatesDAO">
     <select id="getTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
-        SELECT * FROM TEMPLATES WHERE STATUS='Y'
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' ORDER BY CODE
+    </select>
+    <select id="getUsingTemplates" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE > 6 ORDER BY CODE
     </select>
     <select id="getSubTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE STATUS='N'

@@ -18,7 +18,10 @@ public class TemplatesService implements TemplatesDAO{
 	public List<TemplatesDTO> getTemplateList() {
 		return tdao.getTemplateList();
 	}
-	
+	@Override
+	public List<TemplatesDTO> getUsingTemplates() {
+		return tdao.getUsingTemplates();
+	}
 	@Override
 	public List<TemplatesDTO> getSubTemplateList() {
 		return tdao.getSubTemplateList();

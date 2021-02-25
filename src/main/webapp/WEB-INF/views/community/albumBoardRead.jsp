@@ -96,7 +96,7 @@
 			<div class="row">
 				<div class="col-md-10 head_box">
 					<input type="hidden" name="seq" value="${seq}">
-					<textarea id="comment_contents"></textarea>
+					<textarea id="comment_contents" ></textarea>
 				</div>
 				<div class="col-md-2">
 					<button class="btn btn-primary" id="writeComment">댓글등록</button>

@@ -115,6 +115,85 @@
 	<select id="getTeamMember" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE WHERE TEAM_CODE = #{team_code} and WITHDRAW = 'N'
 	</select>
+	
+	<select id="getAllEmployeeOrderByCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE_VIEW ORDER BY CODE
+	</select>
+	<!-- 관리자페이지 검색 -->
+ 	<select id="searchEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT * FROM EMPLOYEE 
+		<if test="dept_code>0 or team_code>0 or pos_code>0 or search!=null">
+			WHERE 0=0
+			<choose>
+				<when test="searchWhat=='code' and search!=null">
+					AND CODE = #{search}
+				</when>
+				<when test="searchWhat=='name'">
+					AND NAME like '%${search}%'
+				</when>
+			</choose>
+			
+			<if test="team_code>0">
+				AND TEAM_CODE = #{team_code}
+			</if>
+			<if test="dept_code>0">
+				AND DEPT_CODE = #{dept_code}
+			</if>
+			<if test="pos_code>0">
+				AND POS_CODE = #{pos_code}
+			</if>
+			
+		</if> 
+	</select>
+	
+	<!-- 관리자페이지 CRUD -->
+	<insert id="addEmployee" parameterType="List">
+		INSERT ALL
+		<foreach collection="list" item="i">
+		INTO EMPLOYEE 
+		(CODE,NAME,PASSWORD,PHONE,OFFICE_PHONE,ADDRESS,EMAIL,B_EMAIL,GENDER,HIRE_DATE,WITHDRAW,DEPT_CODE,POS_CODE,TEAM_CODE) 
+		VALUES 
+		(FUNC_EMPLOYEE_SEQ
+		, #{i.name}
+		, #{i.password}
+		, #{i.phone}
+		, #{i.office_phone}
+		, #{i.address}
+		, #{i.email}
+		, #{i.b_email}
+		, #{i.gender}
+		<!--, #{i.hire_date}-->
+		, SYSDATE
+		, #{i.withdraw}
+		, #{i.dept_code}
+		, #{i.pos_code}
+		, #{i.team_code})
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
+		<insert id="addOneEmployee">
+		INSERT 
+		INTO EMPLOYEE 
+		(CODE,NAME,PASSWORD,PHONE,OFFICE_PHONE,ADDRESS,EMAIL,B_EMAIL,GENDER,HIRE_DATE,WITHDRAW,DEPT_CODE,POS_CODE,TEAM_CODE) 
+		VALUES 
+		(EMPLOYEE_SEQ.NEXTVAL
+		, #{name}
+		, #{password}
+		, #{phone}
+		, #{office_phone}
+		, #{address}
+		, #{email}
+		, #{b_email}
+		, #{gender}
+		<!--, #{i.hire_date}-->
+		, SYSDATE
+		, #{withdraw}
+		, #{dept_code}
+		, #{pos_code}
+		, #{team_code})
+	</insert>
+	<!-- 소형 끝 -->
 	<!-- 지영  -->
 	<!--  버그리포트 -->
 	<select id="getSenderEmail" resultType="kh.cocoa.dto.EmployeeDTO">

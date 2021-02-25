@@ -97,10 +97,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 검색-문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -123,6 +123,7 @@ public class DocumentController {
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "TEMP");
 		List<DocumentDTO> list = dservice.getSearchTemporaryList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
+
 		//6. 결재선 받아오기
 		model.addAttribute("list", list);
 		model.addAttribute("startDate", startDate);
@@ -154,10 +155,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -177,11 +178,11 @@ public class DocumentController {
 		}
 		int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
 		int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-
+		
 		//5. 페이지네이션, 리스트 불러오기
 		String navi = dservice.getSearchNavi(empCode, startDate, endDate, templateList, searchText, Integer.parseInt(cpage), "RAISE");
 		List<DocumentDTO> list = dservice.getSearchRaiseList(empCode, startDate, endDate, templateList, searchOption, searchText, startRowNum, endRowNum);
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
@@ -212,10 +213,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -269,10 +270,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -325,10 +326,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if (template == null || template.contentEquals("0")) {
 			template = "0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		} else {
@@ -478,10 +479,10 @@ public class DocumentController {
 		endDate = dataList.get(1);
 		//2. 문서 양식 
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
 		if(template==null || template.contentEquals("0")) {
 			template="0";
-			for(int i=3; i<tempList.size(); i++) {
+			for(int i=0; i<tempList.size(); i++) {
 				templateList.add(Integer.toString(tempList.get(i).getCode()));
 			}
 		}else {
@@ -582,8 +583,8 @@ public class DocumentController {
 		
 		//필요양식만 검색
 		List<String> templateList = new ArrayList<>();
-		List<TemplatesDTO> tempList = tservice.getTemplateList();
-		for(int i=3; i<tempList.size(); i++) {
+		List<TemplatesDTO> tempList = tservice.getUsingTemplates();
+		for(int i=0; i<tempList.size(); i++) {
 			templateList.add(Integer.toString(tempList.get(i).getCode()));
 		}
 		
