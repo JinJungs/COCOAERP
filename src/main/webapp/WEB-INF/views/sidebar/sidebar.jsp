@@ -23,7 +23,7 @@
     </style>
 </head>
 <body>
-<nav id="sidebar">
+<nav id="sidebar" >
     <div class="custom-menu">
         <button type="button" id="sidebarCollapse" class="btn btn-primary" >
             <i class="fa fa-bars"></i> <span class="sr-only">Toggle Menu</span>
@@ -69,6 +69,7 @@
             url: "/sidebar/getSidebarList",
             dataType: "json",
             success: function (data){
+
                 // -------- 사용자의 정보를 띄워줌 --------
                 console.log("code: "+data[9].code);
                 let user_code = data[9].code;
@@ -183,6 +184,7 @@
                 // 받은 사이드바의 값을 뿌려주기
                 $("#sidebarBox").append(html);
                 console.log(sidebarStatus);
+
                 if(sidebarStatus!=null){
                     for(var i=0;i<sidebarStatus.length;i++){
                         var getItem =sidebarStatus[i];
