@@ -186,6 +186,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.changePw(code,password);
 	}
 
+	@Override
+	public int isWithdraw(int code) {
+		return edao.isWithdraw(code);
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override

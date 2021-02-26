@@ -93,4 +93,9 @@ public class AttendanceController {
         System.out.println(attendance.size());
         return "/attendance/attendanceView";
     }
+
+    @RequestMapping("toMain")
+    public String toMain(){
+        return "/attendance/attendanceMain";
+    }
 }
