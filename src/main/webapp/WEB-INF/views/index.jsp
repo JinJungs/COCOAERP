@@ -104,12 +104,16 @@
                   </div>
                   <div class="row" id="capslock" style="display:none;">
                      <div class="col-12">
-                        <b>CAPSLOCK</b>이 켜져 있습니다.
+                        <div class="alert alert-primary" role="alert">
+                           <b>CapsLock이 켜져 있습니다.</b>
+                        </div>
                      </div>
                   </div>
                   <div class="row" id="login-msg" style="display:none">
                      <div class="col-12">
-                        <b>일치하는 데이터가 존재하지 않습니다.</b>
+                        <div class="alert alert-primary" role="alert">
+                           <b>일치하는 데이터가 존재하지 않습니다.</b>
+                        </div>
                      </div>
                   </div>
                   <div class="row">
@@ -398,8 +402,6 @@
             }
          });
 
-
-
          function findId() {
             var email= $("#email").val();
             if(email==""){
@@ -611,6 +613,7 @@
          }
          function show_caps_lock() {
             $("#capslock").show();
+            $("#login-msg").hide();
          }
 
          function hide_caps_lock() {
