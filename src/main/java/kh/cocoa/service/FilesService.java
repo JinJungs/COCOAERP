@@ -100,7 +100,11 @@ public class FilesService implements FilesDAO {
 	//파일 모아보기 리스트
 	@Override
 	public List<FilesMsgDTO> showFileMsg(int m_seq){
+		System.out.println("showFileMsg 서비스 도착");
 		List<FilesMsgDTO> list = fdao.showFileMsg(m_seq);
+		for(FilesMsgDTO dto : list) {
+			System.out.println(dto.getS_uploadeddate());
+		}
 		return list;
 	}
 	//파일 모아보기 리스트를 url에 넣기 위해 인코딩

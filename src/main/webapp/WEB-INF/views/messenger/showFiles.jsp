@@ -63,9 +63,9 @@
 	                    <c:forEach var="i" items="${list}" varStatus="status">
                             <%--<fmt:formatDate value="${list[status.index].uploadeddate}" pattern="yyyy년 M월 d일" var="before_date" />
                             <fmt:formatDate value="${list[status.index+1].uploadeddate}" pattern="yyyy년 M월 d일" var="after_date" />--%>
-                            <c:if test="true">
+                            <c:if test="${list[status.index].s_uploadeddate ne list[status.index-1].s_uploadeddate}">
                             <div class="row w-100" id="dateBox${i.seq}">
-                                <div class="col-12 date" id="date${i.seq}">${i.uploadeddate}</div>
+                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
                             </div>
                             </c:if>
 	                    	<c:choose>

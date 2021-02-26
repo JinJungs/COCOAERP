@@ -88,7 +88,7 @@
 	<!-- ****메세지 파일 업로드**** -->
 	<!-- ****메세지 파일 모아보기**** -->
 	<select id="showFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
-		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, F.UPLOADEDDATE, M.TYPE
+		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, TO_CHAR(F.UPLOADEDDATE,'yyyy-mm-dd') AS S_UPLOADEDDATE, M.TYPE
 		FROM FILES F, MESSAGE M
 		WHERE F.MSG_SEQ = M.SEQ AND
 		M.M_SEQ = #{m_seq}
