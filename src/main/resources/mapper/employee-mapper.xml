@@ -99,6 +99,10 @@
 		UPDATE EMPLOYEE SET PASSWORD=#{password} WHERE CODE=${code}
 	</update>
 
+	<select id="isWithdraw" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE WHERE CODE=#{code} and WITHDRAW='Y'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME 

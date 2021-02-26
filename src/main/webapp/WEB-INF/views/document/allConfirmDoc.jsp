@@ -84,17 +84,16 @@ select {
 						<div class="col p-1 text-center textBox"><b>양식</b></div>
 						<div class="col-4 p-1 pl-2 text-center textBox"><b>제목</b></div>
 						<div class="col-3 p-1 text-center textBox"><b>작성자</b></div>
-						<div class="col-2 p-1 text-center textBox"><b>작성날짜</b></div>
+						<div class="col-2 p-1 text-center textBox"><b>승인날짜</b></div>
 					</div>
 					<div class=notice-list id=myboard>
 						<c:forEach var="list" items="${docList }">
 							<div class="row p-2" style="border-bottom: 1px solid #c9c9c9">
-								<div class="col p-2 text-center textBox">
-									<a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
-								<div class="col p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
+								<div class="col p-2 text-center textBox">${list.seq }</div>
+								<div class="col p-2 text-center textBox">${list.temp_name }</div>
 								<div class="col-4 p-2 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
-								<div class="col-3 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.emp_name } | ${list.dept_name }</a></div>
-								<div class="col-2 p-2 text-center textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
+								<div class="col-3 p-2 text-center textBox">${list.emp_name } | ${list.dept_name }</div>
+								<div class="col-2 p-2 text-center textBox">${list.final_date }</div>
 							</div>
 						</c:forEach>
 					</div>

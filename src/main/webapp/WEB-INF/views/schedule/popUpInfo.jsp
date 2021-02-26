@@ -6,19 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
 <style type="text/css">
-div{
-	//border: 1px solid pink;
-}
-.container{
+.container {
 	border-top: 1px solid lightgray;
 	padding-top: 20px;
 	margin: center;
 }
+
 #contents {
 	border: 1px solid lightgray;
 	min-width: 500px;
@@ -34,76 +29,96 @@ div{
 .footer {
 	text-align: right
 }
+
 h2 {
 	margin: 0;
 	padding: 20px;
-	background-color : #6749b930;
+	background-color: #6749b930;
 }
+
 .dataGroup {
 	margin-top: 20px;
 }
+
 .row {
 	padding: 20px;
 	float: left;
 }
-.left{
+
+.left {
 	text-align: right;
 	width: 80px;
 	float: left;
 }
-.right{
+
+.right {
 	text-align: left;
 	width: 350px;
 	float: left;
 	margin-left: 20px;
 }
-.contentsBox{
+
+.contentsBox {
 	height: 200px;
 	border: 1px solid lightgray;
 	overflow: y-scroll;
 }
-.buttonGroup{
+
+.buttonGroup {
 	margin-left: 185px;
 }
-.buttonGroup input{
+
+.buttonGroup input {
 	margin: 5px;
 	margin-left: 10px;
 }
-.btn{
-	background-color : #6749b930;
+
+.btn {
+	background-color: #6749b930;
 	padding: 3px 8px 3px 8px;
 	border: 1px solid lightgray;
 }
 </style>
 </head>
 <body>
-	<div class="wrapper d-flex align-items-stretch">
-		<div id="contents" class="p-4 p-md-5 pt-5">
-			<h2>세부일정</h2>
-			<div class="container">
-				<div class="row">
-					<div class="left"><b>일정명</b></div>
-					<div class="right"><c:out value="${dto.title }"></c:out></div>
+	<div id="contents" class="p-4 p-md-5 pt-5">
+		<h2>세부일정</h2>
+		<div class="container">
+			<div class="row">
+				<div class="left">
+					<b>일정명</b>
 				</div>
-				<div class="row">
-					<div class="left"><b>시작 날짜</b></div>
-					<div class="right">${dto.start_time }</div>
+				<div class="right">
+					<c:out value="${dto.title }"></c:out>
 				</div>
-				<div class="row">
-					<div class="left"><b>마감 날짜</b></div>
-					<div class="right">${dto.end_time }</div>
+			</div>
+			<div class="row">
+				<div class="left">
+					<b>시작 날짜</b>
 				</div>
-				<div class="row">
-					<div class="left"><b>내용</b></div>
-					<div class="right contentsBox"><c:out value="${dto.contents }"></c:out></div>
+				<div class="right">${dto.start_time }</div>
+			</div>
+			<div class="row">
+				<div class="left">
+					<b>마감 날짜</b>
 				</div>
-				<c:if test="${empCode eq dto.writer }">
-					<div class="buttonGroup">
-						<input type="button" class=btn value="수정" id="revise">
-						<input type="button" class=btn value="삭제" id="delete">
-					</div>
-				</c:if>
-				<script>
+				<div class="right">${dto.end_time }</div>
+			</div>
+			<div class="row">
+				<div class="left">
+					<b>내용</b>
+				</div>
+				<div class="right contentsBox">
+					<c:out value="${dto.contents }"></c:out>
+				</div>
+			</div>
+			<c:if test="${empCode eq dto.writer }">
+				<div class="buttonGroup">
+					<input type="button" class=btn value="수정" id="revise"> <input
+						type="button" class=btn value="삭제" id="delete">
+				</div>
+			</c:if>
+			<script>
 					window.onload = function(){
 							if(${didUpdate eq 'true'}){
 								opener.document.location.href="/schedule/toScheduleMain.schedule";
@@ -136,8 +151,9 @@ h2 {
 							}
 			            }
 				</script>
-			</div>
 		</div>
 	</div>
+   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
