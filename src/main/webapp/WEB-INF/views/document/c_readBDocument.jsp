@@ -7,9 +7,9 @@
     <meta charset="UTF-8">
     <title>결재전 문서</title>
     <style type="text/css">
-		div{
-			font-size: 16px;
-		}
+        div{
+            font-size: 16px;
+        }
         select {
             min-width: 90px;
         }
@@ -23,8 +23,11 @@
             white-space:nowrap;
         }
         .item{
-			background-color : #6749b930;
-		}
+            background-color : #6749b930;
+        }
+        #list_contents:hover{
+            background-color:  whitesmoke;
+        }
     </style>
 </head>
 <body>
@@ -46,7 +49,6 @@
                         <input type="hidden" id=temp name="endDate">
                         <span id="dateinvalidmsg"></span>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-2 mb-2">기안양식</div>
@@ -82,23 +84,25 @@
         <hr>
         <div class="documentList row text-center item p-2">
             <div class="col-2"><b>양식</b></div>
-            <div class="col-2 d-none d-sm-block"><b>제목</b></div>
-            <div class="col-4"><b>기안자 | 부서</b></div>
+            <div class="col-4 d-none d-sm-block"><b>제목</b></div>
+            <div class="col-2"><b>기안자 | 부서</b></div>
             <div class="col-3 col-sm-2"><b>상신일</b></div>
             <div class="col-3 col-sm-2"><b>결재구분</b></div>
         </div>
 
         <!-- 리스트 출력 부분 -->
-        <div class="listcontainer" id="listcontainer">
-        <c:forEach var="list" items="${list}">
-            <div class="row text-center" style="cursor: pointer" onclick="fn_toread(${list.seq})">
-                <div class="col-2 textBox">${list.temp_name}</div>
-                <div class="col-2 d-none d-sm-block textBox text-left pl-4">${list.title}</div>
-                <div class="col-4 textBox">${list.emp_name } | ${list.dept_name}</div>
-                <div class="col-3 col-sm-2 textBox">${list.write_date }</div>
-                <div class="col-3 col-sm-2 textBox">결재</div>
+        <div class="row  mt-0 p-0">
+            <div class="col-12 listcontainer p-0"  id="listcontainer">
+                <c:forEach var="list" items="${list}">
+                    <div class="row text-center m-0 pt-2 pb-2" id="list_contents">
+                        <div class="col-2 textBox">${list.temp_name}</div>
+                        <div class="col-4 d-none d-sm-block textBox text-left pl-4" style="cursor: pointer" onclick="fn_toread(${list.seq})" >${list.title}</div>
+                        <div class="col-2 textBox">${list.emp_name } | ${list.dept_name}</div>
+                        <div class="col-3 col-sm-2 textBox">${list.write_date }</div>
+                        <div class="col-3 col-sm-2 textBox">결재</div>
+                    </div>
+                </c:forEach>
             </div>
-        </c:forEach>
         </div>
 
         <!-- 리스트 출력 부분 -->
@@ -214,10 +218,10 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
+                    html+="<div class=\"row text-center m-0 pt-2 pb-2\">";
                     html+="<div class=\"col-2 textbox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-2 d-none d-sm-block textBox text-left pl-4\">"+data[i].title+"</div>";
-                    html+="<div class=\"col-4 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
+                    html+="<div class=\"col-4 d-none d-sm-block textBox text-left pl-4\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
+                    html+="<div class=\"col-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">결재</div>";
                     html+="</div>";
@@ -289,10 +293,10 @@
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
-                    html+="<div class=\"row text-center\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>";
+                    html+="<div class=\"row text-center m-0 pt-2 pb-2\">";
                     html+="<div class=\"col-2 textbox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-2 d-none d-sm-block textBox\">"+data[i].title+"</div>";
-                    html+="<div class=\"col-4 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
+                    html+="<div class=\"col-4 d-none d-sm-block textBox\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
+                    html+="<div class=\"col-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">결재</div>";
                     html+="</div>";
