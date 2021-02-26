@@ -561,7 +561,7 @@
         var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
         console.log("filename , 확장자명 : ");
         console.log(filename + " : " + _fileExt);
-        if (_fileExt == ".png" || _fileExt == ".jpg") {
+        if (_fileExt == ".png" || _fileExt == ".jpg" || _fileExt == ".bmp" || _fileExt == ".gif" || _fileExt == ".tiff" || _fileExt == ".jpeg") {
             type = "IMAGE";
         } else {
             type = "FILE";

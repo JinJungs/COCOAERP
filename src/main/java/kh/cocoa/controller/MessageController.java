@@ -87,30 +87,6 @@ public class MessageController {
         }
         return jArray.toString();
     }
-    
-    //Messenger 컨트롤러 addMemberToChat 과 연계해 테스트 중
-    /*
-    @RequestMapping("chatAnnounce")
-    @ResponseBody
-    public String chatAnnounce(MessageDTO message, MessengerPartyDTO partyList, RedirectAttributes redirectAttributes) {
-    	System.out.println("chatAnnoune arrived!");
-    	System.out.println("message : "+message);
-    	System.out.println("partyList : "+ partyList);
-    	JSONArray jArrayAnnounce = new JSONArray();
-    	HashMap<String,Object> param = new HashMap<>();
-    	param.put("m_seq", message.getM_seq());
-    	param.put("type", message.getType());
-    	jArrayAnnounce.put(param);
-    	
-    	JSONArray jArrayPartyList = new JSONArray();
-    	HashMap<String,Object> param2 = new HashMap<>();
-    	param2.put("partyList", partyList);
-    	
-    	JSONArray jArrayAll = new JSONArray();
-    	jArrayAll.put(jArrayAnnounce);
-    	jArrayAll.put(jArrayPartyList);
-    	return jArrayAll.toString();
-    }*/
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
