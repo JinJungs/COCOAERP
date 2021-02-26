@@ -162,6 +162,8 @@ public class EmailController {
 	//메일작성페이지
 	@RequestMapping("sendPage.email")
 	public String toSendPage(String seq, Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String myEmail = loginDTO.getB_email();
 		
 		if(seq != null) {
 			EmailDTO dto = new EmailDTO();
@@ -169,6 +171,7 @@ public class EmailController {
 			
 			model.addAttribute("dto", dto);
 		}
+		model.addAttribute("myEmail", myEmail);
 		
 		return "email/sendPage";
 	}

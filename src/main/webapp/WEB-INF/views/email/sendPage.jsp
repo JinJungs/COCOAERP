@@ -13,7 +13,7 @@
 }
 .body{height: 50%;}
 .footer{text-align: right}
-input{
+input[type=text]{
 	width:100%;
 	border: 1px solid #c9c9c9;
 }
@@ -55,30 +55,32 @@ textarea{
 	      				받는사람
 	      			</div>
 	      			<div class="col pr-5">
-	      				<input type=text name=receiver id=receiver value="${dto.sender }" required>
+	      				<input type=text name=receiver id=receiver value="${dto.sender }" maxlength=20 placeholder="ooo@cocoa.com" required>
 	      			</div>
 	      		</div>
-	      		<div class="row mb-3">
-	      			<div class="col-3 col-sm-2"></div>
-	      			<div class="col text-left p-0">
-	      				<label><input type="checkbox" value="F" id=checkBox>내게 쓰기</label>
-	      			</div>
-	      			<script>
-	      				let box = $("#checkBox");
-	      				let receiver = $("#receiver");
-	      				box.click(function(){
-	      					if(box.is(":checked") == true){
-	      						receiver.attr("disabled", true);
-	      						receiver.text = "뿌뿌";
-	      					}else{
-	      						receiver.attr("disabled", false);
-	      						receiver.text = "뽀뽀";
-	      					
-	      					}
-	      					
-	      				});
-	      			</script>
-	      		</div>
+	      		<c:if test="${empty dto }">
+		      		<div class="row mb-3">
+		      			<div class="col-3 col-sm-2"></div>
+		      			<div class="col text-left">
+		      				<label><input type="checkbox" class="mr-1" id=checkBox> 내게 쓰기</label>
+		      			</div>
+		      			<script>
+		      				let box = $("#checkBox");
+		      				let receiver = $("#receiver");
+		      				box.click(function(){
+		      					if(box.is(":checked") == true){
+		      						receiver.attr("disabled", true);
+		      						receiver.val("${myEmail}");
+		      					}else{
+		      						receiver.attr("disabled", false);
+		      						receiver.val("");
+		      					
+		      					}
+		      					
+		      				});
+		      			</script>
+		      		</div>
+	      		</c:if>
 	      		<div class="row mb-3">
 	      			<div class="col-3 col-sm-2">
 	      				파일첨부
