@@ -25,11 +25,11 @@
                     <c:choose>
                         <c:when test="${messenger.type eq 'M'}">
                             <img src="${chatProfile}"
-                                 class="rounded-circle user_img">
+                                 class="rounded-circle user_img_chat">
                         </c:when>
                         <c:otherwise>
                             <img src="${partyDTO.profile}"
-                                 class="rounded-circle user_img">
+                                 class="rounded-circle user_img_chat">
                         </c:otherwise>
                     </c:choose>
                 </div>

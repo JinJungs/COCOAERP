@@ -1,14 +1,14 @@
 :root {
-  --main-color: #e2e8eb; /*#9d86de*/
+  --main-color: #f9f9f9; /*#9d86de #e2e8eb; */
   --main-background-color: #ffffff;
   --chat-background-color: #e8eaed;
   --submain-color: hsl(0, 0%, 81%);
   --sendMsg-color: #c6b5ed;
   --getMsg-color: #ffffff;
-  --subMsg-color: #94bfe7;
+  --subMsg-color: #866EC7;
   --text-color-dark: #575757;
   --text-color-medium: #bfbfbf;
-  --text-color-light: #c9c9c9;
+  --text-color-light: #ebebeb;
   --hover-color-light: #F2F2F2;
 }
 
@@ -49,7 +49,7 @@ body {
     line-height:28px;font-size:13px;padding:0;
     border:0;
     } */
-    
+
 .filebox label {
   display: inline-block;
   padding: .5em .75em;
@@ -107,10 +107,10 @@ body {
   background-color: var(--main-background-color);
 }
 .contacts_body {
-  padding: 0.75rem 0;
+  padding: 0;
   overflow-y: auto;
   white-space: nowrap;
-  margin-bottom: 150px;
+  margin-bottom: 200px;
   border-bottom: 1px solid var(--text-color-light);
 }
 .msg_card_body {
@@ -133,8 +133,9 @@ body {
 }
 .search {
   border-radius: 2px 2px 2px 2px;
-  border: 0;
-  background-color: var(--main-color);
+  border: 1px solid var(--text-color-light);
+  /*background-color: var(--main-color);*/
+  font-size: 15px;
 }
 .search_top{
   border-bottom: 1px solid var(--text-color-light);
@@ -144,6 +145,7 @@ body {
 }
 .search:focus {
   box-shadow: none;
+  border: 1px solid var(--subMsg-color);
   outline: 0;
 }
 .type_msg {
@@ -175,7 +177,6 @@ body {
 .search_btn {
   border-radius: 0 15px 15px 0;
   border: 0;
-  color: white;
   cursor: pointer;
 }
 .contacts {
@@ -184,28 +185,34 @@ body {
 }
 .contacts li {
   width: 100%;
-  padding: 5px 10px;
-  margin-bottom: 15px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--text-color-light);
+  /*margin-bottom: 15px;*/
 }
 .active {
   background-color: var(--submain-color);
 }
-.user_img {
+.user_img_chat {
   height: 60px;
   width: 60px;
-  border: 1.5px solid var(--text-color-light);
+  /*border: 1.5px solid var(--text-color-light);*/
+  background-color: var(--subMsg-color);
+}
+.user_img {
+  height: 45px;
+  width: 45px;
   background-color: var(--subMsg-color);
 }
 .user_img_msg {
   height: 40px;
   width: 40px;
-  border: 1.5px solid var(--text-color-light);
+  /*border: 1.5px solid var(--text-color-light);*/
   background-color: var(--subMsg-color);
 }
 .img_cont {
   position: relative;
-  height: 70px;
-  width: 70px;
+  height: 45px;
+  width: 45px;
 }
 .img_cont_msg {
   height: 40px;
@@ -233,7 +240,8 @@ background-color: #c23616;
   margin-left: 15px;
 }
 .user_info span {
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: bold;
   color: var(--text-color-dark);
 }
 .user_info p {
@@ -342,7 +350,8 @@ background-color: #c23616;
 }
 @media (max-width: 576px) {
   .contacts_card {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    border: 0;
   }
 }
 
@@ -357,6 +366,12 @@ background-color: #c23616;
 .h15 {
   height: 15%;
 }
+.h20{
+  height: 20%;
+}
+.h80{
+  height: 80%;
+}
 .h85 {
   height: 85%;
 }
@@ -368,9 +383,11 @@ background-color: #c23616;
 /* Sohyung modified / added */
 /* user-info span color */
 /* root text colors */
+
  .con-sidebar{
    position: sticky;
    height: 100vh;
+   border-right: 1px solid var(--text-color-light);
 }
 .con-sidebar > a {
   color: var(--text-color-dark);
@@ -378,15 +395,29 @@ background-color: #c23616;
 .con-sidebar > a >div:hover {
   background-color: var(--text-color-light);
 }
-.con-sidebar div{
-
+.con-sidebar img{
+  padding-bottom: 7px;
 }
 .con-sidebar span{
-  font-size: 13px;
+  font-size: 15px;
   margin: 0 0 0 5px;
+  font-weight: bold;
 }
 .con-memberList{
   height: 100vh;
+}
+#chatLogo div{
+  padding: 1.5rem 0 1rem 0;
+}
+#chatLogo img{
+  width: 30px;
+}
+.con-title span{
+  font-weight: bold;
+  font-size: 20px;
+}
+.con-title img{
+  width: 20px;
 }
 a {
   text-decoration: none;
@@ -394,7 +425,7 @@ a {
 a:hover {
   text-decoration: none;
 }
-/* Default : we can see only memberAll list */
+/* Default : we can see only memberAll listcontacts_card */
 #memberDept, #memberTeam, #memberMember, #memberMessage, #chatList{
 	display: none;
 }
@@ -414,13 +445,13 @@ a:hover {
 }
 /* Sohyung modified / added 20210121 */
 /* 20210122*/
-.myprofil {
+/*.myprofil {
   padding-bottom: 20px;
   border-bottom: 1px solid var(--text-color-light);
-}
+}*/
 .myprofilImg {
-  height: 90px;
-  width: 90px;
+  height: 65px;
+  width: 65px;
 }
 .myprofilImg img {
   height: 100%;
@@ -433,6 +464,10 @@ a:hover {
 }
 .searchMenu div:hover{
   cursor: pointer;
+}
+.con-list{
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 .con-list:hover{
   cursor: default;
