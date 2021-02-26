@@ -596,3 +596,7 @@ a{
   display: none;
 }
 
+/* 이미지 다운로드 svg 색 */
+.svg_download{
+	filter: invert(94%) sepia(5%) saturate(606%) hue-rotate(210deg) brightness(97%) contrast(100%);
+}

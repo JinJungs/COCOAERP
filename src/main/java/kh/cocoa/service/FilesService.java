@@ -99,9 +99,13 @@ public class FilesService implements FilesDAO {
 	}
 	//파일 모아보기 리스트
 	@Override
-	public List<FilesMsgDTO> showFileMsg(int m_seq){
-		List<FilesMsgDTO> list = fdao.showFileMsg(m_seq);
-		return list;
+	public List<FilesMsgDTO> showAllFileMsg(int m_seq){
+		return fdao.showAllFileMsg(m_seq);
+	}
+	
+	@Override
+	public List<FilesMsgDTO> showFileMsgByType(int m_seq, String type){
+		return fdao.showFileMsgByType(m_seq, type);
 	}
 	//파일 모아보기 리스트를 url에 넣기 위해 인코딩
 	public List<FilesMsgDTO> encodedShowFileMsg(List<FilesMsgDTO> list) throws UnsupportedEncodingException{
