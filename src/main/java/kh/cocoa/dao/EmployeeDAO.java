@@ -82,6 +82,8 @@ public interface EmployeeDAO {
 
 	public int changePw(int code,String password);
 
+	public int isWithdraw(int code);
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기

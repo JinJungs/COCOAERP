@@ -13,10 +13,12 @@
 }
 .body{height: 50%;}
 .footer{text-align: right}
-input{width:100%}
-
+input[type=text]{
+	width:100%;
+	border: 1px solid #c9c9c9;
+}
 .emailContainer{
-	border: 1px solid black;
+	border: 1px solid #c9c9c9;
 }
 .emailContainer div{
 	min-width: 90px;	
@@ -25,6 +27,7 @@ textarea{
 	width: 100%;
 	min-height: 300px;
 	max-height: 300px;
+	border: 1px solid #c9c9c9;
 }
 #listBox{
 	width: 100%;
@@ -42,7 +45,7 @@ textarea{
 	      			<div class="col-3 col-sm-2">
 	      				제목
 	      			</div>
-	      			<div class="col-9 col-sm-10 pr-5">
+	      			<div class="col pr-5">
 	      				<input type=text name=title id=title value="${dto.title }" maxlength=35>
 	      			</div>
 	      		</div>
@@ -51,16 +54,44 @@ textarea{
 	      			<div class="col-3 col-sm-2">
 	      				받는사람
 	      			</div>
-	      			<div class="col-9 col-sm-10 pr-5">
-	      				<input type=text name=receiver id=receiver value="${dto.sender }" required>
+	      			<div class="col pr-5">
+	      				<input type=text name=receiver id=receiver value="${dto.sender }" maxlength=20 placeholder="ooo@cocoa.com" onchange="fn_changed()" required>
 	      			</div>
 	      		</div>
-	      		
+	      		<c:if test="${empty dto }">
+		      		<div class="row mb-3">
+		      			<div class="col-3 col-sm-2"></div>
+		      			<div class="col text-left">
+		      				<label><input type="checkbox" class="mr-1" id=checkBox name=toMe> 내게 쓰기</label>
+		      			</div>
+		      			<script>
+		      				let box = $("#checkBox");
+		      				let receiver = $("#receiver");
+		      				box.click(function(){
+		      					if(box.is(":checked") == true){
+		      						receiver.attr("disabled", true);
+		      						receiver.val("${myEmail}");
+		      					}else{
+		      						receiver.attr("disabled", false);
+		      						receiver.val("");
+		      					}
+		      				});
+		      				
+		      				function fn_changed(){
+		      					if(receiver.val() == "${myEmail}"){
+		      						box.prop("checked", true);
+									receiver.attr("disabled", true);
+		      					}
+		      				}
+		      				
+		      			</script>
+		      		</div>
+	      		</c:if>
 	      		<div class="row mb-3">
 	      			<div class="col-3 col-sm-2">
 	      				파일첨부
 	      			</div>
-	      			<div class="col-9 col-sm-10">
+	      			<div class="col">
 	      				<input type="file" class="fileList" id="file" name="file" multiple>
 	      				<div id="listBox"></div><br>
 	      			</div>
@@ -72,8 +103,8 @@ textarea{
 	      		</div>
 	      		<div class="row mt-1">
 	      			<div class="col-10"></div>
-	      			<div class="col-1">
-	      				<input type=submit id=submitBtn>
+	      			<div class="col text-right">
+	      				<input type=submit class="btn btn-primary" id=submitBtn>
 	      			</div>
 	      		</div>
       		</form>
@@ -117,5 +148,6 @@ textarea{
         </script>
       </div>
    </div>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
