@@ -20,16 +20,19 @@ public class MessageDTO {
     private String savedname;
     // 사람 이름 추가
 	private String empname;
+	// 프로필 추가
+    private String profile;
     
     @Builder
-	public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname, String empname) {
-		this.seq = seq;
-		this.contents = contents;
-		this.write_date = write_date;
-		this.emp_code = emp_code;
-		this.m_seq = m_seq;
-		this.type = type;
-		this.savedname = savedname;
-		this.empname = empname;
-	}
+    public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname, String empname, String profile) {
+        this.seq = seq;
+        this.contents = contents;
+        this.write_date = write_date;
+        this.emp_code = emp_code;
+        this.m_seq = m_seq;
+        this.type = type;
+        this.savedname = savedname;
+        this.empname = empname;
+        this.profile = profile;
+    }
 }

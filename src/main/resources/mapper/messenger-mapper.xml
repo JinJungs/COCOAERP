@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.MessengerDAO">
+    <!--최근에 메세지가 온 순으로 톡방을 정렬해야한다.-->
     <select id="myMessengerList" resultType="kh.cocoa.dto.MessengerViewDTO">
         SELECT M.*, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
         FROM MESSENGER_VIEW M,

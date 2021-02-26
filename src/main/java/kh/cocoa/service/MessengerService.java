@@ -1,16 +1,12 @@
 package kh.cocoa.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import kh.cocoa.dao.MessengerDAO;
+import kh.cocoa.dto.MessengerDTO;
+import kh.cocoa.dto.MessengerViewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kh.cocoa.dao.MessengerDAO;
-import kh.cocoa.dto.MessengerDTO;
-import kh.cocoa.dto.MessengerPartyDTO;
-import kh.cocoa.dto.MessengerViewDTO;
+import java.util.List;
 
 @Service
 public class MessengerService implements MessengerDAO{
@@ -58,5 +54,6 @@ public class MessengerService implements MessengerDAO{
 	public int updateName(int seq, String name) {
 		return mdao.updateName(seq, name);
 	};
+
 
 }

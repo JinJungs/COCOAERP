@@ -6,16 +6,13 @@
 <head>
 	<title>Chat</title>
 	<link rel="stylesheet"
-		  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-		  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-		  crossorigin="anonymous">
+		  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet"
-		  href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-		  integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-		  crossorigin="anonymous">
+		  href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 	<link rel="stylesheet" type="text/css"
 		  href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 	<link rel="stylesheet" href="/css/messenger.css">
+	<meta name="mobile-web-app-capable" content="yes">
 </head>
 <!--Coded With Love By Mutiullah Samim-->
 <body>
@@ -41,19 +38,39 @@
 	</div>
 	<!-- contact list sidebar -->
 	<div class="row m-0 h85">
-		<div class="col-2 col-md-1 bgMain container-fluid p-o m-0 con-sidebar">
-			<a href="#" id="showAll">
-				<div class="row p-2">전체</div>
-			</a> <a href="#" id="showDept">
-			<div class="row p-2">부서원</div>
-		</a> <a href="#" id="showTeam">
-			<div class="row p-2">팀원</div>
-		</a> <a href="#" id="showChat">
-			<div class="row p-2">채팅방</div>
-		</a>
+		<div class="col-3 col-md-2 col-xl-1 bgMain container-fluid p-o m-0 pl-2 con-sidebar">
+				<a href="#" id="showAll">
+					<div class="row p-2 text-center">
+						<div class="col-12">
+							<img src="/icon/chat.svg">
+							<span>전체</span>
+						</div>
+					</div>
+				</a> <a href="#" id="showDept">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>부서원</span>
+					</div>
+				</div>
+			</a> <a href="#" id="showTeam">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>팀원</span>
+					</div>
+				</div>
+			</a> <a href="#" id="showChat">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>채팅방</span>
+					</div>
+				</div>
+			</a>
 		</div>
 		<!-- contact list part -->
-		<div class="col-10 col-md-11 p-0 con-memberList">
+		<div class="col-9 col-md-10 col-xl-11 p-0 con-memberList">
 			<div class="card contacts_card h-100 b-radius-0">
 				<div class="card-body contacts_body h-75 style="border-radius:0px;!important">
 				<!-- 나의 프로필 상단 고정 -->
@@ -199,6 +216,14 @@
     function toSingleChatRoom(code) {
       window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'singleChat'+code,winFeature);
     }
+
+	/*$(window).load(function(){
+		setTimeout(scrollTo, 0,0,1);
+	});*/
+	$("#testBtn").on("click",function(){
+		//document.body.requestFullscreen();
+		//const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+	})
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click",search);

@@ -26,16 +26,12 @@ public class StompController {
 	public void getChatText(MessageDTO message, String savedname) throws Exception {
 		//1.받아온 내용들로 MESSAGE 테이블에 인서트(??뇌피셜. 조사 필요)
 		//2.전송
-		System.out.println("getChat>>" + message);
-		System.out.println("SEQ=" + message.getSeq());
 		System.out.println("MSG=" + message.getContents());
 		System.out.println("WRITE_DATE="+message.getWrite_date());
-		System.out.println("EMP_CODE="+message.getEmp_code());
-		System.out.println("MSG_SEQ(방seq)"+message.getM_seq());
 		System.out.println("savedname : "+savedname);
 		System.out.println("empname : "+message.getEmpname());
-		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 		System.out.println("getType : "+message.getType());
+		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 //		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
 	}
 	
@@ -68,9 +64,9 @@ public class StompController {
 		System.out.println("typeAn : "+typeAn);
 		
 		if(typeAn.contentEquals("MODIF")) {
-			announce = message.getEmp_code()+"님이 "+message.getContents()+" 으로 채팅방 이름을 바꿨습니다.";
+			announce = message.getEmpname()+"님이 "+message.getContents()+" (으)로 채팅방 이름을 바꿨습니다.";
 		}else if(typeAn.contentEquals("EXIT")) {
-			announce = message.getEmp_code()+" 님이 퇴장하였습니다.";
+			announce = message.getEmpname()+" 님이 퇴장하였습니다.";
 			System.out.println("퇴장 : "+announce);
 		}else if(typeAn.contentEquals("ADD")) {
 			//content에 스트링 형으로 받아온 json 파싱해주기
