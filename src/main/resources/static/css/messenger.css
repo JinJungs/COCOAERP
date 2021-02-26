@@ -379,11 +379,11 @@ background-color: #c23616;
   background-color: var(--text-color-light);
 }
 .con-sidebar div{
-  background-color: red;
+
 }
 .con-sidebar span{
   font-size: 13px;
-  margin: 0 0 0 3px;
+  margin: 0 0 0 5px;
 }
 .con-memberList{
   height: 100vh;

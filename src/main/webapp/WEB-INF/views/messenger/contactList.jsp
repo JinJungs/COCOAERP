@@ -38,31 +38,39 @@
 	</div>
 	<!-- contact list sidebar -->
 	<div class="row m-0 h85">
-		<div class="col-3 col-md-2 bgMain container-fluid p-o m-0 con-sidebar">
-			<a href="#" id="showAll">
-				<div class="row p-2 text-center">
-					<img src="/icon/chat.svg">
-					<span>전체</span>
+		<div class="col-3 col-md-2 col-xl-1 bgMain container-fluid p-o m-0 pl-2 con-sidebar">
+				<a href="#" id="showAll">
+					<div class="row p-2 text-center">
+						<div class="col-12">
+							<img src="/icon/chat.svg">
+							<span>전체</span>
+						</div>
+					</div>
+				</a> <a href="#" id="showDept">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>부서원</span>
+					</div>
 				</div>
-			</a> <a href="#" id="showDept">
-			<div class="row p-2">
-				<img src="/icon/chat.svg">
-				<span>부서원</span>
-			</div>
-		</a> <a href="#" id="showTeam">
-			<div class="row p-2">
-				<img src="/icon/chat.svg">
-				<span>팀원</span>
-			</div>
-		</a> <a href="#" id="showChat">
-			<div class="row p-2">
-				<img src="/icon/chat.svg">
-				<span>채팅방</span>
-			</div>
-		</a>
+			</a> <a href="#" id="showTeam">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>팀원</span>
+					</div>
+				</div>
+			</a> <a href="#" id="showChat">
+				<div class="row p-2">
+					<div class="col-12">
+						<img src="/icon/chat.svg">
+						<span>채팅방</span>
+					</div>
+				</div>
+			</a>
 		</div>
 		<!-- contact list part -->
-		<div class="col-9 col-md-10 p-0 con-memberList">
+		<div class="col-9 col-md-10 col-xl-11 p-0 con-memberList">
 			<div class="card contacts_card h-100 b-radius-0">
 				<div class="card-body contacts_body h-75 style="border-radius:0px;!important">
 				<!-- 나의 프로필 상단 고정 -->
