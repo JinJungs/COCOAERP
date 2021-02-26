@@ -162,6 +162,8 @@ public class EmailController {
 	//메일작성페이지
 	@RequestMapping("sendPage.email")
 	public String toSendPage(String seq, Model model) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String myEmail = loginDTO.getB_email();
 		
 		if(seq != null) {
 			EmailDTO dto = new EmailDTO();
@@ -169,17 +171,22 @@ public class EmailController {
 			
 			model.addAttribute("dto", dto);
 		}
+		model.addAttribute("myEmail", myEmail);
 		
 		return "email/sendPage";
 	}
 	
 	//메일쓰기
 	@RequestMapping("sendEmail.email")
-	public String sendPage(EmailDTO dto, List<MultipartFile> file) throws Exception{
+	public String sendPage(EmailDTO dto, String toMe, List<MultipartFile> file) throws Exception{
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		String email = loginDTO.getB_email();
 		dto.setSender(email);
 		
+		//내게 쓰기인 경우 내 이메일로 받는사람 세팅
+		if(toMe != null) {
+			dto.setReceiver(loginDTO.getB_email());
+		}
 		//제목없을 때 (제목없음) 입력
 		if(dto.getTitle()==null) {
 			dto.setTitle("(제목 없음)");
@@ -256,6 +263,9 @@ public class EmailController {
 					FileCopyUtils.copy(mf.getBytes(), targetLoc);
 				}
 			}
+		}
+		if(toMe != null) {
+			return "redirect:/email/sendToMeList.email";
 		}
 
 		return "redirect:/email/sendList.email";

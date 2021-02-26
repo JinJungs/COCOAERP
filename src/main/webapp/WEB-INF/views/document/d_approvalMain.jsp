@@ -13,10 +13,6 @@
 		select {
 			min-width: 90px;
 		}
-
-		.row {
-			margin-top: 10px;
-		}
 		.textBox{
 			overflow:hidden;
 			text-overflow:ellipsis;
@@ -24,6 +20,9 @@
 		}
 		.item{
 			background-color : #6749b930;
+		}
+		.listItem:hover {
+		    background-color: whitesmoke;
 		}
 	</style>
 </head>
@@ -85,12 +84,12 @@
 
 		<!-- 리스트 출력 부분 -->
 		<c:forEach var="list" items="${list}">
-			<div class="row text-center">
-				<div class="col-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.seq }</a></div>
-				<div class="col-2 d-none d-sm-block textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.temp_name }</a></div>
+			<div class="row text-center listItem p-2">
+				<div class="col-2 textBox">${list.seq }</div>
+				<div class="col-2 d-none d-sm-block textBox">${list.temp_name }</div>
 				<div class="col-4 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
-				<div class="col-3 col-sm-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.write_date }</a></div>
-				<div class="col-3 col-sm-2 textBox"><a href="/document/toReadPage.document?seq=${list.seq }">${list.final_date }</a></div>
+				<div class="col-3 col-sm-2 textBox">${list.write_date }</div>
+				<div class="col-3 col-sm-2 textBox">${list.final_date }</div>
 			</div>
 		</c:forEach>
 		<!-- 리스트 출력 부분 -->

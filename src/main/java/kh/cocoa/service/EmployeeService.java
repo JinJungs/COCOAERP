@@ -1,20 +1,13 @@
 package kh.cocoa.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import kh.cocoa.dao.EmployeeDAO;
+import kh.cocoa.dto.EmployeeDTO;
+import kh.cocoa.dto.NexacroSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.nexacro.uiadapter17.spring.core.data.DataSetRowTypeAccessor;
-import com.nexacro17.xapi.data.DataSet;
-
-import kh.cocoa.dao.EmployeeDAO;
-import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.NexacroFakeEmployeeDTO;
-import kh.cocoa.dto.NexacroSearchDTO;
+import java.util.List;
 
 @Service
 public class EmployeeService implements EmployeeDAO {
@@ -193,6 +186,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.changePw(code,password);
 	}
 
+	@Override
+	public int isWithdraw(int code) {
+		return edao.isWithdraw(code);
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
@@ -255,5 +253,6 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getListWithdrawN() {
 		return edao.getListWithdrawN();
 	}
+
 }
 
