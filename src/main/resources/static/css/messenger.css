@@ -21,11 +21,18 @@ html {
 body {
   min-width: 400px;
   min-height: 660px;
+  "display": "standalone";
 }
 .align-center{
   float: none;
   margin: 0 auto;
 }
+
+/*@media all and (display-mode: standalone) {
+  body {
+    background-color: yellow;
+  }
+}*/
 
 /* ====== hide file input ===== */
 /* .file-input lable {
@@ -371,6 +378,13 @@ background-color: #c23616;
 .con-sidebar > a >div:hover {
   background-color: var(--text-color-light);
 }
+.con-sidebar div{
+
+}
+.con-sidebar span{
+  font-size: 13px;
+  margin: 0 0 0 5px;
+}
 .con-memberList{
   height: 100vh;
 }
@@ -541,5 +555,9 @@ a{
 }
 .h70{
   height: 70%;
+}
+/* 파일 버튼 숨기기 */
+#file{
+  display: none;
 }
 

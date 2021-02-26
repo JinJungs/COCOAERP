@@ -61,7 +61,7 @@
                                     <li class="con-list">
                                         <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                             <div class="img_cont">
-                                                <a href="#"> <img src="/img/profile-default.jpg"
+                                                <a href="#"> <img src="${i.profile}"
                                                                   class="rounded-circle user_img">
                                                 </a>
                                             </div>
@@ -83,7 +83,7 @@
                                     <li class="con-list">
                                         <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                             <div class="img_cont">
-                                                <a href="#"> <img src="/img/profile-default.jpg"
+                                                <a href="#"> <img src="${i.profile}"
                                                                   class="rounded-circle user_img">
                                                 </a>
                                             </div>
@@ -105,7 +105,7 @@
                                     <li class="con-list">
                                         <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                             <div class="img_cont">
-                                                <a href="#"> <img src="/img/profile-default.jpg"
+                                                <a href="#"> <img src="${i.profile}"
                                                                   class="rounded-circle user_img">
                                                 </a>
                                             </div>
@@ -127,7 +127,7 @@
                                     <li class="con-list">
                                         <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})">
                                             <div class="img_cont">
-                                                <img src="/img/profile-default.jpg" class="rounded-circle user_img">
+                                                <img src="${i.profile}" class="rounded-circle user_img">
                                             </div>
                                             <div class="user_info">
                                                 <span style="font-size: 16px;">${i.contents}</span>
@@ -160,7 +160,7 @@
                                 <li class="con-list">
                                     <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                         <div class="img_cont">
-                                            <a href="#"> <img src="/img/profile-default.jpg"
+                                            <a href="#"> <img src="${i.profile}"
                                                               class="rounded-circle user_img">
                                             </a>
                                         </div>
@@ -190,7 +190,7 @@
                                 <li class="con-list">
                                     <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                         <div class="img_cont">
-                                            <a href="#"> <img src="/img/profile-default.jpg"
+                                            <a href="#"> <img src="${i.profile}"
                                                               class="rounded-circle user_img">
                                             </a>
                                         </div>
@@ -220,7 +220,7 @@
                                 <li class="con-list">
                                     <div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
                                         <div class="img_cont">
-                                            <a href="#"> <img src="/img/profile-default.jpg"
+                                            <a href="#"> <img src="${i.profile}"
                                                               class="rounded-circle user_img">
                                             </a>
                                         </div>
@@ -250,7 +250,7 @@
                                 <li class="con-list">
                                     <div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.m_seq})" onclick="shortContents(${i.seq},'${i.contents}')">
                                         <div class="img_cont">
-                                            <img src="/img/profile-default.jpg" class="rounded-circle user_img">
+                                            <img src="${i.profile}" class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info">
                                             <span class="contents_span" id="contents_span${i.seq}" style="font-size: 16px;">${i.contents}</span>
@@ -444,7 +444,7 @@
                                 html += "<li class='con-list'>";
                                 html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayMember[i].code+")'>";
                                 html += "<div class='img_cont'>";
-                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
                                 html += "</div>";
                                 html += "<a href='#'>";
                                 html += "<div class='user_info'>";
@@ -461,7 +461,7 @@
                                 html += "<li class='con-list'>";
                                 html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayDept[i].code+")'>";
                                 html += "<div class='img_cont'>";
-                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "<a href='#'><img src='"+jArrayDept[i].profile+"' class='rounded-circle user_img'></a>";
                                 html += "</div>";
                                 html += "<a href='#'>";
                                 html += "<div class='user_info'>";
@@ -478,7 +478,7 @@
                                 html += "<li class='con-list'>";
                                 html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayTeam[i].code+")'>";
                                 html += "<div class='img_cont'>";
-                                html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                                html += "<a href='#'><img src='"+jArrayTeam[i].profile+"' class='rounded-circle user_img'></a>";
                                 html += "</div>";
                                 html += "<a href='#'>";
                                 html += "<div class='user_info'>";
@@ -500,7 +500,7 @@
                                 html += "<li class='con-list'>";
                                 html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                                 html += "<div class='img_cont'>";
-                                html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
+                                html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
                                 html += "</div>";
                                 html += "<div class='user_info'>";
                                 html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
@@ -535,7 +535,7 @@
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayMember[i].code+")'>";
                             html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
                             html += "<div class='user_info'>";
@@ -560,7 +560,7 @@
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayDept[i].code+")'>";
                             html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "<a href='#'><img src='"+jArrayDept[i].profile+"' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
                             html += "<div class='user_info'>";
@@ -585,7 +585,7 @@
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+jArrayTeam[i].code+")'>";
                             html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                            html += "<a href='#'><img src='"+jArrayTeam[i].profile+"' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
                             html += "<div class='user_info'>";
@@ -615,7 +615,7 @@
                             html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
                             html += "<div class='img_cont'>";
-                            html += "<img src='/img/profile-default.jpg' class='rounded-circle user_img'>";
+                            html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
                             html += "</div>";
                             html += "<div class='user_info'>";
                             html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
