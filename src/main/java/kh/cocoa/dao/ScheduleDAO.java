@@ -25,4 +25,5 @@ public interface ScheduleDAO {
 
 	// 넥사크로
 	public List<ScheduleDTO> selectListNex();
+	public List<ScheduleDTO> selectListByDateNex(String str_start, String str_end);
 }

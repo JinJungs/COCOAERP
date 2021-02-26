@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.cocoa.dto.EmailDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.ScheduleDTO;
 import kh.cocoa.service.ScheduleService;
@@ -187,13 +187,29 @@ public class ScheduleController {
 		return Integer.toString(result);
 	}
 
+	// 넥사크로
 	@RequestMapping("/getList.nex")
 	public NexacroResult getList(){
 		NexacroResult nr = new NexacroResult();
 		List<ScheduleDTO> list = sservice.selectListNex();
-		System.out.println(list.get(0));
-		System.out.println(list.get(0).getStr_start_time());
 		nr.addDataSet("out_ds", list);
 		return nr;
+	}
+
+	@RequestMapping("/searchByDate.nex")
+	public NexacroResult searchByDate(@ParamVariable(name="sch_start")java.util.Date sch_start, @ParamVariable(name="sch_end")java.util.Date sch_end) {
+		NexacroResult nr = new NexacroResult();
+		String str_start = dateFormat(sch_start);
+		String str_end = dateFormat(sch_end);
+		List<ScheduleDTO> list = sservice.selectListByDateNex(str_start, str_end);
+		nr.addDataSet("out_ds", list);
+		return nr;
+	}
+
+	// Date -> String
+	public String dateFormat(java.util.Date input){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String output = format.format(input);
+		return output;
 	}
 }

@@ -10,8 +10,8 @@
     <title>attendanceView</title>
 </head>
 <body>
-    <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
     <div class="wrapper d-flex align-items-stretch">
+        <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-4 board_title">근태현황</h2>
             <div id="attendanceForm">

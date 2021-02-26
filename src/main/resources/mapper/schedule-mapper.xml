@@ -63,4 +63,11 @@
 	<select id="selectListNex" resultType="kh.cocoa.dto.ScheduleDTO">
 		select seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time, to_char(end_time, 'YYYY-MM-DD') as str_end_time, color, dept_code, team_code, emp_code, writer from schedule ORDER BY SEQ DESC
 	</select>
+
+	<select id="selectListByDateNex" resultType="kh.cocoa.dto.ScheduleDTO">
+		select seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time, to_char(end_time, 'YYYY-MM-DD') as str_end_time, color, dept_code, team_code, emp_code, writer
+		from schedule
+		where to_char(start_time, 'YYYY-MM-DD') BETWEEN to_date(#{str_start}) and to_date(#{str_end})
+		ORDER BY SEQ DESC
+	</select>
 </mapper>

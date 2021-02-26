@@ -131,6 +131,14 @@
         	var sch_end = this.divSearch.form.CldEnd.value;
         	trace(sch_start);
         	trace(sch_end);
+        	this.transaction(
+        		"searchByDate"
+        		, "/schedule/searchByDate.nex"
+        		, ""
+        		, "dsSchedule=out_ds"
+        		, "sch_start="+sch_start+" sch_end="+sch_end
+        		, "fn_callback"
+        	);
         };
 
         this.divSearch_btnAdd_onclick = function(obj,e)
