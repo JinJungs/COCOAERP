@@ -176,7 +176,7 @@
                 AND DEPARTMENTS.NAME LIKE '%${searchText}%'
             </when>
         </choose>
-        ORDER BY DOCUMENT.WRITE_DATE DESC)
+        ORDER BY DOCUMENT.FINAL_DATE DESC)
         WHERE ROWNUMBER BETWEEN #{startRowNum} AND #{endRowNum}
     </select>
 
