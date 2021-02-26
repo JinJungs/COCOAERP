@@ -561,11 +561,17 @@
         if (type == "FILE") {
             result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p></a>";
         } else if (type == "IMAGE") {
-            result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><img src='/messengerFile/" + savedname + "' width='150' height='150' style='object-fit:cover;'></a>";
+            result = "<div class='" + classname + "'><img src='/messengerFile/" + savedname + "' onclick='click_img(this.src)' width='150' height='150' style='object-fit:cover;'>"
+            			+"<div><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><img class='svg_download' src='/icon/download.svg'></a></div>";
         } else {
             result = "<div class='" + classname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p>";
         }
         return result;
+    }
+    
+    //이미지 클릭시 팝업
+    function click_img(src){
+    	window.open(src,'src','width=700,height=500,left=500, top=50, resizable=yes');
     }
 
     //[파일 받기용 함수] 타입구하기******
