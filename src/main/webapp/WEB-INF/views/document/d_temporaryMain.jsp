@@ -13,10 +13,6 @@
 		select {
 			min-width: 90px;
 		}
-
-		.row {
-			margin-top: 10px;
-		}
 		.textBox{
 			overflow:hidden;
 			text-overflow:ellipsis;
@@ -24,6 +20,9 @@
 		}
 		.item{
 			background-color : #6749b930;
+		}
+		.listItem:hover {
+		    background-color: whitesmoke;
 		}
 	</style>
 </head>
@@ -82,7 +81,7 @@
 
 		<!-- 리스트 출력 부분 -->
 		<c:forEach var="list" items="${list}">
-			<div class="row text-center">
+			<div class="row text-center listItem p-2">
 				<div class="col-3 textBox">${list.temp_name }</div>
 				<div class="col-6 textBox text-left pl-4"><a href="/document/toReadPage.document?seq=${list.seq }">${list.title }</a></div>
 				<div class="col-3 textBox">${list.write_date }</div>

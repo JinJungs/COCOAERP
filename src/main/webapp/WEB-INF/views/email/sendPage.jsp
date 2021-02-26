@@ -55,14 +55,14 @@ textarea{
 	      				받는사람
 	      			</div>
 	      			<div class="col pr-5">
-	      				<input type=text name=receiver id=receiver value="${dto.sender }" maxlength=20 placeholder="ooo@cocoa.com" required>
+	      				<input type=text name=receiver id=receiver value="${dto.sender }" maxlength=20 placeholder="ooo@cocoa.com" onchange="fn_changed()" required>
 	      			</div>
 	      		</div>
 	      		<c:if test="${empty dto }">
 		      		<div class="row mb-3">
 		      			<div class="col-3 col-sm-2"></div>
 		      			<div class="col text-left">
-		      				<label><input type="checkbox" class="mr-1" id=checkBox> 내게 쓰기</label>
+		      				<label><input type="checkbox" class="mr-1" id=checkBox name=toMe> 내게 쓰기</label>
 		      			</div>
 		      			<script>
 		      				let box = $("#checkBox");
@@ -74,10 +74,16 @@ textarea{
 		      					}else{
 		      						receiver.attr("disabled", false);
 		      						receiver.val("");
-		      					
 		      					}
-		      					
 		      				});
+		      				
+		      				function fn_changed(){
+		      					if(receiver.val() == "${myEmail}"){
+		      						box.prop("checked", true);
+									receiver.attr("disabled", true);
+		      					}
+		      				}
+		      				
 		      			</script>
 		      		</div>
 	      		</c:if>
@@ -97,8 +103,8 @@ textarea{
 	      		</div>
 	      		<div class="row mt-1">
 	      			<div class="col-10"></div>
-	      			<div class="col-1">
-	      				<input type=submit id=submitBtn>
+	      			<div class="col text-right">
+	      				<input type=submit class="btn btn-primary" id=submitBtn>
 	      			</div>
 	      		</div>
       		</form>

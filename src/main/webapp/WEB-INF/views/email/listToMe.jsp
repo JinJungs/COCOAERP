@@ -23,12 +23,16 @@ input{width:100%}
     white-space:nowrap;
 }
 .delBtn{
-	width: 50px;
-	margin-left: 90%;
 	margin-top: 10px;
 }
 input[type=checkbox]{
 	width: 15px;
+}
+.item{
+	background-color : #6749b930;
+}
+.listItem:hover {
+    background-color: whitesmoke;
 }
 </style>
 </head>
@@ -38,23 +42,27 @@ input[type=checkbox]{
       <div id="content" class="p-4 p-md-5 pt-5" style="min-width: 450px;">
       	<h2 class="mb-4">내게 쓴 메일함</h2>
       	<div class="listContainer">
-      		<div class="row p-3" style="border-bottom: 1px solid gray">
+      		<div class="row item p-3">
       			<div class="col-1"><b><input type=checkbox id="all" value=0></b></div>
-      			<div class="col-1"><b>seq</b></div>
-      			<div class="col-7"><b>제목</b></div>
-      			<div class="col-3"><b>날짜</b></div>
+      			<div class="col-1 text-center"><b>seq</b></div>
+      			<div class="col-7 text-center"><b>제목</b></div>
+      			<div class="col-3 text-center"><b>날짜</b></div>
       		</div>
       		<div class="list">
 	      		<c:forEach var="list" items="${emailList }">
-	      			<div class="row p-3" style="border-bottom: 1px solid gray">
+	      			<div class="row listItem p-3" style="border-bottom: 1px solid #c9c9c9">
       					<div class="col-1"><input type=checkbox name=delBox value="${list.seq }"></div>
-      					<div class="col-1"><a href="/email/readPage.email?seq=${list.seq }">${list.rownumber }</a></div>
+      					<div class="col-1 text-center">${list.rownumber }</div>
 		      			<div class="col-7 title"><a href="/email/readPage.email?seq=${list.seq }"><c:out value="${list.title }"></c:out></a></div>
-		      			<div class="col-3"><a href="/email/readPage.email?seq=${list.seq }">${list.write_date }</a></div>
+		      			<div class="col-3 text-center">${list.write_date }</div>
 		      		</div>
 	      		</c:forEach>
       		</div>
-    		<button type=button class="delBtn">삭제</button>
+    		<div class="row">
+      			<div class="col text-right">
+    				<button type=button class="delBtn btn btn-primary">삭제</button>
+      			</div>
+      		</div>
       		<script>
       			$(".delBtn").click(function(){
       				var checkedList = "";
