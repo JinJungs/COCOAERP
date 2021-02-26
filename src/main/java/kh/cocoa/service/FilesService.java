@@ -1,16 +1,14 @@
 package kh.cocoa.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
+import kh.cocoa.dao.FilesDAO;
+import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kh.cocoa.dao.FilesDAO;
-import kh.cocoa.dto.BoardDTO;
-import kh.cocoa.dto.FilesDTO;
-import kh.cocoa.dto.FilesMsgDTO;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Service
 public class FilesService implements FilesDAO {
@@ -155,5 +153,29 @@ public class FilesService implements FilesDAO {
 		return fdao.uploadFilesTempSave(seq,fdto);
 	}
 
-	
+	// 의진 추가 - code로 프로필 가져오기
+	public String getProfile(int code){
+		FilesDTO getProfile = this.findBeforeProfile(code);
+		if(getProfile==null) {
+			return "/img/Profile-m.png";
+		}else{
+			String profileLoc = "/profileFile/" + getProfile.getSavedname();
+			return profileLoc;
+		}
+	}
+	public String getChatProfile(int code, String type){
+		FilesDTO getProfile = this.findBeforeProfile(code);
+		// 1:1채팅방일 때
+		if(type.charAt(0) == 'S'){
+			if(getProfile==null) {
+				return "/img/Profile-m.png";
+			}else{
+				String profileLoc = "/profileFile/" + getProfile.getSavedname();
+				return profileLoc;
+			}
+			// 1:N채팅방일 때
+		}else{
+			return "/img/cocoa.png";
+		}
+	}
 }
