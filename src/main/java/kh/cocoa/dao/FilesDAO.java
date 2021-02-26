@@ -56,7 +56,9 @@ public interface FilesDAO {
 	
 	public String getSavedName(int msg_seq);
 	/*=====채팅 파일 모아보기=====*/
-	public List<FilesMsgDTO> showFileMsg(int m_seq);
+	public List<FilesMsgDTO> showAllFileMsg(int m_seq);
+	
+	public List<FilesMsgDTO> showFileMsgByType(int m_seq, String type);
 	/*======***채팅***=====*/
 
 	//용국 파일 삭제

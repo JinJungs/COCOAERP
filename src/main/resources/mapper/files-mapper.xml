@@ -87,11 +87,20 @@
 	</select>
 	<!-- ****메세지 파일 업로드**** -->
 	<!-- ****메세지 파일 모아보기**** -->
-	<select id="showFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
+	<select id="showAllFileMsg" resultType="kh.cocoa.dto.FilesMsgDTO">
 		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, TO_CHAR(F.UPLOADEDDATE,'yyyy-mm-dd') AS S_UPLOADEDDATE, M.TYPE
 		FROM FILES F, MESSAGE M
 		WHERE F.MSG_SEQ = M.SEQ AND
 		M.M_SEQ = #{m_seq}
+		ORDER BY UPLOADEDDATE DESC
+	</select>
+	
+	<select id="showFileMsgByType" resultType="kh.cocoa.dto.FilesMsgDTO">
+		SELECT F.SEQ, F.ORINAME, F.SAVEDNAME, TO_CHAR(F.UPLOADEDDATE,'yyyy-mm-dd') AS S_UPLOADEDDATE, M.TYPE
+		FROM FILES F, MESSAGE M
+		WHERE F.MSG_SEQ = M.SEQ AND
+		M.M_SEQ = #{m_seq} AND
+        M.TYPE = #{type}
 		ORDER BY UPLOADEDDATE DESC
 	</select>
 	<!-- ****메세지 파일 모아보기**** -->	

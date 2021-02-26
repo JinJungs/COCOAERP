@@ -592,7 +592,7 @@
     }
 
     //[파일 모아보기 팝업]
-    let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
+    let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
 
     function popShowFiles() {
         window.open('/messenger/showFiles?m_seq=' +${seq}, '', winFeature);
