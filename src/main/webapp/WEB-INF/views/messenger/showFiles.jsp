@@ -61,12 +61,10 @@
             		<div class="containerPerDate mb-4">
                     <div class="flex-container p-0 m-0">
 	                    <c:forEach var="i" items="${list}" varStatus="status">
-                            <%--<fmt:formatDate value="${list[status.index].uploadeddate}" pattern="yyyy년 M월 d일" var="before_date" />
-                            <fmt:formatDate value="${list[status.index+1].uploadeddate}" pattern="yyyy년 M월 d일" var="after_date" />--%>
                             <c:if test="${list[status.index].s_uploadeddate ne list[status.index-1].s_uploadeddate}">
-                            <div class="row w-100" id="dateBox${i.seq}">
-                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
-                            </div>
+	                            <div class="row w-100" id="dateBox${i.seq}">
+	                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
+	                            </div>
                             </c:if>
 	                    	<c:choose>
 	                    		<c:when test="${i.type eq 'IMAGE'}">
@@ -93,7 +91,7 @@
             </div>
             
             <!-- 이미지 불러오기 -->
-            <div class="container col-12" id="jointImage">
+            <div class="container col-12" id="jointImage" style="display:none;">
 		    	<c:choose>
 	            	<c:when test="${empty imgList}">
 	            		채팅방에 공유된 이미지/파일이 없습니다.
@@ -121,7 +119,7 @@
 	            </c:choose>
             </div>
             <!-- 파일 불러오기 -->
-            <div class="container col-12" id="jointFile">
+            <div class="container col-12" id="jointFile" style="display:none;">
 	        	<c:choose>
 	            	<c:when test="${empty fileList}">
 	            		채팅방에 공유된 이미지/파일이 없습니다.
@@ -159,13 +157,11 @@
     let jointAll = document.getElementById("jointAll");
     let jointImage = document.getElementById("jointImage");
     let jointFile = document.getElementById("jointFile");
-    //let memberMessage = document.getElementById("memberMessage");
     let searchKeyword = $("#searchKeyword").val();
 
     document.getElementById("showAll").addEventListener('click', showAll);
     document.getElementById("showImage").addEventListener('click', showImage);
     document.getElementById("showFile").addEventListener('click', showFile);
-    //let showMessage = document.getElementById("showMessage");
 
     $(document).ready(function () {
         //전체라는 글자를 굵게하는 효과
@@ -173,13 +169,6 @@
         // 검색창에 검색했던 키워드 띄우기
         $("#searchContents").val(searchKeyword);
 
-        /*// 날짜별로 구분하기
-        let uploadeddate = moment(${i.uploadeddate}).format('YYYY년 M월 D일');
-        if(before_date !== uploadeddate) {
-            existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
-            existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
-            before_date = uploadeddate;
-        }*/
     });
 
     function showAllBoldText() {
