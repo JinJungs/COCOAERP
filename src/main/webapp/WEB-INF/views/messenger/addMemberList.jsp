@@ -38,11 +38,9 @@
             </div>
             <!-- main -->
             <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-            <%--<div class="card contacts_card h-100 b-radius-0">--%>
             <div class="card-body addMember_body" style="border-radius:0 !important;">
                 <div id="memberAll"></div>
             </div>
-            <%--</div>--%>
             <!-- footer -->
             <div class="card-footer p-3 d-flex justify-content-end" style="height: 70px;">
                 <button class="btn btn-outline-primary mr-3" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
@@ -60,6 +58,10 @@
     $(document).ready(function () {
         // ajax로 목록 불러오기
         searchAjax("");
+        // 선택된 인원이 없을 때 확인버튼 disabled 처리
+        if (checkArr.length == 0) {
+            $('#confirm_btn').prop('disabled', true);
+        }
     });
 
     // esc 누르면 창닫기
@@ -103,44 +105,41 @@
             success: function (resp) {
                 let jArrayMember = resp[0];
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
-                setTimeout(function () {
-                    // 멤버
-                    if (jArrayMember.length == 0) {
-                        memberAll.innerHTML = "검색결과가 없습니다.";
-                    } else {
-                        let html = "";
-                        /*html += "<div class='row mb-2 m-0'></div>";*/
-                        html += "<ui class='contacts m-0 p-0'>";
-                        for (let i = 0; i < jArrayMember.length; i++) {
-                            html += "<li class='con-list'>";
-                            html += "<div class='d-flex bd-highlight'>";
-                            html += "<div class='img_cont align-self-center'>";
-                            html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
-                            html += "</div>";
-                            html += "<a href='#'>";
-                            html += "<div class='user_info align-self-center'>";
-                            html += "<span>" + jArrayMember[i].name + "</span>";
-                            html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
-                            html += "</div></a>";
-                            html += "<div class='ml-auto align-self-center'>"
-                            html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
-                            html += "</div>"
-                            html += "</div></li>";
-                        }
-                        html += "</ui>";
-                        memberAll.innerHTML = html;
-                        // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                        setTimeout(function () {
-                            for (let i = 0; i < jArrayMember.length; i++) {
-                                let parsed = jArrayMember[i].code.toString();
-                                if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
-                                    console.log("배열에 들어있나? : " + checkArr.includes(parsed));
-                                    document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
-                                }
-                            }
-                        }, 100);
+                // 멤버
+                if (jArrayMember.length == 0) {
+                    memberAll.innerHTML = "검색결과가 없습니다.";
+                } else {
+                    let html = "";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayMember.length; i++) {
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont align-self-center'>";
+                        html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info align-self-center'>";
+                        html += "<span>" + jArrayMember[i].name + "</span>";
+                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
+                        html += "</div></a>";
+                        html += "<div class='ml-auto align-self-center'>"
+                        html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                        html += "</div>"
+                        html += "</div></li>";
                     }
-                }, 100);
+                    html += "</ui>";
+                    memberAll.innerHTML = html;
+                    // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
+                    setTimeout(function () {
+                        for (let i = 0; i < jArrayMember.length; i++) {
+                            let parsed = jArrayMember[i].code.toString();
+                            if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
+                                console.log("배열에 들어있나? : " + checkArr.includes(parsed));
+                                document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
+                            }
+                        }
+                    }, 100);
+                }
             }
         })
     }

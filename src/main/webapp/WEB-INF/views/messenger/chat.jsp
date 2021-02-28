@@ -595,6 +595,7 @@
 
     //[파일 모아보기 팝업]
     let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
+    let winFeature2 = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
 
     function popShowFiles() {
         window.open('/messenger/showFiles?m_seq=' +${seq}, '', winFeature);
@@ -787,7 +788,7 @@
     //==========채팅방 나가기==================
     //====================채팅 멤버 추가=======
     function openMemberListToChat(seq) {
-        window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature);
+        window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature2);
     }
     function getReturnValue(returnValue) {
        let seq = ${seq};
