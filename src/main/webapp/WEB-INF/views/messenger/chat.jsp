@@ -20,46 +20,48 @@
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
         <div class="card-header msg_head chatBgMain">
-            <div class="d-flex bd-highlight">
-                <div class="img_cont">
-                    <c:choose>
-                        <c:when test="${messenger.type eq 'M'}">
-                            <img src="${chatProfile}"
-                                 class="rounded-circle user_img_chat">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="${partyDTO.profile}"
-                                 class="rounded-circle user_img_chat">
-                        </c:otherwise>
-                    </c:choose>
+            <div class="d-flex bd-highlight justify-content-between">
+                <div class="m-0 p-0 d-flex">
+                    <div class="img_cont_chat">
+                        <c:choose>
+                            <c:when test="${messenger.type eq 'M'}">
+                                <img src="${chatProfile}"
+                                     class="rounded-circle user_img_chat">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${partyDTO.profile}"
+                                     class="rounded-circle user_img_chat">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="user_info">
+                        <c:choose>
+                            <c:when test="${messenger.type eq 'M'}">
+                                <span id="partyname">${messenger.name}</span>
+                            </c:when>
+                            <c:when test="${messenger.type eq 'S'}">
+                                <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+                                <span id="partyname">${partyDTO.empname}</span>
+                                <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
-                <div class="user_info">
-                    <c:choose>
-                        <c:when test="${messenger.type eq 'M'}">
-                            <span id="partyname">${messenger.name}</span>
-                        </c:when>
-                        <c:when test="${messenger.type eq 'S'}">
-                            <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                            <span id="partyname">${partyDTO.empname}</span>
-                            <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-                        </c:when>
-                    </c:choose>
+                <div class="video_cam d-flex justify-content-end ml-0">
+                    <span><i class="fas fa-search m-2"></i></span>
+                    <span><i class="fas fa-inbox m-2" id="showFiles"></i></span>
+                    <span class="mr-1" id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                    <div class="action_menu">
+                        <ul>
+                            <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
+                            <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                            <c:if test="${messenger.type eq 'M'}">
+                                <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
+                                <li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
+                            </c:if>
+                        </ul>
+                    </div>
                 </div>
-                <div class="video_cam">
-                    <span><i class="fas fa-search"></i></span>
-                    <span><i class="fas fa-inbox" id="showFiles"></i></span>
-                </div>
-            </div>
-            <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-            <div class="action_menu">
-                <ul>
-                    <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
-                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
-                    <c:if test="${messenger.type eq 'M'}">
-                       <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
-                       <li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
-                    </c:if>
-                </ul>
             </div>
         </div>
         <!-- 검색 창-->

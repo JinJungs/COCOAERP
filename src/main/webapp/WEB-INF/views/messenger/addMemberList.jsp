@@ -14,51 +14,39 @@
 <body>
 <form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" method="post">
     <div class="w-100 h-100 chat container-fluid m-0 p-0 min-w-440">
-        <div class="row m-0 p-0 h-100 whiteBg">
-            <div class="col-12 m-0 p-0 container-fluid" style="height: 100vh;">
-                <div class="row w-100 m-0 p-0 h90 whiteBg">
-                    <div class="col-12 p-0">
-                        <div class="row w-100 m-0 whiteBg">
-                            <!-- head -->
-                            <div class="card-header col-12 p-0" style="border-radius: 0%;">
-                                <div class="row searchMenu p-4 m-0">
-                                    <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
-                                </div>
-                                <!-- 선택된 사람의 목록을 띄워주는 자리 -->
-                                <div class="row m-0 p-0 d-flex justify-content-start" id="addedPartyBox"></div>
-                                <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0 pb-4">
-                                    <input type="text" placeholder="이름으로 검색" name=""
-                                           class="form-control search" id="searchContents">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text search_btn" id="searchBtn">
-                                          <i class="fas fa-search"></i>
-                                      </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- main -->
-                        <div class="row m-0 p-0 border-top whiteBg">
-                            <div class="con-memberList col-12 m-0 p-0">
-                                <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                                <div class="card contacts_card h-100 b-radius-0">
-                                    <div class="card-body addMember_body" style="border-radius:0 !important;" id="memberAll"></div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important; height: 100vh!important;">
+            <!-- head -->
+            <div class="card-header msg_head p-0" style="border-radius: 0%;">
+                <!-- 제목 -->
+                <div class="row w-100 m-0 p-4 con-title">
+                    <div class="col-12 m-0 p-0 align-self-center">
+                        <span id="searchAll">대화상대 선택</span>
                     </div>
                 </div>
-                <!-- footer -->
-                <div class="row w-100 h10 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
-                    <div class="col-4"></div>
-                    <div class="col-2 m-0 p-0">
-                        <button class="btn btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+                <!-- 선택된 사람의 목록을 띄워주는 자리 -->
+                <div class="row m-0 pl-4 pr-4 p-0 pb-1 d-flex justify-content-start" id="addedPartyBox"></div>
+                <!-- 검색 -->
+                <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0 pb-4">
+                    <input type="text" placeholder="이름으로 검색" name=""
+                           class="form-control search" id="searchContents">
+                    <div class="input-group-prepend">
+                          <span class="input-group-text search_btn" id="searchBtn">
+                              <i class="fas fa-search"></i>
+                          </span>
                     </div>
-                    <div class="col-2 m-0 p-0">
-                        <button class="btn btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
-                    </div>
-                    <div class="col-4"></div>
                 </div>
+            </div>
+            <!-- main -->
+            <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
+            <%--<div class="card contacts_card h-100 b-radius-0">--%>
+            <div class="card-body addMember_body" style="border-radius:0 !important;">
+                <div id="memberAll"></div>
+            </div>
+            <%--</div>--%>
+            <!-- footer -->
+            <div class="card-footer p-3 d-flex justify-content-end" style="height: 70px;">
+                <button class="btn btn-outline-primary mr-3" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+                <button class="btn btn-outline-lightlight" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
             </div>
         </div>
     </div>
@@ -186,8 +174,8 @@
         console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
-        html += "<span>" + name + "</span>";
+        html += "<div class='pl-2 pr-2 ml-2 mb-2 addedParty align-self-center' id='addedParty" + code + "'>";
+        html += "<span class='mr-1'>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";
         $("#addedPartyBox").append(html);

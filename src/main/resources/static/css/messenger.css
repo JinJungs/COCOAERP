@@ -209,6 +209,10 @@ body {
   /*border: 1.5px solid var(--text-color-light);*/
   background-color: var(--subMsg-color);
 }
+.img_cont_chat{
+  height: 60px;
+  width: 60px;
+}
 .img_cont {
   position: relative;
   height: 45px;
@@ -614,7 +618,6 @@ a{
 .addMember_body{
   padding: 0;
   overflow-y: auto;
-  white-space: nowrap;
-  margin-bottom: 200px;
+  /*white-space: nowrap;*/
   border-bottom: 1px solid var(--text-color-light);
 }

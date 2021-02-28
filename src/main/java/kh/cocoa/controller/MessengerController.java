@@ -98,6 +98,7 @@ public class MessengerController {
         if(messenger.getType().contentEquals("S")) {
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
+            System.out.println("여기? "+partyDTO);
             String profile = fservice.getProfile(partyDTO.getEmp_code());
             partyDTO.setProfile(profile);
             model.addAttribute("partyDTO",partyDTO);
