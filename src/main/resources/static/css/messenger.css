@@ -363,17 +363,26 @@ background-color: #c23616;
 .min-w-85 {
   min-width: 85px;
 }
+.h10{
+  height: 10%;
+}
 .h15 {
   height: 15%;
 }
 .h20{
   height: 20%;
 }
+.h70{
+  height: 70%;
+}
 .h80{
   height: 80%;
 }
 .h85 {
   height: 85%;
+}
+.h90 {
+  height: 90%;
 }
 .b-radius-0 {
   border-radius: 0 !important;
@@ -412,7 +421,7 @@ background-color: #c23616;
 #chatLogo img{
   width: 30px;
 }
-.con-title span{
+.con-title span, #searchAll{
   font-weight: bold;
   font-size: 20px;
 }
@@ -440,8 +449,8 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color:gray;
+    border-radius: 5px;
+    background-color: var(--text-color-medium);
 }
 /* Sohyung modified / added 20210121 */
 /* 20210122*/
@@ -552,7 +561,7 @@ a{
 
 /* addMemberList - 선택된 사람의 목록을 띄워줌*/
 .addedParty{
-  border: 1.5px solid gray;
+  border: 1.5px solid var(--text-color-dark);
   border-radius: 30px;
   font-size: 12px;
   height: 30px;
@@ -588,9 +597,7 @@ a{
   max-width: 250px;
   margin-bottom: 7px;
 }
-.h70{
-  height: 70%;
-}
+
 /* 파일 버튼 숨기기 */
 #file{
   display: none;
@@ -599,4 +606,15 @@ a{
 /* 이미지 다운로드 svg 색 */
 .svg_download{
 	filter: invert(94%) sepia(5%) saturate(606%) hue-rotate(210deg) brightness(97%) contrast(100%);
+}
+
+.form-check-input{
+  position: static;
+}
+.addMember_body{
+  padding: 0;
+  overflow-y: auto;
+  white-space: nowrap;
+  margin-bottom: 200px;
+  border-bottom: 1px solid var(--text-color-light);
 }

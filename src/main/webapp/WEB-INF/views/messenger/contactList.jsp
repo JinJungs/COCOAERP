@@ -5,12 +5,10 @@
 <html>
 <head>
 	<title>Chat</title>
-	<link rel="stylesheet"
-		  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet"
-		  href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
-	<link rel="stylesheet" type="text/css"
-		  href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 	<link rel="stylesheet" href="/css/messenger.css">
 	<meta name="mobile-web-app-capable" content="yes">
 </head>
@@ -91,7 +89,7 @@
 			<div class="row w-100 m-0 h80">
 				<div class="con-memberList col-12 p-0">
 					<div class="card contacts_card h-100 b-radius-0">
-						<div class="card-body contacts_body style="border-radius:0px;!important">
+						<div class="card-body contacts_body" style="border-radius:0 !important;">
 						<!-- 나의 프로필 상단 고정 -->
 						<ui class="contacts" id="myProfil">
 							<li class="con-list">
@@ -209,6 +207,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "전체 연락처";
+		$(".search").focus();
 	};
 	showDept.onclick = function() {
 		memberAll.style.display="none";
@@ -216,6 +215,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "부서원";
+		$(".search").focus();
 	};
 	showTeam.onclick = function() {
 		memberAll.style.display="none";
@@ -223,6 +223,7 @@
 		memberTeam.style.display="block";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "팀원";
+		$(".search").focus();
 	};
 	showChat.onclick = function() {
 		memberAll.style.display="none";
@@ -230,6 +231,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="block";
 		chatTitle.innerHTML = "채팅방";
+		$(".search").focus();
 	};
 
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
@@ -243,9 +245,11 @@
       window.open('/messenger/openCreateSingleChat?partyEmpCode='+code,'singleChat'+code,winFeature);
     }
 
-	/*$(window).load(function(){
-		setTimeout(scrollTo, 0,0,1);
-	});*/
+	$(document).ready(function () {
+		// 검색창 포커스
+		$(".search").focus();
+	});
+
 	$("#testBtn").on("click",function(){
 		//document.body.requestFullscreen();
 		//const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
@@ -278,7 +282,7 @@
     //-------------------------------- 채팅방 추가 ---------------------------------
 	document.getElementById("openMemberList").addEventListener("click", openMemberList);
     function openMemberList(){
-		window.open('/messenger/openMemberList?seq=0','',winFeature);
+		var popup = window.open('/messenger/openMemberList?seq=0','',winFeature);
     }
     
 </script>

@@ -4,63 +4,63 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>채팅방 만들기</title>
     <meta charset="UTF-8">
-    <title>통합검색</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="/css/messenger.css">
 </head>
 <body>
-
-<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" methode="post">
-    <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-        <div class="row w-100 h15 m-0">
-            <!-- head -->
-            <div class="card-header w-100 p-0 align-center memberList-header fixed-top" style="border-radius: 0%;">
-                <div class="row w-100 ml-4 pt-3">
-                    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
-                        <div class="row searchMenu">
-                            <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
+<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" method="post">
+    <div class="w-100 h-100 chat container-fluid m-0 p-0 min-w-440">
+        <div class="row m-0 p-0 h-100 whiteBg">
+            <div class="col-12 m-0 p-0 container-fluid" style="height: 100vh;">
+                <div class="row w-100 m-0 p-0 h90 whiteBg">
+                    <div class="col-12 p-0">
+                        <div class="row w-100 m-0 whiteBg">
+                            <!-- head -->
+                            <div class="card-header col-12 p-0" style="border-radius: 0%;">
+                                <div class="row searchMenu p-4 m-0">
+                                    <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
+                                </div>
+                                <!-- 선택된 사람의 목록을 띄워주는 자리 -->
+                                <div class="row m-0 p-0 d-flex justify-content-start" id="addedPartyBox"></div>
+                                <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0 pb-4">
+                                    <input type="text" placeholder="이름으로 검색" name=""
+                                           class="form-control search" id="searchContents">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text search_btn" id="searchBtn">
+                                          <i class="fas fa-search"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- main -->
+                        <div class="row m-0 p-0 border-top whiteBg">
+                            <div class="con-memberList col-12 m-0 p-0">
+                                <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
+                                <div class="card contacts_card h-100 b-radius-0">
+                                    <div class="card-body addMember_body" style="border-radius:0 !important;" id="memberAll"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- 선택된 사람의 목록을 띄워주는 자리 -->
-                <div class="row w-100 ml-4 pt-3" id="addedPartyBox"></div>
-                <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
-                    <input type="text" placeholder="이름으로 검색" name=""
-                           class="form-control search" id="searchContents">
-                    <div class="input-group-prepend">
-                  <span class="input-group-text search_btn" id="searchBtn"> <i
-                          class="fas fa-search"></i>
-                  </span>
+                <!-- footer -->
+                <div class="row w-100 h10 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
+                    <div class="col-4"></div>
+                    <div class="col-2 m-0 p-0">
+                        <button class="btn btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
                     </div>
+                    <div class="col-2 m-0 p-0">
+                        <button class="btn btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
+                    </div>
+                    <div class="col-4"></div>
                 </div>
             </div>
         </div>
-        <!-- main -->
-        <div class="row w-100 h70 m-0 p-4 border-top whiteBg">
-            <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
-                <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                <div class="container" id="memberAll"></div>
-            </div>
-        </div>
-        <!-- footer -->
-        <div class="row w-100 h15 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
-            <div class="col-4"></div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
-            </div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
-            </div>
-            <div class="col-4"></div>
-        </div>
-    </div>
     </div>
 </form>
 
@@ -121,21 +121,21 @@
                         memberAll.innerHTML = "검색결과가 없습니다.";
                     } else {
                         let html = "";
-                        html += "<div class='row mb-2 m-0'></div>";
+                        /*html += "<div class='row mb-2 m-0'></div>";*/
                         html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMember.length; i++) {
-                            html += "<li class='con-list item'>";
+                            html += "<li class='con-list'>";
                             html += "<div class='d-flex bd-highlight'>";
-                            html += "<div class='img_cont'>";
+                            html += "<div class='img_cont align-self-center'>";
                             html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
                             html += "</div>";
                             html += "<a href='#'>";
-                            html += "<div class='user_info item'>";
+                            html += "<div class='user_info align-self-center'>";
                             html += "<span>" + jArrayMember[i].name + "</span>";
                             html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
                             html += "</div></a>";
-                            html += "<div class='item ml-auto pb-4 align-self-center'>"
-                            html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                            html += "<div class='ml-auto align-self-center'>"
+                            html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
                             html += "</div>"
                             html += "</div></li>";
                         }
