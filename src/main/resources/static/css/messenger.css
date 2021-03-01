@@ -185,7 +185,7 @@ body {
 }
 .contacts li {
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border-bottom: 1px solid var(--text-color-light);
   /*margin-bottom: 15px;*/
 }

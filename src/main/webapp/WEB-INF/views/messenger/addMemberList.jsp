@@ -112,6 +112,7 @@
                     let html = "";
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayMember.length; i++) {
+                        let parsed = jArrayMember[i].code.toString();
                         html += "<li class='con-list'>";
                         html += "<div class='d-flex bd-highlight'>";
                         html += "<div class='img_cont align-self-center'>";
@@ -123,22 +124,17 @@
                         html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
                         html += "</div></a>";
                         html += "<div class='ml-auto align-self-center'>"
-                        html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                        html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";
+                        if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
+                            html += "checked='checked'>";
+                        }else{
+                            html += ">";
+                        }
                         html += "</div>"
                         html += "</div></li>";
                     }
                     html += "</ui>";
                     memberAll.innerHTML = html;
-                    // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                    setTimeout(function () {
-                        for (let i = 0; i < jArrayMember.length; i++) {
-                            let parsed = jArrayMember[i].code.toString();
-                            if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
-                                console.log("배열에 들어있나? : " + checkArr.includes(parsed));
-                                document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
-                            }
-                        }
-                    }, 100);
                 }
             }
         })
