@@ -187,20 +187,33 @@
                 let beforeMsgBoxHeight = msgBox.height();
                 console.log("추가되기 전 msgBox의 길이 : " + beforeMsgBoxHeight);
                 for (let i = 0; i < data.length; i++) {
+                    console.log("순서가 ? : "+i);
                     console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
                     let existMsg = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    console.log('before_date : ' +before_date);
+                    console.log('dividing_date : ' + dividing_date);
+                    console.log('다른가?: ' +before_date !== dividing_date);
                      //공지타입 구분
                     let typeArr = (data[i].type).split("_");
                     console.log("typeArr : ",typeArr);
-
-                    if (before_date !== delete_hours_date) {
+                    // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
+                    // 옛날 메세지는 잘 출력이 되는듯 하다
+                    // 오늘자 메세지가 안된다...
+                    // 맨처음 메세지도 안되는것 같다...
+                    /*if (before_date !== dividing_date) {
                         existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
-                        existMsg += "<span>" +delete_hours_date+ "</span></div>"
+                        existMsg += "<span>" +dividing_date+ "</span></div>"
                     }
-                    before_date = delete_hours_date;
+                    before_date = dividing_date;*/
+                    if (before_date !== dividing_date) {
+                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                        existMsg += "<span>" +dividing_date+ "</span></div>"
+                    }
+                    // before_date에 값을 현재 날짜를 저장해야 다음번에 계속 비교할 수 있다.
+                    before_date = dividing_date;
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
