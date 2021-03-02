@@ -13,14 +13,15 @@
 	<insert id="insert">
 		INSERT INTO LEAVE VALUES (LEAVE_SEQ.NEXTVAL, #{type}, #{start_date}, '${end_date}', #{time}, #{emp_code})
 	</insert>
-	<select id="getDuration" resultType="kh.cocoa.dto.LeaveDTO">
-		SELECT LEAVE.TYPE, END_DATE - START_DATE + 1 "duration" FROM LEAVE
+	<select id="getDuration" resultType="Integer">
+		SELECT SUM(END_DATE - START_DATE + 1) "duration" FROM LEAVE
 		    WHERE START_DATE BETWEEN #{startDate} AND #{endDate}
-		        AND EMP_CODE=#{empCode}
+		        AND EMP_CODE = #{empCode}
+                AND TYPE IN ('정기','병가','기타(차감)')
 	</select>
 	<select id="getTimeSum" resultType="Integer">
 		SELECT SUM(TIME) FROM LEAVE 
-		    WHERE START_DATE BETWEEN #{startDate} AND #{endDate}
-		        AND EMP_CODE = #{empCode}
+	    WHERE START_DATE BETWEEN #{startDate} AND #{endDate}
+	        AND EMP_CODE = #{empCode}
 	</select>
 </mapper>

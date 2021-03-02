@@ -488,7 +488,6 @@ public class EmailController {
 				}
 			}
 		}
-		
 		return "redirect:/email/deleteList.email";
 	}
 	
