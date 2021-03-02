@@ -65,12 +65,12 @@
             </div>
         </div>
         <!-- 검색 창-->
-        <div class="container">
-            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;">
-                <input class="col-9" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
-                <div class="p-1" style="position: absolute; left: 280px; top:96px;"><i class="fas fa-chevron-up"></i>
+        <div class="container searchCon">
+            <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
+                <input class="col-9 searchInput" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
+                <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
                 </div>
-                <div class="p-1" style="position: absolute; left: 300px; top:96px;"><i class="fas fa-chevron-down"></i>
+                <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="col-3">
                     <button type="button" class="btn btn-secondary btn-sm" id="searchBtn">검색</button>
@@ -97,13 +97,13 @@
             <div class="m-h-90 d-flex flex-column bd-highlight" id="sendToolBox">
                 <textarea name="" class="bd-highlight form-control type_msg" id="yourMsg" placeholder="메세지를 입력하세요."></textarea>
                 <div class="d-flex bd-highlight m-0 p-0">
-                    <button class="bd-highlight btn btn-outline-primary chat_btn" id="emoji_btn">
-                        <img src="/icon/emoji-smile.svg">
+                    <button class="btn chat_btn" id="emoji_btn">
+                        <img class="chat_icon" src="/icon/emoji-smile.svg">
                     </button>
-                    <button class="bd-highlight btn btn-outline-primary chat_btn" id="attach_btn">
-                        <img src="/icon/paperclip_rotate.svg">
+                    <button class="btn chat_btn" id="attach_btn">
+                        <img class="chat_icon" src="/icon/paperclip_rotate.svg">
                     </button>
-                    <button class="bd-highlight btn btn-outline-primary chat_btn ml-auto" id="send_btn">
+                    <button class="btn btn_send chat_btn ml-auto" id="send_btn">
                         <img src="/icon/send.svg">
                     </button>
                 </div>
@@ -234,13 +234,13 @@
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                         existMsg += "</div></div></div>";
                     }else{
-                       existMsg += "<div class='text-center font-weight-light'><small>";
+                       existMsg += "<div class='announce text-center font-weight-light'><small>";
                        if(typeArr[1]=="MODIF"){
                           existMsg += data[i].empname + "님이 " + data[i].contents +" (으)로 채팅방 이름을 변경하였습니다.";
                        }else if(typeArr[1]=="EXIT"){
                           existMsg += data[i].contents + "님이 퇴장하였습니다.";
                        }else if(typeArr[1]=="ADD"){
-
+                    	  existMsg += data[i].empname + "님이 "+ data[i].contents + " 님을 채팅방에 초대하셨습니다.";
                        }else{
                           existMsg += "공지 메세지 등록 오류";
                        }
@@ -430,7 +430,7 @@
                         showAlertMessageOnBottom(empname, msg);
                     }
                 }else{
-                    newMsg += "<div class='text-center font-weight-light'><small>";
+                    newMsg += "<div class='announce text-center font-weight-light'><small>";
                     newMsg += msg;
                     newMsg += "</small></div>";
                     msgBox.append(newMsg);
@@ -808,11 +808,10 @@
        let emp_code = ${loginDTO.code};
        console.log(returnValue);
        let checkArr = returnValue;
+       let empname = "${loginDTO.name}";
 
        //길이 알아내기 위해
         let checkArrParsed = JSON.parse(returnValue);
-/*        console.log("json 형태 : ",checkArr);
-       console.log("첫번째 값 : ", checkArr[0]); */
        console.log("길이 : ", checkArrParsed.length);
        //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
        //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
@@ -833,6 +832,7 @@
                         , contents: checkArr
                         , write_date: new Date()
                         , emp_code: emp_code
+                        , empname: empname
                         , type: "AN_ADD"
                     }));
 

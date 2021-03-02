@@ -22,7 +22,7 @@ html {
 body {
   min-width: 400px;
   min-height: 660px;
-  "display": "standalone";
+  display: "standalone";
 }
 .align-center{
   float: none;
@@ -174,6 +174,19 @@ body {
   height: 30px;
   text-align: center;
   line-height: 0;
+  background-color: transparent;
+}
+.chat_icon{
+	filter: invert(72%) sepia(0%) saturate(3%) hue-rotate(110deg) brightness(88%) contrast(87%);
+}
+.chat_btn:hover > .chat_icon{
+	filter: invert(23%) sepia(0%) saturate(1381%) hue-rotate(228deg) brightness(100%) contrast(93%);
+}
+.btn_send{
+	background-color: #6749b950;
+}
+.btn_send:hover{
+	background-color: #6749b9;
 }
 /*.attach_btn {
   border-radius: 2px 0 0 2px !important;
@@ -512,8 +525,11 @@ a:hover {
 }
 
 /* 파일 모아보기 ===========*/
-.date {
+.showFile_date {
   margin-left: 10px;
+  background-color: var(--chat-background-color);
+  padding: 5px 10px;
+  margin: 30px 0;
 }
 .flex-container {
   display: flex;
@@ -658,4 +674,41 @@ a{
 }
 #alertMessagePartyname{
   color: var(--text-color-medium);
+}
+
+.announce{
+	background-color: #ababab30;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 3px 10px;
+	
+    font-size: 12px;
+}
+
+.searchCon{
+	background-color: var(--chat-background-color);
+	padding: 0 10px;
+}
+.searchInput{
+	background-color: var(--date-background-color);
+	border: 1px solid var(--text-color-light);
+}
+
+/* showFiles.jsp*/
+.none{
+	background-color: var(--chat-background-color);
+	width: 100%;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.noFileImg{
+	opacity: 0.3;
+	padding: 40px;
+	height: 70%;
+}
+.noFileMsg{
+	text-align: center;
+	height: 20%;
 }

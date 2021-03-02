@@ -112,6 +112,8 @@ public interface EmployeeDAO {
 	
 	public int updateEmployee(List<EmployeeDTO> list);
 	
+	public String getEmpNameByCode(int code);
+	
 	//-------------소형 끝---------------//
 
 	//employee와 leave_taken_used 같이 받아오기
