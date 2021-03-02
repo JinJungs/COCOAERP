@@ -225,7 +225,7 @@
                        }else if(typeArr[1]=="EXIT"){
                           existMsg += data[i].contents + "님이 퇴장하였습니다.";
                        }else if(typeArr[1]=="ADD"){
-
+                    	   existMsg += data[i].empname + "님이 "+ data[i].contents + "을 채팅방에 초대하셨습니다.";
                        }else{
                           existMsg += "공지 메세지 등록 오류";
                        }
