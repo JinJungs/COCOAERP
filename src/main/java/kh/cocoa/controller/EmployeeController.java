@@ -42,7 +42,10 @@ public class EmployeeController {
     @RequestMapping("/login")
     @ResponseBody
     public String login(EmployeeDTO dto) {
-        System.out.println("왜않옴 ..");
+        int isWithDraw = eservice.isWithdraw(dto.getCode());
+        if(isWithDraw>0){
+            return "withdraw";
+        }
         String result = eservice.login(dto.getCode(), dto.getPassword());
         if (result.equals("T")) {
             EmployeeDTO loginDTO = eservice.loginInfo(dto.getCode());
