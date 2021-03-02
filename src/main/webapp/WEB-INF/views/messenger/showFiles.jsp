@@ -25,8 +25,9 @@
 
 <!-- top head -->
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-    <div class="row w-100 m-0 h15">
+    <div class="row w-100 m-0 h10">
         <div class="card-header w-100 p-3 align-center" style="border-radius: 0%;">
+            <!-- 검색창
             <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
                 <input type="text" placeholder="파일,이미지 이름 검색" name=""
                        class="form-control search" id="searchContents">
@@ -36,6 +37,7 @@
                   </span>
                 </div>
             </div>
+             -->
             <div class="row w-100 ml-4">
                 <div class="col-12 col-sm-10 col-md-9 col-lg-8">
                     <div class="row searchMenu">
@@ -49,13 +51,16 @@
     </div>
     <!-- main -->
     <input type="hidden" id="searchKeyword" value="${searchKeyword}">
-    <div class="row w-100 h85 m-0 p-4 border-top whiteBg" style="overflow:scroll;">
+    <div class="row w-100 h90 m-0 p-4 border-top whiteBg" style="overflow:scroll;">
         <div class="search_body col-12">
             <!-- 이미지/파일 모두 불러오기-->
             <div class="container col-12" id="jointAll">
             <c:choose>
             	<c:when test="${empty list}">
-            		채팅방에 공유된 이미지/파일이 없습니다.
+            	<div class="none">
+            		<img class="noFileImg" alt="nofile" src="/img/cocoa2.png">
+            		<p class="noFileMsg">채팅방에 공유된 이미지/파일이 없습니다.</p>
+            	</div>
             	</c:when>
             	<c:otherwise>
             		<div class="containerPerDate mb-4">
@@ -63,7 +68,7 @@
 	                    <c:forEach var="i" items="${list}" varStatus="status">
                             <c:if test="${list[status.index].s_uploadeddate ne list[status.index-1].s_uploadeddate}">
 	                            <div class="row w-100" id="dateBox${i.seq}">
-	                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
+	                                <div class="col-12 showFile_date" id="date${i.seq}">${i.s_uploadeddate}</div>
 	                            </div>
                             </c:if>
 	                    	<c:choose>
@@ -94,7 +99,10 @@
             <div class="container col-12" id="jointImage" style="display:none;">
 		    	<c:choose>
 	            	<c:when test="${empty imgList}">
-	            		채팅방에 공유된 이미지/파일이 없습니다.
+	            		<div class="none">
+		            		<img class="noFileImg" alt="nofile" src="/img/cocoa2.png">
+		            		<p class="noFileMsg">채팅방에 공유된 이미지가 없습니다.</p>
+            			</div>
 	            	</c:when>
 	            	<c:otherwise>
 	            		<div class="containerPerDate mb-4">
@@ -104,7 +112,7 @@
 	                            <fmt:formatDate value="${list[status.index+1].uploadeddate}" pattern="yyyy년 M월 d일" var="after_date" />--%>
 	                            <c:if test="${imgList[status.index].s_uploadeddate ne imgList[status.index-1].s_uploadeddate}">
 	                            <div class="row w-100" id="dateBox${i.seq}">
-	                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
+	                                <div class="col-12 showFile_date" id="date${i.seq}">${i.s_uploadeddate}</div>
 	                            </div>
 	                            </c:if>
 		                    	<a href="/files/downloadMessengerFile.files?savedname=${i.savedname}&oriname=${i.orinameEncoded}">
@@ -122,7 +130,10 @@
             <div class="container col-12" id="jointFile" style="display:none;">
 	        	<c:choose>
 	            	<c:when test="${empty fileList}">
-	            		채팅방에 공유된 이미지/파일이 없습니다.
+	            		<div class="none">
+		            		<img class="noFileImg" alt="nofile" src="/img/cocoa2.png">
+		            		<p class="noFileMsg">채팅방에 공유된 파일이 없습니다.</p>
+		            	</div>
 	            	</c:when>
 	            	<c:otherwise>
 	            		<div class="containerPerDate mb-4">
@@ -130,7 +141,7 @@
 		                    <c:forEach var="i" items="${fileList}" varStatus="status">
 	                            <c:if test="${fileList[status.index].s_uploadeddate ne fileList[status.index-1].s_uploadeddate}">
 	                            <div class="row w-100" id="dateBox${i.seq}">
-	                                <div class="col-12 date" id="date${i.seq}">${i.s_uploadeddate}</div>
+	                                <div class="col-12 showFile_date" id="date${i.seq}">${i.s_uploadeddate}</div>
 	                            </div>
 	                            </c:if>
 		                    	<a href="/files/downloadMessengerFile.files?savedname=${i.savedname}&oriname=${i.orinameEncoded}">

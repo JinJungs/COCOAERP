@@ -520,8 +520,11 @@ a:hover {
 }
 
 /* 파일 모아보기 ===========*/
-.date {
+.showFile_date {
   margin-left: 10px;
+  background-color: var(--chat-background-color);
+  padding: 5px 10px;
+  margin: 30px 0;
 }
 .flex-container {
   display: flex;
@@ -684,4 +687,23 @@ a{
 .searchInput{
 	background-color: var(--date-background-color);
 	border: 1px solid var(--text-color-light);
+}
+
+/* showFiles.jsp*/
+.none{
+	background-color: var(--chat-background-color);
+	width: 100%;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.noFileImg{
+	opacity: 0.3;
+	padding: 40px;
+	height: 70%;
+}
+.noFileMsg{
+	text-align: center;
+	height: 20%;
 }
