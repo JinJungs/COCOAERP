@@ -50,9 +50,6 @@ div {
 	background-color: #fbf6db;
 }
 
-.on, #on {
-	text-align: center;
-}
 
 .toB_LogBtn {
 	text-align: center;
@@ -71,7 +68,7 @@ div {
 		<%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
-			<c:if test="${deptCode != 0 }">
+			<c:if test="${deptCode != 0 }"><!-- 행정부코드로 지정하면 되는데 테스트시 불편할까봐 임시로 넣어놓음 -->
 				<button id=manageBtn class="btn btn-primary">관리자로 가기</button>
 				<script>
 		         let manageBtn = document.getElementById("manageBtn");
@@ -162,11 +159,11 @@ div {
 							</div>
 							<c:forEach var="i" items="${emailList }" begin="0" end="3">
 								<div class="row p-1">
-									<div class="col-4 col-md-6 col-xl-4 pl-4">
+									<div class="col-4 col-md-6 col-xl-4">
 										<a href="/document/toReadPage.document?seq=${i.seq }">${i.title }</a>
 									</div>
-									<div class="col-4 d-md-none d-xl-block col-xl-4 pl-4">${i.write_date }</div>
-									<div class="col-4 col-md-6 col-xl-4 pl-4">${i.sender }</div>
+									<div class="col-4 d-md-none d-xl-block col-xl-4">${i.write_date }</div>
+									<div class="col-4 col-md-6 col-xl-4">${i.sender }</div>
 								</div>
 							</c:forEach>
 							<div class="col-12 p-1 text-right pr-3 mt-2">
@@ -363,7 +360,7 @@ div {
 											</div>
 											<c:forEach var="i" items="${clist }" begin="0" end="4">
 												<div class="row p-1">
-													<div class="col-8 col-lg-5">${i.title }</div>
+													<div class="col-8 col-lg-5"><a href="/document/toReadPage.document?seq=${i.seq }">${i.title }</a></div>
 													<div class="d-none d-lg-block col-lg-4">${i.write_date }</div>
 													<div class="col-4 col-lg-3">${i.status }</div>
 												</div>

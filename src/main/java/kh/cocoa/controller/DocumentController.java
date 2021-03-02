@@ -841,14 +841,7 @@ public class DocumentController {
 				String year = format.format(today);
 				String yearStart = year + "-01-01";
 				String yearEnd = year + "-12-31";
-				List<LeaveDTO> leaveList = lservice.getDuration(dto.getWriter_code(), yearStart, yearEnd);
-				
-				int durationSum = 0; //기간 합
-				for(int i=0; i<leaveList.size(); i++) {
-					if(leaveList.get(i).getType().contentEquals("정기") || leaveList.get(i).getType().contentEquals("병가")|| leaveList.get(i).getType().contentEquals("기타(차감)")) {
-						durationSum = durationSum + leaveList.get(i).getDuration();
-					}
-				}
+				int durationSum = lservice.getDuration(dto.getWriter_code(), yearStart, yearEnd); //기간 합
 				//2-2. 시간 받아오기
 				int timeSum = lservice.getTimeSum(dto.getWriter_code(), yearStart, yearEnd);
 				durationSum = durationSum + (timeSum / 8);
