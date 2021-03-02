@@ -99,6 +99,7 @@ public class MessengerController {
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
             System.out.println("여기? "+partyDTO);
+            // partyDTO 가 null
             String profile = fservice.getProfile(partyDTO.getEmp_code());
             partyDTO.setProfile(profile);
             model.addAttribute("partyDTO",partyDTO);
@@ -518,10 +519,8 @@ public class MessengerController {
     	}
     	int insertMemResult = mpservice.setMessengerMember(list);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
-    	
-    	
+
+
     	return insertMemResult;
     }
-
-
 }
