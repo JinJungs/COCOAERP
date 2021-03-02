@@ -2,10 +2,11 @@
   --main-color: #f9f9f9; /*#9d86de #e2e8eb; */
   --main-background-color: #ffffff;
   --chat-background-color: #e8eaed;
+  --date-background-color: #d8d9dc;
   --submain-color: hsl(0, 0%, 81%);
   --sendMsg-color: #c6b5ed;
   --getMsg-color: #ffffff;
-  --subMsg-color: #866EC7;
+  --subMsg-color: #866ec7;
   --text-color-dark: #575757;
   --text-color-medium: #bfbfbf;
   --text-color-light: #ebebeb;
@@ -160,20 +161,29 @@ body {
   box-shadow: none;
   outline: 0;
 }
-.attach_btn {
+.type_msg::placeholder{
+  font-size: 14px;
+}
+.chat_btn{
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  line-height: 0;
+}
+/*.attach_btn {
   border-radius: 2px 0 0 2px !important;
   background-color: var(--submain-color);
   border: 0;
   color: white;
   cursor: pointer;
-}
-.send_btn {
+}*/
+/*.send_btn {
   border-radius: 2px 0 0 2px;
   background-color: var(--submain-color);
   border: 0;
   color: white;
   cursor: pointer;
-}
+}*/
 .search_btn {
   border-radius: 0 15px 15px 0;
   border: 0;
@@ -185,7 +195,7 @@ body {
 }
 .contacts li {
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 25px;
   border-bottom: 1px solid var(--text-color-light);
   /*margin-bottom: 15px;*/
 }
@@ -193,9 +203,8 @@ body {
   background-color: var(--submain-color);
 }
 .user_img_chat {
-  height: 60px;
-  width: 60px;
-  /*border: 1.5px solid var(--text-color-light);*/
+  height: 45px;
+  width: 45px;
   background-color: var(--subMsg-color);
 }
 .user_img {
@@ -208,6 +217,10 @@ body {
   width: 40px;
   /*border: 1.5px solid var(--text-color-light);*/
   background-color: var(--subMsg-color);
+}
+.img_cont_chat{
+  height: 45px;
+  width: 45px;
 }
 .img_cont {
   position: relative;
@@ -275,7 +288,7 @@ background-color: #c23616;
   margin-left: 10px;
   border-radius: 2px;
   background-color: var(--getMsg-color);
-  font-size: 14px;
+  font-size: 13.5px;
   padding: 10px;
   position: relative;
   white-space: pre-line;
@@ -286,11 +299,20 @@ background-color: #c23616;
   margin-right: 10px;
   border-radius: 2px;
   background-color: var(--sendMsg-color);
-  font-size: 14px;
+  font-size: 13.5px;
   padding: 10px;
   position: relative;
   white-space: pre-line;
   max-width: 50%;
+}
+.msg_date_divider{
+  font-size: 12px;
+}
+.msg_date_divider span{
+  background-color: var(--date-background-color);
+  padding: 8px;
+  border-radius: 2px;
+  height: 100%;
 }
 .msg_time {
   position: absolute;
@@ -308,6 +330,7 @@ background-color: #c23616;
 }
 .msg_head {
   position: relative;
+  padding-bottom: 2rem;
 }
 #action_menu_btn {
   position: absolute;
@@ -363,17 +386,26 @@ background-color: #c23616;
 .min-w-85 {
   min-width: 85px;
 }
+.h10{
+  height: 10%;
+}
 .h15 {
   height: 15%;
 }
 .h20{
   height: 20%;
 }
+.h70{
+  height: 70%;
+}
 .h80{
   height: 80%;
 }
 .h85 {
   height: 85%;
+}
+.h90 {
+  height: 90%;
 }
 .b-radius-0 {
   border-radius: 0 !important;
@@ -412,7 +444,7 @@ background-color: #c23616;
 #chatLogo img{
   width: 30px;
 }
-.con-title span{
+.con-title span, #searchAll{
   font-weight: bold;
   font-size: 20px;
 }
@@ -440,8 +472,8 @@ a:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color:gray;
+    border-radius: 5px;
+    background-color: var(--text-color-medium);
 }
 /* Sohyung modified / added 20210121 */
 /* 20210122*/
@@ -552,7 +584,7 @@ a{
 
 /* addMemberList - 선택된 사람의 목록을 띄워줌*/
 .addedParty{
-  border: 1.5px solid gray;
+  border: 1.5px solid var(--text-color-dark);
   border-radius: 30px;
   font-size: 12px;
   height: 30px;
@@ -588,9 +620,7 @@ a{
   max-width: 250px;
   margin-bottom: 7px;
 }
-.h70{
-  height: 70%;
-}
+
 /* 파일 버튼 숨기기 */
 #file{
   display: none;
@@ -599,4 +629,28 @@ a{
 /* 이미지 다운로드 svg 색 */
 .svg_download{
 	filter: invert(94%) sepia(5%) saturate(606%) hue-rotate(210deg) brightness(97%) contrast(100%);
+}
+
+.form-check-input{
+  position: static;
+}
+.addMember_body{
+  padding: 0;
+  overflow-y: auto;
+  /*white-space: nowrap;*/
+  border-bottom: 1px solid var(--text-color-light);
+}
+
+#alertMessageBox{
+  background-color: var(--chat-background-color);
+  display: none;
+}
+#alertMessageBox>div{
+  font-size: 12px;
+  border-radius: 10px;
+  background-color: #6e7072;
+  color: white;
+}
+#alertMessagePartyname{
+  color: var(--text-color-medium);
 }

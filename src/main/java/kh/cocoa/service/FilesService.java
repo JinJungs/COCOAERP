@@ -179,7 +179,7 @@ public class FilesService implements FilesDAO {
 			}
 			// 1:N채팅방일 때
 		}else{
-			return "/img/cocoa.png";
+			return "/icon/people-multiple.svg";
 		}
 	}
 }
