@@ -1,9 +1,11 @@
 package kh.cocoa.controller;
 
 
+import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.service.AttendanceService;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -116,4 +118,36 @@ public class RestAttendanceController {
         JSONArray json = new JSONArray(getAtdTime);
         return json.toString();
     }
+
+    @RequestMapping("/isReq")
+    public String isReq(){
+        AtdChangeReqDTO isReq =attendanceService.isReq(0);
+        if(isReq!=null){
+            JSONObject json = new JSONObject(isReq);
+            return json.toString();
+        }else{
+            return "";
+        }
+    }
+
+    @RequestMapping("/getAtdList")
+    public String getAtdList(String number){
+
+        List<AttendanceDTO> atdList = attendanceService.getAttendanceList2(1000,number);
+        JSONArray json = new JSONArray(atdList);
+        return json.toString();
+    }
+
+    @RequestMapping("/search")
+    public String search(String number,
+                         String search,
+                         String start_time,
+                         String end_time){
+        int parse_end_time = Integer.parseInt(end_time.replaceAll("-",""));
+        parse_end_time++;
+        List<AttendanceDTO> getSearchAtd = attendanceService.getSearchAtd(1000,number,search,start_time,parse_end_time);
+        JSONArray json = new JSONArray(getSearchAtd);
+        return json.toString();
+    }
+
 }
