@@ -36,6 +36,10 @@ public class RestAttendanceController {
     @RequestMapping("/isOutWork")
     public String isOutWork(){
         String isOutWork=attendanceService.isOutWork(1000);
+        String isInWork=attendanceService.isInWork(1000);
+        if(isInWork==null){
+            return "nyInWork";
+        }
         return isOutWork;
     }
 
