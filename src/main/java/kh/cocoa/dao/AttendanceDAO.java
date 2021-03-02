@@ -14,6 +14,14 @@ public interface AttendanceDAO {
     public Timestamp checkEnd(int emp_code);
     public int offWork(int emp_code);
     public List<AttendanceDTO> getAttendanceList(int emp_code);
-    
+    public List<AttendanceDTO> getAtdTime(int emp_code);
+    public List<AttendanceDTO> getMonthAtdTime(int emp_code);
+    public int isAtd(int emp_code);
+
+    public String isInWork(int emp_code);
+    public int startWork2(int emp_code,String status);
+    public int reRegStartTime(int emp_code);
+    public String isOutWork(int emp_code);
+    public int endWork(int emp_code,int overtime);
     
 }

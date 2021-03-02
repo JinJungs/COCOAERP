@@ -14,13 +14,15 @@ public class AttendanceDTO {
     private Timestamp end_time;
     private String status;
     private int emp_code;
+    private int overtime;
 
     @Builder
-    public AttendanceDTO(int seq, Timestamp start_time, Timestamp end_time, String status, int emp_code) {
+    public AttendanceDTO(int seq, Timestamp start_time, Timestamp end_time, String status, int emp_code, int overtime) {
         this.seq = seq;
         this.start_time = start_time;
         this.end_time = end_time;
         this.status = status;
         this.emp_code = emp_code;
+        this.overtime = overtime;
     }
 }

@@ -25,4 +25,46 @@
     <select id="getAttendanceList" resultType="kh.cocoa.dto.AttendanceDTO">
         select * from attendance where emp_code = #{emp_code}
     </select>
+
+    <select id="getAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
+        SELECT * FROM ATTENDANCE where start_time between  NEXT_DAY(SYSDATE-8,'일요일') and NEXT_DAY(SYSDATE,'토요일') and emp_code=#{emp_code} and end_time is not null
+    </select>
+
+    <select id="getMonthAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
+        SELECT * FROM ATTENDANCE WHERE substr(start_time,0,8) between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
+    </select>
+
+    <select id="isAtd" resultType="Integer">
+        SELECT COUNT(*) from attendance where substr(start_time,0,8) = substr(sysdate,0,8) and emp_code=#{emp_code}
+    </select>
+
+    <select id="isInWork" resultType="String">
+        SELECT substr(start_time,10,8) from attendance where substr(start_time,0,8)=substr(sysdate,0,8) and start_time is not null and emp_code=#{emp_code}
+    </select>
+
+    <select id="isOutWork" resultType="String">
+        SELECT substr(end_time,10,8) from attendance where substr(start_time,0,8)=substr(sysdate,0,8) and end_time is not null and emp_code=#{emp_code}
+    </select>
+
+    <insert id="startWork2">
+        <choose>
+            <when test="status=='in'">
+                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'IN', #{emp_code},'')
+            </when>
+            <when test="status=='late'">
+                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'LATE', #{emp_code},'')
+            </when>
+            <otherwise>
+                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'OUT', #{emp_code},'')
+            </otherwise>
+        </choose>
+    </insert>
+
+    <update id="reRegStartTime">
+       update attendance set start_time=sysdate where emp_code=#{emp_code} and substr(start_time,0,8) = substr(sysdate,0,8)
+    </update>
+
+    <update id="endWork">
+         update attendance set end_time=sysdate, overtime=#{overtime} where emp_code=#{emp_code} and substr(start_time,0,8) = substr(sysdate,0,8)
+    </update>
 </mapper>

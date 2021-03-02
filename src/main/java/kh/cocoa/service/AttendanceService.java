@@ -30,4 +30,49 @@ public class AttendanceService implements AttendanceDAO {
 
     @Override
     public List<AttendanceDTO> getAttendanceList(int emp_code) { return attenDAO.getAttendanceList(emp_code); }
+
+    @Override
+    public List<AttendanceDTO> getAtdTime(int emp_code) {
+        return attenDAO.getAtdTime(emp_code);
+    }
+
+    @Override
+    public List<AttendanceDTO> getMonthAtdTime(int emp_code){
+        return attenDAO.getMonthAtdTime(emp_code);
+    }
+
+
+
+    @Override
+    public int isAtd(int emp_code) {
+        return attenDAO.isAtd(emp_code);
+    }
+
+    @Override
+    public String isInWork(int emp_code) {
+        return attenDAO.isInWork(emp_code);
+    }
+
+    @Override
+    public int startWork2(int emp_code, String status) {
+        return attenDAO.startWork2(emp_code,status);
+    }
+
+    @Override
+    public int reRegStartTime(int emp_code) {
+        return attenDAO.reRegStartTime(emp_code);
+    }
+
+    @Override
+    public String isOutWork(int emp_code) {
+        return attenDAO.isOutWork(emp_code);
+    }
+
+    @Override
+    public int endWork(int emp_code,int overtime) {
+        return attenDAO.endWork(emp_code,overtime);
+    }
+
+
+
 }
