@@ -59,5 +59,5 @@ public class MessageService implements MessageDAO {
     public List<MessageDTO> searchMsgInChatRoom(int m_seq, String contents){
         return msgdao.searchMsgInChatRoom(m_seq,contents);
     }
-
+    
 }

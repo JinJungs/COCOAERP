@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.MessageService;
 
@@ -20,6 +21,9 @@ public class StompController {
 	
 	@Autowired
 	private FilesService fservice;
+	
+	@Autowired
+	private EmployeeService eservice;
 	
 	@MessageMapping("/getChat/text/{seq}")
 	//@SendTo("/topic/message")
@@ -73,10 +77,25 @@ public class StompController {
 			System.out.println("참가자 추가 공지 StompController 도착 ! ");
 			System.out.println("추가한 사람 : "+message.getEmp_code());
 			System.out.println(message.getContents());
-			String addedNames = "임시 이름";
-			//포문 돌리면서 참가자들 이름 받기
-			announce = message.getEmpname() + "님이 "+ addedNames + "을 채팅방에 초대하셨습니다.";
-			//announce = "채팅참가 공지 메세지 구현 중";
+	    	//[code1,code2...]의 형태로 도착한 partyListEdited를 자르고 편집해 
+			//_이름1,이름2,이름3 형식으로 바꿔준다.
+			String partyListEdited = message.getContents().substring(1, message.getContents().length()-1);
+	    	String[] partyListArr = partyListEdited.split(",");
+	    	String addedNames = "";
+	    	for(String i : partyListArr) {
+	    		System.out.println("partyListArr[i] : "+i);
+	    		int addedCode = Integer.parseInt(i);
+	    		if(addedNames.isEmpty()) {
+	    			addedNames += eservice.getEmpNameByCode(addedCode);
+	    		}else {
+	    			addedNames += " ,";
+	    			addedNames += eservice.getEmpNameByCode(addedCode);
+	    		}
+	    		
+	    	}
+			
+			//포문 돌리면서 참가자들 이름 받기 해야됨
+			announce = message.getEmpname() + "님이 "+ addedNames + " 님을 채팅방에 초대하셨습니다.";
 		}else {
 			//공지 메세지 타입이 등록되지 않았습니다.
 			announce = "공지사항을 불러오는데 오류가 발생했습니다.";
