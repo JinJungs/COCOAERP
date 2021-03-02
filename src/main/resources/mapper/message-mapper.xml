@@ -73,6 +73,7 @@
              EMPLOYEE_VIEW B
         WHERE A.PARTY_EMP_CODE = B.CODE
           AND CONTENTS LIKE '%${contents}%'
+          AND TYPE = 'TEXT'
         ORDER BY A.WRITE_DATE DESC
     </select>
     <!-- 채팅방에서 메세지 검색-->
@@ -81,7 +82,7 @@
         FROM MESSAGE
         WHERE M_SEQ = #{m_seq}
           AND CONTENTS LIKE '%${contents}%'
-          AND TYPE!='IMAGE'
+          AND TYPE='TEXT'
         ORDER BY SEQ DESC
     </select>
 </mapper>

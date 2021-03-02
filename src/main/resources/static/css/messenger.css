@@ -138,6 +138,11 @@ body {
   /*background-color: var(--main-color);*/
   font-size: 15px;
 }
+.search_small_title{
+  padding: 10px 25px;
+  margin: 0 0 0 0;
+  font-weight: bold;
+}
 .search_top{
   border-bottom: 1px solid var(--text-color-light);
 }
@@ -457,7 +462,7 @@ background-color: #c23616;
 #chatLogo img{
   width: 30px;
 }
-.con-title span, #searchAll{
+.con-title span{
   font-weight: bold;
   font-size: 20px;
 }
