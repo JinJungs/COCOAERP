@@ -42,7 +42,7 @@
                             <c:when test="${messenger.type eq 'S'}">
                                 <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
                                 <span id="partyname">${partyDTO.empname}</span>
-                                <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
+                                <p>${partyDTO.deptname} | ${partyDTO.teamname}</p>
                             </c:when>
                         </c:choose>
                     </div>
@@ -86,26 +86,26 @@
             </div>
         </div>
         <!-- 새로운 메세지 도착시 알려줌 -->
-        <div class="container">
-            <div class="row w-100 m-0 p-0" id="alertMessageBox" style="border: 1px solid black; display: none;">
-                <div class="col-3" id="alertMessagePartyname"></div>
-                <div class="col-8" id="alertMessageContents"></div>
-                <div class="col-1"><i class="fas fa-chevron-down"></i></div>
+        <div class="w-100 p-0 m-0" id="alertMessageBox">
+            <div class="d-flex bd-hightlight m-2 p-0">
+                <div class="bd-hightlight p-2" id="alertMessagePartyname"></div>
+                <div class="bd-hightligh p-2" id="alertMessageContents"></div>
+                <div class="bd-hightlight ml-auto p-2"><i class="fas fa-chevron-down"></i></div>
             </div>
         </div>
         <div class="card-footer">
-            <div class="input-group m-h-90" id="sendToolBox">
-                <!-- onclick="fileSend()" id="fileUpload" -->
-                <div class="input-group-append">
-                    <span class="input-group-text attach_btn" id="attach_btn">
-                        <i class="fas fa-paperclip"></i>
-                    </span>
-                </div>
-                <textarea name="" class="form-control type_msg" id="yourMsg"
-                          placeholder="Type your message..."></textarea>
-                <div class="input-group-append" id="sendBtn">
-                    <!-- <div class="input-group-append" onclick="sendMessage" id="sendBtn"> -->
-                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+            <div class="m-h-90 d-flex flex-column bd-highlight" id="sendToolBox">
+                <textarea name="" class="bd-highlight form-control type_msg" id="yourMsg" placeholder="메세지를 입력하세요."></textarea>
+                <div class="d-flex bd-highlight m-0 p-0">
+                    <button class="bd-highlight btn btn-outline-primary chat_btn" id="emoji_btn">
+                        <img src="/icon/emoji-smile.svg">
+                    </button>
+                    <button class="bd-highlight btn btn-outline-primary chat_btn" id="attach_btn">
+                        <img src="/icon/paperclip_rotate.svg">
+                    </button>
+                    <button class="bd-highlight btn btn-outline-primary chat_btn ml-auto" id="send_btn">
+                        <img src="/icon/send.svg">
+                    </button>
                 </div>
             </div>
         </div>
@@ -197,8 +197,8 @@
                     console.log("typeArr : ",typeArr);
 
                     if (before_date !== delete_hours_date) {
-                        existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
-                        existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                        existMsg += "<span>" +delete_hours_date+ "</span></div>"
                     }
                     before_date = delete_hours_date;
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
@@ -262,7 +262,7 @@
 
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
-        document.getElementById("sendBtn").addEventListener('click', sendMsg);
+        document.getElementById("send_btn").addEventListener('click', sendMsg);
 
         // enter키 클릭시 메세지 전송
         $("#sendToolBox").on("keydown", function (e) {
@@ -375,8 +375,8 @@
                 let formed_write_date = moment(current_date).format('HH:mm');
                 let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
                 if (before_date !== delete_hours_date) {
-                    newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
-                    newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                    newMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                    newMsg += "<span>" +delete_hours_date+ "</span></div>"
                 }
                 before_date = delete_hours_date;
 
@@ -394,7 +394,8 @@
                     newMsg += "<img src='"+profile+"' class='rounded-circle user_img_msg'>";
                     newMsg += "</div></div>";
                     msgBox.append(newMsg);
-                    scrollUpdate();
+                    showAlertMessageOnBottom(empname, msg);
+                    //scrollUpdate();
                 } else if(typeArr[0]!="AN") { // 상대방이 보낸 메세지 일 때
                     // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
                     let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
@@ -414,7 +415,7 @@
                         scrollUpdate();
                     } else {
                         console.log(amIAtBottom);
-                        showAlertMessageOnBottom(partyname, msg);
+                        showAlertMessageOnBottom(empname, msg);
                     }
                 }else{
                     newMsg += "<div class='text-center font-weight-light'><small>";
