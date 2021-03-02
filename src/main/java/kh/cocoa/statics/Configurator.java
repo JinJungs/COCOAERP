@@ -8,6 +8,9 @@ public class Configurator {
 	public static String emailFileRootC = "C:\\emailFileRepository\\";
 	public static String profileFileRoot ="C:\\profileRepository\\";
 	
-//	Messenger==================
+	//Messenger==================
 	public static String messengerFileRoute = "c:\\messengerRepository\\";
+
+	//근태
+
 }
