@@ -98,6 +98,7 @@ public class MessengerController {
         if(messenger.getType().contentEquals("S")) {
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
+            System.out.println("여기? "+partyDTO);
             String profile = fservice.getProfile(partyDTO.getEmp_code());
             partyDTO.setProfile(profile);
             model.addAttribute("partyDTO",partyDTO);
@@ -400,10 +401,16 @@ public class MessengerController {
     @RequestMapping("showFiles")
     public String showFiles(Model model, int m_seq) throws Exception {
     	//01.전체 이미지/파일 불러오기
-    	List<FilesMsgDTO> fileList = fservice.showFileMsg(m_seq);
-    	System.out.println(fileList);
-    	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(fileList);
+    	List<FilesMsgDTO> pure_allFileList = fservice.showAllFileMsg(m_seq);
+    	List<FilesMsgDTO> pure_imgList = fservice.showFileMsgByType(m_seq, "IMAGE");
+    	List<FilesMsgDTO> pure_fileList = fservice.showFileMsgByType(m_seq, "FILE");
+    	
+    	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(pure_allFileList);
+    	List<FilesMsgDTO> imgList = fservice.encodedShowFileMsg(pure_imgList);
+    	List<FilesMsgDTO> fileList = fservice.encodedShowFileMsg(pure_fileList);
     	model.addAttribute("list", list);
+    	model.addAttribute("imgList", imgList);
+    	model.addAttribute("fileList", fileList);
     	return "/messenger/showFiles";
     }
     

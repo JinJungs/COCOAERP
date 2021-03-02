@@ -17,10 +17,11 @@ public class FilesMsgDTO {
 	private String type;
 	private int m_seq;
 	private String orinameEncoded;
+	private String s_uploadeddate;
 	
 	@Builder
 	public FilesMsgDTO(int seq, String oriname, String savedname, Date uploadeddate, int msg_seq, String type,
-			int m_seq, String orinameEncoded) {
+			int m_seq, String orinameEncoded, String s_uploadeddate) {
 		super();
 		this.seq = seq;
 		this.oriname = oriname;
@@ -30,5 +31,6 @@ public class FilesMsgDTO {
 		this.type = type;
 		this.m_seq = m_seq;
 		this.orinameEncoded = orinameEncoded;
+		this.s_uploadeddate = s_uploadeddate;
 	}
 }
