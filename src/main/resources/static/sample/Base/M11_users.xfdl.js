@@ -49,13 +49,13 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_emp_list","20","175",null,"425","499",null,"150",null,null,null,this);
+            obj = new Grid("grd_emp_list","20","175",null,null,"499","50","425",null,null,null,this);
             obj.set_taborder("1");
             obj.set_binddataset("ds_employee");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"26\"/><Column size=\"100\"/><Column size=\"80\"/><Column size=\"140\"/><Column size=\"140\"/><Column size=\"140\"/><Column size=\"80\"/><Column size=\"26\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"이름\"/><Cell col=\"2\" text=\"부서\"/><Cell col=\"3\" text=\"팀\"/><Cell col=\"4\" text=\"직책\"/><Cell col=\"5\" text=\"성\"/><Cell col=\"6\" text=\"연락처\"/><Cell col=\"7\" text=\"내선번호\"/><Cell col=\"8\" text=\"주소\"/><Cell col=\"9\" text=\"이메일\"/><Cell col=\"10\" text=\"내부 메일\"/><Cell col=\"11\" text=\"고용일\"/><Cell col=\"12\" text=\"퇴사\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:name\"/><Cell col=\"2\" text=\"bind:dept_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_departments\" combodatacol=\"name\" combocodecol=\"code\"/><Cell col=\"3\" text=\"bind:team_code\" displaytype=\"combotext\" edittype=\"combo\" combodataset=\"ds_team\" combocodecol=\"code\" combodatacol=\"name\"/><Cell col=\"4\" text=\"bind:pos_code\" combodataset=\"ds_position\" combodatacol=\"name\" combocodecol=\"code\" displaytype=\"combotext\" edittype=\"combo\"/><Cell col=\"5\" text=\"bind:gender\"/><Cell col=\"6\" text=\"bind:phone\"/><Cell col=\"7\" text=\"bind:office_phone\"/><Cell col=\"8\" text=\"bind:address\"/><Cell col=\"9\" text=\"bind:email\"/><Cell col=\"10\" text=\"bind:b_email\"/><Cell col=\"11\" text=\"bind:hire_date\"/><Cell col=\"12\" text=\"bind:withdraw\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_info","grd_emp_list:10","175","389","425",null,null,"150",null,null,null,this);
+            obj = new Div("div_info","grd_emp_list:10","175","389",null,null,"50","425",null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("");
             obj.getSetter("leftbase").set("");
@@ -63,8 +63,8 @@
             obj.getSetter("rightbase").set("");
             obj.getSetter("widthbase").set("");
             obj.getSetter("heightbase").set("");
-            obj.set_formscrolltype("none");
-            obj.set_formscrollbartype("none");
+            obj.set_formscrolltype("vertical");
+            obj.set_formscrollbartype("auto");
             obj.set_border("1px solid #c7c7c7");
             obj.set_borderRadius("2px");
             this.addChild(obj.name, obj);
@@ -237,13 +237,13 @@
             obj.set_cssclass("btn_WF_reset01");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Button("btn_withdraw",null,"8","55","24","btn_reset:10",null,null,null,null,null,this.div_info.form);
+            obj = new Button("btn_del",null,"8","55","24","btn_reset:10",null,null,null,null,null,this.div_info.form);
             obj.set_taborder("32");
-            obj.set_text("퇴직");
+            obj.set_text("삭제");
             obj.set_cssclass("btn_WF_delete01");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Button("btn_add",null,"8","55","24","btn_withdraw:10",null,null,null,null,null,this.div_info.form);
+            obj = new Button("btn_add",null,"8","55","24","btn_del:10",null,null,null,null,null,this.div_info.form);
             obj.set_taborder("21");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
@@ -260,8 +260,8 @@
             obj = new MaskEdit("msk_password","76","129","100","24",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("24");
             obj.set_type("string");
-            obj.set_visible("false");
             obj.set_enable("false");
+            obj.set_visible("false");
             this.div_info.addChild(obj.name, obj);
 
             obj = new Edit("edt_name","76","91","100","24",null,null,null,null,null,null,this.div_info.form);
@@ -300,7 +300,7 @@
             obj.set_taborder("29");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Calendar("cal_hire_date00","76","242","100","26",null,null,null,null,null,null,this.div_info.form);
+            obj = new Calendar("cal_withdraw_date","76","242","100","26",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("30");
             obj.set_enable("false");
             this.div_info.addChild(obj.name, obj);
@@ -365,7 +365,7 @@
             obj.set_cssclass("sta_WF_title01");
             this.div_info.addChild(obj.name, obj);
 
-            obj = new Combo("Combo00","270","128","100","25",null,null,null,null,null,null,this.div_info.form);
+            obj = new Combo("cmb_pos","270","128","100","25",null,null,null,null,null,null,this.div_info.form);
             obj.set_taborder("42");
             obj.set_innerdataset("ds_position");
             obj.set_codecolumn("code");
@@ -485,7 +485,7 @@
 
             obj = new Static("Static02","240","18","280","52",null,null,null,null,null,null,this);
             obj.set_taborder("6");
-            obj.set_text("구현 : 검색/불러오기/트랜잭션으로 값 전송 \r\n미구현 : 각종 유효성 검사 및 디비 업데이트 ");
+            obj.set_text("미구현 : 팀 무소속 / 컬럼 추가");
             obj.set_background("#fcd3f2");
             this.addChild(obj.name, obj);
 
@@ -555,7 +555,7 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item10","div_info.form.Combo00","value","ds_employee","pos_code");
+            obj = new BindItem("item10","div_info.form.cmb_pos","value","ds_employee","pos_code");
             this.addChild(obj.name, obj);
             obj.bind();
         };
@@ -572,36 +572,80 @@
         this.fn_callback = function(id, ErrCode, ErrMsg)
         {
         	trace(ErrMsg);
-
-
         }
 
+        this.fn_empsave = function(resultAdd, resultModif)
+        {
+
+        	trace("resultAdd : ", nexacro.getApplication().resultAdd);
+        	trace("resultModif : ", nexacro.getApplication().resultModif);
+        }
+
+        //트랜잭션 START ====================================================
         //불러오기
         this.M11_users_onload = function(obj,e)
         {
         	trace("M11 도착");
-        	this.transaction(
+        				this.transaction(
         			"EmpList" //strSvcID
         			, "/nexEmployee/nexEmpList.nex" //strURL
         			, "" //strInDatasets Sds=Fds:U, A, N
         			, "ds_employee=out_emp_list ds_departments=out_dept_list ds_position=out_pos_list ds_team=out_team_list" //strOutDatasets - select Fds = Sds
         			, "" //strArgument
         			,  "fn_callback" //strCallbackFunc
-        		);
+        			);
         };
 
-        //저장 & 취소 START========================================================================
+        //저장
         this.btn_save_onclick = function(obj,e)
         {
         	trace("M11 저장");
-        	this.transaction(
-        			"empSave" //strSvcID
-        			, "/nexEmployee/nexSave.nex" //strURL
-        			, "in_ds_employee=ds_employee:U" //strInDatasets Sds=Fds:U, A, N
-        			, "" //strOutDatasets - select Fds = Sds
-        			, "" //strArgument
-        			,  "fn_callback" //strCallbackFunc
-        		);
+
+
+        	for(var i=0; i < this.ds_employee.rowcount; i++)
+        	{
+        		let rowType = this.ds_employee.getRowType(i);
+
+        		let code = this.ds_employee.getColumn(i,"code");
+        		let name = this.ds_employee.getColumn(i,"name");
+        		let phone = this.ds_employee.getColumn(i,"phone");
+        		let office_phone = this.ds_employee.getColumn(i,"office_phone");
+        		let address = this.ds_employee.getColumn(i,"address");
+        		let email = this.ds_employee.getColumn(i,"email");
+        		let b_email = this.ds_employee.getColumn(i,"b_email");
+        		let gender = this.ds_employee.getColumn(i,"gender");
+        		let hire_date = this.ds_employee.getColumn(i,"hire_date");
+        		let withdraw = this.ds_employee.getColumn(i,"withdraw");
+        		let dept_code = this.ds_employee.getColumn(i,"dept_code");
+        		let pos_code = this.ds_employee.getColumn(i,"pos_code");
+        		//let team_code = this.ds_employee.getColumn(i,"team_code");
+
+
+        		//2: 추가 4:수정
+        		if(rowType==2){
+        			if(name==null||phone==null||office_phone==null||address==null||email==null||b_email==null||gender==null||hire_date==null||dept_code==null||pos_code==null){
+        				alert("추가된 사원의 정보가 누락되었습니다. 확인 후 다시 저장하십시오.");
+        				this.ds_employee.set_rowposition(i);
+        				return;
+        			}
+        		}else if (rowType==4){
+        			trace("수정된 사원 이름 : ",name);
+        			if(name==""||phone==""||office_phone==""||address==""||email==""||b_email==""||gender==""||hire_date==""||dept_code==""||pos_code==""){
+        				alert("수정된 사원의 정보가 누락되었습니다. 확인 후 다시 저장하십시오.");
+        				this.ds_employee.set_rowposition(i);
+        				return;
+        			}
+        		}else{
+        			this.transaction(
+        				"empSave" //strSvcID
+        				, "/nexEmployee/nexSave.nex" //strURL
+        				, "in_ds_employee=ds_employee:U" //strInDatasets Sds=Fds:U, A, N
+        				, "" //strOutDatasets - select Fds = Sds
+        				, "" //strArgument
+        				,  "fn_empsave" //strCallbackFunc
+        			);
+        		}
+        	}
         };
         //취소
         this.btn_cancel_onclick = function(obj,e)
@@ -623,7 +667,7 @@
         	}
         };
 
-        //저장 & 취소 END====================================================
+        //트랜잭션 END====================================================
 
 
         //ds_employee 업데이트 START====================================================
@@ -633,12 +677,18 @@
         	let row = this.ds_employee.addRow();
         	this.ds_employee.setColumn(row, "withdraw", "N");
         };
-        //퇴직
-        this.div_info_btn_withdraw_onclick = function(obj,e)
+        //행 제거(아직 디비에 저장 안됨 행만 가능)
+        this.div_info_btn_del_onclick = function(obj,e)
         {
-        	//퇴직 상태 변경 후 사원번호, ... .. 빼고 개인정보 지워 주기
-        	let row = this.ds_employee.rowposition;
-        	this.ds_employee.setColumn(row, "withdraw", "Y");
+        	let row = this.grd_emp_list.currentrow;
+        	let rowType = this.ds_employee.getRowType(row);
+        	trace("삭제 전 로우타입 체크 : ",rowType);
+        	if(rowType==2){
+        		this.ds_employee.deleteRow(row);
+        	}else{
+        		alert("??이미 저장된 사원은 삭제할 수 없습니다.??");
+        	}
+
         };
         //부서콤보제한
         this.div_info_cmb_dept_onitemchanged = function(obj,e)
@@ -660,7 +710,7 @@
         };
 
 
-        //퇴사 체크시 무든 수정입력 불가능
+        //퇴사 체크시 무든 수정입력 불가능&값지우기
         this.div_info_ckb_withdraw_onchanged = function(obj,e)
         {
         	let withdraw = obj.value;
@@ -671,11 +721,9 @@
         			this.div_info.form.edt_name.set_enable(false);
         			this.div_info.form.cmb_team.set_enable(false);
         			this.div_info.form.chk_notaem.set_enable(false);
-        			this.div_info.form.msk_password.set_enable(false);
-        			this.div_info.form.edt_posname.set_enable(false);
+        			//this.div_info.form.msk_password.set_enable(false);
+        			this.div_info.form.cmb_pos.set_enable(false);
         			this.div_info.form.rad_gender.set_enable(false);
-        			this.div_info.form.edt_posname.set_enable(false);
-        			this.div_info.form.msk_salary.set_enable(false);
         			this.div_info.form.cal_hire_date.set_enable(false);
         			this.div_info.form.edt_phone.set_enable(false);
         			this.div_info.form.edt_office_phone.set_enable(false);
@@ -692,6 +740,7 @@
         			this.div_info.form.edt_b_email.set_value(null);
         			this.div_info.form.edt_address.set_value(null);
         		}else{
+        			obj.set_value("N");
         			return;
         		}
 
@@ -700,11 +749,9 @@
         			this.div_info.form.edt_name.set_enable(true);
         			this.div_info.form.cmb_team.set_enable(true);
         			this.div_info.form.chk_notaem.set_enable(true);
-        			this.div_info.form.msk_password.set_enable(true);
-        			this.div_info.form.edt_posname.set_enable(true);
+        			//this.div_info.form.msk_password.set_enable(true);
+        			this.div_info.form.cmb_pos.set_enable(true);
         			this.div_info.form.rad_gender.set_enable(true);
-        			this.div_info.form.edt_posname.set_enable(true);
-        			this.div_info.form.msk_salary.set_enable(true);
         			this.div_info.form.cal_hire_date.set_enable(true);
         			this.div_info.form.edt_phone.set_enable(true);
         			this.div_info.form.edt_office_phone.set_enable(true);
@@ -713,7 +760,7 @@
         			this.div_info.form.edt_address.set_enable(true);
         	}
         };
-        //팀 무소속 : 팀 선택 콤부 비활성화, 팀 값 null
+        //팀 무소속 : 팀 선택 콤보 비활성화, 팀 값 null
         this.div_info_chk_notaem_onchanged = function(obj,e)
         {
         	let noteam = obj.value;
@@ -812,8 +859,44 @@
         	trace(dept_code);
         	this.div_search.form.cmb_searchDept.set_value(dept_code);
         }
+        //============================================
 
-
+        //그리드 포커스 이동마다 퇴직인지 아닌지 체크 -> 인풋창들 활성화 or 비활성화
+        this.grd_emp_list_oncellposchanged = function(obj,e)
+        {
+        	let row = obj.currentrow;
+        	let withdraw = this.ds_employee.getColumn(row, "withdraw");
+        	trace("셀포스 변경, withdraw 체크 : ",withdraw);
+        	if(withdraw=="Y"){
+        			this.div_info.form.cmb_dept.set_enable(false);
+        			this.div_info.form.edt_name.set_enable(false);
+        			this.div_info.form.cmb_team.set_enable(false);
+        			this.div_info.form.chk_notaem.set_enable(false);
+        			//this.div_info.form.msk_password.set_enable(false);
+        			this.div_info.form.cmb_pos.set_enable(false);
+        			this.div_info.form.rad_gender.set_enable(false);
+        			this.div_info.form.cal_hire_date.set_enable(false);
+        			this.div_info.form.edt_phone.set_enable(false);
+        			this.div_info.form.edt_office_phone.set_enable(false);
+        			this.div_info.form.edt_email.set_enable(false);
+        			this.div_info.form.edt_b_email.set_enable(false);
+        			this.div_info.form.edt_address.set_enable(false);
+        	}else{
+        			this.div_info.form.cmb_dept.set_enable(true);
+        			this.div_info.form.edt_name.set_enable(true);
+        			this.div_info.form.cmb_team.set_enable(true);
+        			this.div_info.form.chk_notaem.set_enable(true);
+        			//this.div_info.form.msk_password.set_enable(true);
+        			this.div_info.form.cmb_pos.set_enable(true);
+        			this.div_info.form.rad_gender.set_enable(true);
+        			this.div_info.form.cal_hire_date.set_enable(true);
+        			this.div_info.form.edt_phone.set_enable(true);
+        			this.div_info.form.edt_office_phone.set_enable(true);
+        			this.div_info.form.edt_email.set_enable(true);
+        			this.div_info.form.edt_b_email.set_enable(true);
+        			this.div_info.form.edt_address.set_enable(true);
+        	}
+        };
 
 
 
@@ -823,6 +906,7 @@
         this.on_initEvent = function()
         {
             this.addEventHandler("onload",this.M11_users_onload,this);
+            this.grd_emp_list.addEventHandler("oncellposchanged",this.grd_emp_list_oncellposchanged,this);
             this.div_info.form.sta_name.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_salary.addEventHandler("onclick",this.div_detail_Static19_onclick,this);
             this.div_info.form.sta_code.addEventHandler("onclick",this.div_detail_Static00_onclick,this);
@@ -836,7 +920,7 @@
             this.div_info.form.sta_pos.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_b_mail.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
             this.div_info.form.sta_address.addEventHandler("onclick",this.div_detail_Static10_onclick,this);
-            this.div_info.form.btn_withdraw.addEventHandler("onclick",this.div_info_btn_withdraw_onclick,this);
+            this.div_info.form.btn_del.addEventHandler("onclick",this.div_info_btn_del_onclick,this);
             this.div_info.form.btn_add.addEventHandler("onclick",this.div_info_btn_add_onclick,this);
             this.div_info.form.chk_notaem.addEventHandler("onchanged",this.div_info_chk_notaem_onchanged,this);
             this.div_info.form.cmb_dept.addEventHandler("onitemchanged",this.div_info_cmb_dept_onitemchanged,this);

@@ -39,17 +39,17 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("div_empList","450","160",null,"440","100",null,null,null,null,null,this);
-            obj.set_taborder("7");
+            obj = new Div("div_empList","300","100",null,null,"100","50","300",null,"300",null,this);
+            obj.set_taborder("6");
             obj.set_border("1px solid #c7c7c7");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grd_emp","9","39",null,"390","9",null,null,null,null,null,this.div_empList.form);
+            obj = new Grid("grd_emp","9","39",null,"450","10",null,null,null,null,null,this.div_empList.form);
             obj.set_taborder("0");
             obj.set_binddataset("ds_employee");
             obj.set_autofittype("col");
             obj.set_scrollbartype("indicator auto");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/><Column size=\"80\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"사번\"/><Cell col=\"1\" text=\"이름\"/><Cell col=\"2\" text=\"부서\"/><Cell col=\"3\" text=\"팀\"/><Cell col=\"4\" text=\"직위\"/><Cell col=\"5\" text=\"퇴직\"/></Band><Band id=\"body\"><Cell text=\"bind:code\"/><Cell col=\"1\" text=\"bind:name\"/><Cell col=\"2\" text=\"bind:deptname\"/><Cell col=\"3\" text=\"bind:teamname\"/><Cell col=\"4\" text=\"bind:posname\"/><Cell col=\"5\" text=\"bind:withdraw\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/><Column size=\"80\"/><Column size=\"100\"/><Column size=\"95\"/><Column size=\"80\"/><Column size=\"47\"/></Columns><Rows><Row size=\"24\" band=\"head\"/><Row size=\"24\"/></Rows><Band id=\"head\"><Cell text=\"부서\"/><Cell col=\"1\" text=\"팀\"/><Cell col=\"2\" text=\"사번\"/><Cell col=\"3\" text=\"이름\"/><Cell col=\"4\" text=\"직위\"/><Cell col=\"5\" text=\"퇴직\"/></Band><Band id=\"body\"><Cell text=\"bind:deptname\"/><Cell col=\"1\" text=\"bind:teamname\"/><Cell col=\"2\" text=\"bind:code\"/><Cell col=\"3\" text=\"bind:name\"/><Cell col=\"4\" text=\"bind:posname\"/><Cell col=\"5\" text=\"bind:withdraw\"/></Band></Format></Formats>");
             this.div_empList.addChild(obj.name, obj);
 
             obj = new Static("sta_subtitle","-1","0",null,"40","18",null,null,null,null,null,this.div_empList.form);
@@ -58,7 +58,7 @@
             obj.set_cssclass("sta_WF_title01");
             this.div_empList.addChild(obj.name, obj);
 
-            obj = new Grid("grd_tree","20","160",null,"440","div_empList:10",null,null,null,null,null,this);
+            obj = new Grid("grd_tree","20","100",null,null,"div_empList:10","50",null,null,"300",null,this);
             obj.set_taborder("1");
             obj.getSetter("leftbase").set("");
             obj.getSetter("bottombase").set("");
@@ -71,65 +71,29 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"24\"/></Rows><Band id=\"body\"><Cell text=\"bind:org_nm\" displaytype=\"treeitemcontrol\" edittype=\"tree\" treelevel=\"bind:level\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Static("sta_msg","180","0","270","90",null,null,null,null,null,null,this);
-            obj.set_taborder("2");
-            obj.set_text("구현 : \r\n- 트랜잭션을 통해 컨트롤러까지 값 전달 \r\n- 트리 더블클릭시 이름 변경\r\n미구현 : \r\n- 매퍼와 dao를 통한 디비 적용 미구현");
-            obj.set_background("#f8d8fd");
-            obj.set_textAlign("left");
-            this.addChild(obj.name, obj);
-
             obj = new Button("btn_reset",null,"55","64","35","100",null,null,null,null,null,this);
-            obj.set_taborder("4");
+            obj.set_taborder("3");
             obj.set_text("리셋");
             obj.set_cssclass("btn_WF_reset01");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_save",null,"55","64","35","btn_reset:10",null,null,null,null,null,this);
-            obj.set_taborder("5");
+            obj.set_taborder("4");
             obj.set_text("저장");
             obj.set_cssclass("btn_WF_save01");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_del",null,"55","64","35","btn_save:10",null,null,null,null,null,this);
-            obj.set_taborder("6");
+            obj.set_taborder("5");
             obj.set_text("삭제");
             obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_add",null,"55","64","35","btn_del:10",null,null,null,null,null,this);
-            obj.set_taborder("3");
+            obj.set_taborder("2");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
             this.addChild(obj.name, obj);
-
-            obj = new Div("div_change","20","100",null,"50","100",null,null,null,null,null,this);
-            obj.set_taborder("8");
-            obj.set_text("");
-            obj.set_border("1px solid #c7c7c7");
-            obj.set_background("#eeeeee");
-            obj.set_formscrolltype("none");
-            obj.set_formscrollbartype("none");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_valid",null,"11","60","24","9",null,null,null,null,null,this.div_change.form);
-            obj.set_taborder("2");
-            obj.set_text("확인");
-            this.div_change.addChild(obj.name, obj);
-
-            obj = new Edit("edt_change",null,"12","100","25","btn_valid:10",null,null,null,null,null,this.div_change.form);
-            obj.set_taborder("0");
-            this.div_change.addChild(obj.name, obj);
-
-            obj = new Static("sta_change",null,"11","60","26","edt_change:10",null,null,null,null,null,this.div_change.form);
-            obj.set_taborder("1");
-            obj.set_text("이름변경");
-            obj.getSetter("leftbase").set("");
-            obj.getSetter("topbase").set("");
-            obj.getSetter("bottombase").set("");
-            obj.getSetter("rightbase").set("");
-            obj.getSetter("widthbase").set("");
-            obj.getSetter("heightbase").set("");
-            this.div_change.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
@@ -184,20 +148,32 @@
         	let p_org_cd = this.ds_org.getColumn(row, "org_cd");
         	let p_level = this.ds_org.getColumn(row,"level");
         	//대표에 포커스 : 부서추가 / 부서나 팀에 포커스 : 팀 추가
-        	let level=0;
+        	let set_level=0;
         	if(p_level==0){
-        		level=1
+        		set_level=1
         	}else{
-        		level=2
+        		set_level=2
         	}
         	let addedRow = this.ds_org.insertRow(row+1);
-        	this.ds_org.setColumn(addedRow,2,p_org_cd);
-        	this.ds_org.setColumn(addedRow,3,level);
+        	this.ds_org.setColumn(addedRow,"p_org_cd",p_org_cd);
+        	this.ds_org.setColumn(addedRow,"level",set_level);
+        	//null을 스프링 int로 못 받아서 -1 넣어줌
+        	this.ds_org.setColumn(addedRow,"org_cd",-1);
         	trace("추가된 로우 부모코드 : ", this.ds_org.getColumn(addedRow, "p_org_cd"))
+        	trace("추가된 로우 레벨 : ",set_level);
         };
         //삭제
-
-
+        this.btn_del_onclick = function(obj,e)
+        {
+        	let row = this.grd_tree.currentrow;
+        	let org_cd = this.ds_org.getColumn(row, "org_cd");
+        	trace(row, " : ",org_cd);
+        	//데이터셋에서 p_org_cd가 위의 org_cd인 값이 있는지 체크
+        	//org_cd가 대표인지 체크
+        	//둘다 아닐경우에만 딜리트
+        	this.ds_org.deleteRow(row);
+        };
+        //저장
         this.btn_save_onclick = function(obj,e)
         {
         	//이름을 넣지 않은 값들은 delete해주기
@@ -243,11 +219,24 @@
         };
 
 
-        this.btn_del_onclick = function(obj,e)
+
+
+        this.grd_tree_oncellclick = function(obj,e)
         {
-        	let row = this.grd_tree.currentrow;
-        	trace(row);
-        	this.ds_org.deleteRow(row);
+        	let row = obj.currentrow;
+        	let level = this.ds_org.getColumn(row,"level");
+        	let org_cd = this.ds_org.getColumn(row,"org_cd");
+        	trace("row : ",row,"level : ",level,"org_cd : ",org_cd );
+        	if(level<2){
+        		this.ds_employee.filter("dept_code == "+org_cd);
+        	}else{
+        		this.ds_employee.filter("team_code == "+org_cd);
+        	}
+        };
+
+        this.div_search_btn_search_onclick = function(obj,e)
+        {
+
         };
 
         });
@@ -258,12 +247,11 @@
             this.addEventHandler("onload",this.M12_deptTeam_onload,this);
             this.grd_tree.addEventHandler("oncelldblclick",this.grd_tree_oncelldblclick,this);
             this.grd_tree.addEventHandler("onselectchanged",this.grd_tree_onselectchanged,this);
-            this.sta_msg.addEventHandler("onclick",this.sta_msg_onclick,this);
+            this.grd_tree.addEventHandler("oncellclick",this.grd_tree_oncellclick,this);
             this.btn_reset.addEventHandler("onclick",this.btn_reset_onclick,this);
             this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_del.addEventHandler("onclick",this.btn_del_onclick,this);
             this.btn_add.addEventHandler("onclick",this.btn_add_onclick,this);
-            this.div_change.form.btn_valid.addEventHandler("onclick",this.div_search_btn_search_onclick,this);
         };
 
         this.loadIncludeScript("M12_deptTeam.xfdl");

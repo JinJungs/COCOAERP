@@ -46,46 +46,47 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Grid("grid_form","20","171","180",null,null,"49",null,null,"532",null,this);
+            obj = new Grid("grid_form","20","100","180",null,null,"49",null,null,"450",null,this);
             obj.set_taborder("0");
             obj.set_binddataset("tp_title");
             obj.set_autofittype("col");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"80\"/></Columns><Rows><Row size=\"38\" band=\"head\"/><Row size=\"35\"/></Rows><Band id=\"head\"><Cell text=\"- 양식함\" textAlign=\"left\" padding=\"5px\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:title\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Grid("grid_temp","grid_form:10","171",null,null,"505","49","505",null,"532",null,this);
+            obj = new Grid("grid_temp","grid_form:10","100",null,null,"505","49","505",null,"450",null,this);
             obj.set_taborder("1");
             obj.set_binddataset("tp_list");
             obj.set_autofittype("col");
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"97\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"35\"/></Rows><Band id=\"head\"><Cell text=\"양식명\" font=\"bold 14px/normal &quot;Arial&quot;,&quot;Malgun Gothic&quot;,&quot;Gulim&quot;\"/></Band><Band id=\"body\"><Cell text=\"bind:name\"/></Band></Format></Formats>");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleAdd","20","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleAdd","20","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleMod","btn_titleAdd:5","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleMod","btn_titleAdd:5","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("3");
             obj.set_text("수정");
             obj.set_cssclass("btn_WF_list01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_titleRm","btn_titleMod:5","130","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_titleRm","btn_titleMod:5","60","55","35",null,null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("삭제");
             obj.set_cssclass("btn_WF_delete01");
+            obj.set_enable("false");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_listAdd","btn_titleRm:15","130","80","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_listAdd","btn_titleRm:15","60","80","35",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("양식 추가");
             obj.set_cssclass("btn_WF_add01");
             obj.set_enable("false");
             this.addChild(obj.name, obj);
 
-            obj = new Tab("Tab00","grid_temp:10","170","400",null,null,"50",null,null,"532",null,this);
+            obj = new Tab("Tab00","grid_temp:10","100","400",null,null,"50",null,null,"450",null,this);
             obj.set_taborder("6");
             obj.set_tabindex("1");
             obj.set_extrabuttonsize("0 0");
@@ -532,7 +533,7 @@
         	var cf = new ChildFrame();
         	cf.init("cf_addTtitle",0,0,310,400)
 
-        	cf.set_formurl("popup::fileform_addTitle.xfdl");
+        	cf.set_formurl("Base::M41_fileform_addTitle.xfdl");
         	cf.set_openalign("center middle");
         	cf.showModal(
         		this.getOwnerFrame(),
@@ -549,7 +550,7 @@
         	var cf = new ChildFrame();
         	cf.init("cf_modTtitle",0,0,310,400)
         	var code = this.tp_title.getColumn(this.tp_title.rowposition,"code");
-        	cf.set_formurl("popup::fileform_modTitle.xfdl");
+        	cf.set_formurl("Base::M41_fileform_modTitle.xfdl");
         	cf.set_openalign("center middle");
         	cf.showModal(
         		this.getOwnerFrame(),{code:code},this,"fn_cbModTitle"
@@ -593,6 +594,12 @@
         	if(getAddCol!=-1){
         		getAddCol=-1;
         		count=0;
+        	}
+
+        	if(this.grid_form.currentrow==0){
+        		this.btn_titleRm.set_enable(false);
+        	}else{
+        		this.btn_titleRm.set_enable(true);
         	}
 
         	var getCol = this.tp_title.getColumn(this.tp_title.rowposition,"code");
@@ -676,6 +683,14 @@
         this.grid_temp_oncellclick = function(obj,e)
         {
         	var curRow = this.tp_list.rowposition;
+        	var LeftcurRow = this.grid_form.currentrow;
+        	if(LeftcurRow==0){
+        		this.Tab00.Tabpage2.form.btn_removeList.set_enable(false);
+        		this.Tab00.Tabpage2.form.tp_listTemp.set_enable(false);
+        	}else{
+        		this.Tab00.Tabpage2.form.btn_removeList.set_enable(true);
+        		this.Tab00.Tabpage2.form.tp_listTemp.set_enable(true);
+        	}
 
         	if(curRow==getAddCol){
         		this.Tab00.set_tabindex(0);

@@ -61,12 +61,28 @@
 	</select>
 
 	<select id="selectListNex" resultType="kh.cocoa.dto.ScheduleDTO">
-		select seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time, to_char(end_time, 'YYYY-MM-DD') as str_end_time, color, dept_code, team_code, emp_code, writer from schedule ORDER BY SEQ DESC
+		select
+		       seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time,
+		       to_char(end_time, 'YYYY-MM-DD') as str_end_time, departments.name as dept_name,
+		       team.name as team_name, employee.name as emp_name,
+		       (select name from employee where employee.code = schedule.writer) as writer_name
+		from schedule
+		    LEFT OUTER JOIN departments on schedule.dept_code = departments.code
+		    LEFT OUTER JOIN team on schedule.team_code = team.code
+		    LEFT OUTER JOIN employee on  schedule.emp_code = employee.code
+		ORDER BY SEQ DESC
 	</select>
 
 	<select id="selectListByDateNex" resultType="kh.cocoa.dto.ScheduleDTO">
-		select seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time, to_char(end_time, 'YYYY-MM-DD') as str_end_time, color, dept_code, team_code, emp_code, writer
+		select
+			seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time,
+			to_char(end_time, 'YYYY-MM-DD') as str_end_time, departments.name as dept_name,
+			team.name as team_name, employee.name as emp_name,
+			(select name from employee where employee.code = schedule.writer) as writer_name
 		from schedule
+			LEFT OUTER JOIN departments on schedule.dept_code = departments.code
+			LEFT OUTER JOIN team on schedule.team_code = team.code
+			LEFT OUTER JOIN employee on  schedule.emp_code = employee.code
 		where to_char(start_time, 'YYYY-MM-DD') BETWEEN to_date(#{str_start}) and to_date(#{str_end})
 		ORDER BY SEQ DESC
 	</select>

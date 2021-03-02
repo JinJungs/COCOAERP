@@ -38,7 +38,7 @@
             obj.set_taborder("0");
             obj.set_binddataset("ds_document");
             obj.set_autofittype("col");
-            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"61\"/><Column size=\"129\"/><Column size=\"93\"/><Column size=\"51\"/></Columns><Rows><Row size=\"32\" band=\"head\"/><Row size=\"33\"/></Rows><Band id=\"head\"><Cell text=\"문서번호\"/><Cell col=\"1\" text=\"제목\"/><Cell col=\"2\" text=\"승인날짜\" autosizecol=\"default\"/><Cell col=\"3\" text=\"처리여부\"/></Band><Band id=\"body\"><Cell text=\"bind:seq\" textAlign=\"center\" displaytype=\"mask\" maskeditformat=\"####\"/><Cell col=\"1\" text=\"bind:title\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:final_date\" textAlign=\"center\" displaytype=\"calendarcontrol\" autosizerow=\"limitmin\" autosizecol=\"default\"/><Cell col=\"3\" text=\"bind:process\" textAlign=\"center\"/></Band></Format></Formats>");
+            obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"61\"/><Column size=\"129\"/><Column size=\"93\"/><Column size=\"51\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"30\"/></Rows><Band id=\"head\"><Cell text=\"문서번호\"/><Cell col=\"1\" text=\"제목\"/><Cell col=\"2\" text=\"승인날짜\" autosizecol=\"default\"/><Cell col=\"3\" text=\"처리여부\"/></Band><Band id=\"body\"><Cell text=\"bind:seq\" textAlign=\"center\" displaytype=\"mask\" maskeditformat=\"####\"/><Cell col=\"1\" text=\"bind:title\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:final_date\" textAlign=\"center\" displaytype=\"calendarcontrol\" autosizerow=\"limitmin\" autosizecol=\"default\"/><Cell col=\"3\" text=\"bind:process\" textAlign=\"center\"/></Band></Format></Formats>");
             this.Div00.addChild(obj.name, obj);
 
             obj = new Div("divDocument","Div00:10","270","600",null,null,"50",null,null,"300",null,this);
@@ -323,16 +323,21 @@
             obj.set_border("1px solid #c7c7c7,0px none");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Button("submitBtn",null,"60","60","30","50",null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("추가");
-            obj.set_cssclass("btn_WF_add01");
-            this.addChild(obj.name, obj);
-
             obj = new Static("Static00_01_00_01","100","100","200","35",null,null,null,null,null,null,this);
-            obj.set_taborder("5");
+            obj.set_taborder("4");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             this.addChild(obj.name, obj);
+
+            obj = new Div("Div01","20","50",null,"30","50",null,"990",null,null,null,this);
+            obj.set_taborder("5");
+            obj.set_text("Div01");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("submitBtn",null,"0","60","30","0",null,null,null,null,null,this.Div01.form);
+            obj.set_taborder("0");
+            obj.set_text("추가");
+            obj.set_cssclass("btn_WF_add01");
+            this.Div01.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
@@ -585,6 +590,16 @@
                 p.Static00_01_00.set_border("1px solid #c7c7c7,0px none");
                 p.Static00_01_00.move("100","30",null,"30","20",null);
                 // this.divProcess }}
+
+
+                // {{ this.Div01
+                p = rootobj.Div01.form;
+
+                p.submitBtn.set_taborder("0");
+                p.submitBtn.set_text("추가");
+                p.submitBtn.set_cssclass("btn_WF_add01");
+                p.submitBtn.move(null,"0","60","30","0",null);
+                // this.Div01 }}
                 p = rootobj;
                 p.set_titletext("New Form");
 
@@ -618,14 +633,15 @@
                 p.divProcess.set_formscrolltype("none");
                 p.divProcess.move("Div00:10","100","600","160",null,null);
 
-                p.submitBtn.set_taborder("4");
-                p.submitBtn.set_text("추가");
-                p.submitBtn.set_cssclass("btn_WF_add01");
-                p.submitBtn.move(null,"60","60","30","50",null);
-
-                p.Static00_01_00_01.set_taborder("5");
+                p.Static00_01_00_01.set_taborder("4");
                 p.Static00_01_00_01.set_border("0px none,0px none,1px solid #c9c9c9");
                 p.Static00_01_00_01.move("100","100","200","35",null,null);
+
+                p.Div01.set_taborder("5");
+                p.Div01.set_text("Div01");
+                p.Div01.set_minwidth("990");
+                p.Div01.set_maxwidth("");
+                p.Div01.move("20","50",null,"30","50",null);
             	}
             );
             this.addLayout(obj.name, obj);
@@ -803,6 +819,7 @@
         	}
 
         };
+
         });
         
         // Regist UI Components Event
@@ -810,10 +827,11 @@
         {
             this.addEventHandler("onload",this.M31_grantVacation_onload,this);
             this.divDocument.form.Static00_04.addEventHandler("onclick",this.Div01_Static00_04_onclick,this);
+            this.divDocument.form.maskStartDate.addEventHandler("onchanged",this.divDocument_maskStartDate_onchanged,this);
             this.divProcess.form.checkMinus.addEventHandler("onclick",this.Div02_CheckBox00_onclick,this);
             this.divProcess.form.Static00_00.addEventHandler("onclick",this.Div02_Static00_00_onclick,this);
             this.divProcess.form.submitBtn00.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
-            this.submitBtn.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
+            this.Div01.form.submitBtn.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
             this.ds_document.addEventHandler("onrowposchanged",this.ds_document_onrowposchanged,this);
         };
 
