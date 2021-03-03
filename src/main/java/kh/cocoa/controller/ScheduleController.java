@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kh.cocoa.dto.EmailDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.ScheduleDTO;
 import kh.cocoa.service.ScheduleService;
@@ -187,11 +187,45 @@ public class ScheduleController {
 		return Integer.toString(result);
 	}
 
+	// 넥사크로
 	@RequestMapping("/getList.nex")
 	public NexacroResult getList(){
 		NexacroResult nr = new NexacroResult();
-		List<ScheduleDTO> list = sservice.selectAllSchedule();
+		List<ScheduleDTO> list = sservice.selectListNex();
 		nr.addDataSet("out_ds", list);
 		return nr;
+	}
+
+	@RequestMapping("/searchByDate.nex")
+	public NexacroResult searchByDate(@ParamVariable(name="sch_start")String sch_start, @ParamVariable(name="sch_end")String sch_end) {
+		NexacroResult nr = new NexacroResult();
+//		String str_start = dateFormat(sch_start);
+//		String str_end = dateFormat(sch_end);
+		System.out.println(sch_start);
+		System.out.println(sch_end);
+		List<ScheduleDTO> list = sservice.selectListByDateNex(sch_start, sch_end);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setChk("0");
+		}
+		System.out.println(list);
+		nr.addDataSet("out_ds", list);
+		return nr;
+	}
+
+	@RequestMapping("/createSchedule.nex")
+	public NexacroResult createSchedule(@ParamVariable(name="title")String title, @ParamVariable(name="start")String start,@ParamVariable(name="end")String end,@ParamVariable(name="color")String color,@ParamVariable(name="contents")String contents) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String empCode = Integer.toString(loginDTO.getCode());
+
+		sservice.insertScheduleNex(title, contents, start, end, color, empCode);
+
+		return new NexacroResult();
+	}
+
+	// Date -> String
+	public String dateFormat(java.util.Date input){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String output = format.format(input);
+		return output;
 	}
 }
