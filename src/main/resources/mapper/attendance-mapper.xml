@@ -85,4 +85,8 @@
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE  a.emp_code=#{emp_code} and a.start_time BETWEEN #{start_time} and '${end_time}' and A.STATUS like '%${search}%' ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
     </select>
+
+    <select id="countStatusLate" resultType="String">
+        select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
 </mapper>

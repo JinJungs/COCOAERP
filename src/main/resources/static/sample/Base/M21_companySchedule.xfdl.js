@@ -329,17 +329,18 @@
         	let arr = this.dsSchedule.extractRows("chk==1");
         	var seq = this.dsSchedule.getColumn(this.dsSchedule.rowposition, "seq");
         	trace("seq값은? "+seq);
-        //  	if(arr.length == 0 || arr == -1) {alert("선택된 항목이 없습니다.");return}
-        //
-        //   	this.dsSchedule.deleteMultiRows(arr);
-        //  	this.transaction(
-        //    		"boardDelete" // id
-        //    		, "/NecBoard/delBoard.nc" // url
-        //  		, "ds_delBoard = ds_board_menu:D" // inData
-        //    		, "" // outData
-        //  		, "seq="+seq// strArg
-        //    		, "fn_callback_del" // callback
-        //    	);
+          	if(arr.length == 0 || arr == -1) {alert("선택된 항목이 없습니다.");return}
+
+        //  this.dsSchedule.deleteMultiRows(arr);
+          	this.transaction(
+            	"scheduleDelete"
+            	, "/schedule/deleteSchedule.nex"
+        		, ""
+          		//, "ds_delBoard = ds_board_menu:D"
+            	, ""
+          		, "seq="+seq
+            	, "fn_callback"
+            	);
         };
         /*
         this.Div00_GridList_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)

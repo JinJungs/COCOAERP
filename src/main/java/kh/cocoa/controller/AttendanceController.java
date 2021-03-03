@@ -134,4 +134,10 @@ public class AttendanceController {
     public String toAtdReq(Model model){
         return "/attendance/attendanceChangeReq";
     }
+
+    @RequestMapping("count")
+    public String count(){
+        System.out.println("도착!!!");
+        return "/attendance/attendanceView";
+    }
 }

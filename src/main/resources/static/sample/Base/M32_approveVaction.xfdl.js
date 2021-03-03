@@ -13,7 +13,7 @@
             this.set_titletext("New Form");
             if (Form == this.constructor)
             {
-                this._setFormPosition(1090,650);
+                this._setFormPosition(1080,650);
             }
             
             // Object(Dataset, ExcelExportObject) Initialize
@@ -149,12 +149,12 @@
             obj.set_taborder("1");
             obj.set_text("추가휴가 입력");
             obj.set_cssclass("btn_WF_add01");
-            obj.set_tooltiptext("아래 [추가휴가]란에 입력한 휴가를 추가로 지급합니다. ");
+            obj.set_tooltiptext("아래 [추가지급]란에 입력한 휴가를 추가로 지급합니다. ");
             this.Div02.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
-            obj = new Layout("default","",1090,650,this,function(p){});
+            obj = new Layout("default","",1080,650,this,function(p){});
             obj.set_stepcount("0");
             this.addLayout(obj.name, obj);
             
