@@ -132,7 +132,6 @@ public class RestAttendanceController {
 
     @RequestMapping("/getAtdList")
     public String getAtdList(String number){
-
         List<AttendanceDTO> atdList = attendanceService.getAttendanceList2(1000,number);
         JSONArray json = new JSONArray(atdList);
         return json.toString();

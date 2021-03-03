@@ -3,12 +3,9 @@
 <!doctype html>
 <html>
 <head>
-
     <meta charset='utf-8' />
     <title>근태</title>
-
 </head>
-
 <body>
 <div class="wrapper d-flex align-items-stretch">
     <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
