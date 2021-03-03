@@ -14,13 +14,6 @@
         <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-4 board_title">근태현황</h2>
-            <div id="attendanceForm">
-                <form action="/attendance/startWork" method="post">
-                    <button type="submit" onclick="fn_startWork()">출근</button>
-                    <button type="button" onclick="fn_endWork()">퇴근</button>
-                    <label> <input type="checkbox" name="outSide" id="outSide" value="out"> 외근 </label>
-                </form>
-            </div>
             <div id='calendar'></div>
         </div>
     </div>
@@ -77,8 +70,15 @@
                 events: [
                         <c:forEach var="i" items="${attendance}" varStatus="status">
                         {
-                            title: '출근',
-                            start: '${i.start_time}'
+                            start: '${i.start_time}',
+                            <c:choose>
+                                <c:when test="${i.status=='IN'}">
+                                    title: '출근'
+                                </c:when>
+                                <c:when test="${i.status=='LATE'}">
+                                    title: '지각'
+                                </c:when>
+                            </c:choose>
                         },
                         </c:forEach>
                         <c:forEach var="i" items="${attendance}" varStatus="status">
@@ -86,7 +86,6 @@
                             title: '퇴근',
                             start: '${i.end_time}'
                         }
-
                             <c:choose>
                             <c:when test="${status.last}">
                             </c:when>
@@ -100,5 +99,6 @@
             calendar.render();
         });
     </script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
