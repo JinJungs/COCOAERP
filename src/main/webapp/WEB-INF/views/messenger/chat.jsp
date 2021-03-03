@@ -190,12 +190,13 @@
                     console.log("순서가 ? : "+i);
                     console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
                     let existMsg = "";
+                    let dateBox = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
-                    console.log('before_date : ' +before_date);
-                    console.log('dividing_date : ' + dividing_date);
-                    console.log('다른가?: ' +before_date !== dividing_date);
+
+                    //console.log('before_date : ' +before_date);
+                    //console.log('dividing_date : ' + dividing_date);
+                    //console.log('다른가?: ' +before_date !== dividing_date);
                      //공지타입 구분
                     let typeArr = (data[i].type).split("_");
                     console.log("typeArr : ",typeArr);
@@ -208,12 +209,7 @@
                         existMsg += "<span>" +dividing_date+ "</span></div>"
                     }
                     before_date = dividing_date;*/
-                    if (before_date !== dividing_date) {
-                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
-                        existMsg += "<span>" +dividing_date+ "</span></div>"
-                    }
-                    // before_date에 값을 현재 날짜를 저장해야 다음번에 계속 비교할 수 있다.
-                    before_date = dividing_date;
+
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
@@ -247,7 +243,17 @@
                        existMsg += "</small></div>";
                     }
                     msgBox.prepend(existMsg);
+                    // 날짜 추가는 여기 있어야 할 것 같다.
+                    /*let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    if (data[i].write_date !== data[i+1].write_date) {
+                        dateBox += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>";
+                        dateBox += "<span>" +dividing_date+ "</span></div>";
+                        msgBox.prepend(dateBox);
+                        // before_date에 값을 현재 날짜를 저장해야 다음번에 계속 비교할 수 있다.
+                        // before_date = dividing_date;
+                    }*/
                 }
+
                 // 추가 후 msgBox의 길이를 저장
                 let afterMsgBoxHeight = msgBox.height();
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
