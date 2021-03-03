@@ -57,4 +57,19 @@ public class ScheduleService implements ScheduleDAO{
 	public List<ScheduleDTO> selectTodaySchedule(String date1, String date2) {
 		return sdao.selectTodaySchedule(date1, date2);
 	}
+
+	@Override
+	public List<ScheduleDTO> selectListNex() {
+		return sdao.selectListNex();
+	}
+
+	@Override
+	public List<ScheduleDTO> selectListByDateNex(String str_start, String str_end) {
+		return sdao.selectListByDateNex(str_start, str_end);
+	}
+
+	@Override
+	public void insertScheduleNex(String title, String contents, String start_time, String end_time,String color, String writer) {
+		sdao.insertScheduleNex(title, contents, start_time, end_time, color, writer);
+	}
 }
