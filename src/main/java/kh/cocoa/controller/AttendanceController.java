@@ -81,6 +81,7 @@ public class AttendanceController {
 
     @RequestMapping("/toAtdReq")
     public String toAtdReq(Model model){
+
         return "/attendance/attendanceChangeReq";
     }
 

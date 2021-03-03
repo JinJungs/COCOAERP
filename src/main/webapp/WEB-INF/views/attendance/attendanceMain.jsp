@@ -98,7 +98,7 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12 ">
-                                <a href="#" class="attend_alert"><b>정상 출근한 경우 근태 변경 요청을 하세요.</b></a>
+                                <a href="/attendance/toAtdReq" class="attend_alert"><b>정상 출근한 경우 근태 변경 요청을 하세요.</b></a>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>1</td>
+                                    <td></td>
                                     <td class="text-truncate" style="max-width: 220px;">밥먹다 늦었습니다</td>
                                     <td>미승인</td>
                                     <td class="p-2" ><button class="btn btn-outline-dark btn-sm">요청</button></td>
