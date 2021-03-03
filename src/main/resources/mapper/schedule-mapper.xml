@@ -63,27 +63,24 @@
 	<select id="selectListNex" resultType="kh.cocoa.dto.ScheduleDTO">
 		select
 		       seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time,
-		       to_char(end_time, 'YYYY-MM-DD') as str_end_time, departments.name as dept_name,
-		       team.name as team_name, employee.name as emp_name,
+		       to_char(end_time, 'YYYY-MM-DD') as str_end_time, color,
 		       (select name from employee where employee.code = schedule.writer) as writer_name
 		from schedule
-		    LEFT OUTER JOIN departments on schedule.dept_code = departments.code
-		    LEFT OUTER JOIN team on schedule.team_code = team.code
-		    LEFT OUTER JOIN employee on  schedule.emp_code = employee.code
+		where dept_code is null and team_code is null and emp_code is null
 		ORDER BY SEQ DESC
 	</select>
 
 	<select id="selectListByDateNex" resultType="kh.cocoa.dto.ScheduleDTO">
 		select
 			seq, title, contents, to_char(start_time, 'YYYY-MM-DD') as str_start_time,
-			to_char(end_time, 'YYYY-MM-DD') as str_end_time, departments.name as dept_name,
-			team.name as team_name, employee.name as emp_name,
+			to_char(end_time, 'YYYY-MM-DD') as str_end_time, color,
 			(select name from employee where employee.code = schedule.writer) as writer_name
 		from schedule
-			LEFT OUTER JOIN departments on schedule.dept_code = departments.code
-			LEFT OUTER JOIN team on schedule.team_code = team.code
-			LEFT OUTER JOIN employee on  schedule.emp_code = employee.code
-		where to_char(start_time, 'YYYY-MM-DD') BETWEEN to_date(#{str_start}) and to_date(#{str_end})
+		where to_char(start_time, 'YYYY-MM-DD') BETWEEN to_date(#{str_start}) and to_date(#{str_end}) and dept_code is null and team_code is null and emp_code is null
 		ORDER BY SEQ DESC
 	</select>
+
+	<insert id="insertScheduleNex">
+		INSERT INTO SCHEDULE VALUES (SCHEDULE_SEQ.NEXTVAL, #{title}, #{contents}, TO_DATE(#{start_time}, 'YYYYMMDD'), TO_DATE(#{end_time}, 'YYYYMMDD'), #{color}, '', '','', #{writer})
+	</insert>
 </mapper>

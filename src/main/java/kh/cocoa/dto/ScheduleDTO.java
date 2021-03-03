@@ -24,15 +24,13 @@ public class ScheduleDTO {
 	private String rownumber;
 	private String str_start_time;
 	private String str_end_time;
-	private String dept_name;
-	private String team_name;
-	private String emp_name;
 	private String writer_name;
+	private String chk;
 	
 	@Builder
 	public ScheduleDTO(String seq, String title, String contents, Timestamp start_time, Timestamp end_time,
 			String color, String dept_code, String team_code, String emp_code, String writer, String rownumber,
-			String str_start_time, String str_end_time, String dept_name, String team_name, String emp_name, String writer_name) {
+			String str_start_time, String str_end_time, String writer_name, String chk) {
 		super();
 		this.seq = seq;
 		this.title = title;
@@ -47,9 +45,7 @@ public class ScheduleDTO {
 		this.rownumber = rownumber;
 		this.str_start_time = str_start_time;
 		this.str_end_time = str_end_time;
-		this.dept_name = dept_name;
-		this.team_name = team_name;
-		this.emp_name = emp_name;
 		this.writer_name = writer_name;
+		this.chk = chk;
 	}
 }

@@ -197,13 +197,29 @@ public class ScheduleController {
 	}
 
 	@RequestMapping("/searchByDate.nex")
-	public NexacroResult searchByDate(@ParamVariable(name="sch_start")java.util.Date sch_start, @ParamVariable(name="sch_end")java.util.Date sch_end) {
+	public NexacroResult searchByDate(@ParamVariable(name="sch_start")String sch_start, @ParamVariable(name="sch_end")String sch_end) {
 		NexacroResult nr = new NexacroResult();
-		String str_start = dateFormat(sch_start);
-		String str_end = dateFormat(sch_end);
-		List<ScheduleDTO> list = sservice.selectListByDateNex(str_start, str_end);
+//		String str_start = dateFormat(sch_start);
+//		String str_end = dateFormat(sch_end);
+		System.out.println(sch_start);
+		System.out.println(sch_end);
+		List<ScheduleDTO> list = sservice.selectListByDateNex(sch_start, sch_end);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setChk("0");
+		}
+		System.out.println(list);
 		nr.addDataSet("out_ds", list);
 		return nr;
+	}
+
+	@RequestMapping("/createSchedule.nex")
+	public NexacroResult createSchedule(@ParamVariable(name="title")String title, @ParamVariable(name="start")String start,@ParamVariable(name="end")String end,@ParamVariable(name="color")String color,@ParamVariable(name="contents")String contents) {
+		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		String empCode = Integer.toString(loginDTO.getCode());
+
+		sservice.insertScheduleNex(title, contents, start, end, color, empCode);
+
+		return new NexacroResult();
 	}
 
 	// Date -> String
