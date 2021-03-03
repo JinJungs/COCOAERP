@@ -38,6 +38,7 @@
                         <c:choose>
                             <c:when test="${messenger.type eq 'M'}">
                                 <span id="partyname">${messenger.name}</span>
+                                <p></p>
                             </c:when>
                             <c:when test="${messenger.type eq 'S'}">
                                 <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
