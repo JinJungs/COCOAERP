@@ -124,7 +124,7 @@
 	   function getCommentList() {
 	       $.ajax({
 	           type : 'POST',
-	        	url : "/comment/noBoardWriteCommentList.co",
+	        url : "/comment/noBoardWriteCommentList.co",
 	           dataType : "json",
 	           data :  {seq : ${seq}}, 
 	           success : function(data) {
@@ -145,7 +145,7 @@
 	                       html += "<div class='on col-sm-12 col-md-2'>";
 	                       /*댓글 수정 삭제 */
 	                       if(data[i].checkWriter>0){
-		                     html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>  ";
+		                     html += "<button class='btn btn-outline-primary btn-sm' id='btn-upd"+data[i].seq+"' onclick='updateComment("+data[i].seq+")'>수정</button>";
 		                     html += "<button class='btn btn-outline-danger btn-sm' id='btn-del"+data[i].seq+"' onclick='deleteComment("+data[i].seq+")'>삭제</button>";
 						   };			
 		                   html += "</div>";
@@ -163,8 +163,7 @@
 	   /*댓글 수정*/
 	   	function updateComment(seq){
 		$("#btn-upd"+seq).attr("onclick",null);	
-	   	$(".main_content"+seq).append("<textarea class='modify_contents'name='modify_contents' id='modify_contents"+seq+"' 
-	   	placeholder='수정 할 내용을 적어주세요.'></textarea>");
+	   	$(".main_content"+seq).append("<textarea class='modify_contents' name='modify_contents' id='modify_contents"+seq+"' placeholder='수정 할 내용을 적어주세요.'></textarea>");
 	   	$("#btn-upd"+seq).text("저장");
 		$("#btn-upd"+seq).attr("onclick","modComment("+seq+")");
 			
@@ -215,7 +214,10 @@
 	      	 }
 	  	 })
   		}
-		
+		/*홈으로*/
+		function fn_home() {
+			location.href = "/";
+		}
 		/*수정*/
 		function fn_modify(cpage,seq,menu_seq) {
 			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;

@@ -56,27 +56,17 @@ input{width:100%;}
 								<b><span class="files" id="files">일정</span></b>
 							</div>
 							<div class="col-12 date_box" id="startDate">
-								<input type="date" class="date ml-1 mr-1" name="report_start"
-									id="report_start">
+								<input type="date" id="report_start" class="date ml-1 mr-1"
+									name="report_start" value="${lr.report_start }">
 							</div>
 							<div class="col-12 date_box" id="report_start_week">
-								<input type="week" class="week ml-1 mr-1" name="report_start">
+								<input type="week" id="week" class="week ml-1 mr-1"
+									name="report_start_week" value="${lr.report_start }">
 							</div>
 							<div class="col-12 date_box" id="report_start_month">
-								<input type="month" class="month ml-1 mr-1" name="report_start">
+								<input type="month" id="month" class="month ml-1 mr-1"
+									name="report_start_month" value="${lr.report_start }">
 							</div>
-							<%-- <div class="col-6" id="test">
-									<div class="col date_box">
-										<b>시작일 :</b> <input type="date" class="date ml-1 mr-1"
-											name="report_start" id="report_start" value="${lr.report_start }">
-									</div>
-								</div>
-								<div class="col-6" id="test2">
-									<div class="col date_box" id="endDate">
-										<b>마감일 :</b> <input type="date" class="date ml-1 mr-1"
-											name="report_end" id="report_end" value="${lr.report_end }">
-									</div>
-								</div> --%>
 						</div>
 					</div>
 				</div>
@@ -123,7 +113,6 @@ input{width:100%;}
 					<!--보낸편지함으로 이동  -->
 					<c:choose>
 						<c:when test="${status eq 'RAISE'}">
-
 							<div class="col-sm-2">
 								<button type="button" class="btn btn-primary"
 									onclick="fn_sentHome()">HOME</button>
@@ -152,7 +141,7 @@ input{width:100%;}
 	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script src="/js/jquery-ui.js"></script>
 	<script src="/js/jquery.MultiFile.min.js"></script>
-   	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
 	<script>
 	 //유효성 검사 -임시저장
         $('#btn_tempSave').on("click", function() {
@@ -181,6 +170,18 @@ input{width:100%;}
            	   $("#contents").focus();
 	           return;
 	    }
+	    if (!$('#report_start').val() && $("#selectBy").val()=="daily" ){
+	           alert('일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#week').val()  && $("#selectBy").val()=="weekly"){
+	           alert('주간일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#month').val()  && $("#selectBy").val()=="monthly"){
+	           alert('월별일정을 입력해주세요');
+	           return;
+	        }
 		$("#submitForm").attr("action","/log/logModifyDone.log");
          $('#submitForm').submit();
         })
@@ -253,7 +254,6 @@ input{width:100%;}
 			startDate.style.display="block";
 			report_start_week.style.display="none";
 			report_start_month.style.display="none";
-			report_start.value=today;
 		}else if(temp_code.value==2){
 			startDate.style.display="none";
 			report_start_week.style.display="block";
