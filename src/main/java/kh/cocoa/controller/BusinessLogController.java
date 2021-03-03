@@ -56,10 +56,11 @@ public class BusinessLogController {
 		ddto.setWriter_code(writer_code);
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
-		if(selectBy.contentEquals("daily")) {
-			System.out.println("일일인 경우");
-			ddto.setReport_end(null);
-		}
+		
+//		if(selectBy.contentEquals("daily")) {
+//			System.out.println("일일인 경우");
+//			
+//		}
 
 		//업무일지 seq & files doc_seq 맞추기
 		int logDoc_seq= bservice.logDocSelectSeq();
@@ -117,9 +118,9 @@ public class BusinessLogController {
 		int pos_code = (Integer)loginDTO.getPos_code();
 		ddto.setDept_code(pos_code);
 
-		if(selectBy.contentEquals("daily")) {
-			ddto.setReport_end(null);
-		}
+//		if(selectBy.contentEquals("daily")) {
+//			ddto.setReport_end(null);
+//		}
 
 		//업무일지 seq & files doc_seq 맞추기
 		int logDoc_seq= bservice.logDocSelectSeq();
@@ -296,13 +297,16 @@ public class BusinessLogController {
 			List<MultipartFile> file) throws Exception {
 		System.out.println("수정 완료 페이지");
 		if(temp_code==1) {
-			ddto.setReport_end(null);
+//			ddto.setReport_end(null);
 			//수정 후 상신 (일일)
 			int logModifyDaily = bservice.logModifyDaily(ddto);
 
-		}else if (temp_code==2||temp_code==3) {
+		}else if (temp_code==2) {
 			//수정 후 상신 (주간/월별)
 			int logModify = bservice.logModify(ddto);
+		}else if (temp_code==3) {
+			//수정 후 상신 (주간/월별)
+			int logModifyMonth = bservice.logModifyMonth(ddto);
 		}
 		/*------------------파일 수정--------------*/
 		//파일 삭제 - 파일의 seq로 삭제
@@ -341,13 +345,16 @@ public class BusinessLogController {
 			List<MultipartFile> file) throws Exception{
 		System.out.println("임시저장 수정 ");
 		if(temp_code==1) {
-			ddto.setReport_end(null);
+			//ddto.setReport_end(null);
 			//임시저장될 문서
 			int logModifyTempUpdateDaily = bservice.logModifyTempUpdateDaily(ddto);
 
-		}else if (temp_code==2||temp_code==3) {
+		}else if (temp_code==2) {
 			//임시저장될 문서
 			int logModifyTempUpdate = bservice.logModifyTempUpdate(ddto);
+		}else if (temp_code==3) {
+			//임시저장될 문서
+			int logModifyTempUpdateMonth = bservice.logModifyTempUpdateMonth(ddto);
 		}
 		/*------------------파일 수정--------------*/
 		//파일 삭제 - 파일의 seq로 삭제

@@ -24,6 +24,9 @@ background-color : #6749b930;
 .listItem:hover {
     background-color: whitesmoke;
 }
+.row{
+	margin-bottom: 10px;
+}
 </style>
 </head>
 <body>

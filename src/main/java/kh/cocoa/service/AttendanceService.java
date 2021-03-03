@@ -1,6 +1,7 @@
 package kh.cocoa.service;
 
 import kh.cocoa.dao.AttendanceDAO;
+import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,17 @@ public class AttendanceService implements AttendanceDAO {
         return attenDAO.endWork(emp_code,overtime);
     }
 
+    @Override
+    public AtdChangeReqDTO isReq(int atd_seq) {
+        return attenDAO.isReq(atd_seq);
+    }
 
+    public List<AttendanceDTO> getAttendanceList2(int emp_code,String number){
+        return attenDAO.getAttendanceList2(emp_code,number);
+    }
 
+    @Override
+    public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time, int end_time) {
+        return attenDAO.getSearchAtd(emp_code, number, search, start_time, end_time);
+    }
 }

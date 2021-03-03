@@ -1,5 +1,6 @@
 package kh.cocoa.dao;
 
+import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,5 +24,8 @@ public interface AttendanceDAO {
     public int reRegStartTime(int emp_code);
     public String isOutWork(int emp_code);
     public int endWork(int emp_code,int overtime);
-    
+
+    public AtdChangeReqDTO isReq(int atd_seq);
+    public List<AttendanceDTO> getAttendanceList2(int emp_code,String number);
+    public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time,int end_time);
 }

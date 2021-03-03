@@ -216,6 +216,10 @@
 		WHERE CODE = #{i.code}
 		</foreach>
 	</update>
+	<!-- 메신저 이름 가져오기 -->
+	<select id="getEmpNameByCode" resultType="String">
+		SELECT NAME FROM EMPLOYEE WHERE CODE = #{code}
+	</select>
 	<!-- 소형 끝 -->
 	<!-- 지영  -->
 	<!--  버그리포트 -->

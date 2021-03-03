@@ -20,55 +20,57 @@
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
         <div class="card-header msg_head chatBgMain">
-            <div class="d-flex bd-highlight">
-                <div class="img_cont">
-                    <c:choose>
-                        <c:when test="${messenger.type eq 'M'}">
-                            <img src="${chatProfile}"
-                                 class="rounded-circle user_img">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="${partyDTO.profile}"
-                                 class="rounded-circle user_img">
-                        </c:otherwise>
-                    </c:choose>
+            <div class="d-flex bd-highlight justify-content-between">
+                <div class="m-0 p-0 d-flex">
+                    <div class="img_cont_chat">
+                        <c:choose>
+                            <c:when test="${messenger.type eq 'M'}">
+                                <img src="${chatProfile}"
+                                     class="rounded-circle user_img_chat">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${partyDTO.profile}"
+                                     class="rounded-circle user_img_chat">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="user_info">
+                        <c:choose>
+                            <c:when test="${messenger.type eq 'M'}">
+                                <span id="partyname">${messenger.name}</span>
+                            </c:when>
+                            <c:when test="${messenger.type eq 'S'}">
+                                <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
+                                <span id="partyname">${partyDTO.empname}</span>
+                                <p>${partyDTO.deptname} | ${partyDTO.teamname}</p>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
-                <div class="user_info">
-                    <c:choose>
-                        <c:when test="${messenger.type eq 'M'}">
-                            <span id="partyname">${messenger.name}</span>
-                        </c:when>
-                        <c:when test="${messenger.type eq 'S'}">
-                            <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
-                            <span id="partyname">${partyDTO.empname}</span>
-                            <p>${partyDTO.deptname} / ${partyDTO.teamname}</p>
-                        </c:when>
-                    </c:choose>
+                <div class="video_cam d-flex justify-content-end ml-0">
+                    <span><i class="fas fa-search m-2"></i></span>
+                    <span><i class="fas fa-inbox m-2" id="showFiles"></i></span>
+                    <span class="mr-1" id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
+                    <div class="action_menu">
+                        <ul>
+                            <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
+                            <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
+                            <c:if test="${messenger.type eq 'M'}">
+                                <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
+                                <li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
+                            </c:if>
+                        </ul>
+                    </div>
                 </div>
-                <div class="video_cam">
-                    <span><i class="fas fa-search"></i></span>
-                    <span><i class="fas fa-inbox" id="showFiles"></i></span>
-                </div>
-            </div>
-            <span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
-            <div class="action_menu">
-                <ul>
-                    <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
-                    <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
-                    <c:if test="${messenger.type eq 'M'}">
-                       <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
-                       <li onclick="exitRoom(${seq})"><i class="fas fa-ban"></i> 나가기</li>
-                    </c:if>
-                </ul>
             </div>
         </div>
         <!-- 검색 창-->
-        <div class="container">
-            <div class="row w-100 m-0 p-0" id="searchContainer" style="border: 1px solid black; display: none;">
-                <input class="col-9" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
-                <div class="p-1" style="position: absolute; left: 280px; top:96px;"><i class="fas fa-chevron-up"></i>
+        <div class="container searchCon">
+            <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
+                <input class="col-9 searchInput" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
+                <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
                 </div>
-                <div class="p-1" style="position: absolute; left: 300px; top:96px;"><i class="fas fa-chevron-down"></i>
+                <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="col-3">
                     <button type="button" class="btn btn-secondary btn-sm" id="searchBtn">검색</button>
@@ -84,26 +86,26 @@
             </div>
         </div>
         <!-- 새로운 메세지 도착시 알려줌 -->
-        <div class="container">
-            <div class="row w-100 m-0 p-0" id="alertMessageBox" style="border: 1px solid black; display: none;">
-                <div class="col-3" id="alertMessagePartyname"></div>
-                <div class="col-8" id="alertMessageContents"></div>
-                <div class="col-1"><i class="fas fa-chevron-down"></i></div>
+        <div class="w-100 p-0 m-0" id="alertMessageBox">
+            <div class="d-flex bd-hightlight m-2 p-0">
+                <div class="bd-hightlight p-2" id="alertMessagePartyname"></div>
+                <div class="bd-hightligh p-2" id="alertMessageContents"></div>
+                <div class="bd-hightlight ml-auto p-2"><i class="fas fa-chevron-down"></i></div>
             </div>
         </div>
         <div class="card-footer">
-            <div class="input-group m-h-90" id="sendToolBox">
-                <!-- onclick="fileSend()" id="fileUpload" -->
-                <div class="input-group-append">
-                    <span class="input-group-text attach_btn" id="attach_btn">
-                        <i class="fas fa-paperclip"></i>
-                    </span>
-                </div>
-                <textarea name="" class="form-control type_msg" id="yourMsg"
-                          placeholder="Type your message..."></textarea>
-                <div class="input-group-append" id="sendBtn">
-                    <!-- <div class="input-group-append" onclick="sendMessage" id="sendBtn"> -->
-                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+            <div class="m-h-90 d-flex flex-column bd-highlight" id="sendToolBox">
+                <textarea name="" class="bd-highlight form-control type_msg" id="yourMsg" placeholder="메세지를 입력하세요."></textarea>
+                <div class="d-flex bd-highlight m-0 p-0">
+                    <button class="btn chat_btn" id="emoji_btn">
+                        <img class="chat_icon" src="/icon/emoji-smile.svg">
+                    </button>
+                    <button class="btn chat_btn" id="attach_btn">
+                        <img class="chat_icon" src="/icon/paperclip_rotate.svg">
+                    </button>
+                    <button class="btn btn_send chat_btn ml-auto" id="send_btn">
+                        <img src="/icon/send.svg">
+                    </button>
                 </div>
             </div>
         </div>
@@ -185,20 +187,24 @@
                 let beforeMsgBoxHeight = msgBox.height();
                 console.log("추가되기 전 msgBox의 길이 : " + beforeMsgBoxHeight);
                 for (let i = 0; i < data.length; i++) {
+                    console.log("순서가 ? : "+i);
                     console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
                     let existMsg = "";
+                    let dateBox = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let delete_hours_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                    let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
                      //공지타입 구분
                     let typeArr = (data[i].type).split("_");
                     console.log("typeArr : ",typeArr);
-
-                    if (before_date !== delete_hours_date) {
-                        existMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
-                        existMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                    // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
+                    // 넣는 위치가 맞지 않다.
+                    if (before_date !== dividing_date && before_date !== "") {
+                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                        existMsg += "<span>" +before_date+ "</span></div>"
                     }
-                    before_date = delete_hours_date;
+                    before_date = dividing_date;
+
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
@@ -219,13 +225,13 @@
                         existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                         existMsg += "</div></div></div>";
                     }else{
-                       existMsg += "<div class='text-center font-weight-light'><small>";
+                       existMsg += "<div class='announce text-center font-weight-light'><small>";
                        if(typeArr[1]=="MODIF"){
                           existMsg += data[i].empname + "님이 " + data[i].contents +" (으)로 채팅방 이름을 변경하였습니다.";
                        }else if(typeArr[1]=="EXIT"){
                           existMsg += data[i].contents + "님이 퇴장하였습니다.";
                        }else if(typeArr[1]=="ADD"){
-
+                    	  existMsg += data[i].empname + "님이 "+ data[i].contents + " 님을 채팅방에 초대하셨습니다.";
                        }else{
                           existMsg += "공지 메세지 등록 오류";
                        }
@@ -233,6 +239,7 @@
                     }
                     msgBox.prepend(existMsg);
                 }
+
                 // 추가 후 msgBox의 길이를 저장
                 let afterMsgBoxHeight = msgBox.height();
                 let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
@@ -260,7 +267,7 @@
 
         /* 텍스트 전송 */
         // 전송 버튼 클릭시 메세지 전송
-        document.getElementById("sendBtn").addEventListener('click', sendMsg);
+        document.getElementById("send_btn").addEventListener('click', sendMsg);
 
         // enter키 클릭시 메세지 전송
         $("#sendToolBox").on("keydown", function (e) {
@@ -373,8 +380,8 @@
                 let formed_write_date = moment(current_date).format('HH:mm');
                 let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
                 if (before_date !== delete_hours_date) {
-                    newMsg += "<div class='row w-100 text-center font-weight-light m-0 p-0'>"
-                    newMsg += "<div class='col-12 pb-3'>" + delete_hours_date + "</div></div>"
+                    newMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                    newMsg += "<span>" +delete_hours_date+ "</span></div>"
                 }
                 before_date = delete_hours_date;
 
@@ -412,10 +419,10 @@
                         scrollUpdate();
                     } else {
                         console.log(amIAtBottom);
-                        showAlertMessageOnBottom(partyname, msg);
+                        showAlertMessageOnBottom(empname, msg);
                     }
                 }else{
-                    newMsg += "<div class='text-center font-weight-light'><small>";
+                    newMsg += "<div class='announce text-center font-weight-light'><small>";
                     newMsg += msg;
                     newMsg += "</small></div>";
                     msgBox.append(newMsg);
@@ -592,7 +599,8 @@
     }
 
     //[파일 모아보기 팝업]
-    let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
+    let winFeature = 'width=600px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
+    let winFeature2 = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
 
     function popShowFiles() {
         window.open('/messenger/showFiles?m_seq=' +${seq}, '', winFeature);
@@ -785,18 +793,17 @@
     //==========채팅방 나가기==================
     //====================채팅 멤버 추가=======
     function openMemberListToChat(seq) {
-        window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature);
+        window.open('/messenger/openMemberList?seq=' + seq, 'memberList'+seq, winFeature2);
     }
     function getReturnValue(returnValue) {
        let seq = ${seq};
        let emp_code = ${loginDTO.code};
        console.log(returnValue);
        let checkArr = returnValue;
+       let empname = "${loginDTO.name}";
 
        //길이 알아내기 위해
         let checkArrParsed = JSON.parse(returnValue);
-/*        console.log("json 형태 : ",checkArr);
-       console.log("첫번째 값 : ", checkArr[0]); */
        console.log("길이 : ", checkArrParsed.length);
        //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
        //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
@@ -817,6 +824,7 @@
                         , contents: checkArr
                         , write_date: new Date()
                         , emp_code: emp_code
+                        , empname: empname
                         , type: "AN_ADD"
                     }));
 

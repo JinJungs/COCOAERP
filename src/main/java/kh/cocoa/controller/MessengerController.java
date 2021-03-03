@@ -98,6 +98,8 @@ public class MessengerController {
         if(messenger.getType().contentEquals("S")) {
             MessengerViewDTO partyDTO = mservice.getMessengerPartyEmpInfo(seq,code);
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
+            System.out.println("여기? "+partyDTO);
+            // partyDTO 가 null
             String profile = fservice.getProfile(partyDTO.getEmp_code());
             partyDTO.setProfile(profile);
             model.addAttribute("partyDTO",partyDTO);
@@ -216,44 +218,6 @@ public class MessengerController {
     		return "error";
     	}
     }
-
-/* 채팅창에서 멤버 추가시 form action 으로 보낼 때 컨트롤러 : 현재 ajax 작업이 성공하면 지울 예정
-    @RequestMapping("addMemberToChatRoom")
-    public String addMemberToChatRoom(int seq, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-    	System.out.println("addMemberToChatRoom 도착, 방 시퀀스 : "+seq);
-    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-        int code = loginDTO.getCode();
-        //참가자 담을 리스트 partyList / form의 emp_code 네임으로 받아온 code 리스트
-    	List<MessengerPartyDTO> partyList = new ArrayList<>();
-    	String[] empCodeList = request.getParameterValues("emp_code");
-    	  	
-    	//form 의 empCodeList를 받은 String배열을 int형으로 바꿔 MessengerPartyDTO형 리스트에 넣는다.
-    	for(String i : empCodeList) {
-    		int emp_code = Integer.parseInt(i);
-    		MessengerPartyDTO dto = new MessengerPartyDTO().builder().m_seq(seq).emp_code(emp_code).build();
-    		partyList.add(dto);
-    	}
-    	
-    	//메신저 타입 보기
-    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
-    	System.out.println("추가할 메신저의 정보 : "+messenger);
-  
-    	if(messenger.getType().contentEquals("S")) {
-    		System.out.println("1:1에서 추가할 때");
-    		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
-    		int resultType = mservice.updateTypeToM(seq);
-    		//String name = loginDTO.getName() + "님 외 " + (partyList.size()+1) + "명";
-    		String name = loginDTO.getName() + "님의 단체 채팅방";
-    		int resultName = mservice.updateName(seq, name);
-    		System.out.println(resultType +" : "+ resultName);
-    	}
-    	int insertMemResult = mpservice.setMessengerMember(partyList);
-    	System.out.println("인원 추가 결과 : "+insertMemResult);
-    	//!!return을 어디로 해줄지...
-    	//아직 작동 안함
-    	return "redirect:/getChat/announce/"+seq;
-    }
-*/
 
     @RequestMapping("messengerSearch")
     public String messengerSearch(String contents,Model model){
@@ -400,10 +364,16 @@ public class MessengerController {
     @RequestMapping("showFiles")
     public String showFiles(Model model, int m_seq) throws Exception {
     	//01.전체 이미지/파일 불러오기
-    	List<FilesMsgDTO> fileList = fservice.showFileMsg(m_seq);
-    	System.out.println(fileList);
-    	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(fileList);
+    	List<FilesMsgDTO> pure_allFileList = fservice.showAllFileMsg(m_seq);
+    	List<FilesMsgDTO> pure_imgList = fservice.showFileMsgByType(m_seq, "IMAGE");
+    	List<FilesMsgDTO> pure_fileList = fservice.showFileMsgByType(m_seq, "FILE");
+    	
+    	List<FilesMsgDTO> list = fservice.encodedShowFileMsg(pure_allFileList);
+    	List<FilesMsgDTO> imgList = fservice.encodedShowFileMsg(pure_imgList);
+    	List<FilesMsgDTO> fileList = fservice.encodedShowFileMsg(pure_fileList);
     	model.addAttribute("list", list);
+    	model.addAttribute("imgList", imgList);
+    	model.addAttribute("fileList", fileList);
     	return "/messenger/showFiles";
     }
     
@@ -421,15 +391,6 @@ public class MessengerController {
     	return "/messenger/addMemberList";
     }
 
-    //채팅방 설정 변경창 열기 : 모달로 변경. 유지시 삭제 예정
-    /*
-    @RequestMapping("openModifChat")
-    public String openModifChat(int seq, Model model) {
-    	System.out.println("openModifChat컨트롤러 도탁 ! : " + seq);
-    	MessengerDTO messenger = mservice.getMessengerInfo(seq);
-    	model.addAttribute("messenger", messenger);
-    	return "/messenger/modifChat";
-    }*/
     //채팅방 이름 변경
     @RequestMapping("modifChatName")
     @ResponseBody
@@ -476,9 +437,6 @@ public class MessengerController {
     	String partyListEdited = partyList.substring(1, partyList.length()-1);
     	String[] partyListArr = partyListEdited.split(",");
     	System.out.println("partyListArr : "+partyListArr);
-    	for(String i : partyListArr) {
-    		System.out.println("partyListArr[i] : "+i);
-    	}
     	
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
@@ -495,9 +453,6 @@ public class MessengerController {
     		dto.setEmp_code(Integer.parseInt(partyListArr[i]));
     		list.add(dto);
     	}
-
-    	//[임시]코드로 저장. [보완]ajax에서 소켓으로 쏠 때 이름으로 변환된 리스트 보내주기
-    	String addedMember = "";
   
     	if(messenger.getType().contentEquals("S")) {
     		System.out.println("1:1에서 추가할 때");
@@ -511,10 +466,8 @@ public class MessengerController {
     	}
     	int insertMemResult = mpservice.setMessengerMember(list);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
-    	
-    	
+
+
     	return insertMemResult;
     }
-
-
 }

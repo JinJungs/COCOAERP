@@ -80,13 +80,17 @@ public interface BusinessLogDAO {
 	//수정페이지 - 임시저장
 	public int logModifyTempUpdateDaily(DocumentDTO ddto);
 	
-	//수정페이지 - 임시저장
+	//수정페이지 - 임시저장 (주)
 	public int logModifyTempUpdate(DocumentDTO ddto);
+	//수정페이지 - 임시저장 (월)
+	public int logModifyTempUpdateMonth(DocumentDTO ddto);
 
 	//수정 페이지 - 수정 후 상신 (일일)
 	public int logModifyDaily(DocumentDTO ddto);
 
-	//수정 페이지 - 수정 후 상신 (주간 & 월별)
+	//수정 페이지 - 수정 후 상신 (주간 )
 	public int logModify(DocumentDTO ddto);
 
+	//수정 페이지 - 수정 후 상신 (월별)
+	public int logModifyMonth(DocumentDTO ddto);
 }

@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -126,5 +128,10 @@ public class AttendanceController {
         EmployeeDTO empInfo = employeeService.getEmpInfo(1000);
         model.addAttribute("empInfo",empInfo);
         return "/attendance/attendanceMain";
+    }
+
+    @RequestMapping("/toAtdReq")
+    public String toAtdReq(Model model){
+        return "/attendance/attendanceChangeReq";
     }
 }

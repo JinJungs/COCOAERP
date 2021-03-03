@@ -1,18 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Log Create</title>
-<link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/css/noBoard.css" type="text/css"
+	media="screen" />
 <style type="text/css">
 .row{border-bottom: 1px solid pink;}
 .select{text-align:right;}
 .date_box>input{width:30%;padding:7px;}
 #selectBy{border:none;background-color:transparent;}
 #selectBy:focus{outline:none;}
-input{width:100%;}
+input{width:50%;}
 .contents_box{padding-left:15px;}
 </style>
 </head>
@@ -24,52 +26,54 @@ input{width:100%;}
 		<!-- Page Content  -->
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">업무일지 작성</h2>
-			
+
 			<form action="/log/logCreateDone.log" method="post" name="submitForm"
 				id="submitForm" enctype="multipart/form-data">
-				
-			<div class="row search_box">
-				<div class="select col-12" id="select">
+				<div class="row search_box">
+					<div class="select col-12" id="select">
 						<select name="selectBy" id="selectBy">
 							<option value="" selected>업무일지 종류를 설정해 주세요.</option>
 							<option value="daily" id="daily">일일</option>
 							<option value="weekly" id="weekly">주간</option>
 							<option value="monthly" id="monthly">월별</option>
-						</select> 
+						</select>
 					</div>
-			</div>
-			<div class="row">
+				</div>
+				<div class="row">
+					<div class="col-md-12 head_box">
+						<b><span>일정</span></b> 
+					</div>
+					<div class="col-12 date_box" id="startDate">
+					<input type="date" id="report_start" class="date ml-1 mr-1" name="report_start">
+					</div> 
+					
+					<div class="col-12 date_box" id="report_start_week">
+					<input type="week" id="week" class="week ml-1 mr-1" name="report_start_week">
+					</div>
+					
+					<div class="col-12 date_box" id="report_start_month">
+					<input type="month" id="month" class="month ml-1 mr-1" name="report_start_month">
+					</div>
+					
+				</div>
+				<div class="row">
 					<div class="col-sm-3 head_box">제목</div>
 					<div class="col-sm-9">
-					<input type="text" id="title" name="title" placeholder="제목을 입력하세요."
-							onclick="title_box()">
+						<input type="text" id="title" name="title"
+							placeholder="제목을 입력하세요." onclick="title_box()">
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col head_box">내용</div>
 				</div>
-				
-				<div class="row" >
+
+				<div class="row">
 					<textarea class="contents_box col-xs-12" id="contents"
 						name="contents" placeholder="내용을 입력하세요."></textarea>
 				</div>
+
 				
-				<div class="row">
-					<div class="col-md-12 head_box">
-						<b><span class="files" id="files">일정</span></b>
-					</div>
-					<div class="col-12 date_box" id="startDate">
-						<input type="date" class="date ml-1 mr-1" name="report_start" id="report_start">
-					</div>
-					<div class="col-12 date_box"  id="report_start_week">
-						<input type="week" class="week ml-1 mr-1" name="report_start">
-					</div>
-					<div class="col-12 date_box" id="report_start_month">
-						<input type="month" class="month ml-1 mr-1" name="report_start">
-					</div>
-					
-				</div>
 				<script type="text/javascript">
 					
 				</script>
@@ -78,13 +82,14 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-						<input type="file" class="fileList"  id="file"
-							name="file" accept="image/*"  multiple>
-							<div id="listBox"></div><br>
+						<input type="file" class="fileList" id="file" name="file"
+							accept="image/*" multiple>
+						<div id="listBox"></div>
+						<br>
 					</div>
 				</div>
-				
-				
+
+
 				<div class="row">
 					<!--홈으로 이동  -->
 					<div class="col-sm-2">
@@ -94,21 +99,19 @@ input{width:100%;}
 					<div class="col-sm-5 d-none d-sm-block"></div>
 
 					<div class="button_box col-sm-5">
-						<button type="button" class="btn btn-primary" 
-						id="btn_write" >작성</button>
-						<button type="button" class="btn btn-primary" 
-						id="btn_tempSaved" >임시저장</button>
+						<button type="button" class="btn btn-primary" id="btn_write">작성</button>
+						<button type="button" class="btn btn-primary" id="btn_tempSaved">임시저장</button>
 						<button type="reset" class="btn btn-primary">되돌리기</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="/js/jquery-ui.js"></script>
-<script src="/js/jquery.MultiFile.min.js"></script>
-   	<script src="/js/bootstrap.min.js"></script>
-<script>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="/js/jquery-ui.js"></script>
+	<script src="/js/jquery.MultiFile.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script>
 		window.onload = function(){
 		let startDate= document.getElementById("startDate");
 		let report_start_week = document.getElementById("report_start_week");
@@ -120,7 +123,8 @@ input{width:100%;}
 		}
 /*-------------------------작성*/
 		 $('#btn_write').on("click", function() {
-		
+		let week = $('#week').val();
+		let month = $('#month').val();
 			if ( $("#selectBy").val()==""){
 	           alert('업무일지 종류를 선택해주세요');
            	   $("#selectBy").focus();
@@ -132,7 +136,19 @@ input{width:100%;}
 	          }else if (!$('#contents').val()){
 	           alert('내용을 입력해주세요');
            	   $("#contents").focus();
-	           return 
+	           return ; 
+	        }
+	        if (!$('#report_start').val() && $("#selectBy").val()=="daily" ){
+	           alert('일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#week').val()  && $("#selectBy").val()=="weekly"){
+	           alert('주간일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#month').val()  && $("#selectBy").val()=="monthly"){
+	           alert('월별일정을 입력해주세요');
+	           return;
 	        }
          $('#submitForm').submit();
         })
@@ -168,30 +184,27 @@ input{width:100%;}
 	    }
 	selectBy.addEventListener("change",function(){
 	   let index= selectBy.selectedIndex;
+		let week = $('#week').val();
+		let month = $('#month').val();
 	   if(index=="1"){ // 일일
 	   		console.log("일일");
-	        startDate.style.display="block";
+	        report_start.style.display="block";
 	        report_start.value=today;
 	        report_start_week.style.display="none";
 	        report_start_month.style.display="none";
-	        report_start.value=today;
-	        
+	   		console.log(report_start.value);
+	   		
 	   }else if(index=="2"){ //주간
 	        report_start.style.display="none";
 	        report_start_week.style.display="block";
 	        report_start_month.style.display="none";
-	        report_start.value=null;
-	        report_start_month.value=null;
+	        
 	   }else if(index=="3"){ //월별
 	        report_start.style.display="none";
 	        report_start_week.style.display="none";
 	        report_start_month.style.display="block";
-	        report_start.value=null;
-	        report_start_week.value=null;
 	   }
 	})
-	
-	
 	/* ------------------임시저장*/
 	$('#btn_tempSaved').on("click", function() {
        if ( $("#selectBy").val()==""){

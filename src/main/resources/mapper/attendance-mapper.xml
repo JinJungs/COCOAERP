@@ -23,7 +23,7 @@
     </update>
 
     <select id="getAttendanceList" resultType="kh.cocoa.dto.AttendanceDTO">
-        select * from attendance where emp_code = #{emp_code}
+    select * from attendance where emp_code = #{emp_code}
     </select>
 
     <select id="getAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
@@ -67,4 +67,22 @@
     <update id="endWork">
          update attendance set end_time=sysdate, overtime=#{overtime} where emp_code=#{emp_code} and substr(start_time,0,8) = substr(sysdate,0,8)
     </update>
+
+    <select id="isReq" resultType="kh.cocoa.dto.AtdChangeReqDTO">
+        SELECT * FROM ATDCHANGEREQ WHERE ATD_SEQ=#{atd_seq}
+    </select>
+
+    <select id="getAttendanceList2" resultType="kh.cocoa.dto.AttendanceDTO">
+        select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
+        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'Y' then '처리' when 'N' then '검토중' else '-' END AS REQ_STATUS
+        FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE a.emp_code=#{emp_code} ORDER BY A.SEQ DESC)
+        where ROWNUM<![CDATA[ <= ]]>#{number}
+    </select>
+
+    <select id="getSearchAtd" resultType="kh.cocoa.dto.AttendanceDTO">
+        select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
+        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'Y' then '처리' when 'N' then '검토중' else '-' END AS REQ_STATUS
+        FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE  a.emp_code=#{emp_code} and a.start_time BETWEEN #{start_time} and '${end_time}' and A.STATUS like '%${search}%' ORDER BY A.SEQ DESC)
+        where ROWNUM<![CDATA[ <= ]]>#{number}
+    </select>
 </mapper>

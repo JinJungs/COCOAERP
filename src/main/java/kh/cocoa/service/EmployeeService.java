@@ -246,6 +246,11 @@ public class EmployeeService implements EmployeeDAO {
 	/*-------소형 끝 관리자 사용자관리*/
 	
 	@Override
+	public String getEmpNameByCode(int code) {
+		return edao.getEmpNameByCode(code);
+	}
+	
+	@Override
 	public List<EmployeeDTO> getEmpleLTU() {
 		return edao.getEmpleLTU();
 	}

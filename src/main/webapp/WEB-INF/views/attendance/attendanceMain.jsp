@@ -39,7 +39,7 @@
                                     <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12"><b><h4>${empInfo.name}(${empInfo.posname})님</h4></b></div>
+                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -72,7 +72,7 @@
                                     <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12"><b><h4>${empInfo.name}(${empInfo.posname})님</h4></b></div>
+                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -279,7 +279,7 @@
     $( function() {
         var currentDay = new Date();
         var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
-        var startWorkTime = 840;
+        var startWorkTime = 84;
         if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
             $("#btn_in").attr("disabled",true);
         }else{
@@ -338,7 +338,7 @@
                 for(var j=0;j<data.length;j++) {
                     var getDate = data[j].start_time.substr(5,5);
                     var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
-                    for (var i = 0; i < value.length; i++) {
+                        for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
                             if(getTime>8){
                                 while(getTime>8){
@@ -480,20 +480,28 @@
             type : "POST",
             url : "/restattendance/isOutWork",
             success : function(data) {
-                console.log(data);
-                if(data==""){
-                    var date = new Date();
-                    var hour = date.getHours();
-                    var min = date.getMinutes();
-                    var sec = date.getSeconds();
-                    var time =hour+":"+min+":"+sec;
+                var date = new Date();
+                var hour = date.getHours();
+                var min = date.getMinutes();
+                var sec = date.getSeconds();
+                var time =hour+":"+min+":"+sec;
+                if(data=="nyInWork"){
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("출근 기록이 없습니다.");
+                    return;
+                }
+                if(hour<18){
                     $("#modal").modal('show');
-                    if(hour<18){
-                        $("#workMsg").text("아직 퇴근 시간이 아닙니다. ("+time+") 퇴근 처리 하시겠습니까?");
-                    }
+                    $("#workMsg").text("아직 퇴근 시간이 아닙니다. ("+time+") 퇴근 처리 하시겠습니까?");
+                    return;
+                }
+                if(data==""){
+                    $("#modal").modal('show');
+
                     $("#workMsg").text("현재 시각:"+time+"입니다. 퇴근 처리 하시겠습니까??");
                 }else{
                     $("#modal").modal('show');
+
                     $("#workMsg").text("이미 퇴근 기록이 있습니다. ("+data+") 다시 퇴근 처리하시겠습니까?");
                 }
             }
