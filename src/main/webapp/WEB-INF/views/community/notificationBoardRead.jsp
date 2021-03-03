@@ -106,12 +106,11 @@
 			<div id="commentForm" ></div>
 		</div>
 	</div>
-
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    	<script src="/js/bootstrap.min.js"></script>
 	<script>
-		/*댓글 - 페이지 불러올 때 댓글 불러오기*/
+	/*댓글 - 페이지 불러올 때 댓글 불러오기*/
 		$(function() {
 	       getCommentList();
 	   });
@@ -123,7 +122,8 @@
 	           dataType : "json",
 	           data :  {seq : ${seq}}, 
 	           success : function(data) {
-	              	   var html = "";
+	           console.log(data.length);
+	              	    var html = "";
 						if (data.length > 0) {
 	                   for (i = 0; i < data.length; i++) {	
 	                       html += "<div class='row' id='comment_row'>";
@@ -153,10 +153,11 @@
 	           }
 	       });
 	   }
+	   
 	   /*댓글 수정*/
 	   	function updateComment(seq){
 		$("#btn-upd"+seq).attr("onclick",null);	
-	   	$(".main_content"+seq).append("<textarea class='modify_contents'name='modify_contents' id='modify_contents"+seq+"' placeholder='수정 할 내용을 적어주세요.'></textarea>");
+	   	$(".main_content"+seq).append("<textarea class='modify_contents' name='modify_contents' id='modify_contents"+seq+"' placeholder='수정 할 내용을 적어주세요.'></textarea>");
 	   	$("#btn-upd"+seq).text("저장");
 		$("#btn-upd"+seq).attr("onclick","modComment("+seq+")");
 			
@@ -164,7 +165,7 @@
  		function modComment(seq){
 			let contents= $("#modify_contents"+seq).val();
 	 		$.ajax({
-					data : {contents, seq},
+					data : {contents,seq},
 		           type: "post",
 		           url: "/comment/noBoardUpdateComment.co",
 		           success: function(data){
@@ -177,6 +178,7 @@
 	   /*댓글 작성*/
 	 	$(document).ready(function(){
 			$("#writeComment").click(function(){
+	 		console.log("왔니");
 			   var contents = $('#comment_contents').val();
 			   if(contents.length==0){return;}
 		       
@@ -185,7 +187,6 @@
 		           url: "/comment/noBoardWriteComment.co",
 		           data: {contents : contents, seq : ${seq}},
 		           success: function(data){
-		           console.log(data);
 		           console.log("입력성공!");
 	          		$('#comment_contents').val("");
 		           getCommentList();
@@ -193,7 +194,6 @@
 		   		});
 		   	});
 	   	});
-	   	
 	   	/*댓글 삭제*/
 	   	function deleteComment(seq){
 		   $.ajax({
@@ -209,24 +209,24 @@
 	      	 }
 	  	 })
   		}
-		/*홈으로*/
-		function fn_home() {
-			location.href = "/noBoard/notificationBoardList.no?menu_seq=1"
-		}
+		
 		/*수정*/
-		function fn_modify(cpage,seq) {
-			location.href = "/noBoard/notificationBoardModify.no?menu_seq=1&seq="+seq+"&cpage="+cpage;
+		function fn_modify(cpage,seq,menu_seq) {
+			location.href = "/noBoard/notificationBoardModify.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;
 		}
 		/*삭제*/
-		function fn_delete(cpage,seq) {
+		function fn_delete(cpage,seq,menu_seq) {
 			doubleCheck = confirm("해당 게시글을 정말 삭제 하시겠습니까?");
 			if(doubleCheck==true){
-				location.href = "/noBoard/notificationBoardDelete.no?menu_seq=1&seq="+seq+"&cpage="+cpage;
+				location.href = "/noBoard/notificationBoardDelete.no?seq="+seq+"&cpage="+cpage+"&menu_seq="+menu_seq;
 			}else{
 				return;
 			}
 		}
-	
+		/*홈으로*/
+		function fn_home() {
+			location.href = "/"
+		}
 	</script>
 </body>
 </html>

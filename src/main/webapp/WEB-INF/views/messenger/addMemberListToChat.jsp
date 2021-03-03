@@ -49,7 +49,7 @@
             <!-- main -->
             <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
             <div class="card-body addMember_body" style="border-radius:0 !important;">
-                <div id="memberAll"></div>
+                <div id="memberAll" style="height: 100%;"></div>
             </div>
             <!-- footer -->
             <div class="card-footer p-3 d-flex justify-content-end" style="height: 70px;">
@@ -114,10 +114,13 @@
                 let jArrayMember = resp[0];
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                 // 멤버
+                let html = "";
                 if (jArrayMember.length == 0) {
-                    memberAll.innerHTML = "검색결과가 없습니다.";
+                    html += "<div class='none h-100'>";
+                    html += "<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>";
+                    html += "<p class='noFileMsg'>검색결과가 없습니다.</p>";
+                    html += "</div>";
                 } else {
-                    let html = "";
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayMember.length; i++) {
                         let parsed = jArrayMember[i].code.toString();
@@ -146,8 +149,8 @@
                         html += "</div></li>";
                     }
                     html += "</ui>";
-                    memberAll.innerHTML = html;
                 }
+                memberAll.innerHTML = html;
             }
         })
     }

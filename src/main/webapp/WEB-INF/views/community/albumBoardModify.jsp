@@ -144,7 +144,12 @@
 	           alert('제목을 입력해주세요');
            	   $("#title").focus();
 	           return;
-	         }else if ( $('.fileLi').val()=="" && $('.file_input').val() =="" ){
+	         }
+	         if ($('.fileList').val()==""){
+	           alert('파일을 선택해주세요');
+	           return;
+	         }
+	         if ($('.fileLi').val()==""){
 	           alert('파일을 선택해주세요');
 	           return;
 	         }

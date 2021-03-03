@@ -197,7 +197,6 @@ input{width:100%;}
 	        endDate.style.display="none";
 	        report_start.value=today;
 	        report_end.value = today;
-	        console.log(today);
 	   }else if(index=="2"){ //주간
 	        endDate.style.display="block";
 	        report_start.value=null;

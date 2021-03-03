@@ -265,7 +265,7 @@
         }else if(code==20) {
             location.href = "/attendance/toAttendanceView";
         }else if(code==21) {
-            location.href = "#";
+            location.href = "/attendance/toMain";
             // 5. 전자우편
         }else if(code==22) {
             location.href = "/email/sendPage.email";

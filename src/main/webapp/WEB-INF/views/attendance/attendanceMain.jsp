@@ -6,49 +6,158 @@
 
     <meta charset='utf-8' />
     <title>근태</title>
+    <style>
+        .attend_alert {
+            display: flex;
+            align-items: center;
+            height: 76px;
+            padding: 0 24px;
+            border: 1px solid #ff8080;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #ff8080;
+            background-color: snow;
+        }
+        .attend_alert:hover{
+            background-color: whitesmoke;
+        }
+
+    </style>
 </head>
+
 <body>
 <div class="wrapper d-flex align-items-stretch">
     <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
     <div id="content" class="p-4 p-md-5 pt-5">
-        <div class="container-fluid p-4">
-            <div class="row" >
-                <div class="col-8" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-12"><b style="color:#9CA19F; font-size: 0.7rem;">출근 처리가 누락되었습니다.</b></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12"><b><h4>권용국(부서)님</h4></b></div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-12 text-right">
-                                    <b style="color:#4C4C4C;font-size:0.7rem">오늘의 근무시간 09:00~18:00 (8H)</b>
+        <div class="container-fluid" style="min-width: 900px;">
+            <div class="row">
+                <c:if test="${isInWork=='atd'}">
+                    <div class="col-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
                                 </div>
                             </div>
-                            <div class="row p-0">
-                                <div class="col-12 text-right p-0 pr-2">
-                                    <button class="btn btn-outline-dark btn-sm m-1">출근하기</button>
-                                    <button class="btn btn-outline-dark btn-sm m-1">퇴근하기</button>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" id="jb-checkbox" class="custom-control-input">
-                                        <label class="custom-control-label" for="jb-checkbox">외근</label>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12 text-right">
+                                        <b style="color:#4C4C4C;font-size:0.7rem">근무시간 09:00~18:00 (8H)</b>
+                                    </div>
+                                </div>
+                                <div class="row p-0">
+                                    <div class="col-12 text-right p-0 pr-2">
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in" >출근하기</button>
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
+                                        <div class="custom-control custom-checkbox">
+                                            <form id="chkform">
+                                                <input type="checkbox" id="jb-checkbox" name="out" value="out"> 외근
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="alert alert-danger" role="alert">
+                </c:if>
 
-                                <b class="mb-2">출근한 경우 근태 변경 요청을 하세요.</b>
+                <c:if test="${isInWork=='late'}">
+                    <div class="col-8" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
+                                </div>
                             </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12 text-right">
+                                        <b style="color:#4C4C4C;font-size:0.7rem">근무시간 09:00~18:00 (8H)</b>
+                                    </div>
+                                </div>
+                                <div class="row p-0">
+                                    <div class="col-12 text-right p-0 pr-2">
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in" >출근하기</button>
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
+                                        <div class="custom-control custom-checkbox">
+                                            <form id="chkform">
+                                                <input type="checkbox" id="jb-checkbox" name="out" value="out"> 외근
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <a href="#" class="attend_alert"><b>정상 출근한 경우 근태 변경 요청을 하세요.</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+
+            </div>
+
+            <div class="row pt-2" >
+                <div class="col-8 p-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <b id="totalatd"></b>
+                        </div>
+                        <div class="card-body">
+
+                            <p class="card-text"><canvas  id="myChart" ></canvas></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-4" >
+                    <div class="card h-100 d-flex">
+                        <div class="card-header">
+                            <b id="monthatd">이달의 근무 현황</b>
+                        </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <canvas class="m-0" id="myChartDoughnut" height="5" width="5"></canvas>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-5 p-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>근태 변경 요청 현황</b>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-hover" >
+                                <thead>
+                                <tr>
+                                    <th scope="col">날짜</th>
+                                    <th scope="col">사유</th>
+                                    <th scope="col">상태</th>
+                                    <th scope="col">&nbsp처리</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="text-truncate" style="max-width: 220px;">밥먹다 늦었습니다</td>
+                                    <td>미승인</td>
+                                    <td class="p-2" ><button class="btn btn-outline-dark btn-sm">요청</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -56,8 +165,372 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" data-backdrop="false" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <b id="workMsg"></b>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-primary btn-sm" id="btn_ok" data-dismiss="modal" onclick="fn_in()">네</button>
+                <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal" >아니오</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="resultModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pb-2 text-center" style="min-height: 80px;">
+                <b id="atdResultMsg">출근이 처리가 완료 되었습니다.</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/Chart.min.js"></script>
 <script>
+
+    // 결과
+    var value = [];
+    var getTotal =0;
+    var getTotalMonth=0;
+    var getTotalOverTimeMonth=0;
+
+    // 오늘의 요일 및 날짜
+    var currentDay = new Date();
+    var theYear = currentDay.getFullYear();
+    var theMonth = Number(currentDay.getMonth()) + 1;
+    var theDate  = Number(currentDay.getDate());
+    var theDay  = Number(currentDay.getDay());
+
+    // 날짜 업데이트
+    var newYear, newMonth, newDate;
+
+    // 이번달 마지막날
+    var nowLast = new Date ();
+    nowLast.setMonth(nowLast.getMonth() + 1);
+    var nowLastDay = new Date( nowLast.getYear(), nowLast.getMonth(), "");
+    nowLastDay = nowLastDay.getDate();
+
+    var lastDay; // 이전 달 마지막날 파악
+
+    for (var i = -theDay; i < (theDay-7)*-1; i++){
+
+        newYear = theYear;
+        newDate = theDate;
+        newMonth = theMonth;
+
+        //첫주 일때
+        if(theDate+i < 1){
+
+            if(theMonth == 1){ // 1월 첫째주 일때
+                lastDay = new Date(Number(currentDay.getFullYear())-1, Number(currentDay.getMonth())+12, "");
+            } else { // 1월 첫째주가 아닐때
+                lastDay = new Date(currentDay.getFullYear(), currentDay.getMonth(), "");
+            }
+
+            newYear = lastDay.getFullYear();
+            newMonth = lastDay.getMonth();
+            newDate = Number(lastDay.getDate())+i;
+
+            //마지막주 일때
+        } else if( theDate+i > nowLastDay) {
+
+            if(theMonth == 12){ // 12월 마지막주 일때
+                newYear = Number(theYear) + 1;
+            }
+
+            newMonth = Number(theMonth) + 1;
+            newDate = i;
+
+        }
+
+        newDate = (newDate + i);
+
+        // yyyy-mm-dd 형식으로
+        if(String(newDate).length < 2){
+            newDate = "0" + String(newDate);
+        }
+        if(String(newMonth).length < 2){
+            newMonth = "0" + String(newMonth);
+        }
+
+
+        //이번주 7일의 날짜를 value에 담는다.
+        value.push(newMonth + "-" + newDate);
+    }
+
+    console.dir(value);
+
+
+
+
+    $( function() {
+        var currentDay = new Date();
+        var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
+        var startWorkTime = 84;
+        if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
+            $("#btn_in").attr("disabled",true);
+        }else{
+            $("#btn_in").attr("onclick","fn_openInModal()");
+        }
+        fn_reload();
+    });
+
+    function fn_reload(){
+        fn_getAtdTime();
+        nutchart();
+    }
+
+    function fn_getAtdTime() {
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getAtdTime",
+            dataType :"json",
+            success : function(data) {
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [''+value[0]+' 일',''+value[1]+' 월',''+value[2]+' 화',''+value[3]+' 수', ''+value[4]+' 목', ''+value[5]+' 금',''+value[6]+' 토'],
+                        datasets: [{
+                            label: '근무 시간',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        },
+                            {
+                                label: '초과 근무 시간',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            }
+                        ],
+                    },
+                    options: {
+                        legend:{
+                            display:true,
+                            position: 'right'
+                        },
+
+                        scales: {
+                            xAxes:[{
+                                stacked:true,
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    suggestedMin :0,
+                                    suggestedMax :15
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                for(var j=0;j<data.length;j++) {
+                    var getDate = data[j].start_time.substr(5,5);
+                    var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
+                        for (var i = 0; i < value.length; i++) {
+                        if (value[i] == getDate) {
+                            if(getTime>8){
+                                while(getTime>8){
+                                    getTime--;
+                                }
+                            }
+                            if(getTime<0){
+                                getTotal=0;
+                                return;
+                            }
+                            myChart.data.datasets[0].data[i] = getTime;
+                            myChart.data.datasets[1].data[i] = data[j].overtime;
+                            myChart.update();
+                            getTotal+=getTime+data[j].overtime;
+                            continue;
+                        }
+                    }
+                }
+                $("#totalatd").text('금주의 근무 현황('+getTotal+'H)');
+
+                getTotal=0;
+            }
+        });
+    }
+
+    function nutchart(){
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getMonthAtdTime",
+            dataType :"json",
+            success : function(data) {
+                var ctx2 = document.getElementById('myChartDoughnut').getContext('2d');
+                var chart = new Chart(ctx2, {
+                    // The type of chart we want to create
+                    type: 'doughnut',
+
+                    // The data for our dataset
+                    data: {
+                        labels: ['근무 시간','초과 근무'],
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: ['rgba(54, 162, 235, 0.2)','rgba(255, 99, 132, 0.2)'],
+                            data:[0,0],
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                        layout: {
+                            padding: {
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                bottom: 0
+                            }
+                        }
+                    }
+                });
+                console.log(data);
+                for(var i=0;i<data.length;i++){
+
+                    var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2)-1;
+
+
+                    if(getTime>8){
+                        while(getTime>8){
+                            getTime--;
+                        }
+                    }
+                    if(getTime<0){
+                        getTotalMonth=0;
+                        getTotalOverTimeMonth=0;
+                        return;
+                    }
+                    getTotalMonth+=getTime;
+                    getTotalOverTimeMonth+=data[i].overtime;
+
+
+                }
+                console.log(getTotalMonth);
+                chart.data.datasets[0].data[0] = getTotalMonth;
+                chart.data.datasets[0].data[1] = getTotalOverTimeMonth;
+                chart.update();
+                getTotalMonth+=getTotalOverTimeMonth;
+                $("#monthatd").text('이달의 근무 현황('+getTotalMonth+'H)');
+                getTotalMonth=0;
+                getTotalOverTimeMonth=0;
+            }
+        });
+    }
+
+    function fn_openInModal() {
+        $("#btn_ok").attr("onclick","fn_in()");
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/isInWork",
+            success : function(data) {
+
+                if(data==""){
+                    var date = new Date();
+                    var hour = date.getHours();
+                    var min = date.getMinutes();
+                    var sec = date.getSeconds();
+                    var time =hour+":"+min+":"+sec;
+                    $("#modal").modal('show');
+                    $("#workMsg").text("현재 시각:"+time+"입니다. 출근하시겠습니까?");
+                }else{
+                    $("#modal").modal('show');
+                    $("#workMsg").text("이미 출근 기록이 있습니다. ("+data+") 다시 출근 처리하시겠습니까?");
+                }
+            }
+        });
+    }
+
+    function fn_in() {
+        var out = $("input[name='out']:checked").val();
+        $.ajax({
+            type : "POST",
+            data : {out:out},
+            url : "/restattendance/atdIn",
+            success : function(data) {
+                if(data=="updateSuccess") {
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("출근 시간 변경이 완료되었습니다.");
+                    return;
+                }
+                if(data=="insertSuccess"){
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("출근 처리가 완료 되었습니다.");
+                    return;
+                }
+            }
+        });
+    }
+
+    function fn_openOutModal(){
+        $("#btn_ok").attr("onclick","fn_out()");
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/isOutWork",
+            success : function(data) {
+                var date = new Date();
+                var hour = date.getHours();
+                var min = date.getMinutes();
+                var sec = date.getSeconds();
+                var time =hour+":"+min+":"+sec;
+                if(data=="nyInWork"){
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("출근 기록이 없습니다.");
+                    return;
+                }
+                if(hour<18){
+                    $("#modal").modal('show');
+                    $("#workMsg").text("아직 퇴근 시간이 아닙니다. ("+time+") 퇴근 처리 하시겠습니까?");
+                    return;
+                }
+                if(data==""){
+                    $("#modal").modal('show');
+
+                    $("#workMsg").text("현재 시각:"+time+"입니다. 퇴근 처리 하시겠습니까??");
+                }else{
+                    $("#modal").modal('show');
+
+                    $("#workMsg").text("이미 퇴근 기록이 있습니다. ("+data+") 다시 퇴근 처리하시겠습니까?");
+                }
+            }
+        });
+    }
+
+    function fn_out(){
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/atdOut",
+            success : function(data) {
+                if(data=="updateSuccess") {
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("퇴근 시간 변경이 완료되었습니다.");
+                    fn_reload();
+                    return;
+                }
+                if(data=="insertSuccess"){
+                    $("#resultModal").modal('show');
+                    $("#atdResultMsg").text("퇴근 처리가 완료 되었습니다.");
+                    fn_reload();
+                    return;
+                }
+            }
+        });
+    }
+
+
+
 </script>
 </body>
 </html>
