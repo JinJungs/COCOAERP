@@ -194,7 +194,7 @@
 <script src="/js/jquery.MultiFile.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bindWithDelay.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+
 
 <script>
     var token = $("meta[name='_csrf']").attr("content");

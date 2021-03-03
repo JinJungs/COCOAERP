@@ -66,15 +66,30 @@ input[type=checkbox]{
       		<script>
       			$(".delBtn").click(function(){
       				var checkedList = "";
+      				var count = 0;
       				$("input[type='checkbox']:checked").each(function(index){
       					if(index != 0 && index != 1){
       						checkedList+=",";
       					}
       					if($(this).val() != 0){
+      						count = count+1;
 	      					checkedList += $(this).val();
 	      				}
       				});
-      				location.href="/email/deleteToMeChecked.email?checkedList="+checkedList;
+      				
+      				if(count == 0){
+      					alert("선택된 메일이 없습니다.");
+      					return false;
+      				}
+      				
+      				var msg = "총 " + count + "개의 메일을 삭제하시겠습니까?";
+      				var confirmResult = confirm(msg);
+      				
+      				if(confirmResult){
+      					location.href="/email/deleteToMeChecked.email?checkedList="+checkedList;
+      				}else{
+      					return false;
+      				}
       			})
       			$("#all").click(function(){
       				if($("input:checkbox[id=all]").prop("checked")){

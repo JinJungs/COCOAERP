@@ -45,12 +45,10 @@ input{width:100%;}
 						<b><span class="files" id="files">첨부파일</span></b>
 					</div>
 					<div class="col-12 file_input">
-					<input type="file" class="fileList"  id="file"
-							name="file" accept="image/*"  multiple>
+						<input type="file" class="fileList"  id="file" name="file" accept="image/*"  multiple>
 							<div id="listBox"></div><br>
 					</div>
 				</div>
-
 				<div class="row">
 					<!--홈으로 이동  -->
 					<div class="col-sm-2">
