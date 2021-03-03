@@ -9,6 +9,7 @@
         WHERE SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
           AND M.EMP_CODE = E.CODE
           AND ((M.EMP_CODE !=#{code} AND M.TYPE='S') OR (M.EMP_CODE = #{code} AND M.TYPE = 'M'))
+          AND M.WRITE_DATE IS NOT NULL
     </select>
     <select id="getMessengerPartyEmpInfo" resultType="kh.cocoa.dto.MessengerViewDTO">
         SELECT M.EMP_CODE, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
