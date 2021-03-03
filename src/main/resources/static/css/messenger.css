@@ -1,0 +1,714 @@
+:root {
+  --main-color: #f9f9f9; /*#9d86de #e2e8eb; */
+  --main-background-color: #ffffff;
+  --chat-background-color: #e8eaed;
+  --date-background-color: #d8d9dc;
+  --submain-color: hsl(0, 0%, 81%);
+  --sendMsg-color: #c6b5ed;
+  --getMsg-color: #ffffff;
+  --subMsg-color: #866ec7;
+  --text-color-dark: #575757;
+  --text-color-medium: #bfbfbf;
+  --text-color-light: #ebebeb;
+  --hover-color-light: #F2F2F2;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  background-color: #e4e4e4;
+}
+body {
+  min-width: 400px;
+  min-height: 660px;
+  display: "standalone";
+}
+.align-center{
+  float: none;
+  margin: 0 auto;
+}
+
+/*@media all and (display-mode: standalone) {
+  body {
+    background-color: yellow;
+  }
+}*/
+
+/* ====== hide file input ===== */
+/* .file-input lable {
+	display:inline-block;background:#23a3a7;  color:#fff;
+  padding:0px 15px;line-height:35px;cursor:pointer;
+  }
+.file_input label input {
+	position:absolute;width:0;
+    height:0;overflow:hidden;
+    }
+.file_input input[type=text] {
+	vertical-align:middle;color:#866EC7;
+    display:inline-block;width:400px;height:28px;
+    line-height:28px;font-size:13px;padding:0;
+    border:0;
+    } */
+
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #5cb85c;
+  cursor: pointer;
+  border: 1px solid #4cae4c;
+  border-radius: .25em;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+.filebox label:hover {
+  background-color: #6ed36e;
+}
+
+.filebox label:active {
+  background-color: #367c36;
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/* ====== hide file input ====== */
+
+
+.bgMain {
+  background-color: var(--main-color) !important;
+}
+.chatBgMain{
+  background-color: var(--chat-background-color) !important;
+}
+.whiteBg{
+  background-color: var(--main-background-color) !important;
+}
+
+.chat {
+  margin-top: auto;
+  margin-bottom: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.card {
+  border-radius: 15px;
+  background-color: var(--main-background-color);
+}
+.contacts_body {
+  padding: 0;
+  overflow-y: auto;
+  white-space: nowrap;
+  margin-bottom: 200px;
+  border-bottom: 1px solid var(--text-color-light);
+}
+.msg_card_body {
+  overflow-y: auto;
+  background-color: var(--chat-background-color);
+}
+.card-header {
+  border-radius: 0 0 0 0;
+  border-bottom: 0;
+  background-color: white;
+}
+.card-footer {
+  border-radius: 0 0 0 0;
+  border-top: 0;
+  background-color: white;
+  height: 120px;
+}
+.container {
+  align-content: center;
+}
+.search {
+  border-radius: 2px 2px 2px 2px;
+  border: 1px solid var(--text-color-light);
+  /*background-color: var(--main-color);*/
+  font-size: 15px;
+}
+.search_small_title{
+  padding: 10px 25px;
+  margin: 0 0 0 0;
+  font-weight: bold;
+}
+.search_top{
+  border-bottom: 1px solid var(--text-color-light);
+}
+.search_body{
+  overflow-y: auto;
+}
+.search:focus {
+  box-shadow: none;
+  border: 1px solid var(--subMsg-color);
+  outline: 0;
+}
+.type_msg {
+  background-color: white;
+  border: 0;
+  color: var(--dark);
+  height: 100%;
+  overflow-y: auto;
+  resize: none;
+}
+.type_msg:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.type_msg::placeholder{
+  font-size: 14px;
+}
+.chat_btn{
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  line-height: 0;
+  background-color: transparent;
+}
+.chat_icon{
+	filter: invert(72%) sepia(0%) saturate(3%) hue-rotate(110deg) brightness(88%) contrast(87%);
+}
+.chat_btn:hover > .chat_icon{
+	filter: invert(23%) sepia(0%) saturate(1381%) hue-rotate(228deg) brightness(100%) contrast(93%);
+}
+.btn_send{
+	background-color: #6749b950;
+}
+.btn_send:hover{
+	background-color: #6749b9;
+}
+/*.attach_btn {
+  border-radius: 2px 0 0 2px !important;
+  background-color: var(--submain-color);
+  border: 0;
+  color: white;
+  cursor: pointer;
+}*/
+/*.send_btn {
+  border-radius: 2px 0 0 2px;
+  background-color: var(--submain-color);
+  border: 0;
+  color: white;
+  cursor: pointer;
+}*/
+.search_btn {
+  border-radius: 0 15px 15px 0;
+  border: 0;
+  cursor: pointer;
+}
+.contacts {
+  list-style: none;
+  padding: 0;
+}
+.contacts li {
+  width: 100%;
+  padding: 10px 25px;
+  border-bottom: 1px solid var(--text-color-light);
+  /*margin-bottom: 15px;*/
+}
+.active {
+  background-color: var(--submain-color);
+}
+.user_img_chat {
+  height: 45px;
+  width: 45px;
+  background-color: var(--subMsg-color);
+}
+.user_img {
+  height: 45px;
+  width: 45px;
+  background-color: var(--subMsg-color);
+}
+.user_img_msg {
+  height: 40px;
+  width: 40px;
+  /*border: 1.5px solid var(--text-color-light);*/
+  background-color: var(--subMsg-color);
+}
+.img_cont_chat{
+  height: 45px;
+  width: 45px;
+}
+.img_cont {
+  position: relative;
+  height: 45px;
+  width: 45px;
+}
+.img_cont_msg {
+  height: 40px;
+  width: 40px;
+}
+.m-h-90 {
+  min-height: 90px;
+}
+/* .online_icon {
+position: absolute;
+height: 15px;
+width: 15px;
+background-color: #4cd137;
+border-radius: 50%;
+bottom: 0.2em;
+right: 0.4em;
+border: 1.5px solid white;
+}
+.offline {
+background-color: #c23616;
+} */
+.user_info {
+  margin-top: 8px;
+  margin-bottom: auto;
+  margin-left: 15px;
+}
+.user_info span {
+  font-size: 15px;
+  font-weight: bold;
+  color: var(--text-color-dark);
+}
+.user_info p {
+  font-size: 12px;
+  color: var(--text-color-dark);
+  padding-top: 2px;
+}
+.user_info p > span{
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
+}
+.video_cam {
+  margin-left: 150px;
+}
+.video_cam span {
+  color: var(--text-color-medium);
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+.video_cam span:hover {
+  color: var(--text-color-dark);
+}
+.msg_cotainer_wrap{
+  max-width: 50%;
+}
+.msg_cotainer {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  border-radius: 2px;
+  background-color: var(--getMsg-color);
+  font-size: 13.5px;
+  padding: 10px;
+  position: relative;
+  white-space: pre-line;
+}
+.msg_cotainer_send {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+  border-radius: 2px;
+  background-color: var(--sendMsg-color);
+  font-size: 13.5px;
+  padding: 10px;
+  position: relative;
+  white-space: pre-line;
+  max-width: 50%;
+}
+.msg_date_divider{
+  font-size: 12px;
+}
+.msg_date_divider span{
+  background-color: var(--date-background-color);
+  padding: 8px;
+  border-radius: 2px;
+  height: 100%;
+}
+.msg_time {
+  position: absolute;
+  left: 0;
+  bottom: -15px;
+  color: var(--text-color-dark);
+  font-size: 10px;
+}
+.msg_time_send {
+  position: absolute;
+  right: 0;
+  bottom: -15px;
+  color: var(--text-color-dark);
+  font-size: 10px;
+}
+.msg_head {
+  position: relative;
+  padding-bottom: 2rem;
+}
+#action_menu_btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--text-color-medium);
+  cursor: pointer;
+  font-size: 20px;
+}
+#action_menu_btn:hover {
+  color: var(--text-color-dark);
+}
+.action_menu {
+  z-index: 1;
+  position: absolute;
+  padding: 15px 0;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--dark);
+  border-radius: 2px;
+  top: 30px;
+  right: 15px;
+  display: none;
+}
+.action_menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.action_menu ul li {
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+}
+.action_menu ul li i {
+  padding-right: 10px;
+}
+.action_menu ul li:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 576px) {
+  .contacts_card {
+    margin-bottom: 25px;
+    border: 0;
+  }
+}
+
+/* Sohyung */
+.min-w-450 {
+  min-width: 450px !important;
+  min-height: 660px !important;
+}
+.min-w-85 {
+  min-width: 85px;
+}
+.h10{
+  height: 10%;
+}
+.h15 {
+  height: 15%;
+}
+.h20{
+  height: 20%;
+}
+.h70{
+  height: 70%;
+}
+.h80{
+  height: 80%;
+}
+.h85 {
+  height: 85%;
+}
+.h90 {
+  height: 90%;
+}
+.b-radius-0 {
+  border-radius: 0 !important;
+}
+/* Sohyung */
+
+/* Sohyung modified / added */
+/* user-info span color */
+/* root text colors */
+
+ .con-sidebar{
+   position: sticky;
+   height: 100vh;
+   border-right: 1px solid var(--text-color-light);
+}
+.con-sidebar > a {
+  color: var(--text-color-dark);
+}
+.con-sidebar > a >div:hover {
+  background-color: var(--text-color-light);
+}
+.con-sidebar img{
+  padding-bottom: 7px;
+}
+.con-sidebar span{
+  font-size: 15px;
+  margin: 0 0 0 5px;
+  font-weight: bold;
+}
+.con-memberList{
+  height: 100vh;
+}
+#chatLogo div{
+  padding: 1.5rem 0 1rem 0;
+}
+#chatLogo img{
+  width: 30px;
+}
+.con-title span{
+  font-weight: bold;
+  font-size: 20px;
+}
+.con-title img{
+  width: 20px;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+/* Default : we can see only memberAll listcontacts_card */
+#memberDept, #memberTeam, #memberMember, #memberMessage, #chatList{
+	display: none;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    opacity: 0;
+}
+
+::-webkit-scrollbar-track {
+    opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: var(--text-color-medium);
+}
+/* Sohyung modified / added 20210121 */
+/* 20210122*/
+/*.myprofil {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--text-color-light);
+}*/
+.myprofilImg {
+  height: 65px;
+  width: 65px;
+}
+.myprofilImg img {
+  height: 100%;
+  width: 100%;
+}
+/* 20210122*/
+
+.border-top{
+  border-top: 1px solid var(--text-color-light);
+}
+.searchMenu div:hover{
+  cursor: pointer;
+}
+.con-list{
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+.con-list:hover{
+  cursor: default;
+  background-color: var(--hover-color-light);
+}
+
+/* 파일 모아보기 ===========*/
+.showFile_date {
+  margin-left: 10px;
+  background-color: var(--chat-background-color);
+  padding: 5px 10px;
+  margin: 30px 0;
+}
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.flex-item {
+  margin: 10px;
+  width: 150px;
+  height: 150px;
+  background-color: rgb(240, 240, 240);
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flex-item:hover{
+	background-color: lightgray;
+}
+.flex-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flex-item span {
+  align-self: flex-end;
+  margin: 5px;
+  height: 25px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flex-item > .fileIcon {
+  width: 70px;
+  height: 70px;
+  margin-top: 25px;
+}
+
+a[href$=".pdf"] .fileIcon {
+  background-image: url("/icon/file_format/pdf-file-format-symbol.png");
+  background-size: cover;
+}
+a[href$=".ppt"] .fileIcon {
+  background-image: url("/icon/file_format/ppt-file-format.png");
+  background-size: cover;
+}
+a[href$=".rar"] .fileIcon {
+  background-image: url("/icon/file_format/rar-file-format.png");
+  background-size: cover;
+}
+a[href$=".txt"] .fileIcon {
+  background-image: url("/icon/file_format/txt-text-file-extension-symbol.png");
+  background-size: cover;
+}
+a[href$=".zip"] .fileIcon {
+  background-image: url("/icon/file_format/zip-compressed-files-extension.png");
+  background-size: cover;
+}
+/* 파일 모아보기 ===========*/
+
+a{
+	color: var(--text-color-dark);
+}
+
+/* css animation */
+@keyframes motion {
+  0% {margin-top: 0px;}
+  100% {margin-top: 10px;}
+}
+
+/* addMemberList - 선택된 사람의 목록을 띄워줌*/
+.addedParty{
+  border: 1.5px solid var(--text-color-dark);
+  border-radius: 30px;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  padding: 0;
+}
+.addedParty i {
+  line-height: 30px;
+  color: lightgray;
+}
+.memberList-header{
+  border-bottom: 1px solid var(--text-color-light);
+}
+.memberList-body{
+  overflow-y: auto;
+}
+
+.memberList-footer{
+  position: fixed;
+}
+
+.memberList-footer div button{
+  position: fixed;
+  z-index: 50;
+}
+/* 의진 - 말줄임표시 */
+.contents_ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display:block;
+  max-width: 250px;
+  margin-bottom: 7px;
+}
+
+/* 파일 버튼 숨기기 */
+#file{
+  display: none;
+}
+
+/* 이미지 다운로드 svg 색 */
+.svg_download{
+	filter: invert(94%) sepia(5%) saturate(606%) hue-rotate(210deg) brightness(97%) contrast(100%);
+}
+
+.form-check-input{
+  position: static;
+}
+.addMember_body{
+  padding: 0;
+  overflow-y: auto;
+  /*white-space: nowrap;*/
+  border-bottom: 1px solid var(--text-color-light);
+}
+
+#alertMessageBox{
+  background-color: var(--chat-background-color);
+  display: none;
+}
+#alertMessageBox>div{
+  font-size: 12px;
+  border-radius: 10px;
+  background-color: #6e7072;
+  color: white;
+}
+#alertMessagePartyname{
+  color: var(--text-color-medium);
+}
+
+.announce{
+	background-color: #ababab30;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 3px 10px;
+	
+    font-size: 12px;
+}
+
+.searchCon{
+	background-color: var(--chat-background-color);
+	padding: 0 10px;
+}
+.searchInput{
+	background-color: var(--date-background-color);
+	border: 1px solid var(--text-color-light);
+}
+
+/* showFiles.jsp*/
+.none{
+	background-color: var(--chat-background-color);
+	width: 100%;
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.noFileImg{
+	opacity: 0.3;
+	padding: 40px;
+	height: 70%;
+}
+.noFileMsg{
+	text-align: center;
+	height: 20%;
+}
