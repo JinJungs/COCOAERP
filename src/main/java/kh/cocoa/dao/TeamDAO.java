@@ -19,4 +19,5 @@ public interface TeamDAO {
     public int addTeam(List<TeamDTO> dto);
     public int updateTeam(List<TeamDTO> dto);
     public int deleteTeam(List<TeamDTO> dto);
+    public int countNoTeam(int dept_code);
 }
