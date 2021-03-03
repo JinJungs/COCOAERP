@@ -18,6 +18,7 @@ public class BusinessLogService implements BusinessLogDAO {
 	//업무일지 종류에 따라 문서 저장
 	@Override
 	public int createLog(int logDoc_seq,DocumentDTO ddto,String selectBy,int dept_code) {
+		System.out.println("값은?????????"+ddto.getReport_start_week());
 		return bdao.createLog(logDoc_seq,ddto,selectBy,dept_code);
 	}
 	//업무일지 seq & files doc_seq 맞추기
@@ -129,18 +130,25 @@ public class BusinessLogService implements BusinessLogDAO {
 		return bdao.logModifyTempUpdateDaily(ddto);
 	}
 	
-	//수정 페이지 - 임시저장 
+	//수정 페이지 - 임시저장 (주간)
 	public int logModifyTempUpdate(DocumentDTO ddto) {
 		return bdao.logModifyTempUpdate(ddto);
+	}
+	//수정 페이지 - 임시저장 (월별)
+	public int logModifyTempUpdateMonth(DocumentDTO ddto) {
+		return bdao.logModifyTempUpdateMonth(ddto);
 	}
 	//수정 페이지 - 수정 후 상신 (일일)
 	public int logModifyDaily(DocumentDTO ddto) {
 		return bdao.logModifyDaily(ddto);
 	}
-	//수정 페이지 - 수정 후 상신 (주간 & 월별)
+	//수정 페이지 - 수정 후 상신 (주간)
 	public int logModify(DocumentDTO ddto) {
 		return bdao.logModify(ddto);
 	}
-
+	//수정 페이지 - 수정 후 상신 (월별)
+		public int logModifyMonth(DocumentDTO ddto) {
+			return bdao.logModifyMonth(ddto);
+		}
 	
 }

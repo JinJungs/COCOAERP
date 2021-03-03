@@ -1,6 +1,7 @@
 package kh.cocoa.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.cocoa.dto.LeaveDTO;
 import kh.cocoa.service.DocumentService;
 import kh.cocoa.service.LeaveService;
+import kh.cocoa.service.Leave_Taken_UsedService;
 
 
 @Controller
@@ -23,6 +25,8 @@ public class NexacroLeaveController {
 	private LeaveService lservice;
 	@Autowired
 	private DocumentService dservice;
+	@Autowired
+	private Leave_Taken_UsedService ltuService;
 	
 	@RequestMapping("insert.leaveN")
 	public NexacroResult insert(@ParamVariable(name="seq")int seq,
@@ -48,10 +52,23 @@ public class NexacroLeaveController {
 				type = "기타(미차감)";
 			}
         }
-        
 		LeaveDTO dto = new LeaveDTO(0, type, startDate, endDate, time, empCode);
 		lservice.insert(dto);
 		dservice.setProcessY(seq);
+
+		//잔여 휴가일 계산해서 빼기
+		//1. 기간 받아오기
+		Date today =  new Date(System.currentTimeMillis());
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy");
+		String year = format1.format(today);
+		String yearStart = year + "-01-01";
+		String yearEnd = year + "-12-31";
+		int durationSum = lservice.getDuration(empCode, yearStart, yearEnd); //기간 합
+		//2. 시간 받아오기
+		int timeSum = lservice.getTimeSum(empCode, yearStart, yearEnd);
+		durationSum = durationSum + (timeSum / 8);
+		//3. 사용날짜 다시 입력해주기
+		ltuService.updateUsed(durationSum, year, empCode);
 		
 		return nr;
 	}

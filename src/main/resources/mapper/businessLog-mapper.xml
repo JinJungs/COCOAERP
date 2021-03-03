@@ -20,7 +20,7 @@
 				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				2,#{ddto.report_start,jdbcType=VARCHAR},'RAISE')
+				2,#{ddto.report_start_week,jdbcType=VARCHAR},'RAISE')
 			</when>
 			<when test="selectBy=='monthly'">
 				INSERT INTO DOCUMENT 
@@ -28,7 +28,7 @@
 				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				3,#{ddto.report_start,jdbcType=VARCHAR},'RAISE')
+				3,#{ddto.report_start_month,jdbcType=VARCHAR},'RAISE')
 			</when>
 		</choose>
 	</insert>
@@ -53,7 +53,7 @@
 				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				2,#{ddto.report_start,jdbcType=VARCHAR},'TEMP')
+				2,#{ddto.report_start_week,jdbcType=VARCHAR},'TEMP')
 			</when>
 			<when test="selectBy=='monthly'">
 				INSERT INTO DOCUMENT 
@@ -61,7 +61,7 @@
 				TEMP_CODE,REPORT_START,STATUS)VALUES
 				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
 				#{ddto.writer_code},#{dept_code},
-				3,#{ddto.report_start,jdbcType=VARCHAR},'TEMP')
+				3,#{ddto.report_start_month,jdbcType=VARCHAR},'TEMP')
 			</when>
 		</choose>
 	</insert>
@@ -347,7 +347,11 @@
 	</update>
 <!-- 수정 - 임시저장 / 주간 & 월별-->
 	<update id="logModifyTempUpdate">
-		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_week,jdbcType=VARCHAR},
+		CONTENTS=#{contents}, WRITE_DATE=SYSDATE,STATUS='TEMP'WHERE SEQ=#{seq}
+	</update>
+	<update id="logModifyTempUpdateMonth">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_month,jdbcType=VARCHAR},
 		CONTENTS=#{contents}, WRITE_DATE=SYSDATE,STATUS='TEMP'WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 일일-->
@@ -357,7 +361,11 @@
 	</update>
 <!-- 수정 - 수정완료 / 주간 & 월별 -->
 	<update id="logModify">
-		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_week,jdbcType=VARCHAR},
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+	</update>
+<update id="logModifyMonth">
+		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_month,jdbcType=VARCHAR},
 		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
 	</update>
 

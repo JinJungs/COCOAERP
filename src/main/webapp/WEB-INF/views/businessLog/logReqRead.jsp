@@ -43,13 +43,8 @@
 					</div>
 
 					<div class="row">
-						<div class="col-4 head_box">업무시작일 :</div>
+						<div class="col-4 head_box">업무일정 :</div>
 						<div class="col-8">${lr.report_start}</div>
-					</div>
-
-					<div class="row">
-						<div class="col-4 head_box">업무마감일 :</div>
-						<div class="col-8">${lr.report_end}</div>
 					</div>
 
 					<div class="row">
