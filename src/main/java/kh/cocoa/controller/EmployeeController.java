@@ -1,7 +1,5 @@
 package kh.cocoa.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 
 import kh.cocoa.dto.EmployeeDTO;
@@ -14,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,13 +42,18 @@ public class EmployeeController {
     @RequestMapping("/login")
     @ResponseBody
     public String login(EmployeeDTO dto) {
-        System.out.println("왜않옴 ..");
+        int isWithDraw = eservice.isWithdraw(dto.getCode());
+        if(isWithDraw>0){
+            return "withdraw";
+        }
         String result = eservice.login(dto.getCode(), dto.getPassword());
         if (result.equals("T")) {
             EmployeeDTO loginDTO = eservice.loginInfo(dto.getCode());
-            session.setAttribute("loginDTO",loginDTO);
+            // 의진추가 - 사용자 프로필 이미지 추가하기
+            String profile = filesService.getProfile(dto.getCode());
+            loginDTO.setProfile(profile);
+            session.setAttribute("loginDTO", loginDTO);
         }
-
         return result;
     }
     @RequestMapping("/myInfo")

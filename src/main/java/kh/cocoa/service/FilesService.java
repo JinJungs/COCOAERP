@@ -1,16 +1,14 @@
 package kh.cocoa.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-
+import kh.cocoa.dao.FilesDAO;
+import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.FilesMsgDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kh.cocoa.dao.FilesDAO;
-import kh.cocoa.dto.BoardDTO;
-import kh.cocoa.dto.FilesDTO;
-import kh.cocoa.dto.FilesMsgDTO;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Service
 public class FilesService implements FilesDAO {
@@ -101,9 +99,13 @@ public class FilesService implements FilesDAO {
 	}
 	//파일 모아보기 리스트
 	@Override
-	public List<FilesMsgDTO> showFileMsg(int m_seq){
-		List<FilesMsgDTO> list = fdao.showFileMsg(m_seq);
-		return list;
+	public List<FilesMsgDTO> showAllFileMsg(int m_seq){
+		return fdao.showAllFileMsg(m_seq);
+	}
+	
+	@Override
+	public List<FilesMsgDTO> showFileMsgByType(int m_seq, String type){
+		return fdao.showFileMsgByType(m_seq, type);
 	}
 	//파일 모아보기 리스트를 url에 넣기 위해 인코딩
 	public List<FilesMsgDTO> encodedShowFileMsg(List<FilesMsgDTO> list) throws UnsupportedEncodingException{
@@ -155,5 +157,29 @@ public class FilesService implements FilesDAO {
 		return fdao.uploadFilesTempSave(seq,fdto);
 	}
 
-	
+	// 의진 추가 - code로 프로필 가져오기
+	public String getProfile(int code){
+		FilesDTO getProfile = this.findBeforeProfile(code);
+		if(getProfile==null) {
+			return "/img/Profile-m.png";
+		}else{
+			String profileLoc = "/profileFile/" + getProfile.getSavedname();
+			return profileLoc;
+		}
+	}
+	public String getChatProfile(int code, String type){
+		FilesDTO getProfile = this.findBeforeProfile(code);
+		// 1:1채팅방일 때
+		if(type.charAt(0) == 'S'){
+			if(getProfile==null) {
+				return "/img/Profile-m.png";
+			}else{
+				String profileLoc = "/profileFile/" + getProfile.getSavedname();
+				return profileLoc;
+			}
+			// 1:N채팅방일 때
+		}else{
+			return "/icon/people-multiple.svg";
+		}
+	}
 }

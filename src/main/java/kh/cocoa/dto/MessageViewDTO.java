@@ -25,9 +25,11 @@ public class MessageViewDTO {
     //employee
     private String empname;
     private String party_empname;
+    // 사진
+    private String profile;
 
     @Builder
-    public MessageViewDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String m_type, String name, int party_seq, int party_emp_code, String empname, String party_empname) {
+    public MessageViewDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String m_type, String name, int party_seq, int party_emp_code, String empname, String party_empname, String profile) {
         this.seq = seq;
         this.contents = contents;
         this.write_date = write_date;
@@ -40,5 +42,6 @@ public class MessageViewDTO {
         this.party_emp_code = party_emp_code;
         this.empname = empname;
         this.party_empname = party_empname;
+        this.profile = profile;
     }
 }

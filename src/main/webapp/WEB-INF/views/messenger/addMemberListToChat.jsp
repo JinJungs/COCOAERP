@@ -19,52 +19,43 @@
     </style>
 </head>
 <body>
-<form name="formAddMember" id="formAddMember" methode="post">
+
+<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" method="post">
     <input type="hidden" name="seq" value="${seq}">
     <input type="hidden" id="existingMemberNum" value="${fn:length(partyList)}">
-    <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-        <div class="row w-100 m-0">
+    <div class="w-100 h-100 chat container-fluid m-0 p-0 min-w-440">
+        <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important; height: 100vh!important;">
             <!-- head -->
-            <div class="card-header w-100 p-0 align-center memberList-header fixed-top" style="border-radius: 0%;">
-                <div class="row w-100 ml-4 pt-3">
-                    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
-                        <div class="row searchMenu">
-                            <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
-                        </div>
+            <div class="card-header msg_head p-0" style="border-radius: 0%;">
+                <!-- 제목 -->
+                <div class="row w-100 m-0 p-4 con-title">
+                    <div class="col-12 m-0 p-0 align-self-center">
+                        <span id="searchAll">대화상대 선택</span>
                     </div>
                 </div>
                 <!-- 선택된 사람의 목록을 띄워주는 자리 -->
-                <div class="row w-100 ml-4 pt-3" id="addedPartyBox"></div>
-                <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
+                <div class="row m-0 pl-4 pr-4 p-0 pb-1 d-flex justify-content-start" id="addedPartyBox"></div>
+                <!-- 검색 -->
+                <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0 pb-4">
                     <input type="text" placeholder="이름으로 검색" name=""
                            class="form-control search" id="searchContents">
                     <div class="input-group-prepend">
-                  <span class="input-group-text search_btn" id="searchBtn"> <i
-                          class="fas fa-search"></i>
-                  </span>
+                          <span class="input-group-text search_btn" id="searchBtn">
+                              <i class="fas fa-search"></i>
+                          </span>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- main -->
-        <div class="row w-100 h70 m-0 p-4 border-top whiteBg">
-            <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
-                <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                <div class="container" id="memberAll"></div>
+            <!-- main -->
+            <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
+            <div class="card-body addMember_body" style="border-radius:0 !important;">
+                <div id="memberAll"></div>
             </div>
-        </div>
-        <!-- footer -->
-        <div class="row w-100 h15 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
-            <div class="col-4"></div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+            <!-- footer -->
+            <div class="card-footer p-3 d-flex justify-content-end" style="height: 70px;">
+                <button class="btn btn-outline-primary mr-3" id="confirm_btn" type="button">확인</button>
+                <button class="btn btn-outline-lightlight" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
             </div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
-            	<button class="btn-primary" id="confirm_btn_test" type="button">확인 버튼 테스트</button>
-
-            </div>
-            <div class="col-4"></div>
         </div>
     </div>
 </form>
@@ -73,27 +64,20 @@
 <script>
     let memberAll = document.getElementById("memberAll");
     let existingMemberNum = $("#existingMemberNum").val();
+    let existingMemberArr = new Array();
     let checkArr = new Array();
 
     $(document).ready(function () {
-        console.log("기존 멤버 수 : " + existingMemberNum);
+        <c:forEach var="i" items="${partyList}">
+            // 기존멤버를 existingMemberArr 배열에 추가하기
+            existingMemberArr.push(${i.emp_code});
+            // 상단목록 띄우기
+            addExistingMembers(${i.emp_code}, "${i.empname}");
+        </c:forEach>
+
         // ajax로 목록 불러오기
         searchAjax("");
-        // partyList 확인해서 체크박스 체크 & 상단목록 띄우기
-        // 체크박스는 해제할 수 없고, 상단 리스트를 삭제할 수도 없다.
-        <c:forEach var="i" items="${partyList}">
-        console.log("기존멤버 : " + ${i.emp_code});
-        addExistingMembers(${i.emp_code}, "${i.empname}");
-        disableCheckbox(${i.emp_code}) // 체크박스를 수정할 수 없도록 상태를 disabled로 수정
-        </c:forEach>
     });
-
-    // 체크박스를 수정할 수 없도록 상태를 disabled로 수정
-    function disableCheckbox(code) {
-        setTimeout(function () {
-            $("#checkbox"+code).attr("disabled", true);
-        }, 400);
-    }
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -117,13 +101,6 @@
         searchAjax(searchContents);
     });
 
-    // room의 seq를 받아 해당 채팅방으로 이동
-    let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
-
-    function toChatRoom(seq) {
-        window.open('/messenger/chat?seq=' + seq, '', winFeature);
-    }
-
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax(searchContents) {
         $.ajax({
@@ -141,36 +118,35 @@
                     memberAll.innerHTML = "검색결과가 없습니다.";
                 } else {
                     let html = "";
-                    html += "<div class='row mb-2 m-0'></div>";
                     html += "<ui class='contacts m-0 p-0'>";
                     for (let i = 0; i < jArrayMember.length; i++) {
-                        html += "<li class='con-list item'>";
+                        let parsed = jArrayMember[i].code.toString();
+                        html += "<li class='con-list'>";
                         html += "<div class='d-flex bd-highlight'>";
-                        html += "<div class='img_cont'>";
-                        html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
+                        html += "<div class='img_cont align-self-center'>";
+                        html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
                         html += "</div>";
                         html += "<a href='#'>";
-                        html += "<div class='user_info item'>";
+                        html += "<div class='user_info align-self-center'>";
                         html += "<span>" + jArrayMember[i].name + "</span>";
-                        html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
+                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
                         html += "</div></a>";
-                        html += "<div class='item ml-auto pb-4 align-self-center'>"
-                        html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
+                        html += "<div class='ml-auto align-self-center'>"
+                        html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";
+                        // 기존 인원(existingMemberArr)의 체크박스를 체크상태로 만들고, disabled 상태로 만든다.
+                        if(existingMemberArr.includes(parsed) || existingMemberArr.includes(jArrayMember[i].code)) {
+                            html += "checked='checked' disabled>";
+                        // 추가된 인원(checkArr)의 체크박스를 체크상태로 만든다.
+                        }else if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
+                            html += "checked='checked'>";
+                        }else{
+                            html += ">";
+                        }
                         html += "</div>"
                         html += "</div></li>";
                     }
                     html += "</ui>";
                     memberAll.innerHTML = html;
-                    // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                    setTimeout(function () {
-                        for (let i = 0; i < jArrayMember.length; i++) {
-                            let parsed = jArrayMember[i].code.toString();
-                            if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
-                                console.log("배열에 들어있나? : " + checkArr.includes(parsed));
-                                document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
-                            }
-                        }
-                    }, 100);
                 }
             }
         })
@@ -179,7 +155,7 @@
     //========================체크박스 값 받기===================================
 
     //========================확인 후 부모창으로 값 전송============================
-    document.getElementById("confirm_btn_test").addEventListener('click', getReturnValue);
+    document.getElementById("confirm_btn").addEventListener('click', getReturnValue);
     function getReturnValue(){
     	//alert("validAddList!");
     	console.log("checkArr in validAddList : ",checkArr);
@@ -188,14 +164,7 @@
         if (checkArr.length == 0) {
             alert("대화상대를 한 명 이상 선택해주세요.");
             return;
-        }
-        //!!이 부분 에러나서 주석처리했습니다!!
-        //기존 멤버에서 추가된 사람이 없을 때
-/*         if(checkArr.length <= existingMemberNum){
-            return;
-        } */
-
-        try{
+        }try{
             opener.getReturnValue(JSON.stringify(checkArr)); // 부모창 함수 호출
         }catch(e){ // 부모 자식간의 연결이 끊어졌을 경우 처리
             alert('채팅방과 연결이 끊어졌습니다. 창을 닫고 다시 시도해주세요.');
@@ -217,18 +186,11 @@
         console.log("checkArr: "+checkArr);
     }
 
-    // 기존멤버를 목록에 추가하기
+    // 기존멤버를 목록에 추가하기 - 상단에 사람목록 추가 & x 아이콘 추가하지 않음
     function addExistingMembers(code, name){
-        // 1.1. 체크박스를 체크함
-        setTimeout(function (){
-            if(code !== ${loginDTO.code}){ //본인은 체크하지 말아야함
-                document.getElementById("checkbox"+code).checked = true;
-            }
-        },400);
-        // 1.2. 상단에 사람목록 추가 & x 아이콘 추가하지 않음
         let html = "";
-        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
-        html += "<span>" + name + "</span>";
+        html += "<div class='pl-2 pr-2 ml-2 mb-2 addedParty align-self-center' id='addedParty" + code + "'>";
+        html += "<span class='mr-1'>" + name + "</span>";
         html += "</div>";
         $("#addedPartyBox").append(html);
         // 1.3. 선택한 사람의 숫자 보여주기
@@ -241,8 +203,8 @@
         checkArr.push(code);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
-        html += "<span>" + name + "</span>";
+        html += "<div class='pl-2 pr-2 ml-2 mb-2 addedParty align-self-center' id='addedParty" + code + "'>";
+        html += "<span class='mr-1'>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";
         $("#addedPartyBox").append(html);
@@ -268,11 +230,12 @@
     }
 
     function updatePartyCount() {
-        if(checkArr.length <= existingMemberNum){
+        if(checkArr.length == 0){
             $("#searchAll").html("대화상대 선택 " + existingMemberNum);
             $('#confirm_btn').prop('disabled', true);
         } else {
-            $("#searchAll").html("대화상대 선택 " + checkArr.length + existingMemberNum);
+            let totalMemberNum = ~~checkArr.length + ~~existingMemberNum; // ~~을 붙여야 문자열 더하기가 아니라 숫자 더하기로 연산해준다.
+            $("#searchAll").html("대화상대 선택 " + totalMemberNum);
             $('#confirm_btn').prop('disabled', false);
         }
     }

@@ -84,6 +84,10 @@ button{
 	      		<button id=reply>답장</button>
 		      		<script>
 		      			$("#reply").click(function(){
+		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/replyEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -93,6 +97,10 @@ button{
 		      		<button id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteToMeEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -101,6 +109,10 @@ button{
 		      		<button id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteSendEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -109,6 +121,10 @@ button{
 		      		<button id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteReceiveEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -117,6 +133,10 @@ button{
 		      		<button id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteToMeNEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -125,6 +145,10 @@ button{
 		      		<button id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteSendNEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -133,6 +157,10 @@ button{
 		      		<button id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
+		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");
+		      				if(!confirmResult){
+		      					return false;
+		      				}
 		      				location.href = "/email/deleteReceiveNEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
@@ -141,5 +169,6 @@ button{
       	</div>
       </div>
    </div>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

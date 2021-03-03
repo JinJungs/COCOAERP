@@ -4,63 +4,49 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>채팅방 만들기</title>
     <meta charset="UTF-8">
-    <title>통합검색</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-          crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="/css/messenger.css">
 </head>
 <body>
-
-<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" methode="post">
-    <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
-        <div class="row w-100 h15 m-0">
+<form name="formAddMember" id="formAddMember" action="/messenger/addChatRoom" method="post">
+    <div class="w-100 h-100 chat container-fluid m-0 p-0 min-w-440">
+        <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important; height: 100vh!important;">
             <!-- head -->
-            <div class="card-header w-100 p-0 align-center memberList-header fixed-top" style="border-radius: 0%;">
-                <div class="row w-100 ml-4 pt-3">
-                    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
-                        <div class="row searchMenu">
-                            <div class="col-12 p-0" id="searchAll">대화상대 선택</div>
-                        </div>
+            <div class="card-header msg_head p-0" style="border-radius: 0%;">
+                <!-- 제목 -->
+                <div class="row w-100 m-0 p-4 con-title">
+                    <div class="col-12 m-0 p-0 align-self-center">
+                        <span id="searchAll">대화상대 선택</span>
                     </div>
                 </div>
                 <!-- 선택된 사람의 목록을 띄워주는 자리 -->
-                <div class="row w-100 ml-4 pt-3" id="addedPartyBox"></div>
-                <div class="input-group float-right col-10 col-sm-9 col-md-8 p-2">
+                <div class="row m-0 pl-4 pr-4 p-0 pb-1 d-flex justify-content-start" id="addedPartyBox"></div>
+                <!-- 검색 -->
+                <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0 pb-4">
                     <input type="text" placeholder="이름으로 검색" name=""
                            class="form-control search" id="searchContents">
                     <div class="input-group-prepend">
-                  <span class="input-group-text search_btn" id="searchBtn"> <i
-                          class="fas fa-search"></i>
-                  </span>
+                          <span class="input-group-text search_btn" id="searchBtn">
+                              <i class="fas fa-search"></i>
+                          </span>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- main -->
-        <div class="row w-100 h70 m-0 p-4 border-top whiteBg">
-            <div class="search_body w-100 m-0 pl-0 col-12 col-sm-10 col-md-9 col-lg-8">
-                <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-                <div class="container" id="memberAll"></div>
+            <!-- main -->
+            <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
+            <div class="card-body addMember_body" style="border-radius:0 !important;">
+                <div id="memberAll"></div>
+            </div>
+            <!-- footer -->
+            <div class="card-footer p-3 d-flex justify-content-end" style="height: 70px;">
+                <button class="btn btn-outline-primary mr-3" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
+                <button class="btn btn-outline-lightlight" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
             </div>
         </div>
-        <!-- footer -->
-        <div class="row w-100 h15 m-0 pt-2 whiteBg fixed-bottom" style="border-top: 1px solid lightgray;">
-            <div class="col-4"></div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="confirm_btn" onclick="addChatRoom()" type="button">확인</button>
-            </div>
-            <div class="col-2 m-0 p-0">
-                <button class="btn-primary" id="cancel_btn" onclick="closePopup()" type="button">취소</button>
-            </div>
-            <div class="col-4"></div>
-        </div>
-    </div>
     </div>
 </form>
 
@@ -72,6 +58,10 @@
     $(document).ready(function () {
         // ajax로 목록 불러오기
         searchAjax("");
+        // 선택된 인원이 없을 때 확인버튼 disabled 처리
+        if (checkArr.length == 0) {
+            $('#confirm_btn').prop('disabled', true);
+        }
     });
 
     // esc 누르면 창닫기
@@ -115,44 +105,37 @@
             success: function (resp) {
                 let jArrayMember = resp[0];
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
-                setTimeout(function () {
-                    // 멤버
-                    if (jArrayMember.length == 0) {
-                        memberAll.innerHTML = "검색결과가 없습니다.";
-                    } else {
-                        let html = "";
-                        html += "<div class='row mb-2 m-0'></div>";
-                        html += "<ui class='contacts m-0 p-0'>";
-                        for (let i = 0; i < jArrayMember.length; i++) {
-                            html += "<li class='con-list item'>";
-                            html += "<div class='d-flex bd-highlight'>";
-                            html += "<div class='img_cont'>";
-                            html += "<a href='#'><img src='/img/profile-default.jpg' class='rounded-circle user_img'></a>";
-                            html += "</div>";
-                            html += "<a href='#'>";
-                            html += "<div class='user_info item'>";
-                            html += "<span>" + jArrayMember[i].name + "</span>";
-                            html += "<p>" + jArrayMember[i].deptname + "/" + jArrayMember[i].teamname + "</p>";
-                            html += "</div></a>";
-                            html += "<div class='item ml-auto pb-4 align-self-center'>"
-                            html += "<input class='form-check-input' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'>";
-                            html += "</div>"
-                            html += "</div></li>";
+                // 멤버
+                if (jArrayMember.length == 0) {
+                    memberAll.innerHTML = "검색결과가 없습니다.";
+                } else {
+                    let html = "";
+                    html += "<ui class='contacts m-0 p-0'>";
+                    for (let i = 0; i < jArrayMember.length; i++) {
+                        let parsed = jArrayMember[i].code.toString();
+                        html += "<li class='con-list'>";
+                        html += "<div class='d-flex bd-highlight'>";
+                        html += "<div class='img_cont align-self-center'>";
+                        html += "<a href='#'><img src='"+jArrayMember[i].profile+"' class='rounded-circle user_img'></a>";
+                        html += "</div>";
+                        html += "<a href='#'>";
+                        html += "<div class='user_info align-self-center'>";
+                        html += "<span>" + jArrayMember[i].name + "</span>";
+                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
+                        html += "</div></a>";
+                        html += "<div class='ml-auto align-self-center'>"
+                        html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";
+                        if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
+                            html += "checked='checked'>";
+                        }else{
+                            html += ">";
                         }
-                        html += "</ui>";
-                        memberAll.innerHTML = html;
-                        // 다시 검색해서 체크박스를 다시 쏴줄 때도 checkArr 들어있는 값을 value로 가지고 있는 체크박스라면 check를 채워준다.
-                        setTimeout(function () {
-                            for (let i = 0; i < jArrayMember.length; i++) {
-                                let parsed = jArrayMember[i].code.toString();
-                                if (checkArr.includes(parsed) || checkArr.includes(jArrayMember[i].code)) {
-                                    console.log("배열에 들어있나? : " + checkArr.includes(parsed));
-                                    document.getElementById("checkbox" + jArrayMember[i].code).checked = true;
-                                }
-                            }
-                        }, 100);
+                        html += "</div>"
+                        html += "</div></li>";
                     }
-                }, 100);
+                    html += "</ui>";
+                    memberAll.innerHTML = html;
+                }
             }
         })
     }
@@ -186,8 +169,8 @@
         console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
-        html += "<div class='col-2 ml-2 mb-2 addedParty' id='addedParty" + code + "'>";
-        html += "<span>" + name + "</span>";
+        html += "<div class='pl-2 pr-2 ml-2 mb-2 addedParty align-self-center' id='addedParty" + code + "'>";
+        html += "<span class='mr-1'>" + name + "</span>";
         html += "<i class='fas fa-times ml-auto' onclick='deleteToplist(" + code + ")'></i>";
         html += "</div>";
         $("#addedPartyBox").append(html);
