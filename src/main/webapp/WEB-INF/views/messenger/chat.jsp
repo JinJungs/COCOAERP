@@ -164,6 +164,7 @@
     let partyname = $("#partyname").html();
     let lastScrollTop = 0;
     let before_date = "";
+    let socket_before_date = "";
 
     // 파일 못생긴 버튼 대신 예쁜버튼 눌렀을 때 파일선택 기능 실행하기
     $("#attach_btn").click(()=>{
@@ -198,13 +199,6 @@
                     let typeArr = (data[i].type).split("_");
                     console.log("typeArr : ",typeArr);
                     // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
-                    // 넣는 위치가 맞지 않다.
-                    if (before_date !== dividing_date && before_date !== "") {
-                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
-                        existMsg += "<span>" +before_date+ "</span></div>"
-                    }
-                    before_date = dividing_date;
-
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
                         existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
@@ -237,6 +231,11 @@
                        }
                        existMsg += "</small></div>";
                     }
+                    if (before_date !== dividing_date && before_date !== "") {
+                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                        existMsg += "<span>" +before_date+ "</span></div>"
+                    }
+                    before_date = dividing_date;
                     msgBox.prepend(existMsg);
                 }
 
@@ -378,12 +377,15 @@
                 // 날짜 형식 변경하기
                 let current_date = new Date();
                 let formed_write_date = moment(current_date).format('HH:mm');
-                let delete_hours_date = moment(current_date).format('YYYY년 M월 D일');
-                if (before_date !== delete_hours_date) {
-                    newMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
-                    newMsg += "<span>" +delete_hours_date+ "</span></div>"
+                let dividing_date = moment(current_date).format('YYYY년 M월 D일');
+                // 오늘 처음 쓰는 메세지일 때 날짜 구분을 한다.
+                // 즉, 리스트에서 제일 처음에 뿌리는 메세지의 write_date와 비교해서 다를 때만 날짜구분을 한다.
+                // 소켓에서 전달한 메세지와도 비교해서 다를 때 날짜 구분을 한다.
+                if(socket_before_date !== dividing_date && socket_before_date !== "") {
+                    newMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>";
+                    newMsg += "<span>" +dividing_date+ "</span></div>";
                 }
-                before_date = delete_hours_date;
+                socket_before_date = dividing_date;
 
                 //공지일 때
                 let typeArr = type.split("_")
