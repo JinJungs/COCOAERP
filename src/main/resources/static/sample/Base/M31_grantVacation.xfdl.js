@@ -23,14 +23,14 @@
             
             // UI Components Initialize
             obj = new Static("Static00","0","0",null,"34","10",null,null,null,null,null,this);
-            obj.set_taborder("0");
+            obj.set_taborder("1");
             obj.set_text("휴가 사용처리");
             obj.set_cssclass("sta_WF_title01");
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
             obj = new Div("Div00","10","100",null,null,"660","50","380",null,"470",null,this);
-            obj.set_taborder("1");
+            obj.set_taborder("0");
             obj.set_text("Div00");
             this.addChild(obj.name, obj);
 
@@ -41,8 +41,8 @@
             obj._setContents("<Formats><Format id=\"default\"><Columns><Column size=\"61\"/><Column size=\"129\"/><Column size=\"93\"/><Column size=\"51\"/></Columns><Rows><Row size=\"35\" band=\"head\"/><Row size=\"30\"/></Rows><Band id=\"head\"><Cell text=\"문서번호\"/><Cell col=\"1\" text=\"제목\"/><Cell col=\"2\" text=\"승인날짜\" autosizecol=\"default\"/><Cell col=\"3\" text=\"처리여부\"/></Band><Band id=\"body\"><Cell text=\"bind:seq\" textAlign=\"center\" displaytype=\"mask\" maskeditformat=\"####\"/><Cell col=\"1\" text=\"bind:title\" textAlign=\"center\"/><Cell col=\"2\" text=\"bind:final_date\" textAlign=\"center\" displaytype=\"calendarcontrol\" autosizerow=\"limitmin\" autosizecol=\"default\"/><Cell col=\"3\" text=\"bind:process\" textAlign=\"center\"/></Band></Format></Formats>");
             this.Div00.addChild(obj.name, obj);
 
-            obj = new Div("divDocument","Div00:10","270","600",null,null,"50",null,null,"300",null,this);
-            obj.set_taborder("2");
+            obj = new Div("divDocument","Div00:10","270","550",null,null,"50",null,null,"300",null,this);
+            obj.set_taborder("3");
             obj.set_text("Div01");
             obj.set_border("1px solid #c9c9c9");
             obj.set_formscrollbartype("none");
@@ -207,98 +207,78 @@
             obj.set_text("Static02");
             this.divDocument.addChild(obj.name, obj);
 
-            obj = new Div("divProcess","Div00:10","100","600","160",null,null,null,null,null,null,this);
-            obj.set_taborder("3");
+            obj = new Div("divProcess","Div00:10","100","550","160",null,null,null,null,null,null,this);
+            obj.set_taborder("2");
             obj.set_text("Div02");
             obj.set_border("1px solid #c9c9c9");
             obj.set_formscrollbartype("none");
             obj.set_formscrolltype("none");
             this.addChild(obj.name, obj);
 
-            obj = new CheckBox("checkMinus","25","125","194","25",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("0");
-            obj.set_text("휴가 차감 여부");
-            this.divProcess.addChild(obj.name, obj);
-
             obj = new Static("seq","105","30","100","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("1");
+            obj.set_taborder("0");
             obj.set_text("문서번호");
             obj.set_border("1px solid #c9c9c9c,0px none,0px none");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Spin("spinTime","105","92","150","25",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("2");
-            obj.set_min("1");
-            obj.set_max("7");
-            obj.set_value("");
-            this.divProcess.addChild(obj.name, obj);
-
             obj = new Static("Static01","20","60","80","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("3");
+            obj.set_taborder("1");
             obj.set_text("종류");
             obj.set_padding("0px 0px 0px 5px");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static01_00","20","90","80","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("4");
+            obj.set_taborder("2");
             obj.set_text("시간");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             obj.set_padding("0px 0px 0px 5px");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Edit("editType","105","62","150","25",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("5");
+            obj.set_taborder("3");
             obj.set_enable("false");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Calendar("calStart","375","62","150","25",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("6");
-            this.divProcess.addChild(obj.name, obj);
-
-            obj = new Calendar("calEnd","375","92","150","25",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("7");
-            this.divProcess.addChild(obj.name, obj);
-
             obj = new Static("Static00","80","60","200","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("8");
+            obj.set_taborder("4");
             obj.set_border("0px none,0px none,1px solid #c9c9c9");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static00_00","80","90","200","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("9");
+            obj.set_taborder("5");
             obj.set_border("0px none,0px none,1px solid #c9c9c9,");
             obj.set_padding("0px 0px 0px 5px");
             obj.set_text("");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01","370","60","210","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("10");
-            obj.set_border("1px solid #c7c7c7,0px none");
+            obj = new Static("Static00_01","370","60",null,"30","20",null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("6");
+            obj.set_border("0px none,0px none,1px solid #c7c7c7");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Static("Static00_00_00","370","90","210","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("11");
+            obj = new Static("Static00_00_00","370","90",null,"30","20",null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("7");
             obj.set_border("0px none,0px none,1px solid #c9c9c9,");
             obj.set_padding("0px 0px 0px 5px");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static01_01","280","60","90","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("12");
+            obj.set_taborder("8");
             obj.set_text("시작 날짜");
-            obj.set_border("1px solid #c7c7c7");
             obj.set_padding("0px 0px 0px 5px");
+            obj.set_border("0px none,1px solid #c7c7c7,1px solid #c7c7c7");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static01_00_00","280","90","90","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("13");
+            obj.set_taborder("9");
             obj.set_text("마감 날짜");
             obj.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c7c7c7");
             obj.set_padding("0px 0px 0px 5px");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Button("submitBtn00",null,"-42","69","25","-0.97%",null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("14");
+            obj.set_taborder("10");
             obj.set_text("등록");
             obj.set_background("linear-gradient(#23cccc,#1098d5)");
             obj.set_borderRadius("10px");
@@ -306,38 +286,52 @@
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static00_02","0","0",null,"20","172",null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("15");
+            obj.set_taborder("11");
             obj.set_text("휴가 사용 처리");
             obj.set_cssclass("sta_WF_title01");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static01_02","20","30","80","30",null,null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("16");
+            obj.set_taborder("12");
             obj.set_text("문서번호");
             obj.set_padding("0px 0px 0px 5px");
             obj.set_border("1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
             this.divProcess.addChild(obj.name, obj);
 
             obj = new Static("Static00_01_00","100","30",null,"30","20",null,null,null,null,null,this.divProcess.form);
-            obj.set_taborder("17");
+            obj.set_taborder("13");
             obj.set_border("1px solid #c7c7c7,0px none");
             this.divProcess.addChild(obj.name, obj);
 
-            obj = new Static("Static00_01_00_01","100","100","200","35",null,null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_border("0px none,0px none,1px solid #c9c9c9");
-            this.addChild(obj.name, obj);
+            obj = new Spin("spinTime","105","92","150","25",null,null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("14");
+            obj.set_min("1");
+            obj.set_max("7");
+            this.divProcess.addChild(obj.name, obj);
 
-            obj = new Div("Div01","20","50",null,"30","50",null,"990",null,null,null,this);
-            obj.set_taborder("5");
+            obj = new Calendar("calStart","377","64","130","24",null,null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("15");
+            this.divProcess.addChild(obj.name, obj);
+
+            obj = new Calendar("calEnd","377","92","130","25",null,null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("16");
+            this.divProcess.addChild(obj.name, obj);
+
+            obj = new CheckBox("checkMinus","25","125","150","25",null,null,null,null,null,null,this.divProcess.form);
+            obj.set_taborder("17");
+            obj.set_text("휴가차감여부");
+            this.divProcess.addChild(obj.name, obj);
+
+            obj = new Div("divBtn","20","50",null,"30","100",null,"990",null,null,null,this);
+            obj.set_taborder("4");
             obj.set_text("Div01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("submitBtn",null,"0","60","30","0",null,null,null,null,null,this.Div01.form);
+            obj = new Button("submitBtn",null,"0","60","30","0",null,null,null,null,null,this.divBtn.form);
             obj.set_taborder("0");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
-            this.Div01.addChild(obj.name, obj);
+            this.divBtn.addChild(obj.name, obj);
 
             // Layout Functions
             //-- Default Layout : this
@@ -500,116 +494,115 @@
                 // {{ this.divProcess
                 p = rootobj.divProcess.form;
 
-                p.checkMinus.set_taborder("0");
-                p.checkMinus.set_text("휴가 차감 여부");
-                p.checkMinus.move("25","125","194","25",null,null);
-
-                p.seq.set_taborder("1");
+                p.seq.set_taborder("0");
                 p.seq.set_text("문서번호");
                 p.seq.set_border("1px solid #c9c9c9c,0px none,0px none");
                 p.seq.move("105","30","100","30",null,null);
 
-                p.spinTime.set_taborder("2");
-                p.spinTime.set_min("1");
-                p.spinTime.set_max("7");
-                p.spinTime.set_value("");
-                p.spinTime.move("105","92","150","25",null,null);
-
-                p.Static01.set_taborder("3");
+                p.Static01.set_taborder("1");
                 p.Static01.set_text("종류");
                 p.Static01.set_padding("0px 0px 0px 5px");
                 p.Static01.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
                 p.Static01.move("20","60","80","30",null,null);
 
-                p.Static01_00.set_taborder("4");
+                p.Static01_00.set_taborder("2");
                 p.Static01_00.set_text("시간");
                 p.Static01_00.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
                 p.Static01_00.set_padding("0px 0px 0px 5px");
                 p.Static01_00.move("20","90","80","30",null,null);
 
-                p.editType.set_taborder("5");
+                p.editType.set_taborder("3");
                 p.editType.set_enable("false");
                 p.editType.move("105","62","150","25",null,null);
 
-                p.calStart.set_taborder("6");
-                p.calStart.move("375","62","150","25",null,null);
-
-                p.calEnd.set_taborder("7");
-                p.calEnd.move("375","92","150","25",null,null);
-
-                p.Static00.set_taborder("8");
+                p.Static00.set_taborder("4");
                 p.Static00.set_border("0px none,0px none,1px solid #c9c9c9");
                 p.Static00.move("80","60","200","30",null,null);
 
-                p.Static00_00.set_taborder("9");
+                p.Static00_00.set_taborder("5");
                 p.Static00_00.set_border("0px none,0px none,1px solid #c9c9c9,");
                 p.Static00_00.set_padding("0px 0px 0px 5px");
                 p.Static00_00.set_text("");
                 p.Static00_00.move("80","90","200","30",null,null);
 
-                p.Static00_01.set_taborder("10");
-                p.Static00_01.set_border("1px solid #c7c7c7,0px none");
-                p.Static00_01.move("370","60","210","30",null,null);
+                p.Static00_01.set_taborder("6");
+                p.Static00_01.set_border("0px none,0px none,1px solid #c7c7c7");
+                p.Static00_01.move("370","60",null,"30","20",null);
 
-                p.Static00_00_00.set_taborder("11");
+                p.Static00_00_00.set_taborder("7");
                 p.Static00_00_00.set_border("0px none,0px none,1px solid #c9c9c9,");
                 p.Static00_00_00.set_padding("0px 0px 0px 5px");
-                p.Static00_00_00.move("370","90","210","30",null,null);
+                p.Static00_00_00.move("370","90",null,"30","20",null);
 
-                p.Static01_01.set_taborder("12");
+                p.Static01_01.set_taborder("8");
                 p.Static01_01.set_text("시작 날짜");
-                p.Static01_01.set_border("1px solid #c7c7c7");
                 p.Static01_01.set_padding("0px 0px 0px 5px");
+                p.Static01_01.set_border("0px none,1px solid #c7c7c7,1px solid #c7c7c7");
                 p.Static01_01.move("280","60","90","30",null,null);
 
-                p.Static01_00_00.set_taborder("13");
+                p.Static01_00_00.set_taborder("9");
                 p.Static01_00_00.set_text("마감 날짜");
                 p.Static01_00_00.set_border("0px none,1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c7c7c7");
                 p.Static01_00_00.set_padding("0px 0px 0px 5px");
                 p.Static01_00_00.move("280","90","90","30",null,null);
 
-                p.submitBtn00.set_taborder("14");
+                p.submitBtn00.set_taborder("10");
                 p.submitBtn00.set_text("등록");
                 p.submitBtn00.set_background("linear-gradient(#23cccc,#1098d5)");
                 p.submitBtn00.set_borderRadius("10px");
                 p.submitBtn00.set_color("#ffffff");
                 p.submitBtn00.move(null,"-42","69","25","-0.97%",null);
 
-                p.Static00_02.set_taborder("15");
+                p.Static00_02.set_taborder("11");
                 p.Static00_02.set_text("휴가 사용 처리");
                 p.Static00_02.set_cssclass("sta_WF_title01");
                 p.Static00_02.move("0","0",null,"20","172",null);
 
-                p.Static01_02.set_taborder("16");
+                p.Static01_02.set_taborder("12");
                 p.Static01_02.set_text("문서번호");
                 p.Static01_02.set_padding("0px 0px 0px 5px");
                 p.Static01_02.set_border("1px solid #c9c9c9,1px solid #c9c9c9,1px solid #c9c9c9,0px none");
                 p.Static01_02.move("20","30","80","30",null,null);
 
-                p.Static00_01_00.set_taborder("17");
+                p.Static00_01_00.set_taborder("13");
                 p.Static00_01_00.set_border("1px solid #c7c7c7,0px none");
                 p.Static00_01_00.move("100","30",null,"30","20",null);
+
+                p.spinTime.set_taborder("14");
+                p.spinTime.set_min("1");
+                p.spinTime.set_max("7");
+                p.spinTime.move("105","92","150","25",null,null);
+
+                p.calStart.set_taborder("15");
+                p.calStart.move("377","64","130","24",null,null);
+
+                p.calEnd.set_taborder("16");
+                p.calEnd.move("377","92","130","25",null,null);
+
+                p.checkMinus.set_taborder("17");
+                p.checkMinus.set_text("휴가차감여부");
+                p.checkMinus.move("25","125","150","25",null,null);
                 // this.divProcess }}
 
 
-                // {{ this.Div01
-                p = rootobj.Div01.form;
+                // {{ this.divBtn
+                p = rootobj.divBtn.form;
 
                 p.submitBtn.set_taborder("0");
                 p.submitBtn.set_text("추가");
                 p.submitBtn.set_cssclass("btn_WF_add01");
                 p.submitBtn.move(null,"0","60","30","0",null);
-                // this.Div01 }}
+                // this.divBtn }}
                 p = rootobj;
                 p.set_titletext("New Form");
 
-                p.Static00.set_taborder("0");
+                p.Static00.set_taborder("1");
                 p.Static00.set_text("휴가 사용처리");
                 p.Static00.set_cssclass("sta_WF_title01");
                 p.Static00.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
                 p.Static00.move("0","0",null,"34","10",null);
 
-                p.Div00.set_taborder("1");
+                p.Div00.set_taborder("0");
                 p.Div00.set_text("Div00");
                 p.Div00.set_minheight("470");
                 p.Div00.set_maxheight("");
@@ -617,31 +610,27 @@
                 p.Div00.set_maxwidth("");
                 p.Div00.move("10","100",null,null,"660","50");
 
-                p.divDocument.set_taborder("2");
+                p.divDocument.set_taborder("3");
                 p.divDocument.set_text("Div01");
                 p.divDocument.set_border("1px solid #c9c9c9");
                 p.divDocument.set_formscrollbartype("none");
                 p.divDocument.set_formscrolltype("none");
                 p.divDocument.set_minheight("300");
                 p.divDocument.set_maxheight("");
-                p.divDocument.move("Div00:10","270","600",null,null,"50");
+                p.divDocument.move("Div00:10","270","550",null,null,"50");
 
-                p.divProcess.set_taborder("3");
+                p.divProcess.set_taborder("2");
                 p.divProcess.set_text("Div02");
                 p.divProcess.set_border("1px solid #c9c9c9");
                 p.divProcess.set_formscrollbartype("none");
                 p.divProcess.set_formscrolltype("none");
-                p.divProcess.move("Div00:10","100","600","160",null,null);
+                p.divProcess.move("Div00:10","100","550","160",null,null);
 
-                p.Static00_01_00_01.set_taborder("4");
-                p.Static00_01_00_01.set_border("0px none,0px none,1px solid #c9c9c9");
-                p.Static00_01_00_01.move("100","100","200","35",null,null);
-
-                p.Div01.set_taborder("5");
-                p.Div01.set_text("Div01");
-                p.Div01.set_minwidth("990");
-                p.Div01.set_maxwidth("");
-                p.Div01.move("20","50",null,"30","50",null);
+                p.divBtn.set_taborder("4");
+                p.divBtn.set_text("Div01");
+                p.divBtn.set_minwidth("990");
+                p.divBtn.set_maxwidth("");
+                p.divBtn.move("20","50",null,"30","100",null);
             	}
             );
             this.addLayout(obj.name, obj);
@@ -710,14 +699,6 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item12","divProcess.form.calStart","value","ds_document","leave_start");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item13","divProcess.form.calEnd","value","ds_document","leave_end");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
             obj = new BindItem("item2","divDocument.form.TextArea00","value","ds_document","contents");
             this.addChild(obj.name, obj);
             obj.bind();
@@ -734,15 +715,23 @@
             this.addChild(obj.name, obj);
             obj.bind();
 
-            obj = new BindItem("item3","divDocument.form.maskEndDate","value","ds_document","leave_end");
-            this.addChild(obj.name, obj);
-            obj.bind();
-
-            obj = new BindItem("item4","divDocument.form.staticType","text","ds_document","title");
+            obj = new BindItem("item4","divDocument.form.staticType","text","ds_document","leave_type");
             this.addChild(obj.name, obj);
             obj.bind();
 
             obj = new BindItem("item5","divDocument.form.staticWriter","text","ds_document","name");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item6","divProcess.form.calStart","value","ds_document","leave_start");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item3","divProcess.form.calEnd","value","ds_document","leave_end");
+            this.addChild(obj.name, obj);
+            obj.bind();
+
+            obj = new BindItem("item7","divDocument.form.maskEndDate","value","ds_document","leave_end");
             this.addChild(obj.name, obj);
             obj.bind();
         };
@@ -767,19 +756,15 @@
         			"" // 6. strCallbackFunc
         		);
         };
-        this.fn_callback = function(result)
-        {
-        	this.ds_document_onrowposchanged();
-        }
 
         this.Div02_submitBtn_onclick = function(obj,e)
         {
-        	var seq = this.divDocument.form.staticSeq.value;
-        	var type = this.divDocument.form.staticType.value;
-        	var startDate = this.divProcess.form.startCalendar.value;
-        	var endDate = this.divProcess.form.endCalendar.value;
-        	var time = this.divProcess.form.timeSpin.value;
-        	var empCode = this.ds_employee.getColumn(this.ds_employee.rowposition, "code");
+        	var seq = this.divProcess.form.seq.text;
+        	var type = this.divProcess.form.editType.value;
+        	var startDate = this.divProcess.form.calStart.value;
+        	var endDate = this.divProcess.form.calEnd.value;
+        	var time = this.divProcess.form.spinTime.value;
+        	var empCode = this.ds_document.getColumn(this.ds_document.rowposition, "writer_code");
         	var check = this.divProcess.form.checkMinus.value;
 
 
@@ -790,12 +775,15 @@
         			"", // 3. strIndatasets - Insert,Delete,Update  Sds = Fds :U ,:A ,:N
         			"", // 4. strOutDatasets -select Fds=Sds
         			"seq=" +seq + " type=" + type + " startDate=" + startDate + " endDate=" + endDate + " time=" + time + " empCode=" + empCode + " check=" + check, // 5. strArgument 화면에서 서버로 보내는 변수값 (구분자는 띄어쓰기로' ')
-        			"" // 6. strCallbackFunc
+        			"fn_callback" // 6. strCallbackFunc
         		);
-        	this.M31_grantVacation_onload();
-
         };
 
+        this.fn_callback = function(id, ErrCode, ErrMsg)
+        {
+        	trace(ErrMsg);
+        	this.M31_grantVacation_onload();
+        }
         this.ds_document_onrowposchanged = function(obj,e)
         {
         	//처리상태 Y일때 처리 못하게 막기
@@ -804,17 +792,22 @@
         		this.divProcess.form.spinTime.set_enable(false);
         		this.divProcess.form.calStart.set_enable(false);
         		this.divProcess.form.calEnd.set_enable(false);
-        		this.submitBtn.set_enable(false);
-        	}else {
-        		this.submitBtn.set_enable(true);
+        		this.divProcess.form.checkMinus.set_enable(false);
+        		this.divBtn.form.submitBtn.set_enable(false);
+        	}else {//미처리 문서 클릭 시
+        		this.divBtn.form.submitBtn.set_enable(true);
         		//조퇴인지 기타인지에 따라 입력가능창 바꿔주기
         		var type = this.ds_document.getColumn(e.newrow, "leave_type");
         		if (type == "조퇴"){
         			this.divProcess.form.spinTime.set_enable(true);
+        			this.divProcess.form.calStart.set_enable(false);
         			this.divProcess.form.calEnd.set_enable(false);
+        			this.divProcess.form.checkMinus.set_enable(false);
         		}else if (type == "기타"){
         			this.divProcess.form.spinTime.set_enable(false);
+        			this.divProcess.form.calStart.set_enable(true);
         			this.divProcess.form.calEnd.set_enable(true);
+        			this.divProcess.form.checkMinus.set_enable(true);
         		}
         	}
 
@@ -828,10 +821,10 @@
             this.addEventHandler("onload",this.M31_grantVacation_onload,this);
             this.divDocument.form.Static00_04.addEventHandler("onclick",this.Div01_Static00_04_onclick,this);
             this.divDocument.form.maskStartDate.addEventHandler("onchanged",this.divDocument_maskStartDate_onchanged,this);
-            this.divProcess.form.checkMinus.addEventHandler("onclick",this.Div02_CheckBox00_onclick,this);
             this.divProcess.form.Static00_00.addEventHandler("onclick",this.Div02_Static00_00_onclick,this);
             this.divProcess.form.submitBtn00.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
-            this.Div01.form.submitBtn.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
+            this.divProcess.form.Static00_02.addEventHandler("onclick",this.divProcess_Static00_02_onclick,this);
+            this.divBtn.form.submitBtn.addEventHandler("onclick",this.Div02_submitBtn_onclick,this);
             this.ds_document.addEventHandler("onrowposchanged",this.ds_document_onrowposchanged,this);
         };
 
