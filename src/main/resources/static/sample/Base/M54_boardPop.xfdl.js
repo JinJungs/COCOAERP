@@ -34,7 +34,7 @@
 
             obj = new Static("stcName","8.00%","30.75%","21.00%","8.00%",null,null,null,null,null,null,this);
             obj.set_taborder("2");
-            obj.set_text("수업이름 :");
+            obj.set_text("게시판 명 :");
             this.addChild(obj.name, obj);
 
             obj = new Edit("edtName","32.00%","31.25%","52.00%","7.50%",null,null,null,null,null,null,this);

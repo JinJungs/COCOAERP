@@ -29,13 +29,13 @@
             obj.set_font("bold 18px/normal \"Malgun gothic\",\"Arial\",\"Gulim\"");
             this.addChild(obj.name, obj);
 
-            obj = new Div("bugReport_div","240","100","750",null,null,"50",null,null,null,null,this);
+            obj = new Div("bugReport_div","240","100",null,null,"100","50",null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("");
             obj.set_border("1px solid #c7c7c7");
             this.addChild(obj.name, obj);
 
-            obj = new Static("contents_edt_box","13","104",null,"375","5",null,null,null,null,null,this.bugReport_div.form);
+            obj = new Static("contents_edt_box","12","104",null,null,"5","20",null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("0");
             obj.set_cssclass("sta_cm_box02L");
             this.bugReport_div.addChild(obj.name, obj);
@@ -43,6 +43,7 @@
             obj = new Static("receiver_edt_box00","124","56",null,"48","5",null,null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("1");
             obj.set_cssclass("sta_cm_box02L");
+            obj.set_text("");
             this.bugReport_div.addChild(obj.name, obj);
 
             obj = new Static("title_edt_box00","124","9",null,"48","5",null,null,null,null,null,this.bugReport_div.form);
@@ -51,29 +52,29 @@
             obj.set_text("");
             this.bugReport_div.addChild(obj.name, obj);
 
-            obj = new Static("title_nm_box00","13","9","112","48",null,null,null,null,null,null,this.bugReport_div.form);
+            obj = new Static("title_nm_box00","12","9","112","48",null,null,null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("3");
             obj.set_text("제목");
             obj.set_cssclass("sta_cm_box01R");
             this.bugReport_div.addChild(obj.name, obj);
 
-            obj = new Static("receiver_nm_box00","13","56","113","48",null,null,null,null,null,null,this.bugReport_div.form);
+            obj = new Static("receiver_nm_box00","12","56","113","48",null,null,null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("4");
             obj.set_text("받는 사람");
             obj.set_cssclass("sta_cm_box01R");
             this.bugReport_div.addChild(obj.name, obj);
 
-            obj = new Edit("title_edt00","141","19",null,"30","10",null,null,null,null,null,this.bugReport_div.form);
+            obj = new Edit("title_edt00","130","19",null,"30","12",null,null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("5");
             obj.set_displaynulltext("제목을 입력하세요.");
             obj.set_border("0px none");
             this.bugReport_div.addChild(obj.name, obj);
 
-            obj = new TextArea("contents_textarea","30","115",null,"345","15",null,null,null,null,null,this.bugReport_div.form);
+            obj = new TextArea("contents_textarea","12","115",null,null,"12","30",null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("6");
             this.bugReport_div.addChild(obj.name, obj);
 
-            obj = new Static("receiver_static","146","67","169","27",null,null,null,null,null,null,this.bugReport_div.form);
+            obj = new Static("receiver_static","130","67",null,"27","12",null,null,null,null,null,this.bugReport_div.form);
             obj.set_taborder("7");
             obj.set_text("cocoasemiproject@gmail.com");
             this.bugReport_div.addChild(obj.name, obj);
@@ -92,7 +93,7 @@
             obj.set_padding("0px");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_send","935","55","55","35",null,null,null,null,null,null,this);
+            obj = new Button("btn_send",null,"55","55","35","100",null,null,null,null,null,this);
             obj.set_taborder("4");
             obj.set_text("전송");
             obj.set_font("normal 15px/normal \"Arial\"");
@@ -125,7 +126,6 @@
         		title ="(제목없음)";
         	}
         	if(contents == null){
-        		trace("이건 왜 ..?");
         		contents ="(내용없음)";
         	}
         	this.transaction(
@@ -140,7 +140,6 @@
 
         };
         this.fn_callback = function(id, ErrCode, ErrMsg){
-        	trace(result);
         	this.alert("버그리포트 전송 완료!");
         };
         });

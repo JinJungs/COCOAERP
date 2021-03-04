@@ -42,12 +42,10 @@ public class CommentListController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		
 		int writer_code = (Integer)loginDTO.getCode();
-		System.out.println("댓글?" +writer_code);
 		dto.setWriter_code(writer_code);
 
 		//댓글 작성 (DB에 저장)
 		int result = cservice.noBoardWriteComment(dto);
-		System.out.println("댓글 결과는?"+result);
 		JsonObject obj = new JsonObject();
 		obj.addProperty("result", result);
 		return new Gson().toJson(obj);
@@ -55,8 +53,6 @@ public class CommentListController {
 	//댓글 리스트 불러오기
 	@RequestMapping("noBoardWriteCommentList.co")
 	public String noBoardWriteCommentList(int seq,CommentListDTO dto,Model model) {
-		System.out.println("댓글 리스트 불러오기");
-		System.out.println("게시글 seq 은?"+seq);
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 
 		int writer_code = (Integer)loginDTO.getCode();

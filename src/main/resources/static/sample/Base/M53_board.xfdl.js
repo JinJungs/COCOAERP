@@ -37,7 +37,6 @@
             obj = new Button("btn_modify",null,"55","55","35","100",null,null,null,null,null,this);
             obj.set_taborder("1");
             obj.set_text("수정");
-            obj.set_cssclass("btn_WF_reset01");
             this.addChild(obj.name, obj);
 
             obj = new Button("btn_del",null,"55","55","35","172",null,null,null,null,null,this);
@@ -117,6 +116,7 @@
             obj.set_taborder("6");
             obj.set_textAlign("center");
             obj.set_border("0px none,0px none,1px solid #c7c7c7");
+            obj.set_readonly("true");
             this.divBoardInfor.addChild(obj.name, obj);
 
             obj = new Edit("edtBoardNm","144","86","151","34",null,null,null,null,null,null,this.divBoardInfor.form);
@@ -286,7 +286,7 @@
         };
         this.fn_callback_del = function(id, ErrCode, ErrMsg)
         {
-        	this.alert("삭제 되었습니다.");
+        	this.confirm("게시판 삭제를 하시면 게시판에 속한 게시글 모두 삭제됩니다.");
         }
 
         });

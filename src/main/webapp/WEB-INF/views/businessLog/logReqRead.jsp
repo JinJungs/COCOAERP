@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
 <style>
-.row{border-bottom: 1px solid pink;}
 .contents_box{border: 1px solid pink;}
 .left,.right{margin:10px;}
 .fix>textarea{height:200px;}

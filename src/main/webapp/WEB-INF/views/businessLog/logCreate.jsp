@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
 <style type="text/css">
-.row{border-bottom: 1px solid pink;}
 .select{text-align:right;}
 .date_box>input{width:30%;padding:7px;}
 #selectBy{border:none;background-color:transparent;}
