@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="row p-0">
                                     <div class="col-12 text-right p-0 pr-2">
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in" >출근하기</button>
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in"  onclick="fn_openInModal()">출근하기</button>
                                         <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
                                         <div class="custom-control custom-checkbox">
                                             <form id="chkform">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="row p-0">
                                     <div class="col-12 text-right p-0 pr-2">
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in" >출근하기</button>
+                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in"  onclick="fn_openInModal()">출근하기</button>
                                         <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
                                         <div class="custom-control custom-checkbox">
                                             <form id="chkform">
@@ -103,7 +103,6 @@
                         </div>
                     </div>
                 </c:if>
-
             </div>
 
             <div class="row pt-2" >
@@ -136,7 +135,7 @@
             <div class="row pt-3">
                 <div class="col-5 p-0">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" onclick="fn_toAtdReq()" style="cursor: pointer;">
                             <b>근태 변경 요청 현황</b>
                         </div>
                         <div class="card-body p-0">
@@ -145,17 +144,19 @@
                                 <tr>
                                     <th scope="col">날짜</th>
                                     <th scope="col">사유</th>
+                                    <th scope="col">출퇴근 여부</th>
                                     <th scope="col">상태</th>
-                                    <th scope="col">&nbsp처리</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td class="text-truncate" style="max-width: 220px;">밥먹다 늦었습니다</td>
-                                    <td>미승인</td>
-                                    <td class="p-2" ><button class="btn btn-outline-dark btn-sm">요청</button></td>
-                                </tr>
+                                <c:forEach var="i" items="${reqList}">
+                                    <tr>
+                                        <td>${i.today}</td>
+                                        <td class="text-truncate" style="max-width: 220px;">${i.contents}</td>
+                                        <td>${i.atd_status}</td>
+                                        <td >${i.status}</td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -277,20 +278,41 @@
 
 
     $( function() {
-        var currentDay = new Date();
-        var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
-        var startWorkTime = 84;
-        if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
-            $("#btn_in").attr("disabled",true);
-        }else{
-            $("#btn_in").attr("onclick","fn_openInModal()");
-        }
+         /*  var currentDay = new Date();
+           var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
+           var startWorkTime = 700;
+           console.log(parseInt(compTime.replaceAll(":","")));
+           console.log(startWorkTime);
+           if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
+               $("#btn_in").attr("disabled",true);
+           }else{
+               $("#btn_in").attr("onclick","fn_openInModal()");
+           }*/
         fn_reload();
     });
 
     function fn_reload(){
         fn_getAtdTime();
         nutchart();
+    }
+
+    function getHours(){
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        var sec = date.getSeconds();
+        var time ="";
+        if(hour.toString().length==1){
+            hour="0"+hour;
+        }
+        if(min.toString().length==1){
+            min="0"+min;
+        }
+        if(sec.toString().length==1){
+            sec="0"+sec;
+        }
+        time=hour+":"+min+":"+sec;
+        return time;
     }
 
     function fn_getAtdTime() {
@@ -311,6 +333,10 @@
                             {
                                 label: '초과 근무 시간',
                                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            },
+
+                            {
+                                label: '부족한 근무 시간',
                             }
                         ],
                     },
@@ -338,16 +364,23 @@
                 for(var j=0;j<data.length;j++) {
                     var getDate = data[j].start_time.substr(5,5);
                     var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
-                        for (var i = 0; i < value.length; i++) {
+                    for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
                             if(getTime>8){
                                 while(getTime>8){
                                     getTime--;
                                 }
                             }
-                            if(getTime<0){
-                                getTotal=0;
-                                return;
+                            if(getTime<=4){
+                                getTime++;
+                            }
+                            console.log(getTime);
+                            if(getTime<=0) {
+                                continue;
+                            }
+
+                            if(getTime<7){
+                                myChart.data.datasets[2].data[i]=8-getTime;
                             }
                             myChart.data.datasets[0].data[i] = getTime;
                             myChart.data.datasets[1].data[i] = data[j].overtime;
@@ -397,21 +430,19 @@
                         }
                     }
                 });
-                console.log(data);
                 for(var i=0;i<data.length;i++){
 
                     var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2)-1;
-
-
+                    if(getTime<5){
+                        getTime++;
+                    }
                     if(getTime>8){
                         while(getTime>8){
                             getTime--;
                         }
                     }
                     if(getTime<0){
-                        getTotalMonth=0;
-                        getTotalOverTimeMonth=0;
-                        return;
+                        continue;
                     }
                     getTotalMonth+=getTime;
                     getTotalOverTimeMonth+=data[i].overtime;
@@ -436,13 +467,9 @@
             type : "POST",
             url : "/restattendance/isInWork",
             success : function(data) {
-
+                console.log(data);
                 if(data==""){
-                    var date = new Date();
-                    var hour = date.getHours();
-                    var min = date.getMinutes();
-                    var sec = date.getSeconds();
-                    var time =hour+":"+min+":"+sec;
+                    var time=getHours();
                     $("#modal").modal('show');
                     $("#workMsg").text("현재 시각:"+time+"입니다. 출근하시겠습니까?");
                 }else{
@@ -485,19 +512,21 @@
                 var min = date.getMinutes();
                 var sec = date.getSeconds();
                 var time =hour+":"+min+":"+sec;
+
                 if(data=="nyInWork"){
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("출근 기록이 없습니다.");
                     return;
                 }
                 if(hour<18){
+                    var time=getHours();
                     $("#modal").modal('show');
                     $("#workMsg").text("아직 퇴근 시간이 아닙니다. ("+time+") 퇴근 처리 하시겠습니까?");
                     return;
                 }
                 if(data==""){
+                    var time=getHours();
                     $("#modal").modal('show');
-
                     $("#workMsg").text("현재 시각:"+time+"입니다. 퇴근 처리 하시겠습니까??");
                 }else{
                     $("#modal").modal('show');
@@ -527,6 +556,10 @@
                 }
             }
         });
+    }
+
+    function fn_toAtdReq() {
+        location.href="/attendance/toAtdReq";
     }
 
 
