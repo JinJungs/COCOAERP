@@ -25,7 +25,7 @@
                             <th class="p-0 pl-2 pt-5 pb-5" scope="col" style="min-width: 76px;">기간 선택</th>
                             <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 330px;">
                                 <input type="date" id="search-start_time"> ~
-                                <input type="date" id="search-end_time" onchange="fn_dateValidChk()"></th>
+                                <input type="date" id="search-end_time"></th>
 
                             <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 400px;">
                                 출퇴근 여부 &nbsp
@@ -225,12 +225,12 @@
     function fn_search() {
         var start_time = parseInt($("#search-start_time").val().replaceAll("-",""));
         var end_time = parseInt($("#search-end_time").val().replaceAll("-",""));
-        if(start_time<end_time){
+        if(start_time>end_time){
            start_time=$("#search-end_time").val();
            end_time=$("#search-start_time").val();
         }else{
             start_time=$("#search-start_time").val();
-            end_time=$("#search-start_time").val();
+            end_time=$("#search-end_time").val();
         }
         $.ajax({
             type : "POST",

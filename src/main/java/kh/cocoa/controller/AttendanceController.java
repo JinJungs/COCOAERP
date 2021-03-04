@@ -1,5 +1,6 @@
 package kh.cocoa.controller;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
@@ -101,5 +102,16 @@ public class AttendanceController {
         NexacroResult nr = new NexacroResult();
         nr.addDataSet("out_ds",list);
         return nr;
+    }
+
+    @RequestMapping("saveAtdReq")
+    public NexacroResult saveAtdReq(@ParamDataSet(name="in_ds") AtdChangeReqDTO dto){
+        int updateResult = attenService.saveAtdReq(dto);
+        if(updateResult>0) {
+            if (dto.getStatus() == "승인") {
+
+            }
+        }
+        return new NexacroResult();
     }
 }

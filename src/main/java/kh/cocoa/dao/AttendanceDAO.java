@@ -38,4 +38,5 @@ public interface AttendanceDAO {
 
     //넥사
     public List<AtdChangeReqDTO> getReqListToNex();
+    public int saveAtdReq(AtdChangeReqDTO dto);
 }

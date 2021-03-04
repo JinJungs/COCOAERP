@@ -79,14 +79,14 @@
 
     <select id="getAttendanceList2" resultType="kh.cocoa.dto.AttendanceDTO">
         select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' else '-' END AS REQ_STATUS
+        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE a.emp_code=#{emp_code} ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
     </select>
 
     <select id="getSearchAtd" resultType="kh.cocoa.dto.AttendanceDTO">
         select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' else '-' END AS REQ_STATUS
+        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE  a.emp_code=#{emp_code} and a.start_time BETWEEN #{start_time} and '${end_time}' and A.STATUS like '%${search}%' ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
     </select>
@@ -96,12 +96,12 @@
     </select>
 
     <select id="getAtdReqListToMain" resultType="kh.cocoa.dto.AtdChangeReqDTO">
-        SELECT * from (select to_char(A.start_time,'YY-MM-DD') today, case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' else '-' END AS STATUS from attendance a
+        SELECT * from (select to_char(A.start_time,'YY-MM-DD') today, case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '처리' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS STATUS from attendance a
         inner join atdchangereq req on req.atd_seq = a.seq where a.emp_code=#{emp_code}) where rownum <![CDATA[ <= ]]> 5
     </select>
 
     <insert id="addChangeReq">
-        insert into atdchangereq values(atdchangereq_seq.nextval,to_date('${today} ${start_time}','YYYY-MM-DD HH24mi'),
+        insert into atdchangereq(seq,start_time,end_time,contents,status,atd_seq) values(atdchangereq_seq.nextval,to_date('${today} ${start_time}','YYYY-MM-DD HH24mi'),
         to_date('${today} ${end_time}','YYYY-MM-DD HH24mi'),#{contents}, 'NC',#{atd_seq})
     </insert>
 
@@ -116,9 +116,15 @@
 
     <select id="getReqListToNex" resultType="kh.cocoa.dto.AtdChangeReqDTO">
         select req.seq,to_char(req.start_time,'YY-MM-DD (DY)') today,to_char(req.start_time,'HH24:MM') start_time,
-        to_char(req.end_time,'HH24:MM') end_time,req.contents,req.status
+        to_char(req.end_time,'HH24:MM') end_time,req.contents,req.comments,
+        case req.status when 'NC' then '검토중' when 'C' then '승인' when 'N' then '미승인' end as status
         ,req.atd_seq,req.emp_code,e.name name from atdchangereq req
         inner join employee e on e.code=req.emp_code
-
     </select>
+
+    <update id="saveAtdReq">
+        update atdchangereq set comments=nvl(#{comment},''),
+        status=case #{status} when '검토중' then 'NC' when '승인' then 'C' when '미승인' then 'N' END
+        where seq=#{seq}
+    </update>
 </mapper>

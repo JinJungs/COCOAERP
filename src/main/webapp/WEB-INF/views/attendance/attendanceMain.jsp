@@ -379,7 +379,8 @@
                                 continue;
                             }
 
-                            if(getTime<7){
+                            if(getTime<=7){
+                                console.log(getTime);
                                 myChart.data.datasets[2].data[i]=8-getTime;
                             }
                             myChart.data.datasets[0].data[i] = getTime;

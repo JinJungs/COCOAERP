@@ -117,4 +117,9 @@ public class AttendanceService implements AttendanceDAO {
     public List<AtdChangeReqDTO> getReqListToNex() {
         return attenDAO.getReqListToNex();
     }
+
+    @Override
+    public int saveAtdReq(AtdChangeReqDTO dto) {
+        return attenDAO.saveAtdReq(dto);
+    }
 }
