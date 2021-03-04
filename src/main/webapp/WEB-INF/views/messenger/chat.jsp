@@ -19,7 +19,7 @@
 </form>
 <div class="chat w-100 p-0 h-100 m-0">
     <div class="card w-100 h-100 p-0 m-0" style="border-radius:2px!important;">
-        <div class="card-header msg_head chatBgMain">
+        <div class="card-header msg_head chatBgMain" style="min-height: 90px;">
             <div class="d-flex bd-highlight justify-content-between">
                 <div class="m-0 p-0 d-flex">
                     <div class="img_cont_chat">
@@ -38,6 +38,7 @@
                         <c:choose>
                             <c:when test="${messenger.type eq 'M'}">
                                 <span id="partyname">${messenger.name}</span>
+                                <p></p>
                             </c:when>
                             <c:when test="${messenger.type eq 'S'}">
                                 <!--여기는 LoginDTO가 아니라 클릭한 사람의 DTO필요-->
@@ -186,18 +187,14 @@
             success: function (data) {
                 // 추가 전 msgBox의 길이를 저장
                 let beforeMsgBoxHeight = msgBox.height();
-                console.log("추가되기 전 msgBox의 길이 : " + beforeMsgBoxHeight);
                 for (let i = 0; i < data.length; i++) {
-                    console.log("순서가 ? : "+i);
-                    console.log(data[i].type + " : " + data[i].contents + " : " + data[i].savedname);
                     let existMsg = "";
-                    let dateBox = "";
                     // 날짜 형식 변경하기
                     let formed_write_date = moment(data[i].write_date).format('HH:mm');
                     let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
                      //공지타입 구분
                     let typeArr = (data[i].type).split("_");
-                    console.log("typeArr : ",typeArr);
+                    // console.log("typeArr : ",typeArr);
                     // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
                     if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                         existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
@@ -272,10 +269,6 @@
         $("#sendToolBox").on("keydown", function (e) {
             if (e.keyCode == 13 && !e.shiftKey) {
                 sendMsg();
-                let msg = $('#yourMsg').val();
-                console.log("지운 메세지?:" +msg+":a");
-                let msgLinebreak = msg.replace(/(\r\n\t|\n|\r\t)/gm,""); //엔터제거
-                $('#yourMsg').val(msgLinebreak);
             }
         });
 
@@ -333,11 +326,12 @@
                     }
                 }
             })
-
             // (3) 채팅입력창 다시 지워주기
             $('#yourMsg').val("");
-            console.log($('#yourMsg').val());
-            $("#yourMsg").replaceAll(" ","");
+            setTimeout(()=>{
+                let msgLinebreak = $('#yourMsg').val().replace(/\n/g, ""); //엔터제거
+                $('#yourMsg').val(msgLinebreak);
+            },50);
         };
 
         /* 파일 전송 */
@@ -346,7 +340,6 @@
         document.getElementById("showFiles").addEventListener("click", popShowFiles);
         /* 채팅방 이름변경 (모달창의 확인버튼) */
         document.getElementById("modifSave").addEventListener("click", modifChatName);
-
 
     });
 
@@ -389,7 +382,7 @@
 
                 //공지일 때
                 let typeArr = type.split("_")
-                console.log(typeArr);
+                //console.log(typeArr);
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code} && typeArr[0]!="AN") {
@@ -499,7 +492,6 @@
             scrollfixed(addedHeight);
         }
         if (amIAtBottom){
-            console.log("제일 하단에 닿을 때?");
             hideAlertMessageBox();
         }
     });
@@ -682,7 +674,7 @@
                 } else {
                     let index = 0;
                     let seq = resp[index].seq; // message의 seq
-                    // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
+                    // 즉시실행함수
                     // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
                     (isMsgExistInMsgBox = function () {
                         if (!$("#msgDiv" + seq).length) {

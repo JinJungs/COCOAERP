@@ -30,7 +30,7 @@
             </div>
             <!-- 검색 -->
             <div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0">
-                <input type="text" placeholder="이름,부서,팀 검색" name="" class="form-control search" id="searchContents">
+                <input type="text" placeholder="이름, 메세지 검색" `name="" class="form-control search" id="searchContents">
                 <div class="input-group-prepend">
                   <span class="input-group-text search_btn" id="searchBtn"> <i class="fas fa-search"></i>
                   </span>
@@ -40,8 +40,8 @@
             <div class="searchMenu w-100 d-flex pl-4 pr-4 pt-2 justify-content-start">
                 <div class="p-2" id="searchAll">전체</div>
                 <div class="p-2" id="searchMember">멤버</div>
-                <div class="p-2" id="searchDept">부서</div>
-                <div class="p-2" id="searchTeam">팀</div>
+                <div class="p-2" id="searchDept">부서원</div>
+                <div class="p-2" id="searchTeam">팀원</div>
                 <div class="p-2" id="searchMessage">메세지</div>
             </div>
         </div>
@@ -51,10 +51,13 @@
     <div class="row w-100 h-75 m-0 p-0 border-top whiteBg search_body">
         <div class=" w-100 m-0 p-0 col-12 col-sm-10 col-md-9 col-lg-8">
             <!-- 전체 : 검색결과가 없는것은 가리고, 검색결과가 모두 없을 때는 코코아를 띄워주자-->
-            <div class="container m-0 p-1" id="memberAll">
+            <div class="container m-0 p-1 h-100" id="memberAll">
                 <c:choose>
                     <c:when test="${(empty memberList) && (empty deptList) && (empty teamList) &&(empty messageList)}">
-                        검색결과가 없습니다.
+                        <div class='none h-100'>
+                            <img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+                            <p class='noFileMsg'>검색결과가 없습니다.</p>
+                        </div>
                     </c:when>
                     <c:otherwise>
                         <c:if test="${not empty memberList}">
@@ -80,7 +83,7 @@
                             </ui>
                         </c:if>
                         <c:if test="${not empty deptList}">
-                            <div class="search_small_title row">부서</div>
+                            <div class="search_small_title row">부서원</div>
                             <ui class="contacts m-0 p-0">
                                 <c:forEach var="i" items="${deptList}">
                                     <li class="con-list">
@@ -102,7 +105,7 @@
                             </ui>
                         </c:if>
                         <c:if test="${not empty teamList}">
-                            <div class="search_small_title row">팀</div>
+                            <div class="search_small_title row">팀원</div>
                             <ui class="contacts m-0 p-0">
                                 <c:forEach var="i" items="${teamList}">
                                     <li class="con-list">
@@ -154,7 +157,7 @@
                 </c:choose>
             </div>
             <!-- 멤버 -->
-            <div class="container m-0 p-1" id="memberMember">
+            <div class="container m-0 p-1 h-100" id="memberMember">
                 <c:choose>
                     <c:when test="${not empty memberList}">
                         <ui class="contacts m-0 p-0">
@@ -178,12 +181,15 @@
                         </ui>
                     </c:when>
                     <c:otherwise>
-                        검색결과가 없습니다.
+                        <div class='none h-100'>
+                            <img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+                            <p class='noFileMsg'>검색결과가 없습니다.</p>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
-            <!-- 부서 -->
-            <div class="container m-0 p-1" id="memberDept">
+            <!-- 부서원 -->
+            <div class="container m-0 p-1 h-100" id="memberDept">
                 <c:choose>
                     <c:when test="${not empty deptList}">
                         <ui class="contacts m-0 p-0">
@@ -207,12 +213,15 @@
                         </ui>
                     </c:when>
                     <c:otherwise>
-                        검색결과가 없습니다.
+                        <div class='none h-100'>
+                            <img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+                            <p class='noFileMsg'>검색결과가 없습니다.</p>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
-            <!-- 팀 -->
-            <div class="container m-0 p-1" id="memberTeam">
+            <!-- 팀원 -->
+            <div class="container m-0 p-1 h-100" id="memberTeam">
                 <c:choose>
                     <c:when test="${not empty teamList}">
                         <ui class="contacts m-0 p-0">
@@ -236,12 +245,15 @@
                         </ui>
                     </c:when>
                     <c:otherwise>
-                        검색결과가 없습니다.
+                        <div class='none h-100'>
+                            <img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+                            <p class='noFileMsg'>검색결과가 없습니다.</p>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
             <!-- 메세지 -->
-            <div class="container m-0 p-1" id="memberMessage">
+            <div class="container m-0 p-1 h-100" id="memberMessage">
                 <c:choose>
                     <c:when test="${not empty messageList}">
                         <ui class="contacts m-0 p-0">
@@ -262,7 +274,7 @@
                                                         ${i.name}
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </span>&nbsp;${i.empname} | ${i.write_date}</p>
+                                            </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:ss"/></p>
                                         </div>
                                     </div>
                                 </li>
@@ -270,7 +282,10 @@
                         </ui>
                     </c:when>
                     <c:otherwise>
-                        검색결과가 없습니다.
+                        <div class='none h-100'>
+                            <img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+                            <p class='noFileMsg'>검색결과가 없습니다.</p>
+                        </div>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -288,6 +303,10 @@
     let memberTeam = document.getElementById("memberTeam");
     let memberMessage = document.getElementById("memberMessage");
     let searchKeyword = $("#searchKeyword").val();
+    let jArrayMember = "";
+    let jArrayDept = "";
+    let jArrayTeam = "";
+    let jArrayMessage = "";
 
     document.getElementById("searchAll").addEventListener('click', showAll);
     document.getElementById("searchMember").addEventListener('click', showMember);
@@ -295,22 +314,18 @@
     document.getElementById("searchTeam").addEventListener('click', showTeam);
     document.getElementById("searchMessage").addEventListener('click', showMessage);
 
+    noResult = "";
+    noResult += "<div class='none h-100'>";
+    noResult += "<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>";
+    noResult += "<p class='noFileMsg'>검색결과가 없습니다.</p>";
+    noResult += "</div>";
+
     $(document).ready(function () {
         //전체라는 글자를 굵게하는 효과
         searchAllBoldText();
         // 검색창에 검색했던 키워드 띄우기
         $("#searchContents").val(searchKeyword);
     });
-
-/*    function shortContents(seq, contents){
-        console.log("이거 실행 됨? " + seq +" : "+ contents);
-        // 글자 초과시 말줄임 표시로 바꾸기
-        let length = 15; // 표시할 글자수 기준
-        if (contents.length > length) {
-            contents = contents.substr(0, length-2) + '...';
-        }
-        $("#contents_span"+seq).html(contents);
-    }*/
 
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
@@ -397,8 +412,12 @@
     });
 
     // 입력중에 실시간으로 검색
-    $("#searchContents").on("propertychange change keyup paste input", function (e) {
-        searchAjax();
+    $("#searchContents").on("propertychange change keyup paste input", function () {
+        /*let searchContents = $("#searchContents").val();
+        console.log("검색내용 : " + searchContents);*/
+        setTimeout(() => {
+            searchAjax();
+        },400);
     });
 
     // room의 seq를 받아 해당 채팅방으로 이동
@@ -416,7 +435,7 @@
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax() {
         let searchContents = $("#searchContents").val();
-        console.log("검색내용: ?" + searchContents);
+        console.log("검색내용: " + searchContents);
         $.ajax({
             url: "/messenger/messengerSearchAjax",
             type: "post",
@@ -425,25 +444,28 @@
             },
             dataType: "json",
             success: function (resp) {
-                let jArrayMember = resp[0];
-                let jArrayDept = resp[1];
-                let jArrayTeam = resp[2];
-                let jArrayMessage = resp[3];
+                console.log("멤버 몇명 : " +jArrayMember.length);
+                jArrayMember = resp[0];
+                jArrayDept = resp[1];
+                jArrayTeam = resp[2];
+                jArrayMessage = resp[3];
+                let html = "";
+                let a_html = "";
+                let m_html = "";
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                     // 전체
                     if (jArrayMember.length == 0 && jArrayDept.length == 0 && jArrayTeam.length == 0 && jArrayMessage.length == 0) {
-                        memberAll.innerHTML = "검색결과가 없습니다.";
+                        html = noResult;
                     } else {
-                        let html = "";
                         for(let j=0; j < resp.length-1; j++){
                             if (resp[j].length != 0) {
                                 let title = '';
                                 if(j==0){
                                     title = '멤버';
                                 }else if(j==1){
-                                    title = '부서';
+                                    title = '부서원';
                                 }else {
-                                    title = '팀';
+                                    title = '팀원';
                                 }
                                 html += "<div class='search_small_title row'>"+title+"</div>";
                                 html += "<ui class='contacts m-0 p-0'>";
@@ -488,80 +510,74 @@
                                 html += "</div></div></li>";
                             }
                             html += "</ui>";
-                        }else{
-                            console.log("검색결과가 없을 때...");
-                            return;
                         }
-                        memberAll.innerHTML = html;
                     }
+                    memberAll.innerHTML = html;
 
-                // 멤버, 부서, 팀
+                // 멤버, 부서원, 팀원
                 for(let j=0; j < resp.length-1; j++){
                     if (resp[j].length == 0) {
                         if(j==0){
-                            memberMember.innerHTML = "검색결과가 없습니다.";
+                            memberMember.innerHTML = noResult;
                         }else if(j==1){
-                            memberDept.innerHTML = "검색결과가 없습니다.";
+                            memberDept.innerHTML = noResult;
                         }else {
-                            memberTeam.innerHTML = "검색결과가 없습니다.";
+                            memberTeam.innerHTML = noResult;
                         }
                     } else {
-                        let html = "";
-                        html += "<ui class='contacts m-0 p-0'>";
+                        a_html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < resp[j].length; i++) {
-                            html += "<li class='con-list'>";
-                            html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+resp[j][i].code+")'>";
-                            html += "<div class='img_cont align-self-center'>";
-                            html += "<a href='#'><img src='"+resp[j][i].profile+"' class='rounded-circle user_img'></a>";
-                            html += "</div>";
-                            html += "<a href='#'>";
-                            html += "<div class='user_info align-self-center'>";
-                            html += "<span>" + resp[j][i].name + "</span>";
-                            html += "<p>" + resp[j][i].deptname + " | " + resp[j][i].teamname + "</p>";
-                            html += "</div></a></div></li>";
+                            a_html += "<li class='con-list'>";
+                            a_html += "<div class='d-flex bd-highlight' ondblclick='toSingleChatRoom("+resp[j][i].code+")'>";
+                            a_html += "<div class='img_cont align-self-center'>";
+                            a_html += "<a href='#'><img src='"+resp[j][i].profile+"' class='rounded-circle user_img'></a>";
+                            a_html += "</div>";
+                            a_html += "<a href='#'>";
+                            a_html += "<div class='user_info align-self-center'>";
+                            a_html += "<span>" + resp[j][i].name + "</span>";
+                            a_html += "<p>" + resp[j][i].deptname + " | " + resp[j][i].teamname + "</p>";
+                            a_html += "</div></a></div></li>";
                         }
-                        html += "</ui>";
+                        a_html += "</ui>";
                         if(j==0){
-                            memberMember.innerHTML = html;
+                            memberMember.innerHTML = a_html;
                         }else if(j==1){
-                            memberDept.innerHTML = html;
+                            memberDept.innerHTML = a_html;
                         }else {
-                            memberTeam.innerHTML = html;
+                            memberTeam.innerHTML = a_html;
                         }
                     }
                 }
                 // 메세지
                     if (jArrayMessage.length == 0) {
-                        memberMessage.innerHTML = "검색결과가 없습니다.";
+                        memberMessage.innerHTML = noResult;
                     } else {
-                        let html = "";
                         let contents_length = 15; // 내용 표시할 글자수 기준
                         let name_length = 10; // 톡방 표시할 글자수 기준
-                        html += "<ui class='contacts m-0 p-0'>";
+                        m_html += "<ui class='contacts m-0 p-0'>";
                         for (let i = 0; i < jArrayMessage.length; i++) {
                             let formed_write_date = moment(jArrayMessage[i].write_date).format('YYYY-MM-DD HH:mm');
                             let contents = jArrayMessage[i].contents.trim();
                             let name = jArrayMessage[i].name;
-                            html += "<li class='con-list'>";
-                            html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
-                            html += "<div class='img_cont align-self-center'>";
-                            html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
-                            html += "</div>";
-                            html += "<div class='user_info align-self-center'>";
-                            html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
-                            html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>&nbsp;";
+                            m_html += "<li class='con-list'>";
+                            m_html += "<div class='d-flex bd-highlight' ondblclick='toChatRoom("+jArrayMessage[i].m_seq+")'>";
+                            m_html += "<div class='img_cont align-self-center'>";
+                            m_html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
+                            m_html += "</div>";
+                            m_html += "<div class='user_info align-self-center'>";
+                            m_html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
+                            m_html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>&nbsp;";
                             if (jArrayMessage[i].m_type == 'S') {
-                                html += jArrayMessage[i].party_empname;
+                                m_html += jArrayMessage[i].party_empname;
                             } else {
-                                html += name;
+                                m_html += name;
                             }
-                            html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
-                            html += "</div></div></li>";
+                            m_html += "</span>&nbsp;"+jArrayMessage[i].empname+" | "+formed_write_date+"</p>";
+                            m_html += "</div></div></li>";
                         }
-                        html += "</ui>";
-                        memberMessage.innerHTML = html;
+                        m_html += "</ui>";
+                        memberMessage.innerHTML = m_html;
                     }
-
             }
         })
     }
