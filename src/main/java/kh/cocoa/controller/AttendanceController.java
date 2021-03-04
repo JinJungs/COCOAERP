@@ -1,5 +1,8 @@
 package kh.cocoa.controller;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
@@ -73,12 +76,16 @@ public class AttendanceController {
             model.addAttribute("statusMsg","안녕하세요.");
         }
         EmployeeDTO empInfo = employeeService.getEmpInfo(1000);
+        List<AtdChangeReqDTO> reqList = attenService.getAtdReqListToMain(1000);
         model.addAttribute("empInfo",empInfo);
+        System.out.println(reqList);
+        model.addAttribute("reqList",reqList);
         return "/attendance/attendanceMain";
     }
 
     @RequestMapping("/toAtdReq")
     public String toAtdReq(Model model){
+
         return "/attendance/attendanceChangeReq";
     }
 
@@ -86,5 +93,25 @@ public class AttendanceController {
     public String count(){
         System.out.println("도착!!!");
         return "/attendance/attendanceView";
+    }
+
+    @RequestMapping("getListToNex")
+    public NexacroResult getListToNex(){
+        List<AtdChangeReqDTO> list = attenService.getReqListToNex();
+        System.out.println(list);
+        NexacroResult nr = new NexacroResult();
+        nr.addDataSet("out_ds",list);
+        return nr;
+    }
+
+    @RequestMapping("saveAtdReq")
+    public NexacroResult saveAtdReq(@ParamDataSet(name="in_ds") AtdChangeReqDTO dto){
+        int updateResult = attenService.saveAtdReq(dto);
+        if(updateResult>0) {
+            if (dto.getStatus() == "승인") {
+
+            }
+        }
+        return new NexacroResult();
     }
 }
