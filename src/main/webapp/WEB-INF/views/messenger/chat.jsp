@@ -674,7 +674,7 @@
                 } else {
                     let index = 0;
                     let seq = resp[index].seq; // message의 seq
-                    // 이거를 즉시실행함수로 빼고 엔터를 쳤을 때 이 함수를 호출해주면 좋겠다.
+                    // 즉시실행함수
                     // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
                     (isMsgExistInMsgBox = function () {
                         if (!$("#msgDiv" + seq).length) {

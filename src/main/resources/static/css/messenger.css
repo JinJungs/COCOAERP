@@ -127,8 +127,7 @@ body {
   border-radius: 0 0 0 0;
   border-top: 0;
   background-color: white;
-  min-height: 120px;
-  max-height: 180px;
+  height: 120px;
 }
 .container {
   align-content: center;
