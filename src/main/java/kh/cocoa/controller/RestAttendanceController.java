@@ -1,6 +1,7 @@
 package kh.cocoa.controller;
 
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.service.AttendanceService;
@@ -177,5 +178,13 @@ public class RestAttendanceController {
             return "failedUpdate";
         }
     }
+
+    @RequestMapping("/getIsReqInfo")
+    public String getIsReqInfo(int atd_seq){
+        AtdChangeReqDTO getIsReqInfo=attendanceService.getIsReqInfo(atd_seq);
+        JSONObject json = new JSONObject(getIsReqInfo);
+        return json.toString();
+    }
+
 
 }

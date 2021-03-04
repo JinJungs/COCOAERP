@@ -122,4 +122,9 @@ public class AttendanceService implements AttendanceDAO {
     public int saveAtdReq(AtdChangeReqDTO dto) {
         return attenDAO.saveAtdReq(dto);
     }
+
+    @Override
+    public AtdChangeReqDTO getIsReqInfo(int atd_seq) {
+        return attenDAO.getIsReqInfo(atd_seq);
+    }
 }
