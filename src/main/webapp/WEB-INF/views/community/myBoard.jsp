@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
 <style type="text/css">
-.footer{border-top:1px solid pink;text-align:right;padding:3px;}
+.footer{border-top:1px solid lightgray;text-align:right;padding:3px;}
 .title{cursor:pointer;}
 .title:hover{color:#866EC7;}
 </style>
@@ -21,8 +21,7 @@
 		<div id="content" class="p-4 p-md-5 pt-5">
 			<h2 class="mb-4 board_title">내가 쓴 글</h2>
 
-			<div class="row head_box"
-				style="border-bottom: 1px solid pink; text-align: center;">
+			<div class="row head_box" text-align: center;">
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
 				</div>
@@ -44,7 +43,8 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="i" items="${list}">
-						<div class="row">
+						<div class="row"
+				style="border-bottom: 1px solid transparent;">
 							<div class="col-md-1 d-none d-md-block"
 								style="text-align: center;">${i.seq}</div>
 							<div class="title col-sm-12 col-md-7"
@@ -59,7 +59,7 @@
 			</c:choose>
 
 
-			<div class="row">
+			<div class="row" >
 				<div class="col-12  footer">
 					<button type="button" class="btn btn-primary"
 						onclick="fn_home(${cpage})">홈으로</button>
