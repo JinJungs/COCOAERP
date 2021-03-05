@@ -219,6 +219,18 @@ input{width:50%;}
            	   $("#contents").focus();
 	           return 
 	        }
+	        if (!$('#report_start').val() && $("#selectBy").val()=="daily" ){
+	           alert('일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#week').val()  && $("#selectBy").val()=="weekly"){
+	           alert('주간일정을 입력해주세요');
+	           return;
+	        }
+	        if (!$('#month').val()  && $("#selectBy").val()=="monthly"){
+	           alert('월별일정을 입력해주세요');
+	           return;
+	        }
 		$("#submitForm").attr("action","/log/logTempSave.log");
          $('#submitForm').submit();
         })
