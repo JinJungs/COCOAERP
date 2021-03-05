@@ -28,4 +28,17 @@ public interface AttendanceDAO {
     public AtdChangeReqDTO isReq(int atd_seq);
     public List<AttendanceDTO> getAttendanceList2(int emp_code,String number);
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time,int end_time);
+
+    public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code);
+    public List<AttendanceDTO> getAtdInfoBySeq(int seq);
+
+    public int addChangeReq(AtdChangeReqDTO dto);
+    public int delChangeReq(int atd_seq);
+    public int modChangeReq(AtdChangeReqDTO dto);
+    public AtdChangeReqDTO getIsReqInfo(int atd_seq);
+    //넥사
+    public List<AtdChangeReqDTO> getReqListToNex();
+    public int saveAtdReq(AtdChangeReqDTO dto);
+
+
 }

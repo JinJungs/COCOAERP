@@ -150,7 +150,7 @@
          <div class="col-12 p-5">
             <div class="row w-100">
                <div class= "col-12 p-3">
-                  <h4 class="form-signin-heading" style="font-weight: bold">아이디 찾기</h4>
+                  <h4 class="form-signin-heading" style="font-weight: bold">사원번호 찾기</h4>
                </div>
             </div>
             <div class="row">

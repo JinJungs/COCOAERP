@@ -61,6 +61,7 @@ public class NexacroDeptTeamController {
 			}
 			org_list.add(dto);
 			System.out.println(i+" 번째 부서 dto : "+dto);
+			
 			List<TeamDTO> t_list = tservice.getTeamListByDeptCode(dept_code);
 			for(TeamDTO j : t_list) {
 				DeptOrganizationDTO dtoj = new DeptOrganizationDTO();
@@ -70,6 +71,16 @@ public class NexacroDeptTeamController {
 				dtoj.setLevel(2);
 				org_list.add(dtoj);
 				System.out.println(i+"번째 부서의 팀 dtoj : "+dtoj);
+			}
+			//무소속 팀
+			if(tservice.countNoTeam(dept_code)>0 && i.getCode()!=0) {
+				DeptOrganizationDTO dtoNone = new DeptOrganizationDTO();
+				dtoNone.setOrg_nm("무소속");
+				dtoNone.setOrg_cd(-1);
+				dtoNone.setP_org_cd(dept_code);
+				dtoNone.setLevel(2);
+				org_list.add(dtoNone);
+				System.out.println(i+"번째 부서의 무소속 : "+dtoNone);
 			}
 		}
 		//사원 전체 불러오기

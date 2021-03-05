@@ -75,7 +75,7 @@
 						</div>
 					</div>
 					<div class="input-group float-right col-12 col-sm-11 col-md-10 col-lg-8 col-xl-6 pl-4 pr-4 p-0">
-						<input type="text" placeholder="이름,부서,팀 검색" name=""
+						<input type="text" placeholder="이름, 메세지 검색" name=""
 							   class="form-control search" id="searchContents">
 						<div class="input-group-prepend">
 						  <span class="input-group-text search_btn" id="searchBtn"> <i
@@ -207,6 +207,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "전체 연락처";
+		$("#myProfil").show();
 		$(".search").focus();
 	};
 	showDept.onclick = function() {
@@ -215,6 +216,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "부서원";
+		$("#myProfil").show();
 		$(".search").focus();
 	};
 	showTeam.onclick = function() {
@@ -223,6 +225,7 @@
 		memberTeam.style.display="block";
 		chatList.style.display="none";
 		chatTitle.innerHTML = "팀원";
+		$("#myProfil").show();
 		$(".search").focus();
 	};
 	showChat.onclick = function() {
@@ -231,6 +234,7 @@
 		memberTeam.style.display="none";
 		chatList.style.display="block";
 		chatTitle.innerHTML = "채팅방";
+		$("#myProfil").hide();
 		$(".search").focus();
 	};
 
@@ -249,11 +253,6 @@
 		// 검색창 포커스
 		$(".search").focus();
 	});
-
-	$("#testBtn").on("click",function(){
-		//document.body.requestFullscreen();
-		//const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-	})
 
     //-------------------------------- 검색 -------------------------------------
     document.getElementById("searchBtn").addEventListener("click",search);
