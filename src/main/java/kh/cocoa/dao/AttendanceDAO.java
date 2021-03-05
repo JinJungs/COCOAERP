@@ -28,4 +28,8 @@ public interface AttendanceDAO {
     public AtdChangeReqDTO isReq(int atd_seq);
     public List<AttendanceDTO> getAttendanceList2(int emp_code,String number);
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time,int end_time);
+    public String countStatusLate(int emp_code);
+    public String countStatusWork(int emp_code);
+    public int countWorkHour(int emp_code);
+    public int countWorkMin(int emp_code);
 }

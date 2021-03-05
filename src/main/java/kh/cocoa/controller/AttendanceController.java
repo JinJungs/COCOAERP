@@ -4,10 +4,13 @@ import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
 import kh.cocoa.service.EmployeeService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +37,9 @@ public class AttendanceController {
     @RequestMapping(value = "/toAttendanceView")
     public String toTA(Model model) {
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        if (loginSession==null){
+            return "/";
+        }
         List<AttendanceDTO> attendance = attenService.getAttendanceList(loginSession.getCode());
         model.addAttribute("attendance", attendance);
         return "/attendance/attendanceView";
@@ -136,8 +142,30 @@ public class AttendanceController {
     }
 
     @RequestMapping("count")
+    @ResponseBody
     public String count(){
-        System.out.println("도착!!!");
-        return "/attendance/attendanceView";
+        JSONArray json = new JSONArray();
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        String countLate = attenService.countStatusLate(loginSession.getCode());
+        String countIn = attenService.countStatusWork(loginSession.getCode());
+        json.put(countLate);
+        json.put(countIn);
+        if(!countIn.equals("0")){
+            int hour = attenService.countWorkHour(loginSession.getCode());
+            int min = attenService.countWorkMin(loginSession.getCode());
+            System.out.println(hour);
+            System.out.println(min);
+            if(min >=60) {
+                System.out.println(min/60);
+                System.out.println(min%60);
+                hour+=min/60;
+                min=min%60;
+                System.out.println(hour);
+                System.out.println(min);
+            }
+            json.put(hour);
+            json.put(min);
+        }
+        return json.toString();
     }
 }

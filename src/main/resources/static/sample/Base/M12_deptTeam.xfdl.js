@@ -77,19 +77,19 @@
             obj.set_cssclass("btn_WF_reset01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_save",null,"55","64","35","btn_reset:10",null,null,null,null,null,this);
-            obj.set_taborder("4");
-            obj.set_text("저장");
-            obj.set_cssclass("btn_WF_save01");
-            this.addChild(obj.name, obj);
-
-            obj = new Button("btn_del",null,"55","64","35","btn_save:10",null,null,null,null,null,this);
+            obj = new Button("btn_del","94","55","64","35",null,null,null,null,null,null,this);
             obj.set_taborder("5");
             obj.set_text("삭제");
             obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
-            obj = new Button("btn_add",null,"55","64","35","btn_del:10",null,null,null,null,null,this);
+            obj = new Button("btn_save","btn_del:10","55","64","35",null,null,null,null,null,null,this);
+            obj.set_taborder("4");
+            obj.set_text("저장");
+            obj.set_cssclass("btn_WF_save01");
+            this.addChild(obj.name, obj);
+
+            obj = new Button("btn_add","20","55","64","35",null,null,null,null,null,null,this);
             obj.set_taborder("2");
             obj.set_text("추가");
             obj.set_cssclass("btn_WF_add01");
@@ -165,13 +165,33 @@
         //삭제
         this.btn_del_onclick = function(obj,e)
         {
-        	let row = this.grd_tree.currentrow;
-        	let org_cd = this.ds_org.getColumn(row, "org_cd");
-        	trace(row, " : ",org_cd);
         	//데이터셋에서 p_org_cd가 위의 org_cd인 값이 있는지 체크
         	//org_cd가 대표인지 체크
         	//둘다 아닐경우에만 딜리트
-        	this.ds_org.deleteRow(row);
+        	let row = this.grd_tree.currentrow;
+        	let level = this.ds_org.getColumn(row,"level");
+        	let org_cd = this.ds_org.getColumn(row,"org_cd");
+        	let isPExist = this.ds_org.findRow("p_org_cd",org_cd);
+        	let isEmpExist;
+        	if(level == 1){
+        		isEmpExist = this.ds_employee.findRow("dept_code", org_cd);
+        	}else if(level ==2){
+        		isEmpExist = this.ds_employee.findRow("team_code", org_cd);
+        	}
+
+        	trace(row, " : ",org_cd, " : ", isPExist);
+        	if(level == 0){
+        		alert("부서나 팀만 삭제할 수 있습니다.");
+        		return;
+        	}else if(level == 0 || (level == 1 && isPExist != -1)){
+        		alert("하위 팀이 존재하는 부서는 삭제할 수 없습니다.");
+        		return;
+        	}else if(isEmpExist != -1){
+        		alert("소속된 사원이 있는 부서, 팀은 삭제할 수 없습니다.");
+        		return;
+        	}else{
+        		this.ds_org.deleteRow(row);
+        	}
         };
         //저장
         this.btn_save_onclick = function(obj,e)
@@ -230,6 +250,12 @@
         	if(level<2){
         		this.ds_employee.filter("dept_code == "+org_cd);
         	}else{
+        		//무소속
+        		if(org_cd == -1){
+        			let p_org_cd = this.ds_org.getColumn(row,"p_org_cd");
+        			trace(this.ds_employee.getColumn(row,"team_code"));
+        			this.ds_employee.filter("dept_code =="+p_org_cd && "team_code == ''");
+        		}
         		this.ds_employee.filter("team_code == "+org_cd);
         	}
         };
@@ -249,8 +275,8 @@
             this.grd_tree.addEventHandler("onselectchanged",this.grd_tree_onselectchanged,this);
             this.grd_tree.addEventHandler("oncellclick",this.grd_tree_oncellclick,this);
             this.btn_reset.addEventHandler("onclick",this.btn_reset_onclick,this);
-            this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_del.addEventHandler("onclick",this.btn_del_onclick,this);
+            this.btn_save.addEventHandler("onclick",this.btn_save_onclick,this);
             this.btn_add.addEventHandler("onclick",this.btn_add_onclick,this);
         };
 

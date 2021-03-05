@@ -87,4 +87,24 @@ public class AttendanceService implements AttendanceDAO {
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time, int end_time) {
         return attenDAO.getSearchAtd(emp_code, number, search, start_time, end_time);
     }
+
+    @Override
+    public String countStatusLate(int emp_code) {
+        return attenDAO.countStatusLate(emp_code);
+    }
+
+    @Override
+    public String countStatusWork(int emp_code) {
+        return attenDAO.countStatusWork(emp_code);
+    }
+
+    @Override
+    public int countWorkHour(int emp_code) {
+        return attenDAO.countWorkHour(emp_code);
+    }
+
+    @Override
+    public int countWorkMin(int emp_code) {
+        return attenDAO.countWorkMin(emp_code);
+    }
 }

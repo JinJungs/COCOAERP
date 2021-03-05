@@ -89,4 +89,16 @@
     <select id="countStatusLate" resultType="String">
         select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
     </select>
+
+    <select id="countStatusWork" resultType="String">
+        select COUNT(*) from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
+    <select id="countWorkHour" resultType="int">
+        select SUM(EXTRACT(Hour From(end_time-start_time))) hour from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
+    <select id="countWorkMin" resultType="int">
+        select SUM(EXTRACT(MINUTE From(end_time-start_time))) MINUTE from attendance where emp_code=#{emp_code}and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
 </mapper>

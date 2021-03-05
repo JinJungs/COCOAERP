@@ -42,7 +42,7 @@
             this.addChild(obj.name, obj);
             
             // UI Components Initialize
-            obj = new Static("sta_title","20","10",null,"34","10",null,null,null,null,null,this);
+            obj = new Static("sta_title","20","10",null,"30","10",null,null,null,null,null,this);
             obj.set_taborder("0");
             obj.set_text("사용자 관리");
             obj.set_cssclass("sta_WF_title01");
@@ -483,9 +483,9 @@
             obj.set_cssclass("btn_WF_delete01");
             this.addChild(obj.name, obj);
 
-            obj = new Static("Static02","240","18","280","52",null,null,null,null,null,null,this);
+            obj = new Static("Static02","230","8","563","78",null,null,null,null,null,null,this);
             obj.set_taborder("6");
-            obj.set_text("미구현 : 팀 무소속 / 컬럼 추가");
+            obj.set_text("팀 무소속 바인딩 안됨 : \r\n0일때 체크, 그 외에 체크 안되야 하는데 반대로...ㅠㅠㅠ\r\n퇴직날짜, 연봉 컬럼 추가 안됨: 했다가 어디서 오류날까봐 무섭네요. \r\n그냥 뺄까요");
             obj.set_background("#fcd3f2");
             this.addChild(obj.name, obj);
 
@@ -686,7 +686,7 @@
         	if(rowType==2){
         		this.ds_employee.deleteRow(row);
         	}else{
-        		alert("??이미 저장된 사원은 삭제할 수 없습니다.??");
+        		alert("이미 저장된 사원정보는 삭제할 수 없습니다.");
         	}
 
         };
@@ -775,7 +775,7 @@
 
         //검색 ==============================================================
         // Retrieve Button
-        this.div_search_tn_search_onclick = function(obj,e)
+        this.div_search_btn_search_onclick = function(obj,e)
         {
         	trace("검색 도착");
         	//선택 안할 경우 값 : all
