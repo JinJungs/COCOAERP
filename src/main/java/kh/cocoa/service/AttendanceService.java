@@ -89,9 +89,29 @@ public class AttendanceService implements AttendanceDAO {
     }
 
     @Override
+    public String countStatusLate(int emp_code) {
+        return attenDAO.countStatusLate(emp_code);
+    }
+
+    @Override
+    public String countStatusWork(int emp_code) {
+        return attenDAO.countStatusWork(emp_code);
+    }
+
+    @Override
+    public int countWorkHour(int emp_code) {
+        return attenDAO.countWorkHour(emp_code);
+    }
+
+    @Override
+    public int countWorkMin(int emp_code) {
+        return attenDAO.countWorkMin(emp_code);
+    }
+
+    @Override
     public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code) {
         return attenDAO.getAtdReqListToMain(emp_code);
-}
+    }
 
     @Override
     public List<AttendanceDTO> getAtdInfoBySeq(int seq) {

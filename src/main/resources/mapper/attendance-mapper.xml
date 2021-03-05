@@ -97,6 +97,18 @@
         select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
     </select>
 
+    <select id="countStatusWork" resultType="String">
+        select COUNT(*) from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
+    <select id="countWorkHour" resultType="int">
+        select SUM(EXTRACT(Hour From(end_time-start_time))) hour from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
+    <select id="countWorkMin" resultType="int">
+        select SUM(EXTRACT(MINUTE From(end_time-start_time))) MINUTE from attendance where emp_code=#{emp_code}and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
     <select id="getAtdReqListToMain" resultType="kh.cocoa.dto.AtdChangeReqDTO">
         SELECT * from (select to_char(A.start_time,'YY-MM-DD') today, case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS STATUS from attendance a
         inner join atdchangereq req on req.atd_seq = a.seq where a.emp_code=#{emp_code} order by today desc) where rownum <![CDATA[ <= ]]> 5
@@ -156,5 +168,4 @@
     <insert id="toDayUpdateAtd">
         insert into attendance(seq,emp_code) values(attendance_seq.nextval,#{emp_code})
     </insert>
-
 </mapper>
