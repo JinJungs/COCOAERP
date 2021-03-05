@@ -266,34 +266,36 @@
             location.href = "/attendance/toAttendanceView";
         }else if(code==21) {
             location.href = "/attendance/toMain";
-            // 5. 전자우편
         }else if(code==22) {
-            location.href = "/email/sendPage.email";
+            location.href = "/attendance/toAtdReq";
+            // 5. 전자우편
         }else if(code==23) {
-            location.href = "/email/receiveList.email?cpage=1";
+            location.href = "/email/sendPage.email";
         }else if(code==24) {
-            location.href = "/email/sendToMeList.email?cpage=1";
+            location.href = "/email/receiveList.email?cpage=1";
         }else if(code==25) {
-            location.href = "/email/sendList.email?cpage=1";
+            location.href = "/email/sendToMeList.email?cpage=1";
         }else if(code==26) {
+            location.href = "/email/sendList.email?cpage=1";
+        }else if(code==27) {
             location.href = "/email/deleteList.email?cpage=1";
             // 6. 커뮤니티
-        }else if(code==27) {
-            location.href = "/myBoard/myBoard.mb";
         }else if(code==28) {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
+            location.href = "/myBoard/myBoard.mb";
         }else if(code==29) {
-            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
+            location.href = "/noBoard/notificationBoardList.no?menu_seq=1";
         }else if(code==30) {
             location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
-            // 7. 개인정보
         }else if(code==31) {
+            location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;
+            // 7. 개인정보
+        }else if(code==32) {
             location.href = "/membership/myInfo";
             // 8. 조직도
-        }else if(code==32) {
+        }else if(code==33) {
             location.href = "/organ/toOrganChart.organ";
             // 9. 버그리포트
-        }else if(code==33) {
+        }else if(code==34) {
             location.href = "/bug";
         }else{ // 게시판이 추가되는 경우
             location.href = "/noBoard/notificationBoardList.no?menu_seq="+board_menu_seq+"&type="+type+"&mid_name="+mid_name;

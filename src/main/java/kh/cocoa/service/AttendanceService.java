@@ -87,4 +87,44 @@ public class AttendanceService implements AttendanceDAO {
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time, int end_time) {
         return attenDAO.getSearchAtd(emp_code, number, search, start_time, end_time);
     }
+
+    @Override
+    public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code) {
+        return attenDAO.getAtdReqListToMain(emp_code);
+    }
+
+    @Override
+    public List<AttendanceDTO> getAtdInfoBySeq(int seq) {
+        return attenDAO.getAtdInfoBySeq(seq);
+    }
+
+    @Override
+    public int addChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.addChangeReq(dto);
+    }
+
+    @Override
+    public int delChangeReq(int atd_seq) {
+        return attenDAO.delChangeReq(atd_seq);
+    }
+
+    @Override
+    public int modChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.modChangeReq(dto);
+    }
+
+    @Override
+    public List<AtdChangeReqDTO> getReqListToNex() {
+        return attenDAO.getReqListToNex();
+    }
+
+    @Override
+    public int saveAtdReq(AtdChangeReqDTO dto) {
+        return attenDAO.saveAtdReq(dto);
+    }
+
+    @Override
+    public AtdChangeReqDTO getIsReqInfo(int atd_seq) {
+        return attenDAO.getIsReqInfo(atd_seq);
+    }
 }

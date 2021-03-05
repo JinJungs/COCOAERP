@@ -22,4 +22,9 @@ public interface ScheduleDAO {
 	public int delete(String seq);
 	
 	public List<ScheduleDTO> selectTodaySchedule(String date1, String date2);
+
+	// 넥사크로
+	public List<ScheduleDTO> selectListNex();
+	public List<ScheduleDTO> selectListByDateNex(String str_start, String str_end);
+	public void insertScheduleNex(String title, String contents, String start_time, String end_time, String color, String writer);
 }
