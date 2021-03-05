@@ -49,7 +49,6 @@ public class RestAttendanceController {
     public String atdIn(String status){
         System.out.println(status);
         if(attendanceService.isInWork(1000)!=null){
-            System.out.println("여기넘어오나 ..");
             int updateResult = attendanceService.reRegStartTime(1000);
             if(updateResult>0){
                 return "updateSuccess";
@@ -119,15 +118,14 @@ public class RestAttendanceController {
         return json.toString();
     }
 
-    @RequestMapping("/isReq")
-    public String isReq(){
-        AtdChangeReqDTO isReq =attendanceService.isReq(0);
+    @RequestMapping("/getReqInfo")
+    public String getReqInfo(int atd_seq){
+        AtdChangeReqDTO isReq =attendanceService.isReq(atd_seq);
         if(isReq!=null){
             JSONObject json = new JSONObject(isReq);
             return json.toString();
-        }else{
-            return "";
         }
+        return "false";
     }
 
     @RequestMapping("/getAtdList")
@@ -147,6 +145,37 @@ public class RestAttendanceController {
         List<AttendanceDTO> getSearchAtd = attendanceService.getSearchAtd(1000,number,search,start_time,parse_end_time);
         JSONArray json = new JSONArray(getSearchAtd);
         return json.toString();
+    }
+
+    @RequestMapping("/changeReq")
+    public String changeReq(AtdChangeReqDTO dto){
+        int addChangeReq=attendanceService.addChangeReq(dto);
+        if(addChangeReq>0){
+            return "successInsert";
+        }else{
+            return "failedInsert";
+        }
+
+    }
+
+    @RequestMapping("/delChangeReq")
+    public String delChangeReq(int atd_seq){
+        int delChangeReq=attendanceService.delChangeReq(atd_seq);
+        if(delChangeReq>0){
+            return "successDelete";
+        }else{
+            return "failedDelete";
+        }
+    }
+
+    @RequestMapping("/modChangeReq")
+    public String modChangeReq(AtdChangeReqDTO dto){
+        int modChangeReq=attendanceService.modChangeReq(dto);
+        if(modChangeReq>0){
+            return "successUpdate";
+        }else{
+            return "failedUpdate";
+        }
     }
 
 }

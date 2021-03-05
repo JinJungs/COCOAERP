@@ -222,6 +222,12 @@ public class ScheduleController {
 		return new NexacroResult();
 	}
 
+	@RequestMapping("/deleteSchedule.nex")
+	public NexacroResult deleteSchedule(@ParamVariable(name="seq")String seq){
+		System.out.println(seq);
+		return new NexacroResult();
+	}
+
 	// Date -> String
 	public String dateFormat(java.util.Date input){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

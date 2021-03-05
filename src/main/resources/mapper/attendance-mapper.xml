@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="EUC-KR"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.AttendanceDAO">
@@ -27,23 +27,23 @@
     </select>
 
     <select id="getAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
-        SELECT * FROM ATTENDANCE where start_time between  NEXT_DAY(SYSDATE-8,'ÏùºÏöîÏùº') and NEXT_DAY(SYSDATE,'ÌÜ†ÏöîÏùº') and emp_code=#{emp_code} and end_time is not null
+        SELECT * FROM ATTENDANCE where start_time between  NEXT_DAY(SYSDATE-8,'¿œø‰¿œ') and NEXT_DAY(SYSDATE,'≈‰ø‰¿œ') and emp_code=#{emp_code} and end_time is not null
     </select>
 
     <select id="getMonthAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
-        SELECT * FROM ATTENDANCE WHERE substr(start_time,0,8) between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
+        SELECT * FROM ATTENDANCE WHERE to_char(start_time,'YYMMDD') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
     </select>
 
     <select id="isAtd" resultType="Integer">
-        SELECT COUNT(*) from attendance where substr(start_time,0,8) = substr(sysdate,0,8) and emp_code=#{emp_code}
+        SELECT COUNT(*) from attendance whereto_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
     </select>
 
     <select id="isInWork" resultType="String">
-        SELECT substr(start_time,10,8) from attendance where substr(start_time,0,8)=substr(sysdate,0,8) and start_time is not null and emp_code=#{emp_code}
+        SELECT to_char(start_time,'HH24:MM:SS') from attendance where to_char(start_time,'YYMMDD')=to_char(sysdate,'YYMMDD') and start_time is not null and emp_code=#{emp_code}
     </select>
 
     <select id="isOutWork" resultType="String">
-        SELECT substr(end_time,10,8) from attendance where substr(start_time,0,8)=substr(sysdate,0,8) and end_time is not null and emp_code=#{emp_code}
+        SELECT to_char(end_time,'HH24:MM:SS')  from attendance where to_char(start_time,'YYMMDD')=to_char(sysdate,'YYMMDD') and end_time is not null and emp_code=#{emp_code}
     </select>
 
     <insert id="startWork2">
@@ -61,28 +61,64 @@
     </insert>
 
     <update id="reRegStartTime">
-       update attendance set start_time=sysdate where emp_code=#{emp_code} and substr(start_time,0,8) = substr(sysdate,0,8)
+       update attendance set start_time=sysdate where emp_code=#{emp_code} and to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD')
     </update>
 
     <update id="endWork">
-         update attendance set end_time=sysdate, overtime=#{overtime} where emp_code=#{emp_code} and substr(start_time,0,8) = substr(sysdate,0,8)
+         update attendance set end_time=sysdate, overtime=#{overtime} where emp_code=#{emp_code} and  to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD')
     </update>
 
     <select id="isReq" resultType="kh.cocoa.dto.AtdChangeReqDTO">
-        SELECT * FROM ATDCHANGEREQ WHERE ATD_SEQ=#{atd_seq}
+        SELECT to_char(A.start_time,'YY-MM-DD') today,req.* FROM ATDCHANGEREQ req
+        INNER JOIN ATTENDANCE A ON A.SEQ= req.atd_seq WHERE req.ATD_SEQ=#{atd_seq}
+    </select>
+
+    <select id="getAtdInfoBySeq" resultType="kh.cocoa.dto.AttendanceDTO">
+        SELECT * FROM ATTENDANCE WHERE SEQ=#{seq}
     </select>
 
     <select id="getAttendanceList2" resultType="kh.cocoa.dto.AttendanceDTO">
         select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then 'Ï†ïÏÉÅÏ∂úÍ∑º' when 'OUT' then 'Ïô∏Í∑º' when 'LATE' then 'ÏßÄÍ∞Å' end as status,case REQ.STATUS when 'Y' then 'Ï≤òÎ¶¨' when 'N' then 'Í≤ÄÌÜ†Ï§ë' else '-' END AS REQ_STATUS
+        case A.STATUS when 'IN' then '¡§ªÛ√‚±Ÿ' when 'OUT' then 'ø‹±Ÿ' when 'LATE' then '¡ˆ∞¢' end as status,case REQ.STATUS when 'C' then '√≥∏Æ' when 'NC' then '∞À≈‰¡ﬂ' else '-' END AS REQ_STATUS
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE a.emp_code=#{emp_code} ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
     </select>
 
     <select id="getSearchAtd" resultType="kh.cocoa.dto.AttendanceDTO">
         select * from (select A.seq,to_char(A.start_time,'HH:MM:SS') sub_start_time,to_char(A.start_time,'HH:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then 'Ï†ïÏÉÅÏ∂úÍ∑º' when 'OUT' then 'Ïô∏Í∑º' when 'LATE' then 'ÏßÄÍ∞Å' end as status,case REQ.STATUS when 'Y' then 'Ï≤òÎ¶¨' when 'N' then 'Í≤ÄÌÜ†Ï§ë' else '-' END AS REQ_STATUS
+        case A.STATUS when 'IN' then '¡§ªÛ√‚±Ÿ' when 'OUT' then 'ø‹±Ÿ' when 'LATE' then '¡ˆ∞¢' end as status,case REQ.STATUS when 'C' then '√≥∏Æ' when 'NC' then '∞À≈‰¡ﬂ' else '-' END AS REQ_STATUS
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE  a.emp_code=#{emp_code} and a.start_time BETWEEN #{start_time} and '${end_time}' and A.STATUS like '%${search}%' ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
+    </select>
+
+    <select id="countStatusLate" resultType="String">
+        select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+    </select>
+
+    <select id="getAtdReqListToMain" resultType="kh.cocoa.dto.AtdChangeReqDTO">
+        SELECT * from (select to_char(A.start_time,'YY-MM-DD') today, case A.STATUS when 'IN' then '¡§ªÛ√‚±Ÿ' when 'OUT' then 'ø‹±Ÿ' when 'LATE' then '¡ˆ∞¢' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '√≥∏Æ' when 'NC' then '∞À≈‰¡ﬂ' else '-' END AS STATUS from attendance a
+        inner join atdchangereq req on req.atd_seq = a.seq where a.emp_code=#{emp_code}) where rownum <![CDATA[ <= ]]> 5
+    </select>
+
+    <insert id="addChangeReq">
+        insert into atdchangereq values(atdchangereq_seq.nextval,to_date('${today} ${start_time}','YYYY-MM-DD HH24mi'),
+        to_date('${today} ${end_time}','YYYY-MM-DD HH24mi'),#{contents}, 'NC',#{atd_seq})
+    </insert>
+
+    <update id="modChangeReq">
+         update atdchangereq set start_time=to_date('${today} ${start_time}','YYYY-MM-DD HH24mi'),
+       end_time=to_date('${today} ${end_time}','YYYY-MM-DD HH24mi'),contents=#{contents} where atd_seq=#{atd_seq}
+    </update>
+
+    <delete id="delChangeReq">
+        delete from atdchangereq where atd_seq=#{atd_seq}
+    </delete>
+
+    <select id="getReqListToNex" resultType="kh.cocoa.dto.AtdChangeReqDTO">
+        select req.seq,to_char(req.start_time,'YY-MM-DD (DY)') today,to_char(req.start_time,'HH24:MM') start_time,
+        to_char(req.end_time,'HH24:MM') end_time,req.contents,req.status
+        ,req.atd_seq,req.emp_code,e.name name from atdchangereq req
+        inner join employee e on e.code=req.emp_code
+
     </select>
 </mapper>
