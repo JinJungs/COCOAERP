@@ -8,7 +8,7 @@
     line-height:28px;font-size:13px;padding:0;
     border:0;}
 
-.row{padding:3px;}
+.row{border-bottom: 1px solid lightgray;padding:3px;} 
 input{height:90%;width:90%;border:none;background-color:transparent;}
 input:focus{outline:none;}
 .head_box{font-size:17px;color:#866EC7;}

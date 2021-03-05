@@ -81,20 +81,16 @@ button{
       	</div>
       	<div class="row mt-2 btn">
 	      	<c:if test="${dto.receiver eq email && dto.sender ne email && dto.status_receiver eq 'SEND'}">
-	      		<button id=reply>답장</button>
+	      		<button class="btn btn-primary" id=reply>답장</button>
 		      		<script>
 		      			$("#reply").click(function(){
-		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
-		      				if(!confirmResult){
-		      					return false;
-		      				}
 		      				location.href = "/email/replyEmail.email?seq=" + ${dto.seq};
 		      			})
 		      		</script>
 	      	</c:if>
       		<c:choose>
 				<c:when test="${dto.status_sender eq 'SEND' && dto.sender eq email && dto.receiver eq email}">
-		      		<button id=delete>삭제</button>
+		      		<button class="btn btn-primary" id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
@@ -106,7 +102,7 @@ button{
 		      		</script>
 	      		</c:when>
 	      		<c:when test="${dto.status_sender eq 'SEND' && dto.sender eq email && dto.receiver ne email}">
-		      		<button id=delete>삭제</button>
+		      		<button class="btn btn-primary" id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
@@ -118,7 +114,7 @@ button{
 		      		</script>
 	      		</c:when>
 	      		<c:when test="${dto.status_receiver eq 'SEND' && dto.sender ne email && dto.receiver eq email}">
-		      		<button id=delete>삭제</button>
+		      		<button class="btn btn-primary" id=delete>삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 삭제하시겠습니까?");
@@ -130,7 +126,7 @@ button{
 		      		</script>
 	      		</c:when>
 	      		<c:when test="${dto.status_sender eq 'DEL' && dto.sender eq email && dto.receiver eq email}">
-		      		<button id=delete>영구삭제</button>
+		      		<button class="btn btn-primary" id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");
@@ -142,7 +138,7 @@ button{
 		      		</script>
 	      		</c:when>
 	      		<c:when test="${dto.status_sender eq 'DEL' && dto.sender eq email && dto.receiver ne email}">
-		      		<button id=delete>영구삭제</button>
+		      		<button class="btn btn-primary" id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");
@@ -154,7 +150,7 @@ button{
 		      		</script>
 	      		</c:when>
 	      		<c:when test="${dto.status_receiver eq 'DEL' && dto.sender ne email && dto.receiver eq email}">
-		      		<button id=delete>영구삭제</button>
+		      		<button class="btn btn-primary" id=delete>영구삭제</button>
 		      		<script>
 		      			$("#delete").click(function(){
 		      				var confirmResult = confirm("메일을 영구삭제하시겠습니까?");

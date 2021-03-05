@@ -94,8 +94,12 @@ select{
 					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${childBirthL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타</b></div>
-					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etc/k }</div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타(차감)</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etcMinusL }</div>
+				</div>
+				<div class="col">
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타(미차감)</b></div>
+					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etcNMinusL }</div>
 				</div>
      		</div>
      		
