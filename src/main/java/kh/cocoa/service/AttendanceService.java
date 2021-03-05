@@ -107,4 +107,59 @@ public class AttendanceService implements AttendanceDAO {
     public int countWorkMin(int emp_code) {
         return attenDAO.countWorkMin(emp_code);
     }
+
+    @Override
+    public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code) {
+        return attenDAO.getAtdReqListToMain(emp_code);
+    }
+
+    @Override
+    public List<AttendanceDTO> getAtdInfoBySeq(int seq) {
+        return attenDAO.getAtdInfoBySeq(seq);
+    }
+
+    @Override
+    public int addChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.addChangeReq(dto);
+    }
+
+    @Override
+    public int delChangeReq(int atd_seq) {
+        return attenDAO.delChangeReq(atd_seq);
+    }
+
+    @Override
+    public int modChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.modChangeReq(dto);
+    }
+
+    @Override
+    public List<AtdChangeReqDTO> getReqListToNex() {
+        return attenDAO.getReqListToNex();
+    }
+
+    @Override
+    public int saveAtdReq(AtdChangeReqDTO dto) {
+        return attenDAO.saveAtdReq(dto);
+    }
+
+    @Override
+    public AtdChangeReqDTO getIsReqInfo(int atd_seq) {
+        return attenDAO.getIsReqInfo(atd_seq);
+    }
+
+    @Override
+    public int reChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.reChangeReq(dto);
+    }
+
+    @Override
+    public int modAtdTime(AtdChangeReqDTO dto) {
+        return attenDAO.modAtdTime(dto);
+    }
+
+    @Override
+    public int toDayUpdateAtd(int emp_code) {
+        return attenDAO.toDayUpdateAtd(emp_code);
+    }
 }

@@ -16,7 +16,7 @@ public class SbpWebSocketMessageBrokerConfig implements WebSocketMessageBrokerCo
 	
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-	   registry.enableSimpleBroker("/topic");
+	   registry.enableSimpleBroker("/topic","/contact");
        registry.setApplicationDestinationPrefixes("/");
     }
 

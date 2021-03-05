@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -8,7 +8,6 @@
 <title>CocoaWorks Board Read</title>
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-.row{border-bottom: 1px solid pink;} 
 .fileLi{font-size:13px;}
 </style>
 </head>
@@ -102,7 +101,7 @@
 			<div class="row">
 				<div class="col-md-10 head_box">
 					<input type="hidden" name="seq" value="${seq}">
-					<textarea id="comment_contents"></textarea>
+					<textarea id="comment_contents" placeholder="댓글을 작성해 주세요"></textarea>
 				</div>
 				<div class="col-md-2" >
 					<button class="btn btn-primary" id="writeComment">댓글등록</button>

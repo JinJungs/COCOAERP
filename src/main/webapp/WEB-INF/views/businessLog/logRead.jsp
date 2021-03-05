@@ -11,7 +11,6 @@
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <style>
-.row{border-bottom: 1px solid pink}
 .select{text-align:right;}
 .date_box>input{width:58%;}
 .box{height:400px;padding-left:15px;}

@@ -160,7 +160,7 @@ div {
 							<c:forEach var="i" items="${emailList }" begin="0" end="3">
 								<div class="row p-1">
 									<div class="col-4 col-md-6 col-xl-4">
-										<a href="/document/toReadPage.document?seq=${i.seq }">${i.title }</a>
+										<a href="/email/readPage.email?seq=${i.seq }">${i.title }</a>
 									</div>
 									<div class="col-4 d-md-none d-xl-block col-xl-4">${i.write_date }</div>
 									<div class="col-4 col-md-6 col-xl-4">${i.sender }</div>

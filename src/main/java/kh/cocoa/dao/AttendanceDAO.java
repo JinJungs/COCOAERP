@@ -28,8 +28,34 @@ public interface AttendanceDAO {
     public AtdChangeReqDTO isReq(int atd_seq);
     public List<AttendanceDTO> getAttendanceList2(int emp_code,String number);
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time,int end_time);
-    public String countStatusLate(int emp_code);
-    public String countStatusWork(int emp_code);
-    public int countWorkHour(int emp_code);
-    public int countWorkMin(int emp_code);
+
+    String countStatusLate(int emp_code);
+
+    String countStatusWork(int emp_code);
+
+    int countWorkHour(int emp_code);
+
+    int countWorkMin(int emp_code);
+
+    List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code);
+
+    List<AttendanceDTO> getAtdInfoBySeq(int seq);
+
+    int addChangeReq(AtdChangeReqDTO dto);
+
+    int delChangeReq(int atd_seq);
+
+    int modChangeReq(AtdChangeReqDTO dto);
+
+    List<AtdChangeReqDTO> getReqListToNex();
+
+    int saveAtdReq(AtdChangeReqDTO dto);
+
+    AtdChangeReqDTO getIsReqInfo(int atd_seq);
+
+    int reChangeReq(AtdChangeReqDTO dto);
+
+    int modAtdTime(AtdChangeReqDTO dto);
+
+    int toDayUpdateAtd(int emp_code);
 }

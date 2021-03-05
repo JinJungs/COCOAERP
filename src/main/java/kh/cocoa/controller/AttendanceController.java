@@ -1,12 +1,16 @@
 package kh.cocoa.controller;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
+import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
+import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
 import kh.cocoa.service.EmployeeService;
 import org.json.JSONArray;
-import org.json.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
 @RequestMapping("/attendance")
+@Slf4j
 public class AttendanceController {
     @Autowired
     AttendanceService attenService;
@@ -45,57 +48,6 @@ public class AttendanceController {
         return "/attendance/attendanceView";
     }
 
-    @RequestMapping(value = "/startWork")
-    public String startWork(HttpServletRequest request, RedirectAttributes rttr) throws Exception{
-        // 1. 오늘 출근했는지 체크
-        // 2. 외근 체크가 되었는지 아닌지
-        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
-        Timestamp chkWork = attenService.checkStart(loginSession.getCode());
-        String msg;
-        if(chkWork == null) {
-            String chkBox = request.getParameter("outSide");
-            if (chkBox == null) {
-                int result = attenService.startWork(loginSession.getCode());
-            }
-            else {
-                int result = attenService.outSideWork(loginSession.getCode());
-            }
-            //model.addAttribute("result", "success");
-            msg = "sucess";
-            rttr.addAttribute("result", msg);
-        }
-        else{
-            //model.addAttribute("result", "already");
-            msg = "already";
-            rttr.addAttribute("result", msg);
-
-        }
-        return "redirect:/attendance/toAttendanceView";
-    }
-
-    @RequestMapping(value = "/endWork")
-    public String endWork(RedirectAttributes rttr) throws Exception{
-        // 1. 오늘 출근했는지 체크
-        // 2. 퇴근되어 있는지 체크
-        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
-        Timestamp chkWork = attenService.checkStart(loginSession.getCode());
-        if(chkWork != null){
-            Timestamp chkEnd = attenService.checkEnd(loginSession.getCode());
-            if(chkEnd == null) {
-                int result = attenService.offWork(loginSession.getCode());
-                // model.addAttribute("result", "offWork");
-                rttr.addAttribute("result", "offWork");
-            }
-            else{
-                //model.addAttribute("result", "alreadyOff");
-                rttr.addAttribute("result", "alreadyOff");
-            }
-        }else {
-            // model.addAttribute("result", "workedYet");
-            rttr.addAttribute("result", "workedYet");
-        }
-        return "redirect:/attendance/toAttendanceView";
-    }
 
     @RequestMapping(value = "getAttendance")
     public String getAttendance(Model model) {
@@ -108,10 +60,14 @@ public class AttendanceController {
 
     @RequestMapping("toMain")
     public String toMain(Model model){
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        if(loginSession==null){
+            return "redirect:/";
+        }
         SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
         Date time = new Date();
         String getCurTime = frm.format(time);
-        String isInWork = attenService.isInWork(1000);
+        String isInWork = attenService.isInWork(loginSession.getCode());
         if(isInWork!=null){
             isInWork=isInWork.replaceAll(":","").substring(0,4);
         }
@@ -131,13 +87,17 @@ public class AttendanceController {
             }
             model.addAttribute("statusMsg","안녕하세요.");
         }
-        EmployeeDTO empInfo = employeeService.getEmpInfo(1000);
+        EmployeeDTO empInfo = employeeService.getEmpInfo(loginSession.getCode());
+        List<AtdChangeReqDTO> reqList = attenService.getAtdReqListToMain(loginSession.getCode());
         model.addAttribute("empInfo",empInfo);
+        System.out.println(reqList);
+        model.addAttribute("reqList",reqList);
         return "/attendance/attendanceMain";
     }
 
     @RequestMapping("/toAtdReq")
     public String toAtdReq(Model model){
+
         return "/attendance/attendanceChangeReq";
     }
 
@@ -168,4 +128,43 @@ public class AttendanceController {
         }
         return json.toString();
     }
+
+    @RequestMapping("getListToNex")
+    public NexacroResult getListToNex(){
+        List<AtdChangeReqDTO> list = attenService.getReqListToNex();
+        System.out.println(list);
+        NexacroResult nr = new NexacroResult();
+        nr.addDataSet("out_ds",list);
+        return nr;
+    }
+
+    @RequestMapping("saveAtdReq")
+    public NexacroResult saveAtdReq(@ParamDataSet(name="in_ds") AtdChangeReqDTO dto){
+        int updateResult = attenService.saveAtdReq(dto);
+        dto.setToday(dto.getToday().substring(0,8).replaceAll("-",""));
+        dto.setStart_time(dto.getStart_time().replaceAll(":",""));
+        dto.setEnd_time(dto.getEnd_time().replaceAll(":",""));
+        System.out.println(dto);
+        if(updateResult>0) {
+            if (dto.getStatus().contentEquals("승인")) {
+                int modAtdTime=attenService.modAtdTime(dto);
+            }
+        }
+        return new NexacroResult();
+    }
+
+
+
+    @Scheduled(cron="0 0/10 0 * * MON-FRI") //평일 00시 10분 업데이트
+    public void alert() throws InterruptedException{
+        log.info("Attendance 자동 업데이트");
+        List<Integer> getAllEmpCode=employeeService.getAllEmpCode();
+        for(int i=0;i<getAllEmpCode.size();i++) {
+            int toDayUpdateAtd = attenService.toDayUpdateAtd(getAllEmpCode.get(i));
+            System.out.println(i);
+        }
+
+    }
+
+
 }
