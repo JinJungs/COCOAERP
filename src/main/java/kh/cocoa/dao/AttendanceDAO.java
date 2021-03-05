@@ -36,9 +36,14 @@ public interface AttendanceDAO {
     public int delChangeReq(int atd_seq);
     public int modChangeReq(AtdChangeReqDTO dto);
     public AtdChangeReqDTO getIsReqInfo(int atd_seq);
+    public int reChangeReq(AtdChangeReqDTO dto);
+
+    public int toDayUpdateAtd(int emp_code);
+
     //넥사
     public List<AtdChangeReqDTO> getReqListToNex();
     public int saveAtdReq(AtdChangeReqDTO dto);
+    public int modAtdTime(AtdChangeReqDTO dto);
 
 
 }
