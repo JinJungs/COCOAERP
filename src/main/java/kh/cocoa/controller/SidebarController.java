@@ -4,7 +4,6 @@ import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.SidebarViewDTO;
-import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.SidebarService;
 import org.json.JSONArray;
@@ -26,9 +25,6 @@ public class SidebarController {
 
     @Autowired
     private HttpSession session;
-
-    @Autowired
-    private EmployeeService eservice;
 
     @Autowired
     private FilesService filesService;
@@ -86,7 +82,11 @@ public class SidebarController {
         param.put("deptname",loginDTO.getDeptname());
         param.put("teamname",loginDTO.getTeamname());
         param.put("posname",loginDTO.getPosname());
+        // 사용자 프로필 정보는 수정 후 바로 반영하기 위해서 매번 새로 가져온다.
+        String myProfileLoc = filesService.getProfile(loginDTO.getCode());
+        loginDTO.setProfile(myProfileLoc);
         param.put("profile",loginDTO.getProfile());
+
         jArrayAll.put(param);
         return jArrayAll.toString();
     }

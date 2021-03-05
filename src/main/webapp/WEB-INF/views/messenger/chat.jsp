@@ -309,6 +309,14 @@
             else
                 socket.send(msg);
 
+            // (new) 메세지를 연락처리스트 소켓으로 전송
+            socket.send('/getChat/contactListText/' +${loginDTO.code},{}, JSON.stringify({
+                contents: msg
+                , type: "TEXT"
+                , emp_code: ${loginDTO.code}
+                , m_seq: ${seq}
+            }));
+
             // (2) db에 저장? / 아니면 컨트롤러에서 처리?
             $.ajax({
                 url: "/message/insertMessage",

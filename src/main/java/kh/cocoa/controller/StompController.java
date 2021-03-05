@@ -1,15 +1,16 @@
 package kh.cocoa.controller;
 
+import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import kh.cocoa.dto.MessageDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class StompController {
@@ -24,6 +25,9 @@ public class StompController {
 	
 	@Autowired
 	private EmployeeService eservice;
+
+	@Autowired
+	private HttpSession session;
 	
 	@MessageMapping("/getChat/text/{seq}")
 	//@SendTo("/topic/message")
@@ -105,6 +109,12 @@ public class StompController {
 		//message.setContents(message.getEmp_code()+"님이 "+message.getContents()+" 으로 채팅방 이름을 바꿨습니다.");
 		//messagingTemplate.convertAndSend("/topic/announce/"+message.getM_seq(), message);
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
+	}
+
+	@MessageMapping("/getChat/contactListText/{code}")
+	public void contactListText(MessageDTO message) throws Exception{
+		System.out.println("연락처 리스트 소켓에서 msg : " +message.getContents());
+		messagingTemplate.convertAndSend("/contact/"+message.getM_seq(), message);
 	}
 	
     @ExceptionHandler(NullPointerException.class)
