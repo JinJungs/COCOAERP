@@ -102,8 +102,6 @@ public class StompController {
 		}
 		message.setContents(announce);
 		
-		//message.setContents(message.getEmp_code()+"님이 "+message.getContents()+" 으로 채팅방 이름을 바꿨습니다.");
-		//messagingTemplate.convertAndSend("/topic/announce/"+message.getM_seq(), message);
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
 	}
 	

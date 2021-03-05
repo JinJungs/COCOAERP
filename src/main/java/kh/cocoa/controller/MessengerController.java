@@ -125,22 +125,17 @@ public class MessengerController {
     //연락처에서 1:1채팅창 열기(혹은 생성)
     @RequestMapping("openCreateSingleChat")
     public String chatFromContact(int partyEmpCode, Model model) {
-    	System.out.println("openCreateSingleChat 도착 !");
-    	System.out.println("partyEmpCode : "+partyEmpCode);
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
     	int code = loginDTO.getCode();
-    	System.out.println("code / partyEmpCode : "+code +" : "+partyEmpCode);
     	int seq;
     	//개인 채팅방 존재 유무 파악
     	int checkSingleRoom = mservice.isSingleMessengerRoomExist(code, partyEmpCode);
-    	System.out.println("checkSingleRoom : "+checkSingleRoom);
     	if(checkSingleRoom == 0) {
     		//없을 경우 채팅방 생성 (S타입)
     		MessengerDTO dto = new MessengerDTO();
     		dto.setType("S");
     		dto.setName("");
-    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(dto);
-    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		mservice.insertMessengerRoomGetSeq(dto);
     		//Messenger 테이블 seq = Messenger_Party의 m_seq
     		seq = dto.getSeq();
 			
@@ -150,12 +145,10 @@ public class MessengerController {
     		MessengerPartyDTO party = new MessengerPartyDTO().builder().m_seq(seq).emp_code(partyEmpCode).build();
     		memberList.add(mine);
     		memberList.add(party);
-    		int insertMemResult = mpservice.setMessengerMember(memberList);
-    		System.out.println("insertMemResult : "+insertMemResult);
+    		mpservice.setMessengerMember(memberList);
     	}else {
     		seq = mservice.getSingleMessengerRoom(code, partyEmpCode);
     	}
-    	System.out.println("채팅방 seq : "+seq);
     	return "redirect:/messenger/chat?seq="+seq;
     }
 
@@ -180,11 +173,8 @@ public class MessengerController {
     	}
 
     	if(partyList.size()==1) {
-    		System.out.println("1명 있을 때");
     		//추가 인원이 1인이면 개인 채팅방 열기(혹은 생성)
     		int partyEmpCode = partyList.get(0).getEmp_code();
-    		System.out.println("partyEmpCode : "+partyEmpCode);
-    		//redirectAttributes.addFlashAttribute("partyEmpCode", partyEmpCode);
     		//리스트 말고 하나의 값을 보내려면 redirectAttributes가 안되는 것 같다.. why?
     		return "redirect:/messenger/openCreateSingleChat?partyEmpCode="+partyEmpCode;
     	}else if(partyList.size()>1) {
@@ -194,11 +184,9 @@ public class MessengerController {
     		messenger.setType("M");
     		messenger.setName(loginDTO.getName()+" 님 외 "+partyList.size()+"명");
     		//메신저 테이블 인서트 후 시퀀스값 받아오기
-    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(messenger);
-    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		mservice.insertMessengerRoomGetSeq(messenger);
     		//Messenger 테이블 seq = Messenger_Party의 m_seq
     		seq = messenger.getSeq();
-			
     		//멤버추가하기
     		//참가자 리스트에 로그인한 아이디 코드도 넣기
     		MessengerPartyDTO logined = new MessengerPartyDTO().builder().emp_code(code).build();
@@ -206,12 +194,10 @@ public class MessengerController {
     		for(MessengerPartyDTO i : partyList) {
     			i.setM_seq(seq);
     		}
-    		int insertMemResult = mpservice.setMessengerMember(partyList);
-    		System.out.println("insertMemResult : "+insertMemResult);
+    		mpservice.setMessengerMember(partyList);
     		
     		redirectAttributes.addFlashAttribute("loginDTO",loginDTO);
     		redirectAttributes.addFlashAttribute("partyList",partyList);
-    		//redirectAttributes.addFlashAttribute("seq",seq);
     		return "redirect:/messenger/chat?seq="+seq;
     	}else {
     		//에러
