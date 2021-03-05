@@ -56,7 +56,7 @@
 					href="#monthly">월별</a></li>
 			</ul>
 			<!-- 공용 head -->
-			<div class="row head_box" style="border-bottom: 1px solid pink;">
+			<div class="row head_box" style="border-bottom: 1px solid lightgray;">
 
 				<c:choose>
 					<c:when test="${status eq 'RAISE'}">
@@ -102,7 +102,7 @@
 				<!-- 전체 -->
 				<div class="tab-pane fade show active" id="all">
 					<div class="row tab-content current" id="tab-1"
-						style="border-bottom: 1px solid pink;">
+						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty logAllList}">
 								<div class="row" id="notice">
@@ -143,7 +143,7 @@
 				<!-- 일일 -->
 				<div class="tab-pane fade" id="daily">
 					<div class="row tab-content" id="tab-2"
-						style="border-bottom: 1px solid pink;">
+						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty logAllList}">
 								<div class="row" id="notice">
@@ -184,7 +184,7 @@
 				<!-- 주간 -->
 				<div class="tab-pane fade" id="weekly">
 					<div class="row tab-content" id="tab-2"
-						style="border-bottom: 1px solid pink;">
+						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty logAllList}">
 								<div class="row" id="notice">
