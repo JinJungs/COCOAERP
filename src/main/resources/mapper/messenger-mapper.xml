@@ -4,7 +4,7 @@
     <!--최근에 메세지가 온 순으로 톡방을 정렬해야한다.-->
     <select id="myMessengerList" resultType="kh.cocoa.dto.MessengerViewDTO">
         SELECT M.*, E.NAME EMPNAME, E.DEPTNAME, E.TEAMNAME, E.POSNAME
-        FROM MESSENGER_VIEW M,
+        FROM MESSENGER_NEW_VIEW M,
              EMPLOYEE_VIEW E
         WHERE SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
           AND M.EMP_CODE = E.CODE

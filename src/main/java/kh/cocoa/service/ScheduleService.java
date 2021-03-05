@@ -72,4 +72,14 @@ public class ScheduleService implements ScheduleDAO{
 	public void insertScheduleNex(String title, String contents, String start_time, String end_time,String color, String writer) {
 		sdao.insertScheduleNex(title, contents, start_time, end_time, color, writer);
 	}
+
+	@Override
+	public int deleteScheduleNex(List<ScheduleDTO> list) {
+		return sdao.deleteScheduleNex(list);
+	}
+
+	@Override
+	public int updateScheduleNex(ScheduleDTO dto) {
+		return sdao.updateScheduleNex(dto);
+	}
 }

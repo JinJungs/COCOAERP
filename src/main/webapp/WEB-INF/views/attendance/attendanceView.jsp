@@ -34,46 +34,30 @@
         <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
         <div id="content" class="p-4 p-md-5 pt-5">
             <h2 class="mb-4 board_title">출퇴근 체크</h2>
-            <div class="row">
+<%--            <div class="row">--%>
                 <div class="box attendance col-12 mb-3">
                     <div class="row">
                         <div class="col-12 col-sm-7" id="clock"></div>
-                        <div class="col text-left text-sm-right p-sm-3">
-                            <div class="countDiv"></div>
+<%--                        <div class="col text-left text-sm-right p-sm-3">--%>
+                        <div class="text-center p-sm-3">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <b>이번달 근태 현황 요약</b>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-horizontal-sm">
+                                        <li class="list-group-item" id="countLate">지각 :</li>
+                                        <li class="list-group-item" id="countIn">출근 :</li>
+                                        <li class="list-group-item" id="countWorkTime">총 근무 시간 : 0시간 0분</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <div id='calendar'></div>
         </div>
     </div>
-<%--    <c:choose>--%>
-<%--        <c:when test="${result eq 'success'}">--%>
-<%--            <script>--%>
-<%--                alert("출근 하였습니다.");--%>
-<%--            </script>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${result eq 'already'}">--%>
-<%--            <script>--%>
-<%--                alert("이미 출근되어 있습니다.");--%>
-<%--            </script>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${result eq 'offWork'}">--%>
-<%--            <script>--%>
-<%--                alert("퇴근되었습니다.");--%>
-<%--            </script>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${result eq 'alreadyOff'}">--%>
-<%--            <script>--%>
-<%--                alert("이미 퇴근하였습니다.");--%>
-<%--            </script>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${result eq 'workedYet'}">--%>
-<%--            <script>--%>
-<%--                alert("아직 출근하지 않았습니다.");--%>
-<%--            </script>--%>
-<%--        </c:when>--%>
-<%--    </c:choose>--%>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
@@ -86,9 +70,11 @@
             var currentMinute = addZeros(currentDate.getMinutes() ,2);
             var currentSeconds =  addZeros(currentDate.getSeconds(),2);
 
-            if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+            if(currentHours >= 12){
                 amPm = 'PM';
-                currentHours = addZeros(currentHours - 12,2);
+                if(currentHours > 12){
+                    currentHours = addZeros(currentHours - 12,2);
+                }
             }
 
             clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +" <span style='font-size: 24px;'>"+ amPm+"</span>"; //날짜를 출력해 줌
@@ -127,10 +113,12 @@
                             start: '${i.start_time}',
                             <c:choose>
                                 <c:when test="${i.status=='IN'}">
-                                    title: '출근'
+                                    title: '출근',
+                                    color: 'blue'
                                 </c:when>
                                 <c:when test="${i.status=='LATE'}">
-                                    title: '지각'
+                                    title: '지각',
+                                    color: 'yellow'
                                 </c:when>
                             </c:choose>
                         },
@@ -138,6 +126,7 @@
                         <c:forEach var="i" items="${attendance}" varStatus="status">
                         {
                             title: '퇴근',
+                            color: 'gray',
                             start: '${i.end_time}'
                         }
                             <c:choose>
@@ -159,6 +148,13 @@
                 type: "post",
                 data: {},
                 dataType: "json",
+                success: function (result) {
+                    $("#countLate").html("지각 : "+result[0]+"번");
+                    $("#countIn").html("출근 : "+result[1]+"번");
+                    if(result.length>2){
+                        $("#countWorkTime").html("총 근무 시간 : "+result[2]+"시간 "+result[3]+"분");
+                    }
+                }
             })
         });
     </script>

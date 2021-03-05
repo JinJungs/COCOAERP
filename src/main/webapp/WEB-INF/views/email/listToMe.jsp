@@ -63,18 +63,16 @@ input[type=checkbox]{
     				<button type=button class="delBtn btn btn-primary">삭제</button>
       			</div>
       		</div>
-      		<script>
+      		<script> 
       			$(".delBtn").click(function(){
       				var checkedList = "";
       				var count = 0;
       				$("input[type='checkbox']:checked").each(function(index){
-      					if(index != 0 && index != 1){
-      						checkedList+=",";
-      					}
       					if($(this).val() != 0){
       						count = count+1;
-	      					checkedList += $(this).val();
+	      					checkedList += $(this).val() + ",";
 	      				}
+	      				
       				});
       				
       				if(count == 0){

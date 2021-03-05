@@ -44,6 +44,10 @@ public class BusinessLogController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 
 		int writer_code = (Integer)loginDTO.getCode();
+		int dept_code = (Integer)loginDTO.getDept_code();
+		if(dept_code==0) {
+			return "businessLog/Alert";
+		}
 
 		return "businessLog/logCreate";
 	}
@@ -397,6 +401,9 @@ public class BusinessLogController {
 
 		//임시저장 보관함인 경우 접속한 ID와 작성자가 동일한 문서만 불러오기
 		if(status.contentEquals("TEMP")) {
+			if(dept_code==0) {
+				return "businessLog/Alert";
+			}
 			//글 전체 리스트
 			List<BoardDTO> logAllList = bservice.getLogAllList(status,writer_code);
 			//일일 리스트 불러오기 
@@ -414,7 +421,7 @@ public class BusinessLogController {
 		//확인요청 보관함인 경우 접속한 ID와 작성자가 동일한 문서 & 본인과 같은 부서의 직급이 낮은 직원의 글 불러오기
 		}else if (status.contentEquals("RAISE")){
 			//팀원인 경우 로그인 화면으로 돌아감
-			if(pos_code==4) {
+			if(pos_code==4 || dept_code==0) {
 				return "businessLog/Alert";
 			}
 			//글 전체 리스트
@@ -433,6 +440,9 @@ public class BusinessLogController {
 
 			//업무일지 보관함인 경우 같은 부서사람의 문서이자 승인 받은 문서만 보여주기
 		}else if(status.contentEquals("CONFIRM")) {
+			if(dept_code==0) {
+				return "businessLog/Alert";
+			}
 			//글 전체 리스트
 			List<BoardDTO> logAllListC = bservice.logAllListC(status,dept_code);
 			System.out.println(logAllListC.size());
@@ -457,6 +467,10 @@ public class BusinessLogController {
 	public String logSentBoard(Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
+		int dept_code = (Integer)loginDTO.getDept_code();
+		if(dept_code==0) {
+			return "businessLog/Alert";
+		}
 		//전체
 		List<BoardDTO> sentLogAllList = bservice.sentLogAllList(writer_code);
 		//일일

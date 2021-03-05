@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.nexacro.uiadapter17.spring.core.annotation.ParamDataSet;
 import com.nexacro.uiadapter17.spring.core.annotation.ParamVariable;
 import com.nexacro.uiadapter17.spring.core.data.NexacroResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,8 +224,16 @@ public class ScheduleController {
 	}
 
 	@RequestMapping("/deleteSchedule.nex")
-	public NexacroResult deleteSchedule(@ParamVariable(name="seq")String seq){
-		System.out.println(seq);
+	public NexacroResult deleteSchedule(@ParamDataSet(name="in_ds")List<ScheduleDTO> list){
+		System.out.println(list);
+		int result = sservice.deleteScheduleNex(list);
+		return new NexacroResult();
+	}
+
+	@RequestMapping("/scheduleUpdate.nex")
+	public NexacroResult updateSchedule(@ParamDataSet(name="in_ds")ScheduleDTO dto){
+		System.out.println(dto);
+		int result = sservice.updateScheduleNex(dto);
 		return new NexacroResult();
 	}
 

@@ -83,4 +83,15 @@
 	<insert id="insertScheduleNex">
 		INSERT INTO SCHEDULE VALUES (SCHEDULE_SEQ.NEXTVAL, #{title}, #{contents}, TO_DATE(#{start_time}, 'YYYYMMDD'), TO_DATE(#{end_time}, 'YYYYMMDD'), #{color}, '', '','', #{writer})
 	</insert>
+
+	<delete id="deleteScheduleNex">
+		delete from SCHEDULE where seq in
+		<foreach item="i" collection="list" open="(" close=")" separator=",">
+			#{i.seq}
+		</foreach>
+	</delete>
+
+	<update id="updateScheduleNex">
+		update SCHEDULE set title=#{title}, contents=#{contents}, start_time=TO_DATE(#{str_start_time},'YYYY-MM-DD'), end_time=TO_DATE(#{str_end_time},'YYYY-MM-DD'), color=#{color} where seq=#{seq}
+	</update>
 </mapper>

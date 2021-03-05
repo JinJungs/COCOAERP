@@ -59,13 +59,8 @@ public class MessengerController {
     	//채팅방 불러오기
     	List<MessengerViewDTO> chatList = mservice.myMessengerList(code);
     	// 내 프로필 전송
-        FilesDTO myProfile = fservice.findBeforeProfile(code);
-        if(myProfile==null) {
-            loginDTO.setProfile("/img/Profile-m.png");
-        }else{
-            String profileLoc = "/profileFile/" + myProfile.getSavedname();
-            loginDTO.setProfile(profileLoc);
-        }
+        String myProfileLoc = fservice.getProfile(code);
+        loginDTO.setProfile(myProfileLoc);
 
         // 사용자의 프로필이미지 전송
         for(int i=0; i<memberList.size(); i++){

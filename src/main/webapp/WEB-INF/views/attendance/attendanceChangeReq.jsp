@@ -5,6 +5,12 @@
 <head>
     <meta charset='utf-8' />
     <title>근태</title>
+    <style>
+        #comments:hover{
+            color:#00bfff;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper d-flex align-items-stretch">
@@ -23,7 +29,7 @@
                         <thead>
                         <tr>
                             <th class="p-0 pl-2 pt-5 pb-5" scope="col" style="min-width: 76px;">기간 선택</th>
-                            <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 330px;">
+                            <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 350px;">
                                 <input type="date" id="search-start_time"> ~
                                 <input type="date" id="search-end_time"></th>
 
@@ -54,7 +60,7 @@
             </div>
             <div class="row" style="min-width: 890px;">
                 <div class="col-12 text-center">
-                    <table class="table table-hover" style="cursor: pointer" >
+                    <table class="table table-hover">
                         <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
@@ -64,6 +70,7 @@
                             <th scope="col">퇴근 시간</th>
                             <th scope="col">상태</th>
                             <th scope="col">처리 의견</th>
+                            <th scope="col">요청</th>
                         </tr>
                         </thead>
                         <tbody id="contents-container">
@@ -103,7 +110,7 @@
                             <input type="hidden" id="modal-seq">
                             <div class="col-8">
                                 <select  id="startTime" name="starttime" style="min-height: 35px; min-width: 80px; border-radius: 5px" >
-                                    <c:forEach var="i"  begin="0" end="24">
+                                    <c:forEach var="i"  begin="0" end="23">
                                         <option value="${i}">${i>9?i:'0'}${i>9?'':i}</option>
                                     </c:forEach>
                                 </select>
@@ -119,7 +126,7 @@
                             <div class="col-3 pt-1">퇴근 시간</div>
                             <div class="col-8">
                                 <select  id="startTime2" name="starttime2"  style="min-height: 35px; min-width: 80px; border-radius: 5px">
-                                    <c:forEach var="i"  begin="0" end="24">
+                                    <c:forEach var="i"  begin="0" end="23">
                                         <option value="${i}">${i>9?i:'0'}${i>9?'':i}</option>
                                     </c:forEach>
                                 </select>
@@ -149,19 +156,14 @@
 <div class="modal fade " id="alertModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
         <div class="modal-content">
-            <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pb-2 text-center" style="min-height: 80px;">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
                 <b id="atdResultMsg">출근이 처리가 완료 되었습니다.</b>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade " id="reReqModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade " id="reqCommentAlert" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
         <div class="modal-content">
             <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
@@ -169,13 +171,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body pb-2 text-center" style="min-height: 80px;">
-                <h5>아래와 같은 이유로 처리 되었습니다.</h5>
-                <b id="reReqModalMsg"></b>
+            <div class="modal-body pb-2 text-center" style="min-height: 100px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5><b>처리 의견</b></h5>
+                        </div>
+                    </div>
+                    <b class="p-3" id="reqCommentAlertMsg"></b>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
@@ -189,10 +198,13 @@
     var today ="";
     if(month.toString().length==1&&date.toString().length==1) {
         today = year + "-0" + month + "-0" + date;
+
     }else if(month.toString().length==1){
         today =year + "-0" + month + "-" + date;
+
     }else{
         today =year + "-" + month + "-" + date;
+
     }
     var oneMonthAgo = new Date(curdate.setMonth(curdate.getMonth()-1));
     var omayear = oneMonthAgo.getFullYear();
@@ -226,20 +238,34 @@
                 console.log(data);
                 var html="";
                 for(var i=0;i<data.length;i++) {
-                    if (data[i].req_status == "미승인" || data[i].req_status == "승인"){
-                        console.log(data[i].req_status);
-                        html += "<tr onclick=fn_openIsReqModal(" + data[i].seq + ",'" + data[i].today.substr(0, 8) + "')>";
-                    }
-                    else{
-                        html+="<tr onclick=fn_openReqModal("+data[i].seq+",'"+data[i].today.substr(0,8)+"')>";
-                    }
+                    var compDate=data[i].today.substr(0,8).replaceAll("-","");
+                    html+="<tr>";
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
                     html+="<td>"+data[i].sub_start_time+"</td>";
-                    html+="<td>"+data[i].sub_end_time+"</td>";
+
+                    if(compDate==today.replaceAll("-","").substr(2)){
+                        html+="<td style='color:blue'>퇴근 전</td>"
+                    }
+                    else if(data[i].sub_end_time==null){
+                        html+="<td style='color:red'>퇴근 누락</td>";
+                    }
+                    else{
+                        html+="<td>"+data[i].sub_end_time+"</td>";
+                    }
                     html+="<td>"+data[i].req_status+"</td>";
-                    html+="<td>"+data[i].comments+"</td>";
+                    if(data[i].comments!="-"){
+                        html+="<td class='text-truncate' id='comments' style='max-width: 160px; cursor: pointer;' onclick='fn_openReqCommentModal("+data[i].seq+")'>"+data[i].comments+"</td>";
+                    }else{
+                        html+="<td class='text-truncate' style='max-width: 160px;'>"+data[i].comments+"</td>";
+                    }
+                    if(data[i].req_status == "미승인" || data[i].req_status == "승인"){
+                        html+="<td><button class='btn btn-outline-dark btn-sm' onclick=fn_openIsReqModal("+ data[i].seq +",'"+ data[i].today.substr(0, 8) +"')>재요청</button>";
+                    }else{
+                        html+="<td><button class='btn btn-outline-dark btn-sm' onclick=fn_openReqModal("+ data[i].seq +",'"+ data[i].today.substr(0, 8) +"')>요청</button>";
+                    }
+
                 }
                 $("#contents-container").empty();
                 $("#contents-container").append(html);
@@ -264,15 +290,36 @@
                 start_time:start_time,end_time:end_time},
             dataType:"json",
             success : function(data) {
+                console.log(data);
                 var html="";
                 for(var i=0;i<data.length;i++){
-                    html+="<tr onclick='fn_openReqModal("+data[i].seq+")'>";
+                    var compDate=data[i].today.substr(0,8).replaceAll("-","");
+                    html+="<tr>";
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
                     html+="<td>"+data[i].sub_start_time+"</td>";
-                    html+="<td>"+data[i].sub_end_time+"</td>";
+
+                    if(compDate==today.replaceAll("-","").substr(2)){
+                        html+="<td style='color:blue'>퇴근 전</td>"
+                    }
+                    else if(data[i].sub_end_time==null){
+                        html+="<td style='color:red'>퇴근 누락</td>";
+                    }
+                    else{
+                        html+="<td>"+data[i].sub_end_time+"</td>";
+                    }
                     html+="<td>"+data[i].req_status+"</td>";
+                    if(data[i].comments!="-"){
+                        html+="<td class='text-truncate' id='comments' style='max-width: 160px; cursor: pointer;' onclick='fn_openReqCommentModal()'>"+data[i].comments+"</td>";
+                    }else{
+                        html+="<td class='text-truncate' style='max-width: 160px;'>"+data[i].comments+"</td>";
+                    }
+                    if(data[i].req_status == "미승인" || data[i].req_status == "승인"){
+                        html+="<td><button class='btn btn-outline-dark btn-sm' onclick=fn_openIsReqModal("+ data[i].seq +",'"+ data[i].today.substr(0, 8) +"')>재요청</button>";
+                    }else{
+                        html+="<td><button class='btn btn-outline-dark btn-sm' onclick=fn_openReqModal("+ data[i].seq +",'"+ data[i].today.substr(0, 8) +"')>요청</button>";
+                    }
                 }
                 $("#contents-container").empty();
                 $("#contents-container").append(html);
@@ -289,19 +336,21 @@
         }
     }
 
-    function fn_openReqModal(atd_seq,date) {
+    function fn_openReqModal(atd_seq,today) {
         $.ajax({
             type : "POST",
             url : "/restattendance/getReqInfo",
             data :{atd_seq:atd_seq},
             dataType:"json",
             success : function(data) {
+                console.log(data);
                 $("#modal-seq").val(atd_seq);
+                $("#btn_ok").text("변경 요청");
                 if(data!=false){
-                    var start_time =data.start_time.substr(9,5).split(":");
-                    var end_time=data.end_time.substr(9,5).split(":");
+                    var start_time =data.start_time.substr(10,6).split(":");
+                    var end_time=data.end_time.substr(10,6).split(":");
                     $("#btn_ok").attr("onclick","fn_modChangeReq()");
-                    $("#modal-date").text(date);
+                    $("#modal-date").text(today);
                     $("#startTime").val(parseInt(start_time[0]));
                     $("#endTime").val(parseInt(start_time[1]));
                     $("#startTime2").val(parseInt(end_time[0]));
@@ -316,7 +365,7 @@
                     $("#startTime2").val(0);
                     $("#endTime2").val(0);
                     $("#modal-contents").val("");
-                    $("#modal-date").text(date);
+                    $("#modal-date").text(today);
                     $("#btn_cancel").hide();
                     $("#reqModal").modal();
                 }
@@ -324,15 +373,39 @@
         });
     }
 
-    function fn_openIsReqModal(atd_seq,today) {
+    function fn_openIsReqModal(atd_seq,today){
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getReqInfo",
+            data :{atd_seq:atd_seq},
+            dataType:"json",
+            success : function(data) {
+                $("#btn_cancel").hide();
+                $("#btn_ok").text("재요청");
+                $("#modal-seq").val(atd_seq);
+                var start_time =data.start_time.substr(10,6).split(":");
+                var end_time=data.end_time.substr(10,6).split(":");
+                $("#btn_ok").attr("onclick","fn_modChangeReq()");
+                $("#modal-date").text(today);
+                $("#startTime").val(parseInt(start_time[0]));
+                $("#endTime").val(parseInt(start_time[1]));
+                $("#startTime2").val(parseInt(end_time[0]));
+                $("#endTime2").val(parseInt(end_time[1]));
+                $("#modal-contents").val(data.contents);
+                $("#reqModal").modal();
+            }
+        });
+    }
+
+    function fn_openReqCommentModal(atd_seq) {
         $.ajax({
             type : "POST",
             url : "/restattendance/getIsReqInfo",
             data :{atd_seq:atd_seq},
             dataType:"json",
             success : function(data) {
-                $("#reReqModalMsg").text(data.comments);
-                $("#reReqModal").modal();
+                $("#reqCommentAlertMsg").text(data.comments);
+                $("#reqCommentAlert").modal();
             }
         });
 
@@ -364,7 +437,7 @@
         }else if(startTime2.length==1&&endTime2.length==1){
             sum_end_time="0"+startTime2+"0"+endTime2;
         }else{
-            sum_end_time=startTime+endTime;
+            sum_end_time=startTime2+endTime2;
         }
 
         $.ajax({
@@ -385,6 +458,9 @@
                 }
                 $("#alertModal").modal();
                 $("#atdResultMsg").text("변경 요청이 완료되었습니다.");
+                var setTime=setTimeout(function () {
+                    $("#alertModal").modal('hide');
+                },1500)
             }
         });
     }
@@ -415,7 +491,7 @@
         }else if(startTime2.length==1&&endTime2.length==1){
             sum_end_time="0"+startTime2+"0"+endTime2;
         }else{
-            sum_end_time=startTime+endTime;
+            sum_end_time=startTime2+endTime2;
         }
 
         $.ajax({
@@ -435,6 +511,9 @@
                     }
                     $("#alertModal").modal();
                     $("#atdResultMsg").text("변경이 완료되었습니다.");
+                    var setTime=setTimeout(function () {
+                        $("#alertModal").modal('hide');
+                    },1500)
                 }
             }
         });
@@ -457,6 +536,63 @@
                 }
                 $("#alertModal").modal();
                 $("#atdResultMsg").text("요청이 취소되었습니다.");
+                var setTime=setTimeout(function () {
+                    $("#alertModal").modal('hide');
+                },1500)
+            }
+        });
+    }
+
+    function fn_reChangeReq(){
+        var seq= $("#modal-seq").val();
+        //출근시간
+        var startTime=$("#startTime option:selected").val();
+        var endTime=$("#endTime option:selected").val();
+        //퇴근시간
+        var startTime2=$("#startTime2 option:selected").val();
+        var endTime2=$("#endTime2 option:selected").val();
+        var sum_start_time="";
+        var sum_end_time="";
+        if(startTime.length==1&&endTime.length!=1){
+            sum_start_time="0"+startTime+endTime;
+        }else if(startTime.length!=1&&endTime.length==1){
+            sum_start_time=startTime+"0"+endTime;
+        }else if(startTime.length==1&&endTime.length==1){
+            sum_start_time="0"+startTime+"0"+endTime;
+        }else{
+            sum_start_time=startTime+endTime;
+        }
+        if(startTime2.length==1&&endTime2.length!=1){
+            sum_end_time="0"+startTime2+endTime2;
+        }else if(startTime2.length!=1&&endTime2.length==1){
+            sum_end_time=startTime2+"0"+endTime2;
+        }else if(startTime2.length==1&&endTime2.length==1){
+            sum_end_time="0"+startTime2+"0"+endTime2;
+        }else{
+            sum_end_time=startTime+endTime;
+        }
+
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/reChangeReq",
+            data:{start_time:sum_start_time,end_time:sum_end_time,
+                contents:$("#modal-contents").val(),atd_seq:$("#modal-seq").val(),
+                today:$("#modal-date").text()
+            },
+            success : function(data) {
+                if(data=="successUpdate"){
+                    var isSearch = $("#search-select").val();
+                    if(isSearch==''){
+                        fn_getAtdList();
+                    }else{
+                        fn_search();
+                    }
+                    $("#alertModal").modal();
+                    $("#atdResultMsg").text("재요청이 완료 되었습니다.");
+                    var setTime=setTimeout(function () {
+                        $("#alertModal").modal('hide');
+                    },1500)
+                }
             }
         });
     }

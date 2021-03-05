@@ -8,7 +8,6 @@
 <title>CocoaWorks Board Modify</title>
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css" media="screen" />
 <style type="text/css">
-.row{border-bottom: 1px solid pink}
 input{width:100%;}
 #contents_box{margin:1px;height:400px;border:none;}
 #only{border-top: 1px solid pink;}

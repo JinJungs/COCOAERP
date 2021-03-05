@@ -103,6 +103,10 @@
 		SELECT COUNT(*) FROM EMPLOYEE WHERE CODE=#{code} and WITHDRAW='Y'
 	</select>
 
+	<select id="getAllEmpCode" resultType="Integer">
+		SELECT CODE FROM EMPLOYEE WHERE WITHDRAW='N'
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME 
