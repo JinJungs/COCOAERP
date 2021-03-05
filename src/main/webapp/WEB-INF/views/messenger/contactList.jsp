@@ -97,7 +97,7 @@
 									<a href="#">
 										<div class="user_info align-self-center">
 											<span>${loginDTO.name}</span>
-											<p>${loginDTO.deptname} | ${loginDTO.teamname}</p>
+											<p>${loginDTO.deptname} | ${loginDTO.teamname}<c:if test="${empty loginDTO.teamname}">무소속</c:if></p>
 										</div>
 									</a>
 								</div>
@@ -114,7 +114,7 @@
 									</div>
 									<div class="user_info align-self-center">
 										<span>${i.name}</span>
-										<p>${i.deptname} | ${i.teamname}</p>
+										<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 									</div>
 								</div>
 							</li>
@@ -131,7 +131,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -148,7 +148,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -183,6 +183,7 @@
 	</div>
 </div>
 </div>
+<input id="onclickNow" type="hidden" value="all">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- sockjs, stomp CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
@@ -199,7 +200,8 @@
 	let showTeam = document.getElementById("showTeam");
 	let showChat = document.getElementById("showChat");
 	const textLength = 20;
-
+	/* 	========연락처 리스트 어느 항목 클릭중인지 알려고 함수를 뺐어요~
+	========문제없으면 이부분 삭제해도 될까요
 	showAll.onclick = function() {
 		memberAll.style.display="block";
 		memberDept.style.display="none";
@@ -227,6 +229,7 @@
 		$("#myProfil").show();
 		$(".search").focus();
 	};
+	
 	showChat.onclick = function() {
 		memberAll.style.display="none";
 		memberDept.style.display="none";
@@ -235,7 +238,69 @@
 		chatTitle.innerHTML = "채팅방";
 		$("#myProfil").hide();
 		$(".search").focus();
-	};
+	}; */
+	
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	function funcOnclickNow(onclickNow){
+		console.log(onclickNow);
+		if(onclickNow == 'all'){
+			this.showAllClick();
+		}else if (onclickNow == 'dept'){
+			this.showDeptClick();
+		}else if(onclickNow == 'team'){
+			this.showTeamClick();
+		}else if(onclickNow == 'chat'){
+			this.showChatClick();
+		}
+	}
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	showAll.addEventListener("click", showAllClick);
+	function showAllClick(){
+		memberAll.style.display="block";
+		memberDept.style.display="none";
+		memberTeam.style.display="none";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "전체 연락처";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "all";
+	}
+	
+	showDept.addEventListener("click", showDeptClick);
+	function showDeptClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="block";
+		memberTeam.style.display="none";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "부서원";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "dept";
+	}
+	
+	showTeam.addEventListener("click", showTeamClick);
+	function showTeamClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="none";
+		memberTeam.style.display="block";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "팀원";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "team";
+	}
+	
+	showChat.addEventListener("click", showChatClick);
+	function showChatClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="none";
+		memberTeam.style.display="none";
+		chatList.style.display="block";
+		chatTitle.innerHTML = "채팅방";
+		$("#myProfil").hide();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "chat";
+	}
 
 	// 연락처리스트 소켓으로 메세지받기
 	//스톰프 연결
@@ -310,7 +375,6 @@
     function openMemberList(){
 		var popup = window.open('/messenger/openMemberList?seq=0','',winFeature);
     }
-    
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"

@@ -177,7 +177,7 @@ public class MessengerController {
     		//messenger 타입지정 + 생성
     		MessengerDTO messenger = new MessengerDTO();
     		messenger.setType("M");
-    		messenger.setName(loginDTO.getName()+" 님 외 "+partyList.size()+"명");
+    		messenger.setName(loginDTO.getName()+" 님의 단체 채팅방");
     		//메신저 테이블 인서트 후 시퀀스값 받아오기
     		mservice.insertMessengerRoomGetSeq(messenger);
     		//Messenger 테이블 seq = Messenger_Party의 m_seq
@@ -414,23 +414,6 @@ public class MessengerController {
     	int result = mservice.updateName(messenger.getSeq(), messenger.getName());
     	return result;
     }
-    
-    //채팅방 나가기
-    @RequestMapping("exitRoom")
-    @ResponseBody
-    public String exitRoom(int seq) {
-    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-        int code = loginDTO.getCode();
-        //방어코드 : 타입이 'M'이 아닌 경우 리턴하는 처리 해줘야하나??
-        
-    	MessengerPartyDTO mparty = new MessengerPartyDTO();
-    	mparty.setM_seq(seq);
-    	mparty.setEmp_code(code);
-    	int result = mpservice.exitMutiRoom(mparty);
-    	System.out.println("mparty : " + mparty);
-    	System.out.println("채팅방 나가기 : "+result);
-    	return "";
-    }
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
@@ -472,7 +455,6 @@ public class MessengerController {
     		System.out.println("1:1에서 추가할 때");
     		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
     		int resultType = mservice.updateTypeToM(seq);
-    		//String name = loginDTO.getName() + "님 외 " + (partyList.size()+1) + "명";
     		//리스트 인원 받아서 수정
     		String name = loginDTO.getName() + "님의 단체 채팅방";
     		int resultName = mservice.updateName(seq, name);
