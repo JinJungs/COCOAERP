@@ -20,9 +20,9 @@ public class AtdChangeReqDTO {
     private String atd_status;
     private int emp_code;
     private String name;
-
+    private String comments;
     @Builder
-    public AtdChangeReqDTO(int seq, String start_time, String end_time, String contents, String status, int atd_seq, String today, String atd_status, int emp_code, String name) {
+    public AtdChangeReqDTO(int seq, String start_time, String end_time, String contents, String status, int atd_seq, String today, String atd_status, int emp_code, String name,String comments) {
         this.seq = seq;
         this.start_time = start_time;
         this.end_time = end_time;
@@ -33,5 +33,6 @@ public class AtdChangeReqDTO {
         this.atd_status = atd_status;
         this.emp_code = emp_code;
         this.name = name;
+        this.comments= comments;
     }
 }

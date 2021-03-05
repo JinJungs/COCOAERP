@@ -25,7 +25,7 @@
                             <th class="p-0 pl-2 pt-5 pb-5" scope="col" style="min-width: 76px;">기간 선택</th>
                             <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 330px;">
                                 <input type="date" id="search-start_time"> ~
-                                <input type="date" id="search-end_time" onchange="fn_dateValidChk()"></th>
+                                <input type="date" id="search-end_time"></th>
 
                             <th class="p-0 pt-5 pb-5" scope="col" style="min-width: 400px;">
                                 출퇴근 여부 &nbsp
@@ -63,6 +63,7 @@
                             <th scope="col">출근 시간</th>
                             <th scope="col">퇴근 시간</th>
                             <th scope="col">상태</th>
+                            <th scope="col">처리 의견</th>
                         </tr>
                         </thead>
                         <tbody id="contents-container">
@@ -160,6 +161,22 @@
     </div>
 </div>
 
+<div class="modal fade " id="reReqModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pb-2 text-center" style="min-height: 80px;">
+                <h5>아래와 같은 이유로 처리 되었습니다.</h5>
+                <b id="reReqModalMsg"></b>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/Chart.min.js"></script>
@@ -206,15 +223,23 @@
             data :{number:$("#select-number").val()},
             dataType:"json",
             success : function(data) {
+                console.log(data);
                 var html="";
-                for(var i=0;i<data.length;i++){
-                    html+="<tr onclick=fn_openReqModal("+data[i].seq+",'"+data[i].today.substr(0,8)+"')>";
+                for(var i=0;i<data.length;i++) {
+                    if (data[i].req_status == "미승인" || data[i].req_status == "승인"){
+                        console.log(data[i].req_status);
+                        html += "<tr onclick=fn_openIsReqModal(" + data[i].seq + ",'" + data[i].today.substr(0, 8) + "')>";
+                    }
+                    else{
+                        html+="<tr onclick=fn_openReqModal("+data[i].seq+",'"+data[i].today.substr(0,8)+"')>";
+                    }
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
                     html+="<td>"+data[i].sub_start_time+"</td>";
                     html+="<td>"+data[i].sub_end_time+"</td>";
                     html+="<td>"+data[i].req_status+"</td>";
+                    html+="<td>"+data[i].comments+"</td>";
                 }
                 $("#contents-container").empty();
                 $("#contents-container").append(html);
@@ -225,12 +250,12 @@
     function fn_search() {
         var start_time = parseInt($("#search-start_time").val().replaceAll("-",""));
         var end_time = parseInt($("#search-end_time").val().replaceAll("-",""));
-        if(start_time<end_time){
-           start_time=$("#search-end_time").val();
-           end_time=$("#search-start_time").val();
+        if(start_time>end_time){
+            start_time=$("#search-end_time").val();
+            end_time=$("#search-start_time").val();
         }else{
             start_time=$("#search-start_time").val();
-            end_time=$("#search-start_time").val();
+            end_time=$("#search-end_time").val();
         }
         $.ajax({
             type : "POST",
@@ -297,6 +322,20 @@
                 }
             }
         });
+    }
+
+    function fn_openIsReqModal(atd_seq,today) {
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getIsReqInfo",
+            data :{atd_seq:atd_seq},
+            dataType:"json",
+            success : function(data) {
+                $("#reReqModalMsg").text(data.comments);
+                $("#reReqModal").modal();
+            }
+        });
+
     }
 
     function fn_changeReq() {
@@ -402,8 +441,6 @@
     }
 
 
-
-
     function fn_delChangeReq() {
         $.ajax({
             type : "POST",
@@ -423,6 +460,8 @@
             }
         });
     }
+
+
 
 </script>
 </body>

@@ -54,10 +54,12 @@
 <script>
     let memberAll = document.getElementById("memberAll");
     let checkArr = new Array();
+    let jArrayMember = "";
+    let searchContents = "";
 
     $(document).ready(function () {
         // ajax로 목록 불러오기
-        searchAjax("");
+        searchAjax();
         // 선택된 인원이 없을 때 확인버튼 disabled 처리
         if (checkArr.length == 0) {
             $('#confirm_btn').prop('disabled', true);
@@ -75,15 +77,15 @@
     document.getElementById("searchBtn").addEventListener("click", searchAjax);
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
-            let searchContents = $("#searchContents").val();
-            searchAjax(searchContents);
+            searchAjax();
         }
     });
 
     // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
-        let searchContents = $("#searchContents").val();
-        searchAjax(searchContents);
+        setTimeout(() => {
+            searchAjax();
+        },400);
     });
 
     // room의 seq를 받아 해당 채팅방으로 이동
@@ -94,16 +96,19 @@
     }
 
     //-------------------------------- 비동기 검색 -------------------------------------
-    function searchAjax(searchContents) {
+    function searchAjax() {
+        searchContents = $("#searchContents").val();
+        console.log("검색어 : " +searchContents);
         $.ajax({
-            url: "/messenger/messengerSearchAjax",
+            url: "/messenger/addMemberSearchAjax",
             type: "post",
             data: {
                 contents: searchContents
             },
             dataType: "json",
             success: function (resp) {
-                let jArrayMember = resp[0];
+                jArrayMember = resp;
+                console.log("멤버 몇명 : " +jArrayMember.length);
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                 // 멤버
                 let html = "";
