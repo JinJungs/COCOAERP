@@ -129,8 +129,6 @@
         </button>
       </div>
       <div class="modal-body">
-        채팅방 정보 설정 임시 페이지<br>
-      채팅방 이미지 : 한다면 수정 가능하도록<br>
       채팅방 이름 : <br>
       <input type="text" id="modifName" value="${messenger.name}" placeholder="채팅방 이름을 설정해주세요.">
       <div id="msg"></div>
