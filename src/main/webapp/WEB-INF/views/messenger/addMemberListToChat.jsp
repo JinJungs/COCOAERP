@@ -66,17 +66,19 @@
     let existingMemberNum = $("#existingMemberNum").val();
     let existingMemberArr = new Array();
     let checkArr = new Array();
+    let jArrayMember = "";
+    let searchContents = "";
 
     $(document).ready(function () {
+        // ajax로 목록 불러오기
+        searchAjax();
+
         <c:forEach var="i" items="${partyList}">
             // 기존멤버를 existingMemberArr 배열에 추가하기
             existingMemberArr.push(${i.emp_code});
             // 상단목록 띄우기
             addExistingMembers(${i.emp_code}, "${i.empname}");
         </c:forEach>
-
-        // ajax로 목록 불러오기
-        searchAjax("");
     });
 
     // esc 누르면 창닫기
@@ -90,28 +92,29 @@
     document.getElementById("searchBtn").addEventListener("click", searchAjax);
     $("#searchContents").on("keydown", function (e) {
         if (e.keyCode == 13) {
-            let searchContents = $("#searchContents").val();
-            searchAjax(searchContents);
+            searchAjax();
         }
     });
 
     // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function (e) {
-        let searchContents = $("#searchContents").val();
-        searchAjax(searchContents);
+        setTimeout(() => {
+            searchAjax();
+        },400);
     });
 
     //-------------------------------- 비동기 검색 -------------------------------------
-    function searchAjax(searchContents) {
+    function searchAjax() {
+        searchContents = $("#searchContents").val();
         $.ajax({
-            url: "/messenger/messengerSearchAjax",
+            url: "/messenger/addMemberSearchAjax",
             type: "post",
             data: {
                 contents: searchContents
             },
             dataType: "json",
             success: function (resp) {
-                let jArrayMember = resp[0];
+                jArrayMember = resp;
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                 // 멤버
                 let html = "";

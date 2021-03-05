@@ -359,6 +359,39 @@ public class MessengerController {
         jArrayAll.put(jArrayMessage);
         return jArrayAll.toString();
     }
+
+    @RequestMapping("addMemberSearchAjax")
+    @ResponseBody
+    public String addMemberSearchAjax(String contents){
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int code = loginDTO.getCode();
+        JSONArray jArrayMember = new JSONArray();
+        HashMap<String,Object> param = null;
+        // 로그인한 사람의 이름은 제외해야함
+        //(1) 멤버이름으로 찾기
+        List<EmployeeDTO> memberList = eservice.searchEmployeeByName(code, contents);
+
+        // 의진 추가 - 참여자의 프로필 이미지 추가하기
+        for(int i=0; i<memberList.size(); i++){
+            String profile = fservice.getProfile(memberList.get(i).getCode());
+            memberList.get(i).setProfile(profile);
+        }
+
+        // 나중에 이중for문으로 정리하기
+        // jArrayMember에 memberList 넣기
+        for (int i = 0; i < memberList.size(); i++) {
+            param = new HashMap<>();
+            param.put("code",memberList.get(i).getCode());
+            param.put("name",memberList.get(i).getName());
+            param.put("email",memberList.get(i).getEmail());
+            param.put("deptname",memberList.get(i).getDeptname());
+            param.put("teamname",memberList.get(i).getTeamname());
+            param.put("posname",memberList.get(i).getPosname());
+            param.put("profile",memberList.get(i).getProfile());
+            jArrayMember.put(param);
+        }
+        return jArrayMember.toString();
+    }
     
     //파일 모아보기 팝업
     @RequestMapping("showFiles")

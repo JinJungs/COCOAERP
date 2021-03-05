@@ -58,4 +58,9 @@ public class TeamService implements TeamDAO {
     public int deleteTeam(List<TeamDTO> dto) {
     	return tdao.deleteTeam(dto);
     }
+    
+    @Override
+    public int countNoTeam(int dept_code) {
+    	return tdao.countNoTeam(dept_code);
+    }
 }
