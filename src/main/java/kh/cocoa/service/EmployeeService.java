@@ -191,6 +191,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.isWithdraw(code);
 	}
 
+	@Override
+	public List<Integer> getAllEmpCode() {
+		return edao.getAllEmpCode();
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override

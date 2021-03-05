@@ -321,6 +321,7 @@
             url : "/restattendance/getAtdTime",
             dataType :"json",
             success : function(data) {
+                console.log(data);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'bar',
@@ -366,6 +367,10 @@
                     var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
                     for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
+                            if(getTime<=7&&data[j].overtime>0){
+                                console.log("부족한시간 getTIME:"+getTime);
+                                myChart.data.datasets[2].data[i]=8-getTime;
+                            }
                             if(getTime>8){
                                 while(getTime>8){
                                     getTime--;
@@ -377,11 +382,6 @@
                             console.log(getTime);
                             if(getTime<=0) {
                                 continue;
-                            }
-
-                            if(getTime<=7){
-                                console.log(getTime);
-                                myChart.data.datasets[2].data[i]=8-getTime;
                             }
                             myChart.data.datasets[0].data[i] = getTime;
                             myChart.data.datasets[1].data[i] = data[j].overtime;

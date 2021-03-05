@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/noBoard.css" type="text/css"
 	media="screen" />
 <style type="text/css">
-input{width:50%;border-bottom:1px solid pink;}
-#search,select{height:70%;border:none;border-bottom:1px solid pink;background-color:transparent;}
+input{width:50%;border-bottom:1px solid lightgray;}
+#search,select{height:70%;border:none;border-bottom:1px solid lightgray;background-color:transparent;}
 .select{text-align:right;}
 .navi_box{text-align:center;margin-top:5px;}
 .head_box{text-align:center;}
@@ -39,12 +39,12 @@ input{width:50%;border-bottom:1px solid pink;}
 							<!-- <option value="tc">제목과 내용</option> -->
 						</select> <input type="text" name="search" id="search"
 							placeholder="검색하실 글 제목 또는 글 내용을 입력하세요" onclick="search_box()">
-						<button type=submit class="btn btn-primary">검색</button>
+						<button type=submit class="btn btn-outline-danger">검색</button>
 					</div>
 				</div>
 			</form>
 
-			<div class="row head_box" style="border-bottom: 1px solid pink;">
+			<div class="row head_box" style="border-bottom: 1px solid lightgray;">
 				<div class="col-md-1 d-none d-md-block">
 					<b>#</b>
 				</div>
@@ -63,13 +63,14 @@ input{width:50%;border-bottom:1px solid pink;}
 			</div>
 			<c:choose>
 				<c:when test="${empty list}">
-					<div class="row" id="notice">
+					<div class="row" id="notice" >
 						<div class="col">작성된 글이 없습니다.</div>
 					</div>
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="i" items="${list}">
-						<div class="row">
+						<div class="row" 
+				style="border-bottom: 1px solid transparent;">
 							<div class="col-md-1 d-none d-md-block"
 								style="text-align: center;">${i.seq}</div>
 							<div class="title col-sm-12 col-md-5"
@@ -85,7 +86,7 @@ input{width:50%;border-bottom:1px solid pink;}
 				</c:otherwise>
 			</c:choose>
 
-			<div class="row" style="border-top: 1px solid pink;">
+			<div class="row" style="border-top: 1px solid lightgray;">
 				<div class="col-md-2  footer">
 					<button type="button" class="btn btn-primary"
 						onclick="fn_home(${cpage})">홈으로</button>

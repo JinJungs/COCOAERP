@@ -61,7 +61,8 @@ public class LeaveController {
 		int halfL = 0;		//반차
 		int familyL = 0;	//경조사
 		int childBirthL = 0;//출산
-		int etcL = 0;		//기타
+		int etcMinusL = 0;		//기타(차감)
+		int etcNMinusL = 0;		//기타(미차감)
 		
 		for(int i=0; i<leaveList.size(); i++) {
 			if(leaveList.get(i).getType().contentEquals("정기")) {
@@ -78,8 +79,10 @@ public class LeaveController {
 				familyL = familyL + leaveList.get(i).getDuration();
 			}else if(leaveList.get(i).getType().contentEquals("출산")) {
 				childBirthL = childBirthL + leaveList.get(i).getDuration();
-			}else if(leaveList.get(i).getType().contentEquals("기타")) {
-				etcL = etcL + leaveList.get(i).getDuration();
+			}else if(leaveList.get(i).getType().contentEquals("기타(차감)")) {
+				etcMinusL = etcMinusL + leaveList.get(i).getDuration();
+			}else if(leaveList.get(i).getType().contentEquals("기타(미차감)")) {
+				etcNMinusL = etcNMinusL + leaveList.get(i).getDuration();
 			}
 			
 		}
@@ -112,7 +115,8 @@ public class LeaveController {
 		model.addAttribute("halfL", halfL);
 		model.addAttribute("familyL", familyL);
 		model.addAttribute("childBirthL", childBirthL);
-		model.addAttribute("etcL", etcL);
+		model.addAttribute("etcMinusL", etcMinusL);
+		model.addAttribute("etcNMinusL", etcNMinusL);
 		model.addAttribute("yearList", yearList);
 		model.addAttribute("year", year);
 		

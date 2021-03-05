@@ -78,6 +78,7 @@ select {
 					</div>
 				</div>
 				</form>
+				<hr>
 				<div>
 					<div class="row item p-2" style="border-bottom: 1px solid #c9c9c9">
 						<div class="col p-1 text-center textBox"><b>문서번호</b></div>

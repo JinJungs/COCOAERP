@@ -91,7 +91,7 @@ public class AttendanceService implements AttendanceDAO {
     @Override
     public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code) {
         return attenDAO.getAtdReqListToMain(emp_code);
-    }
+}
 
     @Override
     public List<AttendanceDTO> getAtdInfoBySeq(int seq) {
@@ -121,5 +121,25 @@ public class AttendanceService implements AttendanceDAO {
     @Override
     public int saveAtdReq(AtdChangeReqDTO dto) {
         return attenDAO.saveAtdReq(dto);
+    }
+
+    @Override
+    public AtdChangeReqDTO getIsReqInfo(int atd_seq) {
+        return attenDAO.getIsReqInfo(atd_seq);
+    }
+
+    @Override
+    public int reChangeReq(AtdChangeReqDTO dto) {
+        return attenDAO.reChangeReq(dto);
+    }
+
+    @Override
+    public int modAtdTime(AtdChangeReqDTO dto) {
+        return attenDAO.modAtdTime(dto);
+    }
+
+    @Override
+    public int toDayUpdateAtd(int emp_code) {
+        return attenDAO.toDayUpdateAtd(emp_code);
     }
 }
