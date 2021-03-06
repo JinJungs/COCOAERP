@@ -281,9 +281,6 @@
 
         // 메세지 보내기
         function sendMsg(evt) {
-            // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
-            //evt.preventDefault();
-
             let msg = $("#yourMsg").val();
             // 미입력 또는 공백 입력 방지
             if (msg.replace(/\s|　/gi, "").length == 0) {
@@ -308,14 +305,6 @@
                 }));
             else
                 socket.send(msg);
-
-            // (new) 메세지를 연락처리스트 소켓으로 전송
-            socket.send('/getChat/contactListText/' +${loginDTO.code},{}, JSON.stringify({
-                contents: msg
-                , type: "TEXT"
-                , emp_code: ${loginDTO.code}
-                , m_seq: ${seq}
-            }));
 
             // (2) db에 저장? / 아니면 컨트롤러에서 처리?
             $.ajax({
@@ -829,7 +818,6 @@
                         , empname: empname
                         , type: "AN_ADD"
                     }));
-
                }
             }
         });

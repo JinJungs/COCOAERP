@@ -271,20 +271,32 @@ background-color: #c23616;
   margin-bottom: auto;
   margin-left: 15px;
 }
-.user_info span {
+.user_info > span {
   font-size: 15px;
   font-weight: bold;
   color: var(--text-color-dark);
+}
+.chat_icon_span {
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
 }
 .user_info p {
   font-size: 12px;
   color: var(--text-color-dark);
   padding-top: 2px;
 }
-.user_info p > span{
+/*.user_info p > span{
   font-size: 12px;
   background-color: var(--text-color-light);
   padding: 3px 3px 3px 5px;
+}*/
+.room_span{
+  font-size: 12px;
+  background-color: var(--text-color-light);
+  padding: 3px 3px 3px 5px;
+  border-radius: 5px;
+  color: var(--text-color-dark);
 }
 .video_cam {
   margin-left: 150px;
@@ -470,12 +482,35 @@ background-color: #c23616;
 .con-title img{
   width: 20px;
 }
+.con-room{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display:block;
+  max-width: 150px;
+}
+.con-date{
+  margin-top: 8px;
+  font-size: 12px;
+  margin-left: auto;
+  color: var(--text-color-medium);
+}
 .con-message{
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: pre-line;
-  width: 100%;
+  white-space: nowrap;
+  display:block;
+  max-width: 200px;
   height: 20px;
+}
+.contents_span{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display:block;
+  max-width: 250px;
+  margin-bottom: 7px;
+  font-size: 16px;
 }
 a {
   text-decoration: none;

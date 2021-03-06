@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -114,7 +115,16 @@
 									</div>
 									<div class="user_info align-self-center">
 										<span>${i.name}</span>
-										<p>${i.deptname} | ${i.teamname}</p>
+										<p>${i.deptname} |
+											<c:choose>
+												<c:when test="${not empty i.teamname}">
+													${i.teamname}
+												</c:when>
+												<c:otherwise>
+													무소속
+												</c:otherwise>
+											</c:choose>
+										</p>
 									</div>
 								</div>
 							</li>
@@ -131,7 +141,16 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} |
+												<c:choose>
+													<c:when test="${not empty i.teamname}">
+														${i.teamname}
+													</c:when>
+													<c:otherwise>
+														무소속
+													</c:otherwise>
+												</c:choose>
+											</p>
 										</div>
 									</div>
 								</li>
@@ -148,7 +167,16 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} |
+												<c:choose>
+													<c:when test="${not empty i.teamname}">
+														${i.teamname}
+													</c:when>
+													<c:otherwise>
+														무소속
+													</c:otherwise>
+												</c:choose>
+											</p>
 										</div>
 									</div>
 								</li>
@@ -164,13 +192,25 @@
 										<div class="user_info align-self-center">
 											<c:choose>
 												<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
-													<span>${i.empname}</span>
+													<span class="con-room">${i.empname}</span>
 												</c:when>
 												<c:otherwise> <!--1:N채팅방-->
-													<span>${i.name}</span>
+													<span class="con-room">${i.name}</span>
 												</c:otherwise>
 											</c:choose>
-											<p class="con-message" id="con-message${i.seq}">${i.contents}</p>
+											<p>
+												<c:choose>
+													<c:when test="${i.msg_type=='IMAGE'}">
+														<span class="con-message" id="con-message${i.seq}"><c:out value="사진"/></span>
+													</c:when>
+													<c:otherwise>
+														<span class="con-message" id="con-message${i.seq}"><c:out value="${i.contents}"/></span>
+													</c:otherwise>
+												</c:choose>
+											</p>
+										</div>
+										<div class="con-date">
+											<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd"/>
 										</div>
 									</div>
 								</li>
@@ -257,7 +297,12 @@
 				if(msg.length > textLength){
 					msg = msg.substr(0, textLength-2) + '...';
 				}
-				$("#con-message${i.seq}").html(msg);
+				// type이 IMAGE일 때는 '사진'으로 메세지를 띄워준다.
+				if(type=='IMAGE'){
+					$("#con-message${i.seq}").html("사진");
+				}else{
+					$("#con-message${i.seq}").html(msg);
+				}
 			});
 			</c:forEach>
 		});

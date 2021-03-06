@@ -32,15 +32,10 @@ public class StompController {
 	@MessageMapping("/getChat/text/{seq}")
 	//@SendTo("/topic/message")
 	public void getChatText(MessageDTO message, String savedname) throws Exception {
-		//1.받아온 내용들로 MESSAGE 테이블에 인서트(??뇌피셜. 조사 필요)
-		//2.전송
-		System.out.println("MSG=" + message.getContents());
-		System.out.println("WRITE_DATE="+message.getWrite_date());
-		System.out.println("savedname : "+savedname);
-		System.out.println("empname : "+message.getEmpname());
-		System.out.println("getType : "+message.getType());
+		//01. 스톰프 메세지 전송
 		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
-//		messagingTemplate.convertAndSendToUser(message.getId(), "/topic/" + message.getRoomid(), message.getMsg());
+		//02. 스톰프 메세지 연락처로 전송
+		messagingTemplate.convertAndSend("/contact/"+message.getM_seq(), message);
 	}
 	
 
@@ -54,8 +49,10 @@ public class StompController {
 		int result = msgservice.insertMessageGotSeq(message);
 		System.out.println("insertMessageGotSeq result : "+result);
 
-		//02.스톰프 메세지 전송 : Message, FilesDTO(originName, savedname)
+		//02. 스톰프 메세지 전송 : Message, FilesDTO(originName, savedname)
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
+		//03. 스톰프 메세지 연락처로 전송 : Message, FilesDTO(originName, savedname)
+		messagingTemplate.convertAndSend("/contact/"+message.getM_seq(), message);
 	}
 	
 	@MessageMapping("/getChat/announce/{seq}")
@@ -111,12 +108,6 @@ public class StompController {
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
 	}
 
-	@MessageMapping("/getChat/contactListText/{code}")
-	public void contactListText(MessageDTO message) throws Exception{
-		System.out.println("연락처 리스트 소켓에서 msg : " +message.getContents());
-		messagingTemplate.convertAndSend("/contact/"+message.getM_seq(), message);
-	}
-	
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
         System.err.println(e.getClass());
