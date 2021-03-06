@@ -197,10 +197,10 @@
 										<div class="user_info align-self-center">
 											<c:choose>
 												<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
-													<span class="con-room">${i.empname}</span>
+													<span class="con-room" id="con-room${i.seq}">${i.empname}</span>
 												</c:when>
 												<c:otherwise> <!--1:N채팅방-->
-													<span class="con-room">${i.name}</span>
+													<span class="con-room" id="con-room${i.seq}">${i.name}</span>
 												</c:otherwise>
 											</c:choose>
 											<p>
@@ -308,23 +308,27 @@
 
 		client.connect({}, function () {
 			console.log("ContactList stompTest!");
-			// 해당 토픽을 구독한다!
-			// 여기에 for문을 돌려야할까...
+			// 채팅방의 개수만큼 Stomp로 받아야한다.
 			<c:forEach var="i" items="${chatList}">
 				client.subscribe('/contact/' +${i.seq}, function (e) {
 				let msg = JSON.parse(e.body).contents;
 				let type = JSON.parse(e.body).type;
 				let write_date = JSON.parse(e.body).write_date;
+				let roomname = JSON.parse(e.body).roomname;
+				// (1) 날짜
 				let formed_write_date = moment(write_date).format('HH:mm');
 				$("#con-date${i.seq}").html(formed_write_date);
-				if(msg.length > textLength){
-					msg = msg.substr(0, textLength-2) + '...';
-				}
+				// (2) 메세지
 				// type이 IMAGE일 때는 '사진'으로 메세지를 띄워준다.
 				if(type=='IMAGE'){
 					$("#con-message${i.seq}").html("사진");
-				}else{
+				}else if(type=='TEXT' || type=='FILE'){
+					if(msg.length > textLength){
+						msg = msg.substr(0, textLength-2) + '...';
+					}
 					$("#con-message${i.seq}").html(msg);
+				}else if(type=='AN_MODIF'){
+					$("#con-room${i.seq}").html(roomname);
 				}
 			});
 			</c:forEach>

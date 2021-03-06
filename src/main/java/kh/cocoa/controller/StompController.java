@@ -70,6 +70,8 @@ public class StompController {
 		
 		if(typeAn.contentEquals("MODIF")) {
 			announce = message.getEmpname()+"님이 "+message.getContents()+" (으)로 채팅방 이름을 바꿨습니다.";
+			// 연락처리스트에서 사용하기 위해 변경된 채팅방이름을 roomname변수에 저장
+			message.setRoomname(message.getContents());
 		}else if(typeAn.contentEquals("EXIT")) {
 			announce = message.getEmpname()+" 님이 퇴장하였습니다.";
 			System.out.println("퇴장 : "+announce);
@@ -106,6 +108,7 @@ public class StompController {
 		//message.setContents(message.getEmp_code()+"님이 "+message.getContents()+" 으로 채팅방 이름을 바꿨습니다.");
 		//messagingTemplate.convertAndSend("/topic/announce/"+message.getM_seq(), message);
 		messagingTemplate.convertAndSend("/topic/"+message.getM_seq(), message);
+		messagingTemplate.convertAndSend("/contact/"+message.getM_seq(), message);
 	}
 
     @ExceptionHandler(NullPointerException.class)
