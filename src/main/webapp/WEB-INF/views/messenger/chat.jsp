@@ -167,6 +167,8 @@
     let before_date = "";
     let socket_before_date = "";
     let addedHeight = 0;
+    let searchContents = "";
+    let before_searchContents = "";
 
     /* 텍스트 전송 */
     // 전송 버튼 클릭시 메세지 전송
@@ -469,10 +471,13 @@
 
     // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
     function scrollMoveToSearch(seq) {
-        let element = document.getElementById("msg_card_body");
-        let location = document.querySelector("#msgDiv" + seq).offsetTop;
-        console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
+        return new Promise((resolve, reject) => {
+            let element = document.getElementById("msg_card_body");
+            let location = document.querySelector("#msgDiv" + seq).offsetTop;
+            console.log("위치 : " + location);
+            element.scrollTo({top: location - 300, behavior: 'smooth'});
+            resolve(seq);
+        });
     }
 
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
@@ -606,30 +611,22 @@
         $("#searchContents").focus();
     }
 
-    /* 1.1. 비동기로 메세지 검색*/
-    $("#searchBtn").on("click", searchInChatRoom);
-    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
-    $("#searchContents").on("keydown", function (e) {
-        if (e.keyCode == 13) {
-            searchInChatRoom();
-        }
-    });
-
     // 하이라이트
     let highlightArr = [];
-    function highlightSearch(seq, searched) {
-        if (searched) {
+    function highlightSearch(seq) {
+        if (searchContents) {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
-            let re = new RegExp(searched, "g"); // search for all instances
-            let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
+            let re = new RegExp(searchContents, "g"); // search for all instances
+            let newText = beforeText.replace(re, "<mark>" + searchContents + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
-            highlightArr.push([seq, searched, newText]);
+            highlightArr.push([seq, searchContents, newText]);
             console.log(highlightArr);
         }
     }
 
     // 검색어가 바뀌면 하이라이트된 내용을 원상복구
     function deHighlightBeforeSearch() {
+        if(!highlightArr){return;}
         for (let i = 0; i < highlightArr.length; i++) {
             let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
             let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
@@ -646,9 +643,94 @@
         }, 100);
     }
 
+    /* 1.1. 비동기로 메세지 검색*/
+    $("#searchBtn").on("click", searchOrFindNext);
+    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
+    $("#searchContents").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            searchOrFindNext();
+        }
+    });
+
+    function searchOrFindNext(){
+        // 처음 검색하거나 검색어가 바뀌었을 때 searchInChatRoom
+        if(searchContents!==before_searchContents || (!searchContents && !before_searchContents)){
+            deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
+            searchInChatRoom()
+                .then(scrollMoveToSearch)
+                .then(highlightSearch);
+        // 같은 검색어일 때는 다음 검색어로 넘어가야 한다.
+        }else{
+            findNextInChatRoom()
+                //.then(scrollMoveToSearch).then(highlightSearch);
+        }
+    }
+
+    function findNextInChatRoom(){
+        console.log(before_searchContents);
+/*        if (index >= resp.length) {
+            return;
+        } else {
+            index += 1;
+            console.log("엔터키 입력후 index: " + index);
+            scrollMoveToSearch(resp[index].seq);
+            highlightSearch(resp[index].seq, searchContents);
+        }*/
+    }
+
     // 검색
     function searchInChatRoom() {
-        let searchContents = $("#searchContents").val();
+        return new Promise((resolve,reject)=>{
+            searchContents = $("#searchContents").val();
+            // 미입력 또는 공백 입력 방지
+            if (searchContents.replace(/\s|　/gi, "").length == 0) {
+                return;
+            }
+            $.ajax({
+                url: "/message/searchMsgInChatRoom",
+                type: "post",
+                data: {
+                    m_seq: m_seq,
+                    contents: searchContents
+                },
+                dataType: "json",
+                success: function (resp) {
+                    console.log("검색갯수 : " + resp.length);
+                    if (resp.length == 0) {
+                        alert("검색결과가 없습니다.");
+                        return;
+                    } else {
+                        console.log(resp);
+                        let index = 0;
+                        let seq = resp[index].seq; // message의 seq
+                        // 즉시실행함수
+                        // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
+                        // while문으로 해결이 가능할 것 같은데...
+                        (isMsgExistInMsgBox = () => {
+                            if (!$("#msgDiv" + seq).length) {
+                                cpage += 1;
+                                moreList(cpage);
+                                setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
+                                    isMsgExistInMsgBox();
+                                }, 100);
+                            } else {
+                                return;
+                            }
+                        })();
+                        before_searchContents = searchContents;
+                        resolve(seq);
+                    }
+                }
+            });
+        })
+    }
+
+    /*    function searchInChatRoom() {
+        searchContents = $("#searchContents").val();
+        // 미입력 또는 공백 입력 방지
+        if (searchContents.replace(/\s|　/gi, "").length == 0) {
+            return;
+        }
         $.ajax({
             url: "/message/searchMsgInChatRoom",
             type: "post",
@@ -703,7 +785,7 @@
                 }
             }
         });
-    }
+    }*/
 
     //==========채팅방 정보 수정=============
 /*     function openModifChat(seq) {
