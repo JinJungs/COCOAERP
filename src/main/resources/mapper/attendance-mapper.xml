@@ -34,8 +34,8 @@
         SELECT * FROM ATTENDANCE WHERE to_char(start_time,'YYMMDD') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
     </select>
 
-    <select id="isAtd" resultType="Integer">
-        SELECT COUNT(*) from attendance whereto_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
+    <select id="isAtd" resultType="kh.cocoa.dto.AttendanceDTO">
+        SELECT * from attendance where to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
     </select>
 
     <select id="isInWork" resultType="String">

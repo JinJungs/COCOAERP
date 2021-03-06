@@ -98,7 +98,6 @@ public class RestAttendanceController {
         int overTime=0;
         if(getStartTime!=null){
             int sub = Integer.parseInt(getCurTime)-Integer.parseInt(getStartTime.replaceAll(":","").substring(0,2))-1;
-            System.out.println(sub);
             if(sub>8){
                 overTime=sub-8;
             }
@@ -208,6 +207,18 @@ public class RestAttendanceController {
         }else{
             return "FailedUpdate";
         }
+    }
+
+    @RequestMapping("/getIsWork")
+    public String getIsWork(){
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        AttendanceDTO isAtd =attendanceService.isAtd(loginSession.getCode());
+        if(isAtd!=null){
+            JSONObject json = new JSONObject(isAtd);
+            return json.toString();
+        }
+        return "nw";
+
     }
 
 

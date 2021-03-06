@@ -124,18 +124,17 @@ public class SidebarController {
     @RequestMapping("/addSideBarStatus")
     @ResponseBody
     public void addSideBarStatus(@RequestBody List<String> map){
-        session.setAttribute("status",map);
+        if(map.size()==0){
+            session.removeAttribute("status");
+        }else{
+            session.setAttribute("status",map);
+        }
+
     }
 
     @RequestMapping("/getSidebarStatus")
     @ResponseBody
     public String getSidebarStatus(){
-        if(Configurator.test==0||session.getAttribute("status").toString().contentEquals("")){
-            session.setAttribute("status","");
-            Configurator.test++;
-            return "false";
-        }
-
         ArrayList<String> status= new ArrayList<>();
         status = (ArrayList) session.getAttribute("status");
         JSONArray json = new JSONArray(status);

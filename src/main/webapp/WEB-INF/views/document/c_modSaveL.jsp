@@ -229,7 +229,7 @@
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
-                            <form id="deptForm">
+                            <form id="deptForm" style="max-height:485px; overflow-y: auto;">
 
                             </form>
 
@@ -315,13 +315,13 @@
                 xhr.setRequestHeader(header, token);
             });
         }
-        var leave_start =$("#leave_start").val().replaceAll("-","");
+     /*   var leave_start =$("#leave_start").val().replaceAll("-","");
         var leave_end =$("#leave_end").val().replaceAll("-","");
         var temp_today =today.replaceAll("-","");
         if(leave_start<temp_today||leave_end<temp_today){
             if(leave_start<temp_today){ $("#leave_start").val(today);}
             else{ $("#leave_end").val(today);}
-        }
+        }*/
         var getleave_type=$("#getleave_type").val();
         $("#leavetype option[value="+getleave_type+"]").attr('selected',true);
         fn_changetype();

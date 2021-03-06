@@ -64,29 +64,6 @@ public class AttendanceController {
         if(loginSession==null){
             return "redirect:/";
         }
-     /*   SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
-        Date time = new Date();
-        String getCurTime = frm.format(time);
-        String isInWork = attenService.isInWork(loginSession.getCode());
-        if(isInWork!=null){
-            isInWork=isInWork.replaceAll(":","").substring(0,4);
-        }
-        if(isInWork==null){
-            if(Integer.parseInt(getCurTime)>930){
-                model.addAttribute("statusMsg","아직 출근하지 않았습니다.");
-                model.addAttribute("isInWork","late");
-            }else{
-                model.addAttribute("statusMsg","아직 출근하지 않았습니다.");
-                model.addAttribute("isInWork","atd");
-            }
-        }else{
-            if(Integer.parseInt(isInWork)>930){
-                model.addAttribute("isInWork","late");
-            }else{
-                model.addAttribute("isInWork","atd");
-            }
-            model.addAttribute("statusMsg","안녕하세요.");
-        }*/
         EmployeeDTO empInfo = employeeService.getEmpInfo(loginSession.getCode());
         List<AtdChangeReqDTO> reqList = attenService.getAtdReqListToMain(loginSession.getCode());
         model.addAttribute("empInfo",empInfo);

@@ -45,7 +45,7 @@ public class AttendanceService implements AttendanceDAO {
 
 
     @Override
-    public int isAtd(int emp_code) {
+    public AttendanceDTO isAtd(int emp_code) {
         return attenDAO.isAtd(emp_code);
     }
 

@@ -183,7 +183,7 @@
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
-                            <form id="deptForm">
+                            <form id="deptForm" style="max-height:485px; overflow-y: auto;">
 
                             </form>
 

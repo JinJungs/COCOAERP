@@ -243,8 +243,9 @@
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
-                    console.log(data[i].sub_start_time);
-                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time==null){
+                    console.log(today.substr(2,8).replaceAll("-","")==compDate);
+
+                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time=="출근 누락"){
                         html+="<td style='color:blue'>출근 전</td>";
                     }
                     else if(data[i].sub_start_time=="출근 누락"){
@@ -253,7 +254,7 @@
                     else{
                         html+="<td>"+data[i].sub_start_time+"</td>";
                     }
-                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time==null){
+                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_end_time=="퇴근 누락"){
                         html+="<td style='color:blue'>퇴근 전</td>";
                     }
                     else if(data[i].sub_end_time=="퇴근 누락"){

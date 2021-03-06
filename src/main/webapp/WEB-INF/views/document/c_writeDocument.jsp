@@ -141,16 +141,16 @@
                     <div class="row">
                         <div class="col-12"><b>결재선 설정</b></div>
                     </div>
-                    <div class="row w-100">
-                        <div class="col-4 m-3" style=" border: 1px solid pink">
-                            <div class="row" style="border-bottom: 1px solid pink;">
+                    <div class="row w-100" style="max-height:550px;" >
+                        <div class="col-4 m-3" style=" border: 1px solid #c9c9c9;">
+                            <div class="row" style="border-bottom: 1px solid #c9c9c9;">
                                 <div class="col-12 p-2"><input type="text" class="w-100" id="search" placeholder="부서명, 이름 입력." autocomplete="off"></div>
                             </div>
-                            <div class="row">
+                            <div class="row" >
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}" >
-                            <form id="deptForm">
+                            <form id="deptForm"  style="max-height:485px; overflow-y: auto;">
 
                             </form>
 
@@ -162,12 +162,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 m-3" style="min-height:540px; border: 1px solid pink">
-                            <div class="row" style="border-bottom: 1px solid pink;">
+                        <div class="col-6 m-3" style="min-height:540px; border: 1px solid #c9c9c9">
+                            <div class="row" style="border-bottom: 1px solid #c9c9c9;">
                                 <div class="col-7 p-2">기안</div>
                                 <div class="col-5 p-2 text-right" style="font-size:13px; ">${empInfo.name}(${empInfo.posname})|${empInfo.deptname}</div>
                             </div>
-                            <div class="row" style="border-bottom: 1px solid pink;">
+                            <div class="row" style="border-bottom: 1px solid #c9c9c9;">
                                 <div class="col-7 p-2">결재자</div>
                             </div>
                             <%--ajax로 추가되는 부분.--%>

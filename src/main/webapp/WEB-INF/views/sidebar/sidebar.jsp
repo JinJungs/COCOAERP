@@ -191,7 +191,6 @@
                             var parsedata=JSON.parse(data);
                             for(var i=0;i<parsedata.length;i++){
                                 openDropBox.push(parsedata[i]);
-                                console.log(parsedata[i]);
                                 $("#"+parsedata[i]+"").attr("aria-expanded","true");
                                 $("#"+parsedata[i]+"").attr("class","dropdown-toggle");
                                 $("#"+parsedata[i]+"").siblings('ul').attr("class","list-unstyled collapse show");
@@ -270,9 +269,9 @@
             location.href = "/leave/toLeaveMain.leave";
             // 4. 근태현황
         }else if(code==20) {
-            location.href = "/attendance/toAttendanceView";
-        }else if(code==21) {
             location.href = "/attendance/toMain";
+        }else if(code==21) {
+            location.href = "/attendance/toAttendanceView";
         }else if(code==22) {
             location.href = "/attendance/toAtdReq";
             // 5. 전자우편

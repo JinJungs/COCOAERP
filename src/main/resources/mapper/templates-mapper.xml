@@ -36,10 +36,10 @@
     <update id="modTemplates">
         <choose>
             <when test="contents==null">
-                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code} where code=#{code}
+                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code},emp_code=#{emp_code} where code=#{code}
             </when>
             <otherwise>
-                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code} where code=#{code}
+                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code},emp_code=#{emp_code} where code=#{code}
             </otherwise>
         </choose>
 
