@@ -17,7 +17,7 @@ public interface AttendanceDAO {
     public List<AttendanceDTO> getAttendanceList(int emp_code);
     public List<AttendanceDTO> getAtdTime(int emp_code);
     public List<AttendanceDTO> getMonthAtdTime(int emp_code);
-    public int isAtd(int emp_code);
+    public AttendanceDTO isAtd(int emp_code);
 
     public String isInWork(int emp_code);
     public int startWork2(int emp_code,String status);
@@ -29,16 +29,35 @@ public interface AttendanceDAO {
     public List<AttendanceDTO> getAttendanceList2(int emp_code,String number);
     public List<AttendanceDTO> getSearchAtd(int emp_code, String number, String search, String start_time,int end_time);
 
-    public List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code);
-    public List<AttendanceDTO> getAtdInfoBySeq(int seq);
+    String countStatusLate(int emp_code);
 
-    public int addChangeReq(AtdChangeReqDTO dto);
-    public int delChangeReq(int atd_seq);
-    public int modChangeReq(AtdChangeReqDTO dto);
-    public AtdChangeReqDTO getIsReqInfo(int atd_seq);
-    //넥사
-    public List<AtdChangeReqDTO> getReqListToNex();
-    public int saveAtdReq(AtdChangeReqDTO dto);
+    String countStatusWork(int emp_code);
 
+    int countWorkHour(int emp_code);
 
+    int countWorkMin(int emp_code);
+
+    List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code);
+
+    List<AttendanceDTO> getAtdInfoBySeq(int seq);
+
+    int addChangeReq(AtdChangeReqDTO dto);
+
+    int delChangeReq(int atd_seq);
+
+    int modChangeReq(AtdChangeReqDTO dto);
+
+    List<AtdChangeReqDTO> getReqListToNex();
+
+    int saveAtdReq(AtdChangeReqDTO dto);
+
+    AtdChangeReqDTO getIsReqInfo(int atd_seq);
+
+    int reChangeReq(AtdChangeReqDTO dto);
+
+    int modAtdTime(AtdChangeReqDTO dto);
+
+    int toDayUpdateAtd(int emp_code);
+
+    int updateMWEmpAtd(int seq);
 }

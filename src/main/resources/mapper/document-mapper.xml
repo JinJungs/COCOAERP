@@ -845,7 +845,8 @@
 
     <!--수정페이지 꺼내오기-->
     <select id="getModDocument" resultType="kh.cocoa.dto.DocumentDTO">
-	   	select d.*,e.name emp_name,de.name dept_name,t.name temp_name,p.name pos_name
+	   	select d.*,
+	   	e.name emp_name,de.name dept_name,t.name temp_name,p.name pos_name
 		 from document d
 		 inner join departments de on d.dept_code =de.code
         inner join employee e on e.code = d.writer_code

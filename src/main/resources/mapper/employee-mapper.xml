@@ -103,6 +103,14 @@
 		SELECT COUNT(*) FROM EMPLOYEE WHERE CODE=#{code} and WITHDRAW='Y'
 	</select>
 
+	<select id="getAllEmpCode" resultType="Integer">
+		SELECT CODE FROM EMPLOYEE WHERE WITHDRAW='N'
+	</select>
+
+	<select id="getAllMWEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT E.CODE EMP_CODE,ATD.SEQ ATD_SEQ FROM EMPLOYEE E INNER JOIN ATTENDANCE ATD ON E.CODE=ATD.EMP_CODE WHERE WITHDRAW='N' AND ATD.START_TIME IS NULL AND TO_CHAR(ATD.TODAY,'YYMMDD')=TO_CHAR(SYSDATE,'YYMMDD') ORDER BY CODE DESC
+	</select>
+
 	<!--소형-->
 	<select id="getAllEmployee" resultType="kh.cocoa.dto.EmployeeDTO">
 		SELECT * FROM EMPLOYEE_VIEW ORDER BY NAME 

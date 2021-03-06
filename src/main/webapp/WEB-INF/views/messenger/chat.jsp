@@ -130,8 +130,6 @@
         </button>
       </div>
       <div class="modal-body">
-        채팅방 정보 설정 임시 페이지<br>
-      채팅방 이미지 : 한다면 수정 가능하도록<br>
       채팅방 이름 : <br>
       <input type="text" id="modifName" value="${messenger.name}" placeholder="채팅방 이름을 설정해주세요.">
       <div id="msg"></div>
@@ -308,6 +306,14 @@
                 }));
             else
                 socket.send(msg);
+
+            // (new) 메세지를 연락처리스트 소켓으로 전송
+            socket.send('/getChat/contactListText/' +${loginDTO.code},{}, JSON.stringify({
+                contents: msg
+                , type: "TEXT"
+                , emp_code: ${loginDTO.code}
+                , m_seq: ${seq}
+            }));
 
             // (2) db에 저장? / 아니면 컨트롤러에서 처리?
             $.ajax({
@@ -562,7 +568,7 @@
         if (type == "FILE") {
             result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p></a>";
         } else if (type == "IMAGE") {
-            result = "<div class='" + classname + "'><img src='/messengerFile/" + savedname + "' onclick='click_img(this.src)' width='150' height='150' style='object-fit:cover;'>"
+            result = "<div class='" + classname + "'><img class='msgImg' src='/messengerFile/" + savedname + "' onclick='click_img(this.src)' width='150' height='150' style='object-fit:cover;'>"
             			+"<div><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><img class='svg_download' src='/icon/download.svg'></a></div>";
         } else {
             result = "<div class='" + classname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p>";
@@ -597,7 +603,7 @@
     let winFeature2 = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,resizable=no,fullscreen=yes';
 
     function popShowFiles() {
-        window.open('/messenger/showFiles?m_seq=' +${seq}, '', winFeature);
+        window.open('/messenger/showFiles?m_seq=' +${seq}, 'showFiles'+${seq}, winFeature);
     }
 
     //***************************************************************************
@@ -715,11 +721,6 @@
         });
     }
 
-    //==========채팅방 정보 수정=============
-/*     function openModifChat(seq) {
-        window.open('/messenger/openModifChat?seq=' + seq, '', winFeature);
-    } */
-
   //==========채팅방 이름변경==================
     function modifChatName(){
        //(seq,name,emp_code)
@@ -767,22 +768,31 @@
       //let contents = ${loginDTO.name}+"("+ ${loginDTO.deptname}+"/"+${loginDTO.teamname}+")";
         let contents = "${loginDTO.name}(${loginDTO.deptname}/${loginDTO.teamname})";
        let exit = confirm("정말 나가시겠습니까?");
-       if(exit){
-          location.href = "/messenger/exitRoom?seq="+seq;
+       if(exit==true){
+    	   socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
+               m_seq: seq
+                , contents: empname
+                , write_date: new Date()
+                , emp_code: code
+                , empname: empname
+                , type: "AN_EXIT"
+            }));
+    	   opener.location.reload();
+    	   //부모창 리로드해주고 머물던 항목에 있었으면 좋겠는데...
+    	   window.open('chat'+seq,'_self').close();
+       }else{
+    	   //부모창 테스트 = 값받아서 함수호출은 가능하나 리로드하면 안됨 
+    	   //의진씨랑 보고 해결안되면 패스==========================삭제해야할 곳!
+    	   let onclickNow = window.opener.document.getElementById("onclickNow").value;
+    	   console.log(onclickNow);
+    	   opener.location.reload();
+			//시간 지연해줘도 안됨
+    	   setTimeout(function() {
+    		   opener.funcOnclickNow(onclickNow);
+    		 }, 3000);
+    	   //의진씨랑 보고 해결안되면 패스==========================삭제해야할 곳!
+    	   return;
        }
-
-       socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
-           m_seq: seq
-            , contents: name
-            , write_date: new Date()
-            , emp_code: code
-            , empname: empname
-            , type: "AN_EXIT"
-        }));
-
-       setTimeout(function(){
-          window.open('','_self').close();
-       }, 500);
     }
     //==========채팅방 나가기==================
     //====================채팅 멤버 추가=======

@@ -60,11 +60,6 @@
 			<!-- top head -->
 			<div class="row w-100 m-0 h20 whiteBg">
 				<div class="card-header col-12 p-0" style="border-radius: 0%;">
-					<%--<div class="window-control d-flex justify-content-end">
-						<div class="p-2">-</div>
-						<div class="p-2">ㅁ</div>
-						<div class="p-2">X</div>
-					</div>--%>
 					<div class="row w-100 m-0 p-4 con-title">
 						<div class="col-10 m-0 p-0 align-self-center">
 							<span id="chatTitle">전체 연락처</span>
@@ -102,7 +97,7 @@
 									<a href="#">
 										<div class="user_info align-self-center">
 											<span>${loginDTO.name}</span>
-											<p>${loginDTO.deptname} | ${loginDTO.teamname}</p>
+											<p>${loginDTO.deptname} | ${loginDTO.teamname}<c:if test="${empty loginDTO.teamname}">무소속</c:if></p>
 										</div>
 									</a>
 								</div>
@@ -119,7 +114,7 @@
 									</div>
 									<div class="user_info align-self-center">
 										<span>${i.name}</span>
-										<p>${i.deptname} | ${i.teamname}</p>
+										<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 									</div>
 								</div>
 							</li>
@@ -136,7 +131,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -153,7 +148,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -175,7 +170,7 @@
 													<span>${i.name}</span>
 												</c:otherwise>
 											</c:choose>
-											<p>채팅 메세지 조금 띄워주나요...</p>
+											<p class="con-message" id="con-message${i.seq}">${i.contents}</p>
 										</div>
 									</div>
 								</li>
@@ -188,7 +183,11 @@
 	</div>
 </div>
 </div>
+<input id="onclickNow" type="hidden" value="all">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- sockjs, stomp CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
 	let chatTitle = document.getElementById("chatTitle");
 	let memberAll = document.getElementById("memberAll");
@@ -200,7 +199,9 @@
 	let showDept = document.getElementById("showDept");
 	let showTeam = document.getElementById("showTeam");
 	let showChat = document.getElementById("showChat");
-
+	const textLength = 20;
+	/* 	========연락처 리스트 어느 항목 클릭중인지 알려고 함수를 뺐어요~
+	========문제없으면 이부분 삭제해도 될까요
 	showAll.onclick = function() {
 		memberAll.style.display="block";
 		memberDept.style.display="none";
@@ -228,6 +229,7 @@
 		$("#myProfil").show();
 		$(".search").focus();
 	};
+	
 	showChat.onclick = function() {
 		memberAll.style.display="none";
 		memberDept.style.display="none";
@@ -236,7 +238,95 @@
 		chatTitle.innerHTML = "채팅방";
 		$("#myProfil").hide();
 		$(".search").focus();
-	};
+	}; */
+	
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	function funcOnclickNow(onclickNow){
+		console.log(onclickNow);
+		if(onclickNow == 'all'){
+			this.showAllClick();
+		}else if (onclickNow == 'dept'){
+			this.showDeptClick();
+		}else if(onclickNow == 'team'){
+			this.showTeamClick();
+		}else if(onclickNow == 'chat'){
+			this.showChatClick();
+		}
+	}
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	showAll.addEventListener("click", showAllClick);
+	function showAllClick(){
+		memberAll.style.display="block";
+		memberDept.style.display="none";
+		memberTeam.style.display="none";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "전체 연락처";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "all";
+	}
+	
+	showDept.addEventListener("click", showDeptClick);
+	function showDeptClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="block";
+		memberTeam.style.display="none";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "부서원";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "dept";
+	}
+	
+	showTeam.addEventListener("click", showTeamClick);
+	function showTeamClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="none";
+		memberTeam.style.display="block";
+		chatList.style.display="none";
+		chatTitle.innerHTML = "팀원";
+		$("#myProfil").show();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "team";
+	}
+	
+	showChat.addEventListener("click", showChatClick);
+	function showChatClick(){
+		memberAll.style.display="none";
+		memberDept.style.display="none";
+		memberTeam.style.display="none";
+		chatList.style.display="block";
+		chatTitle.innerHTML = "채팅방";
+		$("#myProfil").hide();
+		$(".search").focus();
+		document.getElementById("onclickNow").value = "chat";
+	}
+
+	// 연락처리스트 소켓으로 메세지받기
+	//스톰프 연결
+	function connectStomp() {
+		var sock = new SockJS("/stompTest"); // endpoint
+		var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
+		isStomp = true;
+		socket = client;
+
+		client.connect({}, function () {
+			console.log("ContactList stompTest!");
+			// 해당 토픽을 구독한다!
+			// 여기에 for문을 돌려야할까...
+			<c:forEach var="i" items="${chatList}">
+				client.subscribe('/contact/' +${i.seq}, function (e) {
+				let msg = JSON.parse(e.body).contents;
+				let type = JSON.parse(e.body).type;
+				let m_seq = JSON.parse(e.body).m_seq;
+				if(msg.length > textLength){
+					msg = msg.substr(0, textLength-2) + '...';
+				}
+				$("#con-message${i.seq}").html(msg);
+			});
+			</c:forEach>
+		});
+	}
 
 	// 의진 추가 - room의 seq를 받아 해당 채팅방으로 이동
 	let winFeature = 'width=450px,height=660px,location=no,toolbar=no,menubar=no,scrollbars=no,resizable=no,fullscreen=yes';
@@ -252,6 +342,8 @@
 	$(document).ready(function () {
 		// 검색창 포커스
 		$(".search").focus();
+		// 스톰프 연결
+		connectStomp();
 	});
 
     //-------------------------------- 검색 -------------------------------------
@@ -283,7 +375,6 @@
     function openMemberList(){
 		var popup = window.open('/messenger/openMemberList?seq=0','',winFeature);
     }
-    
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"

@@ -84,6 +84,10 @@ public interface EmployeeDAO {
 
 	public int isWithdraw(int code);
 
+	public List<Integer> getAllEmpCode();
+
+	public List<EmployeeDTO> getAllMWEmpCode();
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기

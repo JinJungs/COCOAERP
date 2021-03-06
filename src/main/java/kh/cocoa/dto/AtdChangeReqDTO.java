@@ -21,6 +21,9 @@ public class AtdChangeReqDTO {
     private int emp_code;
     private String name;
     private String comments;
+
+    private int overtime;
+
     @Builder
     public AtdChangeReqDTO(int seq, String start_time, String end_time, String contents, String status, int atd_seq, String today, String atd_status, int emp_code, String name,String comments) {
         this.seq = seq;

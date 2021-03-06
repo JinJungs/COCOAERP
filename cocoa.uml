@@ -1,0 +1,2301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>kh.cocoa</OriginalElement>
+  <nodes>
+    <node x="8576.877295391992" y="3221.0">kh.cocoa.statics.DocumentConfigurator</node>
+    <node x="6144.502295391992" y="4374.0">kh.cocoa.service.EmailService</node>
+    <node x="6866.852295391993" y="7213.5">kh.cocoa.controller.EmployeeController</node>
+    <node x="754.0" y="3162.5">kh.cocoa.dto.MessengerDTO.MessengerDTOBuilder</node>
+    <node x="2009.875" y="1203.0">kh.cocoa.dto.MessageViewDTO</node>
+    <node x="1392.074999999999" y="1433.0">kh.cocoa.dto.MessengerPartyDTO</node>
+    <node x="19992.162339743583" y="1341.0">kh.cocoa.dto.Leave_Taken_UsedDTO</node>
+    <node x="10072.314795391992" y="2829.0">kh.cocoa.dto.DocumentDTO.DocumentDTOBuilder</node>
+    <node x="7750.377295391992" y="7351.5">kh.cocoa.controller.SidebarController</node>
+    <node x="17218.443589743583" y="3105.0">kh.cocoa.dao.TeamDAO</node>
+    <node x="18452.155312633375" y="7328.5">kh.cocoa.dto.DeptOrganizationDTO.DeptOrganizationDTOBuilder</node>
+    <node x="5889.102295391993" y="7351.5">kh.cocoa.controller.NexacroBoardController</node>
+    <node x="21393.82776651896" y="1456.0">kh.cocoa.dto.PositionDTO</node>
+    <node x="6488.877295391992" y="3105.0">kh.cocoa.dao.SidebarDAO</node>
+    <node x="13419.829418817806" y="480.0">kh.cocoa.dto.CommentListDTO.CommentListDTOBuilder</node>
+    <node x="17229.443589743583" y="4466.0">kh.cocoa.service.TeamService</node>
+    <node x="3513.220448959819" y="1318.0">kh.cocoa.dto.FilesDTO</node>
+    <node x="17879.65539529914" y="1410.0">kh.cocoa.dto.TeamDTO</node>
+    <node x="20129.051145966707" y="7386.0">kh.cocoa.controller.PositionController</node>
+    <node x="7866.877295391992" y="3093.5">kh.cocoa.dto.BoardDTO.BoardDTOBuilder</node>
+    <node x="4748.227295391992" y="7133.0">kh.cocoa.controller.EmailController</node>
+    <node x="6290.852295391993" y="7248.0">kh.cocoa.controller.BusinessLogController</node>
+    <node x="19291.863645966707" y="7374.5">kh.cocoa.controller.NexacroLeave_Taken_UsedController</node>
+    <node x="21261.661099852292" y="3174.0">kh.cocoa.dto.PositionDTO.PositionDTOBuilder</node>
+    <node x="17775.405312633375" y="7386.0">kh.cocoa.controller.DepartmentController</node>
+    <node x="2613.337499999998" y="1295.0">kh.cocoa.dto.MessageDTO</node>
+    <node x="6144.502295391992" y="3024.5">kh.cocoa.dao.EmailDAO</node>
+    <node x="15894.171476426476" y="7386.0">kh.cocoa.controller.OranChartController</node>
+    <node x="22060.64859985229" y="1249.0">kh.cocoa.dto.AttendanceDTO</node>
+    <node x="1054.0" y="7782.0">kh.cocoa.endpoint.HttpSessionConfigurator</node>
+    <node x="10425.314795391992" y="2645.0">kh.cocoa.dao.DocumentDAO</node>
+    <node x="2063.1311415458385" y="7236.5">kh.cocoa.controller.MessengerController</node>
+    <node x="8987.666918817806" y="4224.5">kh.cocoa.service.BusinessLogService</node>
+    <node x="16228.776923076919" y="3162.5">kh.cocoa.dao.TemplateFormDAO</node>
+    <node x="1136.875" y="4558.0">kh.cocoa.service.MessengerPartyService</node>
+    <node x="9104.877295391992" y="2863.5">kh.cocoa.dao.BusinessLogDAO</node>
+    <node x="7222.252295391992" y="1410.0">kh.cocoa.dto.BoardMenuDTO</node>
+    <node x="8803.877295391992" y="3024.5">kh.cocoa.dto.ScheduleDTO.ScheduleDTOBuilder</node>
+    <node x="16966.443589743583" y="3162.5">kh.cocoa.dto.TeamDTO.TeamDTOBuilder</node>
+    <node x="17599.443589743583" y="4558.0">kh.cocoa.service.NexacroEmployeeService</node>
+    <node x="20123.912339743583" y="3116.5">kh.cocoa.dto.Leave_Taken_UsedDTO.Leave_Taken_UsedDTOBuilder</node>
+    <node x="16645.443589743583" y="3128.0">kh.cocoa.dto.TemplateFormDTO.TemplateFormDTOBuilder</node>
+    <node x="389.0" y="8390.0">kh.cocoa.dto.FilesMsgDTO.FilesMsgDTOBuilder</node>
+    <node x="16612.943589743583" y="1364.0">kh.cocoa.dto.TemplateFormDTO</node>
+    <node x="9365.327966068224" y="1157.0">kh.cocoa.dto.ScheduleDTO</node>
+    <node x="11148.221085484472" y="4500.5">kh.cocoa.service.ConfirmService</node>
+    <node x="12489.91275215114" y="3151.0">kh.cocoa.dto.OrderDTO.OrderDTOBuilder</node>
+    <node x="2526.875" y="3093.5">kh.cocoa.dto.MessageDTO.MessageDTOBuilder</node>
+    <node x="1504.875" y="3162.5">kh.cocoa.dto.MessengerPartyDTO.MessengerPartyDTOBuilder</node>
+    <node x="6829.877295391992" y="3070.5">kh.cocoa.dto.SidebarViewDTO.SidebarViewDTOBuilder</node>
+    <node x="22200.661099852292" y="2898.0">kh.cocoa.dao.AttendanceDAO</node>
+    <node x="13730.161778150614" y="4075.0">kh.cocoa.service.EmployeeService</node>
+    <node x="7975.180743846001" y="1272.0">kh.cocoa.dto.BoardDTO</node>
+    <node x="18943.05817307692" y="3174.0">kh.cocoa.dao.LeaveDAO</node>
+    <node x="19706.037339743583" y="3162.5">kh.cocoa.dao.Leave_Taken_UsedDAO</node>
+    <node x="20613.17938519813" y="4546.5">kh.cocoa.service.PositionService</node>
+    <node x="12668.669632734891" y="1410.0">kh.cocoa.dto.OrderDTO</node>
+    <node x="3384.7836538461524" y="4236.0">kh.cocoa.service.FilesService</node>
+    <node x="20555.637718531467" y="3185.5">kh.cocoa.dao.PositionDAO</node>
+    <node x="724.0" y="8298.0">kh.cocoa.dto.Doc_confirmDTO.Doc_confirmDTOBuilder</node>
+    <node x="16299.443589743585" y="4523.5">kh.cocoa.service.TemplateFormService</node>
+    <node x="11352.064795391992" y="1272.0">kh.cocoa.dto.ConfirmDTO</node>
+    <node x="15497.776923076919" y="2725.5">kh.cocoa.dao.EmployeeDAO</node>
+    <node x="18561.474839743583" y="4431.5">kh.cocoa.dto.DeptOrganizationDTO</node>
+    <node x="22559.64859985229" y="1249.0">kh.cocoa.dto.AtdChangeReqDTO</node>
+    <node x="2248.6749999999993" y="4489.0">kh.cocoa.service.MessageService</node>
+    <node x="6692.877295391992" y="1249.0">kh.cocoa.dto.SidebarViewDTO</node>
+    <node x="15900.776923076919" y="3139.5">kh.cocoa.dto.NexacroSearchDTO.NexacroSearchDTOBuilder</node>
+    <node x="10449.139795391993" y="7386.0">kh.cocoa.controller.NexacroDocumentController</node>
+    <node x="753.0" y="7782.0">kh.cocoa.dto.Doc_confirmDTO</node>
+    <node x="9823.314795391992" y="7271.0">kh.cocoa.controller.ScheduleController</node>
+    <node x="352.0" y="3116.5">kh.cocoa.dao.MessengerDAO</node>
+    <node x="15948.776923076919" y="1387.0">kh.cocoa.dto.NexacroSearchDTO</node>
+    <node x="17019.249062633375" y="7351.5">kh.cocoa.controller.NexacroEmployeeController</node>
+    <node x="9524.314795391992" y="4431.5">kh.cocoa.service.ScheduleService</node>
+    <node x="7422.877295391992" y="2955.5">kh.cocoa.dao.NotificationBoardDAO</node>
+    <node x="12105.91275215114" y="3059.0">kh.cocoa.dao.TemplatesDAO</node>
+    <node x="18492.830900349647" y="1444.5">kh.cocoa.dto.DepartmentsDTO</node>
+    <node x="9625.314795391992" y="3070.5">kh.cocoa.dao.ScheduleDAO</node>
+    <node x="4293.756141545839" y="7363.0">kh.cocoa.controller.FilesController</node>
+    <node x="12108.377295391992" y="7087.0">kh.cocoa.controller.RestDocumentController</node>
+    <node x="12029.621085484472" y="4420.0">kh.cocoa.service.TemplatesService</node>
+    <node x="13185.496085484474" y="3174.0">kh.cocoa.controller.CommentListController</node>
+    <node x="12790.579418817806" y="4535.0">kh.cocoa.service.OrderService</node>
+    <node x="423.0" y="7782.0">kh.cocoa.dto.FilesMsgDTO</node>
+    <node x="0.0" y="8620.0">kh.cocoa.dto.NexacroFakeEmployeeDTO.NexacroFakeEmployeeDTOBuilder</node>
+    <node x="211.5" y="1249.0">kh.cocoa.dto.MessengerViewDTO</node>
+    <node x="13962.661778150614" y="7259.5">kh.cocoa.controller.NexacroTemplateContorller</node>
+    <node x="11460.621085484472" y="3139.5">kh.cocoa.dao.ConfirmDAO</node>
+    <node x="7312.127295391992" y="4282.0">kh.cocoa.service.NotificationBoardService</node>
+    <node x="535.5" y="4477.5">kh.cocoa.service.MessengerService</node>
+    <node x="11754.621085484472" y="3105.0">kh.cocoa.dto.TemplatesDTO.TemplatesDTOBuilder</node>
+    <node x="19011.224839743583" y="4535.0">kh.cocoa.service.LeaveService</node>
+    <node x="32.0" y="7782.0">kh.cocoa.dto.NexacroFakeEmployeeDTO</node>
+    <node x="7154.877295391992" y="3151.0">kh.cocoa.dto.BoardMenuDTO.BoardMenuDTOBuilder</node>
+    <node x="8464.377295391992" y="7386.0">kh.cocoa.controller.MyBoardController</node>
+    <node x="22666.348599852292" y="3070.5">kh.cocoa.dto.AtdChangeReqDTO.AtdChangeReqDTOBuilder</node>
+    <node x="20804.926145966707" y="7236.5">kh.cocoa.controller.RestAttendanceController</node>
+    <node x="17924.193589743583" y="4443.0">kh.cocoa.service.DepartmentsService</node>
+    <node x="13787.299709185098" y="2886.5">kh.cocoa.dto.EmployeeDTO.EmployeeDTOBuilder</node>
+    <node x="13215.74870343797" y="7133.0">kh.cocoa.controller.DocumentController</node>
+    <node x="9986.441427606685" y="743.0">kh.cocoa.dto.DocumentDTO</node>
+    <node x="3481.4503205128185" y="2909.5">kh.cocoa.dao.FilesDAO</node>
+    <node x="5180.602295391993" y="7294.0">kh.cocoa.controller.NotificationBoardController</node>
+    <node x="6046.861299401557" y="1249.0">kh.cocoa.dto.EmailDTO</node>
+    <node x="21109.926145966707" y="7305.5">kh.cocoa.controller.AttendanceController</node>
+    <node x="15408.327726426476" y="7317.0">kh.cocoa.controller.TestContoller</node>
+    <node x="3478.7561415458385" y="7351.5">kh.cocoa.controller.StompController</node>
+    <node x="2749.0" y="7782.0">kh.cocoa.dto.AttachFileDTO</node>
+    <node x="864.5999999999985" y="1433.0">kh.cocoa.dto.MessengerDTO</node>
+    <node x="3755.7561415458385" y="7340.0">kh.cocoa.controller.MessageController</node>
+    <node x="2143.875" y="3139.5">kh.cocoa.dao.MessageDAO</node>
+    <node x="17842.443589743583" y="3082.0">kh.cocoa.dao.DepartmentsDAO</node>
+    <node x="12743.91275215114" y="3174.0">kh.cocoa.dao.OrderDAO</node>
+    <node x="1160.5" y="7884.0">kh.cocoa.endpoint.ChatEndpoint</node>
+    <node x="9487.564795391992" y="7340.0">kh.cocoa.controller.HomeController</node>
+    <node x="1904.0" y="7782.0">kh.cocoa.CocoaApplication</node>
+    <node x="22195.411099852292" y="4259.0">kh.cocoa.service.AttendanceService</node>
+    <node x="14223.696260909235" y="881.0">kh.cocoa.dto.EmployeeDTO</node>
+    <node x="18695.05817307692" y="3128.0">kh.cocoa.dto.LeaveDTO.LeaveDTOBuilder</node>
+    <node x="10523.896085484474" y="3914.0">kh.cocoa.service.DocumentService</node>
+    <node x="14302.661778150614" y="7282.5">kh.cocoa.controller.RestOrganChartController</node>
+    <node x="4043.7561415458385" y="7386.0">kh.cocoa.controller.RestMessengerController</node>
+    <node x="5680.502295391992" y="3221.0">kh.cocoa.statics.Configurator</node>
+    <node x="1061.625" y="3197.0">kh.cocoa.dao.MessengerPartyDAO</node>
+    <node x="20362.051145966707" y="7374.5">kh.cocoa.controller.NexacroPosController</node>
+    <node x="19162.55817307692" y="1306.5">kh.cocoa.dto.LeaveDTO</node>
+    <node x="11167.621085484472" y="3116.5">kh.cocoa.dto.ConfirmDTO.ConfirmDTOBuilder</node>
+    <node x="18993.238645966707" y="7386.0">kh.cocoa.controller.LeaveController</node>
+    <node x="17412.405312633375" y="7374.5">kh.cocoa.controller.NexacroDeptTeamController</node>
+    <node x="2329.0" y="7782.0">kh.cocoa.handler.ReplyEchoHandler</node>
+    <node x="12921.814795391992" y="1479.0">kh.cocoa.service.CommentListService</node>
+    <node x="12834.564795391992" y="491.5">kh.cocoa.dao.CommentListDAO</node>
+    <node x="0.0" y="3070.5">kh.cocoa.dto.MessengerViewDTO.MessengerViewDTOBuilder</node>
+    <node x="5854.502295391992" y="3070.5">kh.cocoa.dto.EmailDTO.EmailDTOBuilder</node>
+    <node x="19776.912339743583" y="4523.5">kh.cocoa.service.Leave_Taken_UsedService</node>
+    <node x="13077.586299401555" y="0.0">kh.cocoa.dto.CommentListDTO</node>
+    <node x="2865.1875" y="3105.0">kh.cocoa.dto.FilesDTO.FilesDTOBuilder</node>
+    <node x="18047.155312633375" y="7386.0">kh.cocoa.controller.NexacroLeaveController</node>
+    <node x="21669.161099852292" y="3070.5">kh.cocoa.dto.AttendanceDTO.AttendanceDTOBuilder</node>
+    <node x="1626.0" y="7782.0">kh.cocoa.email.MailHandler</node>
+    <node x="6568.877295391992" y="4466.0">kh.cocoa.service.SidebarService</node>
+    <node x="11963.901775592032" y="1318.0">kh.cocoa.dto.TemplatesDTO</node>
+    <node x="1799.875" y="3047.5">kh.cocoa.dto.MessageViewDTO.MessageViewDTOBuilder</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="kh.cocoa.service.NotificationBoardService" target="kh.cocoa.dto.BoardDTO">
+      <point x="168.80000000000018" y="-313.5" />
+      <point x="7691.927295391993" y="3884.0" />
+      <point x="7834.377295391992" y="3884.0" />
+      <point x="7834.377295391992" y="2595.0" />
+      <point x="8007.014077179334" y="2595.0" />
+      <point x="-63.66666666666697" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.AttendanceController" target="kh.cocoa.service.EmployeeService">
+      <point x="-121.59999999999854" y="-106.5" />
+      <point x="21140.32614596671" y="5307.0" />
+      <point x="14100.926484032967" y="5307.0" />
+      <point x="179.76470588235316" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.service.DepartmentsService">
+      <point x="95.0" y="-95.0" />
+      <point x="15617.327726426476" y="6667.0" />
+      <point x="18067.256089743583" y="6667.0" />
+      <point x="-20.4375" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-183.75" y="-325.0" />
+      <point x="12145.127295391992" y="5717.0" />
+      <point x="5189.673799401556" y="5717.0" />
+      <point x="5189.673799401556" y="2595.0" />
+      <point x="3684.58156007093" y="2595.0" />
+      <point x="71.86111111111131" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessageService" target="kh.cocoa.statics.Configurator">
+      <point x="144.80000000000018" y="-106.5" />
+      <point x="2574.4749999999985" y="3894.0" />
+      <point x="5687.602295391993" y="3894.0" />
+      <point x="-63.899999999999636" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.TeamService">
+      <point x="183.75" y="-325.0" />
+      <point x="12512.627295391992" y="6517.0" />
+      <point x="17258.843589743585" y="6517.0" />
+      <point x="-117.59999999999854" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="-134.75" y="-325.0" />
+      <point x="12194.127295391992" y="5697.0" />
+      <point x="8685.377295391992" y="5697.0" />
+      <point x="8685.377295391992" y="3884.0" />
+      <point x="8697.043962058659" y="3884.0" />
+      <point x="17.16666666666606" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.DocumentService">
+      <point x="-153.125" y="-279.0" />
+      <point x="13307.62370343797" y="5597.0" />
+      <point x="10924.996085484474" y="5597.0" />
+      <point x="114.60000000000036" y="681.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.TemplatesService">
+      <point x="52.714285714286234" y="-72.0" />
+      <point x="9622.279081106279" y="6217.0" />
+      <point x="12072.246085484472" y="6217.0" />
+      <point x="-127.875" y="175.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.MessageViewDTO">
+      <point x="28.76923076923049" y="-175.5" />
+      <point x="2278.900372315069" y="6997.0" />
+      <point x="2122.375" y="6997.0" />
+      <point x="2122.375" y="2625.0" />
+      <point x="2096.875" y="2625.0" />
+      <point x="-29.0" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.LeaveController" target="kh.cocoa.dto.LeaveDTO">
+      <point x="0.0" y="-26.0" />
+      <point x="19109.738645966707" y="6867.0" />
+      <point x="19345.724839743583" y="6867.0" />
+      <point x="19345.724839743583" y="2625.0" />
+      <point x="19339.74567307692" y="2625.0" />
+      <point x="82.6875" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.Leave_Taken_UsedDAO" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="19863.537339743583" y="2625.0" />
+      <point x="20056.912339743583" y="2625.0" />
+      <point x="-64.75" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.EmailDAO" target="kh.cocoa.dto.EmailDTO">
+      <point x="0.0" y="-210.0" />
+      <point x="6291.502295391992" y="2625.0" />
+      <point x="6209.611299401557" y="2625.0" />
+      <point x="54.25" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.EmployeeDTO.EmployeeDTOBuilder" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="0.0" y="-348.0" />
+      <point x="13924.799709185098" y="2615.0" />
+      <point x="14343.747985047166" y="2615.0" />
+      <point x="14.55172413793116" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.ConfirmDAO" target="kh.cocoa.dto.DocumentDTO">
+      <point x="-91.0" y="-95.0" />
+      <point x="11506.121085484472" y="2475.0" />
+      <point x="10209.51835068361" y="2475.0" />
+      <point x="107.07692307692378" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.EmployeeDAO" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-95.5" y="-509.0" />
+      <point x="15593.276923076919" y="2525.0" />
+      <point x="14431.058329874753" y="2525.0" />
+      <point x="101.86206896551812" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.dto.TeamDTO">
+      <point x="0.0" y="-37.5" />
+      <point x="17583.905312633375" y="6737.0" />
+      <point x="18474.55817307692" y="6737.0" />
+      <point x="18474.55817307692" y="3844.0" />
+      <point x="18452.55817307692" y="3844.0" />
+      <point x="18452.55817307692" y="2525.0" />
+      <point x="18057.210950854696" y="2525.0" />
+      <point x="83.55555555555475" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.OranChartController" target="kh.cocoa.service.EmployeeService">
+      <point x="-75.0" y="-26.0" />
+      <point x="15919.171476426476" y="5437.0" />
+      <point x="14011.04413109179" y="5437.0" />
+      <point x="89.88235294117658" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.service.BusinessLogService" target="kh.cocoa.dto.BoardDTO">
+      <point x="-140.625" y="-371.0" />
+      <point x="9034.541918817806" y="3894.0" />
+      <point x="8793.377295391992" y="3894.0" />
+      <point x="8793.377295391992" y="2605.0" />
+      <point x="8134.347410512668" y="2605.0" />
+      <point x="63.66666666666697" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DepartmentsService" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="109.0" y="-152.5" />
+      <point x="18196.693589743583" y="3854.0" />
+      <point x="18463.55817307692" y="3854.0" />
+      <point x="18463.55817307692" y="2585.0" />
+      <point x="18586.830900349647" y="2585.0" />
+      <point x="0.0" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.BoardMenuDTO.BoardMenuDTOBuilder" target="kh.cocoa.dto.BoardMenuDTO">
+      <point x="0.0" y="-83.5" />
+      <point x="7278.377295391992" y="2625.0" />
+      <point x="7305.877295391992" y="2625.0" />
+      <point x="-27.875" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.AttendanceController" target="kh.cocoa.dto.AttendanceDTO">
+      <point x="0.0" y="-106.5" />
+      <point x="21261.926145966707" y="7027.0" />
+      <point x="22154.223599852292" y="7027.0" />
+      <point x="22154.223599852292" y="2625.0" />
+      <point x="22171.14859985229" y="2625.0" />
+      <point x="0.0" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DocumentService" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="-229.20000000000073" y="-681.5" />
+      <point x="10581.196085484473" y="3874.0" />
+      <point x="8765.710628725326" y="3874.0" />
+      <point x="85.83333333333394" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.LeaveController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-93.20000000000073" y="-26.0" />
+      <point x="19016.538645966706" y="5347.0" />
+      <point x="15465.449336870022" y="5347.0" />
+      <point x="15465.449336870022" y="2565.0" />
+      <point x="14401.954881598891" y="2565.0" />
+      <point x="72.7586206896558" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.MessengerViewDTO.MessengerViewDTOBuilder" target="kh.cocoa.dto.MessengerViewDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="160.0" y="2625.0" />
+      <point x="242.0" y="2625.0" />
+      <point x="-91.5" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="-91.42857142857065" y="-152.5" />
+      <point x="14031.233206722043" y="5507.0" />
+      <point x="12468.41275215114" y="5507.0" />
+      <point x="12468.41275215114" y="2425.0" />
+      <point x="12162.616061306318" y="2425.0" />
+      <point x="91.71428571428623" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.TeamDAO" target="kh.cocoa.dto.TeamDTO">
+      <point x="0.0" y="-129.5" />
+      <point x="17365.443589743583" y="2495.0" />
+      <point x="17973.65539529914" y="2495.0" />
+      <point x="0.0" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.BusinessLogDAO" target="kh.cocoa.dto.BoardDTO">
+      <point x="-93.75" y="-371.0" />
+      <point x="9198.627295391992" y="2595.0" />
+      <point x="8155.56963273489" y="2595.0" />
+      <point x="84.88888888888869" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.service.PositionService" target="kh.cocoa.dao.PositionDAO">
+      <point x="0.0" y="-49.0" />
+      <point x="20738.67938519813" y="3894.0" />
+      <point x="20743.887718531467" y="3894.0" />
+      <point x="62.75" y="49.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestAttendanceController" target="kh.cocoa.service.AttendanceService">
+      <point x="35.625" y="-175.5" />
+      <point x="20983.051145966707" y="7037.0" />
+      <point x="22296.161099852292" y="7037.0" />
+      <point x="-100.75" y="336.5" />
+    </edge>
+    <edge source="kh.cocoa.service.TeamService" target="kh.cocoa.dto.TeamDTO">
+      <point x="-98.0" y="-129.5" />
+      <point x="17278.443589743583" y="3884.0" />
+      <point x="17207.943589743583" y="3884.0" />
+      <point x="17207.943589743583" y="2485.0" />
+      <point x="17952.76650641025" y="2485.0" />
+      <point x="-20.888888888890506" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.MessageDAO" target="kh.cocoa.dto.MessageViewDTO">
+      <point x="-90.5" y="-95.0" />
+      <point x="2234.375" y="2625.0" />
+      <point x="2212.875" y="2625.0" />
+      <point x="87.0" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.FilesService">
+      <point x="-234.79166666666606" y="-279.0" />
+      <point x="13225.957036771304" y="5637.0" />
+      <point x="3728.014423076922" y="5637.0" />
+      <point x="149.2307692307695" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.dto.DeptOrganizationDTO">
+      <point x="124.72727272727207" y="-37.5" />
+      <point x="17708.632585360647" y="6787.0" />
+      <point x="18689.474839743583" y="6787.0" />
+      <point x="0.0" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.TemplatesDTO.TemplatesDTOBuilder" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="0.0" y="-129.5" />
+      <point x="11881.621085484472" y="2445.0" />
+      <point x="12009.758918449177" y="2445.0" />
+      <point x="-61.14285714285688" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDocumentController" target="kh.cocoa.service.DocumentService">
+      <point x="61.5" y="-26.0" />
+      <point x="10633.639795391993" y="6187.0" />
+      <point x="10695.796085484473" y="6187.0" />
+      <point x="-114.60000000000036" y="681.5" />
+    </edge>
+    <edge source="kh.cocoa.service.TeamService" target="kh.cocoa.dao.TeamDAO">
+      <point x="98.0" y="-129.5" />
+      <point x="17474.443589743583" y="3884.0" />
+      <point x="17438.943589743583" y="3884.0" />
+      <point x="73.5" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.AttendanceDAO" target="kh.cocoa.dto.AtdChangeReqDTO">
+      <point x="100.75" y="-336.5" />
+      <point x="22502.911099852292" y="2625.0" />
+      <point x="22583.74859985229" y="2625.0" />
+      <point x="-96.40000000000146" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.ScheduleController" target="kh.cocoa.service.ScheduleService">
+      <point x="-151.66666666666606" y="-141.0" />
+      <point x="9899.148128725326" y="6157.0" />
+      <point x="9827.314795391992" y="6157.0" />
+      <point x="101.0" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.service.DepartmentsService">
+      <point x="60.0" y="-60.5" />
+      <point x="17244.249062633375" y="6687.0" />
+      <point x="18149.006089743583" y="6687.0" />
+      <point x="61.3125" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.service.NotificationBoardService" target="kh.cocoa.statics.Configurator">
+      <point x="-168.80000000000018" y="-313.5" />
+      <point x="7354.327295391992" y="3874.0" />
+      <point x="5815.402295391992" y="3874.0" />
+      <point x="63.899999999999636" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.FilesController" target="kh.cocoa.service.FilesService">
+      <point x="0.0" y="-49.0" />
+      <point x="4464.756141545839" y="5977.0" />
+      <point x="3519.091346153844" y="5977.0" />
+      <point x="-59.69230769230762" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.dto.DocumentDTO">
+      <point x="123.55555555555566" y="-164.0" />
+      <point x="6692.4078509475485" y="6167.0" />
+      <point x="10061.814795391992" y="6167.0" />
+      <point x="10061.814795391992" y="2575.0" />
+      <point x="10031.05681222207" y="2575.0" />
+      <point x="-71.38461538461524" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.DeptOrganizationDTO.DeptOrganizationDTOBuilder" target="kh.cocoa.dto.DeptOrganizationDTO">
+      <point x="0.0" y="-83.5" />
+      <point x="18597.155312633375" y="6797.0" />
+      <point x="18774.80817307692" y="6797.0" />
+      <point x="85.33333333333212" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.service.TemplatesService">
+      <point x="-137.14285714285688" y="-152.5" />
+      <point x="13985.518921007757" y="5517.0" />
+      <point x="12327.996085484472" y="5517.0" />
+      <point x="127.875" y="175.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.LeaveController" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="93.20000000000073" y="-26.0" />
+      <point x="19202.938645966708" y="6927.0" />
+      <point x="20102.412339743583" y="6927.0" />
+      <point x="20102.412339743583" y="2615.0" />
+      <point x="20143.24567307692" y="2615.0" />
+      <point x="21.58333333333212" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.LeaveService">
+      <point x="193.95833333333394" y="-279.0" />
+      <point x="13654.707036771304" y="6817.0" />
+      <point x="19061.55817307692" y="6817.0" />
+      <point x="-100.66666666666788" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.service.PositionService">
+      <point x="150.0" y="-60.5" />
+      <point x="17334.249062633375" y="6957.0" />
+      <point x="20644.55438519813" y="6957.0" />
+      <point x="-94.125" y="49.0" />
+    </edge>
+    <edge source="kh.cocoa.service.EmployeeService" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-143.25" y="-520.5" />
+      <point x="13777.911778150614" y="3894.0" />
+      <point x="13776.799709185098" y="3894.0" />
+      <point x="13776.799709185098" y="2605.0" />
+      <point x="14336.4721229782" y="2605.0" />
+      <point x="7.27586206896558" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.ConfirmDAO" target="kh.cocoa.dto.ConfirmDTO">
+      <point x="0.0" y="-95.0" />
+      <point x="11597.121085484472" y="2625.0" />
+      <point x="11529.689795391992" y="2625.0" />
+      <point x="76.125" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="41.0" y="-72.0" />
+      <point x="9610.564795391992" y="6207.0" />
+      <point x="11744.121085484472" y="6207.0" />
+      <point x="11744.121085484472" y="2435.0" />
+      <point x="11979.187489877746" y="2435.0" />
+      <point x="-91.71428571428623" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.PositionDAO" target="kh.cocoa.dto.PositionDTO">
+      <point x="0.0" y="-49.0" />
+      <point x="20681.137718531467" y="2595.0" />
+      <point x="21444.57776651896" y="2595.0" />
+      <point x="-50.75" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.ConfirmDTO.ConfirmDTOBuilder" target="kh.cocoa.dto.ConfirmDTO">
+      <point x="0.0" y="-118.0" />
+      <point x="11298.121085484472" y="2625.0" />
+      <point x="11377.439795391992" y="2625.0" />
+      <point x="-76.125" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.service.TemplateFormService">
+      <point x="45.714285714286234" y="-152.5" />
+      <point x="14168.3760638649" y="6457.0" />
+      <point x="16534.943589743583" y="6457.0" />
+      <point x="78.5" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.DepartmentsService">
+      <point x="208.25" y="-325.0" />
+      <point x="12537.127295391992" y="6637.0" />
+      <point x="17944.631089743583" y="6637.0" />
+      <point x="-143.0625" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeaveController" target="kh.cocoa.dto.LeaveDTO">
+      <point x="77.0" y="-26.0" />
+      <point x="18316.655312633375" y="6857.0" />
+      <point x="19334.724839743583" y="6857.0" />
+      <point x="19334.724839743583" y="2605.0" />
+      <point x="19316.12067307692" y="2605.0" />
+      <point x="59.0625" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DepartmentController" target="kh.cocoa.service.DepartmentsService">
+      <point x="-51.5" y="-26.0" />
+      <point x="17826.905312633375" y="6707.0" />
+      <point x="18230.756089743583" y="6707.0" />
+      <point x="143.0625" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.service.MessageService" target="kh.cocoa.dto.MessageViewDTO">
+      <point x="-144.79999999999927" y="-106.5" />
+      <point x="2284.875" y="3894.0" />
+      <point x="2133.375" y="3894.0" />
+      <point x="2133.375" y="2625.0" />
+      <point x="2154.875" y="2625.0" />
+      <point x="29.0" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DepartmentsService" target="kh.cocoa.dao.DepartmentsDAO">
+      <point x="-109.0" y="-152.5" />
+      <point x="17978.693589743583" y="3874.0" />
+      <point x="17924.193589743583" y="3874.0" />
+      <point x="-81.75" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.service.NotificationBoardService" target="kh.cocoa.dao.NotificationBoardDAO">
+      <point x="84.39999999999964" y="-313.5" />
+      <point x="7607.527295391992" y="3874.0" />
+      <point x="7723.627295391992" y="3874.0" />
+      <point x="100.25" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="kh.cocoa.dto.FilesDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="3889.7561415458385" y="6147.0" />
+      <point x="3120.6875" y="6147.0" />
+      <point x="3120.6875" y="2545.0" />
+      <point x="3540.8593378487076" y="2545.0" />
+      <point x="-71.86111111111131" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.statics.Configurator">
+      <point x="-62.777777777777374" y="-118.0" />
+      <point x="5400.324517614215" y="6027.0" />
+      <point x="5746.002295391992" y="6027.0" />
+      <point x="5746.002295391992" y="3894.0" />
+      <point x="5744.402295391992" y="3894.0" />
+      <point x="-7.100000000000364" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.MessengerPartyDAO" target="kh.cocoa.dto.MessengerPartyDTO">
+      <point x="0.0" y="-37.5" />
+      <point x="1229.625" y="2625.0" />
+      <point x="1416.4749999999985" y="2625.0" />
+      <point x="-97.6" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerPartyService" target="kh.cocoa.dao.MessengerPartyDAO">
+      <point x="-112.0" y="-37.5" />
+      <point x="1192.875" y="3894.0" />
+      <point x="1145.625" y="3894.0" />
+      <point x="-84.0" y="37.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.AttendanceController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-60.79999999999927" y="-106.5" />
+      <point x="21201.126145966708" y="5297.0" />
+      <point x="15487.276923076919" y="5297.0" />
+      <point x="15487.276923076919" y="2535.0" />
+      <point x="14423.782467805788" y="2535.0" />
+      <point x="94.58620689655254" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MyBoardController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="60.66666666666697" y="-26.0" />
+      <point x="8616.04396205866" y="6287.0" />
+      <point x="13679.16249654142" y="6287.0" />
+      <point x="13679.16249654142" y="2545.0" />
+      <point x="14292.816950564407" y="2545.0" />
+      <point x="-36.3793103448279" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.Leave_Taken_UsedDTO.Leave_Taken_UsedDTOBuilder" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="0.0" y="-118.0" />
+      <point x="20270.412339743583" y="2625.0" />
+      <point x="20229.579006410255" y="2625.0" />
+      <point x="107.91666666666788" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.DocumentDTO.DocumentDTOBuilder" target="kh.cocoa.dto.DocumentDTO">
+      <point x="0.0" y="-405.5" />
+      <point x="10227.314795391992" y="2565.0" />
+      <point x="10048.902966068224" y="2565.0" />
+      <point x="-53.53846153846098" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.CommentListController" target="kh.cocoa.dto.CommentListDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="13382.496085484474" y="2445.0" />
+      <point x="13409.329418817806" y="2445.0" />
+      <point x="13409.329418817806" y="450.0" />
+      <point x="13221.336299401555" y="450.0" />
+      <point x="28.75" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.OrderService">
+      <point x="61.25" y="-325.0" />
+      <point x="12390.127295391992" y="6217.0" />
+      <point x="12860.579418817806" y="6217.0" />
+      <point x="-70.0" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.CommentListController" target="kh.cocoa.service.CommentListService">
+      <point x="-131.33333333333394" y="-60.5" />
+      <point x="13251.16275215114" y="2445.0" />
+      <point x="13096.314795391992" y="2445.0" />
+      <point x="0.0" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.NexacroSearchDTO.NexacroSearchDTOBuilder" target="kh.cocoa.dto.NexacroSearchDTO">
+      <point x="0.0" y="-95.0" />
+      <point x="16048.776923076919" y="2625.0" />
+      <point x="16098.151923076919" y="2625.0" />
+      <point x="29.875" y="187.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.NotificationBoardService">
+      <point x="-52.714285714286234" y="-72.0" />
+      <point x="9516.850509677706" y="5777.0" />
+      <point x="7681.377295391992" y="5777.0" />
+      <point x="158.25" y="313.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.AttendanceDTO.AttendanceDTOBuilder" target="kh.cocoa.dto.AttendanceDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="21816.161099852292" y="2615.0" />
+      <point x="22082.74859985229" y="2615.0" />
+      <point x="-88.40000000000146" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.ConfirmService" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="109.20000000000073" y="-95.0" />
+      <point x="11393.921085484473" y="3894.0" />
+      <point x="13589.996085484474" y="3894.0" />
+      <point x="13589.996085484474" y="2475.0" />
+      <point x="14241.885916081648" y="2475.0" />
+      <point x="-87.31034482758696" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.LeaveDTO.LeaveDTOBuilder" target="kh.cocoa.dto.LeaveDTO">
+      <point x="0.0" y="-106.5" />
+      <point x="18809.05817307692" y="2615.0" />
+      <point x="19221.62067307692" y="2615.0" />
+      <point x="-35.4375" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.service.ScheduleService" target="kh.cocoa.dto.ScheduleDTO">
+      <point x="-134.66666666666606" y="-164.0" />
+      <point x="9591.648128725326" y="3884.0" />
+      <point x="9569.814795391992" y="3884.0" />
+      <point x="9569.814795391992" y="2605.0" />
+      <point x="9469.827966068224" y="2605.0" />
+      <point x="0.0" y="417.0" />
+    </edge>
+    <edge source="kh.cocoa.service.TemplateFormService" target="kh.cocoa.dto.TemplateFormDTO">
+      <point x="104.66666666666788" y="-72.0" />
+      <point x="16561.110256410255" y="3894.0" />
+      <point x="16592.52692307692" y="3894.0" />
+      <point x="16592.52692307692" y="2615.0" />
+      <point x="16711.27692307692" y="2615.0" />
+      <point x="-19.66666666666788" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.service.LeaveService" target="kh.cocoa.dao.LeaveDAO">
+      <point x="0.0" y="-60.5" />
+      <point x="19162.224839743583" y="3894.0" />
+      <point x="19169.55817307692" y="3894.0" />
+      <point x="75.5" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.ScheduleController" target="kh.cocoa.dto.ScheduleDTO">
+      <point x="0.0" y="-141.0" />
+      <point x="10050.814795391992" y="2585.0" />
+      <point x="9553.427966068224" y="2585.0" />
+      <point x="83.60000000000036" y="417.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.MessengerViewDTO">
+      <point x="-172.61538461538476" y="-175.5" />
+      <point x="2077.515756930454" y="7067.0" />
+      <point x="330.5" y="7067.0" />
+      <point x="330.5" y="2625.0" />
+      <point x="303.0" y="2625.0" />
+      <point x="-30.5" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.TemplatesService" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="-113.66666666666606" y="-175.5" />
+      <point x="12086.454418817806" y="3884.0" />
+      <point x="12073.189795391992" y="3884.0" />
+      <point x="12073.189795391992" y="2445.0" />
+      <point x="12070.901775592032" y="2445.0" />
+      <point x="0.0" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.service.BusinessLogService" target="kh.cocoa.dao.BusinessLogDAO">
+      <point x="46.875" y="-371.0" />
+      <point x="9222.041918817806" y="3884.0" />
+      <point x="9386.127295391992" y="3884.0" />
+      <point x="93.75" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="30.625" y="-279.0" />
+      <point x="13491.37370343797" y="6337.0" />
+      <point x="13719.661778150614" y="6337.0" />
+      <point x="13719.661778150614" y="2595.0" />
+      <point x="14329.196260909235" y="2595.0" />
+      <point x="0.0" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.NotificationBoardDAO" target="kh.cocoa.dto.BoardMenuDTO">
+      <point x="-100.25" y="-279.0" />
+      <point x="7523.127295391992" y="2625.0" />
+      <point x="7417.377295391992" y="2625.0" />
+      <point x="83.625" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.FilesDAO" target="kh.cocoa.dto.FilesDTO">
+      <point x="0.0" y="-325.0" />
+      <point x="3643.4503205128185" y="2625.0" />
+      <point x="3640.3593378487076" y="2625.0" />
+      <point x="27.638888888888687" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.service.ConfirmService">
+      <point x="185.33333333333303" y="-164.0" />
+      <point x="6754.185628725326" y="6197.0" />
+      <point x="11193.721085484472" y="6197.0" />
+      <point x="-91.0" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="0.0" y="-152.5" />
+      <point x="14122.661778150614" y="2625.0" />
+      <point x="14351.023847116132" y="2625.0" />
+      <point x="21.82758620689674" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.FilesDTO.FilesDTOBuilder" target="kh.cocoa.dto.FilesDTO">
+      <point x="0.0" y="-129.5" />
+      <point x="2987.6875" y="2535.0" />
+      <point x="3529.803782293151" y="2535.0" />
+      <point x="-82.91666666666697" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="251.1111111111113" y="-118.0" />
+      <point x="5714.213406503104" y="6247.0" />
+      <point x="13611.82367169137" y="6247.0" />
+      <point x="13611.82367169137" y="2505.0" />
+      <point x="14263.713502288545" y="2505.0" />
+      <point x="-65.48275862069022" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.service.CommentListService" target="kh.cocoa.dto.CommentListDTO">
+      <point x="116.33333333333394" y="-95.0" />
+      <point x="13212.648128725326" y="718.0" />
+      <point x="13227.586299401555" y="718.0" />
+      <point x="13227.586299401555" y="460.0" />
+      <point x="13163.836299401555" y="460.0" />
+      <point x="-28.75" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="31.181818181819835" y="-37.5" />
+      <point x="17615.08713081519" y="6747.0" />
+      <point x="18502.05817307692" y="6747.0" />
+      <point x="18502.05817307692" y="2615.0" />
+      <point x="18638.103627622375" y="2615.0" />
+      <point x="51.272727272727934" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.AttendanceController" target="kh.cocoa.service.AttendanceService">
+      <point x="60.79999999999927" y="-106.5" />
+      <point x="21322.726145966706" y="7047.0" />
+      <point x="22497.661099852292" y="7047.0" />
+      <point x="100.75" y="336.5" />
+    </edge>
+    <edge source="kh.cocoa.service.EmailService" target="kh.cocoa.dao.EmailDAO">
+      <point x="36.75" y="-221.5" />
+      <point x="6328.252295391992" y="3894.0" />
+      <point x="6365.002295391992" y="3894.0" />
+      <point x="73.5" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeave_Taken_UsedController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-38.75" y="-37.5" />
+      <point x="19408.113645966707" y="5327.0" />
+      <point x="15472.725198938988" y="5327.0" />
+      <point x="15472.725198938988" y="2555.0" />
+      <point x="14409.230743667857" y="2555.0" />
+      <point x="80.03448275862138" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.service.FilesService" target="kh.cocoa.dao.FilesDAO">
+      <point x="129.33333333333303" y="-359.5" />
+      <point x="3708.1169871794855" y="3884.0" />
+      <point x="3724.4503205128185" y="3884.0" />
+      <point x="81.0" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DocumentService" target="kh.cocoa.dto.DocumentDTO">
+      <point x="229.20000000000073" y="-681.5" />
+      <point x="11039.596085484474" y="3894.0" />
+      <point x="11080.439795391992" y="3894.0" />
+      <point x="11080.439795391992" y="2505.0" />
+      <point x="10155.979889145146" y="2505.0" />
+      <point x="53.53846153846098" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.dto.PositionDTO">
+      <point x="120.0" y="-60.5" />
+      <point x="17304.249062633375" y="6947.0" />
+      <point x="20427.412339743583" y="6947.0" />
+      <point x="20427.412339743583" y="2585.0" />
+      <point x="21410.744433185628" y="2585.0" />
+      <point x="-84.58333333333212" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.dto.TemplateFormDTO">
+      <point x="91.42857142857065" y="-152.5" />
+      <point x="14214.090349579184" y="6477.0" />
+      <point x="16634.943589743583" y="6477.0" />
+      <point x="16634.943589743583" y="2625.0" />
+      <point x="16750.610256410255" y="2625.0" />
+      <point x="19.66666666666788" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.statics.Configurator">
+      <point x="-193.95833333333394" y="-279.0" />
+      <point x="13266.790370104636" y="5617.0" />
+      <point x="5790.002295391992" y="5617.0" />
+      <point x="5790.002295391992" y="3894.0" />
+      <point x="5801.202295391992" y="3894.0" />
+      <point x="49.69999999999982" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.AttendanceController" target="kh.cocoa.dto.AtdChangeReqDTO">
+      <point x="121.59999999999854" y="-106.5" />
+      <point x="21383.526145966705" y="7067.0" />
+      <point x="22655.848599852292" y="7067.0" />
+      <point x="22655.848599852292" y="2625.0" />
+      <point x="22728.348599852292" y="2625.0" />
+      <point x="48.20000000000073" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.EmployeeService" target="kh.cocoa.dao.EmployeeDAO">
+      <point x="-47.75" y="-520.5" />
+      <point x="13873.411778150614" y="3874.0" />
+      <point x="15593.276923076919" y="3874.0" />
+      <point x="-95.5" y="509.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.SidebarController" target="kh.cocoa.dto.SidebarViewDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="7920.377295391992" y="5817.0" />
+      <point x="7133.377295391992" y="5817.0" />
+      <point x="7133.377295391992" y="2615.0" />
+      <point x="6896.277295391992" y="2615.0" />
+      <point x="90.39999999999964" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.statics.Configurator">
+      <point x="-159.25" y="-325.0" />
+      <point x="12169.627295391992" y="5707.0" />
+      <point x="5779.002295391992" y="5707.0" />
+      <point x="5779.002295391992" y="3884.0" />
+      <point x="5787.002295391992" y="3884.0" />
+      <point x="35.5" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.FilesMsgDTO.FilesMsgDTOBuilder" target="kh.cocoa.dto.FilesMsgDTO">
+      <point x="0.0" y="-141.0" />
+      <point x="0.0" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestAttendanceController" target="kh.cocoa.dto.AttendanceDTO">
+      <point x="-35.625" y="-175.5" />
+      <point x="20911.801145966707" y="7017.0" />
+      <point x="21973.661099852292" y="7017.0" />
+      <point x="21973.661099852292" y="2625.0" />
+      <point x="22126.94859985229" y="2625.0" />
+      <point x="-44.20000000000073" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.FilesService">
+      <point x="-208.25" y="-325.0" />
+      <point x="12120.627295391992" y="5727.0" />
+      <point x="3698.1682692307677" y="5727.0" />
+      <point x="119.38461538461524" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.ScheduleDTO">
+      <point x="-5.857142857143117" y="-72.0" />
+      <point x="9563.70765253485" y="5737.0" />
+      <point x="9513.814795391992" y="5737.0" />
+      <point x="9513.814795391992" y="2615.0" />
+      <point x="9428.027966068224" y="2615.0" />
+      <point x="-41.79999999999927" y="417.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.EmployeeService">
+      <point x="51.04166666666606" y="-279.0" />
+      <point x="13511.790370104636" y="6427.0" />
+      <point x="13921.161778150614" y="6427.0" />
+      <point x="0.0" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.service.ConfirmService" target="kh.cocoa.dao.ConfirmDAO">
+      <point x="54.600000000000364" y="-95.0" />
+      <point x="11339.321085484473" y="3884.0" />
+      <point x="11665.371085484472" y="3884.0" />
+      <point x="68.25" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.dto.BoardDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="6568.852295391993" y="6137.0" />
+      <point x="7856.377295391992" y="6137.0" />
+      <point x="7856.377295391992" y="2615.0" />
+      <point x="8049.458521623778" y="2615.0" />
+      <point x="-21.222222222222626" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.SidebarController" target="kh.cocoa.service.EmployeeService">
+      <point x="136.0" y="-60.5" />
+      <point x="8056.377295391992" y="6397.0" />
+      <point x="13853.750013444731" y="6397.0" />
+      <point x="-67.41176470588289" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.OranChartController" target="kh.cocoa.service.DepartmentsService">
+      <point x="25.0" y="-26.0" />
+      <point x="16019.171476426476" y="6677.0" />
+      <point x="18108.131089743583" y="6677.0" />
+      <point x="20.4375" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestMessengerController" target="kh.cocoa.statics.Configurator">
+      <point x="86.25" y="-26.0" />
+      <point x="4245.006141545839" y="5997.0" />
+      <point x="5713.002295391992" y="5997.0" />
+      <point x="5713.002295391992" y="3894.0" />
+      <point x="5701.802295391993" y="3894.0" />
+      <point x="-49.69999999999982" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.service.EmailService" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="110.25" y="-221.5" />
+      <point x="6401.752295391992" y="3894.0" />
+      <point x="8594.043962058659" y="3894.0" />
+      <point x="-85.83333333333394" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.TeamDTO.TeamDTOBuilder" target="kh.cocoa.dto.TeamDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="17076.443589743583" y="2465.0" />
+      <point x="17910.988728632474" y="2465.0" />
+      <point x="-62.66666666666788" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-74.375" y="-129.5" />
+      <point x="14347.286778150614" y="5477.0" />
+      <point x="5670.002295391992" y="5477.0" />
+      <point x="5670.002295391992" y="2575.0" />
+      <point x="3706.6926711820415" y="2575.0" />
+      <point x="93.97222222222263" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.LeaveDTO">
+      <point x="132.70833333333394" y="-279.0" />
+      <point x="13593.457036771304" y="6597.0" />
+      <point x="17577.943589743583" y="6597.0" />
+      <point x="17577.943589743583" y="3884.0" />
+      <point x="18673.55817307692" y="3884.0" />
+      <point x="18673.55817307692" y="2595.0" />
+      <point x="19174.37067307692" y="2595.0" />
+      <point x="-82.6875" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="143.84615384615427" y="-175.5" />
+      <point x="2393.977295391993" y="6227.0" />
+      <point x="13597.27194755344" y="6227.0" />
+      <point x="13597.27194755344" y="2485.0" />
+      <point x="14249.161778150614" y="2485.0" />
+      <point x="-80.03448275862138" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="-29.285714285713766" y="-72.0" />
+      <point x="9540.279081106279" y="5757.0" />
+      <point x="8674.377295391992" y="5757.0" />
+      <point x="8674.377295391992" y="3884.0" />
+      <point x="8662.710628725326" y="3884.0" />
+      <point x="-17.16666666666606" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.statics.Configurator">
+      <point x="-51.75" y="-279.0" />
+      <point x="4868.977295391992" y="6017.0" />
+      <point x="5735.002295391992" y="6017.0" />
+      <point x="5735.002295391992" y="3894.0" />
+      <point x="5730.202295391992" y="3894.0" />
+      <point x="-21.300000000000182" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.ConfirmDAO" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="91.0" y="-95.0" />
+      <point x="11688.121085484472" y="2455.0" />
+      <point x="14227.334191943717" y="2455.0" />
+      <point x="-101.86206896551812" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.StompController" target="kh.cocoa.dto.MessageDTO">
+      <point x="-32.125" y="-60.5" />
+      <point x="3575.1311415458385" y="6187.0" />
+      <point x="2819.375" y="6187.0" />
+      <point x="2819.375" y="2625.0" />
+      <point x="2762.437499999998" y="2625.0" />
+      <point x="42.600000000000364" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-214.375" y="-279.0" />
+      <point x="13246.37370343797" y="5627.0" />
+      <point x="5422.611299401556" y="5627.0" />
+      <point x="5422.611299401556" y="2585.0" />
+      <point x="3695.637115626486" y="2585.0" />
+      <point x="82.91666666666697" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestMessengerController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-86.25" y="-26.0" />
+      <point x="4072.5061415458385" y="6127.0" />
+      <point x="3240.812499999998" y="6127.0" />
+      <point x="3240.812499999998" y="2555.0" />
+      <point x="3551.9148934042632" y="2555.0" />
+      <point x="-60.80555555555566" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.service.ConfirmService" target="kh.cocoa.dto.ConfirmDTO">
+      <point x="-54.600000000000364" y="-95.0" />
+      <point x="11230.121085484472" y="3864.0" />
+      <point x="11439.121085484472" y="3864.0" />
+      <point x="11439.121085484472" y="2625.0" />
+      <point x="11428.189795391992" y="2625.0" />
+      <point x="-25.375" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="85.75" y="-325.0" />
+      <point x="12414.627295391992" y="6317.0" />
+      <point x="13700.990082748316" y="6317.0" />
+      <point x="13700.990082748316" y="2575.0" />
+      <point x="14314.644536771304" y="2575.0" />
+      <point x="-14.55172413793116" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-251.1111111111113" y="-118.0" />
+      <point x="5211.9911842808815" y="5937.0" />
+      <point x="3363.2836538461524" y="5937.0" />
+      <point x="3363.2836538461524" y="2605.0" />
+      <point x="3607.1926711820415" y="2605.0" />
+      <point x="-5.527777777777374" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.SidebarDAO" target="kh.cocoa.dto.SidebarViewDTO">
+      <point x="0.0" y="-129.5" />
+      <point x="6648.877295391992" y="2625.0" />
+      <point x="6760.677295391993" y="2625.0" />
+      <point x="-45.19999999999982" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerService" target="kh.cocoa.dto.MessengerViewDTO">
+      <point x="-143.25" y="-118.0" />
+      <point x="583.25" y="3894.0" />
+      <point x="341.5" y="3894.0" />
+      <point x="341.5" y="2625.0" />
+      <point x="364.0" y="2625.0" />
+      <point x="30.5" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroPosController" target="kh.cocoa.service.PositionService">
+      <point x="-78.25" y="-37.5" />
+      <point x="20440.301145966707" y="6987.0" />
+      <point x="20832.80438519813" y="6987.0" />
+      <point x="94.125" y="49.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="57.0" y="-95.0" />
+      <point x="15579.327726426476" y="6627.0" />
+      <point x="17831.943589743583" y="6627.0" />
+      <point x="17831.943589743583" y="2565.0" />
+      <point x="18552.649082167827" y="2565.0" />
+      <point x="-34.181818181819835" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.TemplatesService">
+      <point x="-71.45833333333394" y="-279.0" />
+      <point x="13389.290370104636" y="5557.0" />
+      <point x="12242.746085484472" y="5557.0" />
+      <point x="42.625" y="175.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.TemplatesDAO" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="0.0" y="-175.5" />
+      <point x="12276.41275215114" y="2445.0" />
+      <point x="12101.473204163463" y="2445.0" />
+      <point x="30.57142857142935" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestAttendanceController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-106.875" y="-175.5" />
+      <point x="20840.551145966707" y="5317.0" />
+      <point x="15480.001061007953" y="5317.0" />
+      <point x="15480.001061007953" y="2545.0" />
+      <point x="14416.506605736822" y="2545.0" />
+      <point x="87.31034482758696" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.PositionDTO.PositionDTOBuilder" target="kh.cocoa.dto.PositionDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="21375.161099852292" y="2615.0" />
+      <point x="21512.244433185628" y="2615.0" />
+      <point x="16.91666666666788" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestMessengerController" target="kh.cocoa.service.FilesService">
+      <point x="28.75" y="-26.0" />
+      <point x="4187.506141545839" y="6107.0" />
+      <point x="3489.2451923076915" y="6107.0" />
+      <point x="-89.53846153846189" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.DocumentDTO">
+      <point x="-132.70833333333394" y="-279.0" />
+      <point x="13328.040370104636" y="5587.0" />
+      <point x="11132.721085484472" y="5587.0" />
+      <point x="11132.721085484472" y="2495.0" />
+      <point x="10173.8260429913" y="2495.0" />
+      <point x="71.38461538461524" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.TemplateFormDAO" target="kh.cocoa.dto.TemplateFormDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="16385.77692307692" y="2605.0" />
+      <point x="16671.943589743583" y="2605.0" />
+      <point x="-59.0" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.MessengerDAO" target="kh.cocoa.dto.MessengerViewDTO">
+      <point x="-95.5" y="-118.0" />
+      <point x="447.5" y="2625.0" />
+      <point x="425.0" y="2625.0" />
+      <point x="91.5" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.OranChartController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="75.0" y="-26.0" />
+      <point x="16069.171476426476" y="6717.0" />
+      <point x="18452.55817307692" y="6717.0" />
+      <point x="18452.55817307692" y="3864.0" />
+      <point x="18474.55817307692" y="3864.0" />
+      <point x="18474.55817307692" y="2595.0" />
+      <point x="18603.921809440555" y="2595.0" />
+      <point x="17.0909090909081" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.SidebarController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="68.0" y="-60.5" />
+      <point x="7988.377295391992" y="6277.0" />
+      <point x="13671.886634472454" y="6277.0" />
+      <point x="13671.886634472454" y="2535.0" />
+      <point x="14285.541088495442" y="2535.0" />
+      <point x="-43.65517241379348" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.EmployeeService">
+      <point x="110.25" y="-325.0" />
+      <point x="12439.127295391992" y="6417.0" />
+      <point x="13898.69118991532" y="6417.0" />
+      <point x="-22.47058823529369" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.service.FilesService">
+      <point x="115.07692307692287" y="-175.5" />
+      <point x="2365.2080646227623" y="6217.0" />
+      <point x="3399.7067307692305" y="6217.0" />
+      <point x="-179.07692307692287" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.BoardDTO">
+      <point x="-41.0" y="-72.0" />
+      <point x="9528.564795391992" y="5767.0" />
+      <point x="8566.377295391992" y="5767.0" />
+      <point x="8566.377295391992" y="2615.0" />
+      <point x="8113.125188290445" y="2615.0" />
+      <point x="42.44444444444434" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.service.EmployeeService">
+      <point x="172.61538461538476" y="-175.5" />
+      <point x="2422.7465261612233" y="6347.0" />
+      <point x="13741.39707226826" y="6347.0" />
+      <point x="-179.76470588235316" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.EmployeeDAO" target="kh.cocoa.dto.NexacroSearchDTO">
+      <point x="95.5" y="-509.0" />
+      <point x="15784.276923076919" y="2615.0" />
+      <point x="15978.651923076919" y="2615.0" />
+      <point x="-89.625" y="187.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.service.DepartmentsService">
+      <point x="-31.181818181819835" y="-37.5" />
+      <point x="17552.72349445155" y="6697.0" />
+      <point x="18189.881089743583" y="6697.0" />
+      <point x="102.1875" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.ScheduleController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="151.66666666666606" y="-141.0" />
+      <point x="10202.481462058659" y="6307.0" />
+      <point x="13693.71422067935" y="6307.0" />
+      <point x="13693.71422067935" y="2565.0" />
+      <point x="14307.368674702338" y="2565.0" />
+      <point x="-21.82758620689674" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="90.0" y="-60.5" />
+      <point x="17274.249062633375" y="6727.0" />
+      <point x="18463.55817307692" y="6727.0" />
+      <point x="18463.55817307692" y="3874.0" />
+      <point x="18485.55817307692" y="3874.0" />
+      <point x="18485.55817307692" y="2605.0" />
+      <point x="18621.012718531467" y="2605.0" />
+      <point x="34.181818181819835" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.TemplatesService">
+      <point x="-12.25" y="-325.0" />
+      <point x="12316.627295391992" y="5647.0" />
+      <point x="12157.496085484472" y="5647.0" />
+      <point x="-42.625" y="175.5" />
+    </edge>
+    <edge source="kh.cocoa.service.NotificationBoardService" target="kh.cocoa.dto.BoardMenuDTO">
+      <point x="-84.39999999999964" y="-313.5" />
+      <point x="7438.727295391993" y="3884.0" />
+      <point x="7412.377295391992" y="3884.0" />
+      <point x="7412.377295391992" y="2625.0" />
+      <point x="7361.627295391992" y="2625.0" />
+      <point x="27.875" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.FilesDTO">
+      <point x="86.30769230769329" y="-175.5" />
+      <point x="2336.438833853532" y="6207.0" />
+      <point x="2854.6875" y="6207.0" />
+      <point x="2854.6875" y="2525.0" />
+      <point x="3518.7482267375963" y="2525.0" />
+      <point x="-93.97222222222263" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.DocumentDTO">
+      <point x="-110.25" y="-325.0" />
+      <point x="12218.627295391992" y="5687.0" />
+      <point x="10414.814795391992" y="5687.0" />
+      <point x="10414.814795391992" y="2535.0" />
+      <point x="10102.441427606685" y="2535.0" />
+      <point x="0.0" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.service.DepartmentsService">
+      <point x="104.125" y="-129.5" />
+      <point x="14525.786778150614" y="6657.0" />
+      <point x="18026.381089743583" y="6657.0" />
+      <point x="-61.3125" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.dto.SidebarViewDTO">
+      <point x="0.0" y="-118.0" />
+      <point x="5463.102295391993" y="6067.0" />
+      <point x="6478.377295391992" y="6067.0" />
+      <point x="6478.377295391992" y="2615.0" />
+      <point x="6715.477295391993" y="2615.0" />
+      <point x="-90.39999999999964" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.service.FilesService">
+      <point x="-125.55555555555566" y="-118.0" />
+      <point x="5337.546739836437" y="5917.0" />
+      <point x="3578.7836538461524" y="5917.0" />
+      <point x="0.0" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.MessengerPartyDTO.MessengerPartyDTOBuilder" target="kh.cocoa.dto.MessengerPartyDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="1642.375" y="2625.0" />
+      <point x="1611.6749999999993" y="2625.0" />
+      <point x="97.60000000000002" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.EmailDTO">
+      <point x="-64.42857142857065" y="-72.0" />
+      <point x="9505.136223963422" y="5787.0" />
+      <point x="6467.377295391992" y="5787.0" />
+      <point x="6467.377295391992" y="2615.0" />
+      <point x="6245.777966068223" y="2615.0" />
+      <point x="90.41666666666606" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DepartmentController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="51.5" y="-26.0" />
+      <point x="17929.905312633375" y="6807.0" />
+      <point x="18827.974839743583" y="6807.0" />
+      <point x="18827.974839743583" y="3874.0" />
+      <point x="18662.55817307692" y="3874.0" />
+      <point x="18662.55817307692" y="2585.0" />
+      <point x="18672.28544580419" y="2585.0" />
+      <point x="85.45454545454413" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="72.60000000000036" y="-198.5" />
+      <point x="7120.952295391993" y="6267.0" />
+      <point x="13664.610772403488" y="6267.0" />
+      <point x="13664.610772403488" y="2525.0" />
+      <point x="14278.265226426476" y="2525.0" />
+      <point x="-50.93103448275906" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.ConfirmService">
+      <point x="-112.29166666666606" y="-279.0" />
+      <point x="13348.457036771304" y="5577.0" />
+      <point x="11375.721085484472" y="5577.0" />
+      <point x="91.0" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.StompController" target="kh.cocoa.service.MessageService">
+      <point x="-96.375" y="-60.5" />
+      <point x="3510.8811415458385" y="6197.0" />
+      <point x="2429.6749999999993" y="6197.0" />
+      <point x="0.0" y="106.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="74.375" y="-129.5" />
+      <point x="14496.036778150614" y="6607.0" />
+      <point x="17588.943589743583" y="6607.0" />
+      <point x="17588.943589743583" y="2555.0" />
+      <point x="18535.55817307692" y="2555.0" />
+      <point x="-51.272727272727934" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestAttendanceController" target="kh.cocoa.dto.AtdChangeReqDTO">
+      <point x="106.875" y="-175.5" />
+      <point x="21054.301145966707" y="7057.0" />
+      <point x="22644.848599852292" y="7057.0" />
+      <point x="22644.848599852292" y="2615.0" />
+      <point x="22680.14859985229" y="2615.0" />
+      <point x="0.0" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.service.SidebarService">
+      <point x="62.777777777777374" y="-118.0" />
+      <point x="5525.88007316977" y="6077.0" />
+      <point x="6622.210628725326" y="6077.0" />
+      <point x="-106.66666666666652" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="247.1111111111113" y="-164.0" />
+      <point x="6815.963406503104" y="6257.0" />
+      <point x="13657.334910334523" y="6257.0" />
+      <point x="13657.334910334523" y="2515.0" />
+      <point x="14270.98936435751" y="2515.0" />
+      <point x="-58.20689655172464" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.MessengerPartyDTO">
+      <point x="0.0" y="-175.5" />
+      <point x="2250.1311415458385" y="7007.0" />
+      <point x="1494.375" y="7007.0" />
+      <point x="1494.375" y="2625.0" />
+      <point x="1562.8749999999982" y="2625.0" />
+      <point x="48.79999999999927" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.service.OrderService" target="kh.cocoa.dto.OrderDTO">
+      <point x="93.33333333333394" y="-60.5" />
+      <point x="13023.91275215114" y="3884.0" />
+      <point x="13063.91275215114" y="3884.0" />
+      <point x="13063.91275215114" y="2435.0" />
+      <point x="12811.169632734891" y="2435.0" />
+      <point x="47.5" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.LeaveController" target="kh.cocoa.service.Leave_Taken_UsedService">
+      <point x="46.599999999998545" y="-26.0" />
+      <point x="19156.338645966705" y="6907.0" />
+      <point x="19973.787339743583" y="6907.0" />
+      <point x="39.375" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-155.25" y="-279.0" />
+      <point x="4765.477295391992" y="5967.0" />
+      <point x="3341.2836538461524" y="5967.0" />
+      <point x="3341.2836538461524" y="2585.0" />
+      <point x="3585.08156007093" y="2585.0" />
+      <point x="-27.638888888888687" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.service.MessengerPartyService">
+      <point x="-57.53846153846143" y="-175.5" />
+      <point x="2192.5926800073776" y="7027.0" />
+      <point x="1304.875" y="7027.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.CommentListDAO" target="kh.cocoa.dto.CommentListDTO">
+      <point x="0.0" y="-95.0" />
+      <point x="13009.064795391992" y="460.0" />
+      <point x="13106.336299401555" y="460.0" />
+      <point x="-86.25" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.CommentListDTO.CommentListDTOBuilder" target="kh.cocoa.dto.CommentListDTO">
+      <point x="0.0" y="-106.5" />
+      <point x="13555.829418817806" y="440.0" />
+      <point x="13278.836299401555" y="440.0" />
+      <point x="86.25" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.service.TeamService">
+      <point x="-93.54545454545587" y="-37.5" />
+      <point x="17490.35985808792" y="6547.0" />
+      <point x="17494.043589743582" y="6547.0" />
+      <point x="117.59999999999854" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.MessageDAO" target="kh.cocoa.dto.MessageDTO">
+      <point x="90.5" y="-95.0" />
+      <point x="2415.375" y="2605.0" />
+      <point x="2634.637499999997" y="2605.0" />
+      <point x="-85.19999999999982" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="kh.cocoa.service.EmployeeService">
+      <point x="145.20000000000073" y="-198.5" />
+      <point x="7193.5522953919935" y="6387.0" />
+      <point x="13831.279425209437" y="6387.0" />
+      <point x="-89.88235294117658" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.StompController" target="kh.cocoa.service.EmployeeService">
+      <point x="96.375" y="-60.5" />
+      <point x="3703.6311415458385" y="6357.0" />
+      <point x="13763.867660503554" y="6357.0" />
+      <point x="-157.29411764705947" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.MessageDTO.MessageDTOBuilder" target="kh.cocoa.dto.MessageDTO">
+      <point x="0.0" y="-141.0" />
+      <point x="2667.875" y="2625.0" />
+      <point x="2719.837499999998" y="2625.0" />
+      <point x="0.0" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.service.FilesService">
+      <point x="-104.125" y="-129.5" />
+      <point x="14317.536778150614" y="5487.0" />
+      <point x="3757.8605769230753" y="5487.0" />
+      <point x="179.07692307692287" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.TeamDTO">
+      <point x="134.75" y="-325.0" />
+      <point x="12463.627295391992" y="6467.0" />
+      <point x="16623.943589743583" y="6467.0" />
+      <point x="16623.943589743583" y="3884.0" />
+      <point x="16955.943589743583" y="3884.0" />
+      <point x="16955.943589743583" y="2455.0" />
+      <point x="17890.099839743587" y="2455.0" />
+      <point x="-83.55555555555475" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.service.FilesService" target="kh.cocoa.dto.FilesDTO">
+      <point x="-129.33333333333212" y="-359.5" />
+      <point x="3449.4503205128203" y="3884.0" />
+      <point x="3470.9503205128185" y="3884.0" />
+      <point x="3470.9503205128185" y="2625.0" />
+      <point x="3629.303782293152" y="2625.0" />
+      <point x="16.58333333333303" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.CommentListController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="131.33333333333394" y="-60.5" />
+      <point x="13513.829418817808" y="2465.0" />
+      <point x="14234.610054012683" y="2465.0" />
+      <point x="-94.58620689655254" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="-51.04166666666606" y="-279.0" />
+      <point x="13409.707036771304" y="5547.0" />
+      <point x="12457.41275215114" y="5547.0" />
+      <point x="12457.41275215114" y="2435.0" />
+      <point x="12132.044632734891" y="2435.0" />
+      <point x="61.14285714285688" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="86.25" y="-279.0" />
+      <point x="5006.977295391992" y="6147.0" />
+      <point x="8663.377295391992" y="6147.0" />
+      <point x="8663.377295391992" y="3894.0" />
+      <point x="8628.377295391992" y="3894.0" />
+      <point x="-51.5" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.TemplateFormService">
+      <point x="91.875" y="-279.0" />
+      <point x="13552.62370343797" y="6447.0" />
+      <point x="16377.943589743585" y="6447.0" />
+      <point x="-78.5" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.service.BusinessLogService" target="kh.cocoa.dto.DocumentDTO">
+      <point x="140.625" y="-371.0" />
+      <point x="9315.791918817806" y="3894.0" />
+      <point x="10039.814795391992" y="3894.0" />
+      <point x="10039.814795391992" y="2625.0" />
+      <point x="10013.210658375916" y="2625.0" />
+      <point x="-89.23076923076951" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DocumentService" target="kh.cocoa.dao.DocumentDAO">
+      <point x="-114.60000000000036" y="-681.5" />
+      <point x="10695.796085484473" y="3864.0" />
+      <point x="10568.564795391992" y="3864.0" />
+      <point x="-143.25" y="589.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MyBoardController" target="kh.cocoa.service.NotificationBoardService">
+      <point x="-60.66666666666697" y="-26.0" />
+      <point x="8494.710628725326" y="5807.0" />
+      <point x="7575.877295391992" y="5807.0" />
+      <point x="52.75" y="313.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.MessengerDTO.MessengerDTOBuilder" target="kh.cocoa.dto.MessengerDTO">
+      <point x="0.0" y="-72.0" />
+      <point x="874.5" y="2625.0" />
+      <point x="929.6999999999989" y="2625.0" />
+      <point x="-43.39999999999998" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.ScheduleService">
+      <point x="5.857142857143117" y="-72.0" />
+      <point x="9575.421938249136" y="6157.0" />
+      <point x="9625.314795391992" y="6157.0" />
+      <point x="-101.0" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeave_Taken_UsedController" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="116.25" y="-37.5" />
+      <point x="19563.113645966707" y="6937.0" />
+      <point x="20113.412339743583" y="6937.0" />
+      <point x="20113.412339743583" y="2625.0" />
+      <point x="20186.412339743583" y="2625.0" />
+      <point x="64.75" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="64.42857142857065" y="-72.0" />
+      <point x="9633.993366820563" y="6297.0" />
+      <point x="13686.438358610385" y="6297.0" />
+      <point x="13686.438358610385" y="2555.0" />
+      <point x="14300.092812633373" y="2555.0" />
+      <point x="-29.10344827586232" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="214.375" y="-279.0" />
+      <point x="13675.12370343797" y="6877.0" />
+      <point x="19356.724839743583" y="6877.0" />
+      <point x="19356.724839743583" y="2615.0" />
+      <point x="20013.74567307692" y="2615.0" />
+      <point x="-107.91666666666788" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.BusinessLogDAO" target="kh.cocoa.dto.DocumentDTO">
+      <point x="93.75" y="-371.0" />
+      <point x="9386.127295391992" y="2625.0" />
+      <point x="9995.364504529762" y="2625.0" />
+      <point x="-107.07692307692378" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.LeaveDAO" target="kh.cocoa.dto.LeaveDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="19094.05817307692" y="2625.0" />
+      <point x="19245.24567307692" y="2625.0" />
+      <point x="-11.8125" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.DocumentService">
+      <point x="-85.75" y="-325.0" />
+      <point x="12243.127295391992" y="5677.0" />
+      <point x="10810.396085484474" y="5677.0" />
+      <point x="0.0" y="681.5" />
+    </edge>
+    <edge source="kh.cocoa.service.AttendanceService" target="kh.cocoa.dao.AttendanceDAO">
+      <point x="50.375" y="-336.5" />
+      <point x="22447.286099852292" y="3894.0" />
+      <point x="22502.911099852292" y="3894.0" />
+      <point x="100.75" y="336.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.service.EmployeeService">
+      <point x="-150.0" y="-60.5" />
+      <point x="17034.249062633375" y="5417.0" />
+      <point x="14033.514719327084" y="5417.0" />
+      <point x="112.35294117647027" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-14.875" y="-129.5" />
+      <point x="14406.786778150614" y="2625.0" />
+      <point x="14358.299709185098" y="2625.0" />
+      <point x="29.10344827586232" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.OrderDAO" target="kh.cocoa.dto.OrderDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="12883.91275215114" y="2445.0" />
+      <point x="12779.502966068223" y="2445.0" />
+      <point x="15.83333333333394" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.service.EmployeeService">
+      <point x="-44.625" y="-129.5" />
+      <point x="14377.036778150614" y="5467.0" />
+      <point x="13966.102954621201" y="5467.0" />
+      <point x="44.94117647058738" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.service.BusinessLogService">
+      <point x="61.777777777777374" y="-164.0" />
+      <point x="6630.63007316977" y="6157.0" />
+      <point x="9081.416918817806" y="6157.0" />
+      <point x="-93.75" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-124.72727272727207" y="-37.5" />
+      <point x="17459.178039906103" y="5367.0" />
+      <point x="14888.864489350723" y="5367.0" />
+      <point x="14888.864489350723" y="2575.0" />
+      <point x="14394.679019529925" y="2575.0" />
+      <point x="65.48275862069022" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.NexacroFakeEmployeeDTO.NexacroFakeEmployeeDTOBuilder" target="kh.cocoa.dto.NexacroFakeEmployeeDTO">
+      <point x="0.0" y="-198.5" />
+      <point x="0.0" y="394.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="120.75" y="-279.0" />
+      <point x="5041.477295391992" y="6237.0" />
+      <point x="13604.547809622405" y="6237.0" />
+      <point x="13604.547809622405" y="2495.0" />
+      <point x="14256.43764021958" y="2495.0" />
+      <point x="-72.7586206896558" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.OrderDTO">
+      <point x="-10.20833333333394" y="-279.0" />
+      <point x="13450.540370104636" y="5527.0" />
+      <point x="13081.079418817806" y="5527.0" />
+      <point x="13081.079418817806" y="2425.0" />
+      <point x="12842.836299401555" y="2425.0" />
+      <point x="79.16666666666606" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.FilesController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-114.0" y="-49.0" />
+      <point x="4350.756141545839" y="5987.0" />
+      <point x="3330.2836538461524" y="5987.0" />
+      <point x="3330.2836538461524" y="2575.0" />
+      <point x="3574.0260045153746" y="2575.0" />
+      <point x="-38.69444444444434" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.service.TemplatesService" target="kh.cocoa.dao.TemplatesDAO">
+      <point x="113.66666666666606" y="-175.5" />
+      <point x="12313.787752151138" y="3884.0" />
+      <point x="12361.66275215114" y="3884.0" />
+      <point x="85.25" y="175.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.service.NotificationBoardService">
+      <point x="125.55555555555566" y="-118.0" />
+      <point x="5588.6578509475485" y="6107.0" />
+      <point x="7364.877295391992" y="6107.0" />
+      <point x="-158.25" y="313.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.service.EmployeeService">
+      <point x="-155.9090909090919" y="-37.5" />
+      <point x="17427.99622172428" y="5377.0" />
+      <point x="14055.985307562378" y="5377.0" />
+      <point x="134.82352941176396" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeaveController" target="kh.cocoa.service.Leave_Taken_UsedService">
+      <point x="154.0" y="-26.0" />
+      <point x="18393.655312633375" y="6897.0" />
+      <point x="19895.037339743583" y="6897.0" />
+      <point x="-39.375" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.EmailDTO.EmailDTOBuilder" target="kh.cocoa.dto.EmailDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="5989.002295391992" y="2615.0" />
+      <point x="6137.277966068223" y="2615.0" />
+      <point x="-18.08333333333394" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.SidebarController" target="kh.cocoa.service.FilesService">
+      <point x="-136.0" y="-60.5" />
+      <point x="7784.377295391992" y="5837.0" />
+      <point x="3668.3221153846143" y="5837.0" />
+      <point x="89.53846153846189" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.DepartmentsService">
+      <point x="153.125" y="-279.0" />
+      <point x="13613.87370343797" y="6647.0" />
+      <point x="17985.506089743583" y="6647.0" />
+      <point x="-102.1875" y="152.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.dto.EmailDTO">
+      <point x="-17.25" y="-279.0" />
+      <point x="4903.477295391992" y="6037.0" />
+      <point x="5833.002295391992" y="6037.0" />
+      <point x="5833.002295391992" y="2595.0" />
+      <point x="6064.944632734891" y="2595.0" />
+      <point x="-90.41666666666606" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.dto.NexacroSearchDTO">
+      <point x="-60.0" y="-60.5" />
+      <point x="17124.249062633375" y="5387.0" />
+      <point x="16207.276923076919" y="5387.0" />
+      <point x="16207.276923076919" y="2625.0" />
+      <point x="16157.901923076919" y="2625.0" />
+      <point x="89.625" y="187.0" />
+    </edge>
+    <edge source="kh.cocoa.service.AttendanceService" target="kh.cocoa.dto.AtdChangeReqDTO">
+      <point x="151.125" y="-336.5" />
+      <point x="22548.036099852292" y="3894.0" />
+      <point x="22633.848599852292" y="3894.0" />
+      <point x="22633.848599852292" y="2625.0" />
+      <point x="22631.94859985229" y="2625.0" />
+      <point x="-48.20000000000073" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.MessageViewDTO.MessageViewDTOBuilder" target="kh.cocoa.dto.MessageViewDTO">
+      <point x="0.0" y="-187.0" />
+      <point x="1955.875" y="2625.0" />
+      <point x="2038.875" y="2625.0" />
+      <point x="-87.0" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="kh.cocoa.statics.Configurator">
+      <point x="0.0" y="-198.5" />
+      <point x="7048.352295391993" y="5847.0" />
+      <point x="5768.002295391992" y="5847.0" />
+      <point x="5768.002295391992" y="3894.0" />
+      <point x="5772.802295391993" y="3894.0" />
+      <point x="21.300000000000182" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.service.EmailService" target="kh.cocoa.dto.EmailDTO">
+      <point x="-110.25" y="-221.5" />
+      <point x="6181.252295391992" y="3894.0" />
+      <point x="6134.002295391992" y="3894.0" />
+      <point x="6134.002295391992" y="2625.0" />
+      <point x="6173.444632734891" y="2625.0" />
+      <point x="18.08333333333394" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.service.EmployeeService">
+      <point x="155.25" y="-279.0" />
+      <point x="5075.977295391992" y="6377.0" />
+      <point x="13808.808836974144" y="6377.0" />
+      <point x="-112.35294117647027" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.service.Leave_Taken_UsedService" target="kh.cocoa.dto.Leave_Taken_UsedDTO">
+      <point x="105.0" y="-72.0" />
+      <point x="20039.412339743583" y="3894.0" />
+      <point x="20065.412339743583" y="3894.0" />
+      <point x="20065.412339743583" y="2605.0" />
+      <point x="20100.079006410255" y="2605.0" />
+      <point x="-21.58333333333212" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.service.Leave_Taken_UsedService" target="kh.cocoa.dao.Leave_Taken_UsedDAO">
+      <point x="0.0" y="-72.0" />
+      <point x="19934.412339743583" y="3894.0" />
+      <point x="19942.287339743583" y="3894.0" />
+      <point x="78.75" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="kh.cocoa.service.MessageService">
+      <point x="-107.19999999999982" y="-72.0" />
+      <point x="3782.5561415458387" y="6167.0" />
+      <point x="2550.3416666666653" y="6167.0" />
+      <point x="120.66666666666652" y="106.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.Doc_confirmDTO.Doc_confirmDTOBuilder" target="kh.cocoa.dto.Doc_confirmDTO">
+      <point x="0.0" y="-118.0" />
+      <point x="0.0" y="233.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroPosController" target="kh.cocoa.dto.PositionDTO">
+      <point x="78.25" y="-37.5" />
+      <point x="20596.801145966707" y="7007.0" />
+      <point x="21658.661099852292" y="7007.0" />
+      <point x="21658.661099852292" y="2625.0" />
+      <point x="21579.911099852292" y="2625.0" />
+      <point x="84.58333333333212" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.DocumentService">
+      <point x="29.285714285713766" y="-72.0" />
+      <point x="9598.850509677706" y="6187.0" />
+      <point x="10581.196085484473" y="6187.0" />
+      <point x="-229.20000000000073" y="681.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="kh.cocoa.service.FilesService">
+      <point x="53.600000000000364" y="-72.0" />
+      <point x="3943.356141545839" y="6137.0" />
+      <point x="3459.399038461537" y="6137.0" />
+      <point x="-119.38461538461524" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeaveController" target="kh.cocoa.service.LeaveService">
+      <point x="-77.0" y="-26.0" />
+      <point x="18162.655312633375" y="6827.0" />
+      <point x="19162.224839743583" y="6827.0" />
+      <point x="0.0" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.TemplateFormDTO.TemplateFormDTOBuilder" target="kh.cocoa.dto.TemplateFormDTO">
+      <point x="0.0" y="-106.5" />
+      <point x="59.0" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeaveController" target="kh.cocoa.service.DocumentService">
+      <point x="-154.0" y="-26.0" />
+      <point x="18085.655312633375" y="5357.0" />
+      <point x="11039.596085484474" y="5357.0" />
+      <point x="229.20000000000073" y="681.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.service.EmailService">
+      <point x="51.75" y="-279.0" />
+      <point x="4972.477295391992" y="6057.0" />
+      <point x="6218.002295391992" y="6057.0" />
+      <point x="-73.5" y="221.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.DepartmentsDAO" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="0.0" y="-152.5" />
+      <point x="18005.943589743583" y="2575.0" />
+      <point x="18569.73999125874" y="2575.0" />
+      <point x="-17.0909090909081" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.statics.Configurator">
+      <point x="-61.777777777777374" y="-164.0" />
+      <point x="6507.074517614215" y="5877.0" />
+      <point x="5757.002295391992" y="5877.0" />
+      <point x="5757.002295391992" y="3894.0" />
+      <point x="5758.602295391993" y="3894.0" />
+      <point x="7.100000000000364" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.dto.TeamDTO">
+      <point x="19.0" y="-95.0" />
+      <point x="15541.327726426476" y="6557.0" />
+      <point x="17533.943589743583" y="6557.0" />
+      <point x="17533.943589743583" y="2505.0" />
+      <point x="17994.544284188032" y="2505.0" />
+      <point x="20.888888888890506" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessageService" target="kh.cocoa.dto.MessageDTO">
+      <point x="72.39999999999964" y="-106.5" />
+      <point x="2502.074999999999" y="3894.0" />
+      <point x="2516.375" y="3894.0" />
+      <point x="2516.375" y="2615.0" />
+      <point x="2677.2374999999975" y="2615.0" />
+      <point x="-42.600000000000364" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.TemplateFormDTO">
+      <point x="71.45833333333394" y="-279.0" />
+      <point x="13532.207036771304" y="6437.0" />
+      <point x="16218.276923076919" y="6437.0" />
+      <point x="16218.276923076919" y="2595.0" />
+      <point x="16632.610256410255" y="2595.0" />
+      <point x="-98.33333333333212" y="210.0" />
+    </edge>
+    <edge source="kh.cocoa.service.OrderService" target="kh.cocoa.dao.OrderDAO">
+      <point x="-93.33333333333394" y="-60.5" />
+      <point x="12837.246085484472" y="3884.0" />
+      <point x="12813.91275215114" y="3884.0" />
+      <point x="-70.0" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.dto.MessengerDTO">
+      <point x="-86.30769230769329" y="-175.5" />
+      <point x="2163.8234492381453" y="7037.0" />
+      <point x="1051.125" y="7037.0" />
+      <point x="1051.125" y="2625.0" />
+      <point x="1059.8999999999978" y="2625.0" />
+      <point x="86.79999999999927" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="159.25" y="-325.0" />
+      <point x="12488.127295391992" y="6487.0" />
+      <point x="16933.943589743583" y="6487.0" />
+      <point x="16933.943589743583" y="3894.0" />
+      <point x="17522.943589743583" y="3894.0" />
+      <point x="17522.943589743583" y="2535.0" />
+      <point x="18501.376354895103" y="2535.0" />
+      <point x="-85.45454545454413" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerPartyService" target="kh.cocoa.dto.MessengerPartyDTO">
+      <point x="112.0" y="-37.5" />
+      <point x="1416.875" y="3894.0" />
+      <point x="1444.625" y="3894.0" />
+      <point x="1444.625" y="2625.0" />
+      <point x="1465.2749999999996" y="2625.0" />
+      <point x="-48.79999999999927" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.DocumentDAO" target="kh.cocoa.dto.DocumentDTO">
+      <point x="0.0" y="-589.5" />
+      <point x="10711.814795391992" y="2525.0" />
+      <point x="10120.28758145284" y="2525.0" />
+      <point x="17.846153846154266" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.dto.TeamDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="17184.249062633375" y="6567.0" />
+      <point x="17544.943589743583" y="6567.0" />
+      <point x="17544.943589743583" y="2515.0" />
+      <point x="18015.43317307692" y="2515.0" />
+      <point x="41.777777777777374" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.FilesController" target="kh.cocoa.statics.Configurator">
+      <point x="114.0" y="-49.0" />
+      <point x="4578.756141545839" y="6007.0" />
+      <point x="5724.002295391992" y="6007.0" />
+      <point x="5724.002295391992" y="3884.0" />
+      <point x="5716.002295391992" y="3884.0" />
+      <point x="-35.5" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.service.EmployeeService">
+      <point x="-95.0" y="-95.0" />
+      <point x="15427.327726426476" y="5457.0" />
+      <point x="13988.573542856497" y="5457.0" />
+      <point x="67.41176470588289" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.BusinessLogService">
+      <point x="-17.57142857142935" y="-72.0" />
+      <point x="9551.993366820563" y="5747.0" />
+      <point x="9268.916918817806" y="5747.0" />
+      <point x="93.75" y="371.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="kh.cocoa.service.EmployeeService">
+      <point x="107.19999999999982" y="-72.0" />
+      <point x="3996.9561415458384" y="6367.0" />
+      <point x="13786.33824873885" y="6367.0" />
+      <point x="-134.82352941176396" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmailController" target="kh.cocoa.service.FilesService">
+      <point x="-86.25" y="-279.0" />
+      <point x="4834.477295391992" y="5947.0" />
+      <point x="3548.937499999998" y="5947.0" />
+      <point x="-29.846153846154266" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.service.MessengerService">
+      <point x="-143.8461538461538" y="-175.5" />
+      <point x="2106.2849876996843" y="7057.0" />
+      <point x="726.5" y="7057.0" />
+      <point x="0.0" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.service.TeamService">
+      <point x="44.625" y="-129.5" />
+      <point x="14466.286778150614" y="6527.0" />
+      <point x="17317.643589743588" y="6527.0" />
+      <point x="-58.79999999999927" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.MessengerDAO" target="kh.cocoa.dto.MessengerDTO">
+      <point x="95.5" y="-118.0" />
+      <point x="638.5" y="2615.0" />
+      <point x="886.2999999999993" y="2615.0" />
+      <point x="-86.79999999999995" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.service.EmployeeService" target="kh.cocoa.dto.NexacroSearchDTO">
+      <point x="143.25" y="-520.5" />
+      <point x="14064.411778150614" y="3894.0" />
+      <point x="15890.276923076919" y="3894.0" />
+      <point x="15890.276923076919" y="2625.0" />
+      <point x="16038.401923076919" y="2625.0" />
+      <point x="-29.875" y="187.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.EmailService">
+      <point x="-76.14285714285688" y="-72.0" />
+      <point x="9493.421938249136" y="5797.0" />
+      <point x="6365.002295391992" y="5797.0" />
+      <point x="73.5" y="221.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.PositionController" target="kh.cocoa.dto.PositionDTO">
+      <point x="53.25" y="-26.0" />
+      <point x="20288.801145966707" y="6997.0" />
+      <point x="21499.161099852292" y="6997.0" />
+      <point x="21499.161099852292" y="2625.0" />
+      <point x="21546.07776651896" y="2625.0" />
+      <point x="50.75" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeave_Taken_UsedController" target="kh.cocoa.service.EmployeeService">
+      <point x="-116.25" y="-37.5" />
+      <point x="19330.613645966707" y="5337.0" />
+      <point x="14078.455895797673" y="5337.0" />
+      <point x="157.29411764705947" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.BoardDTO.BoardDTOBuilder" target="kh.cocoa.dto.BoardDTO">
+      <point x="0.0" y="-141.0" />
+      <point x="7989.377295391992" y="2625.0" />
+      <point x="8070.680743846001" y="2625.0" />
+      <point x="0.0" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroTemplateContorller" target="kh.cocoa.service.EmployeeService">
+      <point x="-45.714285714286234" y="-152.5" />
+      <point x="14076.947492436328" y="5497.0" />
+      <point x="13943.632366385908" y="5497.0" />
+      <point x="22.47058823529369" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.service.PositionService" target="kh.cocoa.dto.PositionDTO">
+      <point x="83.66666666666788" y="-49.0" />
+      <point x="20822.3460518648" y="3894.0" />
+      <point x="20817.137718531467" y="3894.0" />
+      <point x="20817.137718531467" y="2605.0" />
+      <point x="21478.411099852292" y="2605.0" />
+      <point x="-16.91666666666788" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.service.ConfirmService" target="kh.cocoa.dto.DocumentDTO">
+      <point x="-109.20000000000073" y="-95.0" />
+      <point x="11175.521085484472" y="3894.0" />
+      <point x="11157.121085484472" y="3894.0" />
+      <point x="11157.121085484472" y="2485.0" />
+      <point x="10191.672196837455" y="2485.0" />
+      <point x="89.23076923076951" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.ConfirmDTO">
+      <point x="-91.875" y="-279.0" />
+      <point x="13368.87370343797" y="5567.0" />
+      <point x="11450.121085484472" y="5567.0" />
+      <point x="11450.121085484472" y="2625.0" />
+      <point x="11478.939795391992" y="2625.0" />
+      <point x="25.375" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.dao.ScheduleDAO" target="kh.cocoa.dto.ScheduleDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="9827.314795391992" y="2595.0" />
+      <point x="9511.627966068223" y="2595.0" />
+      <point x="41.79999999999927" y="417.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.AtdChangeReqDTO.AtdChangeReqDTOBuilder" target="kh.cocoa.dto.AtdChangeReqDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="22811.848599852292" y="2625.0" />
+      <point x="22776.548599852293" y="2625.0" />
+      <point x="96.40000000000146" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDocumentController" target="kh.cocoa.dto.DocumentDTO">
+      <point x="-61.5" y="-26.0" />
+      <point x="10510.639795391993" y="6177.0" />
+      <point x="10403.814795391992" y="6177.0" />
+      <point x="10403.814795391992" y="2545.0" />
+      <point x="10084.595273760531" y="2545.0" />
+      <point x="-17.846153846154266" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.SidebarViewDTO.SidebarViewDTOBuilder" target="kh.cocoa.dto.SidebarViewDTO">
+      <point x="0.0" y="-164.0" />
+      <point x="6976.377295391992" y="2625.0" />
+      <point x="6851.077295391992" y="2625.0" />
+      <point x="45.19999999999982" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.OrderDTO">
+      <point x="12.25" y="-325.0" />
+      <point x="12341.127295391992" y="6197.0" />
+      <point x="12479.41275215114" y="6197.0" />
+      <point x="12479.41275215114" y="2435.0" />
+      <point x="12684.502966068223" y="2435.0" />
+      <point x="-79.16666666666606" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="kh.cocoa.dto.MessageDTO">
+      <point x="-53.600000000000364" y="-72.0" />
+      <point x="3836.156141545838" y="6157.0" />
+      <point x="2843.6875" y="6157.0" />
+      <point x="2843.6875" y="2615.0" />
+      <point x="2805.0374999999985" y="2615.0" />
+      <point x="85.20000000000073" y="279.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.service.NexacroEmployeeService">
+      <point x="30.0" y="-60.5" />
+      <point x="17214.249062633375" y="6617.0" />
+      <point x="17710.443589743583" y="6617.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.OrderService">
+      <point x="-30.625" y="-279.0" />
+      <point x="13430.12370343797" y="5537.0" />
+      <point x="13000.579418817806" y="5537.0" />
+      <point x="70.0" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.NotificationBoardDAO" target="kh.cocoa.dto.BoardDTO">
+      <point x="100.25" y="-279.0" />
+      <point x="7723.627295391992" y="2585.0" />
+      <point x="7985.791854957112" y="2585.0" />
+      <point x="-84.88888888888869" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerService" target="kh.cocoa.dto.MessengerDTO">
+      <point x="143.25" y="-118.0" />
+      <point x="869.75" y="3894.0" />
+      <point x="1005.5" y="3894.0" />
+      <point x="1005.5" y="2625.0" />
+      <point x="973.0999999999985" y="2625.0" />
+      <point x="0.0" y="141.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.dto.TemplatesDTO">
+      <point x="-36.75" y="-325.0" />
+      <point x="12292.127295391992" y="5657.0" />
+      <point x="12019.121085484472" y="5657.0" />
+      <point x="12019.121085484472" y="2445.0" />
+      <point x="12040.330347020605" y="2445.0" />
+      <point x="-30.57142857142935" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.service.SidebarService" target="kh.cocoa.dto.SidebarViewDTO">
+      <point x="106.66666666666606" y="-129.5" />
+      <point x="6835.5439620586585" y="3884.0" />
+      <point x="6819.377295391992" y="3884.0" />
+      <point x="6819.377295391992" y="2625.0" />
+      <point x="6805.877295391992" y="2625.0" />
+      <point x="0.0" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroBoardController" target="kh.cocoa.service.SidebarService">
+      <point x="-77.66666666666652" y="-60.5" />
+      <point x="5927.935628725327" y="6087.0" />
+      <point x="6728.877295391992" y="6087.0" />
+      <point x="0.0" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.dto.ScheduleDTO.ScheduleDTOBuilder" target="kh.cocoa.dto.ScheduleDTO">
+      <point x="0.0" y="-210.0" />
+      <point x="8944.377295391992" y="2615.0" />
+      <point x="9386.227966068223" y="2615.0" />
+      <point x="-83.60000000000036" y="417.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.StompController" target="kh.cocoa.service.FilesService">
+      <point x="32.125" y="-60.5" />
+      <point x="3639.3811415458385" y="6177.0" />
+      <point x="3429.552884615383" y="6177.0" />
+      <point x="-149.2307692307695" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.service.Leave_Taken_UsedService">
+      <point x="234.79166666666606" y="-279.0" />
+      <point x="13695.540370104636" y="6887.0" />
+      <point x="19816.287339743583" y="6887.0" />
+      <point x="-118.125" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroLeave_Taken_UsedController" target="kh.cocoa.service.Leave_Taken_UsedService">
+      <point x="38.75" y="-37.5" />
+      <point x="19485.613645966707" y="6917.0" />
+      <point x="20052.537339743583" y="6917.0" />
+      <point x="118.125" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-123.55555555555566" y="-164.0" />
+      <point x="6445.296739836437" y="5887.0" />
+      <point x="4382.573547250415" y="5887.0" />
+      <point x="4382.573547250415" y="2615.0" />
+      <point x="3662.470448959819" y="2615.0" />
+      <point x="49.75" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroBoardController" target="kh.cocoa.service.NotificationBoardService">
+      <point x="77.66666666666652" y="-60.5" />
+      <point x="6083.268962058659" y="6117.0" />
+      <point x="7470.377295391992" y="6117.0" />
+      <point x="-52.75" y="313.5" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerService" target="kh.cocoa.dao.MessengerDAO">
+      <point x="47.75" y="-118.0" />
+      <point x="774.25" y="3874.0" />
+      <point x="638.5" y="3874.0" />
+      <point x="95.5" y="118.0" />
+    </edge>
+    <edge source="kh.cocoa.service.SidebarService" target="kh.cocoa.dao.SidebarDAO">
+      <point x="0.0" y="-129.5" />
+      <point x="80.0" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.service.ScheduleService" target="kh.cocoa.dao.ScheduleDAO">
+      <point x="134.66666666666606" y="-164.0" />
+      <point x="9860.981462058659" y="3884.0" />
+      <point x="9928.314795391992" y="3884.0" />
+      <point x="101.0" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.service.AttendanceService" target="kh.cocoa.dto.AttendanceDTO">
+      <point x="-151.125" y="-336.5" />
+      <point x="22245.786099852292" y="3894.0" />
+      <point x="22190.161099852292" y="3894.0" />
+      <point x="22190.161099852292" y="2625.0" />
+      <point x="22215.348599852292" y="2625.0" />
+      <point x="44.20000000000073" y="325.0" />
+    </edge>
+    <edge source="kh.cocoa.dto.OrderDTO.OrderDTOBuilder" target="kh.cocoa.dto.OrderDTO">
+      <point x="0.0" y="-83.5" />
+      <point x="12606.41275215114" y="2445.0" />
+      <point x="12716.169632734891" y="2445.0" />
+      <point x="-47.5" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MyBoardController" target="kh.cocoa.dto.BoardDTO">
+      <point x="0.0" y="-26.0" />
+      <point x="8555.377295391992" y="2625.0" />
+      <point x="8091.902966068224" y="2625.0" />
+      <point x="21.222222222222626" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.service.CommentListService" target="kh.cocoa.dao.CommentListDAO">
+      <point x="-116.33333333333394" y="-95.0" />
+      <point x="12979.981462058659" y="718.0" />
+      <point x="12921.814795391992" y="718.0" />
+      <point x="-87.25" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.statics.DocumentConfigurator">
+      <point x="-173.54166666666606" y="-279.0" />
+      <point x="13287.207036771304" y="5607.0" />
+      <point x="8696.377295391992" y="5607.0" />
+      <point x="8696.377295391992" y="3894.0" />
+      <point x="8731.377295391992" y="3894.0" />
+      <point x="51.5" y="13.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.PositionController" target="kh.cocoa.service.PositionService">
+      <point x="-53.25" y="-26.0" />
+      <point x="20182.301145966707" y="6977.0" />
+      <point x="20770.05438519813" y="6977.0" />
+      <point x="31.375" y="49.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="kh.cocoa.dto.FilesDTO">
+      <point x="-72.60000000000036" y="-198.5" />
+      <point x="6975.752295391992" y="5857.0" />
+      <point x="4393.573547250415" y="5857.0" />
+      <point x="4393.573547250415" y="2605.0" />
+      <point x="3673.5260045153746" y="2605.0" />
+      <point x="60.80555555555566" y="256.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="kh.cocoa.service.MessageService">
+      <point x="57.53846153846143" y="-175.5" />
+      <point x="2307.6696030842995" y="7067.0" />
+      <point x="2309.008333333333" y="7067.0" />
+      <point x="-120.66666666666652" y="106.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.BusinessLogController" target="kh.cocoa.service.FilesService">
+      <point x="-247.1111111111113" y="-164.0" />
+      <point x="6321.7411842808815" y="5907.0" />
+      <point x="3608.6298076923067" y="5907.0" />
+      <point x="29.846153846154266" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.OranChartController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-25.0" y="-26.0" />
+      <point x="15969.171476426476" y="5427.0" />
+      <point x="14652.50014021958" y="5427.0" />
+      <point x="14652.50014021958" y="2605.0" />
+      <point x="14372.851433323029" y="2605.0" />
+      <point x="43.65517241379348" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.service.LeaveService" target="kh.cocoa.dto.LeaveDTO">
+      <point x="100.66666666666788" y="-60.5" />
+      <point x="19262.891506410255" y="3894.0" />
+      <point x="19287.80817307692" y="3894.0" />
+      <point x="19287.80817307692" y="2625.0" />
+      <point x="19268.87067307692" y="2625.0" />
+      <point x="11.8125" y="267.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.DocumentController" target="kh.cocoa.dto.DepartmentsDTO">
+      <point x="112.29166666666606" y="-279.0" />
+      <point x="13573.040370104636" y="6587.0" />
+      <point x="17566.943589743583" y="6587.0" />
+      <point x="17566.943589743583" y="2545.0" />
+      <point x="18518.46726398601" y="2545.0" />
+      <point x="-68.36363636363603" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="kh.cocoa.service.PositionService">
+      <point x="155.9090909090919" y="-37.5" />
+      <point x="17739.814403542463" y="6967.0" />
+      <point x="20707.30438519813" y="6967.0" />
+      <point x="-31.375" y="49.0" />
+    </edge>
+    <edge source="kh.cocoa.endpoint.ChatEndpoint" target="kh.cocoa.endpoint.HttpSessionConfigurator">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessageService" target="kh.cocoa.dao.MessageDAO">
+      <point x="-72.40000000000009" y="-106.5" />
+      <point x="2357.2749999999996" y="3884.0" />
+      <point x="2234.375" y="3884.0" />
+      <point x="-90.5" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="kh.cocoa.service.FilesService">
+      <point x="-145.19999999999982" y="-198.5" />
+      <point x="6903.152295391993" y="5867.0" />
+      <point x="3638.47596153846" y="5867.0" />
+      <point x="59.69230769230762" y="359.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.service.TeamService">
+      <point x="-30.0" y="-60.5" />
+      <point x="17154.249062633375" y="6547.0" />
+      <point x="17435.243589743586" y="6547.0" />
+      <point x="58.79999999999927" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-90.0" y="-60.5" />
+      <point x="17094.249062633375" y="5397.0" />
+      <point x="14714.840194679875" y="5397.0" />
+      <point x="14714.840194679875" y="2585.0" />
+      <point x="14387.40315746096" y="2585.0" />
+      <point x="58.20689655172464" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NotificationBoardController" target="kh.cocoa.dto.BoardDTO">
+      <point x="188.33333333333303" y="-118.0" />
+      <point x="5651.435628725326" y="6127.0" />
+      <point x="7845.377295391992" y="6127.0" />
+      <point x="7845.377295391992" y="2605.0" />
+      <point x="8028.236299401557" y="2605.0" />
+      <point x="-42.44444444444434" y="302.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.dto.DocumentDTO">
+      <point x="17.57142857142935" y="-72.0" />
+      <point x="9587.136223963422" y="6177.0" />
+      <point x="10392.814795391992" y="6177.0" />
+      <point x="10392.814795391992" y="2555.0" />
+      <point x="10066.749119914377" y="2555.0" />
+      <point x="-35.69230769230853" y="831.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.service.TeamService">
+      <point x="-19.0" y="-95.0" />
+      <point x="15503.327726426476" y="6537.0" />
+      <point x="17376.443589743583" y="6537.0" />
+      <point x="0.0" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.SidebarController" target="kh.cocoa.service.SidebarService">
+      <point x="-68.0" y="-60.5" />
+      <point x="7852.377295391992" y="5827.0" />
+      <point x="6835.5439620586585" y="5827.0" />
+      <point x="106.66666666666652" y="129.5" />
+    </edge>
+    <edge source="kh.cocoa.service.TemplateFormService" target="kh.cocoa.dao.TemplateFormDAO">
+      <point x="0.0" y="-72.0" />
+      <point x="16456.443589743583" y="3894.0" />
+      <point x="16464.27692307692" y="3894.0" />
+      <point x="78.5" y="72.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestDocumentController" target="kh.cocoa.service.ConfirmService">
+      <point x="-61.25" y="-325.0" />
+      <point x="12267.627295391992" y="5667.0" />
+      <point x="11284.721085484472" y="5667.0" />
+      <point x="0.0" y="95.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.RestOrganChartController" target="kh.cocoa.dto.TeamDTO">
+      <point x="14.875" y="-129.5" />
+      <point x="14436.536778150614" y="6507.0" />
+      <point x="17196.943589743583" y="6507.0" />
+      <point x="17196.943589743583" y="2475.0" />
+      <point x="17931.877617521364" y="2475.0" />
+      <point x="-41.777777777777374" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroBoardController" target="kh.cocoa.dto.BoardMenuDTO">
+      <point x="0.0" y="-60.5" />
+      <point x="6005.602295391993" y="6097.0" />
+      <point x="7144.377295391992" y="6097.0" />
+      <point x="7144.377295391992" y="2625.0" />
+      <point x="7250.127295391992" y="2625.0" />
+      <point x="-83.625" y="164.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.TestContoller" target="kh.cocoa.dto.EmployeeDTO">
+      <point x="-57.0" y="-95.0" />
+      <point x="15465.327726426476" y="5447.0" />
+      <point x="14645.224278150614" y="5447.0" />
+      <point x="14645.224278150614" y="2615.0" />
+      <point x="14365.575571254063" y="2615.0" />
+      <point x="36.3793103448279" y="693.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.HomeController" target="kh.cocoa.service.EmployeeService">
+      <point x="76.14285714285688" y="-72.0" />
+      <point x="9645.70765253485" y="6407.0" />
+      <point x="13876.220601680026" y="6407.0" />
+      <point x="-44.94117647058738" y="520.5" />
+    </edge>
+    <edge source="kh.cocoa.controller.LeaveController" target="kh.cocoa.service.LeaveService">
+      <point x="-46.599999999998545" y="-26.0" />
+      <point x="19063.13864596671" y="6837.0" />
+      <point x="19262.891506410255" y="6837.0" />
+      <point x="100.66666666666788" y="60.5" />
+    </edge>
+    <edge source="kh.cocoa.dao.AttendanceDAO" target="kh.cocoa.dto.AttendanceDTO">
+      <point x="-100.75" y="-336.5" />
+      <point x="22301.411099852292" y="2625.0" />
+      <point x="22259.548599852293" y="2625.0" />
+      <point x="88.40000000000146" y="325.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.06790653723906881" x="11838.0" y="4831.25743200506" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

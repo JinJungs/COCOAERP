@@ -31,89 +31,55 @@
     <div id="content" class="p-4 p-md-5 pt-5">
         <div class="container-fluid" style="min-width: 900px;">
             <div class="row">
-                <c:if test="${isInWork=='atd'}">
-                    <div class="col-12" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="row">
-                                    <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
+                <div class="col-12" id="top-container" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12"><b id=status-msg style="color:#9CA19F; font-size: 0.8rem;"></b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12"><b><h5 id="user-name">${empInfo.name}(${empInfo.posname})님</h5></b></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <b style="color:#4C4C4C;font-size:0.7rem">근무시간 09:00~18:00 (8H)</b>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <div class="col-12 text-right">
-                                        <b style="color:#4C4C4C;font-size:0.7rem">근무시간 09:00~18:00 (8H)</b>
-                                    </div>
-                                </div>
-                                <div class="row p-0">
-                                    <div class="col-12 text-right p-0 pr-2">
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in"  onclick="fn_openInModal()">출근하기</button>
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
-                                        <div class="custom-control custom-checkbox">
-                                            <form id="chkform">
-                                                <input type="checkbox" id="jb-checkbox" name="out" value="out"> 외근
-                                            </form>
-                                        </div>
+                            <div class="row p-0">
+                                <div class="col-12 text-right p-0 pr-2">
+                                    <button class="btn btn-outline-dark btn-sm m-1" id="btn_in"  onclick="fn_openInModal()">출근하기</button>
+                                    <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
+                                    <div class="custom-control custom-checkbox">
+                                        <form id="chkform">
+                                            <input type="checkbox" id="jb-checkbox" name="out" value="out"> 외근
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </c:if>
-
-                <c:if test="${isInWork=='late'}">
-                    <div class="col-8" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="row">
-                                    <div class="col-12"><b style="color:#9CA19F; font-size: 0.8rem;">${statusMsg}</b></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12"><b><h5>${empInfo.name}(${empInfo.posname})님</h5></b></div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="row">
-                                    <div class="col-12 text-right">
-                                        <b style="color:#4C4C4C;font-size:0.7rem">근무시간 09:00~18:00 (8H)</b>
-                                    </div>
-                                </div>
-                                <div class="row p-0">
-                                    <div class="col-12 text-right p-0 pr-2">
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_in"  onclick="fn_openInModal()">출근하기</button>
-                                        <button class="btn btn-outline-dark btn-sm m-1" id="btn_out" onclick="fn_openOutModal()">퇴근하기</button>
-                                        <div class="custom-control custom-checkbox">
-                                            <form id="chkform">
-                                                <input type="checkbox" id="jb-checkbox" name="out" value="out"> 외근
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                </div>
+                <div class="col-4 d-none" id="late-container">
+                    <div class="row">
+                        <div class="col-12 ">
+                            <a href="/attendance/toAtdReq" class="attend_alert"><b>정상 출근한 경우 근태 변경 요청을 하세요.</b></a>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="row">
-                            <div class="col-12 ">
-                                <a href="/attendance/toAtdReq" class="attend_alert"><b>정상 출근한 경우 근태 변경 요청을 하세요.</b></a>
-                            </div>
-                        </div>
-                    </div>
-                </c:if>
+                </div>
             </div>
 
             <div class="row pt-2" >
                 <div class="col-8 p-0">
                     <div class="card">
                         <div class="card-header">
-                            <b id="totalatd"></b>
+                            <b>금주의 근무 현황</b><b id="totalatd"></b>
                         </div>
                         <div class="card-body">
-
-                            <p class="card-text"><canvas  id="myChart" ></canvas></p>
+                            <p class="card-text" id="barchart_div" >
+                                <canvas  id="myChart" ></canvas>
+                            </p>
                         </div>
                     </div>
 
@@ -124,47 +90,47 @@
                         <div class="card-header">
                             <b id="monthatd">이달의 근무 현황</b>
                         </div>
-                        <div class="card-body d-flex justify-content-center">
-                            <canvas class="m-0" id="myChartDoughnut" height="5" width="5"></canvas>
+                        <div class="card-body d-flex justify-content-center" id="nuchart_div" ">
+                        <canvas class="m-0" id="myChartDoughnut" height="5" width="5"></canvas>
 
-                        </div>
                     </div>
-
                 </div>
+
             </div>
-            <div class="row pt-3">
-                <div class="col-5 p-0">
-                    <div class="card">
-                        <div class="card-header" onclick="fn_toAtdReq()" style="cursor: pointer;">
-                            <b>근태 변경 요청 현황</b>
-                        </div>
-                        <div class="card-body p-0">
-                            <table class="table table-hover" >
-                                <thead>
+        </div>
+        <div class="row pt-3">
+            <div class="col-5 p-0">
+                <div class="card">
+                    <div class="card-header" onclick="fn_toAtdReq()" style="cursor: pointer;">
+                        <b>근태 변경 요청 현황</b>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover" >
+                            <thead>
+                            <tr>
+                                <th scope="col">날짜</th>
+                                <th scope="col">사유</th>
+                                <th scope="col">출퇴근 여부</th>
+                                <th scope="col">상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach var="i" items="${reqList}">
                                 <tr>
-                                    <th scope="col">날짜</th>
-                                    <th scope="col">사유</th>
-                                    <th scope="col">출퇴근 여부</th>
-                                    <th scope="col">상태</th>
+                                    <td>${i.today}</td>
+                                    <td class="text-truncate" style="max-width: 220px;">${i.contents}</td>
+                                    <td>${i.atd_status}</td>
+                                    <td >${i.status}</td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="i" items="${reqList}">
-                                    <tr>
-                                        <td>${i.today}</td>
-                                        <td class="text-truncate" style="max-width: 220px;">${i.contents}</td>
-                                        <td>${i.atd_status}</td>
-                                        <td >${i.status}</td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" data-backdrop="false" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -184,12 +150,7 @@
 <div class="modal fade " id="resultModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
         <div class="modal-content">
-            <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pb-2 text-center" style="min-height: 80px;">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
                 <b id="atdResultMsg">출근이 처리가 완료 되었습니다.</b>
             </div>
         </div>
@@ -273,27 +234,92 @@
     }
 
     console.dir(value);
-
-
-
-
     $( function() {
-         /*  var currentDay = new Date();
-           var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
-           var startWorkTime = 700;
-           console.log(parseInt(compTime.replaceAll(":","")));
-           console.log(startWorkTime);
-           if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
-               $("#btn_in").attr("disabled",true);
-           }else{
-               $("#btn_in").attr("onclick","fn_openInModal()");
-           }*/
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getIsWork",
+            success : function(data) {
+
+                var curday= new Date();
+                var hour = curday.getHours();
+                var min = curday.getMinutes();
+                if(hour.toString().length==1){
+                    hour="0"+hour;
+                }
+                if(min.toString().length==1){
+                    min="0"+min;
+                }
+                var hm =parseInt(hour.toString()+min.toString());
+                var lateTime=740;
+                if(data=="nw"){
+                    $("#status-msg").text("아직 출근이 기록되지 않았습니다.");
+                    if(hm>lateTime){
+                        $("#late-container").attr("class","col-4");
+                        $("#top-container").attr("class","col-8");
+                    }else{
+                        $("#late-container").attr("class","col-4 d-none");
+                        $("#top-container").attr("class","col-12");
+                    }
+                }else{
+                    var parseData= JSON.parse(data);
+                    $("#status-msg").text("안녕하세요.");
+                    if(parseData.status=="LATE"){
+                        $("#late-container").attr("class","col-4");
+                        $("#top-container").attr("class","col-8");
+                    }else{
+                        $("#late-container").attr("class","col-4 d-none");
+                        $("#top-container").attr("class","col-12");
+                    }
+                }
+            }
+        });
         fn_reload();
     });
 
     function fn_reload(){
         fn_getAtdTime();
         nutchart();
+    }
+
+    function fn_getIsWork(){
+        $.ajax({
+            type : "POST",
+            url : "/restattendance/getIsWork",
+            success : function(data) {
+
+                var curday= new Date();
+                var hour = curday.getHours();
+                var min = curday.getMinutes();
+                if(hour.toString().length==1){
+                    hour="0"+hour;
+                }
+                if(min.toString().length==1){
+                    min="0"+min;
+                }
+                var hm =parseInt(hour.toString()+min.toString());
+                var lateTime=930;
+                if(data=="nw"){
+                    $("#status-msg").text("아직 출근이 기록되지 않았습니다.");
+                    if(hm>lateTime){
+                        $("#late-container").attr("class","col-4");
+                        $("#top-container").attr("class","col-8");
+                    }else{
+                        $("#late-container").attr("class","col-4 d-none");
+                        $("#top-container").attr("class","col-12");
+                    }
+                }else{
+                   var parseData= JSON.parse(data);
+                    $("#status-msg").text("안녕하세요.");
+                   if(parseData.status=="LATE"){
+                       $("#late-container").attr("class","col-4");
+                       $("#top-container").attr("class","col-8");
+                   }else{
+                       $("#late-container").attr("class","col-4 d-none");
+                       $("#top-container").attr("class","col-12");
+                   }
+                }
+            }
+        });
     }
 
     function getHours(){
@@ -316,11 +342,15 @@
     }
 
     function fn_getAtdTime() {
+
         $.ajax({
             type : "POST",
             url : "/restattendance/getAtdTime",
             dataType :"json",
             success : function(data) {
+                $("#barchart_div").empty();
+                var html="<canvas  id=myChart></canvas>"
+                $("#barchart_div").append(html);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'bar',
@@ -331,13 +361,9 @@
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         },
                             {
-                                label: '초과 근무 시간',
+                                label: '초과 근무',
                                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             },
-
-                            {
-                                label: '부족한 근무 시간',
-                            }
                         ],
                     },
                     options: {
@@ -345,7 +371,7 @@
                             display:true,
                             position: 'right'
                         },
-
+                        responsive:true,
                         scales: {
                             xAxes:[{
                                 stacked:true,
@@ -363,7 +389,13 @@
 
                 for(var j=0;j<data.length;j++) {
                     var getDate = data[j].start_time.substr(5,5);
-                    var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
+                    if(data[j].end_time==null){
+                        continue;
+                    }
+                    var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2);
+                    if(getTime>=4){
+                        getTime--;
+                    }
                     for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
                             if(getTime>8){
@@ -371,17 +403,8 @@
                                     getTime--;
                                 }
                             }
-                            if(getTime<=4){
-                                getTime++;
-                            }
-                            console.log(getTime);
                             if(getTime<=0) {
                                 continue;
-                            }
-
-                            if(getTime<=7){
-                                console.log(getTime);
-                                myChart.data.datasets[2].data[i]=8-getTime;
                             }
                             myChart.data.datasets[0].data[i] = getTime;
                             myChart.data.datasets[1].data[i] = data[j].overtime;
@@ -391,8 +414,7 @@
                         }
                     }
                 }
-                $("#totalatd").text('금주의 근무 현황('+getTotal+'H)');
-
+                $("#totalatd").text("("+getTotal+"H)");
                 getTotal=0;
             }
         });
@@ -404,6 +426,9 @@
             url : "/restattendance/getMonthAtdTime",
             dataType :"json",
             success : function(data) {
+                $("#nuchart_div").empty();
+                var html="<canvas class=m-0 id=myChartDoughnut height=5 width=5></canvas>"
+                $("#nuchart_div").append(html);
                 var ctx2 = document.getElementById('myChartDoughnut').getContext('2d');
                 var chart = new Chart(ctx2, {
                     // The type of chart we want to create
@@ -433,16 +458,16 @@
                 });
                 for(var i=0;i<data.length;i++){
 
-                    var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2)-1;
-                    if(getTime<5){
-                        getTime++;
+                    var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2);
+                    if(getTime>=4){
+                        getTime--;
                     }
                     if(getTime>8){
                         while(getTime>8){
                             getTime--;
                         }
                     }
-                    if(getTime<0){
+                    if(getTime<=0){
                         continue;
                     }
                     getTotalMonth+=getTime;
@@ -450,12 +475,16 @@
 
 
                 }
-                console.log(getTotalMonth);
                 chart.data.datasets[0].data[0] = getTotalMonth;
                 chart.data.datasets[0].data[1] = getTotalOverTimeMonth;
                 chart.update();
                 getTotalMonth+=getTotalOverTimeMonth;
-                $("#monthatd").text('이달의 근무 현황('+getTotalMonth+'H)');
+                if(getTotalMonth==0){
+                    $("#monthatd").text('이달의 근무 현황');
+                }else{
+                    $("#monthatd").text('이달의 근무 현황('+getTotalMonth+'H)');
+                }
+
                 getTotalMonth=0;
                 getTotalOverTimeMonth=0;
             }
@@ -468,7 +497,6 @@
             type : "POST",
             url : "/restattendance/isInWork",
             success : function(data) {
-                console.log(data);
                 if(data==""){
                     var time=getHours();
                     $("#modal").modal('show');
@@ -491,13 +519,22 @@
                 if(data=="updateSuccess") {
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("출근 시간 변경이 완료되었습니다.");
+                    var setTime = setTimeout(function () {
+                        $("#resultModal").modal('hide');
+                    },1000)
+                    fn_getIsWork()
                     return;
                 }
                 if(data=="insertSuccess"){
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("출근 처리가 완료 되었습니다.");
+                    var setTime = setTimeout(function () {
+                        $("#resultModal").modal('hide');
+                    },1000)
+                    fn_getIsWork();
                     return;
                 }
+
             }
         });
     }
@@ -517,6 +554,9 @@
                 if(data=="nyInWork"){
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("출근 기록이 없습니다.");
+                    var setTime = setTimeout(function () {
+                        $("#resultModal").modal('hide');
+                    },1000)
                     return;
                 }
                 if(hour<18){
@@ -531,7 +571,6 @@
                     $("#workMsg").text("현재 시각:"+time+"입니다. 퇴근 처리 하시겠습니까??");
                 }else{
                     $("#modal").modal('show');
-
                     $("#workMsg").text("이미 퇴근 기록이 있습니다. ("+data+") 다시 퇴근 처리하시겠습니까?");
                 }
             }
@@ -546,12 +585,18 @@
                 if(data=="updateSuccess") {
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("퇴근 시간 변경이 완료되었습니다.");
+                    var setTime = setTimeout(function () {
+                        $("#resultModal").modal('hide');
+                    },1000)
                     fn_reload();
                     return;
                 }
                 if(data=="insertSuccess"){
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("퇴근 처리가 완료 되었습니다.");
+                    var setTime = setTimeout(function () {
+                        $("#resultModal").modal('hide');
+                    },1000)
                     fn_reload();
                     return;
                 }
