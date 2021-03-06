@@ -66,7 +66,7 @@
             </div>
         </div>
         <!-- 검색 창-->
-        <div class="container searchCon">
+<%--        <div class="searchCon d-flex" >
             <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
                 <input class="col-9 searchInput" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
                 <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
@@ -76,6 +76,19 @@
                 <div class="col-3">
                     <button type="button" class="btn btn-secondary btn-sm" id="searchBtn">검색</button>
                     <i class="fas fa-times ml-2" style="line-height: 30px;"></i>
+                </div>
+            </div>
+        </div>--%>
+        <div class="searchCon">
+            <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
+                <div class="d-flex bd-highlight w-100">
+                    <input class="flex-grow-1 bd-highlight searchInput mr-2" id="searchContents" type="text" placeholder="&nbsp;검색 내용을 입력해주세요.">
+                    <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
+                    </div>
+                    <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
+                    </div>
+                    <button type="button" class="bd-highlight btn btn-secondary btn-sm" id="searchBtn">검색</button>
+                    <i class="fas fa-times ml-2 bd-highlight" style="line-height: 30px;"></i>
                 </div>
             </div>
         </div>
