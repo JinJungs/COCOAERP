@@ -19,7 +19,9 @@
     </select>
 
     <select id="getClickTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
-        SELECT * FROM TEMPLATES WHERE FORM_CODE=#{code} order by code
+        select t.*, e.name||' | '||d.name as writer_name from templates t
+        inner join employee e on e.code=t.writer_code
+        inner join departments d on e.dept_code =d.code WHERE t.FORM_CODE=#{code} ORDER BY t.CODE
     </select>
 
     <insert id="addTemplates">
@@ -36,10 +38,10 @@
     <update id="modTemplates">
         <choose>
             <when test="contents==null">
-                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code},emp_code=#{emp_code} where code=#{code}
+                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code},writer_code=#{writer_code} where code=#{code}
             </when>
             <otherwise>
-                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code},emp_code=#{emp_code} where code=#{code}
+                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code},writer_code=#{writer_code} where code=#{code}
             </otherwise>
         </choose>
 
