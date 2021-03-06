@@ -2,6 +2,7 @@
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,10 @@
 <!--Coded With Love By Mutiullah Samim-->
 <body>
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
+	<%-- 오늘 날짜 --%>
+	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowFormed" />
+	<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
+	<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowDays" scope="request"/>
 	<!-- 전체 시작 -->
 	<div class="row m-0 h-100 whiteBg contactList_body">
 		<!-- 왼쪽 - contact list sidebar -->
@@ -209,8 +214,22 @@
 												</c:choose>
 											</p>
 										</div>
-										<div class="con-date">
-											<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd"/>
+										<div class="con-date" id="con-date${i.seq}">
+											<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
+											<fmt:formatDate value="${i.write_date}" pattern="yyyyMMdd" var="formedDate"/>
+											<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
+											<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
+											<c:choose>
+												<c:when test="${nowFormed==formed}">
+													${formedTime}
+												</c:when>
+												<c:when test="${nowDays-formedDays==1}">
+													어제
+												</c:when>
+												<c:otherwise>
+													${formed}
+												</c:otherwise>
+											</c:choose>
 										</div>
 									</div>
 								</li>
@@ -227,6 +246,8 @@
 <!-- sockjs, stomp CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- 날짜 변경 라이브러리-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
 	let chatTitle = document.getElementById("chatTitle");
 	let memberAll = document.getElementById("memberAll");
@@ -293,7 +314,9 @@
 				client.subscribe('/contact/' +${i.seq}, function (e) {
 				let msg = JSON.parse(e.body).contents;
 				let type = JSON.parse(e.body).type;
-				let m_seq = JSON.parse(e.body).m_seq;
+				let write_date = JSON.parse(e.body).write_date;
+				let formed_write_date = moment(write_date).format('HH:mm');
+				$("#con-date${i.seq}").html(formed_write_date);
 				if(msg.length > textLength){
 					msg = msg.substr(0, textLength-2) + '...';
 				}

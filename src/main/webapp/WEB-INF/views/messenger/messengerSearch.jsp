@@ -146,7 +146,7 @@
                                                         ${i.name}
                                                     </c:otherwise>
                                                 </c:choose>
-                                                </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:ss"/></p>
+                                                </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:mm"/></p>
                                             </div>
                                         </div>
                                     </li>
@@ -274,7 +274,7 @@
                                                         ${i.name}
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:ss"/></p>
+                                            </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:mm"/></p>
                                         </div>
                                     </div>
                                 </li>
