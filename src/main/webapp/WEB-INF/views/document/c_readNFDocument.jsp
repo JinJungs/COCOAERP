@@ -60,7 +60,7 @@
                         <select class="selectTemplate" name=template id="templateSelect">
                             <option value=전체>전체</option>
                             <c:forEach var="i" items="${tempList}">
-                                <option value=${i.name}>${i.name}</option>
+                                <option value="${i.name}">${i.name}</option>
                             </c:forEach>
                         </select>
                     </div>

@@ -243,17 +243,26 @@
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
-                    html+="<td>"+data[i].sub_start_time+"</td>";
-
-                    if(compDate==today.replaceAll("-","").substr(2)){
-                        html+="<td style='color:blue'>퇴근 전</td>"
+                    console.log(data[i].sub_start_time);
+                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time==null){
+                        html+="<td style='color:blue'>출근 전</td>";
                     }
-                    else if(data[i].sub_end_time==null){
-                        html+="<td style='color:red'>퇴근 누락</td>";
+                    else if(data[i].sub_start_time=="출근 누락"){
+                        html+="<td style='color:red'>"+data[i].sub_start_time+"</td>";
                     }
                     else{
+                        html+="<td>"+data[i].sub_start_time+"</td>";
+                    }
+                    if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time==null){
+                        html+="<td style='color:blue'>퇴근 전</td>";
+                    }
+                    else if(data[i].sub_end_time=="퇴근 누락"){
+                        html+="<td style='color:red'>"+data[i].sub_end_time+"</td>";
+                    }else{
                         html+="<td>"+data[i].sub_end_time+"</td>";
                     }
+
+
                     html+="<td>"+data[i].req_status+"</td>";
                     if(data[i].comments!="-"){
                         html+="<td class='text-truncate' id='comments' style='max-width: 160px; cursor: pointer;' onclick='fn_openReqCommentModal("+data[i].seq+")'>"+data[i].comments+"</td>";
@@ -300,7 +309,7 @@
                     html+="<td>"+data[i].status+"</td>";
                     html+="<td>"+data[i].sub_start_time+"</td>";
 
-                    if(compDate==today.replaceAll("-","").substr(2)){
+                    if(compDate==today.replaceAll("-","").substr(2)&&data[i].sub_end_time==null){
                         html+="<td style='color:blue'>퇴근 전</td>"
                     }
                     else if(data[i].sub_end_time==null){

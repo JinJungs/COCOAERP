@@ -59,7 +59,7 @@
                         <select class="selectTemplate" name=template id="templateSelect">
                             <option value=전체>전체</option>
                             <c:forEach var="i" items="${tempList}">
-                                <option value=${i.name}>${i.name}</option>
+                                <option value="${i.name}">${i.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -298,7 +298,7 @@
                 for(var i=0;i<data.length-1;i++){
                     html+="<div class=\"row text-center m-0 pt-2 pb-2\">";
                     html+="<div class=\"col-2 textbox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-4 d-none d-sm-block textBox\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
+                    html+="<div class=\"col-4 d-none d-sm-block textBox text-left\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
                     html+="<div class=\"col-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-3 col-sm-2 textBox\">결재</div>";

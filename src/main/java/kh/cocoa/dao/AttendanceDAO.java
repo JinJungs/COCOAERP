@@ -58,4 +58,6 @@ public interface AttendanceDAO {
     int modAtdTime(AtdChangeReqDTO dto);
 
     int toDayUpdateAtd(int emp_code);
+
+    int updateMWEmpAtd(int seq);
 }

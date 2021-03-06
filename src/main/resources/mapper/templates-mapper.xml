@@ -12,7 +12,7 @@
         SELECT * FROM TEMPLATES WHERE STATUS='N'
     </select>
     <select id="getTemplateList2" resultType="kh.cocoa.dto.TemplatesDTO">
-        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE >6 order by code
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND code not in(1,2,3) order by code
     </select>
     <select id="getTemplateList3" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE CODE IN(4,5,6)

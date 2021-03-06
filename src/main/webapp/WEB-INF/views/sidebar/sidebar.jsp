@@ -63,8 +63,6 @@
 
     $(document).ready(function() {
 
-        var sidebarStatus =JSON.parse(localStorage.getItem("sidebarStatus"));
-
         $.ajax({
             data: {test : "test"},
             type: "POST",
@@ -185,20 +183,29 @@
                 }
                 // 받은 사이드바의 값을 뿌려주기
                 $("#sidebarBox").append(html);
-                console.log(sidebarStatus);
-
-                if(sidebarStatus!=null){
-                    for(var i=0;i<sidebarStatus.length;i++){
-                        var getItem =sidebarStatus[i];
-                        openDropBox.push(getItem);
-                        $("#"+getItem+"").attr("aria-expanded","true");
-                        $("#"+getItem+"").attr("class","dropdown-toggle");
-                        $("#"+getItem+"").siblings('ul').attr("class","list-unstyled collapse show");
-
+                $.ajax({
+                    type: "POST",
+                    url: "/sidebar/getSidebarStatus",
+                    success: function (data) {
+                        if(data.length!=false){
+                            var parsedata=JSON.parse(data);
+                            for(var i=0;i<parsedata.length;i++){
+                                openDropBox.push(parsedata[i]);
+                                console.log(parsedata[i]);
+                                $("#"+parsedata[i]+"").attr("aria-expanded","true");
+                                $("#"+parsedata[i]+"").attr("class","dropdown-toggle");
+                                $("#"+parsedata[i]+"").siblings('ul').attr("class","list-unstyled collapse show");
+                            }
+                        }
                     }
-                }
+                })
+
+
+
             }
         })
+
+
 
     });
 
@@ -219,7 +226,7 @@
         console.log("보드 메뉴 시퀀스 : " +board_menu_seq);
         console.log("보드 타입 : " +type);
         console.log("이름 : " +mid_name);
-        localStorage.setItem("sidebarStatus",JSON.stringify(openDropBox));
+
         // 1. 업무일지
         if(code==1){
             location.href = "/log/logCreate.log";
@@ -317,7 +324,19 @@
                     openDropBox.splice(openDropBox.indexOf(id),1);
                 }
             }
+            var item =JSON.stringify(openDropBox);
+            $.ajax({
+                type: "POST",
+                url: "/sidebar/addSideBarStatus",
+                data: item,
+                contentType:'application/json',
+                success: function (data) {
+                }
+            })
         },50);
+
+
+
     }
 
 </script>

@@ -61,7 +61,7 @@
                         <select class="selectTemplate" name=template id="templateSelect">
                             <option value=전체>전체</option>
                             <c:forEach var="i" items="${tempList}">
-                                <option value=${i.name}>${i.name}</option>
+                                <option value="${i.name}">${i.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -228,7 +228,7 @@
             contentType:'application/json',
             dataType:"json",
             success: function (data) {
-                console.log(data);
+
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
@@ -240,7 +240,7 @@
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].write_date+"</div>";
                     html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].final_date+"</div>";
                     html+="</div>";
-                    console.log(html);
+
                 }
                 $("#listcontainer").html(html);
                 navi="";

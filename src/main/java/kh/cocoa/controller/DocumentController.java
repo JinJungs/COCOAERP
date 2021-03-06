@@ -645,9 +645,11 @@ public class DocumentController {
 
 	@GetMapping("toWriteDocument.document")
 	public String toWrtieDocument(TemplatesDTO dto, Model model) {
-
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		String deptName = deptservice.getDeptName();
 		TemplatesDTO tempInfo = tservice.getTemplateInfo(dto.getCode());
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
@@ -673,7 +675,6 @@ public class DocumentController {
 
 	@RequestMapping("addconfirm.document")
 	public String addconfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception{
-		//int getTempCode =tservice.getTempCode(ddto.getTemp_code());
 		int result = dservice.addDocument(ddto);
 		int getDoc_code = dservice.getDocCode(ddto.getWriter_code());
 
@@ -708,6 +709,9 @@ public class DocumentController {
 	public String toBDocument(Model model,int cpage) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
@@ -727,6 +731,9 @@ public class DocumentController {
 	public String toNFDocument(Model model,int cpage) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
@@ -746,6 +753,9 @@ public class DocumentController {
 	public String toFDocument(Model model,int cpage) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
@@ -765,6 +775,9 @@ public class DocumentController {
 	public String toRDocument(Model model,int cpage) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		List<DocumentDTO> list = new ArrayList<>();
 		List<TemplatesDTO> getTemplatesList = new ArrayList<>();
 		getTemplatesList = tservice.getTemplateList2();
@@ -785,6 +798,9 @@ public class DocumentController {
 	public String toReWrite(String seq, Model model) {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		List<DepartmentsDTO> deptList = deptservice.getDeptList();
 		DocumentDTO getModDocument= dservice.getModDocument(Integer.parseInt(seq));
 		List<ConfirmDTO> getConfirmList =cservice.getConfirmList(seq);
@@ -809,6 +825,9 @@ public class DocumentController {
 	public String confirm(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		int getIsLast =dservice.getIsLast(seq);
 		
 		if(getIsLast==1){
@@ -860,28 +879,12 @@ public class DocumentController {
 	public String returnD(int seq,String comments){
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
+		if(loginDTO==null){
+			return "redirect:/";
+		}
 		dservice.returnD(seq,empCode);
 		dservice.addRIsConfirm(seq,empCode,comments);
 		return "redirect:/document/toRDocument.document?cpage=1";
 	}
 
-
-
-	@GetMapping("toTest.document")
-	public String Test(TemplatesDTO dto, Model model) {
-
-		int empCode = 1000;
-		String deptName = deptservice.getDeptName();
-		List<DepartmentsDTO> deptList = new ArrayList<>();
-		EmployeeDTO getEmpinfo = new EmployeeDTO();
-		getEmpinfo = eservice.getEmpInfo(empCode);
-		deptList = deptservice.getDeptList();
-		model.addAttribute("temp_code", dto.getCode());
-		model.addAttribute("empInfo", getEmpinfo);
-		model.addAttribute("size", deptList.size());
-		model.addAttribute("deptName", deptName);
-		model.addAttribute("dto", dto);
-		model.addAttribute("deptList", deptList);
-		return "document/test";
-	}
 }

@@ -109,11 +109,13 @@
                 <div class="col-8 p-0">
                     <div class="card">
                         <div class="card-header">
-                            <b id="totalatd"></b>
+                            <b>굼주의 근무 현황</b><b id="totalatd"></b>
                         </div>
                         <div class="card-body">
 
-                            <p class="card-text"><canvas  id="myChart" ></canvas></p>
+                            <p class="card-text" id="barchart_div">
+                                <canvas  id="myChart"></canvas>
+                            </p>
                         </div>
                     </div>
 
@@ -124,7 +126,7 @@
                         <div class="card-header">
                             <b id="monthatd">이달의 근무 현황</b>
                         </div>
-                        <div class="card-body d-flex justify-content-center">
+                        <div class="card-body d-flex justify-content-center" id="nuchart_div">
                             <canvas class="m-0" id="myChartDoughnut" height="5" width="5"></canvas>
 
                         </div>
@@ -273,21 +275,7 @@
     }
 
     console.dir(value);
-
-
-
-
     $( function() {
-         /*  var currentDay = new Date();
-           var compTime= currentDay.getHours()+":"+currentDay.getMinutes();
-           var startWorkTime = 700;
-           console.log(parseInt(compTime.replaceAll(":","")));
-           console.log(startWorkTime);
-           if(parseInt(compTime.replaceAll(":","")) < startWorkTime ){
-               $("#btn_in").attr("disabled",true);
-           }else{
-               $("#btn_in").attr("onclick","fn_openInModal()");
-           }*/
         fn_reload();
     });
 
@@ -316,12 +304,15 @@
     }
 
     function fn_getAtdTime() {
+
         $.ajax({
             type : "POST",
             url : "/restattendance/getAtdTime",
             dataType :"json",
             success : function(data) {
-                console.log(data);
+                $("#barchart_div").empty();
+                var html="<canvas  id=myChart></canvas>"
+                $("#barchart_div").append(html);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'bar',
@@ -332,13 +323,9 @@
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         },
                             {
-                                label: '초과 근무 시간',
+                                label: '초과 근무',
                                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             },
-
-                            {
-                                label: '부족한 근무 시간',
-                            }
                         ],
                     },
                     options: {
@@ -364,22 +351,17 @@
 
                 for(var j=0;j<data.length;j++) {
                     var getDate = data[j].start_time.substr(5,5);
-                    var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2)-1;
+                    var getTime= data[j].end_time.substr(11,2)-data[j].start_time.substr(11,2);
+                    if(getTime>=4){
+                        getTime--;
+                    }
                     for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
-                            if(getTime<=7&&data[j].overtime>0){
-                                console.log("부족한시간 getTIME:"+getTime);
-                                myChart.data.datasets[2].data[i]=8-getTime;
-                            }
                             if(getTime>8){
                                 while(getTime>8){
                                     getTime--;
                                 }
                             }
-                            if(getTime<=4){
-                                getTime++;
-                            }
-                            console.log(getTime);
                             if(getTime<=0) {
                                 continue;
                             }
@@ -391,8 +373,7 @@
                         }
                     }
                 }
-                $("#totalatd").text('금주의 근무 현황('+getTotal+'H)');
-
+                $("#totalatd").text("("+getTotal+"H)");
                 getTotal=0;
             }
         });
@@ -404,6 +385,9 @@
             url : "/restattendance/getMonthAtdTime",
             dataType :"json",
             success : function(data) {
+                $("#nuchart_div").empty();
+                var html="<canvas class=m-0 id=myChartDoughnut height=5 width=5></canvas>"
+                $("#nuchart_div").append(html);
                 var ctx2 = document.getElementById('myChartDoughnut').getContext('2d');
                 var chart = new Chart(ctx2, {
                     // The type of chart we want to create
@@ -433,16 +417,16 @@
                 });
                 for(var i=0;i<data.length;i++){
 
-                    var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2)-1;
-                    if(getTime<5){
-                        getTime++;
+                    var getTime= data[i].end_time.substr(11,2)-data[i].start_time.substr(11,2);
+                    if(getTime>=4){
+                        getTime--;
                     }
                     if(getTime>8){
                         while(getTime>8){
                             getTime--;
                         }
                     }
-                    if(getTime<0){
+                    if(getTime<=0){
                         continue;
                     }
                     getTotalMonth+=getTime;
@@ -450,12 +434,16 @@
 
 
                 }
-                console.log(getTotalMonth);
                 chart.data.datasets[0].data[0] = getTotalMonth;
                 chart.data.datasets[0].data[1] = getTotalOverTimeMonth;
                 chart.update();
                 getTotalMonth+=getTotalOverTimeMonth;
-                $("#monthatd").text('이달의 근무 현황('+getTotalMonth+'H)');
+                if(getTotalMonth==0){
+                    $("#monthatd").text('이달의 근무 현황');
+                }else{
+                    $("#monthatd").text('이달의 근무 현황('+getTotalMonth+'H)');
+                }
+
                 getTotalMonth=0;
                 getTotalOverTimeMonth=0;
             }
@@ -468,7 +456,6 @@
             type : "POST",
             url : "/restattendance/isInWork",
             success : function(data) {
-                console.log(data);
                 if(data==""){
                     var time=getHours();
                     $("#modal").modal('show');
