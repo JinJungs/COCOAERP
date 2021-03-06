@@ -189,7 +189,7 @@
 						</c:forEach> </ui>
 						<ui class="contacts" id="chatList">
 							<c:forEach var="i" items="${chatList}">
-								<li class="con-list">
+								<li class="con-list chat-list" id="chat-list${i.seq}">
 									<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
 										<div class="img_cont align-self-center">
 											<img src="${i.profile}" class="rounded-circle user_img">
@@ -323,10 +323,15 @@
 				if(type=='IMAGE'){
 					$("#con-message${i.seq}").html("사진");
 				}else if(type=='TEXT' || type=='FILE'){
+					// 위치 맨위로 올리기
+					let parent = document.getElementById("chatList");
+					let child = document.getElementById("chat-list${i.seq}");
+					parent.insertBefore(child,parent.firstChild);
 					if(msg.length > textLength){
 						msg = msg.substr(0, textLength-2) + '...';
 					}
 					$("#con-message${i.seq}").html(msg);
+				// (3) 채팅방 이름 변경
 				}else if(type=='AN_MODIF'){
 					$("#con-room${i.seq}").html(roomname);
 				}
