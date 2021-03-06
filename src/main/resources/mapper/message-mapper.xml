@@ -40,11 +40,6 @@
         WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
           AND A.EMP_CODE = E.CODE
     </select>
-    <select id="getMessagePageCount" resultType="kh.cocoa.dto.MessageDTO">
-        SELECT COUNT(*)
-        FROM MESSAGE
-        WHERE EMP_CODE = #{emp_code}
-    </select>
 
     <!-- 메세지 파일 업로드 - message & files seq값 동일하게 맞추기 -->
     <select id="selectMessageSeq" resultType="Integer">
@@ -75,6 +70,43 @@
           AND CONTENTS LIKE '%${contents}%'
           AND TYPE = 'TEXT'
         ORDER BY A.WRITE_DATE DESC
+    </select>
+
+    <select id="searchMsgByContentsByCpage" resultType="kh.cocoa.dto.MessageViewDTO">
+        SELECT
+            SEQ,
+            CONTENTS,
+            WRITE_DATE,
+            EMP_CODE,
+            M_SEQ,
+            TYPE,
+            M_TYPE,
+            NAME,
+            PARTY_SEQ,
+            PARTY_EMP_CODE,
+            EMPNAME,
+            PARTY_EMPNAME
+        FROM
+            (SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RN, A.*, B.NAME PARTY_EMPNAME
+             FROM (SELECT MSG.*,
+                          V1.TYPE     M_TYPE,
+                          V1.NAME,
+                          V1.PARTY_SEQ,
+                          V1.EMP_CODE PARTY_EMP_CODE,
+                          E.NAME      EMPNAME
+                   FROM MESSAGE MSG,
+                        MESSENGER_VIEW V1,
+                        EMPLOYEE_VIEW E
+                   WHERE MSG.M_SEQ = V1.SEQ
+                     AND MSG.EMP_CODE = E.CODE
+                     AND M_SEQ IN (SELECT SEQ FROM MESSENGER_VIEW WHERE EMP_CODE = #{code})
+                     AND ((V1.TYPE = 'S' AND V1.EMP_CODE!=#{code}) OR (V1.TYPE = 'M' AND V1.EMP_CODE = #{code}))) A,
+                  EMPLOYEE_VIEW B
+             WHERE A.PARTY_EMP_CODE = B.CODE
+               AND CONTENTS LIKE '%${contents}%'
+               AND TYPE = 'TEXT')
+        WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
+        ORDER BY WRITE_DATE DESC
     </select>
     <!-- 채팅방에서 메세지 검색-->
     <select id="searchMsgInChatRoom" resultType="kh.cocoa.dto.MessageDTO">

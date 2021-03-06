@@ -315,17 +315,18 @@
 				let type = JSON.parse(e.body).type;
 				let write_date = JSON.parse(e.body).write_date;
 				let roomname = JSON.parse(e.body).roomname;
+				let parent = document.getElementById("chatList");
+				let child = document.getElementById("chat-list${i.seq}");
 				// (1) 날짜
 				let formed_write_date = moment(write_date).format('HH:mm');
 				$("#con-date${i.seq}").html(formed_write_date);
 				// (2) 메세지
 				// type이 IMAGE일 때는 '사진'으로 메세지를 띄워준다.
 				if(type=='IMAGE'){
+					parent.insertBefore(child,parent.firstChild);
 					$("#con-message${i.seq}").html("사진");
 				}else if(type=='TEXT' || type=='FILE'){
 					// 위치 맨위로 올리기
-					let parent = document.getElementById("chatList");
-					let child = document.getElementById("chat-list${i.seq}");
 					parent.insertBefore(child,parent.firstChild);
 					if(msg.length > textLength){
 						msg = msg.substr(0, textLength-2) + '...';
