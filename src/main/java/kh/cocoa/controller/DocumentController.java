@@ -84,6 +84,7 @@ public class DocumentController {
 	//임시저장된 문서메인 이동
 	@RequestMapping("d_searchTemporary.document")
 	public String searchTemporaryList(Date startDate, Date endDate, String template, String searchOption, String searchText, String cpage, String status, Model model) {
+		
 		//0. 사번
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int empCode = (Integer)loginDTO.getCode();
@@ -381,9 +382,6 @@ public class DocumentController {
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
 
-/*		int canreturn=dservice.canRetrun(Integer.parseInt(seq));
-		model.addAttribute("canReturn",canreturn);
-		*/
 		String confirmStatus = cservice.isConfirmed(seq);
 		model.addAttribute("auth",getAuth);
 		model.addAttribute("empCode", empCode);
@@ -391,13 +389,15 @@ public class DocumentController {
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("confirmList", confirmList);
 		model.addAttribute("confirmStatus", confirmStatus);
-		if(dto.getTemp_code()==4) {
+		
+		int tempCode = tservice.getTempCode(dto.getTemp_code());
+		if(tempCode==4) {
 			return "/document/d_readReport";
-		}else if(dto.getTemp_code()==5) {
+		}else if(tempCode==5) {
 			List<OrderDTO> orderList = oservice.getOrderListBySeq(seq);
 			model.addAttribute("orderList", orderList);
 			return "/document/d_readOrder";
-		}else if(dto.getTemp_code()==6){
+		}else if(tempCode==6){
 			return "/document/d_readLeave";
 		}else {
 			return "/document/d_readReport";
