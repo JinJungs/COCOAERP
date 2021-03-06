@@ -98,10 +98,15 @@ public class ScheduleController {
 		}
 		
 		ScheduleDTO dto = sservice.getSchedule(seq);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일 | HH시");
+		String startTime = format.format(dto.getStart_time());
+		String endTime = format.format(dto.getEnd_time());
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("empCode", empCode);
 		model.addAttribute("didUpdate", didUpdate);	
+		model.addAttribute("startTime", startTime);	
+		model.addAttribute("endTime", endTime);	
 		
 		return "/schedule/popUpInfo";
 	}
