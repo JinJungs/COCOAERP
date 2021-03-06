@@ -412,20 +412,6 @@
                     scrollUpdate();  
                 }
             });
-            
-            client.subscribe('/topic/announce/' +${seq}, function (e) {
-            	//메세지 토픽에서 받는 방식으로 작업 중. 끝까지 사용하지 않을 경우 삭제 예정
-            	console.log("공지도착!!!");
-            	/* var newMsg = "";
-                let element = document.getElementById("msg_card_body");
-                var msg = JSON.parse(e.body).contents;
-                var sender = JSON.parse(e.body).emp_code;
-                //파일 관련 메세지 구분 위해 타입추가*****
-                var type = JSON.parse(e.body).type;
-                var savedname = JSON.parse(e.body).savedname;
-                var empname = JSON.parse(e.body).empname;
-            	console.log(msg); */
-            });
         });
     }
 
@@ -563,7 +549,7 @@
         if (type == "FILE") {
             result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p></a>";
         } else if (type == "IMAGE") {
-            result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><img src='/messengerFile/" + savedname + "' width='150' height='150' style='object-fit:cover;'></a>";
+            result = "<div class='" + classname + "'><a href='/files/downloadMessengerFile.files?savedname=" + savedname + "&oriname=" + msgOriname + "'><img class='msgImg' src='/messengerFile/" + savedname + "' width='150' height='150' style='object-fit:cover;'></a>";
         } else {
             result = "<div class='" + classname + "'><p class='m-0 p-0' id='" + idname + "'>" + msg + "</p>";
         }
