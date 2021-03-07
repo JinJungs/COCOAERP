@@ -108,7 +108,7 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off" oninput="fn_getTitleWordLeng()"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -348,6 +348,14 @@
         },1000)
     }
 
+    function fn_getTitleWordLeng() {
+        var titlemax =50;
+        var titleleng = $("#title").val().length;
+        var getTitle =$("#title").val();
+        if(titlemax<titleleng){
+            $("#title").val(getTitle.substr(0,titlemax));
+        }
+    }
 
     function fn_getDeptList(){
         return new Promise(function (resolve,reject) {

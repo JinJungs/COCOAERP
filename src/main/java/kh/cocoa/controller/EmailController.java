@@ -111,7 +111,6 @@ public class EmailController {
 	@RequestMapping("pwfind.email")
 	@ResponseBody
 	public String pwFind( String email,String code) {
-	      System.out.println("비번 찾기 인증코드 전송");
 	      System.out.println(email);
 	      System.out.println(code);
 	      

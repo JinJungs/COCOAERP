@@ -16,7 +16,7 @@
 	text-align: center;
 	border-radius: 0px 10px 0px 0px;
 	cursor: pointer;
-	border: 1px solid pink;
+	border: 1px solid lightgray;
 	border-bottom: none;
 }
 
@@ -105,7 +105,7 @@
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty logAllList}">
-								<div class="row" id="notice">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -145,8 +145,8 @@
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
-							<c:when test="${empty logAllList}">
-								<div class="row" id="notice">
+							<c:when test="${empty dailyList}">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -186,8 +186,8 @@
 					<div class="row tab-content" id="tab-2"
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
-							<c:when test="${empty logAllList}">
-								<div class="row" id="notice">
+							<c:when test="${empty weeklyList}">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -225,10 +225,10 @@
 				<!-- 월별 -->
 				<div class="tab-pane fade" id="monthly">
 					<div class="row tab-content" id="tab-2"
-						style="border-bottom: 1px solid pink;">
+						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
-							<c:when test="${empty logAllList}">
-								<div class="row" id="notice">
+							<c:when test="${empty monthlyList}">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>

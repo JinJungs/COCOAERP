@@ -6,6 +6,7 @@ import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -161,6 +162,7 @@ public class RestAttendanceController {
 
     @RequestMapping("/changeReq")
     public String changeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         dto.setEmp_code(loginSession.getCode());
         int addChangeReq=attendanceService.addChangeReq(dto);
@@ -184,6 +186,7 @@ public class RestAttendanceController {
 
     @RequestMapping("/modChangeReq")
     public String modChangeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         int modChangeReq=attendanceService.modChangeReq(dto);
         if(modChangeReq>0){
             return "successUpdate";
@@ -201,6 +204,7 @@ public class RestAttendanceController {
 
     @RequestMapping("/reChangeReq")
     public String reChangeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         int reChangeReq=attendanceService.reChangeReq(dto);
         if(reChangeReq>0){
             return "successUpdate";

@@ -386,8 +386,8 @@
 				<b id="workMsg" style="white-space:normal;"></b>
 			</div>
 			<div class="modal-footer border-top-0">
-				<button type="button" class="btn btn-primary btn-sm" id="btn_ok" data-dismiss="modal" onclick="fn_in()">네</button>
-				<button type="button" class="btn btn-dark btn-sm" data-dismiss="modal" >아니오</button>
+				<button type="button" class="btn btn-outline-primary btn-sm" id="btn_ok" data-dismiss="modal" onclick="fn_in()">네</button>
+				<button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" >아니오</button>
 			</div>
 		</div>
 	</div>
@@ -470,7 +470,7 @@
 					var setTime = setTimeout(function () {
 						$("#resultModal").modal('hide');
 					},1000)
-					fn_getIsWork()
+
 					return;
 				}
 				if(data=="insertSuccess"){
@@ -479,7 +479,7 @@
 					var setTime = setTimeout(function () {
 						$("#resultModal").modal('hide');
 					},1000)
-					fn_getIsWork();
+
 					return;
 				}
 
@@ -525,6 +525,25 @@
 		});
 	}
 
+	function getHours(){
+		var date = new Date();
+		var hour = date.getHours();
+		var min = date.getMinutes();
+		var sec = date.getSeconds();
+		var time ="";
+		if(hour.toString().length==1){
+			hour="0"+hour;
+		}
+		if(min.toString().length==1){
+			min="0"+min;
+		}
+		if(sec.toString().length==1){
+			sec="0"+sec;
+		}
+		time=hour+":"+min+":"+sec;
+		return time;
+	}
+
 	function fn_out(){
 		$.ajax({
 			type : "POST",
@@ -536,7 +555,7 @@
 					var setTime = setTimeout(function () {
 						$("#resultModal").modal('hide');
 					},1000)
-					fn_reload();
+
 					return;
 				}
 				if(data=="insertSuccess"){
@@ -545,7 +564,7 @@
 					var setTime = setTimeout(function () {
 						$("#resultModal").modal('hide');
 					},1000)
-					fn_reload();
+
 					return;
 				}
 			}

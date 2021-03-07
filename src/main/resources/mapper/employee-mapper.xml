@@ -68,7 +68,7 @@
 	</select>
 
 	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW2 where WITHDRAW= 'N' order by pos_code
+		SELECT * FROM EMPLOYEE_VIEW2 where WITHDRAW= 'N' order by pos_code, name
 	</select>
 
 	<select id="getAllEmpCount" resultType="Integer">

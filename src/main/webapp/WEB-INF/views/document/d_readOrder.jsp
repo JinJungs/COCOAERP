@@ -37,7 +37,7 @@
 			#sidebar {display:none;}
 			#printer {display:none;}
 			#btnModal {display:none;}
-            #footer {display: none;}
+			#footer {display: none;}
 		}
 		#printer{
 			cursor: pointer;
@@ -131,7 +131,7 @@
 			<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
 				<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안
 					제목</div>
-				<div class="col-10 p-3"><c:out value="${dto.title }"></c:out></div>
+				<div class="col-10 p-3">${dto.title }</div>
 			</div>
 			<c:if test="${!empty fileList}">
 				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
@@ -155,9 +155,9 @@
 				</div>
 				<c:forEach var="list" items="${orderList}">
 					<div class="row w-100 m-0 text-center" style="border-bottom: 1px solid #c9c9c9">
-						<div class="col-3 p-2" style="border-right: 1px solid #c9c9c9"><c:out value="${list.order_list }"></c:out></div>
-						<div class="col-3 p-2" style="border-right: 1px solid #c9c9c9"><c:out value="${list.order_count }"></c:out></div>
-						<div class="col-6 p-2" style="border-right: 1px solid #c9c9c9"><c:out value="${list.order_etc }"></c:out></div>
+						<div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">${list.order_list }</div>
+						<div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">${list.order_count }</div>
+						<div class="col-6 p-2" style="border-right: 1px solid #c9c9c9">${list.order_etc }</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -165,7 +165,7 @@
 
 
 			<div class="row w-100 pt-3 mt-3"  style="border-top: 1px solid #c9c9c9">
-				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9"><c:out value="${dto.contents }"></c:out></div>
+				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.contents }</div>
 			</div>
 			<div class="row w-100 pt-5 pb-2">
 				<b>결재 의견</b>
@@ -297,14 +297,36 @@
 	function fn_reWrite(seq){
 		location.href="/document/reWrite.document?seq="+seq;
 	}
+
+	var entityMap = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;',
+		'/': '&#x2F;',
+		'`': '&#x60;',
+		'=': '&#x3D;'
+	};
+
+	function escapeHtml (string) {
+		return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+			return entityMap[s];
+		});
+	}
+
 	function fn_confirm(seq){
 		var radioval = $("input:radio[name='confirm']:checked").val();
-		var comments = $("#comments").val();
+		var comments = escapeHtml($("#comments").val());
+		comments = encodeURIComponent(comments);
+
+
 		if(radioval=="승인") {
 			location.href = "/document/confirm.document?seq="+seq+"&comments="+comments;
 		}else{
 			location.href = "/document/return.document?seq="+seq+"&comments="+comments;
 		}
+
 	}
 
 	function fn_print() {

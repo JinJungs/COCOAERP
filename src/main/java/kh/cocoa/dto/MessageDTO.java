@@ -22,9 +22,11 @@ public class MessageDTO {
 	private String empname;
 	// 프로필 추가
     private String profile;
+    // 채팅방 이름 추가 (연락처리스트에서 필요)
+    private String roomname;
     
     @Builder
-    public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname, String empname, String profile) {
+    public MessageDTO(int seq, String contents, Timestamp write_date, int emp_code, int m_seq, String type, String savedname, String empname, String profile, String roomname) {
         this.seq = seq;
         this.contents = contents;
         this.write_date = write_date;
@@ -34,5 +36,6 @@ public class MessageDTO {
         this.savedname = savedname;
         this.empname = empname;
         this.profile = profile;
+        this.roomname = roomname;
     }
 }

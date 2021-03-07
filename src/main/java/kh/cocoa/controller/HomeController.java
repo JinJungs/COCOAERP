@@ -168,12 +168,12 @@ public class HomeController {
       String cpage = "1";
       int startRowNum = (Integer.parseInt(cpage) - 1) * DocumentConfigurator.recordCountPerPage + 1;
       int endRowNum = startRowNum + DocumentConfigurator.recordCountPerPage - 1;
-      
+ /*
       String email = loginDTO.getB_email();
-      List<EmailDTO> emailList = emailService.receiveList(email, startRowNum, endRowNum);
+      List<EmailDTO> emailList = emailService.receiveList(email, startRowNum, endRowNum);*/
       
-      model.addAttribute("emailList", emailList);
-
+  /*    model.addAttribute("emailList", emailList);
+*/
       /*보낸 업무일지 - 전체 */
       List<BoardDTO> sentLogAllList = bservice.sentLogAllList(writer_code);
       model.addAttribute("logAllList",sentLogAllList);
