@@ -77,7 +77,7 @@ public class RestAttendanceController {
                     status="in";
                 }
             }
-            int insertResult = attendanceService.startWork2(1000,status);
+            int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
             if(insertResult>0){
                 return "insertSuccess";
             }else{
@@ -98,12 +98,11 @@ public class RestAttendanceController {
         int overTime=0;
         if(getStartTime!=null){
             int sub = Integer.parseInt(getCurTime)-Integer.parseInt(getStartTime.replaceAll(":","").substring(0,2))-1;
-            System.out.println(sub);
             if(sub>8){
                 overTime=sub-8;
             }
         }
-        if(attendanceService.isOutWork(1000)!=null){
+        if(attendanceService.isOutWork(loginSession.getCode())!=null){
             int updateResult = attendanceService.endWork(loginSession.getCode(),overTime);
             if(updateResult>0){
                 return "updateSuccess";
@@ -155,7 +154,6 @@ public class RestAttendanceController {
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         int parse_end_time = Integer.parseInt(end_time.replaceAll("-",""));
         parse_end_time++;
-
         List<AttendanceDTO> getSearchAtd = attendanceService.getSearchAtd(loginSession.getCode(),number,search,start_time,parse_end_time);
         JSONArray json = new JSONArray(getSearchAtd);
         return json.toString();
@@ -209,6 +207,18 @@ public class RestAttendanceController {
         }else{
             return "FailedUpdate";
         }
+    }
+
+    @RequestMapping("/getIsWork")
+    public String getIsWork(){
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        AttendanceDTO isAtd =attendanceService.isAtd(loginSession.getCode());
+        if(isAtd!=null){
+            JSONObject json = new JSONObject(isAtd);
+            return json.toString();
+        }
+        return "nw";
+
     }
 
 

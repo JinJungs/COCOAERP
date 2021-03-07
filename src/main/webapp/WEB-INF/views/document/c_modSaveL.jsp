@@ -129,7 +129,7 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" value="${ddto.title}" autocomplete="off"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" value="${ddto.title}" autocomplete="off" oninput="fn_getTitleWordLeng()"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -229,7 +229,7 @@
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
-                            <form id="deptForm">
+                            <form id="deptForm" style="max-height:485px; overflow-y: auto;">
 
                             </form>
 
@@ -272,7 +272,15 @@
         <input type="hidden" name="approver_code" value="${i.approver_code}">
     </c:forEach>
 </form>
-
+<div class="modal fade " id="alertModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
+                <b id="result-msg"></b>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -282,7 +290,6 @@
 <script src="/js/bindWithDelay.js"></script>
 
 <script>
-
     var getempcode=0;
     var getaddedempcode = [];
     var count =0;
@@ -308,13 +315,13 @@
                 xhr.setRequestHeader(header, token);
             });
         }
-        var leave_start =$("#leave_start").val().replaceAll("-","");
+     /*   var leave_start =$("#leave_start").val().replaceAll("-","");
         var leave_end =$("#leave_end").val().replaceAll("-","");
         var temp_today =today.replaceAll("-","");
         if(leave_start<temp_today||leave_end<temp_today){
             if(leave_start<temp_today){ $("#leave_start").val(today);}
             else{ $("#leave_end").val(today);}
-        }
+        }*/
         var getleave_type=$("#getleave_type").val();
         $("#leavetype option[value="+getleave_type+"]").attr('selected',true);
         fn_changetype();
@@ -426,6 +433,12 @@
             });
         }
     });//ready end*/
+
+    function fn_closeAlertModal(){
+        var setTime=setTimeout(function () {
+            $("#alertModal").modal('hide');
+        },1000)
+    }
 
     function fn_getDeptList(){
         return new Promise(function (resolve,reject) {
@@ -726,8 +739,6 @@
         var dayRegExp = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/;
         var leave_start = $("#leave_start").val();
         var leave_end = $("#leave_end").val();
-        console.log(leave_end);
-        console.log(leave_start);
         if(dayRegExp.test(leave_start)==false) {
             $("#startinvalidmsg").css("color", "red");
             $("#startinvalidmsg").text("날짜 형식에 맞춰 작성해주세요. 예)"+today);
@@ -746,7 +757,9 @@
     }
 
     function fn_clickbtnadd() {
-        alert("최소 한 명의 결재자를 선택해주세요.");
+        $("#result-msg").text("최소 한 명의 결재자를 선택해주세요.");
+        $("#alertModal").modal();
+        fn_closeAlertModal();
     }
 
 
@@ -770,17 +783,23 @@
         var code = getempcode;
         var curemp = $("#getcuruserempcode").val();
         if(curemp==code){
-            alert("기안자는 추가할 수 없습니다.");
+            $("#result-msg").text("기안자는 추가할 수 없습니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
         for(var i=0;i<count;i++){
             if(getaddedempcode[i]==getempcode){
-                alert("이미 추가된 사용자입니다.");
+                $("#result-msg").text("이미 추가된 사용자입니다.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
                 return;
             }
         }
         if(count>=5){
-            alert("최대 5명까지 가능합니다.");
+            $("#result-msg").text("최대 5명까지 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
 
@@ -866,22 +885,32 @@
         var end = $("#leave_end").val();
         var disable = $("#leave_end").attr("disabled");
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
+            $("#result-msg").text("종료일이 시작일보다 빠릅니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }else if(start==""){
-            alert("시작일을 입력해주세요.");
+            $("#result-msg").text("시작일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_start").focus();
             return;
         }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
+            $("#result-msg").text("종료일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_end").focus();
             return;
         }
@@ -895,7 +924,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/d_searchTemporary.document";
+                    window.location.replace("/document/d_searchTemporary.document");
                 }
             }
         });
@@ -911,22 +940,32 @@
         var end = $("#leave_end").val();
         var disable = $("#leave_end").attr("disabled");
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
+            $("#result-msg").text("종료일이 시작일보다 빠릅니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }else if(start==""){
-            alert("시작일을 입력해주세요.");
+            $("#result-msg").text("시작일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_start").focus();
             return;
         }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
+            $("#result-msg").text("종료일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_end").focus();
             return;
         }
@@ -940,7 +979,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/d_searchTemporary.document";
+                    window.location.replace("/document/d_searchTemporary.document");
                 }
             }
         });
@@ -958,22 +997,32 @@
         var disable = $("#leave_end").attr("disabled");
 
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
             $("#contents").focus();
+            fn_closeAlertModal();
             return;
         }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
+            $("#result-msg").text("종료일이 시작일보다 빠릅니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }else if(start==""){
-            alert("시작일을 입력해주세요.");
+            $("#result-msg").text("시작일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_start").focus();
             return;
         }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
+            $("#result-msg").text("종료일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_end").focus();
             return;
         }
@@ -987,7 +1036,7 @@
             processData: false,
             success: function (result) {
                 if(result>0){
-                    location.href="/document/d_searchRaise.document";
+                    window.location.replace("/document/d_searchRaise.document");
                 }
 
             }
@@ -1013,6 +1062,15 @@
         fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
         $(".empcontainer2").selectable();
         $("#btn_add").attr("onclick","fn_clickbtnadd()");
+    }
+
+    function fn_getTitleWordLeng() {
+        var titlemax =50;
+        var titleleng = $("#title").val().length;
+        var getTitle =$("#title").val();
+        if(titlemax<titleleng){
+            $("#title").val(getTitle.substr(0,titlemax));
+        }
     }
 
 </script>

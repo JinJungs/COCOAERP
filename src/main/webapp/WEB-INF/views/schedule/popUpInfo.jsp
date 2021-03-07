@@ -6,31 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
-	<script src="/js/bootstrap.min.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 <style type="text/css">
-.container {
-	border-top: 1px solid lightgray;
-	padding-top: 20px;
-	margin: center;
-}
-
 #contents {
-	border: 1px solid lightgray;
+	width: 100%;
 	min-width: 500px;
-	max-width: 500px;
-	min-height: 580px;
-	max-height: 580px;
-}
-
-.body {
-	height: 50%;
-}
-
-.footer {
-	text-align: right
+	height: 100%;
 }
 
 h2 {
@@ -39,26 +24,18 @@ h2 {
 	background-color: #6749b930;
 }
 
+.left {
+	width: 100px;
+}
+
 .dataGroup {
 	margin-top: 20px;
 }
 
 .row {
 	padding: 20px;
-	float: left;
-}
-
-.left {
-	text-align: right;
-	width: 80px;
-	float: left;
-}
-
-.right {
-	text-align: left;
-	width: 350px;
-	float: left;
-	margin-left: 20px;
+	width: 100%;
+	margin-left: 10px;
 }
 
 .contentsBox {
@@ -68,12 +45,7 @@ h2 {
 }
 
 .buttonGroup {
-	margin-left: 185px;
-}
-
-.buttonGroup input {
-	margin: 5px;
-	margin-left: 10px;
+	text-align: center;
 }
 
 .btn {
@@ -84,14 +56,14 @@ h2 {
 </style>
 </head>
 <body>
-	<div id="contents" class="p-4 p-md-5 pt-5">
+	<div id="contents">
 		<h2>세부일정</h2>
-		<div class="container">
+		<div class="container-fluid pt-3">
 			<div class="row">
 				<div class="left">
 					<b>일정명</b>
 				</div>
-				<div class="right">
+				<div class="col">
 					<c:out value="${dto.title }"></c:out>
 				</div>
 			</div>
@@ -99,19 +71,19 @@ h2 {
 				<div class="left">
 					<b>시작 날짜</b>
 				</div>
-				<div class="right">${dto.start_time }</div>
+				<div class="right col">${startTime }</div>
 			</div>
 			<div class="row">
 				<div class="left">
 					<b>마감 날짜</b>
 				</div>
-				<div class="right">${dto.end_time }</div>
+				<div class="right col">${endTime }</div>
 			</div>
 			<div class="row">
 				<div class="left">
 					<b>내용</b>
 				</div>
-				<div class="right contentsBox">
+				<div class="right col contentsBox">
 					<c:out value="${dto.contents }"></c:out>
 				</div>
 			</div>
@@ -156,7 +128,5 @@ h2 {
 				</script>
 		</div>
 	</div>
-   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

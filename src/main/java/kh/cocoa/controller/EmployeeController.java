@@ -8,6 +8,7 @@ import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -170,10 +171,29 @@ public class EmployeeController {
         return checkPw;
     }
 
-    @RequestMapping("/modInfo")
-    public String modInfo(EmployeeDTO dto){
+    @RequestMapping("/modInfoAjax")
+    @ResponseBody
+    public String modInfoAjax(EmployeeDTO dto){
         int modInfo= eservice.modInfo(dto);
-        return "redirect:/membership/myInfo";
+        if(modInfo>0){
+            EmployeeDTO empInfo=eservice.getEmpInfo(dto.getCode());
+            empInfo.setPassword("");
+            if(empInfo.getEmail()==null){
+                empInfo.setEmail("");
+            }
+            if(empInfo.getPhone()==null){
+                empInfo.setPhone("");
+            }
+            if(empInfo.getOffice_phone()==null){
+                empInfo.setOffice_phone("");
+            }
+            if(empInfo.getAddress()==null){
+                empInfo.setOffice_phone("");
+            }
+            JSONObject json = new JSONObject(empInfo);
+            return json.toString();
+        }
+        return "false";
     }
 
     @RequestMapping("/checkUserEmail")

@@ -14,10 +14,10 @@
     <insert id="addTemplateForm">
     <choose>
         <when test="contents!='undefined'">
-            insert into templateform values(templateform_seq.nextval,#{title},#{contents},sysdate,'',1000)
+            insert into templateform values(templateform_seq.nextval,#{title},#{contents},sysdate,'',#{emp_code})
         </when>
         <otherwise>
-            insert into templateform values(templateform_seq.nextval,#{title},'',sysdate,'',1000)
+            insert into templateform values(templateform_seq.nextval,#{title},'',sysdate,'',#{emp_code})
         </otherwise>
 
     </choose>

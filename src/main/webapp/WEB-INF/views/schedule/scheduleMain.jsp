@@ -363,7 +363,7 @@ textarea {
 						<div class="row dataGroup">
 							<div class="col-3 text-right">일정명</div>
 							<div class="col-9">
-								<input type=text name=title maxlength=10 required>
+								<input type=text name=title maxlength=30 required>
 							</div>
 						</div>
 						<div class="row dataGroup">

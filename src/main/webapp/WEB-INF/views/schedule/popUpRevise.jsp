@@ -6,33 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href='/lib/main.css' rel='stylesheet' />
-<script src='/lib/main.js'></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 <style type="text/css">
-div{
-	//border: 1px solid pink;
-}
-.container{
-	border-top: 1px solid lightgray;
-	padding-top: 20px;
-	margin: center;
-}
 #contents {
-	border: 1px solid lightgray;
+	width: 100%;
 	min-width: 500px;
-	max-width: 500px;
-	min-height: 580px;
-	max-height: 580px;
+	height: 100%;
 }
 
-.body {
-	height: 50%;
-}
-
-.footer {
-	text-align: right
-}
 h2 {
 	margin: 0;
 	padding: 20px;
@@ -41,25 +26,19 @@ h2 {
 .dataGroup {
 	margin-top: 20px;
 }
+.left {
+	width: 100px;
+}
+
 .row {
-	padding: 10px;
-	float: left;
+	padding: 20px;
+	width: 100%;
+	margin-left: 10px;
 }
-.left{
-	text-align: right;
-	width: 80px;
-	float: left;
-}
-.right{
-	text-align: left;
-	width: 350px;
-	float: left;
-	margin-left: 20px;
-}
+
 .contentsBox{
 	min-height: 100px;
 	height: 150px;
-	border: 1px solid lightgray;
 	overflow: y-scroll;
 }
 input{
@@ -79,7 +58,7 @@ textarea{
 	max-height: 100%;
 }
 .buttonGroup{
-	margin-left: 185px;
+	text-align: center;
 }
 .buttonGroup input{
 	margin: 5px;
@@ -94,13 +73,13 @@ textarea{
 </head>
 <body>
 	<div class="wrapper d-flex align-items-stretch">
-		<div id="contents" class="p-4 p-md-5 pt-5">
+		<div id="contents">
 			<h2>세부일정</h2>
-			<div class="container">
+			<div class="container-fluid pt-3">
 				<form action="/schedule/update.schedule?seq=${dto.seq }" method=post>
 					<div class="row">
 						<div class="left"><b>분류</b></div>
-						<div class="right">
+						<div class="col">
 							<select name=openTarget id=openTarget>
 								<option value=dept>부서</option>
 								<option value=team>팀</option>
@@ -110,11 +89,11 @@ textarea{
 					</div>
 					<div class="row">
 						<div class="left"><b>일정명</b></div>
-						<div class="right"><input type=text name=title value="${dto.title }" maxlength=10 required></div>
+						<div class="col"><input type=text name=title value="${dto.title }" maxlength=10 required></div>
 					</div>
 					<div class="row">
 						<div class="left"><b>시작 날짜</b></div>
-						<div class="right">
+						<div class="col">
 							<input type=date name=startDate value="${startDate }" id=startDate onchange="fn_dateControll()" required>
 							<select name=startTime id=startTime onchange="fn_timeControll('start')" required>
 								<option value="06">6시</option>
@@ -139,7 +118,7 @@ textarea{
 					</div>
 					<div class="row">
 						<div class="left"><b>마감 날짜</b></div>
-						<div class="right">
+						<div class="col">
 							<input type=date name=endDate value="${endDate }" id=endDate onchange="fn_dateControll()" required>
 							<select name=endTime id=endTime onchange="fn_timeControll('end')" required>
 								<option value="06">6시</option>
@@ -164,13 +143,13 @@ textarea{
 					</div>
 					<div class="row">
 						<div class="left"><b>내용</b></div>
-						<div class="right contentsBox">
+						<div class="col contentsBox">
 							<textarea name=contents>${dto.contents }</textarea>
 						</div>
 					</div>
 					<div class="row">
 						<div class="left"><b>색</b></div>
-						<div class="right">
+						<div class="col">
 							<select name="color" id=color required>
 									<option value="#a4a6a5" id="#a4a6a5" class="#a4a6a5" style="background:#a4a6a5;color: white;">gray</option>
 									<option value="#fc9a8d" id="#fc9a8d" class="#fc9a8d" style="background:#fc9a8d;color: white;">red</option>
