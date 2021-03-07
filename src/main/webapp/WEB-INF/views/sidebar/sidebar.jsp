@@ -23,9 +23,8 @@
     </style>
 </head>
 <body>
-<nav id="sidebar" >
-    <a href="/membership/logout" style="color:white"><b>로그아웃(임시)</b></a>
-    <a href="/attendance/toMain" style="color:white"><b>근태메인(임시)</b></a>
+<nav id="sidebar">
+
     <div class="custom-menu">
         <button type="button" id="sidebarCollapse" class="btn btn-primary" >
             <i class="fa fa-bars"></i> <span class="sr-only">Toggle Menu</span>
@@ -53,12 +52,19 @@
         <ul class="list-unstyled components mb-5" id="sidebarBox">
             <!-- 여기에 사이드바의 내용이 추가된다.-->
         </ul>
+        <div class="logout text-right" style="position: relative;bottom: 10px">
+            <img src="/icon/logout.png" style="width: 30px;height: 30px; cursor: pointer;" onclick="fn_logout()">
+        </div>
     </div>
+
 </nav>
 <script >
     var openDropBox =[];
     function fn_messenger() {
         var popup = window.open('/messenger/contactList','','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
+    }
+    function fn_logout(){
+        location.href="/membership/logout";
     }
 
     $(document).ready(function() {

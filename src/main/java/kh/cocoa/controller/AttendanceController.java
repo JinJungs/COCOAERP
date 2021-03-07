@@ -7,6 +7,7 @@ import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,6 @@ public class AttendanceController {
     @RequestMapping("getListToNex")
     public NexacroResult getListToNex(){
         List<AtdChangeReqDTO> list = attenService.getReqListToNex();
-        System.out.println(list);
         NexacroResult nr = new NexacroResult();
         nr.addDataSet("out_ds",list);
         return nr;
@@ -120,7 +120,7 @@ public class AttendanceController {
 
     @RequestMapping("saveAtdReq")
     public NexacroResult saveAtdReq(@ParamDataSet(name="in_ds") AtdChangeReqDTO dto){
-        System.out.println(dto);
+        dto.setComments(Configurator.XssReplace(dto.getComments()));
         int updateResult = attenService.saveAtdReq(dto);
         dto.setToday(dto.getToday().substring(0,8).replaceAll("-",""));
         dto.setStart_time(dto.getStart_time().replaceAll(":",""));
