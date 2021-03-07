@@ -129,7 +129,7 @@
 			<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
 				<div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안
 					제목</div>
-				<div class="col-10 p-3"><c:out value="${dto.title }"></c:out></div>
+				<div class="col-10 p-3">${dto.title }</div>
 			</div>
 			<c:if test="${!empty fileList}">
 				<div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
@@ -145,7 +145,7 @@
 			</c:if>
 
 			<div class="row w-100 pt-3">
-				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9"><c:out value="${dto.contents }"></c:out></div>
+				<div class="col-12 contents mb-6" style="border-bottom: 1px solid #c9c9c9">${dto.contents }</div>
 			</div>
 			<div class="row w-100 pt-5 pb-2">
 				<b>결재 의견</b>
@@ -300,6 +300,9 @@
 	function fn_confirm(seq){
 		var radioval = $("input:radio[name='confirm']:checked").val();
 		var comments = escapeHtml($("#comments").val());
+		var comments = escapeHtml($("#comments").val());
+		comments = encodeURIComponent(comments);
+
 
 		if(radioval=="승인") {
 			location.href = "/document/confirm.document?seq="+seq+"&comments="+comments;

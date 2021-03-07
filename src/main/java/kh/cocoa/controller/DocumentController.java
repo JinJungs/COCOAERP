@@ -382,6 +382,8 @@ public class DocumentController {
 		List<FilesDTO> fileList = fservice.getFilesListByDocSeq(seq);
 		List<ConfirmDTO> confirmList = cservice.getConfirmList(seq);
 
+		System.out.println(confirmList);
+
 		String confirmStatus = cservice.isConfirmed(seq);
 		model.addAttribute("auth",getAuth);
 		model.addAttribute("empCode", empCode);

@@ -239,7 +239,6 @@
             type : "POST",
             url : "/restattendance/getIsWork",
             success : function(data) {
-
                 var curday= new Date();
                 var hour = curday.getHours();
                 var min = curday.getMinutes();
@@ -348,6 +347,7 @@
             url : "/restattendance/getAtdTime",
             dataType :"json",
             success : function(data) {
+                console.log(data);
                 $("#barchart_div").empty();
                 var html="<canvas  id=myChart></canvas>"
                 $("#barchart_div").append(html);
@@ -396,6 +396,7 @@
                     if(getTime>=4){
                         getTime--;
                     }
+
                     for (var i = 0; i < value.length; i++) {
                         if (value[i] == getDate) {
                             if(getTime>8){
@@ -406,6 +407,7 @@
                             if(getTime<=0) {
                                 continue;
                             }
+                            console.log(getTime);
                             myChart.data.datasets[0].data[i] = getTime;
                             myChart.data.datasets[1].data[i] = data[j].overtime;
                             myChart.update();
@@ -497,7 +499,9 @@
             type : "POST",
             url : "/restattendance/isInWork",
             success : function(data) {
+                console.log(data);
                 if(data==""){
+                    console.log("여기오나");
                     var time=getHours();
                     $("#modal").modal('show');
                     $("#workMsg").text("현재 시각:"+time+"입니다. 출근하시겠습니까?");
@@ -516,6 +520,7 @@
             data : {out:out},
             url : "/restattendance/atdIn",
             success : function(data) {
+                console.log(data);
                 if(data=="updateSuccess") {
                     $("#resultModal").modal('show');
                     $("#atdResultMsg").text("출근 시간 변경이 완료되었습니다.");

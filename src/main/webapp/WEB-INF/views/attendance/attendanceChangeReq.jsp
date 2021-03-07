@@ -172,13 +172,13 @@
                 </button>
             </div>
             <div class="modal-body pb-2 text-center" style="min-height: 100px;">
-                <div class="container">
+                <div class="container" style="word-break:break-all;">
                     <div class="row">
                         <div class="col-12">
                             <h5><b>처리 의견</b></h5>
                         </div>
                     </div>
-                    <b class="p-3" id="reqCommentAlertMsg"></b>
+                    <b class="p-3" id="reqCommentAlertMsg" style="text-overflow: ellipsis;"></b>
                 </div>
             </div>
         </div>
@@ -219,11 +219,18 @@
     }else{
         oma= omayear +"-"+omamonth+"-"+omadate;
     }
+    
+
 
     $( function() {
         $("#search-start_time").val(oma);
         $("#search-end_time").val(today);
         fn_getAtdList();
+
+        setTimeout(function reloadpage() {
+            setTimeout(reloadpage,60000);
+            console.log("리로드 테스트");
+        },60000)
     });
 
     function fn_getlength() {
@@ -250,8 +257,6 @@
                     html+="<td>"+(i+1)+"</td>";
                     html+="<td>"+data[i].today+"</td>";
                     html+="<td>"+data[i].status+"</td>";
-                    console.log(today.substr(2,8).replaceAll("-","")==compDate);
-
                     if(today.substr(2,8).replaceAll("-","")==compDate&&data[i].sub_start_time=="출근 누락"){
                         html+="<td style='color:blue'>출근 전</td>";
                     }
@@ -397,18 +402,19 @@
             data :{atd_seq:atd_seq},
             dataType:"json",
             success : function(data) {
+                console.log(data);
                 $("#btn_cancel").hide();
                 $("#btn_ok").text("재요청");
                 $("#modal-seq").val(atd_seq);
                 var start_time =data.start_time.substr(10,6).split(":");
                 var end_time=data.end_time.substr(10,6).split(":");
-                $("#btn_ok").attr("onclick","fn_modChangeReq()");
+                $("#btn_ok").attr("onclick","fn_reChangeReq()");
                 $("#modal-date").text(today);
                 $("#startTime").val(parseInt(start_time[0]));
                 $("#endTime").val(parseInt(start_time[1]));
                 $("#startTime2").val(parseInt(end_time[0]));
                 $("#endTime2").val(parseInt(end_time[1]));
-                $("#modal-contents").val(data.contents);
+                $("#modal-contents").val((data.contents));
                 $("#reqModal").modal();
             }
         });
@@ -530,7 +536,7 @@
                     $("#atdResultMsg").text("변경이 완료되었습니다.");
                     var setTime=setTimeout(function () {
                         $("#alertModal").modal('hide');
-                    },1500)
+                    },1000)
                 }
             }
         });
@@ -555,7 +561,7 @@
                 $("#atdResultMsg").text("요청이 취소되었습니다.");
                 var setTime=setTimeout(function () {
                     $("#alertModal").modal('hide');
-                },1500)
+                },1000)
             }
         });
     }
@@ -608,7 +614,7 @@
                     $("#atdResultMsg").text("재요청이 완료 되었습니다.");
                     var setTime=setTimeout(function () {
                         $("#alertModal").modal('hide');
-                    },1500)
+                    },1000)
                 }
             }
         });
