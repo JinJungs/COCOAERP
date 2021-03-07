@@ -57,6 +57,8 @@ public class BusinessLogController {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
+		ddto.setContents(Configurator.XssReplace(ddto.getContents()));
+		ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
 		
@@ -106,6 +108,8 @@ public class BusinessLogController {
 	@RequestMapping("logCreateDone.log")
 	public String logCreateDone(DocumentDTO ddto,String selectBy,List<MultipartFile> file) throws Exception {
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+		ddto.setContents(Configurator.XssReplace(ddto.getContents()));
+		ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
 		//문서저장에 필요한 dept_code

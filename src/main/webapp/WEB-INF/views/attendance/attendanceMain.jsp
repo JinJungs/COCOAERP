@@ -233,7 +233,7 @@
         value.push(newMonth + "-" + newDate);
     }
 
-    console.dir(value);
+
     $( function() {
         $.ajax({
             type : "POST",
