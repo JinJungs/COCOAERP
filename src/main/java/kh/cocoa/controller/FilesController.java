@@ -35,8 +35,6 @@ public class FilesController {
 	
 	@RequestMapping("/downloadNotificationBoardFiles.files")
 	public void downloadHwFiles(FilesDTO dto, HttpServletResponse resp) throws IOException {
-		System.out.println("요청된 파일Seq: " + dto.getSeq());
-		System.out.println("요청된 파일 SavedName: " + dto.getSavedname());
 
 		String filePath = Configurator.boardFileRootC;
 		File targetFile = new File(filePath + "/" + dto.getSavedname());

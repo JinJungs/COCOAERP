@@ -54,18 +54,12 @@ public class BusinessLogController {
 	//업무일지 임시보관 작성 완료
 	@RequestMapping("logTempSave.log")
 	public String logTempSave(DocumentDTO ddto,String selectBy,List<MultipartFile> file) throws Exception {
-		System.out.println("업무일지 임시보관 컨트롤러 도착");
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
 		//문서저장에 필요한 dept_code
 		int dept_code = (Integer)loginDTO.getDept_code();
 		
-//		if(selectBy.contentEquals("daily")) {
-//			System.out.println("일일인 경우");
-//			
-//		}
-
 		//업무일지 seq & files doc_seq 맞추기
 		int logDoc_seq= bservice.logDocSelectSeq();
 
@@ -111,7 +105,6 @@ public class BusinessLogController {
 	//업무일지 작성 완료
 	@RequestMapping("logCreateDone.log")
 	public String logCreateDone(DocumentDTO ddto,String selectBy,List<MultipartFile> file) throws Exception {
-		System.out.println("업무일지 작성 컨트롤러 도착");
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		ddto.setWriter_code(writer_code);
@@ -121,10 +114,6 @@ public class BusinessLogController {
 		
 		int pos_code = (Integer)loginDTO.getPos_code();
 		ddto.setDept_code(pos_code);
-
-//		if(selectBy.contentEquals("daily")) {
-//			ddto.setReport_end(null);
-//		}
 
 		//업무일지 seq & files doc_seq 맞추기
 		int logDoc_seq= bservice.logDocSelectSeq();
@@ -171,7 +160,6 @@ public class BusinessLogController {
 	//업무일지 읽기
 	@RequestMapping("logRead.log")
 	public String logRead(int seq,Model model, String status, DocumentDTO ddto, FilesDTO fdto) {
-		System.out.println("읽기 페이지 도착");
 
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
@@ -246,7 +234,6 @@ public class BusinessLogController {
 	//요청 받은 업무일지 읽기
 	@RequestMapping("logReqRead.log")
 	public String logReqRead(int seq,String status,DocumentDTO ddto,FilesDTO fdto,Model model) {
-		System.out.println("요청일지 읽기");
 		EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
 		int writer_code = (Integer)loginDTO.getCode();
 		System.out.println(writer_code);
@@ -277,7 +264,6 @@ public class BusinessLogController {
 	//업무일지 수정 & 임시저장된 문서 수정 페이지로 이동
 	@RequestMapping("logModify.log")
 	public String logModify(int seq,String status,DocumentDTO dto,FilesDTO fdto, Model model) {
-		System.out.println("수정 페이지" +seq);
 		
 		DocumentDTO logRead = bservice.getLogBySeqMod(seq,dto,status);
 		
@@ -299,9 +285,7 @@ public class BusinessLogController {
 	@RequestMapping("logModifyDone.log")
 	public String logModifyDone(int temp_code, int[] delArr,int seq,DocumentDTO ddto,FilesDTO fdto, String status,
 			List<MultipartFile> file) throws Exception {
-		System.out.println("수정 완료 페이지");
 		if(temp_code==1) {
-//			ddto.setReport_end(null);
 			//수정 후 상신 (일일)
 			int logModifyDaily = bservice.logModifyDaily(ddto);
 
@@ -347,7 +331,6 @@ public class BusinessLogController {
 	@RequestMapping("logModifyTempSave.log")
 	public String logModifyTempSave(int temp_code, int[] delArr,int seq,DocumentDTO ddto,FilesDTO fdto, String status,
 			List<MultipartFile> file) throws Exception{
-		System.out.println("임시저장 수정 ");
 		if(temp_code==1) {
 			//ddto.setReport_end(null);
 			//임시저장될 문서
