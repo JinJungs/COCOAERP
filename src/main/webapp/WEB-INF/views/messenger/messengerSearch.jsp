@@ -487,7 +487,6 @@
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax() {
         let searchContents = $("#searchContents").val();
-        console.log("검색내용: " + searchContents);
         $.ajax({
             url: "/messenger/messengerSearchAjax",
             type: "post",
@@ -496,7 +495,6 @@
             },
             dataType: "json",
             success: function (resp) {
-                console.log("멤버 몇명 : " +jArrayMember.length);
                 jArrayMember = resp[0];
                 jArrayDept = resp[1];
                 jArrayTeam = resp[2];

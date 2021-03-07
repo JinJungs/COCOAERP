@@ -25,12 +25,6 @@ document.getElementById("btn_submit").addEventListener("click", fn_submit);
 document.getElementById("cancle").addEventListener("click", fn_cancle);
 
 function fn_submit(seq){
-	console.log("submit!!!");
-	console.log("seq : ",${messenger.seq});
-/* 	if(name == ""){
-		$("#msg").text("채팅방 이름은 빈 값은 넣을 수 없습니다.");
-		return false;
-	} */
 	var formName = document.getElementById("modifChat");
 	formName.submit();
  	setTimeout(function(){
