@@ -253,6 +253,10 @@ public class EmployeeService implements EmployeeDAO {
 	public int updateEmployee(List<EmployeeDTO> list) {
 		return edao.updateEmployee(list);
 	};
+	@Override
+	public int updateWithdraw(List<EmployeeDTO> dto) {
+		return edao.updateWithdraw(dto);
+	}
 	/*-------소형 끝 관리자 사용자관리*/
 	
 	@Override
