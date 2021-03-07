@@ -13,11 +13,10 @@ public class SbpWebSocketMessageBrokerConfig implements WebSocketMessageBrokerCo
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/stompTest").setAllowedOriginPatterns("*").withSockJS();
     }
-	
 	@Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 	   registry.enableSimpleBroker("/topic","/contact");
        registry.setApplicationDestinationPrefixes("/");
     }
-
 }
+

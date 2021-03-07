@@ -66,16 +66,16 @@
             </div>
         </div>
         <!-- 검색 창-->
-        <div class="container searchCon">
+        <div class="searchCon">
             <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
-                <input class="col-9 searchInput" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
-                <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
-                </div>
-                <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-secondary btn-sm" id="searchBtn">검색</button>
-                    <i class="fas fa-times ml-2" style="line-height: 30px;"></i>
+                <div class="d-flex bd-highlight w-100">
+                    <input class="flex-grow-1 bd-highlight searchInput mr-2" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
+                    <%--<div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
+                    </div>
+                    <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
+                    </div>--%>
+                    <button type="button" class="bd-highlight btn btn-secondary btn-sm" id="searchBtn">검색</button>
+                    <i class="fas fa-times ml-2 bd-highlight" style="line-height: 30px;"></i>
                 </div>
             </div>
         </div>
@@ -164,87 +164,108 @@
     let lastScrollTop = 0;
     let before_date = "";
     let socket_before_date = "";
+    let addedHeight = 0;
+    let searchContents = "";
+    let before_searchContents = "";
 
-    // 파일 못생긴 버튼 대신 예쁜버튼 눌렀을 때 파일선택 기능 실행하기
+    /* 텍스트 전송 */
+    // 전송 버튼 클릭시 메세지 전송
+    document.getElementById("send_btn").addEventListener('click', sendMsg);
+    /* 파일 전송 */
+    document.getElementById("file").addEventListener('change', uploadMsgFile);
+    /* 파일 모아보기 창 띄우기 */
+    document.getElementById("showFiles").addEventListener("click", popShowFiles);
+    /* 채팅방 이름변경 (모달창의 확인버튼) */
+    document.getElementById("modifSave").addEventListener("click", modifChatName);
+
+    // enter키 클릭시 메세지 전송
+    $("#sendToolBox").on("keydown", function (e) {
+        if (e.keyCode == 13 && !e.shiftKey) {
+            sendMsg();
+        }
+    });
+    // esc 누르면 창닫기
+    $(document).keydown(function (e) {
+        if (e.keyCode == 27 || e.which == 27) {
+            window.close();
+        }
+    });
+    // input type=file 대신 파일첨부 이모티콘을 눌렀을 때 파일선택 기능 실행하기
     $("#attach_btn").click(()=>{
         $("#file").click();
     });
 
-    // <--------------------------------- 스크롤 이벤트 --------------------------------->
     // 리스트 더 불러오기
     function moreList(cpage) {
-        $.ajax({
-            url: "/message/getMessageListByCpage",
-            type: "post",
-            data: {
-                m_seq: ${seq},
-                cpage: cpage
-            },
-            dataType: "json",
-            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-            success: function (data) {
-                // 추가 전 msgBox의 길이를 저장
-                let beforeMsgBoxHeight = msgBox.height();
-                for (let i = 0; i < data.length; i++) {
-                    let existMsg = "";
-                    // 날짜 형식 변경하기
-                    let formed_write_date = moment(data[i].write_date).format('HH:mm');
-                    let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
-                     //공지타입 구분
-                    let typeArr = (data[i].type).split("_");
-                    // console.log("typeArr : ",typeArr);
-                    // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
-                    if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
-                        existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
-                        existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
-                        existMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
-                        existMsg += "</div>";
-                        existMsg += "<div class='img_cont_msg'>";
-                        existMsg += "<img src='${loginDTO.profile}' class='rounded-circle user_img_msg'>";
-                        existMsg += "</div></div>";
-                    } else if(typeArr[0]!="AN"){
-                        existMsg += "<div class='d-flex justify-content-start mb-4' id='msgDiv" + data[i].seq + "'>";
-                        existMsg += "<div class='img_cont_msg'>";
-                        existMsg += "<img src='"+data[i].profile+"' class='rounded-circle user_img_msg'>";
-                        existMsg += "</div>";
-                        // 상대방 이름 추가
-                        existMsg += "<div class='msg_cotainer_wrap'>"
-                        existMsg += "<div class='ml-2 pb-1'>"+data[i].empname+"</div>"
-                        existMsg += msgForm(data[i].type, "msg_cotainer", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
-                        existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
-                        existMsg += "</div></div></div>";
-                    }else{
-                       existMsg += "<div class='announce text-center font-weight-light'><small>";
-                       if(typeArr[1]=="MODIF"){
-                          existMsg += data[i].empname + "님이 " + data[i].contents +" (으)로 채팅방 이름을 변경하였습니다.";
-                       }else if(typeArr[1]=="EXIT"){
-                          existMsg += data[i].contents + "님이 퇴장하였습니다.";
-                       }else if(typeArr[1]=="ADD"){
-                    	  existMsg += data[i].empname + "님이 "+ data[i].contents + " 님을 채팅방에 초대하셨습니다.";
-                       }else{
-                          existMsg += "공지 메세지 등록 오류";
-                       }
-                       existMsg += "</small></div>";
+        return new Promise((resolve,reject)=>{
+            $.ajax({
+                url: "/message/getMessageListByCpage",
+                type: "post",
+                data: {
+                    m_seq: ${seq},
+                    cpage: cpage
+                },
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                success: function (data) {
+                    // 추가 전 msgBox의 길이를 저장
+                    let beforeMsgBoxHeight = msgBox.height();
+                    for (let i = 0; i < data.length; i++) {
+                        let existMsg = "";
+                        // 날짜 형식 변경하기
+                        let formed_write_date = moment(data[i].write_date).format('HH:mm');
+                        let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
+                        //공지타입 구분
+                        let typeArr = (data[i].type).split("_");
+                        // console.log("typeArr : ",typeArr);
+                        // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
+                        if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
+                            existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
+                            existMsg += msgForm(data[i].type, "msg_cotainer_send", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
+                            existMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
+                            existMsg += "</div>";
+                            existMsg += "<div class='img_cont_msg'>";
+                            existMsg += "<img src='${loginDTO.profile}' class='rounded-circle user_img_msg'>";
+                            existMsg += "</div></div>";
+                        } else if(typeArr[0]!="AN"){
+                            existMsg += "<div class='d-flex justify-content-start mb-4' id='msgDiv" + data[i].seq + "'>";
+                            existMsg += "<div class='img_cont_msg'>";
+                            existMsg += "<img src='"+data[i].profile+"' class='rounded-circle user_img_msg'>";
+                            existMsg += "</div>";
+                            // 상대방 이름 추가
+                            existMsg += "<div class='msg_cotainer_wrap'>"
+                            existMsg += "<div class='ml-2 pb-1'>"+data[i].empname+"</div>"
+                            existMsg += msgForm(data[i].type, "msg_cotainer", "msg_container" + data[i].seq, data[i].contents, data[i].savedname);
+                            existMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
+                            existMsg += "</div></div></div>";
+                        }else{
+                            existMsg += "<div class='announce text-center font-weight-light'><small>";
+                            if(typeArr[1]=="MODIF"){
+                                existMsg += data[i].empname + "님이 " + data[i].contents +" (으)로 채팅방 이름을 변경하였습니다.";
+                            }else if(typeArr[1]=="EXIT"){
+                                existMsg += data[i].contents + "님이 퇴장하였습니다.";
+                            }else if(typeArr[1]=="ADD"){
+                                existMsg += data[i].empname + "님이 "+ data[i].contents + " 님을 채팅방에 초대하셨습니다.";
+                            }else{
+                                existMsg += "공지 메세지 등록 오류";
+                            }
+                            existMsg += "</small></div>";
+                        }
+                        if (before_date !== dividing_date && before_date !== "") {
+                            existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
+                            existMsg += "<span>" +before_date+ "</span></div>"
+                        }
+                        before_date = dividing_date;
+                        msgBox.prepend(existMsg);
                     }
-                    if (before_date !== dividing_date && before_date !== "") {
-                        existMsg += "<div class='msg_date_divider w-100 text-center m-0 pb-4 pt-3'>"
-                        existMsg += "<span>" +before_date+ "</span></div>"
-                    }
-                    before_date = dividing_date;
-                    msgBox.prepend(existMsg);
-                }
 
-                // 추가 후 msgBox의 길이를 저장
-                let afterMsgBoxHeight = msgBox.height();
-                let addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
-                // 상단에 닿았을 때만 맨밑으로 내려주고 / 근데 addedHeight라는 인자를 넘겨줘야한다.
-                // 다른 때(검색해서 리스트를 불러올 때)는 실행되지 않아야한다....
-                if (cpage == 1) {
-                    scrollBottom();
-                } else {
-                    scrollfixed(addedHeight);
+                    // 추가 후 msgBox의 길이를 저장
+                    let afterMsgBoxHeight = msgBox.height();
+                    addedHeight = afterMsgBoxHeight - beforeMsgBoxHeight;
+                    // Promise로 전달
+                    resolve(addedHeight);
                 }
-            }
+            })
         })
     }
 
@@ -252,105 +273,68 @@
 
     $(document).ready(function () {
         console.log("${sssss}")
-        // 리스트 불러오기
-        moreList(cpage);
         // 스톰프 연결
         connectStomp();
         // 채팅입력창에 포커스
         $("#yourMsg").focus();
-
-        /* 텍스트 전송 */
-        // 전송 버튼 클릭시 메세지 전송
-        document.getElementById("send_btn").addEventListener('click', sendMsg);
-
-        // enter키 클릭시 메세지 전송
-        $("#sendToolBox").on("keydown", function (e) {
-            if (e.keyCode == 13 && !e.shiftKey) {
-                sendMsg();
-            }
-        });
-
-        // esc 누르면 창닫기
-        $(document).keydown(function (e) {
-            if (e.keyCode == 27 || e.which == 27) {
-                window.close();
-            }
-        });
-
-        // 메세지 보내기
-        function sendMsg(evt) {
-            // 의진 - 이거 필요는 한 것 같은데 엔터키할 때 동작을 안해서 일단 주석처리 했습니다.
-            //evt.preventDefault();
-
-            let msg = $("#yourMsg").val();
-            // 미입력 또는 공백 입력 방지
-            if (msg.replace(/\s|　/gi, "").length == 0) {
-                $("#yourMsg").focus();
-                return;
-            }
-
-            if (!isStomp && socket.readyState !== 1) return;
-
-            // (1) 메세지 소켓으로 전송
-            console.log("mmmmmmmmmmmm>>", msg)
-            if (isStomp)
-                socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
-                    seq: ''
-                    , contents: msg
-                    , write_date: new Date()
-                    , emp_code: ${loginDTO.code}
-                    , m_seq: ${seq}
-                    , type: "TEXT"
-                    , empname: "${loginDTO.name}"
-                    , profile: "${loginDTO.profile}"
-                }));
-            else
-                socket.send(msg);
-
-            // (new) 메세지를 연락처리스트 소켓으로 전송
-            socket.send('/getChat/contactListText/' +${loginDTO.code},{}, JSON.stringify({
-                contents: msg
-                , type: "TEXT"
-                , emp_code: ${loginDTO.code}
-                , m_seq: ${seq}
-            }));
-
-            // (2) db에 저장? / 아니면 컨트롤러에서 처리?
-            $.ajax({
-                url: "/message/insertMessage",
-                type: "post",
-                data: {
-                    contents: $("#yourMsg").val(),
-                    emp_code: ${loginDTO.code},
-                    m_seq: ${seq},
-                    type: "TEXT"
-                },
-                dataType: "json",
-                success: function (resp) {
-                    if (resp.result = 1) {
-                        console.log("메세지 저장 성공!");
-                    }
-                }
-            })
-            // (3) 채팅입력창 다시 지워주기
-            $('#yourMsg').val("");
-            setTimeout(()=>{
-                let msgLinebreak = $('#yourMsg').val().replace(/\n/g, ""); //엔터제거
-                $('#yourMsg').val(msgLinebreak);
-            },50);
-        };
-
-        /* 파일 전송 */
-        document.getElementById("file").addEventListener('change', uploadMsgFile);
-        /* 파일 모아보기 창 띄우기 */
-        document.getElementById("showFiles").addEventListener("click", popShowFiles);
-        /* 채팅방 이름변경 (모달창의 확인버튼) */
-        document.getElementById("modifSave").addEventListener("click", modifChatName);
-
+        // 리스트 불러오기
+        moreList(cpage).then(scrollBottom);
     });
 
-    var socket = null;
-    var isStomp = false;
+    let socket = null;
+    let isStomp = false;
+
+    // 메세지 보내기
+    function sendMsg(evt) {
+        let msg = $("#yourMsg").val();
+        // 미입력 또는 공백 입력 방지
+        if (msg.replace(/\s|　/gi, "").length == 0) {
+            $("#yourMsg").focus();
+            return;
+        }
+
+        if (!isStomp && socket.readyState !== 1) return;
+
+        // (1) 메세지 소켓으로 전송
+        console.log("mmmmmmmmmmmm>>", msg)
+        if (isStomp)
+            socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
+                seq: ''
+                , contents: msg
+                , write_date: new Date()
+                , emp_code: ${loginDTO.code}
+                , m_seq: ${seq}
+                , type: "TEXT"
+                , empname: "${loginDTO.name}"
+                , profile: "${loginDTO.profile}"
+            }));
+        else
+            socket.send(msg);
+
+        // (2) db에 저장
+        $.ajax({
+            url: "/message/insertMessage",
+            type: "post",
+            data: {
+                contents: $("#yourMsg").val(),
+                emp_code: ${loginDTO.code},
+                m_seq: ${seq},
+                type: "TEXT"
+            },
+            dataType: "json",
+            success: function (resp) {
+                if (resp.result = 1) {
+                    console.log("메세지 저장 성공!");
+                }
+            }
+        })
+        // (3) 채팅입력창 다시 지워주기
+        $('#yourMsg').val("");
+        setTimeout(()=>{
+            let msgLinebreak = $('#yourMsg').val().replace(/\n/g, ""); //엔터제거
+            $('#yourMsg').val(msgLinebreak);
+        },50);
+    };
 
     //스톰프 연결
     function connectStomp() {
@@ -372,6 +356,7 @@
                 let savedname = JSON.parse(e.body).savedname;
                 let empname = JSON.parse(e.body).empname;
                 let profile = JSON.parse(e.body).profile;
+                let roomname = JSON.parse(e.body).roomname;
 
                 // 날짜 형식 변경하기
                 let current_date = new Date();
@@ -389,6 +374,11 @@
                 //공지일 때
                 let typeArr = type.split("_")
                 //console.log(typeArr);
+
+                // 채팅방 이름 변경시
+                if(roomname){
+                    $("#partyname").html(roomname);
+                }
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code} && typeArr[0]!="AN") {
@@ -477,14 +467,6 @@
             .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
     }
 
-    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
-    function scrollMoveToSearch(seq) {
-        let element = document.getElementById("msg_card_body");
-        let location = document.querySelector("#msgDiv" + seq).offsetTop;
-        console.log("위치 : " + location);
-        element.scrollTo({top: location - 300, behavior: 'smooth'});
-    }
-
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
     // 스크롤이 제일 하단에 닿을 때 hideAlertMessageBox
     $("#msg_card_body").scroll(function () {
@@ -493,9 +475,7 @@
         if (currentScrollTop == 0) {
             cpage += 1;
             console.log("새로 리스트 불러오기!" + cpage);
-            let addedHeight = moreList(cpage);
-            console.log("added: " + addedHeight);
-            scrollfixed(addedHeight);
+            moreList(cpage).then(scrollfixed);
         }
         if (amIAtBottom){
             hideAlertMessageBox();
@@ -618,30 +598,23 @@
         $("#searchContents").focus();
     }
 
-    /* 1.1. 비동기로 메세지 검색*/
-    $("#searchBtn").on("click", searchInChatRoom);
-    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
-    $("#searchContents").on("keydown", function (e) {
-        if (e.keyCode == 13) {
-            searchInChatRoom();
-        }
-    });
-
     // 하이라이트
     let highlightArr = [];
-    function highlightSearch(seq, searched) {
-        if (searched !== "") {
+    function highlightSearch(seq) {
+        return new Promise((resolve, reject) => {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
-            let re = new RegExp(searched, "g"); // search for all instances
-            let newText = beforeText.replace(re, "<mark>" + searched + "</mark>");
+            let re = new RegExp(searchContents, "g"); // search for all instances
+            let newText = beforeText.replace(re, "<mark>" + searchContents + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
-            highlightArr.push([seq, searched, newText]);
+            highlightArr.push([seq, searchContents, newText]);
             console.log(highlightArr);
-        }
+            resolve(seq);
+        })
     }
 
     // 검색어가 바뀌면 하이라이트된 내용을 원상복구
     function deHighlightBeforeSearch() {
+        if(!highlightArr){return;}
         for (let i = 0; i < highlightArr.length; i++) {
             let goback = new RegExp("<mark>" + highlightArr[i][1] + "</mark>", "g");
             let gobackText = highlightArr[i][2].replace(goback, highlightArr[i][1]);
@@ -649,20 +622,77 @@
         }
         // 초기화
         highlightArr = [];
+        searchArr = [];
     }
 
     // 띠용
     function animateMessage(seq) {
-        $("#msgDiv" + seq).animate({
-            //width: '300px'
+        $("#msgDiv"+seq).animate({
             animation: 'motion 0.3s linear 0s 4 alternate',
-        }, 1000);
+        }, 100);
     }
 
+    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
+    function scrollMoveToSearch(seq) {
+        return new Promise((resolve, reject) => {
+            console.log("scorllMoveTOSearch : " + seq);
+            let element = document.getElementById("msg_card_body");
+            let location = document.querySelector("#msgDiv" + seq).offsetTop;
+            console.log("위치 : " + location);
+            element.scrollTo({top: location - 300, behavior: 'smooth'});
+            resolve(seq);
+        })
+    }
+
+    /* 1.1. 비동기로 메세지 검색*/
+    $("#searchBtn").on("click", searchOrFindNext);
+    // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
+    $("#searchContents").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            searchOrFindNext();
+        }
+    });
+
+    function searchOrFindNext(){
+        searchContents = $("#searchContents").val();
+        // 미입력 또는 공백 입력 방지
+        if (searchContents.replace(/\s|　/gi, "").length == 0) {
+            return;
+        }
+        // 처음 검색하거나 검색어가 바뀌었을 때 deHighlightBeforeSearch
+        if(searchContents!==before_searchContents || (!searchContents && !before_searchContents)){
+            deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
+            searchInChatRoom(); // 검색결과가 없을 때 isMsgExistInCpage도 실행할 필요없음
+        }
+        setTimeout(() => {
+            isMsgExistInCpage();
+        },100);
+    }
+    let searchArr = []
+    function isMsgExistInCpage(){
+        if (!searchArr.length){
+            return;
+        }else{
+            let seq = searchArr[0];
+            console.log('seq : ' + seq);
+            // 해당 seq의 div가 존재하면 seq를 resolve한다.
+            if($("#msgDiv"+seq).length){
+                scrollMoveToSearch(seq)
+                    .then(highlightSearch)
+                    .then(delFromSearchArr);
+                // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
+            }else{
+                cpage +=1;
+                moreList(cpage)
+                    .then(isMsgExistInCpage);
+            }
+        }
+    };
+    function delFromSearchArr(){
+        searchArr.splice(0,1); // 0번원소부터 1개를 삭제한다.
+    }
     // 검색
     function searchInChatRoom() {
-        let searchContents = $("#searchContents").val();
-        // input 창에 ∧ ∨ 표시가 있어야 한다.
         $.ajax({
             url: "/message/searchMsgInChatRoom",
             type: "post",
@@ -672,54 +702,21 @@
             },
             dataType: "json",
             success: function (resp) {
-                console.log("검색갯수 : " + resp.length);
-                deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
+                // 검색결과가 하나도 없을 때
                 if (resp.length == 0) {
                     alert("검색결과가 없습니다.");
                     return;
+                    // 검색결과가 하나라도 있을 때
                 } else {
-                    let index = 0;
-                    let seq = resp[index].seq; // message의 seq
-                    // 즉시실행함수
-                    // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    (isMsgExistInMsgBox = function () {
-                        if (!$("#msgDiv" + seq).length) {
-                            cpage += 1;
-                            moreList(cpage);
-                            setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
-                                isMsgExistInMsgBox();
-                            }, 100);
-                        } else {
-                            return;
-                        }
-                    })();
-
-                    setTimeout(function () {
-                        // (1) 스크롤 이벤트 실행
-                        scrollMoveToSearch(seq);
-                        // (2) 하이라이팅
-                        highlightSearch(seq, searchContents);
-                        // (3) 띠용
-                        // animateMessage(seq);
-                    }, 200);
-
-                    $("#searchContents").on("keydown", function (e) {
-                        if (e.keyCode == 13) {
-                            e.preventDefault(); // 기존의 엔터키에 걸린 이벤트를 무효화
-                            if (index >= resp.length) {
-                                return;
-                            } else {
-                                index += 1;
-                                console.log("엔터키 입력후 index: " + index);
-                                scrollMoveToSearch(resp[index].seq);
-                                highlightSearch(resp[index].seq, searchContents);
-                            }
-                        }
-                    });
+                    console.log("검색갯수 : " + resp.length);
+                    console.log("검색결과 : "+resp);
+                    searchArr = resp;
                 }
+                before_searchContents = searchContents;
             }
         });
     }
+
 
   //==========채팅방 이름변경==================
     function modifChatName(){
@@ -781,7 +778,7 @@
     	   //부모창 리로드해주고 머물던 항목에 있었으면 좋겠는데...
     	   window.open('chat'+seq,'_self').close();
        }else{
-    	   //부모창 테스트 = 값받아서 함수호출은 가능하나 리로드하면 안됨 
+    	   //부모창 테스트 = 값받아서 함수호출은 가능하나 리로드하면 안됨
     	   //의진씨랑 보고 해결안되면 패스==========================삭제해야할 곳!
     	   let onclickNow = window.opener.document.getElementById("onclickNow").value;
     	   console.log(onclickNow);
@@ -831,7 +828,6 @@
                         , empname: empname
                         , type: "AN_ADD"
                     }));
-
                }
             }
         });

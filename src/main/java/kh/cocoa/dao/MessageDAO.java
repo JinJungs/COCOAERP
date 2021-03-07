@@ -15,12 +15,13 @@ public interface MessageDAO {
     // 10개씩 불러오기
     public List<MessageDTO> getMessageListByCpage(int m_seq,int startRowNum, int endRowNum);
 
-    public int getMessagePageCount(int emp_code);
-
     public int insertMessageGotSeq(MessageDTO msgdto);
 
     // 내용으로 메세지 찾기
     public List<MessageViewDTO> searchMsgByContents(int code, String contents);
+
+    // 내용으로 메세지 찾기
+    public List<MessageViewDTO> searchMsgByContentsByCpage(int code, String contents, int startRowNum, int endRowNum);
 
     // 채팅창에서 검색한 메세지 찾기
     public List<MessageDTO> searchMsgInChatRoom(int m_seq, String contents);

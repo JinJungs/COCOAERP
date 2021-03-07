@@ -74,7 +74,16 @@
                                             <a href="#">
                                                 <div class="user_info align-self-center">
                                                     <span>${i.name}</span>
-                                                    <p>${i.deptname} | ${i.teamname}</p>
+                                                    <p>${i.deptname} |
+                                                        <c:choose>
+                                                            <c:when test="${not empty i.teamname}">
+                                                                ${i.teamname}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                무소속
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
                                                 </div>
                                             </a>
                                         </div>
@@ -96,7 +105,16 @@
                                             <a href="#">
                                                 <div class="user_info align-self-center">
                                                     <span>${i.name}</span>
-                                                    <p>${i.deptname} | ${i.teamname}</p>
+                                                    <p>${i.deptname} |
+                                                        <c:choose>
+                                                            <c:when test="${not empty i.teamname}">
+                                                                ${i.teamname}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                무소속
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
                                                 </div>
                                             </a>
                                         </div>
@@ -118,7 +136,16 @@
                                             <a href="#">
                                                 <div class="user_info align-self-center">
                                                     <span>${i.name}</span>
-                                                    <p>${i.deptname} | ${i.teamname}</p>
+                                                    <p>${i.deptname} |
+                                                        <c:choose>
+                                                            <c:when test="${not empty i.teamname}">
+                                                                ${i.teamname}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                무소속
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
                                                 </div>
                                             </a>
                                         </div>
@@ -136,8 +163,8 @@
                                                 <img src="${i.profile}" class="rounded-circle user_img">
                                             </div>
                                             <div class="user_info align-self-center">
-                                                <span style="font-size: 16px;">${i.contents}</span>
-                                                <p><span><i class="far fa-comment"></i>
+                                                <span class="contents_span">${i.contents}</span>
+                                                <p><span class="room_span"><i class="far fa-comment"></i>
                                                 <c:choose>
                                                     <c:when test="${i.m_type=='S'}"> <!--1:1채팅방-->
                                                         ${i.party_empname}
@@ -146,7 +173,7 @@
                                                         ${i.name}
                                                     </c:otherwise>
                                                 </c:choose>
-                                                </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:ss"/></p>
+                                                </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:mm"/></p>
                                             </div>
                                         </div>
                                     </li>
@@ -172,7 +199,16 @@
                                         <a href="#">
                                             <div class="user_info align-self-center">
                                                 <span>${i.name}</span>
-                                                <p>${i.deptname} | ${i.teamname}</p>
+                                                <p>${i.deptname} |
+                                                    <c:choose>
+                                                        <c:when test="${not empty i.teamname}">
+                                                            ${i.teamname}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            무소속
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </p>
                                             </div>
                                         </a>
                                     </div>
@@ -204,7 +240,16 @@
                                         <a href="#">
                                             <div class="user_info align-self-center">
                                                 <span>${i.name}</span>
-                                                <p>${i.deptname} | ${i.teamname}</p>
+                                                <p>${i.deptname} |
+                                                    <c:choose>
+                                                        <c:when test="${not empty i.teamname}">
+                                                            ${i.teamname}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            무소속
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </p>
                                             </div>
                                         </a>
                                     </div>
@@ -236,7 +281,16 @@
                                         <a href="#">
                                             <div class="user_info align-self-center">
                                                 <span>${i.name}</span>
-                                                <p>${i.deptname} | ${i.teamname}</p>
+                                                <p>${i.deptname} |
+                                                    <c:choose>
+                                                        <c:when test="${not empty i.teamname}">
+                                                            ${i.teamname}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            무소속
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </p>
                                             </div>
                                         </a>
                                     </div>
@@ -264,8 +318,8 @@
                                             <img src="${i.profile}" class="rounded-circle user_img">
                                         </div>
                                         <div class="user_info align-self-center">
-                                            <span class="contents_span" id="contents_span${i.seq}" style="font-size: 16px;">${i.contents}</span>
-                                            <p><span><i class="far fa-comment"></i>
+                                            <span class="contents_span" id="contents_span${i.seq}">${i.contents}</span>
+                                            <p><span class="room_span"><i class="far fa-comment"></i>
                                                 <c:choose>
                                                     <c:when test="${i.m_type=='S'}"> <!--1:1채팅방-->
                                                         ${i.party_empname}
@@ -274,7 +328,7 @@
                                                         ${i.name}
                                                     </c:otherwise>
                                                 </c:choose>
-                                            </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:ss"/></p>
+                                            </span>&nbsp;${i.empname} | <fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd HH:mm"/></p>
                                         </div>
                                     </div>
                                 </li>
@@ -413,8 +467,6 @@
 
     // 입력중에 실시간으로 검색
     $("#searchContents").on("propertychange change keyup paste input", function () {
-        /*let searchContents = $("#searchContents").val();
-        console.log("검색내용 : " + searchContents);*/
         setTimeout(() => {
             searchAjax();
         },400);
@@ -478,7 +530,12 @@
                                     html += "<a href='#'>";
                                     html += "<div class='user_info align-self-center'>";
                                     html += "<span>" + resp[j][i].name + "</span>";
-                                    html += "<p>" + resp[j][i].deptname + " | " + resp[j][i].teamname + "</p>";
+                                    html += "<p>" + resp[j][i].deptname + " | ";
+                                    if(!resp[j][i].teamname){
+                                        html += "무소속</p>";
+                                    }else{
+                                        html += resp[j][i].teamname + "</p>";
+                                    }
                                     html += "</div></a></div></li>";
                                 }
                                 html += "</ui>";
@@ -499,8 +556,8 @@
                                 html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
                                 html += "</div>";
                                 html += "<div class='user_info align-self-center'>";
-                                html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
-                                html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>&nbsp;";
+                                html += "<span class='contents_span' style='font-size: 16px;'>"+contents+"</span>";
+                                html += "<p><span class='room_span'><i class='far fa-comment'></i>&nbsp;";
                                 if (jArrayMessage[i].m_type == 'S') {
                                     html += jArrayMessage[i].party_empname;
                                 } else {
@@ -535,7 +592,12 @@
                             a_html += "<a href='#'>";
                             a_html += "<div class='user_info align-self-center'>";
                             a_html += "<span>" + resp[j][i].name + "</span>";
-                            a_html += "<p>" + resp[j][i].deptname + " | " + resp[j][i].teamname + "</p>";
+                            a_html += "<p>" + resp[j][i].deptname + " | ";
+                            if(!resp[j][i].teamname){
+                                a_html += "무소속</p>";
+                            }else{
+                                a_html += resp[j][i].teamname + "</p>";
+                            }
                             a_html += "</div></a></div></li>";
                         }
                         a_html += "</ui>";
@@ -565,8 +627,8 @@
                             m_html += "<img src='"+jArrayMessage[i].profile+"' class='rounded-circle user_img'>";
                             m_html += "</div>";
                             m_html += "<div class='user_info align-self-center'>";
-                            m_html += "<span class='contents_ellipsis' style='font-size: 16px;'>"+contents+"</span>";
-                            m_html += "<p><span class='name_ellipsis'><i class='far fa-comment'></i>&nbsp;";
+                            m_html += "<span class='contents_span' style='font-size: 16px;'>"+contents+"</span>";
+                            m_html += "<p><span class='room_span'><i class='far fa-comment'></i>&nbsp;";
                             if (jArrayMessage[i].m_type == 'S') {
                                 m_html += jArrayMessage[i].party_empname;
                             } else {
