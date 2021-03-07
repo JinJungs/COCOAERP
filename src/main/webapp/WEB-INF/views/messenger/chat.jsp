@@ -662,17 +662,15 @@
         // 처음 검색하거나 검색어가 바뀌었을 때 deHighlightBeforeSearch
         if(searchContents!==before_searchContents || (!searchContents && !before_searchContents)){
             deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
-            searchInChatRoom();
+            searchInChatRoom(); // 검색결과가 없을 때 isMsgExistInCpage도 실행할 필요없음
         }
         setTimeout(() => {
             isMsgExistInCpage();
         },100);
     }
-
     let searchArr = []
     function isMsgExistInCpage(){
         if (!searchArr.length){
-            alert("마지막 검색 결과 입니다.");
             return;
         }else{
             let seq = searchArr[0];
@@ -682,7 +680,7 @@
                 scrollMoveToSearch(seq)
                     .then(highlightSearch)
                     .then(delFromSearchArr);
-            // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
+                // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
             }else{
                 cpage +=1;
                 moreList(cpage)
@@ -690,11 +688,9 @@
             }
         }
     };
-
     function delFromSearchArr(){
         searchArr.splice(0,1); // 0번원소부터 1개를 삭제한다.
     }
-
     // 검색
     function searchInChatRoom() {
         $.ajax({
@@ -710,14 +706,13 @@
                 if (resp.length == 0) {
                     alert("검색결과가 없습니다.");
                     return;
-                // 검색결과가 하나라도 있을 때
+                    // 검색결과가 하나라도 있을 때
                 } else {
                     console.log("검색갯수 : " + resp.length);
                     console.log("검색결과 : "+resp);
-                    searchArr = resp
-                    before_searchContents = searchContents;
-
+                    searchArr = resp;
                 }
+                before_searchContents = searchContents;
             }
         });
     }

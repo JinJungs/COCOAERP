@@ -239,45 +239,6 @@
 	let showTeam = document.getElementById("showTeam");
 	let showChat = document.getElementById("showChat");
 	const textLength = 20;
-	/* 	========연락처 리스트 어느 항목 클릭중인지 알려고 함수를 뺐어요~
-	========문제없으면 이부분 삭제해도 될까요
-	showAll.onclick = function() {
-		memberAll.style.display="block";
-		memberDept.style.display="none";
-		memberTeam.style.display="none";
-		chatList.style.display="none";
-		chatTitle.innerHTML = "전체 연락처";
-		$("#myProfil").show();
-		$(".search").focus();
-	};
-	showDept.onclick = function() {
-		memberAll.style.display="none";
-		memberDept.style.display="block";
-		memberTeam.style.display="none";
-		chatList.style.display="none";
-		chatTitle.innerHTML = "부서원";
-		$("#myProfil").show();
-		$(".search").focus();
-	};
-	showTeam.onclick = function() {
-		memberAll.style.display="none";
-		memberDept.style.display="none";
-		memberTeam.style.display="block";
-		chatList.style.display="none";
-		chatTitle.innerHTML = "팀원";
-		$("#myProfil").show();
-		$(".search").focus();
-	};
-
-	showChat.onclick = function() {
-		memberAll.style.display="none";
-		memberDept.style.display="none";
-		memberTeam.style.display="none";
-		chatList.style.display="block";
-		chatTitle.innerHTML = "채팅방";
-		$("#myProfil").hide();
-		$(".search").focus();
-	}; */
 
 	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
 	function funcOnclickNow(onclickNow){
