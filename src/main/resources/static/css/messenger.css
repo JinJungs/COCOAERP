@@ -706,9 +706,11 @@ a{
 
 /* 이미지 다운로드 svg 색 */
 .svg_download{
-	filter: invert(94%) sepia(5%) saturate(606%) hue-rotate(210deg) brightness(97%) contrast(100%);
+	filter: invert(49%) sepia(2%) saturate(33%) hue-rotate(318deg) brightness(104%) contrast(84%);
 }
-
+.msgImg:hover{
+	cursor: pointer;
+}
 .form-check-input{
   position: static;
 }

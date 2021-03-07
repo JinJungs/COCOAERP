@@ -311,7 +311,6 @@
    }
 
    function fn_toFindPwbyFindId() {
-      tempEmail="";
       var getRadio = $("input[name=code]:checked").val();
       if (tempEmail != "" || getRadio != undefined) {
          $("#email_pw").val(tempEmail);

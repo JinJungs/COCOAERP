@@ -39,10 +39,10 @@
     <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
     <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 pt-5">
-        <h2 class="mb-4">완료된 문서</h2>
-        <hr>
+        <h2 class="mb-4" style="min-width: 900px;">완료된 문서</h2>
+        <hr style="min-width: 900px;">
         <form method="post" id="searchform">
-            <div class="search pb-2">
+            <div class="search pb-2" style="min-width: 900px;">
                 <div class="row">
                     <div class="col-2 col-md-2">저장일</div>
                     <div class="col-9">
@@ -61,7 +61,7 @@
                         <select class="selectTemplate" name=template id="templateSelect">
                             <option value=전체>전체</option>
                             <c:forEach var="i" items="${tempList}">
-                                <option value=${i.name}>${i.name}</option>
+                                <option value="${i.name}">${i.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -90,29 +90,29 @@
                 </div>
             </div>
         </form>
-        <hr>
-        <div class="documentList row text-center item p-2">
-            <div class="col-1 col-sm-2"><b>문서번호</b></div>
-            <div class="col-1 col-sm-2 d-none d-sm-block"><b>양식</b></div>
-            <div class="col-3 col-sm-2"><b>기안제목</b></div>
-            <div class="col-1 col-sm-2"><b>기안자</b></div>
-            <div class="col-1 col-sm-2"><b>상신일</b></div>
-            <div class="col-1 col-sm-2"><b>결재완료일</b></div>
+        <hr style="min-width: 900px;">
+        <div class="documentList row text-center item p-2" style="min-width: 900px;">
+            <div class="col-2 "><b>문서번호</b></div>
+            <div class="col-2  "><b>양식</b></div>
+            <div class="col-2 "><b>기안제목</b></div>
+            <div class="col-2 "><b>기안자</b></div>
+            <div class="col-2 "><b>상신일</b></div>
+            <div class="col-2 "><b>결재완료일</b></div>
         </div>
 
         <!-- 리스트 출력 부분 -->
 
 
         <div class="row  mt-0 p-0">
-            <div class="col-12 listcontainer p-0" id="listcontainer">
+            <div class="col-12 listcontainer p-0" id="listcontainer" style="min-width: 900px;">
                 <c:forEach var="list" items="${list}">
                     <div class="row text-center m-0 pt-2 pb-2" id="list_contents">
-                        <div class="col-1 col-sm-2 textBox">${list.seq}</div>
-                        <div class="col-1 col-sm-2 d-none d-sm-block textBox">${list.temp_name}</div>
-                        <div class="col-3 col-sm-2 textBox text-left pl-4" style="cursor: pointer" onclick="fn_toread(${list.seq})">${list.title}</div>
-                        <div class="col-1 col-sm-2 textBox">${list.emp_name } | ${list.dept_name}</div>
-                        <div class="col-1 col-sm-2 textBox">${list.write_date }</div>
-                        <div class="col-1 col-sm-2">${list.final_date}</div>
+                        <div class="col-2  textBox">${list.seq}</div>
+                        <div class="col-2  textBox">${list.temp_name}</div>
+                        <div class="col-2  textBox text-left pl-4" style="cursor: pointer" onclick="fn_toread(${list.seq})">${list.title}</div>
+                        <div class="col-2  textBox">${list.emp_name } | ${list.dept_name}</div>
+                        <div class="col-2  textBox">${list.write_date }</div>
+                        <div class="col-2 ">${list.final_date}</div>
                     </div>
                 </c:forEach>
             </div>
@@ -121,7 +121,7 @@
 
         <%--<a href="/document/toReadPage.document?seq=${list.seq }">--%>
 
-        <div class="row">
+        <div class="row" style="min-width: 900px;">
             <div class="navi col-12 text-center" id="navicontainer">${navi}</div>
         </div>
     </div>
@@ -228,19 +228,18 @@
             contentType:'application/json',
             dataType:"json",
             success: function (data) {
-                console.log(data);
+
                 $("#listcontainer").empty();
                 html="";
                 for(var i=0;i<data.length-1;i++){
                     html+="<div class='row text-center m-0 pt-2 pb-2'  id=\"list_contents\">";
-                    html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].seq+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 d-none d-sm-block textBox \">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-3 col-sm-2 textBox text-left pl-4\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].write_date+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].final_date+"</div>";
-                    html+="</div>";
-                    console.log(html);
+                    html+="<div class=\"col-2  textbox\">"+data[i].seq+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].temp_name+"</div>";
+                    html+="<div class=\"col-2  textBox text-left pl-4\" style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].write_date+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].final_date+"</div>";
+                    html+="</div>"
                 }
                 $("#listcontainer").html(html);
                 navi="";
@@ -309,12 +308,12 @@
                 html="";
                 for(var i=0;i<data.length-1;i++){
                     html+="<div class='row text-center m-0 pt-2 pb-2' id=\"list_contents\">";
-                    html+="<div class=\"col-1 col-sm-2 textbox\">"+data[i].seq+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 d-none d-sm-block textBox\">"+data[i].temp_name+"</div>";
-                    html+="<div class=\"col-3 col-sm-2 textBox text-left pl-4\"  style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].write_date+"</div>";
-                    html+="<div class=\"col-1 col-sm-2 textBox\">"+data[i].final_date+"</div>";
+                    html+="<div class=\"col-2  textbox\">"+data[i].seq+"</div>";
+                    html+="<div class=\"col-2   textBox\">"+data[i].temp_name+"</div>";
+                    html+="<div class=\"col-2  textBox text-left pl-4\"  style=cursor:pointer onclick=fn_toread("+data[i].seq+")>"+data[i].title+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].emp_name+" | "+data[i].dept_name+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].write_date+"</div>";
+                    html+="<div class=\"col-2  textBox\">"+data[i].final_date+"</div>";
                     html+="</div>";
                 }
                 $("#listcontainer").html(html);

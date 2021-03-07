@@ -94,8 +94,8 @@
 
                 </div>
 
-                <div class="row w-100" style="min-width: 1080px;min-height: 600px;" >
-                    <div class="col-3 p-4 " style="border: 1px solid #333; max-width: 400px;">
+                <div class="row w-100" style="min-width: 1080px;min-height: 650px; max-height: 650px;" >
+                    <div class="col-3 p-4 h-100" style="border: 1px solid #333; max-width: 400px; ">
                         <div class="row pb-3" style="border-bottom: 1px solid #333; ">
                             <div class="col-6  user-name" style="font-size: 18px;font-weight: bold" onclick="fn_getEmpInfo(${user.code})">${user.name} | ${user.posname}</div>
                             <div class="col-6 text-right" style="font-size: 14px;line-height: 28px;color:darkgrey">${user.deptname} | ${user.teamname}</div>
@@ -115,7 +115,7 @@
                             </c:forEach>
                         </form>
                     </div>
-                    <div class="col-9  r-container" style="max-height: 700px;min-height: 700px;">
+                    <div class="col-9 r-container" style="max-height: 650px;min-height: 650px;">
 
                     </div>
                 </div>
