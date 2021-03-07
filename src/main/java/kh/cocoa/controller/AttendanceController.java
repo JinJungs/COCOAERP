@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -113,8 +115,33 @@ public class AttendanceController {
     @RequestMapping("getListToNex")
     public NexacroResult getListToNex(){
         List<AtdChangeReqDTO> list = attenService.getReqListToNex();
+        List<HashMap> hmlist = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            HashMap<String,Object> hm = new HashMap();
+            hm.put("seq",list.get(i).getSeq());
+            hm.put("start_time",list.get(i).getStart_time());
+            hm.put("end_time",list.get(i).getEnd_time());
+            if(list.get(i).getContents()!=null) {
+                hm.put("contents", Configurator.getReXSSFilter(list.get(i).getContents()));
+            }else{
+                hm.put("contents","");
+            }
+            hm.put("status",list.get(i).getStatus());
+            hm.put("atd_seq",list.get(i).getAtd_seq());
+            hm.put("today",list.get(i).getToday());
+            hm.put("atd_status",list.get(i).getAtd_status());
+            hm.put("emp_code",list.get(i).getEmp_code());
+            hm.put("name",list.get(i).getName());
+            if(list.get(i).getComments()!=null) {
+                hm.put("comments", Configurator.getReXSSFilter(list.get(i).getComments()));
+            }else{
+                hm.put("comments","");
+            }
+            hm.put("overtime",list.get(i).getOvertime());
+            hmlist.add(hm);
+        }
         NexacroResult nr = new NexacroResult();
-        nr.addDataSet("out_ds",list);
+        nr.addDataSet("out_ds",hmlist);
         return nr;
     }
 

@@ -360,7 +360,6 @@
             data : {name: $("#search").val()},
             dataType :"json",
             success : function(data) {
-                console.log(data);
                 var emp = "";
                 for(var i=0;i<data.length;i++){
                     emp += "<div class='col-12 searchchild p-2' onclick=fn_clickTeamSearch(" + data[i].code + ")>";

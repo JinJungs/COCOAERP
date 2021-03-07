@@ -106,6 +106,7 @@ public class NexacroEmployeeController {
 		int resultModif = 0;
 		List<EmployeeDTO> addList = new ArrayList<>();	
 		List<EmployeeDTO> updateList = new ArrayList<>();
+		List<EmployeeDTO> updateWithdrawList = new ArrayList<>();
 		
         for (int i=0; i<size; i++) {
             Map<String,Object> emp = dataList.get(i);
@@ -121,7 +122,14 @@ public class NexacroEmployeeController {
             String withdraw = (String) emp.get("withdraw");
             int dept_code = (int)emp.get("dept_code");
             int pos_code = (int)emp.get("pos_code");
-            int team_code = (int)emp.get("team_code");
+            System.out.println("team_code 체크");
+            int team_code;
+            if(emp.get("team_code") != null) {
+            	team_code = (int)emp.get("team_code");
+            }else {
+            	team_code = 0;
+            }
+            System.out.println("team_code : "+team_code);
             //스트링으로 받은 날짜를 SQL Date형으로 바꾸기
             String s_hire_date = (String) emp.get("hire_date");
             Date hire_date = neservice.getSqlDate(s_hire_date);
@@ -135,15 +143,28 @@ public class NexacroEmployeeController {
    			   String password = pwEncoder.encode(phone);
    			   
                EmployeeDTO dto = new EmployeeDTO().builder().name(name).password(password).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).hire_date(hire_date).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
-               System.out.println(dto);
                addList.add(dto);
                
             }else if (rowType == DataSet.ROW_TYPE_UPDATED){
             	System.out.println("수정된 로우 : "+ emp);
             	int code = (int) emp.get("code");
-                EmployeeDTO dto = new EmployeeDTO().builder().code(code).name(name).phone(phone).office_phone(office_phone).address(address).email(email).b_email(b_email).gender(gender).hire_date(hire_date).withdraw(withdraw).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
-                System.out.println(dto);
-                updateList.add(dto);
+            	System.out.println("퇴사? "+withdraw);
+            	EmployeeDTO dto = new EmployeeDTO().builder().code(code).name(name).hire_date(hire_date).withdraw(withdraw).gender(gender).dept_code(dept_code).pos_code(pos_code).team_code(team_code).build();
+            	if(withdraw.contentEquals("Y")) {
+            		dto.setPhone("");
+            		dto.setOffice_phone("");
+            		dto.setAddress("");
+            		dto.setB_email("");
+            		dto.setEmail("");
+            		updateWithdrawList.add(dto);
+            	}else {
+            		dto.setPhone(phone);
+            		dto.setOffice_phone(office_phone);
+            		dto.setAddress(address);
+            		dto.setEmail(email);
+            		dto.setB_email(b_email);
+            		updateList.add(dto);
+            	}   
             }
         }
         if(addList.size()!=0) {
@@ -151,6 +172,9 @@ public class NexacroEmployeeController {
         }
         if(updateList.size()!=0) {
         	resultModif = eservice.updateEmployee(updateList);
+        }
+        if(updateWithdrawList.size()!=0) {
+        	eservice.updateWithdraw(updateWithdrawList);
         }
         //보낸 변수값은 넥사에서 어떻게 받지??
         nr.addVariable("resultAdd", resultAdd);

@@ -61,7 +61,7 @@ input[type=checkbox]{
       		</div>
       		<div class="row">
       			<div class="col text-right">
-    				<button type=button class="delBtn btn btn-primary">삭제</button>
+    				<button type=button class="delBtn btn btn-primary">영구삭제</button>
       			</div>
       		</div>
       		<script>

@@ -57,7 +57,7 @@
     </delete>
     
     <select id="countNoTeam" resultType="int">
-    	SELECT COUNT(*)FROM EMPLOYEE WHERE TEAM_CODE IS NULL AND DEPT_CODE = #{dept_code}
+    	SELECT COUNT(*)FROM EMPLOYEE WHERE TEAM_CODE IN (NULL, 0) AND DEPT_CODE = #{dept_code}
     </select>
     
     <!-- 소형 관리자 끝 -->
