@@ -11,6 +11,7 @@
 	<style>
 		.contents {
 			min-height: 400px;
+			word-break:break-all;
 		}
 		.box{
 			width: 140px;
