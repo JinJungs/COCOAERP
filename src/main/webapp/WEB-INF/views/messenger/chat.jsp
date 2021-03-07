@@ -70,10 +70,10 @@
             <div class="row w-100 m-0 p-0" id="searchContainer" style="display: none;">
                 <div class="d-flex bd-highlight w-100">
                     <input class="flex-grow-1 bd-highlight searchInput mr-2" id="searchContents" type="text" placeholder="검색 내용을 입력해주세요.">
-                    <div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
+                    <%--<div class="p-1" style="position: absolute; left: 280px; top:90px;"><i class="fas fa-chevron-up"></i>
                     </div>
                     <div class="p-1" style="position: absolute; left: 300px; top:90px;"><i class="fas fa-chevron-down"></i>
-                    </div>
+                    </div>--%>
                     <button type="button" class="bd-highlight btn btn-secondary btn-sm" id="searchBtn">검색</button>
                     <i class="fas fa-times ml-2 bd-highlight" style="line-height: 30px;"></i>
                 </div>
@@ -469,17 +469,6 @@
             .animate({scrollTop: $('#msg_card_body')[0].scrollHeight}, 500);
     }
 
-    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
-    function scrollMoveToSearch(seq) {
-        return new Promise((resolve, reject) => {
-            let element = document.getElementById("msg_card_body");
-            let location = document.querySelector("#msgDiv" + seq).offsetTop;
-            console.log("위치 : " + location);
-            element.scrollTo({top: location - 300, behavior: 'smooth'});
-            resolve(seq);
-        });
-    }
-
     // 스크롤이 제일 상단에 닿을 때 다음 cpage의 리스트 불러오기 함수 호출
     // 스크롤이 제일 하단에 닿을 때 hideAlertMessageBox
     $("#msg_card_body").scroll(function () {
@@ -614,14 +603,15 @@
     // 하이라이트
     let highlightArr = [];
     function highlightSearch(seq) {
-        if (searchContents) {
+        return new Promise((resolve, reject) => {
             let beforeText = document.getElementById("msg_container" + seq).innerHTML;
             let re = new RegExp(searchContents, "g"); // search for all instances
             let newText = beforeText.replace(re, "<mark>" + searchContents + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
             highlightArr.push([seq, searchContents, newText]);
             console.log(highlightArr);
-        }
+            resolve(seq);
+        })
     }
 
     // 검색어가 바뀌면 하이라이트된 내용을 원상복구
@@ -643,6 +633,18 @@
         }, 100);
     }
 
+    // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
+    function scrollMoveToSearch(seq) {
+        return new Promise((resolve, reject) => {
+            console.log("scorllMoveTOSearch : " + seq);
+            let element = document.getElementById("msg_card_body");
+            let location = document.querySelector("#msgDiv" + seq).offsetTop;
+            console.log("위치 : " + location);
+            element.scrollTo({top: location - 300, behavior: 'smooth'});
+            resolve(seq);
+        });
+    }
+
     /* 1.1. 비동기로 메세지 검색*/
     $("#searchBtn").on("click", searchOrFindNext);
     // 1.2. enter키 클릭시 메세지 검색 -> 한번만 그렇고 내용이 바뀔 때 엔터 이벤트가 실행되어야한다.
@@ -653,39 +655,55 @@
     });
 
     function searchOrFindNext(){
-        // 처음 검색하거나 검색어가 바뀌었을 때 searchInChatRoom
+        searchContents = $("#searchContents").val();
+        // 미입력 또는 공백 입력 방지
+        if (searchContents.replace(/\s|　/gi, "").length == 0) {
+            return;
+        }
+        // 처음 검색하거나 검색어가 바뀌었을 때 deHighlightBeforeSearch
         if(searchContents!==before_searchContents || (!searchContents && !before_searchContents)){
             deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
-            searchInChatRoom()
-                .then(scrollMoveToSearch)
-                .then(highlightSearch);
-        // 같은 검색어일 때는 다음 검색어로 넘어가야 한다.
-        }else{
-            findNextInChatRoom()
-                //.then(scrollMoveToSearch).then(highlightSearch);
+            searchInChatRoom();
         }
+        setTimeout(() => {
+            isMsgExistInCpage()
+                .then(scrollMoveToSearch)
+                .then(highlightSearch)
+                .then(delFromSearchArr);
+        },100);
     }
 
-    function findNextInChatRoom(){
-        console.log(before_searchContents);
-/*        if (index >= resp.length) {
-            return;
-        } else {
-            index += 1;
-            console.log("엔터키 입력후 index: " + index);
-            scrollMoveToSearch(resp[index].seq);
-            highlightSearch(resp[index].seq, searchContents);
-        }*/
+    let searchArr = []
+    function isMsgExistInCpage(){
+        return new Promise((resolve, reject) => {
+            // searchArr 이 비어있다면 return
+            if (!searchArr.length){
+                alert("마지막 검색 결과 입니다.");
+                return;
+            }else{
+                let seq = searchArr[0];
+                console.log('seq : ' + seq);
+                // 해당 seq의 div가 존재하면 seq를 resolve한다.
+                if($("#msgDiv"+seq).length){
+                    console.log("여기에 들어와? : " + seq);
+                    resolve(seq);
+                // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
+                }else{
+                    cpage +=1;
+                    moreList(cpage)
+                        .then(isMsgExistInCpage);
+                }
+            }
+        })
+    };
+
+    function delFromSearchArr(){
+        searchArr.splice(0,1); // 0번원소부터 1개를 삭제한다.
     }
 
     // 검색
     function searchInChatRoom() {
         return new Promise((resolve,reject)=>{
-            searchContents = $("#searchContents").val();
-            // 미입력 또는 공백 입력 방지
-            if (searchContents.replace(/\s|　/gi, "").length == 0) {
-                return;
-            }
             $.ajax({
                 url: "/message/searchMsgInChatRoom",
                 type: "post",
@@ -695,28 +713,18 @@
                 },
                 dataType: "json",
                 success: function (resp) {
-                    console.log("검색갯수 : " + resp.length);
+                    // 검색결과가 하나도 없을 때
                     if (resp.length == 0) {
                         alert("검색결과가 없습니다.");
                         return;
+                    // 검색결과가 하나라도 있을 때
                     } else {
-                        console.log(resp);
+                        console.log("검색갯수 : " + resp.length);
+                        console.log("검색결과 : "+resp);
+                        searchArr = resp
+                        // 현재 capge에 존재하는지를 검사
                         let index = 0;
-                        let seq = resp[index].seq; // message의 seq
-                        // 즉시실행함수
-                        // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                        // while문으로 해결이 가능할 것 같은데...
-                        (isMsgExistInMsgBox = () => {
-                            if (!$("#msgDiv" + seq).length) {
-                                cpage += 1;
-                                moreList(cpage);
-                                setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
-                                    isMsgExistInMsgBox();
-                                }, 100);
-                            } else {
-                                return;
-                            }
-                        })();
+                        let seq = resp[index] // message의 seq
                         before_searchContents = searchContents;
                         resolve(seq);
                     }
@@ -725,67 +733,6 @@
         })
     }
 
-    /*    function searchInChatRoom() {
-        searchContents = $("#searchContents").val();
-        // 미입력 또는 공백 입력 방지
-        if (searchContents.replace(/\s|　/gi, "").length == 0) {
-            return;
-        }
-        $.ajax({
-            url: "/message/searchMsgInChatRoom",
-            type: "post",
-            data: {
-                m_seq: m_seq,
-                contents: searchContents
-            },
-            dataType: "json",
-            success: function (resp) {
-                console.log("검색갯수 : " + resp.length);
-                deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
-                if (resp.length == 0) {
-                    alert("검색결과가 없습니다.");
-                    return;
-                } else {
-                    let index = 0;
-                    let seq = resp[index].seq; // message의 seq
-                    // 즉시실행함수
-                    // 해당 seq의 msgDiv가 없다면 새로 리스트를 불러와야한다.
-                    (isMsgExistInMsgBox = function () {
-                        if (!$("#msgDiv" + seq).length) {
-                            cpage += 1;
-                            moreList(cpage).then(scrollfixed);
-                            setTimeout(function () { //딜레이를 약간 주고 재귀함수로 다시 호출한다.
-                                isMsgExistInMsgBox();
-                            }, 100);
-                        } else {
-                            return;
-                        }
-                    })();
-
-                    setTimeout(function () {
-                        // (1) 스크롤 이벤트 실행
-                        scrollMoveToSearch(seq);
-                        // (2) 하이라이팅
-                        highlightSearch(seq, searchContents);
-                    }, 200);
-
-                    $("#searchContents").on("keydown", function (e) {
-                        if (e.keyCode == 13) {
-                            e.preventDefault(); // 기존의 엔터키에 걸린 이벤트를 무효화
-                            if (index >= resp.length) {
-                                return;
-                            } else {
-                                index += 1;
-                                console.log("엔터키 입력후 index: " + index);
-                                scrollMoveToSearch(resp[index].seq);
-                                highlightSearch(resp[index].seq, searchContents);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }*/
 
     //==========채팅방 정보 수정=============
 /*     function openModifChat(seq) {

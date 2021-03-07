@@ -19,7 +19,6 @@
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
 	<%-- 오늘 날짜 --%>
 	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowFormed" />
-	<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="nowDate" />
 	<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowDays" scope="request"/>
 	<!-- 전체 시작 -->
 	<div class="row m-0 h-100 whiteBg contactList_body">
@@ -216,7 +215,6 @@
 										</div>
 										<div class="con-date" id="con-date${i.seq}">
 											<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
-											<fmt:formatDate value="${i.write_date}" pattern="yyyyMMdd" var="formedDate"/>
 											<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
 											<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
 											<c:choose>
