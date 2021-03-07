@@ -217,7 +217,6 @@
                         let dividing_date = moment(data[i].write_date).format('YYYY년 M월 D일');
                         //공지타입 구분
                         let typeArr = (data[i].type).split("_");
-                        // console.log("typeArr : ",typeArr);
                         // 이전날짜와 오늘의 날짜가 다를 때만 날짜 구분 div를 보여줘야한다.
                         if(data[i].emp_code == ${loginDTO.code} && typeArr[0]!="AN") {
                             existMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv" + data[i].seq + "'>";
@@ -272,7 +271,6 @@
     //<------------------------------------- STOMP --------------------------------------->
 
     $(document).ready(function () {
-        console.log("${sssss}")
         // 스톰프 연결
         connectStomp();
         // 채팅입력창에 포커스
@@ -296,7 +294,6 @@
         if (!isStomp && socket.readyState !== 1) return;
 
         // (1) 메세지 소켓으로 전송
-        console.log("mmmmmmmmmmmm>>", msg)
         if (isStomp)
             socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
                 seq: ''
@@ -344,7 +341,6 @@
         socket = client;
 
         client.connect({}, function () {
-            console.log("Connected stompTest!");
             // 해당 토픽을 구독한다!
             client.subscribe('/topic/' +${seq}, function (e) {
                 let newMsg = "";
@@ -373,7 +369,6 @@
 
                 //공지일 때
                 let typeArr = type.split("_")
-                //console.log(typeArr);
 
                 // 채팅방 이름 변경시
                 if(roomname){
@@ -409,7 +404,6 @@
                     if (amIAtBottom) {
                         scrollUpdate();
                     } else {
-                        console.log(amIAtBottom);
                         showAlertMessageOnBottom(empname, msg);
                     }
                 }else{
@@ -474,7 +468,6 @@
         let amIAtBottom = (msgBox.height() <= $(this).height() + $(this).scrollTop());
         if (currentScrollTop == 0) {
             cpage += 1;
-            console.log("새로 리스트 불러오기!" + cpage);
             moreList(cpage).then(scrollfixed);
         }
         if (amIAtBottom){
@@ -494,13 +487,9 @@
             var savedName = "";
             //00. 파일 선택
             var fileInfo = document.querySelector("#file").files[0]; //form 안의 input type=file의 아이디
-            console.log("fileInfo", fileInfo);
-
             var mainForm = $("#mainForm")[0]; //form의 아이디
-            console.log("mainForm : ", mainForm);
             //멀티타입 파일
             var formData = new FormData(mainForm);
-            console.log("formData : ", formData)
 
             //f1. ajax로 파일 전송(RestMessengerController)
             $.ajax({
@@ -518,7 +507,6 @@
                     if (parseInt(result.resultF) > 0) {
                         //타입 구하기 (fileType 함수 이용)
                         var type = fileType(fileInfo.name);
-                        console.log(type)
                         //02. 메세지 전송 : contents = 파일 원본 이름으로 보낸다.
                         socket.send('/getChat/fileMessage/' +${seq}, {}, JSON.stringify({
                             seq: result.msg_seq
@@ -568,8 +556,6 @@
         var _fileLen = filename.length;
         var _lastDot = filename.lastIndexOf('.');
         var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
-        console.log("filename , 확장자명 : ");
-        console.log(filename + " : " + _fileExt);
         if (_fileExt == ".png" || _fileExt == ".jpg" || _fileExt == ".bmp" || _fileExt == ".gif" || _fileExt == ".tiff" || _fileExt == ".jpeg") {
             type = "IMAGE";
         } else {
@@ -590,8 +576,12 @@
     /* 메세지 검색 */
     /* 0. search 아이콘 클릭시 input 창 생성*/
     $(".fa-search").on("click", showSearchInput);
-    $(".fa-times").on("click", showSearchInput);
-    $(".fa-times").on("click", deHighlightBeforeSearch);
+    $(".fa-times").on("click", () => {
+        deHighlightBeforeSearch();
+        showSearchInput();
+        searchContents = "";
+        before_searchContents = "";
+    });
 
     function showSearchInput() {
         $("#searchContainer").toggle(200);
@@ -607,7 +597,6 @@
             let newText = beforeText.replace(re, "<mark>" + searchContents + "</mark>");
             document.getElementById("msg_container" + seq).innerHTML = newText;
             highlightArr.push([seq, searchContents, newText]);
-            console.log(highlightArr);
             resolve(seq);
         })
     }
@@ -635,10 +624,8 @@
     // 원하는 Div의 위치로 이동하기 (element의 id나 class만 알면된다)
     function scrollMoveToSearch(seq) {
         return new Promise((resolve, reject) => {
-            console.log("scorllMoveTOSearch : " + seq);
             let element = document.getElementById("msg_card_body");
             let location = document.querySelector("#msgDiv" + seq).offsetTop;
-            console.log("위치 : " + location);
             element.scrollTo({top: location - 300, behavior: 'smooth'});
             resolve(seq);
         })
@@ -674,7 +661,6 @@
             return;
         }else{
             let seq = searchArr[0];
-            console.log('seq : ' + seq);
             // 해당 seq의 div가 존재하면 seq를 resolve한다.
             if($("#msgDiv"+seq).length){
                 scrollMoveToSearch(seq)
@@ -708,8 +694,6 @@
                     return;
                     // 검색결과가 하나라도 있을 때
                 } else {
-                    console.log("검색갯수 : " + resp.length);
-                    console.log("검색결과 : "+resp);
                     searchArr = resp;
                 }
                 before_searchContents = searchContents;
@@ -725,8 +709,6 @@
        let name = document.getElementById("modifName").value;
        let emp_code = ${loginDTO.code};
        let empname = "${loginDTO.name}";
-       console.log("name : ",name);
-       console.log("emp_code : ", emp_code);
        if(name==""){
           alert("빈 값은 입력할 수 없습니다.");
           return;
@@ -789,13 +771,11 @@
     function getReturnValue(returnValue) {
        let seq = ${seq};
        let emp_code = ${loginDTO.code};
-       console.log(returnValue);
        let checkArr = returnValue;
        let empname = "${loginDTO.name}";
 
        //길이 알아내기 위해
         let checkArrParsed = JSON.parse(returnValue);
-       console.log("길이 : ", checkArrParsed.length);
        //!!!!!!!!!!요기서부터!!!!!!!!!!!!!!!!!!!
        //소켓에 쏴줄 때 컨텐츠에는 이름이 들어간 배열로 줄까
         $.ajax({
@@ -809,7 +789,6 @@
             dataType: "json",
             success: function (resp) {
                if(resp==checkArrParsed.length){
-                  console.log("소켓 보내기 직전")
                   socket.send('/getChat/announce/' +${seq}, {}, JSON.stringify({
                        m_seq: seq
                         , contents: checkArr

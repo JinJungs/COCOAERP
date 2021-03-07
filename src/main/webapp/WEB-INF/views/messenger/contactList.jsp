@@ -242,7 +242,6 @@
 
 	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
 	function funcOnclickNow(onclickNow){
-		console.log(onclickNow);
 		if(onclickNow == 'all'){
 			this.showAllClick();
 		}else if (onclickNow == 'dept'){
@@ -312,7 +311,6 @@
 		socket = client;
 
 		client.connect({}, function () {
-			console.log("ContactList stompTest!");
 			// 채팅방의 개수만큼 Stomp로 받아야한다.
 			<c:forEach var="i" items="${chatList}">
 				client.subscribe('/contact/' +${i.seq}, function (e) {
