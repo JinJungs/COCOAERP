@@ -136,6 +136,11 @@ public class SidebarController {
     @ResponseBody
     public String getSidebarStatus(){
         ArrayList<String> status= new ArrayList<>();
+        if(Configurator.restart==0){
+            session.removeAttribute("status");
+            Configurator.restart++;
+            return "";
+        }
         status = (ArrayList) session.getAttribute("status");
         JSONArray json = new JSONArray(status);
         return json.toString();

@@ -219,7 +219,9 @@
     }else{
         oma= omayear +"-"+omamonth+"-"+omadate;
     }
-    
+
+
+
 
 
     $( function() {
@@ -228,9 +230,9 @@
         fn_getAtdList();
 
         setTimeout(function reloadpage() {
-            setTimeout(reloadpage,60000);
-            console.log("리로드 테스트");
-        },60000)
+            setTimeout(reloadpage,30000);
+            fn_getAtdList();
+        },30000)
     });
 
     function fn_getlength() {
@@ -249,7 +251,6 @@
             data :{number:$("#select-number").val()},
             dataType:"json",
             success : function(data) {
-                console.log(data);
                 var html="";
                 for(var i=0;i<data.length;i++) {
                     var compDate=data[i].today.substr(0,8).replaceAll("-","");
@@ -280,6 +281,7 @@
                     if(data[i].comments!="-"){
                         html+="<td class='text-truncate' id='comments' style='max-width: 160px; cursor: pointer;' onclick='fn_openReqCommentModal("+data[i].seq+")'>"+data[i].comments+"</td>";
                     }else{
+
                         html+="<td class='text-truncate' style='max-width: 160px;'>"+data[i].comments+"</td>";
                     }
                     if(data[i].req_status == "미승인" || data[i].req_status == "승인"){
@@ -312,7 +314,6 @@
                 start_time:start_time,end_time:end_time},
             dataType:"json",
             success : function(data) {
-                console.log(data);
                 var html="";
                 for(var i=0;i<data.length;i++){
                     var compDate=data[i].today.substr(0,8).replaceAll("-","");
@@ -365,7 +366,6 @@
             data :{atd_seq:atd_seq},
             dataType:"json",
             success : function(data) {
-                console.log(data);
                 $("#modal-seq").val(atd_seq);
                 $("#btn_ok").text("변경 요청");
                 if(data!=false){
@@ -403,7 +403,6 @@
             data :{atd_seq:atd_seq},
             dataType:"json",
             success : function(data) {
-                console.log(data);
                 $("#btn_cancel").hide();
                 $("#btn_ok").text("재요청");
                 $("#modal-seq").val(atd_seq);
@@ -434,6 +433,92 @@
         });
 
     }
+
+  /*  function getReXSSFilter(value) {
+
+        value = value.replaceAll("&amp;", "&");
+
+        value = value.replaceAll("&#35;", "#");
+
+        value = value.replaceAll("&#59;", ";");
+
+
+
+        value = value.replaceAll("&#92;", "\\\\");
+
+
+
+        value = value.replaceAll("&lt;" , "<");
+
+        value = value.replaceAll("&gt;" , ">");
+
+        value = value.replaceAll("&#40;", "(");
+
+        value = value.replaceAll("&#41;", ")");
+
+        value = value.replaceAll("&#39;", "'");
+
+
+
+        value = value.replaceAll("&quot;", "\"");
+
+
+
+        value = value.replaceAll("&#36;" , "\\$");
+
+        value = value.replaceAll("&#42;" , "*");
+
+        value = value.replaceAll("&#43;" , "+");
+
+        value = value.replaceAll("&#124;", "|");
+
+
+
+        value = value.replaceAll("&#46;" , "\\.");
+
+        value = value.replaceAll("&#63;" , "\\?");
+
+        value = value.replaceAll("&#91;" , "\\[");
+
+        value = value.replaceAll("&#93;" , "\\]");
+
+        value = value.replaceAll("&#94;" , "\\^");
+
+        value = value.replaceAll("&#123;", "\\{");
+
+        value = value.replaceAll("&#125;", "\\}");
+
+
+
+        value = value.replaceAll("&#33;" , "!");
+
+        value = value.replaceAll("&#37;" , "%");
+
+        value = value.replaceAll("&#44;" , ",");
+
+        value = value.replaceAll("&#45;" , "-");
+
+        value = value.replaceAll("&#47;" , "/");
+
+        value = value.replaceAll("&#58;" , ":");
+
+        value = value.replaceAll("&#61;" , "=");
+
+        value = value.replaceAll("&#64;" , "@");
+
+        value = value.replaceAll("&#95;" , "_");
+
+        value = value.replaceAll("&#96;" , "`");
+
+        value = value.replaceAll("&#126;", "~");
+
+
+
+        return value;
+
+    }
+*/
+
 
     function fn_changeReq() {
         var seq= $("#modal-seq").val();
@@ -620,6 +705,7 @@
             }
         });
     }
+
 
 
 

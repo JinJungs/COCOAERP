@@ -461,7 +461,6 @@
                     },20)
                 }
                 if(d3==0&&d2!=0&&d1==0){
-                    console.log("팀");
                     for(var i=1;i<data.length;i=i+2){
                         for(var j=0;j<data[i].length;j++){
                             fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));
@@ -472,7 +471,6 @@
                     },20)
                 }
                 if(d3==0&&d2!=0&&d1!=0){
-                    console.log("둘다");
                     for(var i=1;i<data.length;i=i+2){
                         for(var j=0;j<data[i].length;j++){
                             fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));

@@ -77,7 +77,6 @@
             success: function (data){
 
                 // -------- 사용자의 정보를 띄워줌 --------
-                console.log("code: "+data[9].code);
                 let user_code = data[9].code;
                 let user_name = data[9].name;
                 let user_deptname = data[9].deptname;
@@ -95,7 +94,6 @@
                 // 업무일지, 전자결재, 일정관리, 근태현황, 전자우편, 커뮤니티, 개인정보, 조직도, 버그리포팅
                 for(let j=0; j<9; j++){
                     if(data[j].length==0){
-                        console.log("없음!!: "+j);
                         countSidebarMenu -=1;
                     }else{
                         if(!data[j][0].mid_name){ //mid_name이 없는 경우 - 조직도, 버그리포팅
@@ -134,8 +132,8 @@
                                     isAllDocExist = true;
                                 }
                             }
-                            console.log("기안함 인덱스 : "+draftIndex);
-                            console.log("결재함 인덱스 : "+approveIndex);
+
+
                             <!-- 기안함 -->
                             if(isDraftBoxExist){
                                 html += "<li><a id=Docu2 href='#Document2' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'  onclick=fn_clickDropBox(this)>";
@@ -176,7 +174,6 @@
                             html += data[j][0].menu_name+"</a>";
                             html += "<ul class='collapse list-unstyled' id='sidebarMenuNum_"+j+"'>";
                             for(let i=0; i<data[j].length; i++){
-                                //console.log("보드메뉴 : " +data[j][i].board_menu_seq);
                                 html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+",\""+data[j][i].type+"\",\""+data[j][i].mid_name+"\");'>"+data[j][i].mid_name+"</a></li>";
                             }
                             html += "</ul>";
@@ -227,10 +224,10 @@
 
     // 1~33까지 code번호를 받아서 location.href= 각 페이지로 이동한다.
     function side_findLocation(code, board_menu_seq, type,mid_name){
-        console.log("코드 : " +code);
-        console.log("보드 메뉴 시퀀스 : " +board_menu_seq);
-        console.log("보드 타입 : " +type);
-        console.log("이름 : " +mid_name);
+
+
+
+
 
         // 1. 업무일지
         if(code==1){

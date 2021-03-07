@@ -1,7 +1,7 @@
 package kh.cocoa.statics;
 
 public class Configurator {
-	public static int test =0;
+	public static int restart =0;
 	public static int recordCountPerPage = 10;
 	public static int recordCountPerPageM = 5;
 	public static int naviCountPerPage = 10;

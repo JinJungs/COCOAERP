@@ -165,7 +165,7 @@
                                                     <b>전화 번호</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100 mod-input" maxlength="30" name=phone type="text" value="${user.phone}">
+                                                    <input class="w-100 mod-input" maxlength="30" name=phone type="text" value="${user.phone}" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="row p-2">
@@ -173,7 +173,7 @@
                                                     <b>내선 번호</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100 mod-input" maxlength="30" name=office_phone type="text" value="${user.office_phone}">
+                                                    <input class="w-100 mod-input" maxlength="30" name=office_phone type="text" value="${user.office_phone}" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="row p-2">
@@ -181,7 +181,7 @@
                                                     <b>이메일</b> <b data-bs-toggle="tooltip" data-bs-placement="top" title="비밀번호 찾기시 필요한 사항입니다. 사용중인 이메일을 입력해주세요."><img class="mb-3" id="tipicon" src="/icon/info-circle.svg" style="cursor: pointer"></b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100  mod-input" maxlength="50" name=email type="text" value="${user.email}">
+                                                    <input class="w-100  mod-input" maxlength="50" name=email type="text" value="${user.email}" autocomplete="off">
                                                 </div>
                                             </div>
 
@@ -190,10 +190,10 @@
                                                     <b>주소</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100  mod-input" maxlength="100" name=address type="text" id="emp-address" value="${user.address}">
+                                                    <input class="w-100  mod-input" maxlength="100" name=address type="text" id="emp-address" value="${user.address}" autocomplete="off">
                                                 </div>
                                                 <div class="col-3 p-0">
-                                                    <input type="button" class="btn btn-outline-dark btn-sm" onclick="btn_findAddress()" value="우편번호 찾기">
+                                                    <input type="button" class="btn btn-outline-dark btn-sm" onclick="btn_findAddress()" value="우편번호 찾기" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="row p-2">
@@ -385,7 +385,6 @@
             url : "/membership/checkPw",
             data :{pw: currentPw},
             success : function(data) {
-                console.log(data);
                 if(data==1){
                     $("#current-pw-msg").text("");
                     $("#current-pw-msg").css("color","blue");
@@ -527,7 +526,6 @@
             url : "/membership/checkPw",
             data :{pw: pw},
             success : function(data) {
-                console.log(data);
                 if(data!=1){
                     $("#pw-msg").text("비밀번호가 일치하지않습니다.");
                     $("#pw-msg").css("color","red");
@@ -555,7 +553,6 @@
     }
 
     function fn_modInfoAjax(){
-        console.log("도착?");
         $.ajax({
             type : "POST",
             url : "/membership/modInfoAjax",

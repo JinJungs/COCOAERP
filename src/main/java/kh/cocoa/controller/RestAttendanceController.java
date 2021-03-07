@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -144,6 +146,7 @@ public class RestAttendanceController {
     public String getAtdList(String number){
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         List<AttendanceDTO> atdList = attendanceService.getAttendanceList2(loginSession.getCode(),number);
+
         JSONArray json = new JSONArray(atdList);
         return json.toString();
     }
@@ -157,6 +160,7 @@ public class RestAttendanceController {
         int parse_end_time = Integer.parseInt(end_time.replaceAll("-",""));
         parse_end_time++;
         List<AttendanceDTO> getSearchAtd = attendanceService.getSearchAtd(loginSession.getCode(),number,search,start_time,parse_end_time);
+
         JSONArray json = new JSONArray(getSearchAtd);
         return json.toString();
     }
