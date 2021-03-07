@@ -781,16 +781,6 @@
     	   //부모창 리로드해주고 머물던 항목에 있었으면 좋겠는데...
     	   window.open('chat'+seq,'_self').close();
        }else{
-    	   //부모창 테스트 = 값받아서 함수호출은 가능하나 리로드하면 안됨 
-    	   //의진씨랑 보고 해결안되면 패스==========================삭제해야할 곳!
-    	   let onclickNow = window.opener.document.getElementById("onclickNow").value;
-    	   console.log(onclickNow);
-    	   opener.location.reload();
-			//시간 지연해줘도 안됨
-    	   setTimeout(function() {
-    		   opener.funcOnclickNow(onclickNow);
-    		 }, 3000);
-    	   //의진씨랑 보고 해결안되면 패스==========================삭제해야할 곳!
     	   return;
        }
     }

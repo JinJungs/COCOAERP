@@ -60,7 +60,6 @@ public class NexacroDeptTeamController {
 				dto.setLevel(0);
 			}
 			org_list.add(dto);
-			System.out.println(i+" 번째 부서 dto : "+dto);
 			
 			List<TeamDTO> t_list = tservice.getTeamListByDeptCode(dept_code);
 			for(TeamDTO j : t_list) {
@@ -70,7 +69,6 @@ public class NexacroDeptTeamController {
 				dtoj.setP_org_cd(dept_code);
 				dtoj.setLevel(2);
 				org_list.add(dtoj);
-				System.out.println(i+"번째 부서의 팀 dtoj : "+dtoj);
 			}
 			//무소속 팀
 			if(tservice.countNoTeam(dept_code)>0 && i.getCode()!=0) {
@@ -80,20 +78,26 @@ public class NexacroDeptTeamController {
 				dtoNone.setP_org_cd(dept_code);
 				dtoNone.setLevel(2);
 				org_list.add(dtoNone);
-				System.out.println(i+"번째 부서의 무소속 : "+dtoNone);
 			}
 		}
 		//사원 전체 불러오기
 		List<EmployeeDTO> emp_list = eservice.getAllEmployeeOrderByCode();
+		for(EmployeeDTO dto : emp_list) {
+			if(dto.getTeam_code() > 0) {
+				
+			}else {
+				dto.setTeam_code(-1);
+			}
+		}
 		nr.addDataSet("out_emp_list", emp_list);
 		nr.addDataSet("out_org_list", org_list);
+		System.out.println(org_list);
 		return nr;
 	}
 	
 	//저장하기
 	@RequestMapping("saveOrgan.nex")
 	public NexacroResult saveOrgan(@ParamDataSet(name="in_ds_org") List<Map<String,Object>> dataList) {
-		System.out.println(dataList);
         int size = dataList.size();
         
         List<DepartmentsDTO> dAddList = new ArrayList<>();
@@ -111,7 +115,7 @@ public class NexacroDeptTeamController {
             int level = (int)emp.get("level");
             int org_cd; 
             int p_org_cd;
-            if((int)emp.get("p_org_cd")!= 0) {
+            if(emp.get("p_org_cd") != null) {
             	p_org_cd = (int)emp.get("p_org_cd");
             }else{
             	p_org_cd = 0;
