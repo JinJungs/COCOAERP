@@ -256,5 +256,16 @@ public class EmployeeController {
         return nr;
     }
 
+    @RequestMapping("/getEmpInfoNex")
+    public NexacroResult getEmpInfoNex(){
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = loginDTO.getCode();
+        EmployeeDTO getInfo = eservice.getEmpInfo(empCode);
+        NexacroResult nr = new NexacroResult();
+        nr.addDataSet("out_ds",getInfo);
+        return nr;
+    }
+
+
 
 }
