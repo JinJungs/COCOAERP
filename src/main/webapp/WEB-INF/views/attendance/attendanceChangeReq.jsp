@@ -85,8 +85,8 @@
 </div>
 
 <div class="modal fade " id="reqModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" >
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 500px;">
+        <div class="modal-content" style="min-width: 500px;">
             <div class="modal-header border-bottom-0 p-0 pt-2 pr-2">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -94,8 +94,8 @@
 
             </div>
             <form id="modal-form">
-                <div class="modal-body">
-                    <div class="container">
+                <div class="modal-body" >
+                    <div class="container"  style="min-width: 500px;">
                         <div class="row p-2" >
                             <div class="col-12">
                                 <b>출근 시간 변경</b>
@@ -140,7 +140,7 @@
                         </div>
                         <div class="row  p-2">
                             <div class="col-3">사유</div>
-                            <div class="col-8" ><textarea class="w-100" name="contents" id="modal-contents" style="min-height: 150px; max-height: 150px;"></textarea></div>
+                            <div class="col-8"><textarea class="w-100" name="contents" id="modal-contents" style="min-width:210px; min-height: 150px; max-height: 150px;" oninput="fn_getlength()" maxlength="100"></textarea></div>
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,14 @@
         fn_getAtdList();
     });
 
-
+    function fn_getlength() {
+        var count = $("#modal-contents").val().length;
+        var maxleng = $("#modal-contents").attr("maxlangth");
+        if(count>maxleng){
+            $("#modal-contents").val().substr(0,maxleng);
+            count = $("#modal-contents").val().length;
+        }
+    }
 
     function fn_getAtdList(){
         $.ajax({

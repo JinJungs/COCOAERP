@@ -386,8 +386,8 @@
 				<b id="workMsg" style="white-space:normal;"></b>
 			</div>
 			<div class="modal-footer border-top-0">
-				<button type="button" class="btn btn-primary btn-sm" id="btn_ok" data-dismiss="modal" onclick="fn_in()">네</button>
-				<button type="button" class="btn btn-dark btn-sm" data-dismiss="modal" >아니오</button>
+				<button type="button" class="btn btn-outline-primary btn-sm" id="btn_ok" data-dismiss="modal" onclick="fn_in()">네</button>
+				<button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal" >아니오</button>
 			</div>
 		</div>
 	</div>
