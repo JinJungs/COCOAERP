@@ -1,20 +1,19 @@
 package kh.cocoa.controller;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.MessageDTO;
 import kh.cocoa.dto.MessengerPartyDTO;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.MessageService;
 import kh.cocoa.service.MessengerPartyService;
+import kh.cocoa.statics.Configurator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class StompController {
@@ -39,6 +38,8 @@ public class StompController {
 	@MessageMapping("/getChat/text/{seq}")
 	//@SendTo("/topic/message")
 	public void getChatText(MessageDTO message, String savedname) throws Exception {
+		// XSS 필터
+		message.setContents(Configurator.XssReplace(message.getContents()));
 		//01. 스톰프 메세지 전송
 		messagingTemplate.convertAndSend("/topic/" + message.getM_seq(), message);
 		//02. 스톰프 메세지 연락처로 전송
@@ -50,7 +51,8 @@ public class StompController {
 	@MessageMapping("/getChat/fileMessage/{seq}")
 	public void getChatFile(MessageDTO message) throws Exception {
 		System.out.println("스톰프 파일전송 메제시 컨트롤러 도착!");
-
+		// XSS 필터
+		message.setContents(Configurator.XssReplace(message.getContents()));
 		//01. 미리 받은 시퀀스로 FILE 혹은 IMAGE 타입의 메세지 저장
 		int result = msgservice.insertMessageGotSeq(message);
 
@@ -64,6 +66,8 @@ public class StompController {
 	public void getChatAnnounce(MessageDTO message) throws Exception {
 		System.out.println("스톰프 공지 메제시 컨트롤러 도착!");
 		System.out.println("스톰프컨트롤러 MessageDTO : "+message);
+		// XSS 필터
+		message.setContents(Configurator.XssReplace(message.getContents()));
 		//담아온 내용과 조합해 안내문구로 쏠 문장
 		String announce;
 		

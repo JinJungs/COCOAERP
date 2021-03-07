@@ -2,6 +2,7 @@ package kh.cocoa.controller;
 
 import kh.cocoa.dto.*;
 import kh.cocoa.service.*;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class MessengerController {
             String type = chatList.get(i).getType();
             String profile = fservice.getChatProfile(empcode,type);
             chatList.get(i).setProfile(profile);
+            chatList.get(i).setContents(Configurator.getReXSSFilter(chatList.get(i).getContents()));
         }
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("chatList", chatList);
@@ -110,6 +112,8 @@ public class MessengerController {
         }
         // 채팅방 사진 불러오기
         String chatProfile = fservice.getChatProfile(code,messenger.getType());
+        // XSS 처리 - messenger.name / partyDTO.empname / partyDTO.deptname / partyDTO.teamname
+
         //messenger : 해당 시퀀스의 메신저 테이블 정보
         model.addAttribute("messenger", messenger);
         model.addAttribute("seq", seq); //??messenger에 담는걸로 수정??
@@ -362,8 +366,6 @@ public class MessengerController {
             String profile = fservice.getProfile(memberList.get(i).getCode());
             memberList.get(i).setProfile(profile);
         }
-
-        // 나중에 이중for문으로 정리하기
         // jArrayMember에 memberList 넣기
         for (int i = 0; i < memberList.size(); i++) {
             param = new HashMap<>();
@@ -397,6 +399,7 @@ public class MessengerController {
     }
     
     //멤버 추가를 위한 리스트 열기
+    //XSS 처리?
     @RequestMapping("openMemberList")
     public String openMemberList(Model model, int seq) {
     	System.out.println("openMemberList 도착 ㅣ seq : "+seq);
@@ -416,7 +419,8 @@ public class MessengerController {
     public int modifChatName(MessengerDTO messenger) {
     	System.out.println("ModifChatName 도착!!");
     	System.out.println("messengerDTO : "+messenger);
-    	int result = mservice.updateName(messenger.getSeq(), messenger.getName());
+        System.out.println("채팅방 이름 변경 xss : " + Configurator.XssReplace(messenger.getName()));
+    	int result = mservice.updateName(messenger.getSeq(), Configurator.XssReplace(messenger.getName()));
     	return result;
     }
 
@@ -467,7 +471,6 @@ public class MessengerController {
     	}
     	int insertMemResult = mpservice.setMessengerMember(list);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
-
 
     	return insertMemResult;
     }
