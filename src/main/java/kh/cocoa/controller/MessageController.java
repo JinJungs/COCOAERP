@@ -7,6 +7,7 @@ import kh.cocoa.dto.MessageDTO;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.MessageService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class MessageController {
     	
     	//메세지 타입이 TEXT 인지 FILE 이나 IMAGE인지에 따라
     	if(msgdto.getType().contentEquals("TEXT")) {
+    	    msgdto.setContents(Configurator.XssReplace(msgdto.getContents()));
     		result = msgservice.insertMessage(msgdto); //의진씨한테 확인받기 (원래 코드)
     	}
         JsonObject obj = new JsonObject();
@@ -65,20 +67,19 @@ public class MessageController {
         	String contents = list.get(i).getContents();
         	//AN_ADD 사람 추가 메세지는 코드로된 메세지 내용을 이름으로 바꿔서 보내준다.
         	if(type.contentEquals("AN_ADD")) {
-        		String partyListEdited = contents.substring(1, contents.length()-1);
-            	String[] partyListArr = partyListEdited.split(",");
-            	contents = "";
-            	for(String party : partyListArr) {
-            		int addedCode = Integer.parseInt(party);
-            		if(contents.isEmpty()) {
-            			contents += eservice.getEmpNameByCode(addedCode);
-            		}else {
-            			contents += " ,";
-            			contents += eservice.getEmpNameByCode(addedCode);
-            		}
-            	}
-        	}
-        	        	
+                String partyListEdited = contents.substring(1, contents.length() - 1);
+                String[] partyListArr = partyListEdited.split(",");
+                contents = "";
+                for (String party : partyListArr) {
+                    int addedCode = Integer.parseInt(party);
+                    if (contents.isEmpty()) {
+                        contents += eservice.getEmpNameByCode(addedCode);
+                    } else {
+                        contents += " ,";
+                        contents += eservice.getEmpNameByCode(addedCode);
+                    }
+                }
+            }
             param.put("seq",list.get(i).getSeq());
             param.put("contents", contents);
             param.put("emp_code",list.get(i).getEmp_code());
@@ -111,7 +112,6 @@ public class MessageController {
         }
         return jArray.toString();
     }
-    
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {
