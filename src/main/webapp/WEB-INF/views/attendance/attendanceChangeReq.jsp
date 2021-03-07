@@ -395,6 +395,7 @@
         });
     }
 
+
     function fn_openIsReqModal(atd_seq,today){
         $.ajax({
             type : "POST",
@@ -414,7 +415,7 @@
                 $("#endTime").val(parseInt(start_time[1]));
                 $("#startTime2").val(parseInt(end_time[0]));
                 $("#endTime2").val(parseInt(end_time[1]));
-                $("#modal-contents").val((data.contents));
+                $("#modal-contents").val(data.contents);
                 $("#reqModal").modal();
             }
         });

@@ -132,6 +132,7 @@ public class RestAttendanceController {
     @RequestMapping("/getReqInfo")
     public String getReqInfo(int atd_seq){
         AtdChangeReqDTO isReq =attendanceService.isReq(atd_seq);
+        isReq.setContents(Configurator.getReXSSFilter(isReq.getContents()));
         if(isReq!=null){
             JSONObject json = new JSONObject(isReq);
             return json.toString();
@@ -198,6 +199,7 @@ public class RestAttendanceController {
     @RequestMapping("/getIsReqInfo")
     public String getIsReqInfo(int atd_seq){
         AtdChangeReqDTO getIsReqInfo=attendanceService.getIsReqInfo(atd_seq);
+        getIsReqInfo.setComments(Configurator.getReXSSFilter(getIsReqInfo.getComments()));
         JSONObject json = new JSONObject(getIsReqInfo);
         return json.toString();
     }
