@@ -86,7 +86,6 @@ public class MessageController {
             param.put("type",type);
             param.put("savedname",list.get(i).getSavedname());
             param.put("empname",list.get(i).getEmpname());
-            
 
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
             FilesDTO getProfile = fservice.findBeforeProfile(list.get(i).getEmp_code());

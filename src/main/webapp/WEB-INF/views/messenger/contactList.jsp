@@ -213,21 +213,28 @@
 												</c:choose>
 											</p>
 										</div>
-										<div class="con-date" id="con-date${i.seq}">
-											<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
-											<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
-											<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
-											<c:choose>
-												<c:when test="${nowFormed==formed}">
-													${formedTime}
-												</c:when>
-												<c:when test="${nowDays-formedDays==1}">
-													어제
-												</c:when>
-												<c:otherwise>
-													${formed}
-												</c:otherwise>
-											</c:choose>
+										<div class="con-rightMenu">
+											<div class="con-date" id="con-date${i.seq}">
+												<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
+												<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
+												<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
+												<c:choose>
+													<c:when test="${nowFormed==formed}">
+														${formedTime}
+													</c:when>
+													<c:when test="${nowDays-formedDays==1}">
+														어제
+													</c:when>
+													<c:otherwise>
+														${formed}
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="con-msgCount-box m-0 pt-2 p-0">
+												<div class="con-msgCount ml-auto p-0" id="con-msgCount${i.seq}">
+													12
+												</div>
+											</div>
 										</div>
 									</div>
 								</li>
@@ -297,7 +304,8 @@
 	};
 
 	// 연락처리스트 소켓으로 메세지받기
-	//스톰프 연결
+	// 스톰프 연결
+	let msgCount = 0;
 	function connectStomp() {
 		var sock = new SockJS("/stompTest"); // endpoint
 		var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프

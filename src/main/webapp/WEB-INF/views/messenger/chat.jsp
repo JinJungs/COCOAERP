@@ -624,11 +624,12 @@
         }
         // 초기화
         highlightArr = [];
+        searchArr = [];
     }
 
     // 띠용
     function animateMessage(seq) {
-        $("#msgDiv" + seq).animate({
+        $("#msgDiv"+seq).animate({
             animation: 'motion 0.3s linear 0s 4 alternate',
         }, 100);
     }
@@ -642,7 +643,7 @@
             console.log("위치 : " + location);
             element.scrollTo({top: location - 300, behavior: 'smooth'});
             resolve(seq);
-        });
+        })
     }
 
     /* 1.1. 비동기로 메세지 검색*/
@@ -666,35 +667,30 @@
             searchInChatRoom();
         }
         setTimeout(() => {
-            isMsgExistInCpage()
-                .then(scrollMoveToSearch)
-                .then(highlightSearch)
-                .then(delFromSearchArr);
+            isMsgExistInCpage();
         },100);
     }
 
     let searchArr = []
     function isMsgExistInCpage(){
-        return new Promise((resolve, reject) => {
-            // searchArr 이 비어있다면 return
-            if (!searchArr.length){
-                alert("마지막 검색 결과 입니다.");
-                return;
+        if (!searchArr.length){
+            alert("마지막 검색 결과 입니다.");
+            return;
+        }else{
+            let seq = searchArr[0];
+            console.log('seq : ' + seq);
+            // 해당 seq의 div가 존재하면 seq를 resolve한다.
+            if($("#msgDiv"+seq).length){
+                scrollMoveToSearch(seq)
+                    .then(highlightSearch)
+                    .then(delFromSearchArr);
+            // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
             }else{
-                let seq = searchArr[0];
-                console.log('seq : ' + seq);
-                // 해당 seq의 div가 존재하면 seq를 resolve한다.
-                if($("#msgDiv"+seq).length){
-                    console.log("여기에 들어와? : " + seq);
-                    resolve(seq);
-                // 해당 seq의 div가 존재하지 않으면 moreList 후 다시 isMsgExisInCpage호출
-                }else{
-                    cpage +=1;
-                    moreList(cpage)
-                        .then(isMsgExistInCpage);
-                }
+                cpage +=1;
+                moreList(cpage)
+                    .then(isMsgExistInCpage);
             }
-        })
+        }
     };
 
     function delFromSearchArr(){
@@ -703,34 +699,29 @@
 
     // 검색
     function searchInChatRoom() {
-        return new Promise((resolve,reject)=>{
-            $.ajax({
-                url: "/message/searchMsgInChatRoom",
-                type: "post",
-                data: {
-                    m_seq: m_seq,
-                    contents: searchContents
-                },
-                dataType: "json",
-                success: function (resp) {
-                    // 검색결과가 하나도 없을 때
-                    if (resp.length == 0) {
-                        alert("검색결과가 없습니다.");
-                        return;
-                    // 검색결과가 하나라도 있을 때
-                    } else {
-                        console.log("검색갯수 : " + resp.length);
-                        console.log("검색결과 : "+resp);
-                        searchArr = resp
-                        // 현재 capge에 존재하는지를 검사
-                        let index = 0;
-                        let seq = resp[index] // message의 seq
-                        before_searchContents = searchContents;
-                        resolve(seq);
-                    }
+        $.ajax({
+            url: "/message/searchMsgInChatRoom",
+            type: "post",
+            data: {
+                m_seq: m_seq,
+                contents: searchContents
+            },
+            dataType: "json",
+            success: function (resp) {
+                // 검색결과가 하나도 없을 때
+                if (resp.length == 0) {
+                    alert("검색결과가 없습니다.");
+                    return;
+                // 검색결과가 하나라도 있을 때
+                } else {
+                    console.log("검색갯수 : " + resp.length);
+                    console.log("검색결과 : "+resp);
+                    searchArr = resp
+                    before_searchContents = searchContents;
+
                 }
-            });
-        })
+            }
+        });
     }
 
 

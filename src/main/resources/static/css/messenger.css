@@ -489,11 +489,25 @@ background-color: #c23616;
   display:block;
   max-width: 150px;
 }
-.con-date{
-  margin-top: 8px;
-  font-size: 12px;
+.con-rightMenu{
   margin-left: auto;
+  margin-top: 8px;
+}
+.con-date{
+  font-size: 12px;
   color: var(--text-color-medium);
+}
+.con-msgCount{
+  border-radius: 50%;
+  background-color: #ff5442;
+  color: white;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  font-width: bold;
+  text-align: center;
+  line-height: 18px;
+  display: none;
 }
 .con-message{
   text-overflow: ellipsis;
