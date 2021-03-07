@@ -196,6 +196,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getAllEmpCode();
 	}
 
+	@Override
+	public List<EmployeeDTO> getAllMWEmpCode() {
+		return edao.getAllMWEmpCode();
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override

@@ -58,11 +58,9 @@ public class CommentListController {
 		int writer_code = (Integer)loginDTO.getCode();
 		//로그인한 정보의 code를 board DTO writer_code에 넣어주기
 		dto.setWriter_code(writer_code);
-		System.out.println("동일한 사람?"+writer_code);
 		
 		JSONArray jArray = new JSONArray();
 		List<CommentListDTO> list = cservice.noBoardWriteCommentList(seq);
-		System.out.println("댓글 list : "+list);
 		
 		//int checkWriter =0;
 		// list를 JsonArray로 바꾼다.
@@ -86,7 +84,6 @@ public class CommentListController {
 			jArray.put(param);
 		//댓글 수 확인
 		int noBoardCommentCount = cservice.noBoardCommentCount(seq);
-		System.out.println("해당 게시글에 댓글 수는? "+noBoardCommentCount);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("writer_code",writer_code);
@@ -98,7 +95,6 @@ public class CommentListController {
 	//댓글 삭제
 	@RequestMapping("noBoardDeleteComment.co")
 	public String noBoardDeleteComment(int seq) {
-		System.out.println("댓글 삭제 컨트롤러 도착");
 		int result = cservice.noBoardDeleteComment(seq);
 		JsonObject obj = new JsonObject();
 		obj.addProperty("result", result);
@@ -108,7 +104,6 @@ public class CommentListController {
 	//댓글 수정
 	@RequestMapping("noBoardUpdateComment.co")
 	public String noBoardUpdateComment(CommentListDTO dto,String modify_contents) {
-		System.out.println("댓글수정 도착!");
 		System.out.println(modify_contents);
 		
 		int result = cservice.noBoardUpdateComment(dto);

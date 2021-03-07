@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>kh.cocoa.controller.MessengerController</OriginalElement>
+  <nodes>
+    <node x="493.5" y="1471.0">kh.cocoa.controller.NexacroEmployeeController</node>
+    <node x="2103.9940476190477" y="1482.5">kh.cocoa.controller.StompController</node>
+    <node x="197.0" y="1686.0">kh.cocoa.config.SbpWebSocketMessageBrokerConfig</node>
+    <node x="4466.475641151777" y="276.0">kh.cocoa.dto.MessengerDTO</node>
+    <node x="1261.5357142857142" y="1505.5">kh.cocoa.controller.EmployeeController</node>
+    <node x="2989.475641151778" y="161.0">kh.cocoa.dto.MessageViewDTO</node>
+    <node x="35.0" y="276.0">kh.cocoa.dto.DepartmentsDTO</node>
+    <node x="1607.9464285714284" y="1505.5">kh.cocoa.controller.MessageController</node>
+    <node x="3600.475641151778" y="276.0">kh.cocoa.dto.MessengerPartyDTO</node>
+    <node x="898.8967250972935" y="1097.0">org.springframework.web.bind.annotation.RequestMapping</node>
+    <node x="2916.547572040754" y="871.5">kh.cocoa.dao.MessageDAO</node>
+    <node x="1078.8967250972935" y="1097.0">org.springframework.stereotype.Controller</node>
+    <node x="102.5" y="871.5">kh.cocoa.dao.DepartmentsDAO</node>
+    <node x="305.5" y="871.5">kh.cocoa.dao.TeamDAO</node>
+    <node x="2557.475641151778" y="207.0">kh.cocoa.dto.FilesMsgDTO</node>
+    <node x="512.9749999999999" y="287.5">kh.cocoa.dto.PositionDTO</node>
+    <node x="3847.475641151778" y="172.5">kh.cocoa.dto.MessengerViewDTO</node>
+    <node x="785.4756411517778" y="0.0">kh.cocoa.dto.EmployeeDTO</node>
+    <node x="315.5" y="1084.5">kh.cocoa.service.TeamService</node>
+    <node x="1756.4756411517778" y="207.0">kh.cocoa.dto.FilesDTO</node>
+    <node x="295.0" y="264.5">kh.cocoa.dto.TeamDTO</node>
+    <node x="4316.431547619048" y="1084.5">kh.cocoa.service.MessengerService</node>
+    <node x="1319.1265974135297" y="1073.0">kh.cocoa.service.EmployeeService</node>
+    <node x="3627.475641151778" y="871.5">kh.cocoa.dao.MessengerPartyDAO</node>
+    <node x="2307.2471331278157" y="790.0">kh.cocoa.statics.Configurator</node>
+    <node x="795.5736991123349" y="1528.5">kh.cocoa.controller.NexacroPosController</node>
+    <node x="533.5" y="1084.5">kh.cocoa.service.PositionService</node>
+    <node x="538.0" y="1686.0">kh.cocoa.config.SecurityJavaConfig</node>
+    <node x="225.5" y="1494.0">kh.cocoa.controller.NexacroDeptTeamController</node>
+    <node x="1994.2374989068173" y="1084.5">kh.cocoa.service.FilesService</node>
+    <node x="0.0" y="1766.0">kh.cocoa.config.NexacroConfig</node>
+    <node x="515.5" y="871.5">kh.cocoa.dao.PositionDAO</node>
+    <node x="1388.3765974135297" y="871.5">kh.cocoa.dao.EmployeeDAO</node>
+    <node x="4.0" y="1686.0">kh.cocoa.config.WebMvcConfig</node>
+    <node x="2091.475641151778" y="207.0">kh.cocoa.dto.MessageDTO</node>
+    <node x="46.5" y="1084.5">kh.cocoa.service.DepartmentsService</node>
+    <node x="2713.422572040754" y="1084.5">kh.cocoa.service.MessageService</node>
+    <node x="2011.4874989068173" y="871.5">kh.cocoa.dao.FilesDAO</node>
+    <node x="3174.410714285714" y="1471.0">kh.cocoa.controller.MessengerController</node>
+    <node x="3730.1221331278157" y="1084.5">kh.cocoa.service.MessengerPartyService</node>
+    <node x="4332.431547619048" y="871.5">kh.cocoa.dao.MessengerDAO</node>
+    <node x="775.0" y="1686.0">kh.cocoa.config.SbpWebSocketConfig</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="kh.cocoa.controller.EmployeeController" target="org.springframework.stereotype.Controller">
+      <point x="-54.85714285714289" y="-50.5" />
+      <point x="1302.6785714285713" y="1321.0" />
+      <point x="1142.8967250972935" y="1321.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.FilesService" target="kh.cocoa.dao.FilesDAO">
+      <point x="18.0" y="-27.5" />
+      <point x="2084.2374989068176" y="1053.0" />
+      <point x="2095.4874989068176" y="1053.0" />
+      <point x="28.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="-84.0" y="-50.5" />
+      <point x="1621.9464285714284" y="1301.0" />
+      <point x="1018.8967250972935" y="1301.0" />
+      <point x="40.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.EmployeeService" target="kh.cocoa.dao.EmployeeDAO">
+      <point x="0.0" y="-39.0" />
+      <point x="1440.6265974135297" y="1053.0" />
+      <point x="1422.3765974135297" y="1053.0" />
+      <point x="-34.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.PositionService" target="kh.cocoa.dao.PositionDAO">
+      <point x="0.0" y="-27.5" />
+      <point x="34.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="org.springframework.stereotype.Controller">
+      <point x="90.18181818181819" y="-62.0" />
+      <point x="439.68181818181824" y="1341.0" />
+      <point x="1088.0395822401506" y="1341.0" />
+      <point x="-54.85714285714289" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.StompController" target="org.springframework.stereotype.Controller">
+      <point x="-136.0" y="-73.5" />
+      <point x="2137.9940476190477" y="1271.0" />
+      <point x="1179.4681536687222" y="1271.0" />
+      <point x="36.57142857142867" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroPosController" target="org.springframework.stereotype.Controller">
+      <point x="78.0" y="-27.5" />
+      <point x="977.5736991123349" y="1361.0" />
+      <point x="1124.6110108115793" y="1361.0" />
+      <point x="-18.28571428571422" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.TeamService" target="kh.cocoa.dao.TeamDAO">
+      <point x="0.0" y="-27.5" />
+      <point x="26.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerService" target="kh.cocoa.dao.MessengerDAO">
+      <point x="-22.0" y="-27.5" />
+      <point x="4382.431547619048" y="1053.0" />
+      <point x="4368.431547619048" y="1053.0" />
+      <point x="-36.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroDeptTeamController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="67.63636363636363" y="-62.0" />
+      <point x="417.1363636363635" y="1311.0" />
+      <point x="912.2300584306269" y="1311.0" />
+      <point x="-66.66666666666663" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="-107.8125" y="-85.0" />
+      <point x="3181.598214285714" y="1241.0" />
+      <point x="1045.5633917639602" y="1241.0" />
+      <point x="66.66666666666674" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="67.63636363636363" y="-85.0" />
+      <point x="685.1363636363635" y="1321.0" />
+      <point x="938.8967250972935" y="1321.0" />
+      <point x="-40.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessageService" target="kh.cocoa.dao.MessageDAO">
+      <point x="0.0" y="-27.5" />
+      <point x="2798.422572040754" y="1033.0" />
+      <point x="2948.547572040754" y="1033.0" />
+      <point x="-32.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.DepartmentsService" target="kh.cocoa.dao.DepartmentsDAO">
+      <point x="64.0" y="-27.5" />
+      <point x="206.5" y="1053.0" />
+      <point x="222.5" y="1053.0" />
+      <point x="40.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroEmployeeController" target="org.springframework.stereotype.Controller">
+      <point x="90.18181818181824" y="-85.0" />
+      <point x="707.6818181818182" y="1351.0" />
+      <point x="1106.3252965258648" y="1351.0" />
+      <point x="-36.57142857142867" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessageController" target="org.springframework.stereotype.Controller">
+      <point x="-56.0" y="-50.5" />
+      <point x="1649.9464285714284" y="1291.0" />
+      <point x="1161.1824393830077" y="1291.0" />
+      <point x="18.28571428571422" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.config.NexacroConfig" target="kh.cocoa.config.WebMvcConfig">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.service.MessengerPartyService" target="kh.cocoa.dao.MessengerPartyDAO">
+      <point x="-72.0" y="-27.5" />
+      <point x="3766.1221331278157" y="1053.0" />
+      <point x="3673.475641151778" y="1053.0" />
+      <point x="-46.0" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.NexacroPosController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="26.0" y="-27.5" />
+      <point x="925.5736991123349" y="1331.0" />
+      <point x="965.5633917639601" y="1331.0" />
+      <point x="-13.333333333333371" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.EmployeeController" target="org.springframework.web.bind.annotation.RequestMapping">
+      <point x="-82.28571428571422" y="-50.5" />
+      <point x="1275.25" y="1331.0" />
+      <point x="992.2300584306269" y="1331.0" />
+      <point x="13.333333333333371" y="15.0" />
+    </edge>
+    <edge source="kh.cocoa.controller.MessengerController" target="org.springframework.stereotype.Controller">
+      <point x="-93.4375" y="-85.0" />
+      <point x="3195.973214285714" y="1231.0" />
+      <point x="1197.7538679544364" y="1231.0" />
+      <point x="54.85714285714289" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3282507412113511" x="2351.0" y="898.0" />
+  <SelectedNodes>
+    <node>kh.cocoa.controller.MessengerController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

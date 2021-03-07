@@ -6,18 +6,26 @@ import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.dto.SidebarViewDTO;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.service.SidebarService;
+import kh.cocoa.statics.Configurator;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.security.auth.login.Configuration;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/sidebar")
+@Slf4j
 public class SidebarController {
 
     @Autowired
@@ -46,11 +54,11 @@ public class SidebarController {
             JSONArray jArray = new JSONArray();
             // 2. 하위목록의 개수를 센다
             int subCount = sService.sidebarCountByMenuSeq(k);
-           // System.out.println("subCount: " + subCount);
+            // System.out.println("subCount: " + subCount);
             if(subCount !=0) {
                 // 3. 하위 메뉴의 개수가 0개가 아닐 때, 해당메뉴의 리스트를 불러온다.
                 List<SidebarViewDTO> list = sService.sidebarListByMenuSeq(k);
-              //  System.out.println("list 사이즈 ? 여기서 null인가? "  +list.size());
+                //  System.out.println("list 사이즈 ? 여기서 null인가? "  +list.size());
                 // 4. jArray에 리스트를 담는다.
                 for(int i=0; i<list.size(); i++){
                     param = new HashMap<>();
@@ -68,10 +76,10 @@ public class SidebarController {
                 }
                 // 하위 메뉴의 개수만큼 for문
                 for (int j=0; j<subCount; j++){
-                  //  System.out.println("menu_seq가 "+k+"일 때 : " +list.get(j).getMid_name());
+                    //  System.out.println("menu_seq가 "+k+"일 때 : " +list.get(j).getMid_name());
                 }
             }else{
-             //   System.out.println("리스트 없음!");
+                //   System.out.println("리스트 없음!");
             }
             jArrayAll.put(jArray);
         }
@@ -113,9 +121,25 @@ public class SidebarController {
         return nr;
     }
 
-    @RequestMapping("clicka")
-    public void clicka(){
-        System.out.println("a태그 클릭");
+    @RequestMapping("/addSideBarStatus")
+    @ResponseBody
+    public void addSideBarStatus(@RequestBody List<String> map){
+        if(map.size()==0){
+            session.removeAttribute("status");
+        }else{
+            session.setAttribute("status",map);
+        }
+
+    }
+
+    @RequestMapping("/getSidebarStatus")
+    @ResponseBody
+    public String getSidebarStatus(){
+        ArrayList<String> status= new ArrayList<>();
+        status = (ArrayList) session.getAttribute("status");
+        JSONArray json = new JSONArray(status);
+        return json.toString();
+
     }
 
 }

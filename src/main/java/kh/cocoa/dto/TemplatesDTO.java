@@ -15,6 +15,7 @@ public class TemplatesDTO {
 	private int temp_code;
 	private int form_code;
 	private int writer_code;
+	private String writer_name;
 	
 	@Builder
 	public TemplatesDTO(int code, String name, String status, String explain, String contents, int temp_code, int form_code, int writer_code) {

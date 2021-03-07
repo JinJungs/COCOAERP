@@ -35,10 +35,9 @@ public class NexacroTemplateContorller {
     private HttpSession session;
 
     @RequestMapping("/formLoad.nex")
-    public NexacroResult formLoad(){
-        System.out.println("폼로드 도착");
-        /*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");*/
-        int emp_code = 1000;
+    public NexacroResult formLoad(){ System.out.println("폼로드 도착");
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int emp_code = loginDTO.getCode();
         EmployeeDTO dto = employeeService.getEmpInfo(emp_code);
         HashMap<String,Object> map = new HashMap<>();
         map.put("code",dto.getCode());
@@ -59,8 +58,8 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/ds_user.nex")
     public NexacroResult ds_user(){
-        /*EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");*/
-        int emp_code = 1000;
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int emp_code = loginDTO.getCode();
         EmployeeDTO dto = employeeService.getEmpInfo(emp_code);
         HashMap<String,Object> map = new HashMap<>();
         map.put("code",dto.getCode());
@@ -75,7 +74,6 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/tp_list.nex")
     public NexacroResult tp_list(){
-        System.out.println("요청 도착");
         NexacroResult nr = new NexacroResult();
         List<TemplatesDTO> list = templatesService.getTemplateList2();
         nr.addDataSet("out_ds",list);
@@ -85,7 +83,6 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/onclick_tp_title.nex")
     public NexacroResult onclick_tp_title(@ParamVariable(name="code") int code){
-        System.out.println(code);
         List<TemplatesDTO> getClickTemplateList=templatesService.getClickTemplateList(code);
         NexacroResult nr = new NexacroResult();
         nr.addDataSet("out_ds",getClickTemplateList);
@@ -94,7 +91,6 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/tp_titleRm.nex")
     public NexacroResult tp_titleRm(@ParamDataSet(name="in_ds") TemplateFormDTO dto){
-        System.out.println(dto);
         int result = templateFormService.delTemplateForm(dto.getCode());
         NexacroResult nr = new NexacroResult();
         return nr;
@@ -102,14 +98,18 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/tp_titleAdd.nex")
     public NexacroResult tp_titleAdd(@ParamVariable(name="title")String title, @ParamVariable(name="contents")String contents){
-        TemplateFormDTO dto = new TemplateFormDTO().builder().title(title).contents(contents).build();
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int emp_code = loginDTO.getCode();
+        TemplateFormDTO dto = new TemplateFormDTO().builder().title(title).contents(contents).emp_code(emp_code).build();
         int result = templateFormService.addTemplateForm(dto);
         return new NexacroResult();
     }
 
     @RequestMapping("/tp_titleMod.nex")
     public NexacroResult tp_titleMod(@ParamDataSet(name="in_ds") TemplateFormDTO dto){
-        System.out.println(dto);
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int emp_code = loginDTO.getCode();
+        dto.setEmp_code(loginDTO.getCode());
         int result = templateFormService.modTemlateForm(dto);
         System.out.println(dto);
         return new NexacroResult();
@@ -117,7 +117,6 @@ public class NexacroTemplateContorller {
 
     @RequestMapping("/addList_onclick.nex")
     public NexacroResult addList_onclick(@ParamDataSet(name="in_ds")TemplatesDTO dto){
-        System.out.println(dto);
         int result = templatesService.addTemplates(dto);
         List<TemplatesDTO> list = templatesService.getClickTemplateList(dto.getForm_code());
         NexacroResult nr = new NexacroResult();

@@ -186,6 +186,8 @@ public class RestDocumentController {
 
     @RequestMapping("addsave.document")
     public int addsaved(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
+        ddto.setContents(Configurator.XssReplace(ddto.getContents()));
         int result = docservice.addSaveDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
         if (code.get(0) != 1) {
@@ -221,15 +223,10 @@ public class RestDocumentController {
 
     @RequestMapping("ajaxadddocument.document")
     public int ajaxadddocument(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
-        System.out.println("임시 - > 상신 일로오나..");
-        System.out.println(ddto);
-        System.out.println(code);
-
+        ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
+        ddto.setContents(Configurator.XssReplace(ddto.getContents()));
         int result = docservice.addDocument(ddto);
         int getDoc_code = docservice.getDocCode(ddto.getWriter_code());
-
-        System.out.println(getDoc_code);
-
         for (int i = 0; i < code.size(); i++) {
             int addConfirm = cservice.addConfirm(code.get(i), i + 1, getDoc_code);
         }
@@ -264,13 +261,11 @@ public class RestDocumentController {
         for (int i = 1; i < map.size(); i = i + 3) {
             OrderDTO dto = new OrderDTO();
             dto.setDoc_seq(Integer.parseInt(map.get(0).get("value")));
-            dto.setOrder_list(map.get(i).get("value"));
+            dto.setOrder_list(Configurator.XssReplace(map.get(i).get("value")));
             dto.setOrder_count(Integer.parseInt(map.get(i + 1).get("value")));
-            dto.setOrder_etc(map.get(i + 2).get("value"));
+            dto.setOrder_etc(Configurator.XssReplace(map.get(i + 2).get("value")));
             list.add(dto);
         }
-
-        System.out.println(list);
         for (int i = 0; i < list.size(); i++) {
             int result = oservice.addOrder(list.get(i).getOrder_list(), list.get(i).getOrder_count(), list.get(i).getOrder_etc(), list.get(i).getDoc_seq());
         }
@@ -407,7 +402,6 @@ public class RestDocumentController {
     //임시저장 수정 파트
     @RequestMapping("loadconfirmlist.document")
     public String loadConfirmList(@RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code) {
-        System.out.println("로드 컨펌리스트");
         List<EmployeeDTO> getConfirmInfo = new ArrayList<>();
         ArrayList<HashMap> hmlist = new ArrayList<HashMap>();
         for (int i = 0; i < code.size(); i++) {
@@ -425,7 +419,8 @@ public class RestDocumentController {
 
     @RequestMapping("modsaveconfirm.document")
     public int modSaveConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
-        System.out.println(ddto);
+        ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
+        ddto.setContents(Configurator.XssReplace(ddto.getContents()));
         cservice.deleteConfirm(ddto.getSeq());
         int result = docservice.modDocument(ddto);
         System.out.println(result);
@@ -483,9 +478,9 @@ public class RestDocumentController {
         for (int i = 1; i < map.size(); i = i + 3) {
             OrderDTO dto = new OrderDTO();
             dto.setDoc_seq(Integer.parseInt(map.get(0).get("value")));
-            dto.setOrder_list(map.get(i).get("value"));
+            dto.setOrder_list(Configurator.XssReplace(map.get(i).get("value")));
             dto.setOrder_count(Integer.parseInt(map.get(i + 1).get("value")));
-            dto.setOrder_etc(map.get(i + 2).get("value"));
+            dto.setOrder_etc(Configurator.XssReplace(map.get(i + 2).get("value")));
             list.add(dto);
         }
         oservice.modDelOrderList(list.get(0).getDoc_seq());
@@ -500,6 +495,8 @@ public class RestDocumentController {
 
     @RequestMapping("modaddconfirm.document")
     public int modAddConfirm(DocumentDTO ddto, @RequestParam(value = "approver_code", required = true, defaultValue = "1") List<Integer> code, @RequestParam("file") List<MultipartFile> file) throws Exception {
+        ddto.setTitle(Configurator.XssReplace(ddto.getTitle()));
+        ddto.setContents(Configurator.XssReplace(ddto.getContents()));
         cservice.deleteConfirm(ddto.getSeq());
         if (ddto.getStatus().contentEquals("TEMP")) {
             docservice.modAddDocument(ddto);
@@ -560,14 +557,15 @@ public class RestDocumentController {
 
     @RequestMapping("modaddorder.document")
     public String modAddOrder(@RequestBody List<Map<String, String>> map) throws Exception {
+
         List<OrderDTO> list = new ArrayList<>();
         System.out.println(map);
         for (int i = 1; i < map.size() - 1; i = i + 3) {
             OrderDTO dto = new OrderDTO();
             dto.setDoc_seq(Integer.parseInt(map.get(0).get("value")));
-            dto.setOrder_list(map.get(i).get("value"));
+            dto.setOrder_list(Configurator.XssReplace(map.get(i).get("value")));
             dto.setOrder_count(Integer.parseInt(map.get(i + 1).get("value")));
-            dto.setOrder_etc(map.get(i + 2).get("value"));
+            dto.setOrder_etc(Configurator.XssReplace(map.get(i + 2).get("value")));
             list.add(dto);
         }
         oservice.modDelOrderList(Integer.parseInt(map.get(map.size() - 1).get("value")));

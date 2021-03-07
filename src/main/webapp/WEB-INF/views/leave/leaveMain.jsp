@@ -21,12 +21,15 @@ select{
 .backgroundC{
 	background-color : #6749b930;
 }
+.fixdiv{
+	min-width: 100px;
+}
 </style>
 </head>
 <body>
    <div class="wrapper d-flex align-items-stretch">
       <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-5 pt-5">
+      <div id="content" class="p-4 p-md-5 pt-5" style="min-width: 800px;">
       	<h2 class="mb-4">휴가 현황보기</h2>
      		<div class="selectBox">
      			<select name=year id=yearSelect onchange="fn_yearChanged()">
@@ -94,11 +97,11 @@ select{
 					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${childBirthL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타(차감)</b></div>
+					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타</b><b style="font-size: 11px;">(차감)</b></div>
 					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etcMinusL }</div>
 				</div>
 				<div class="col">
-					<div class="row p-2 backgroundC" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타(미차감)</b></div>
+					<div class="row p-2 backgroundC fixdiv" style="border-top: 1px solid #bfbfbf; border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf"><b>기타</b><b style="font-size: 11px;">(미차감)</b></div>
 					<div class="row p-2" style="border-bottom: 1px solid #bfbfbf; border-left: 1px solid #bfbfbf">${etcNMinusL }</div>
 				</div>
      		</div>

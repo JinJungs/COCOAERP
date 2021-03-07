@@ -17,7 +17,7 @@ public interface AttendanceDAO {
     public List<AttendanceDTO> getAttendanceList(int emp_code);
     public List<AttendanceDTO> getAtdTime(int emp_code);
     public List<AttendanceDTO> getMonthAtdTime(int emp_code);
-    public int isAtd(int emp_code);
+    public AttendanceDTO isAtd(int emp_code);
 
     public String isInWork(int emp_code);
     public int startWork2(int emp_code,String status);
@@ -58,4 +58,6 @@ public interface AttendanceDAO {
     int modAtdTime(AtdChangeReqDTO dto);
 
     int toDayUpdateAtd(int emp_code);
+
+    int updateMWEmpAtd(int seq);
 }

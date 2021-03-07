@@ -38,6 +38,7 @@ public class EmployeeDTO{
     private int leave_used;
     private int year;
     private int addLeave;
+    private int atd_seq;
 
     // 의진추가
 	private String profile;

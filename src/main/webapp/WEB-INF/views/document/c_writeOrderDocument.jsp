@@ -106,7 +106,7 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목 *</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off" oninput="fn_getTitleWordLeng()"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -118,34 +118,34 @@
                     <div class="col-9 p-3" id="filecontainer"></div>
                 </div>
             </form>
-                <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
-                    <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
-                        <b>물품 입력 칸</b> <b data-bs-toggle="tooltip" data-bs-placement="top" title="물품 입력 후 추가 버튼(+)을 눌러야 추가가 됩니다."><img class="mb-3" id="tipicon" src="/icon/info-circle.svg" style="cursor: pointer"></b>
-                    </div>
-                    <div class="row w-100 m-0 text-center">
-                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
-                        <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
-                        <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
-                        <div class="col-1 p-2">추가</div>
-                    </div>
-                    <form id="orderform" class="w-100">
-                        <div class="ordercontainer w-100">
-                            <div class="row w-100 m-0 text-center orderwrap">
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요." autocomplete="off"></div>
-                                <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요." autocomplete="off"></div>
-                                <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc" autocomplete="off"></div>
-                                <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
-                            </div>
-
-                            <input type="hidden" id=doc_seq name="doc_seq">
+            <div class="row w-100 mt-4" style="border: 1px solid #c9c9c9">
+                <div class="col-12 p-3" style="border-bottom: 1px solid #c9c9c9">
+                    <b>물품 입력 칸</b> <b data-bs-toggle="tooltip" data-bs-placement="top" title="물품 입력 후 추가 버튼(+)을 눌러야 추가가 됩니다."><img class="mb-3" id="tipicon" src="/icon/info-circle.svg" style="cursor: pointer"></b>
+                </div>
+                <div class="row w-100 m-0 text-center">
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">신청물품 *</div>
+                    <div class="col-3 p-2" style="border-right: 1px solid #c9c9c9">수량 *</div>
+                    <div class="col-5 p-2" style="border-right: 1px solid #c9c9c9">비고</div>
+                    <div class="col-1 p-2">추가</div>
+                </div>
+                <form id="orderform" class="w-100">
+                    <div class="ordercontainer w-100">
+                        <div class="row w-100 m-0 text-center orderwrap">
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_list" placeholder="신청 물품을 입력하세요." autocomplete="off"></div>
+                            <div class="col-3 p-3 w-100"style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" id="order_count"  oninput="fn_onlycount(this)" placeholder="수량을 입력하세요." autocomplete="off"></div>
+                            <div class="col-5 p-3 "style="border-right: 1px solid #c9c9c9"><input type="text" class="w-100" placeholder="비고를 입력하세요." id="order_etc" autocomplete="off"></div>
+                            <div class="col-1 p-0 pt-2 w-100"><button type="button" class="btn btn-outline-dark p-0 m-0" style="width: 45px;height: 40px; font-size: 24px;" onclick="fn_addOrderList()">+</button></div>
                         </div>
-                    </form>
 
-                </div>
+                        <input type="hidden" id=doc_seq name="doc_seq">
+                    </div>
+                </form>
 
-                <div class="row w-100 pt-3 mb-5">
-                    <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
-                </div>
+            </div>
+
+            <div class="row w-100 pt-3 mb-5">
+                <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px"></textarea></div>
+            </div>
         </div>
     </div>
 
@@ -174,7 +174,7 @@
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
-                            <form id="deptForm">
+                            <form id="deptForm" style="max-height:485px; overflow-y: auto;">
 
                             </form>
 
@@ -214,6 +214,16 @@
     </div>
 </div>
 
+<div class="modal fade " id="alertModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
+                <b id="result-msg"></b>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/jquery-ui.js"></script>
 <script src="/js/jquery.MultiFile.min.js"></script>
@@ -238,6 +248,21 @@
         fn_getDeptList().then(fn_getteamlist).then(fn_getemplist);
         $(".empcontainer2").selectable();
     } );
+
+    function fn_closeAlertModal(){
+        var setTime=setTimeout(function () {
+            $("#alertModal").modal('hide');
+        },1000)
+    }
+
+    function fn_getTitleWordLeng() {
+        var titlemax =50;
+        var titleleng = $("#title").val().length;
+        var getTitle =$("#title").val();
+        if(titlemax<titleleng){
+            $("#title").val(getTitle.substr(0,titlemax));
+        }
+    }
 
 
 
@@ -530,7 +555,9 @@
 
 
     function fn_clickbtnadd() {
-        alert("최소 한 명의 결재자를 선택해주세요.");
+        $("#result-msg").text("최소 한 명의 결재자를 선택해주세요.");
+        $("#alertModal").modal();
+        fn_closeAlertModal();
     }
 
     function fn_isnull(){
@@ -540,11 +567,14 @@
         var order_count=$("#order_count").val();
         if(order_list!="" || order_count!=""){
             if(order_list==""){
-                alert("신청 상품을 입력해주세요.");
-                $("#order_list").focus();
+                $("#result-msg").text("신청 물품을 입력해주세요.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
                 return;
             }else if(order_count==""){
-                alert("상품 수량을 입력해주세요.")
+                $("#result-msg").text("상품 수량을 입력해주세요.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
                 $("#order_count").focus();
                 return;
             }
@@ -566,16 +596,22 @@
             }
         }
         if($(".orderwrap").length==1){
-            alert("목록을 추가 해주세요");
+            $("#result-msg").text("목록을 추가 해주세요");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
 
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }
@@ -592,7 +628,7 @@
             contentType:'application/json',
             success : function(result) {
                 if(result=="success"){
-                    location.href="/document/d_searchRaise.document";
+                    window.location.replace("/document/d_searchRaise.document");
                 }
             }
         });
@@ -642,17 +678,23 @@
         var code = getempcode;
         var curemp = $("#getcuruserempcode").val();
         if(curemp==code){
-            alert("기안자는 추가할 수 없습니다.");
+            $("#result-msg").text("기안자는 추가할 수 없습니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
         for(var i=0;i<count;i++){
             if(getaddedempcode[i]==getempcode){
-                alert("이미 추가된 사용자입니다.");
+                $("#result-msg").text("이미 추가된 사용자입니다.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
                 return;
             }
         }
         if(count>=5){
-            alert("최대 5명까지 가능합니다.");
+            $("#result-msg").text("최대 5명까지 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
 
@@ -753,11 +795,15 @@
         var contents = $("#contents").val();
         var writer_code =$("#getcuruserempcode").val();
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }
@@ -775,23 +821,51 @@
             contentType:'application/json',
             success : function(result) {
                 if(result=="success"){
-                    location.href="/document/d_searchTemporary.document";
+                    window.location.replace("/document/d_searchTemporary.document");
                 }
             }
         });
     }
 
-    function fn_addOrderList() {
-        var order_list = $("#order_list").val();
-        var order_count = $("#order_count").val();
-        var order_etc = $("#order_etc").val();
+    var entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
 
+    function escapeHtml (string) {
+        return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+            return entityMap[s];
+        });
+    }
+
+
+    function fn_addOrderList() {
+        var order_list = escapeHtml($("#order_list").val());
+        var order_count = $("#order_count").val();
+        var order_etc = escapeHtml($("#order_etc").val());
+
+        if(indexcount==5){
+            $("#result-msg").text("물품 신청은 최대 5개까지 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
+            return;
+        }
         if(order_list==""){
-            alert("신청 상품을 입력해주세요.");
+            $("#result-msg").text("신청 상품을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#order_list").focus();
             return;
         }else if(order_count==""){
-            alert("상품 수량을 입력해주세요.")
+            $("#result-msg").text("상품 수량을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#order_count").focus();
             return;
         }
@@ -821,9 +895,10 @@
         var a= $(obj).val();
         $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
         if(a.length>=6){
-            alert("최대 만자리까지 가능합니다.");
+            $("#result-msg").text("최대 만자리까지 입력 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $(obj).val($(obj).val().substr(0,5));
-
             return;
         }
 
@@ -833,7 +908,9 @@
         var a= $(obj).val();
         $(obj).val($(obj).val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
         if(a.length>=6){
-            alert("최대 만자리까지 가능합니다.");
+            $("#result-msg").text("최대 만자리까지 입력 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $(obj).val($(obj).val().substr(0,5));
             return;
         }
@@ -870,7 +947,6 @@
             $(obj).css("color","black");
             $("#btn_add").attr("disabled",false);
         }
-
     }
 
 </script>

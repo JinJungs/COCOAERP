@@ -7,6 +7,7 @@ import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
 import kh.cocoa.service.EmployeeService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,29 +65,6 @@ public class AttendanceController {
         if(loginSession==null){
             return "redirect:/";
         }
-        SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
-        Date time = new Date();
-        String getCurTime = frm.format(time);
-        String isInWork = attenService.isInWork(loginSession.getCode());
-        if(isInWork!=null){
-            isInWork=isInWork.replaceAll(":","").substring(0,4);
-        }
-        if(isInWork==null){
-            if(Integer.parseInt(getCurTime)>930){
-                model.addAttribute("statusMsg","아직 출근하지 않았습니다.");
-                model.addAttribute("isInWork","late");
-            }else{
-                model.addAttribute("statusMsg","아직 출근하지 않았습니다.");
-                model.addAttribute("isInWork","atd");
-            }
-        }else{
-            if(Integer.parseInt(isInWork)>930){
-                model.addAttribute("isInWork","late");
-            }else{
-                model.addAttribute("isInWork","atd");
-            }
-            model.addAttribute("statusMsg","안녕하세요.");
-        }
         EmployeeDTO empInfo = employeeService.getEmpInfo(loginSession.getCode());
         List<AtdChangeReqDTO> reqList = attenService.getAtdReqListToMain(loginSession.getCode());
         model.addAttribute("empInfo",empInfo);
@@ -97,7 +75,10 @@ public class AttendanceController {
 
     @RequestMapping("/toAtdReq")
     public String toAtdReq(Model model){
-
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        if(loginSession==null){
+            return "redirect:/";
+        }
         return "/attendance/attendanceChangeReq";
     }
 
@@ -132,7 +113,6 @@ public class AttendanceController {
     @RequestMapping("getListToNex")
     public NexacroResult getListToNex(){
         List<AtdChangeReqDTO> list = attenService.getReqListToNex();
-        System.out.println(list);
         NexacroResult nr = new NexacroResult();
         nr.addDataSet("out_ds",list);
         return nr;
@@ -140,30 +120,42 @@ public class AttendanceController {
 
     @RequestMapping("saveAtdReq")
     public NexacroResult saveAtdReq(@ParamDataSet(name="in_ds") AtdChangeReqDTO dto){
+        dto.setComments(Configurator.XssReplace(dto.getComments()));
         int updateResult = attenService.saveAtdReq(dto);
         dto.setToday(dto.getToday().substring(0,8).replaceAll("-",""));
         dto.setStart_time(dto.getStart_time().replaceAll(":",""));
         dto.setEnd_time(dto.getEnd_time().replaceAll(":",""));
-        System.out.println(dto);
+        int start_time=Integer.parseInt(dto.getStart_time().substring(0,2));
+        int end_time=Integer.parseInt(dto.getEnd_time().substring(0,2));
+        if((end_time-start_time)-1>8){
+            dto.setOvertime((end_time-start_time)-9);
+        }
         if(updateResult>0) {
             if (dto.getStatus().contentEquals("승인")) {
                 int modAtdTime=attenService.modAtdTime(dto);
             }
         }
+
         return new NexacroResult();
     }
 
 
-
-    @Scheduled(cron="0 0/10 0 * * MON-FRI") //평일 00시 10분 업데이트
-    public void alert() throws InterruptedException{
-        log.info("Attendance 자동 업데이트");
+    @Scheduled(cron="0 0 0 * * MON-SAT") //평일 00시 00분 업데이트
+    public void addAttendance() throws InterruptedException{
+        log.info("출근 자동 업데이트");
         List<Integer> getAllEmpCode=employeeService.getAllEmpCode();
         for(int i=0;i<getAllEmpCode.size();i++) {
             int toDayUpdateAtd = attenService.toDayUpdateAtd(getAllEmpCode.get(i));
-            System.out.println(i);
         }
+    }
 
+    @Scheduled(cron="0 0/59 23 * * MON-SAT") //평일 11시 50분 업데이트
+    public void updateAttendanceStatus() throws InterruptedException{
+        log.info("누락자 자동 업데이트");
+        List<EmployeeDTO> getAllEmpCode=employeeService.getAllMWEmpCode();
+        for(int i=0;i<getAllEmpCode.size();i++) {
+            int toDayUpdateAtd = attenService.updateMWEmpAtd(getAllEmpCode.get(i).getAtd_seq());
+        }
     }
 
 

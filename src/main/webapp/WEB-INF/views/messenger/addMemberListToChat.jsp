@@ -135,7 +135,12 @@
                         html += "<a href='#'>";
                         html += "<div class='user_info align-self-center'>";
                         html += "<span>" + jArrayMember[i].name + "</span>";
-                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
+                        html += "<p>" + jArrayMember[i].deptname + " | ";
+                        if(!jArrayMember[i].teamname){
+                            html += "무소속</p>";
+                        }else{
+                            html += jArrayMember[i].teamname + "</p>";
+                        }
                         html += "</div></a>";
                         html += "<div class='ml-auto align-self-center'>"
                         html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";

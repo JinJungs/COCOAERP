@@ -1,9 +1,12 @@
 package kh.cocoa.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import kh.cocoa.dto.FilesDTO;
-import kh.cocoa.dto.MessageDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -88,7 +86,6 @@ public class MessageController {
             param.put("type",type);
             param.put("savedname",list.get(i).getSavedname());
             param.put("empname",list.get(i).getEmpname());
-            
 
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
             FilesDTO getProfile = fservice.findBeforeProfile(list.get(i).getEmp_code());
@@ -108,13 +105,9 @@ public class MessageController {
     @ResponseBody
     public String searchMsgInChatRoom(int m_seq, String contents){
         JSONArray jArray = new JSONArray();
-        HashMap<String,Object> param = null;
         List<MessageDTO> msgSearchList = msgservice.searchMsgInChatRoom(m_seq, contents);
         for(int i=0; i<msgSearchList.size();i++){
-            param = new HashMap<>();
-            param.put("seq",msgSearchList.get(i).getSeq());
-            param.put("contents",msgSearchList.get(i).getContents());
-            jArray.put(param);
+            jArray.put(msgSearchList.get(i).getSeq());
         }
         return jArray.toString();
     }

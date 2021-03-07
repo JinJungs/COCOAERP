@@ -19,7 +19,7 @@
 <div class="wrapper d-flex align-items-stretch">
     <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>   <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 pt-5">
-        <div class="container">
+        <div class="container" style="min-width: 847px;">
             <div class="row p-3" style="border: 1px solid rgba(0, 0, 0, 0.125);background: white; border-radius: 0.25rem;">
                 <div class="col-12">
                     <b>프로필</b>
@@ -28,7 +28,7 @@
             <div class="row p-3" style="background:white; border-left: 1px solid rgba(0, 0, 0, 0.125);border-right: 1px solid rgba(0, 0, 0, 0.125); border-bottom: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-2 pr-0">
+                        <div class="col-2 pr-0" style="min-width: 147px;">
                             <div class="row">
                                 <div class="col-3 p-0">
                                     <div class="row">
@@ -75,18 +75,18 @@
             </div>
             <div class="row pt-3">
                 <div class="col-12 p-0">
-                    <div class="accordion" id="accordionExample">
+                    <div class="accordion" id="accordionExample" >
                         <div class="card">
                             <div class="card-header" id="headingOne"  style="background: white">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="btn_Info">
                                         상세 정보
                                     </button>
                                 </h2>
                             </div>
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <div class="container">
+                                    <div class="container" style="min-width: 847px;">
                                         <div class="row p-2">
                                             <div class="col-2">
                                                 <b>성별</b>
@@ -108,7 +108,7 @@
                                                 <b>전화 번호</b>
                                             </div>
                                             <div class="col-9">
-                                                <b>${user.phone}</b>
+                                                <b id="main-phone">${user.phone}</b>
                                             </div>
                                         </div>
                                         <div class="row p-2">
@@ -116,7 +116,7 @@
                                                 <b>내선 번호</b>
                                             </div>
                                             <div class="col-9">
-                                                <b>${user.office_phone}</b>
+                                                <b id="main-officephone">${user.office_phone}</b>
                                             </div>
                                         </div>
                                         <div class="row p-2">
@@ -124,7 +124,7 @@
                                                 <b>이메일</b>
                                             </div>
                                             <div class="col-9">
-                                                <b>${user.email}</b>
+                                                <b id="main-email">${user.email}</b>
                                             </div>
                                         </div>
                                         <div class="row p-2">
@@ -132,7 +132,7 @@
                                                 <b>회사 이메일</b>
                                             </div>
                                             <div class="col-9">
-                                                <b>${user.b_email}</b>
+                                                <b id="main-bemail">${user.b_email}</b>
                                             </div>
                                         </div>
                                         <div class="row p-2">
@@ -140,7 +140,7 @@
                                                 <b>주소</b>
                                             </div>
                                             <div class="col-9">
-                                                <b>${user.address}</b>
+                                                <b id="main-address">${user.address}</b>
                                             </div>
                                         </div>
                                     </div>
@@ -150,22 +150,22 @@
                         <div class="card">
                             <div class="card-header" id="headingTwo"  style="background: white">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="btn_modInfo">
                                         상세 정보 변경
                                     </button>
                                 </h2>
                             </div>
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <form id="profileForm" action="/membership/modInfo">
+                                    <form id="profileForm">
                                         <input type="hidden" name="code" id="code" value="${user.code}">
-                                        <div class="container mod-info">
+                                        <div class="container mod-info" style="min-width: 847px;">
                                             <div class="row p-2">
                                                 <div class="col-2 pt-1">
                                                     <b>전화 번호</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100 mod-input" name=phone type="text" value="${user.phone}">
+                                                    <input class="w-100 mod-input" maxlength="30" name=phone type="text" value="${user.phone}">
                                                 </div>
                                             </div>
                                             <div class="row p-2">
@@ -173,15 +173,15 @@
                                                     <b>내선 번호</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100 mod-input" name=office_phone type="text" value="${user.office_phone}">
+                                                    <input class="w-100 mod-input" maxlength="30" name=office_phone type="text" value="${user.office_phone}">
                                                 </div>
                                             </div>
                                             <div class="row p-2">
                                                 <div class="col-2 pt-1">
-                                                    <b>이메일</b>
+                                                    <b>이메일</b> <b data-bs-toggle="tooltip" data-bs-placement="top" title="비밀번호 찾기시 필요한 사항입니다. 사용중인 이메일을 입력해주세요."><img class="mb-3" id="tipicon" src="/icon/info-circle.svg" style="cursor: pointer"></b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100  mod-input" name=email type="text" value="${user.email}">
+                                                    <input class="w-100  mod-input" maxlength="50" name=email type="text" value="${user.email}">
                                                 </div>
                                             </div>
 
@@ -190,7 +190,7 @@
                                                     <b>주소</b>
                                                 </div>
                                                 <div class="col-3">
-                                                    <input class="w-100  mod-input" name=address type="text" id="emp-address" value="${user.address}">
+                                                    <input class="w-100  mod-input" maxlength="100" name=address type="text" id="emp-address" value="${user.address}">
                                                 </div>
                                                 <div class="col-3 p-0">
                                                     <input type="button" class="btn btn-outline-dark btn-sm" onclick="btn_findAddress()" value="우편번호 찾기">
@@ -223,20 +223,20 @@
                         <div class="card">
                             <div class="card-header" id="headingThree" style="background: white">
                                 <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="btn_modPw">
                                         비밀번호 변경
                                     </button>
                                 </h2>
                             </div>
                             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <div class="container mod-info">
+                                    <div class="container mod-info" style="min-width: 847px;">
                                         <div class="row p-2">
                                             <div class="col-2 pt-1">
                                                 <b>현재 비밀번호</b>
                                             </div>
                                             <div class="col-3">
-                                                <input class="w-100 mod-input" id="current-pw" type="text" onblur="fn_checkCurrentPw()">
+                                                <input class="w-100 mod-input" id="current-pw" type="password" onblur="fn_checkCurrentPw()">
                                             </div>
                                             <div class="col-4 p-0">
                                                 <b id="current-pw-msg"></b>
@@ -247,7 +247,7 @@
                                                 <b>변경할 비밀번호</b>
                                             </div>
                                             <div class="col-3">
-                                                <input class="w-100 mod-input" id="change-pw" type="text" onblur="fn_changePw()">
+                                                <input class="w-100 mod-input" id="change-pw" type="password" onblur="fn_changePw()">
                                             </div>
                                             <div class="col-4 p-0">
                                                 <b id="change-pw-msg"></b>
@@ -258,7 +258,7 @@
                                                 <b>비밀번호 확인</b>
                                             </div>
                                             <div class="col-3">
-                                                <input class="w-100 mod-input" id=confirm-pw type="text" onblur="fn_checkConfirmPw()">
+                                                <input class="w-100 mod-input" id=confirm-pw type="password" onblur="fn_checkConfirmPw()">
                                             </div>
                                             <div class="col-4 p-0">
                                                 <b id="confirm-pw-msg"></b>
@@ -278,6 +278,15 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade " id="alertModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
+                <b id="result-msg"></b>
             </div>
         </div>
     </div>
@@ -334,34 +343,18 @@
         }).open();
     }
 
-    function fn_modInfo() {
-        var pw =$("#pw").val();
-        if(pw==""){
-            $("#pw-msg").text("비밀번호를 입력해주세요.");
-            $("#pw-msg").css("color","red");
-            $("#pw").focus();
-            return;
-        }
-        $.ajax({
-            type : "POST",
-            url : "/membership/checkPw",
-            data :{pw: pw},
-            success : function(data) {
-                console.log(data);
-                if(data!=1){
-                    $("#pw-msg").text("비밀번호가 일치하지않습니다.");
-                    $("#pw-msg").css("color","red");
-                    $("#pw").focus();
-                    return;
-                }
-                alert("변경이 완료되었습니다.");
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 
-                $("#profileForm").submit();
 
-            }
-        });
-
+    function fn_closeAlertModal(){
+        var setTime=setTimeout(function () {
+            $("#alertModal").modal('hide');
+        },1000)
     }
+
 
 
     function fn_modPw() {
@@ -475,7 +468,9 @@
                     url : "/membership/changePw",
                     data :{code: code, password: changePw},
                     success : function(data) {
-                        alert("변경되었습니다.");
+                        $("#result-msg").text("변경이 완료되었습니다.")
+                        $("#alertModal").modal();
+                        fn_closeAlertModal();
                         $("#confirm-pw-msg").text("");
                         $("#change-pw-msg").text("");
                         $("#current-pw-msg").text("");
@@ -511,6 +506,75 @@
             processData: false,
             success : function(data) {
                 $("#profile").attr("src",data);
+                $("#result-msg").text("변경이 완료되었습니다.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
+
+            }
+        });
+    }
+
+    function fn_modInfo(){
+        var pw =$("#pw").val();
+        if(pw==""){
+            $("#pw-msg").text("비밀번호를 입력해주세요.");
+            $("#pw-msg").css("color","red");
+            $("#pw").focus();
+            return;
+        }
+        $.ajax({
+            type : "POST",
+            url : "/membership/checkPw",
+            data :{pw: pw},
+            success : function(data) {
+                console.log(data);
+                if(data!=1){
+                    $("#pw-msg").text("비밀번호가 일치하지않습니다.");
+                    $("#pw-msg").css("color","red");
+                    $("#pw").focus();
+                    return;
+                }
+                fn_modInfoAjax();
+            }
+        });
+
+    }
+
+    function decodeString(str){
+
+        if(str.indexOf("+") > 0){
+
+            return decodeURIComponent(decodeURI(str).replace(/\+/g, " "));
+
+        } else {
+
+            return decodeURIComponent(decodeURI(str));
+
+        }
+
+    }
+
+    function fn_modInfoAjax(){
+        console.log("도착?");
+        $.ajax({
+            type : "POST",
+            url : "/membership/modInfoAjax",
+            data :$("#profileForm").serialize(),
+            dataType: "json",
+            success : function(data) {
+
+                if(data!=false){
+                    $("#main-phone").text((data.phone));
+                    $("#main-address").text(data.address);
+                    $("#main-email").text(data.email);
+                    $("#main-officephone").text(data.office_phone);
+                    $("#result-msg").text("변경이 완료되었습니다.");
+                    $("#alertModal").modal();
+                    fn_closeAlertModal();
+                    $("#collapseOne").collapse('show');
+                    $("#pw").val("");
+
+                }
             }
         });
     }
