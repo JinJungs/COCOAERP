@@ -664,7 +664,7 @@
         // 처음 검색하거나 검색어가 바뀌었을 때 deHighlightBeforeSearch
         if(searchContents!==before_searchContents || (!searchContents && !before_searchContents)){
             deHighlightBeforeSearch(); // 전에 하이라이트 된 내용을 다시 원상복구
-            searchInChatRoom();
+            searchInChatRoom(); // 검색결과가 없을 때 isMsgExistInCpage도 실행할 필요없음
         }
         setTimeout(() => {
             isMsgExistInCpage();
@@ -674,7 +674,6 @@
     let searchArr = []
     function isMsgExistInCpage(){
         if (!searchArr.length){
-            alert("마지막 검색 결과 입니다.");
             return;
         }else{
             let seq = searchArr[0];
@@ -716,10 +715,9 @@
                 } else {
                     console.log("검색갯수 : " + resp.length);
                     console.log("검색결과 : "+resp);
-                    searchArr = resp
-                    before_searchContents = searchContents;
-
+                    searchArr = resp;
                 }
+                before_searchContents = searchContents;
             }
         });
     }
