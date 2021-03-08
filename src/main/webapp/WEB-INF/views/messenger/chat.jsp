@@ -54,7 +54,6 @@
                     <span class="mr-1" id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
                     <div class="action_menu">
                         <ul>
-                            <li><i class="fas fa-user-circle"></i> 프로필 보기</li>
                             <li onclick="openMemberListToChat(${seq})"><i class="fas fa-plus"></i> 멤버 추가</li>
                             <c:if test="${messenger.type eq 'M'}">
                                 <li data-toggle="modal" data-target="#modalModifChat"><i class="fas fa-users"></i> 채팅방 설정</li>
@@ -183,6 +182,10 @@
         if (e.keyCode == 13 && !e.shiftKey) {
             sendMsg();
         }
+        /*if (e.keyCode == 91 && e.keyCode == 186){
+            e.preventDefault();
+            alert('hi');
+        }*/
     });
     // esc 누르면 창닫기
     $(document).keydown(function (e) {
