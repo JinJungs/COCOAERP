@@ -77,7 +77,7 @@ public class RestAttendanceController {
                     status="in";
                 }
             }
-            int insertResult = attendanceService.startWork2(1000,status);
+            int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
             if(insertResult>0){
                 return "insertSuccess";
             }else{
