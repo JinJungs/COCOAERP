@@ -511,6 +511,7 @@
 
     function fn_in() {
         var out = $("input[name='out']:checked").val();
+        console.log(out);
         $.ajax({
             type : "POST",
             data : {out:out},
@@ -559,12 +560,14 @@
                     },1000)
                     return;
                 }
-                if(hour<18){
+
+                if(hour<18 &&data==""){
                     var time=getHours();
                     $("#modal").modal('show');
                     $("#workMsg").text("아직 퇴근 시간이 아닙니다. ("+time+") 퇴근 처리 하시겠습니까?");
                     return;
                 }
+
                 if(data==""){
                     var time=getHours();
                     $("#modal").modal('show');

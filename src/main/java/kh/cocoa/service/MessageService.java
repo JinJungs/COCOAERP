@@ -62,5 +62,11 @@ public class MessageService implements MessageDAO {
     public List<MessageDTO> searchMsgInChatRoom(int m_seq, String contents){
         return msgdao.searchMsgInChatRoom(m_seq,contents);
     }
+
+    // seq.nextval 선택
+    @Override
+    public int selectMessageSeq(){
+        return msgdao.selectMessageSeq();
+    }
     
 }

@@ -107,7 +107,7 @@
                     right: 'today'
                 },
 
-                locale : 'ko',
+                locale : "ko",
                 navLinks: true,
                 businessHours: true,
                 editable: false,

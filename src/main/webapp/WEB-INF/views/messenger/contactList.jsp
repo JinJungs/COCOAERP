@@ -108,27 +108,18 @@
 								</div>
 							</li>
 						</ui>
-						<ui class="contacts" id="memberAll"> <c:forEach var="i"
-																		items="${memberList}">
-							<li class="con-list">
-								<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})" >
-									<div class="img_cont align-self-center">
-										<a href="#"> <img src="${i.profile}"
-														  class="rounded-circle user_img">
-										</a>
+						<ui class="contacts" id="memberAll">
+							<c:choose>
+								<c:when test="${empty memberList}">
+									<div class='none h-100' style="background-color: transparent !important;">
+										<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+										<p class='noFileMsg'>전체 멤버가 없습니다.</p>
 									</div>
-									<div class="user_info align-self-center">
-										<span>${i.name}</span>
-										<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
-									</div>
-								</div>
-							</li>
-						</c:forEach> </ui>
-						<ui class="contacts" id="memberDept"> <c:forEach var="i"
-																		 items="${memberList}">
-							<c:if test="${i.dept_code eq loginDTO.dept_code}">
+								</c:when>
+								<c:otherwise>
+								<c:forEach var="i" items="${memberList}">
 								<li class="con-list">
-									<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
+									<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})" >
 										<div class="img_cont align-self-center">
 											<a href="#"> <img src="${i.profile}"
 															  class="rounded-circle user_img">
@@ -140,78 +131,130 @@
 										</div>
 									</div>
 								</li>
-							</c:if>
-						</c:forEach> </ui>
-						<ui class="contacts" id="memberTeam"> <c:forEach var="i"
-																		 items="${memberList}">
-							<c:if test="${i.team_code eq loginDTO.team_code}">
-								<li class="con-list">
-									<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
-										<div class="img_cont align-self-center">
-											<a href="#"> <img src="${i.profile}" class="rounded-circle user_img">
-											</a>
-										</div>
-										<div class="user_info align-self-center">
-											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
-										</div>
+								</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</ui>
+						<ui class="contacts" id="memberDept">
+							<c:choose>
+								<c:when test="${empty memberList}">
+									<div class='none h-100' style="background-color: transparent !important;">
+										<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+										<p class='noFileMsg'>부서원이 없습니다.</p>
 									</div>
-								</li>
-							</c:if>
-						</c:forEach> </ui>
-						<ui class="contacts" id="chatList">
-							<c:forEach var="i" items="${chatList}">
-								<li class="con-list chat-list" id="chat-list${i.seq}">
-									<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
-										<div class="img_cont align-self-center">
-											<img src="${i.profile}" class="rounded-circle user_img">
-										</div>
-										<div class="user_info align-self-center">
-											<c:choose>
-												<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
-													<span class="con-room" id="con-room${i.seq}">${i.empname}</span>
-												</c:when>
-												<c:otherwise> <!--1:N채팅방-->
-													<span class="con-room" id="con-room${i.seq}">${i.name}</span>
-												</c:otherwise>
-											</c:choose>
-											<p>
-												<c:choose>
-													<c:when test="${i.msg_type=='IMAGE'}">
-														<span class="con-message" id="con-message${i.seq}"><c:out value="사진"/></span>
-													</c:when>
-													<c:otherwise>
-														<span class="con-message" id="con-message${i.seq}"><c:out value="${i.contents}"/></span>
-													</c:otherwise>
-												</c:choose>
-											</p>
-										</div>
-										<div class="con-rightMenu">
-											<div class="con-date" id="con-date${i.seq}">
-												<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
-												<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
-												<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
-												<c:choose>
-													<c:when test="${nowFormed==formed}">
-														${formedTime}
-													</c:when>
-													<c:when test="${nowDays-formedDays==1}">
-														어제
-													</c:when>
-													<c:otherwise>
-														${formed}
-													</c:otherwise>
-												</c:choose>
-											</div>
-											<div class="con-msgCount-box m-0 pt-2 p-0">
-												<div class="con-msgCount ml-auto p-0" id="con-msgCount${i.seq}">
-													12
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="i" items="${memberList}">
+									<c:if test="${i.dept_code eq loginDTO.dept_code}">
+										<li class="con-list">
+											<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
+												<div class="img_cont align-self-center">
+													<a href="#"> <img src="${i.profile}"
+																	  class="rounded-circle user_img">
+													</a>
+												</div>
+												<div class="user_info align-self-center">
+													<span>${i.name}</span>
+													<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 												</div>
 											</div>
-										</div>
+										</li>
+									</c:if>
+								</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</ui>
+						<ui class="contacts" id="memberTeam">
+							<c:choose>
+								<c:when test="${empty memberList}">
+									<div class='none h-100' style="background-color: transparent !important;">
+										<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+										<p class='noFileMsg'>팀원이 없습니다.</p>
 									</div>
-								</li>
-							</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="i" items="${memberList}">
+									<c:if test="${i.team_code eq loginDTO.team_code}">
+										<li class="con-list">
+											<div class="d-flex bd-highlight" ondblclick="toSingleChatRoom(${i.code})">
+												<div class="img_cont align-self-center">
+													<a href="#"> <img src="${i.profile}" class="rounded-circle user_img">
+													</a>
+												</div>
+												<div class="user_info align-self-center">
+													<span>${i.name}</span>
+													<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
+												</div>
+											</div>
+										</li>
+									</c:if>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
+						</ui>
+						<ui class="contacts" id="chatList">
+							<c:choose>
+								<c:when test="${empty chatList}">
+									<div class='none h-100' style="background-color: transparent !important;">
+										<img class='noFileImg' alt='nofile' src='/img/cocoa2.png'>
+										<p class='noFileMsg'>채팅방이 없습니다.</p>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="i" items="${chatList}">
+										<li class="con-list chat-list" id="chat-list${i.seq}">
+											<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
+												<div class="img_cont align-self-center">
+													<img src="${i.profile}" class="rounded-circle user_img">
+												</div>
+												<div class="user_info align-self-center">
+													<c:choose>
+														<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
+															<span class="con-room" id="con-room${i.seq}">${i.empname}</span>
+														</c:when>
+														<c:otherwise> <!--1:N채팅방-->
+															<span class="con-room" id="con-room${i.seq}">${i.name}</span>
+														</c:otherwise>
+													</c:choose>
+													<p>
+														<c:choose>
+															<c:when test="${i.msg_type=='IMAGE'}">
+																<span class="con-message" id="con-message${i.seq}"><c:out value="사진"/></span>
+															</c:when>
+															<c:otherwise>
+																<span class="con-message" id="con-message${i.seq}"><c:out value="${i.contents}"/></span>
+															</c:otherwise>
+														</c:choose>
+													</p>
+												</div>
+												<div class="con-rightMenu">
+													<div class="con-date" id="con-date${i.seq}">
+														<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
+														<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
+														<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
+														<c:choose>
+															<c:when test="${nowFormed==formed}">
+																${formedTime}
+															</c:when>
+															<c:when test="${nowDays-formedDays==1}">
+																어제
+															</c:when>
+															<c:otherwise>
+																${formed}
+															</c:otherwise>
+														</c:choose>
+													</div>
+													<div class="con-msgCount-box m-0 pt-2 p-0">
+														<div class="con-msgCount ml-auto p-0" id="con-msgCount${i.seq}">
+															12
+														</div>
+													</div>
+												</div>
+											</div>
+										</li>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</ui>
 					</div>
 				</div>

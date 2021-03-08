@@ -71,6 +71,7 @@ public class RestAttendanceController {
             SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
             Date time = new Date();
             String getCurTime = frm.format(time);
+
             if(Integer.parseInt(getCurTime)>930){
                 status="late";
             }else{
@@ -134,8 +135,10 @@ public class RestAttendanceController {
     @RequestMapping("/getReqInfo")
     public String getReqInfo(int atd_seq){
         AtdChangeReqDTO isReq =attendanceService.isReq(atd_seq);
-        isReq.setContents(Configurator.getReXSSFilter(isReq.getContents()));
         if(isReq!=null){
+            if(isReq.getContents()!=null) {
+                isReq.setContents(Configurator.getReXSSFilter(isReq.getContents()));
+            }
             JSONObject json = new JSONObject(isReq);
             return json.toString();
         }
@@ -170,6 +173,7 @@ public class RestAttendanceController {
         dto.setContents(Configurator.XssReplace(dto.getContents()));
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         dto.setEmp_code(loginSession.getCode());
+        System.out.println(dto);
         int addChangeReq=attendanceService.addChangeReq(dto);
         if(addChangeReq>0){
             return "successInsert";
