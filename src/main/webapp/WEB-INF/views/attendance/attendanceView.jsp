@@ -27,6 +27,10 @@
             color: #666;
             font-size: 36px;
         }
+        .fc-toolbar-chunk {
+            display: flex;
+            align-items: center;
+        }
     </style>
 </head>
 <body onload="printClock()">
@@ -98,9 +102,9 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
-                    left: 'dayGridMonth,dayGridWeek,dayGridDay',
-                    center: 'title',
-                    right: 'prev,next'
+                    left: '',
+                    center: 'prev title next',
+                    right: 'today'
                 },
 
                 local : "ko",
@@ -119,6 +123,10 @@
                                 <c:when test="${i.status=='LATE'}">
                                     title: '지각',
                                     color: 'yellow'
+                                </c:when>
+                                <c:when test="${i.status=='OUT'}">
+                                    title: '외근',
+                                    color: 'black'
                                 </c:when>
                             </c:choose>
                         },
