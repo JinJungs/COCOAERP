@@ -33,9 +33,9 @@ public interface AttendanceDAO {
 
     String countStatusWork(int emp_code);
 
-    int countWorkHour(int emp_code);
+    String countWorkHour(int emp_code);
 
-    int countWorkMin(int emp_code);
+    String countWorkMin(int emp_code);
 
     List<AtdChangeReqDTO> getAtdReqListToMain(int emp_code);
 
