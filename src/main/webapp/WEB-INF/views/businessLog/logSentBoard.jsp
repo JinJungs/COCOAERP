@@ -58,7 +58,7 @@
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty logAllList}">
-								<div class="row" id="notice">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -103,7 +103,7 @@
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty dailyList}">
-								<div class="row" id="notice">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -148,7 +148,7 @@
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty weeklyList}">
-								<div class="row" id="notice">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>
@@ -193,7 +193,7 @@
 						style="border-bottom: 1px solid lightgray;">
 						<c:choose>
 							<c:when test="${empty monthlyList}">
-								<div class="row" id="notice">
+								<div class="row" id="notice" style="border: transparent;">
 									<div class="col">작성된 글이 없습니다.</div>
 								</div>
 							</c:when>

@@ -81,7 +81,7 @@
 
                 </div>
             </div>
-            
+
             <form id="mainform" method="post" enctype="multipart/form-data">
                 <div class="row w-100 pt-4 pb-4 pl-3 pr-3" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-md-12" >
@@ -108,7 +108,7 @@
                 </div>
                 <div class="row w-100" style="border-bottom: 1px solid #c9c9c9;">
                     <div class="col-2 p-3" style="border-right: 1px solid #c9c9c9;">기안 제목</div>
-                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off"></div>
+                    <div class="col-10 p-3"><input type="text"  id="title" name="title" placeholder="기안제목 입력" style="min-width: 400px; border: 1px solid #c9c9c9;" autocomplete="off" oninput="fn_getTitleWordLeng()"></div>
                 </div>
                 <div class="row w-100">
                     <div class="col-2 p-3 " style="border-right: 1px solid #c9c9c9;">파일 첨부</div>
@@ -169,7 +169,7 @@
                 <div class="row w-100 pt-3 mb-5">
                     <div class="col-12"><textarea id=contents name=contents class="w-100" style="min-height: 350px" placeholder="휴가 사유를 적어주세요."></textarea></div>
                 </div>
-			</form>
+            </form>
         </div>
     </div>
 </div>
@@ -196,7 +196,7 @@
                                 <div class="col-12 pb-1"></div>
                             </div>
                             <input type="hidden" id="deptsize" value="${size}">
-                            <form id="deptForm">
+                            <form id="deptForm" style="max-height:485px; overflow-y: auto;">
 
                             </form>
 
@@ -231,6 +231,16 @@
                 <button type="button" class="btn btn-dark" onclick="fn_addconfirm()" data-dismiss="modal">적용</button>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade " id="alertModal" data-backdrop="false" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document" >
+        <div class="modal-content">
+            <div class="modal-body d-flex justify-content-center h-100 pt-5" style="min-height: 120px;">
+                <b id="result-msg"></b>
+            </div>
         </div>
     </div>
 </div>
@@ -331,6 +341,21 @@
             language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
         });//datepicker end
     });//ready end*/
+
+    function fn_closeAlertModal(){
+        var setTime=setTimeout(function () {
+            $("#alertModal").modal('hide');
+        },1000)
+    }
+
+    function fn_getTitleWordLeng() {
+        var titlemax =50;
+        var titleleng = $("#title").val().length;
+        var getTitle =$("#title").val();
+        if(titlemax<titleleng){
+            $("#title").val(getTitle.substr(0,titlemax));
+        }
+    }
 
     function fn_getDeptList(){
         return new Promise(function (resolve,reject) {
@@ -550,7 +575,6 @@
                     },20)
                 }
                 if(d3==0&&d2!=0&&d1==0){
-                    console.log("팀");
                     for(var i=1;i<data.length;i=i+2){
                         for(var j=0;j<data[i].length;j++){
                             fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));
@@ -561,7 +585,6 @@
                     },20)
                 }
                 if(d3==0&&d2!=0&&d1!=0){
-                    console.log("둘다");
                     for(var i=1;i<data.length;i=i+2){
                         for(var j=0;j<data[i].length;j++){
                             fn_getSearchDeptList(data[i][j].dept_code).then(fn_getSearchTeamList(data[i][j].code));
@@ -652,8 +675,11 @@
     }
 
     function fn_clickbtnadd() {
-        alert("최소 한 명의 결재자를 선택해주세요.");
+        $("#result-msg").text("최소 한 명의 결재자를 선택해주세요.");
+        $("#alertModal").modal();
+        fn_closeAlertModal();
     }
+
     function fn_isnull(){
         var title = $("#title").val();
         var contents = $("#contents").val();
@@ -663,50 +689,59 @@
         var end = $("#leave_end").val();
         var disable = $("#leave_end").attr("disabled");
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
+            $("#result-msg").text("종료일이 시작일보다 빠릅니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }else if(start==""){
-            alert("시작일을 입력해주세요.");
+            $("#result-msg").text("시작일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_start").focus();
             return;
         }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
+            $("#result-msg").text("종료일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_end").focus();
             return;
         }
-        
+
         $.ajax({
-        	url: "/document/canGetLeave.document",
-        	type: "post",
-        	success: function(result){
-        		var confirmResult = confirm("남은 휴가일은 " + result + "일 입니다.\n신청하시겠습니까?");
-        		if(!confirmResult){
-        			
-        		}else{
-        			 $.ajax({
-		            url:"/restdocument/ajaxadddocument.document",
-		            type:"post",
-		            enctype: 'multipart/form-data',
-		            data:new FormData($("#mainform")[0]),
-		            contentType: false,
-		            processData: false,
-		            success: function (result) {
-		                if(result>0){
-		                    location.href="/document/toTemplateList.document";
-		                }
-		
-			            }
-			        });
-        		}
-        	}
+            url: "/document/canGetLeave.document",
+            type: "post",
+            success: function(result){
+                var confirmResult = confirm("남은 휴가일은 " + result + "일 입니다.\n신청하시겠습니까?");
+                if(!confirmResult){
+
+                }else{
+                    $.ajax({
+                        url:"/restdocument/ajaxadddocument.document",
+                        type:"post",
+                        enctype: 'multipart/form-data',
+                        data:new FormData($("#mainform")[0]),
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if(result>0){
+                                window.location.replace("/document/d_searchRaise.document");
+                            }
+                        }
+                    });
+                }
+            }
         })
     }
 
@@ -731,17 +766,23 @@
         var code = getempcode;
         var curemp = $("#getcuruserempcode").val();
         if(curemp==code){
-            alert("기안자는 추가할 수 없습니다.");
+            $("#result-msg").text("기안자는 추가할 수 없습니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
         for(var i=0;i<count;i++){
             if(getaddedempcode[i]==getempcode){
-                alert("이미 추가된 사용자입니다.");
+                $("#result-msg").text("이미 추가된 사용자입니다.");
+                $("#alertModal").modal();
+                fn_closeAlertModal();
                 return;
             }
         }
         if(count>=5){
-            alert("최대 5명까지 가능합니다.");
+            $("#result-msg").text("최대 5명까지 가능합니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }
 
@@ -794,7 +835,6 @@
             data:$("#confirmform").serialize(),
             dataType :"json",
             success: function (data) {
-                console.log(data[0].pos_name);
                 html="";
                 for(var i=0;i<data.length;i++){
                     html+="<div class=\"col-md-1 p-0 col-3 m-md-3 m-3 confirmbox\">";
@@ -827,22 +867,32 @@
         var end = $("#leave_end").val();
         var disable = $("#leave_end").attr("disabled");
         if(title==""){
-            alert("제목을 입력해주세요.");
+            $("#result-msg").text("제목을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#title").focus();
             return;
         }else if(contents==""){
-            alert("내용을 입력해주세요.");
+            $("#result-msg").text("내용을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#contents").focus();
             return;
         }else if(leave_end!=""&&leave_start>leave_end&&disable==undefined){
-            alert("종료일이 시작일보다 빠릅니다.");
+            $("#result-msg").text("종료일이 시작일보다 빠릅니다.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             return;
         }else if(start==""){
-            alert("시작일을 입력해주세요.");
+            $("#result-msg").text("시작일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_start").focus();
             return;
         }else if(end==""&&disable==undefined){
-            alert("종료일을 입력해주세요..");
+            $("#result-msg").text("종료일을 입력해주세요.");
+            $("#alertModal").modal();
+            fn_closeAlertModal();
             $("#leave_end").focus();
             return;
         }
@@ -856,7 +906,7 @@
             processData: false,
             success: function (result) {
                 if(result>=1){
-                    location.href="/document/d_searchTemporary.document";
+                    window.location.replace("/document/d_searchTemporary.document");
                 }
             }
         });

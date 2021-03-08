@@ -11,6 +11,7 @@
 	<style>
 		.contents {
 			min-height: 600px;
+			word-break:break-all;
 		}
 		.box{
 			width: 140px;
@@ -33,7 +34,7 @@
 			#sidebar {display:none;}
 			#printer {display:none;}
 			#btnModal {display:none;}
-            #footer{display: none;}
+			#footer{display: none;}
 		}
 		#printer{
 			cursor: pointer;
@@ -279,14 +280,37 @@
 		location.href="/document/reWrite.document?seq="+seq;
 	}
 
+	var entityMap = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#39;',
+		'/': '&#x2F;',
+		'`': '&#x60;',
+		'=': '&#x3D;'
+	};
+
+	function escapeHtml (string) {
+		return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+			return entityMap[s];
+		});
+	}
+
 	function fn_confirm(seq){
 		var radioval = $("input:radio[name='confirm']:checked").val();
-		var comments = $("#comments").val();
+		var comments = escapeHtml($("#comments").val());
+		var comments = escapeHtml($("#comments").val());
+		comments = encodeURIComponent(comments);
+
+
 		if(radioval=="승인") {
 			location.href = "/document/confirm.document?seq="+seq+"&comments="+comments;
 		}else{
 			location.href = "/document/return.document?seq="+seq+"&comments="+comments;
 		}
+
+
 	}
 
 	function fn_print() {

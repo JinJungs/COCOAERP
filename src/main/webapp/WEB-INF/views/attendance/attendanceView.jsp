@@ -37,7 +37,7 @@
     <div class="wrapper d-flex align-items-stretch">
         <%@ include file="/WEB-INF/views/sidebar/sidebar.jsp"%>
         <div id="content" class="p-4 p-md-5 pt-5">
-            <h2 class="mb-4 board_title">출퇴근 체크</h2>
+            <h2 class="mb-4 board_title">근태현황 보기</h2>
 <%--            <div class="row">--%>
                 <div class="box attendance col-12 mb-3">
                     <div class="row">

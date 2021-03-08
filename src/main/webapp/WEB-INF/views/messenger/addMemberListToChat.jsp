@@ -135,7 +135,12 @@
                         html += "<a href='#'>";
                         html += "<div class='user_info align-self-center'>";
                         html += "<span>" + jArrayMember[i].name + "</span>";
-                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
+                        html += "<p>" + jArrayMember[i].deptname + " | ";
+                        if(!jArrayMember[i].teamname){
+                            html += "무소속</p>";
+                        }else{
+                            html += jArrayMember[i].teamname + "</p>";
+                        }
                         html += "</div></a>";
                         html += "<div class='ml-auto align-self-center'>"
                         html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";
@@ -163,9 +168,6 @@
     //========================확인 후 부모창으로 값 전송============================
     document.getElementById("confirm_btn").addEventListener('click', getReturnValue);
     function getReturnValue(){
-    	//alert("validAddList!");
-    	console.log("checkArr in validAddList : ",checkArr);
-
         //체크된 사람이 0명이라면 넘겨주지 않기
         if (checkArr.length == 0) {
             alert("대화상대를 한 명 이상 선택해주세요.");
@@ -189,7 +191,6 @@
         } else {
             deleteParty(code);
         }
-        console.log("checkArr: "+checkArr);
     }
 
     // 기존멤버를 목록에 추가하기 - 상단에 사람목록 추가 & x 아이콘 추가하지 않음

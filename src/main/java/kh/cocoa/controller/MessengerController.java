@@ -2,6 +2,7 @@ package kh.cocoa.controller;
 
 import kh.cocoa.dto.*;
 import kh.cocoa.service.*;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class MessengerController {
             String type = chatList.get(i).getType();
             String profile = fservice.getChatProfile(empcode,type);
             chatList.get(i).setProfile(profile);
+            chatList.get(i).setContents(Configurator.getReXSSFilter(chatList.get(i).getContents()));
         }
     	model.addAttribute("memberList", memberList);
     	model.addAttribute("chatList", chatList);
@@ -110,6 +112,8 @@ public class MessengerController {
         }
         // 채팅방 사진 불러오기
         String chatProfile = fservice.getChatProfile(code,messenger.getType());
+        // XSS 처리 - messenger.name / partyDTO.empname / partyDTO.deptname / partyDTO.teamname
+
         //messenger : 해당 시퀀스의 메신저 테이블 정보
         model.addAttribute("messenger", messenger);
         model.addAttribute("seq", seq); //??messenger에 담는걸로 수정??
@@ -120,22 +124,17 @@ public class MessengerController {
     //연락처에서 1:1채팅창 열기(혹은 생성)
     @RequestMapping("openCreateSingleChat")
     public String chatFromContact(int partyEmpCode, Model model) {
-    	System.out.println("openCreateSingleChat 도착 !");
-    	System.out.println("partyEmpCode : "+partyEmpCode);
     	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
     	int code = loginDTO.getCode();
-    	System.out.println("code / partyEmpCode : "+code +" : "+partyEmpCode);
     	int seq;
     	//개인 채팅방 존재 유무 파악
     	int checkSingleRoom = mservice.isSingleMessengerRoomExist(code, partyEmpCode);
-    	System.out.println("checkSingleRoom : "+checkSingleRoom);
     	if(checkSingleRoom == 0) {
     		//없을 경우 채팅방 생성 (S타입)
     		MessengerDTO dto = new MessengerDTO();
     		dto.setType("S");
     		dto.setName("");
-    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(dto);
-    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		mservice.insertMessengerRoomGetSeq(dto);
     		//Messenger 테이블 seq = Messenger_Party의 m_seq
     		seq = dto.getSeq();
 			
@@ -145,12 +144,10 @@ public class MessengerController {
     		MessengerPartyDTO party = new MessengerPartyDTO().builder().m_seq(seq).emp_code(partyEmpCode).build();
     		memberList.add(mine);
     		memberList.add(party);
-    		int insertMemResult = mpservice.setMessengerMember(memberList);
-    		System.out.println("insertMemResult : "+insertMemResult);
+    		mpservice.setMessengerMember(memberList);
     	}else {
     		seq = mservice.getSingleMessengerRoom(code, partyEmpCode);
     	}
-    	System.out.println("채팅방 seq : "+seq);
     	return "redirect:/messenger/chat?seq="+seq;
     }
 
@@ -175,11 +172,8 @@ public class MessengerController {
     	}
 
     	if(partyList.size()==1) {
-    		System.out.println("1명 있을 때");
     		//추가 인원이 1인이면 개인 채팅방 열기(혹은 생성)
     		int partyEmpCode = partyList.get(0).getEmp_code();
-    		System.out.println("partyEmpCode : "+partyEmpCode);
-    		//redirectAttributes.addFlashAttribute("partyEmpCode", partyEmpCode);
     		//리스트 말고 하나의 값을 보내려면 redirectAttributes가 안되는 것 같다.. why?
     		return "redirect:/messenger/openCreateSingleChat?partyEmpCode="+partyEmpCode;
     	}else if(partyList.size()>1) {
@@ -187,13 +181,11 @@ public class MessengerController {
     		//messenger 타입지정 + 생성
     		MessengerDTO messenger = new MessengerDTO();
     		messenger.setType("M");
-    		messenger.setName(loginDTO.getName()+" 님 외 "+partyList.size()+"명");
+    		messenger.setName(loginDTO.getName()+" 님의 단체 채팅방");
     		//메신저 테이블 인서트 후 시퀀스값 받아오기
-    		int insertRoomResult = mservice.insertMessengerRoomGetSeq(messenger);
-    		System.out.println("insertRoomResult : "+insertRoomResult);
+    		mservice.insertMessengerRoomGetSeq(messenger);
     		//Messenger 테이블 seq = Messenger_Party의 m_seq
     		seq = messenger.getSeq();
-			
     		//멤버추가하기
     		//참가자 리스트에 로그인한 아이디 코드도 넣기
     		MessengerPartyDTO logined = new MessengerPartyDTO().builder().emp_code(code).build();
@@ -201,12 +193,10 @@ public class MessengerController {
     		for(MessengerPartyDTO i : partyList) {
     			i.setM_seq(seq);
     		}
-    		int insertMemResult = mpservice.setMessengerMember(partyList);
-    		System.out.println("insertMemResult : "+insertMemResult);
+    		mpservice.setMessengerMember(partyList);
     		
     		redirectAttributes.addFlashAttribute("loginDTO",loginDTO);
     		redirectAttributes.addFlashAttribute("partyList",partyList);
-    		//redirectAttributes.addFlashAttribute("seq",seq);
     		return "redirect:/messenger/chat?seq="+seq;
     	}else {
     		//에러
@@ -215,9 +205,10 @@ public class MessengerController {
     }
 
     @RequestMapping("messengerSearch")
-    public String messengerSearch(String contents,Model model){
+    public String messengerSearch(String contents, Model model){
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
+        int cpage = 1;
         // 로그인한 사람의 이름은 제외해야함
         //(1) 멤버이름으로 찾기
         List<EmployeeDTO> memberList = eservice.searchEmployeeByName(code, contents);
@@ -225,8 +216,10 @@ public class MessengerController {
         List<EmployeeDTO> deptList = eservice.searchEmployeeByDeptname(code, contents);
         //(3) 팀이름으로 찾기
         List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(code, contents);
-        //(5) 메세지 찾기
-        List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
+        //(4) 메세지 찾기
+        //List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
+        //(5) 메세지 cpage로 찾기
+        List<MessageViewDTO> messageListByCpage = msgservice.searchMsgByContentsByCpage(code,contents,cpage);
 
         // 의진 추가 - 참여자의 프로필 이미지 추가하기
         for(int i=0; i<memberList.size(); i++){
@@ -241,16 +234,15 @@ public class MessengerController {
             String profile = fservice.getProfile(teamList.get(i).getCode());
             teamList.get(i).setProfile(profile);
         }
-        for(int i=0; i<messageList.size(); i++){
-            String profile = fservice.getProfile(messageList.get(i).getEmp_code());
-            messageList.get(i).setProfile(profile);
+        for(int i=0; i<messageListByCpage.size(); i++){
+            String profile = fservice.getProfile(messageListByCpage.get(i).getEmp_code());
+            messageListByCpage.get(i).setProfile(profile);
         }
-
         model.addAttribute("searchKeyword",contents);
         model.addAttribute("memberList",memberList);
         model.addAttribute("deptList",deptList);
         model.addAttribute("teamList",teamList);
-        model.addAttribute("messageList",messageList);
+        model.addAttribute("messageList",messageListByCpage);
         return "/messenger/messengerSearch";
     }
 
@@ -259,6 +251,7 @@ public class MessengerController {
     public String messengerSearchAjax(String contents){
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int code = loginDTO.getCode();
+        int cpage=1;
         JSONArray jArrayMember = new JSONArray();
         JSONArray jArrayDept = new JSONArray();
         JSONArray jArrayTeam = new JSONArray();
@@ -273,7 +266,9 @@ public class MessengerController {
         //(3) 팀이름으로 찾기
         List<EmployeeDTO> teamList = eservice.searchEmployeeByTeamname(code, contents);
         //(4) 메세지 찾기
-        List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
+        //List<MessageViewDTO> messageList = msgservice.searchMsgByContents(code, contents);
+        //(5) 메세지 cpage로 찾기
+        List<MessageViewDTO> messageListByCpage = msgservice.searchMsgByContentsByCpage(code,contents,cpage);
 
         // 의진 추가 - 참여자의 프로필 이미지 추가하기
         for(int i=0; i<memberList.size(); i++){
@@ -288,9 +283,9 @@ public class MessengerController {
             String profile = fservice.getProfile(teamList.get(i).getCode());
             teamList.get(i).setProfile(profile);
         }
-        for(int i=0; i<messageList.size(); i++){
-            String profile = fservice.getProfile(messageList.get(i).getEmp_code());
-            messageList.get(i).setProfile(profile);
+        for(int i=0; i<messageListByCpage.size(); i++){
+            String profile = fservice.getProfile(messageListByCpage.get(i).getEmp_code());
+            messageListByCpage.get(i).setProfile(profile);
         }
 
         // 나중에 이중for문으로 정리하기
@@ -331,21 +326,21 @@ public class MessengerController {
             jArrayTeam.put(param);
         }
         // jArrayMessage에 messageList 넣기
-        for (int i = 0; i < messageList.size(); i++) {
+        for (int i = 0; i < messageListByCpage.size(); i++) {
             param = new HashMap<>();
-            param.put("seq",messageList.get(i).getSeq());
-            param.put("contents",messageList.get(i).getContents());
-            param.put("write_date",messageList.get(i).getWrite_date());
-            param.put("emp_code",messageList.get(i).getEmp_code());
-            param.put("m_seq",messageList.get(i).getM_seq());
-            param.put("type",messageList.get(i).getType());
-            param.put("m_type",messageList.get(i).getM_type());
-            param.put("name",messageList.get(i).getName());
-            param.put("party_seq",messageList.get(i).getParty_seq());
-            param.put("party_emp_code",messageList.get(i).getEmp_code());
-            param.put("empname",messageList.get(i).getEmpname());
-            param.put("party_empname",messageList.get(i).getParty_empname());
-            param.put("profile",messageList.get(i).getProfile());
+            param.put("seq",messageListByCpage.get(i).getSeq());
+            param.put("contents",messageListByCpage.get(i).getContents());
+            param.put("write_date",messageListByCpage.get(i).getWrite_date());
+            param.put("emp_code",messageListByCpage.get(i).getEmp_code());
+            param.put("m_seq",messageListByCpage.get(i).getM_seq());
+            param.put("type",messageListByCpage.get(i).getType());
+            param.put("m_type",messageListByCpage.get(i).getM_type());
+            param.put("name",messageListByCpage.get(i).getName());
+            param.put("party_seq",messageListByCpage.get(i).getParty_seq());
+            param.put("party_emp_code",messageListByCpage.get(i).getEmp_code());
+            param.put("empname",messageListByCpage.get(i).getEmpname());
+            param.put("party_empname",messageListByCpage.get(i).getParty_empname());
+            param.put("profile",messageListByCpage.get(i).getProfile());
             jArrayMessage.put(param);
         }
         jArrayAll.put(jArrayMember);
@@ -371,8 +366,6 @@ public class MessengerController {
             String profile = fservice.getProfile(memberList.get(i).getCode());
             memberList.get(i).setProfile(profile);
         }
-
-        // 나중에 이중for문으로 정리하기
         // jArrayMember에 memberList 넣기
         for (int i = 0; i < memberList.size(); i++) {
             param = new HashMap<>();
@@ -406,6 +399,7 @@ public class MessengerController {
     }
     
     //멤버 추가를 위한 리스트 열기
+    //XSS 처리?
     @RequestMapping("openMemberList")
     public String openMemberList(Model model, int seq) {
     	System.out.println("openMemberList 도착 ㅣ seq : "+seq);
@@ -425,25 +419,9 @@ public class MessengerController {
     public int modifChatName(MessengerDTO messenger) {
     	System.out.println("ModifChatName 도착!!");
     	System.out.println("messengerDTO : "+messenger);
-    	int result = mservice.updateName(messenger.getSeq(), messenger.getName());
+        System.out.println("채팅방 이름 변경 xss : " + Configurator.XssReplace(messenger.getName()));
+    	int result = mservice.updateName(messenger.getSeq(), Configurator.XssReplace(messenger.getName()));
     	return result;
-    }
-    
-    //채팅방 나가기
-    @RequestMapping("exitRoom")
-    @ResponseBody
-    public String exitRoom(int seq) {
-    	EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
-        int code = loginDTO.getCode();
-        //방어코드 : 타입이 'M'이 아닌 경우 리턴하는 처리 해줘야하나??
-        
-    	MessengerPartyDTO mparty = new MessengerPartyDTO();
-    	mparty.setM_seq(seq);
-    	mparty.setEmp_code(code);
-    	int result = mpservice.exitMutiRoom(mparty);
-    	System.out.println("mparty : " + mparty);
-    	System.out.println("채팅방 나가기 : "+result);
-    	return "";
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -486,7 +464,6 @@ public class MessengerController {
     		System.out.println("1:1에서 추가할 때");
     		//채팅방 설정 : 타입 M으로, 채팅방 이름 인원수로
     		int resultType = mservice.updateTypeToM(seq);
-    		//String name = loginDTO.getName() + "님 외 " + (partyList.size()+1) + "명";
     		//리스트 인원 받아서 수정
     		String name = loginDTO.getName() + "님의 단체 채팅방";
     		int resultName = mservice.updateName(seq, name);
@@ -494,7 +471,6 @@ public class MessengerController {
     	}
     	int insertMemResult = mpservice.setMessengerMember(list);
     	System.out.println("인원 추가 결과 : "+insertMemResult);
-
 
     	return insertMemResult;
     }

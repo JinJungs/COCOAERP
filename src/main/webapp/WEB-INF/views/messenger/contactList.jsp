@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:useBean id="now" class="java.util.Date" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +17,9 @@
 <!--Coded With Love By Mutiullah Samim-->
 <body>
 <div class="w-100 h-100 chat container-fluid p-0 min-w-450">
+	<%-- 오늘 날짜 --%>
+	<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowFormed" />
+	<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="nowDays" scope="request"/>
 	<!-- 전체 시작 -->
 	<div class="row m-0 h-100 whiteBg contactList_body">
 		<!-- 왼쪽 - contact list sidebar -->
@@ -97,7 +102,7 @@
 									<a href="#">
 										<div class="user_info align-self-center">
 											<span>${loginDTO.name}</span>
-											<p>${loginDTO.deptname} | ${loginDTO.teamname}</p>
+											<p>${loginDTO.deptname} | ${loginDTO.teamname}<c:if test="${empty loginDTO.teamname}">무소속</c:if></p>
 										</div>
 									</a>
 								</div>
@@ -114,7 +119,7 @@
 									</div>
 									<div class="user_info align-self-center">
 										<span>${i.name}</span>
-										<p>${i.deptname} | ${i.teamname}</p>
+										<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 									</div>
 								</div>
 							</li>
@@ -131,7 +136,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -148,7 +153,7 @@
 										</div>
 										<div class="user_info align-self-center">
 											<span>${i.name}</span>
-											<p>${i.deptname} | ${i.teamname}</p>
+											<p>${i.deptname} | ${i.teamname}<c:if test="${empty i.teamname}">무소속</c:if></p>
 										</div>
 									</div>
 								</li>
@@ -156,7 +161,7 @@
 						</c:forEach> </ui>
 						<ui class="contacts" id="chatList">
 							<c:forEach var="i" items="${chatList}">
-								<li class="con-list">
+								<li class="con-list chat-list" id="chat-list${i.seq}">
 									<div class="d-flex bd-highlight" ondblclick="toChatRoom(${i.seq})">
 										<div class="img_cont align-self-center">
 											<img src="${i.profile}" class="rounded-circle user_img">
@@ -164,13 +169,45 @@
 										<div class="user_info align-self-center">
 											<c:choose>
 												<c:when test="${i.type=='S'}"> <!--1:1채팅방-->
-													<span>${i.empname}</span>
+													<span class="con-room" id="con-room${i.seq}">${i.empname}</span>
 												</c:when>
 												<c:otherwise> <!--1:N채팅방-->
-													<span>${i.name}</span>
+													<span class="con-room" id="con-room${i.seq}">${i.name}</span>
 												</c:otherwise>
 											</c:choose>
-											<p class="con-message" id="con-message${i.seq}">${i.contents}</p>
+											<p>
+												<c:choose>
+													<c:when test="${i.msg_type=='IMAGE'}">
+														<span class="con-message" id="con-message${i.seq}"><c:out value="사진"/></span>
+													</c:when>
+													<c:otherwise>
+														<span class="con-message" id="con-message${i.seq}"><c:out value="${i.contents}"/></span>
+													</c:otherwise>
+												</c:choose>
+											</p>
+										</div>
+										<div class="con-rightMenu">
+											<div class="con-date" id="con-date${i.seq}">
+												<fmt:formatDate value="${i.write_date}" pattern="yyyy-MM-dd" var="formed"/>
+												<fmt:formatDate value="${i.write_date}" pattern="HH:mm" var="formedTime"/>
+												<fmt:parseNumber value="${i.write_date.time / (1000*60*60*24)}" integerOnly="true" var="formedDays" scope="request"/>
+												<c:choose>
+													<c:when test="${nowFormed==formed}">
+														${formedTime}
+													</c:when>
+													<c:when test="${nowDays-formedDays==1}">
+														어제
+													</c:when>
+													<c:otherwise>
+														${formed}
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="con-msgCount-box m-0 pt-2 p-0">
+												<div class="con-msgCount ml-auto p-0" id="con-msgCount${i.seq}">
+													12
+												</div>
+											</div>
 										</div>
 									</div>
 								</li>
@@ -183,10 +220,13 @@
 	</div>
 </div>
 </div>
+<input id="onclickNow" type="hidden" value="all">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- sockjs, stomp CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<!-- 날짜 변경 라이브러리-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
 	let chatTitle = document.getElementById("chatTitle");
 	let memberAll = document.getElementById("memberAll");
@@ -200,7 +240,21 @@
 	let showChat = document.getElementById("showChat");
 	const textLength = 20;
 
-	showAll.onclick = function() {
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	function funcOnclickNow(onclickNow){
+		if(onclickNow == 'all'){
+			this.showAllClick();
+		}else if (onclickNow == 'dept'){
+			this.showDeptClick();
+		}else if(onclickNow == 'team'){
+			this.showTeamClick();
+		}else if(onclickNow == 'chat'){
+			this.showChatClick();
+		}
+	}
+	//자식창(chat.jsp)에서 부모창 리로드시 funcOnclickNow 안먹힘/ 안되면 지우기 ============
+	showAll.addEventListener("click", showAllClick);
+	function showAllClick(){
 		memberAll.style.display="block";
 		memberDept.style.display="none";
 		memberTeam.style.display="none";
@@ -208,8 +262,11 @@
 		chatTitle.innerHTML = "전체 연락처";
 		$("#myProfil").show();
 		$(".search").focus();
-	};
-	showDept.onclick = function() {
+		document.getElementById("onclickNow").value = "all";
+	}
+
+	showDept.addEventListener("click", showDeptClick);
+	function showDeptClick(){
 		memberAll.style.display="none";
 		memberDept.style.display="block";
 		memberTeam.style.display="none";
@@ -217,8 +274,11 @@
 		chatTitle.innerHTML = "부서원";
 		$("#myProfil").show();
 		$(".search").focus();
-	};
-	showTeam.onclick = function() {
+		document.getElementById("onclickNow").value = "dept";
+	}
+
+	showTeam.addEventListener("click", showTeamClick);
+	function showTeamClick(){
 		memberAll.style.display="none";
 		memberDept.style.display="none";
 		memberTeam.style.display="block";
@@ -226,8 +286,11 @@
 		chatTitle.innerHTML = "팀원";
 		$("#myProfil").show();
 		$(".search").focus();
-	};
-	showChat.onclick = function() {
+		document.getElementById("onclickNow").value = "team";
+	}
+
+	showChat.addEventListener("click", showChatClick);
+	function showChatClick(){
 		memberAll.style.display="none";
 		memberDept.style.display="none";
 		memberTeam.style.display="none";
@@ -235,10 +298,12 @@
 		chatTitle.innerHTML = "채팅방";
 		$("#myProfil").hide();
 		$(".search").focus();
-	};
+		document.getElementById("onclickNow").value = "chat";
+	}
 
 	// 연락처리스트 소켓으로 메세지받기
-	//스톰프 연결
+	// 스톰프 연결
+	let msgCount = 0;
 	function connectStomp() {
 		var sock = new SockJS("/stompTest"); // endpoint
 		var client = Stomp.over(sock); //소크로 파이프 연결한 스톰프
@@ -246,18 +311,34 @@
 		socket = client;
 
 		client.connect({}, function () {
-			console.log("ContactList stompTest!");
-			// 해당 토픽을 구독한다!
-			// 여기에 for문을 돌려야할까...
+			// 채팅방의 개수만큼 Stomp로 받아야한다.
 			<c:forEach var="i" items="${chatList}">
 				client.subscribe('/contact/' +${i.seq}, function (e) {
 				let msg = JSON.parse(e.body).contents;
 				let type = JSON.parse(e.body).type;
-				let m_seq = JSON.parse(e.body).m_seq;
-				if(msg.length > textLength){
-					msg = msg.substr(0, textLength-2) + '...';
+				let write_date = JSON.parse(e.body).write_date;
+				let roomname = JSON.parse(e.body).roomname;
+				let parent = document.getElementById("chatList");
+				let child = document.getElementById("chat-list${i.seq}");
+				// (1) 날짜
+				let formed_write_date = moment(write_date).format('HH:mm');
+				$("#con-date${i.seq}").html(formed_write_date);
+				// (2) 메세지
+				// type이 IMAGE일 때는 '사진'으로 메세지를 띄워준다.
+				if(type=='IMAGE'){
+					parent.insertBefore(child,parent.firstChild);
+					$("#con-message${i.seq}").html("사진");
+				}else if(type=='TEXT' || type=='FILE'){
+					// 위치 맨위로 올리기
+					parent.insertBefore(child,parent.firstChild);
+					if(msg.length > textLength){
+						msg = msg.substr(0, textLength-2) + '...';
+					}
+					$("#con-message${i.seq}").html(msg);
+				// (3) 채팅방 이름 변경
+				}else if(type=='AN_MODIF'){
+					$("#con-room${i.seq}").html(roomname);
 				}
-				$("#con-message${i.seq}").html(msg);
 			});
 			</c:forEach>
 		});
@@ -310,7 +391,6 @@
     function openMemberList(){
 		var popup = window.open('/messenger/openMemberList?seq=0','',winFeature);
     }
-    
 </script>
 <script src="/resources/static/js/messenger.js"></script>
 <script type="text/javascript"

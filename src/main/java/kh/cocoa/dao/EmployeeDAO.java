@@ -86,6 +86,8 @@ public interface EmployeeDAO {
 
 	public List<Integer> getAllEmpCode();
 
+	public List<EmployeeDTO> getAllMWEmpCode();
+
 
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
@@ -115,6 +117,8 @@ public interface EmployeeDAO {
 	public int updateEmployee(List<EmployeeDTO> list);
 	
 	public String getEmpNameByCode(int code);
+	
+	public int updateWithdraw(List<EmployeeDTO> dto);
 	
 	//-------------소형 끝---------------//
 

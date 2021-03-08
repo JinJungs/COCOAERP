@@ -98,7 +98,6 @@
     //-------------------------------- 비동기 검색 -------------------------------------
     function searchAjax() {
         searchContents = $("#searchContents").val();
-        console.log("검색어 : " +searchContents);
         $.ajax({
             url: "/messenger/addMemberSearchAjax",
             type: "post",
@@ -108,7 +107,6 @@
             dataType: "json",
             success: function (resp) {
                 jArrayMember = resp;
-                console.log("멤버 몇명 : " +jArrayMember.length);
                 // -------------- 여기서부터 다시 리스트를 쏴줘야한다. --------------
                 // 멤버
                 let html = "";
@@ -129,7 +127,12 @@
                         html += "<a href='#'>";
                         html += "<div class='user_info align-self-center'>";
                         html += "<span>" + jArrayMember[i].name + "</span>";
-                        html += "<p>" + jArrayMember[i].deptname+ " | " +jArrayMember[i].teamname + "</p>";
+                        html += "<p>" + jArrayMember[i].deptname + " | ";
+                        if(!jArrayMember[i].teamname){
+                            html += "무소속</p>";
+                        }else{
+                            html += jArrayMember[i].teamname + "</p>";
+                        }
                         html += "</div></a>";
                         html += "<div class='ml-auto align-self-center'>"
                         html += "<input class='form-check-input align-self-center' id='checkbox" + jArrayMember[i].code + "' type='checkbox' name='emp_code' value='" + jArrayMember[i].code + "' onclick='updateChecklist(" + jArrayMember[i].code + ", \"" + jArrayMember[i].name + "\")'";
@@ -174,7 +177,6 @@
     function addParty(code, name) {
         // 1.1. 배열에 추가
         checkArr.push(code);
-        console.log("checkArr : " + checkArr);
         // 1.2. 상단에 사람목록 추가
         let html = "";
         html += "<div class='pl-2 pr-2 ml-2 mb-2 addedParty align-self-center' id='addedParty" + code + "'>";

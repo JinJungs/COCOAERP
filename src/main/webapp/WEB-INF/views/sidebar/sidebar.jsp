@@ -23,9 +23,8 @@
     </style>
 </head>
 <body>
-<nav id="sidebar" >
-    <a href="/membership/logout" style="color:white"><b>로그아웃(임시)</b></a>
-    <a href="/attendance/toMain" style="color:white"><b>근태메인(임시)</b></a>
+<nav id="sidebar">
+
     <div class="custom-menu">
         <button type="button" id="sidebarCollapse" class="btn btn-primary" >
             <i class="fa fa-bars"></i> <span class="sr-only">Toggle Menu</span>
@@ -53,17 +52,22 @@
         <ul class="list-unstyled components mb-5" id="sidebarBox">
             <!-- 여기에 사이드바의 내용이 추가된다.-->
         </ul>
+        <div class="logout text-right" style="position: relative;bottom: 10px">
+            <img src="/icon/logout.png" style="width: 30px;height: 30px; cursor: pointer;" onclick="fn_logout()">
+        </div>
     </div>
+
 </nav>
 <script >
     var openDropBox =[];
     function fn_messenger() {
         var popup = window.open('/messenger/contactList','','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
     }
+    function fn_logout(){
+        location.href="/membership/logout";
+    }
 
     $(document).ready(function() {
-
-        var sidebarStatus =JSON.parse(localStorage.getItem("sidebarStatus"));
 
         $.ajax({
             data: {test : "test"},
@@ -73,7 +77,6 @@
             success: function (data){
 
                 // -------- 사용자의 정보를 띄워줌 --------
-                console.log("code: "+data[9].code);
                 let user_code = data[9].code;
                 let user_name = data[9].name;
                 let user_deptname = data[9].deptname;
@@ -91,7 +94,6 @@
                 // 업무일지, 전자결재, 일정관리, 근태현황, 전자우편, 커뮤니티, 개인정보, 조직도, 버그리포팅
                 for(let j=0; j<9; j++){
                     if(data[j].length==0){
-                        console.log("없음!!: "+j);
                         countSidebarMenu -=1;
                     }else{
                         if(!data[j][0].mid_name){ //mid_name이 없는 경우 - 조직도, 버그리포팅
@@ -130,8 +132,8 @@
                                     isAllDocExist = true;
                                 }
                             }
-                            console.log("기안함 인덱스 : "+draftIndex);
-                            console.log("결재함 인덱스 : "+approveIndex);
+
+
                             <!-- 기안함 -->
                             if(isDraftBoxExist){
                                 html += "<li><a id=Docu2 href='#Document2' data-toggle='collapse' aria-expanded='false' class='dropdown-toggle'  onclick=fn_clickDropBox(this)>";
@@ -172,7 +174,6 @@
                             html += data[j][0].menu_name+"</a>";
                             html += "<ul class='collapse list-unstyled' id='sidebarMenuNum_"+j+"'>";
                             for(let i=0; i<data[j].length; i++){
-                                //console.log("보드메뉴 : " +data[j][i].board_menu_seq);
                                 html += "<li><a href='javascript:side_findLocation("+data[j][i].code+","+data[j][i].board_menu_seq+",\""+data[j][i].type+"\",\""+data[j][i].mid_name+"\");'>"+data[j][i].mid_name+"</a></li>";
                             }
                             html += "</ul>";
@@ -185,20 +186,28 @@
                 }
                 // 받은 사이드바의 값을 뿌려주기
                 $("#sidebarBox").append(html);
-                console.log(sidebarStatus);
-
-                if(sidebarStatus!=null){
-                    for(var i=0;i<sidebarStatus.length;i++){
-                        var getItem =sidebarStatus[i];
-                        openDropBox.push(getItem);
-                        $("#"+getItem+"").attr("aria-expanded","true");
-                        $("#"+getItem+"").attr("class","dropdown-toggle");
-                        $("#"+getItem+"").siblings('ul').attr("class","list-unstyled collapse show");
-
+                $.ajax({
+                    type: "POST",
+                    url: "/sidebar/getSidebarStatus",
+                    success: function (data) {
+                        if(data.length!=false){
+                            var parsedata=JSON.parse(data);
+                            for(var i=0;i<parsedata.length;i++){
+                                openDropBox.push(parsedata[i]);
+                                $("#"+parsedata[i]+"").attr("aria-expanded","true");
+                                $("#"+parsedata[i]+"").attr("class","dropdown-toggle");
+                                $("#"+parsedata[i]+"").siblings('ul').attr("class","list-unstyled collapse show");
+                            }
+                        }
                     }
-                }
+                })
+
+
+
             }
         })
+
+
 
     });
 
@@ -215,11 +224,11 @@
 
     // 1~33까지 code번호를 받아서 location.href= 각 페이지로 이동한다.
     function side_findLocation(code, board_menu_seq, type,mid_name){
-        console.log("코드 : " +code);
-        console.log("보드 메뉴 시퀀스 : " +board_menu_seq);
-        console.log("보드 타입 : " +type);
-        console.log("이름 : " +mid_name);
-        localStorage.setItem("sidebarStatus",JSON.stringify(openDropBox));
+
+
+
+
+
         // 1. 업무일지
         if(code==1){
             location.href = "/log/logCreate.log";
@@ -263,9 +272,9 @@
             location.href = "/leave/toLeaveMain.leave";
             // 4. 근태현황
         }else if(code==20) {
-            location.href = "/attendance/toAttendanceView";
-        }else if(code==21) {
             location.href = "/attendance/toMain";
+        }else if(code==21) {
+            location.href = "/attendance/toAttendanceView";
         }else if(code==22) {
             location.href = "/attendance/toAtdReq";
             // 5. 전자우편
@@ -317,7 +326,19 @@
                     openDropBox.splice(openDropBox.indexOf(id),1);
                 }
             }
+            var item =JSON.stringify(openDropBox);
+            $.ajax({
+                type: "POST",
+                url: "/sidebar/addSideBarStatus",
+                data: item,
+                contentType:'application/json',
+                success: function (data) {
+                }
+            })
         },50);
+
+
+
     }
 
 </script>

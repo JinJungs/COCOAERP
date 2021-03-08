@@ -6,6 +6,7 @@ import kh.cocoa.dto.AtdChangeReqDTO;
 import kh.cocoa.dto.AttendanceDTO;
 import kh.cocoa.dto.EmployeeDTO;
 import kh.cocoa.service.AttendanceService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -98,12 +101,11 @@ public class RestAttendanceController {
         int overTime=0;
         if(getStartTime!=null){
             int sub = Integer.parseInt(getCurTime)-Integer.parseInt(getStartTime.replaceAll(":","").substring(0,2))-1;
-            System.out.println(sub);
             if(sub>8){
                 overTime=sub-8;
             }
         }
-        if(attendanceService.isOutWork(1000)!=null){
+        if(attendanceService.isOutWork(loginSession.getCode())!=null){
             int updateResult = attendanceService.endWork(loginSession.getCode(),overTime);
             if(updateResult>0){
                 return "updateSuccess";
@@ -132,6 +134,7 @@ public class RestAttendanceController {
     @RequestMapping("/getReqInfo")
     public String getReqInfo(int atd_seq){
         AtdChangeReqDTO isReq =attendanceService.isReq(atd_seq);
+        isReq.setContents(Configurator.getReXSSFilter(isReq.getContents()));
         if(isReq!=null){
             JSONObject json = new JSONObject(isReq);
             return json.toString();
@@ -143,6 +146,7 @@ public class RestAttendanceController {
     public String getAtdList(String number){
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         List<AttendanceDTO> atdList = attendanceService.getAttendanceList2(loginSession.getCode(),number);
+
         JSONArray json = new JSONArray(atdList);
         return json.toString();
     }
@@ -155,14 +159,15 @@ public class RestAttendanceController {
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         int parse_end_time = Integer.parseInt(end_time.replaceAll("-",""));
         parse_end_time++;
-
         List<AttendanceDTO> getSearchAtd = attendanceService.getSearchAtd(loginSession.getCode(),number,search,start_time,parse_end_time);
+
         JSONArray json = new JSONArray(getSearchAtd);
         return json.toString();
     }
 
     @RequestMapping("/changeReq")
     public String changeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         dto.setEmp_code(loginSession.getCode());
         int addChangeReq=attendanceService.addChangeReq(dto);
@@ -186,6 +191,7 @@ public class RestAttendanceController {
 
     @RequestMapping("/modChangeReq")
     public String modChangeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         int modChangeReq=attendanceService.modChangeReq(dto);
         if(modChangeReq>0){
             return "successUpdate";
@@ -197,18 +203,32 @@ public class RestAttendanceController {
     @RequestMapping("/getIsReqInfo")
     public String getIsReqInfo(int atd_seq){
         AtdChangeReqDTO getIsReqInfo=attendanceService.getIsReqInfo(atd_seq);
+        getIsReqInfo.setComments(Configurator.getReXSSFilter(getIsReqInfo.getComments()));
         JSONObject json = new JSONObject(getIsReqInfo);
         return json.toString();
     }
 
     @RequestMapping("/reChangeReq")
     public String reChangeReq(AtdChangeReqDTO dto){
+        dto.setContents(Configurator.XssReplace(dto.getContents()));
         int reChangeReq=attendanceService.reChangeReq(dto);
         if(reChangeReq>0){
             return "successUpdate";
         }else{
             return "FailedUpdate";
         }
+    }
+
+    @RequestMapping("/getIsWork")
+    public String getIsWork(){
+        EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
+        AttendanceDTO isAtd =attendanceService.isAtd(loginSession.getCode());
+        if(isAtd!=null){
+            JSONObject json = new JSONObject(isAtd);
+            return json.toString();
+        }
+        return "nw";
+
     }
 
 

@@ -220,6 +220,8 @@ public class NotificationBoardController {
 		@RequestMapping("notificationBoardCreateDone.no")
 		public String notificationBoardCreateDone(BoardDTO bdto, int menu_seq,List<MultipartFile> file,Model model) throws Exception {
 			EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+			bdto.setTitle(Configurator.XssReplace(bdto.getTitle()));
+			bdto.setContents(Configurator.XssReplace(bdto.getContents()));
 			//게시글 이름& 타입 가져오기
 			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
 			String type = sviewDTO.getType();
@@ -308,6 +310,8 @@ public class NotificationBoardController {
 		@RequestMapping("notificationBoardModifyDone.no")
 		public String notificationBoardModifyDone(int[] delArr,int menu_seq,BoardDTO dto,FilesDTO fdto, List<MultipartFile> file,Model model) throws IOException {
 			System.out.println("게시글 번호는 ?"+dto.getSeq());
+			dto.setTitle(Configurator.XssReplace(dto.getTitle()));
+			dto.setContents(Configurator.XssReplace(dto.getContents()));
 			//게시글 이름& 타입 가져오기
 			SidebarViewDTO sviewDTO  = sservice.selectInfor(menu_seq);
 			String mid_name = sviewDTO.getMid_name();

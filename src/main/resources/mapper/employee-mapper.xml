@@ -68,7 +68,7 @@
 	</select>
 
 	<select id="getAllEmpListOrderByPos" resultType="kh.cocoa.dto.EmployeeDTO">
-		SELECT * FROM EMPLOYEE_VIEW2 where WITHDRAW= 'N' order by pos_code
+		SELECT * FROM EMPLOYEE_VIEW2 where WITHDRAW= 'N' order by pos_code, name
 	</select>
 
 	<select id="getAllEmpCount" resultType="Integer">
@@ -105,6 +105,10 @@
 
 	<select id="getAllEmpCode" resultType="Integer">
 		SELECT CODE FROM EMPLOYEE WHERE WITHDRAW='N'
+	</select>
+
+	<select id="getAllMWEmpCode" resultType="kh.cocoa.dto.EmployeeDTO">
+		SELECT E.CODE EMP_CODE,ATD.SEQ ATD_SEQ FROM EMPLOYEE E INNER JOIN ATTENDANCE ATD ON E.CODE=ATD.EMP_CODE WHERE WITHDRAW='N' AND ATD.START_TIME IS NULL AND TO_CHAR(ATD.TODAY,'YYMMDD')=TO_CHAR(SYSDATE,'YYMMDD') ORDER BY CODE DESC
 	</select>
 
 	<!--소형-->
@@ -203,21 +207,36 @@
 	<update id="updateEmployee" parameterType="List">
 		<foreach collection="list" item="i" index="index" 
       separator=";" open="DECLARE BEGIN" close="; END;">
-		UPDATE EMPLOYEE 
-		SET
-			NAME=#{i.name}
-			,PHONE=#{i.phone}
-			,OFFICE_PHONE=#{i.office_phone}
-			,ADDRESS=#{i.address}
-			,EMAIL=#{i.email}
-			,B_EMAIL=#{i.b_email}
-			,GENDER=#{i.gender}
-			,HIRE_DATE=#{i.hire_date}
-			,WITHDRAW=#{i.withdraw}
-			,DEPT_CODE=#{i.dept_code}
-			,POS_CODE=#{i.pos_code}
-			,TEAM_CODE=#{i.team_code} 
-		WHERE CODE = #{i.code}
+			UPDATE EMPLOYEE
+			SET
+				NAME=#{i.name}
+				,PHONE=#{i.phone}
+				,OFFICE_PHONE=#{i.office_phone}
+				,ADDRESS=#{i.address}
+				,EMAIL=#{i.email}
+				,B_EMAIL=#{i.b_email}
+				,GENDER=#{i.gender}
+				,HIRE_DATE=#{i.hire_date}
+				,WITHDRAW=#{i.withdraw}
+				,DEPT_CODE=#{i.dept_code}
+				,POS_CODE=#{i.pos_code}
+				,TEAM_CODE=#{i.team_code} 
+			WHERE CODE = #{i.code}
+		</foreach>
+	</update>
+	
+	<update id="updateWithdraw" parameterType="List">
+		<foreach collection="list" item="i" index="index" 
+      separator=";" open="DECLARE BEGIN" close="; END;">
+				UPDATE EMPLOYEE 
+				SET
+					PHONE=NULL
+					,OFFICE_PHONE=NULL
+					,ADDRESS=NULL
+					,EMAIL=NULL
+					,B_EMAIL=NULL
+					,WITHDRAW='Y'
+				WHERE CODE = #{i.code}
 		</foreach>
 	</update>
 	<!-- 메신저 이름 가져오기 -->

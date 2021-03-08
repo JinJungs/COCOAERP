@@ -34,8 +34,8 @@
         SELECT * FROM ATTENDANCE WHERE to_char(start_time,'YYMMDD') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
     </select>
 
-    <select id="isAtd" resultType="Integer">
-        SELECT COUNT(*) from attendance whereto_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
+    <select id="isAtd" resultType="kh.cocoa.dto.AttendanceDTO">
+        SELECT * from attendance where to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
     </select>
 
     <select id="isInWork" resultType="String">
@@ -49,13 +49,13 @@
     <insert id="startWork2">
         <choose>
             <when test="status=='in'">
-                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'IN', #{emp_code},'')
+                update attendance set start_time=systimestamp, status='IN' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
             </when>
             <when test="status=='late'">
-                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'LATE', #{emp_code},'')
+                update attendance set start_time=systimestamp, status='LATE' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
             </when>
             <otherwise>
-                insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, 'OUT', #{emp_code},'')
+                update attendance set start_time=systimestamp, status='OUT' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
             </otherwise>
         </choose>
     </insert>
@@ -69,7 +69,7 @@
     </update>
 
     <select id="isReq" resultType="kh.cocoa.dto.AtdChangeReqDTO">
-        SELECT to_char(A.start_time,'YY-MM-DD') today,req.* FROM ATDCHANGEREQ req
+        SELECT to_char(A.today,'YY-MM-DD') today,req.* FROM ATDCHANGEREQ req
         INNER JOIN ATTENDANCE A ON A.SEQ= req.atd_seq WHERE req.ATD_SEQ=#{atd_seq}
     </select>
 
@@ -78,16 +78,16 @@
     </select>
 
     <select id="getAttendanceList2" resultType="kh.cocoa.dto.AttendanceDTO">
-        select * from (select A.seq,to_char(A.start_time,'HH24:MM:SS') sub_start_time,to_char(A.end_time,'HH24:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS,
+        select * from (select A.seq,nvl(to_char(A.start_time,'HH24:MM:SS'),'출근 누락') sub_start_time,nvl(to_char(A.end_time,'HH24:MM:SS'),'퇴근 누락') sub_end_time,to_char(A.today,'YY-MM-DD DY') today,
+        case A.STATUS when 'BW' then '출근 전' when 'IN' then '정상 출근' when 'OUT' then '외근' when 'LATE' then '지각' when 'ABS' then '결근' end as status,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS,
         nvl(REQ.comments,'-') as comments
-        FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE a.emp_code=#{emp_code} and A.START_TIME IS NOT NULL ORDER BY A.SEQ DESC)
+        FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE a.emp_code=#{emp_code}  ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
     </select>
 
     <select id="getSearchAtd" resultType="kh.cocoa.dto.AttendanceDTO">
-        select * from (select A.seq,to_char(A.start_time,'HH24:MM:SS') sub_start_time,to_char(A.end_time,'HH24:MM:SS') sub_end_time,to_char(A.start_time,'YY-MM-DD DY') today,
-        case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as status,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS,
+        select * from (select A.seq,nvl(to_char(A.start_time,'HH24:MM:SS'),'출근 누락')  sub_start_time,nvl(to_char(A.end_time,'HH24:MM:SS'),'퇴근 누락') sub_end_time,to_char(A.today,'YY-MM-DD DY') today,
+        case A.STATUS  when 'BW' then '출근 전' when 'IN' then '정상 출근' when 'OUT' then '외근' when 'LATE' then '지각' when 'ABS' then '결근'end as status,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS REQ_STATUS,
         nvl(req.comments,'-') as comments
         FROM ATTENDANCE A FULL OUTER JOIN ATDCHANGEREQ REQ ON A.SEQ=REQ.ATD_SEQ WHERE  a.emp_code=#{emp_code} and a.start_time BETWEEN #{start_time} and '${end_time}' and A.STATUS like '%${search}%' ORDER BY A.SEQ DESC)
         where ROWNUM<![CDATA[ <= ]]>#{number}
@@ -110,7 +110,7 @@
     </select>
 
     <select id="getAtdReqListToMain" resultType="kh.cocoa.dto.AtdChangeReqDTO">
-        SELECT * from (select to_char(A.start_time,'YY-MM-DD') today, case A.STATUS when 'IN' then '정상출근' when 'OUT' then '외근' when 'LATE' then '지각' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS STATUS from attendance a
+        SELECT * from (select to_char(A.today,'YY-MM-DD') today, case A.STATUS  when 'BW' then '출근 전' when 'IN' then '정상 출근' when 'OUT' then '외근' when 'LATE' then '지각' when 'ABS' then '결근' end as atd_status, req.atd_seq,nvl(req.contents,'-') as contents,case REQ.STATUS when 'C' then '승인' when 'NC' then '검토중' when 'N' then '미승인' else '-' END AS STATUS from attendance a
         inner join atdchangereq req on req.atd_seq = a.seq where a.emp_code=#{emp_code} order by today desc) where rownum <![CDATA[ <= ]]> 5
     </select>
 
@@ -132,8 +132,8 @@
         select req.seq,to_char(req.start_time,'YY-MM-DD (DY)') today,to_char(req.start_time,'HH24:MM') start_time,
         to_char(req.end_time,'HH24:MM') end_time,req.contents,req.comments,
         case req.status when 'NC' then '검토중' when 'C' then '승인' when 'N' then '미승인' end as status
-        ,req.atd_seq,req.emp_code,e.name name from atdchangereq req
-        inner join employee e on e.code=req.emp_code
+        ,req.atd_seq,req.emp_code,e.name name,case A.STATUS  when 'BW' then '출근 전' when 'IN' then '정상 출근' when 'OUT' then '외근' when 'LATE' then '지각' when 'ABS' then '결근'end as atd_status from atdchangereq req
+        inner join employee e on e.code=req.emp_code inner join attendance A ON A.SEQ=REQ.ATD_SEQ order by seq desc
     </select>
 
     <update id="saveAtdReq">
@@ -162,10 +162,19 @@
     </update>
 
     <update id="modAtdTime">
-        update attendance set start_time=to_timestamp('${today} ${start_time}', 'YY-MM-DD HH24mi'), end_time=to_timestamp('${today} ${end_time}', 'YY-MM-DD HH24mi') where seq=#{atd_seq}
+        update attendance set start_time=to_timestamp('${today} ${start_time}', 'YY-MM-DD HH24mi'),
+         end_time=to_timestamp('${today} ${end_time}', 'YY-MM-DD HH24mi'),
+         status=case #{atd_status} when '출근 전' then 'BW' when '정상 출근' then 'IN' when '외근' then 'OUT' when '지각' then 'LATE'
+         when '결근' then 'ABS' end , overtime=#{overtime}
+         where seq=#{atd_seq}
     </update>
 
+
     <insert id="toDayUpdateAtd">
-        insert into attendance(seq,emp_code) values(attendance_seq.nextval,#{emp_code})
+        insert into attendance(seq,emp_code,today,status) values(attendance_seq.nextval,#{emp_code},sysdate,'BW')
     </insert>
+
+    <update id="updateMWEmpAtd">
+        update attendance set status='ABS' where seq=#{seq}
+    </update>
 </mapper>

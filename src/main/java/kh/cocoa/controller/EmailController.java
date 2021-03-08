@@ -111,7 +111,6 @@ public class EmailController {
 	@RequestMapping("pwfind.email")
 	@ResponseBody
 	public String pwFind( String email,String code) {
-	      System.out.println("비번 찾기 인증코드 전송");
 	      System.out.println(email);
 	      System.out.println(code);
 	      
@@ -187,8 +186,9 @@ public class EmailController {
 		if(toMe != null) {
 			dto.setReceiver(loginDTO.getB_email());
 		}
+		
 		//제목없을 때 (제목없음) 입력
-		if(dto.getTitle()==null) {
+		if(dto.getTitle().contentEquals("")) {
 			dto.setTitle("(제목 없음)");
 		}
 		//내용없을 때

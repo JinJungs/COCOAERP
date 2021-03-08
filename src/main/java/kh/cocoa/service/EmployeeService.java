@@ -196,6 +196,11 @@ public class EmployeeService implements EmployeeDAO {
 		return edao.getAllEmpCode();
 	}
 
+	@Override
+	public List<EmployeeDTO> getAllMWEmpCode() {
+		return edao.getAllMWEmpCode();
+	}
+
 	//----------------- 채팅 -----------------//
 	// 멤버이름으로 찾기
 	@Override
@@ -248,6 +253,10 @@ public class EmployeeService implements EmployeeDAO {
 	public int updateEmployee(List<EmployeeDTO> list) {
 		return edao.updateEmployee(list);
 	};
+	@Override
+	public int updateWithdraw(List<EmployeeDTO> dto) {
+		return edao.updateWithdraw(dto);
+	}
 	/*-------소형 끝 관리자 사용자관리*/
 	
 	@Override

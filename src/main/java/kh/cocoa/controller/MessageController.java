@@ -1,9 +1,13 @@
 package kh.cocoa.controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import kh.cocoa.dto.FilesDTO;
+import kh.cocoa.dto.MessageDTO;
+import kh.cocoa.service.EmployeeService;
+import kh.cocoa.service.FilesService;
+import kh.cocoa.service.MessageService;
+import kh.cocoa.statics.Configurator;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import kh.cocoa.dto.FilesDTO;
-import kh.cocoa.dto.MessageDTO;
-import kh.cocoa.service.EmployeeService;
-import kh.cocoa.service.FilesService;
-import kh.cocoa.service.MessageService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Controller
@@ -48,6 +47,7 @@ public class MessageController {
     	
     	//메세지 타입이 TEXT 인지 FILE 이나 IMAGE인지에 따라
     	if(msgdto.getType().contentEquals("TEXT")) {
+    	    msgdto.setContents(Configurator.XssReplace(msgdto.getContents()));
     		result = msgservice.insertMessage(msgdto); //의진씨한테 확인받기 (원래 코드)
     	}
         JsonObject obj = new JsonObject();
@@ -67,20 +67,19 @@ public class MessageController {
         	String contents = list.get(i).getContents();
         	//AN_ADD 사람 추가 메세지는 코드로된 메세지 내용을 이름으로 바꿔서 보내준다.
         	if(type.contentEquals("AN_ADD")) {
-        		String partyListEdited = contents.substring(1, contents.length()-1);
-            	String[] partyListArr = partyListEdited.split(",");
-            	contents = "";
-            	for(String party : partyListArr) {
-            		int addedCode = Integer.parseInt(party);
-            		if(contents.isEmpty()) {
-            			contents += eservice.getEmpNameByCode(addedCode);
-            		}else {
-            			contents += " ,";
-            			contents += eservice.getEmpNameByCode(addedCode);
-            		}
-            	}
-        	}
-        	        	
+                String partyListEdited = contents.substring(1, contents.length() - 1);
+                String[] partyListArr = partyListEdited.split(",");
+                contents = "";
+                for (String party : partyListArr) {
+                    int addedCode = Integer.parseInt(party);
+                    if (contents.isEmpty()) {
+                        contents += eservice.getEmpNameByCode(addedCode);
+                    } else {
+                        contents += " ,";
+                        contents += eservice.getEmpNameByCode(addedCode);
+                    }
+                }
+            }
             param.put("seq",list.get(i).getSeq());
             param.put("contents", contents);
             param.put("emp_code",list.get(i).getEmp_code());
@@ -88,7 +87,6 @@ public class MessageController {
             param.put("type",type);
             param.put("savedname",list.get(i).getSavedname());
             param.put("empname",list.get(i).getEmpname());
-            
 
             // 의진 추가 - 참여자의 프로필 이미지 추가하기
             FilesDTO getProfile = fservice.findBeforeProfile(list.get(i).getEmp_code());
@@ -108,17 +106,12 @@ public class MessageController {
     @ResponseBody
     public String searchMsgInChatRoom(int m_seq, String contents){
         JSONArray jArray = new JSONArray();
-        HashMap<String,Object> param = null;
         List<MessageDTO> msgSearchList = msgservice.searchMsgInChatRoom(m_seq, contents);
         for(int i=0; i<msgSearchList.size();i++){
-            param = new HashMap<>();
-            param.put("seq",msgSearchList.get(i).getSeq());
-            param.put("contents",msgSearchList.get(i).getContents());
-            jArray.put(param);
+            jArray.put(msgSearchList.get(i).getSeq());
         }
         return jArray.toString();
     }
-    
 
     @ExceptionHandler(NullPointerException.class)
     public Object nullex(Exception e) {

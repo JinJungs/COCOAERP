@@ -7,7 +7,9 @@ import kh.cocoa.dto.FilesDTO;
 import kh.cocoa.service.EmployeeService;
 import kh.cocoa.service.FilesService;
 import kh.cocoa.statics.Configurator;
+import org.apache.jasper.tagplugins.jstl.Util;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/membership")
@@ -56,12 +59,14 @@ public class EmployeeController {
         }
         return result;
     }
+
     @RequestMapping("/myInfo")
     public String testPage(Model model){
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int empCode = loginDTO.getCode();
         EmployeeDTO user = eservice.getEmpInfo(empCode);
         FilesDTO getProfile = filesService.findBeforeProfile(empCode);
+        System.out.println(user);
         if(getProfile==null) {
             model.addAttribute("profile","/img/Profile-m.png");
         }else{
@@ -127,6 +132,7 @@ public class EmployeeController {
     public String modProfileAJAX(@RequestParam("file")MultipartFile file, HttpServletResponse resp) throws Exception{
         EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
         int empCode = loginDTO.getCode();
+
         if (!file.getOriginalFilename().contentEquals("")) {
             String fileRoot = Configurator.profileFileRoot;
             File filesPath = new File(fileRoot);
@@ -170,10 +176,48 @@ public class EmployeeController {
         return checkPw;
     }
 
-    @RequestMapping("/modInfo")
-    public String modInfo(EmployeeDTO dto){
+    @RequestMapping("/modInfoAjax")
+    @ResponseBody
+    public String modInfoAjax(EmployeeDTO dto){
+        dto.setEmail(Configurator.XssReplace(dto.getEmail()));
+        dto.setPhone(Configurator.XssReplace(dto.getPhone()));
+        dto.setAddress(Configurator.XssReplace(dto.getAddress()));
+        dto.setOffice_phone(Configurator.XssReplace(dto.getOffice_phone()));
         int modInfo= eservice.modInfo(dto);
-        return "redirect:/membership/myInfo";
+
+        if(modInfo>0){
+            EmployeeDTO empInfo=eservice.getEmpInfo(dto.getCode());
+
+            empInfo.setPassword("");
+            if(empInfo.getEmail()==null){
+                empInfo.setEmail("");
+            }
+            else{
+                empInfo.setEmail(Configurator.getReXSSFilter(dto.getEmail()));
+
+            }
+            if(empInfo.getPhone()==null){
+                empInfo.setPhone("");
+            }else{
+                empInfo.setPhone(Configurator.getReXSSFilter(dto.getPhone()));
+
+            }
+            if(empInfo.getOffice_phone()==null){
+                empInfo.setOffice_phone("");
+            }else{
+                empInfo.setOffice_phone(Configurator.getReXSSFilter(dto.getOffice_phone()));
+
+            }
+            if(empInfo.getAddress()==null){
+                empInfo.setAddress("");
+            }else{
+                empInfo.setAddress(Configurator.getReXSSFilter(dto.getAddress()));
+
+            }
+            JSONObject json = new JSONObject(empInfo);
+            return json.toString();
+        }
+        return "false";
     }
 
     @RequestMapping("/checkUserEmail")
@@ -211,6 +255,17 @@ public class EmployeeController {
 
         return nr;
     }
+
+    @RequestMapping("/getEmpInfoNex")
+    public NexacroResult getEmpInfoNex(){
+        EmployeeDTO loginDTO = (EmployeeDTO)session.getAttribute("loginDTO");
+        int empCode = loginDTO.getCode();
+        EmployeeDTO getInfo = eservice.getEmpInfo(empCode);
+        NexacroResult nr = new NexacroResult();
+        nr.addDataSet("out_ds",getInfo);
+        return nr;
+    }
+
 
 
 }

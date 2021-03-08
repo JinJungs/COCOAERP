@@ -37,7 +37,7 @@
 	<div id="content" class="p-4 p-md-5 pt-5" style="min-width: 800px;">
 		<h2 class="mb-4">반려된 문서</h2>
 		<hr>
-		<form action="/document/d_searchReject.document" method="post">
+		<form action="/document/d_searchReject.document" method="get">
 			<div class="search pb-2">
 				<div class="row">
 					<div class="col-2 col-md-2">저장일</div>
