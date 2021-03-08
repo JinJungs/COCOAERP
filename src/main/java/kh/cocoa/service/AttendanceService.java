@@ -99,12 +99,12 @@ public class AttendanceService implements AttendanceDAO {
     }
 
     @Override
-    public int countWorkHour(int emp_code) {
+    public String countWorkHour(int emp_code) {
         return attenDAO.countWorkHour(emp_code);
     }
 
     @Override
-    public int countWorkMin(int emp_code) {
+    public String countWorkMin(int emp_code) {
         return attenDAO.countWorkMin(emp_code);
     }
 

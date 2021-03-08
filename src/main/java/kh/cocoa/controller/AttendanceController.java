@@ -108,18 +108,31 @@ public class AttendanceController {
         EmployeeDTO loginSession = (EmployeeDTO)session.getAttribute("loginDTO");
         String countLate = attenService.countStatusLate(loginSession.getCode());
         String countIn = attenService.countStatusWork(loginSession.getCode());
+        String str_hour = attenService.countWorkHour(loginSession.getCode());
+        String str_min = attenService.countWorkMin(loginSession.getCode());
+
         json.put(countLate);
         json.put(countIn);
-        if(!countIn.equals("0")){
-            int hour = attenService.countWorkHour(loginSession.getCode());
-            int min = attenService.countWorkMin(loginSession.getCode());
-            if(min >=60) {
-                hour+=min/60;
-                min=min%60;
-            }
-            json.put(hour);
-            json.put(min);
+        int hour, min;
+
+        if(str_hour==null){
+            hour = 0;
+        } else {
+            hour = Integer.parseInt(str_hour);
         }
+
+        if(str_min==null){
+            min = 0;
+        } else {
+            min = Integer.parseInt(str_min);
+        }
+
+        if(min >=60) {
+            hour+=min/60;
+            min=min%60;
+        }
+        json.put(hour);
+        json.put(min);
         return json.toString();
     }
 
