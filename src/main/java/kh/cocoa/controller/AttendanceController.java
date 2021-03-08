@@ -113,15 +113,9 @@ public class AttendanceController {
         if(!countIn.equals("0")){
             int hour = attenService.countWorkHour(loginSession.getCode());
             int min = attenService.countWorkMin(loginSession.getCode());
-            System.out.println(hour);
-            System.out.println(min);
             if(min >=60) {
-                System.out.println(min/60);
-                System.out.println(min%60);
                 hour+=min/60;
                 min=min%60;
-                System.out.println(hour);
-                System.out.println(min);
             }
             json.put(hour);
             json.put(min);
