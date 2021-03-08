@@ -71,6 +71,7 @@ public class RestAttendanceController {
             SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
             Date time = new Date();
             String getCurTime = frm.format(time);
+
             if(Integer.parseInt(getCurTime)>930){
                 status="late";
             }else{

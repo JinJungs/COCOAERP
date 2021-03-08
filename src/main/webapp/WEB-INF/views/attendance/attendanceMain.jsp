@@ -511,6 +511,7 @@
 
     function fn_in() {
         var out = $("input[name='out']:checked").val();
+        console.log(out);
         $.ajax({
             type : "POST",
             data : {out:out},
