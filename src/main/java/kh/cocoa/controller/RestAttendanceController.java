@@ -71,22 +71,33 @@ public class RestAttendanceController {
             SimpleDateFormat frm = new SimpleDateFormat ( "HHMM");
             Date time = new Date();
             String getCurTime = frm.format(time);
-
-            if(Integer.parseInt(getCurTime)>930){
-                status="late";
-            }else{
-                if(status!=null){
-                    status="out";
+            System.out.println(status);
+            if(status.contentEquals("out")){
+                int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
+                if(insertResult>0){
+                    return "insertSuccess";
                 }else{
-                    status="in";
+                    return "insertFailed";
+                }
+            }else if(Integer.parseInt(getCurTime)>930){
+                status="late";
+                int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
+                if(insertResult>0){
+                    return "insertSuccess";
+                }else{
+                    return "insertFailed";
+                }
+            }else if(status=="null"){
+                status="in";
+                int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
+                if(insertResult>0){
+                    return "insertSuccess";
+                }else{
+                    return "insertFailed";
                 }
             }
-            int insertResult = attendanceService.startWork2(loginSession.getCode(),status);
-            if(insertResult>0){
-                return "insertSuccess";
-            }else{
-                return "insertFailed";
-            }
+
+            return "failed";
         }
 
     }

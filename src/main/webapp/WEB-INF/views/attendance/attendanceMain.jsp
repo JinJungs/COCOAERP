@@ -511,10 +511,10 @@
 
     function fn_in() {
         var out = $("input[name='out']:checked").val();
-        console.log(out);
+
         $.ajax({
             type : "POST",
-            data : {out:out},
+            data : {status:out},
             url : "/restattendance/atdIn",
             success : function(data) {
                 if(data=="updateSuccess") {
