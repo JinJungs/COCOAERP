@@ -293,21 +293,6 @@
 
         if (!isStomp && socket.readyState !== 1) return;
 
-        // (1) 메세지 소켓으로 전송
-        if (isStomp)
-            socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
-                seq: ''
-                , contents: msg
-                , write_date: new Date()
-                , emp_code: ${loginDTO.code}
-                , m_seq: ${seq}
-                , type: "TEXT"
-                , empname: "${loginDTO.name}"
-                , profile: "${loginDTO.profile}"
-            }));
-        else
-            socket.send(msg);
-
         // (2) db에 저장
         $.ajax({
             url: "/message/insertMessage",
@@ -321,7 +306,20 @@
             dataType: "json",
             success: function (resp) {
                 if (resp.result = 1) {
-                    console.log("메세지 저장 성공!");
+                    // (1) 메세지 소켓으로 전송
+                    if (isStomp)
+                        socket.send('/getChat/text/' +${seq}, {}, JSON.stringify({
+                            seq: resp.seq
+                            , contents: msg
+                            , write_date: new Date()
+                            , emp_code: ${loginDTO.code}
+                            , m_seq: ${seq}
+                            , type: "TEXT"
+                            , empname: "${loginDTO.name}"
+                            , profile: "${loginDTO.profile}"
+                        }));
+                    else
+                        socket.send(msg);
                 }
             }
         })
@@ -345,6 +343,7 @@
             client.subscribe('/topic/' +${seq}, function (e) {
                 let newMsg = "";
                 let element = document.getElementById("msg_card_body");
+                let seq = JSON.parse(e.body).seq;
                 let msg = JSON.parse(e.body).contents;
                 let sender = JSON.parse(e.body).emp_code;
                 //파일 관련 메세지 구분 위해 타입추가*****
@@ -377,8 +376,8 @@
 
                 // 내가 메세지를 보냈을 때
                 if (sender == ${loginDTO.code} && typeArr[0]!="AN") {
-                    newMsg += "<div class='d-flex justify-content-end mb-4'>";
-                    newMsg += msgForm(type, "msg_cotainer_send", null, msg, savedname);
+                    newMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv"+seq+"'>";
+                    newMsg += msgForm(type, "msg_cotainer_send", "msg_container"+seq, msg, savedname);
                     newMsg += "<span class='msg_time_send'>" + formed_write_date + "</span>";
                     newMsg += "</div>";
                     newMsg += "<div class='img_cont_msg'>";
@@ -389,14 +388,14 @@
                 } else if(typeArr[0]!="AN") { // 상대방이 보낸 메세지 일 때
                     // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
                     let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
-                    newMsg += "<div class='d-flex justify-content-start mb-4'>";
+                    newMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv"+seq+"'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='"+profile+"' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
                     // 상대방 이름 추가
                     newMsg += "<div>"
                     newMsg += "<div class='ml-2 pb-1'>"+ empname +"</div>"
-                    newMsg += msgForm(type, "msg_cotainer", null, msg, savedname);
+                    newMsg += msgForm(type, "msg_cotainer", "msg_container"+seq, msg, savedname);
                     newMsg += "<span class='msg_time'>" + formed_write_date + "</span>";
                     newMsg += "</div></div></div>";
                     msgBox.append(newMsg);

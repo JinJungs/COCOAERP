@@ -44,14 +44,16 @@ public class MessageController {
     public String insertMessage(MessageDTO msgdto) throws IOException {
     	System.out.println("인서트 메세지 컨트롤러 도착");
     	int result = 0;
-    	
     	//메세지 타입이 TEXT 인지 FILE 이나 IMAGE인지에 따라
+        int seq = msgservice.selectMessageSeq();
     	if(msgdto.getType().contentEquals("TEXT")) {
     	    msgdto.setContents(Configurator.XssReplace(msgdto.getContents()));
-    		result = msgservice.insertMessage(msgdto); //의진씨한테 확인받기 (원래 코드)
+    	    msgdto.setSeq(seq);
+    		result = msgservice.insertMessageGotSeq(msgdto); //의진씨한테 확인받기 (원래 코드)
     	}
         JsonObject obj = new JsonObject();
         obj.addProperty("result", result);
+        obj.addProperty("seq", seq);
         return new Gson().toJson(obj);
     }
     // 메세지 목록 불러오기
