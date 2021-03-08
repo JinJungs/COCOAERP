@@ -391,7 +391,7 @@
                 } else if(typeArr[0]!="AN") { // 상대방이 보낸 메세지 일 때
                     // 나의 스크롤이 제일 하단에 있는지를 변수에 미리 저장
                     let amIAtBottom = (msgBox.height() <= $(element).height() + $(element).scrollTop());
-                    newMsg += "<div class='d-flex justify-content-end mb-4' id='msgDiv"+seq+"'>";
+                    newMsg += "<div class='d-flex justify-content-start mb-4' id='msgDiv"+seq+"'>";
                     newMsg += "<div class='img_cont_msg'>";
                     newMsg += "<img src='"+profile+"' class='rounded-circle user_img_msg'>";
                     newMsg += "</div>";
